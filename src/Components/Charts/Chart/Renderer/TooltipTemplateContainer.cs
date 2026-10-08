@@ -11,7 +11,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// tooltip template region. It ensures the owner reference is set and cleared
     /// during initialization and disposal to avoid memory leaks.
     /// </remarks>
-    public class TooltipContainer : ComponentBase
+    internal class TooltipContainer : ComponentBase
     {
         #region Protected Methods
 

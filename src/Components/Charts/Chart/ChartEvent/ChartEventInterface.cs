@@ -91,7 +91,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <remarks>
         /// The text serves to annotate a data point, providing additional context or labels.
         /// </remarks>
-        public string Text { get; set; } = string.Empty;
+        public string? Text { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the volume value for the point.
@@ -113,7 +113,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <remarks>
         /// Establishes the horizontal position of the data point on a chart.
         /// </remarks>
-        public object X { get; set; } = null!;
+        public object? X { get; set; }
 
         /// <summary>
         /// Gets or sets the y value for the point.
@@ -124,7 +124,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <remarks>
         /// Determines the vertical position of the data point in a Cartesian chart.
         /// </remarks>
-        public object Y { get; set; } = null!;
+        public object? Y { get; set; }
     }
 
     /// <summary>
@@ -169,7 +169,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <remarks>
         /// This property defines the horizontal position of the chart point within the chart.
         /// </remarks>
-        public object X { get; set; } = null!;
+        public object? X { get; set; }
 
         /// <summary>
         /// Gets or sets the y value for the chart point.
@@ -180,7 +180,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <remarks>
         /// This property defines the vertical position of the chart point within the chart.
         /// </remarks>
-        public object Y { get; set; } = null!;
+        public object? Y { get; set; }
 
         /// <summary>
         /// Gets or sets the text associated with the chart point.
@@ -191,7 +191,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <remarks>
         /// This property is used to display additional information for the chart point.
         /// </remarks>
-        public string Text { get; set; } = string.Empty;
+        public string? Text { get; set; } = string.Empty;
     }
 
     /// <summary> 
@@ -280,7 +280,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <remarks>
         /// This property allows you to define a specific tooltip format for the chart point, enhancing data presentation when hovering over the point.
         /// </remarks>
-        public string Tooltip { get; set; } = string.Empty;
+        public string? Tooltip { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the location coordinates of the chart point.
@@ -291,7 +291,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <remarks>
         /// Use this property to specify and retrieve the coordinates where the chart point's symbols are rendered on the chart.
         /// </remarks>
-        public List<ChartEventLocation> SymbolLocations { get; set; } = new List<ChartEventLocation>();
+        public IList<ChartEventLocation> SymbolLocations { get; set; } = [];
 
         /// <summary>
         /// Gets or sets the visual regions associated with the chart point.
@@ -302,7 +302,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <remarks>
         /// Regions define the visual area representing the chart point, often used for hit testing and rendering purposes.
         /// </remarks>
-        public List<Rect> Regions { get; set; } = new List<Rect>();
+        public IList<Rect> Regions { get; set; } = [];
 
         /// <summary>
         /// Gets or sets the X-Value for the chart point in the chart's coordinate system.
@@ -425,9 +425,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// </remarks>
         public MarkerSettingModel Marker { get; set; } = null!;
 
-        internal List<string> TemplateID { get; set; } = new List<string>();
+        internal List<string> TemplateID { get; set; } = [];
 
-        internal List<Size> TemplateSize { get; set; } = new List<Size>();
+        internal List<Size> TemplateSize { get; set; } = [];
 
         // To hold the sum of sorting key values in the same point index.
         internal double SumOfSameIndex { get; set; }
@@ -520,6 +520,19 @@ namespace Syncfusion.Blazor.Toolkit.Charts
     /// </remarks>
     public class ChartEventLocation : SymbolLocation
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ChartEventLocation"/> class with the specified coordinates.
+        /// </summary>
+        /// <param name="locationX">The X-coordinate of the location, in pixels.</param>
+        /// <param name="locationY">The Y-coordinate of the location, in pixels.</param>
+        /// <example>
+        /// <code>
+        /// <![CDATA[
+        /// var location = new ChartEventLocation(120, 80);
+        /// // location.X == 120, location.Y == 80
+        /// ]]>
+        /// </code>
+        /// </example>
         public ChartEventLocation(double locationX, double locationY)
         {
             X = locationX;
@@ -604,12 +617,28 @@ namespace Syncfusion.Blazor.Toolkit.Charts
     /// </summary>
     public class Size
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Size"/> class with the specified width and height.
+        /// </summary>
+        /// <param name="width">The width of the element, in pixels.</param>
+        /// <param name="height">The height of the element, in pixels.</param>
+        /// <example>
+        /// <code>
+        /// <![CDATA[
+        /// var size = new Size(200, 100);
+        /// // size.Width == 200, size.Height == 100
+        /// ]]>
+        /// </code>
+        /// </example>
         public Size(double width, double height)
         {
             Width = width;
             Height = height;
         }
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="Size"/> class with zero width and height.
+        /// </summary>
         public Size()
         {
         }
@@ -675,29 +704,14 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// </returns>
         public static Size operator -(Size a, Size b)
         {
-            if (a is not null && b is not null)
-            {
-                return new Size() { Width = a.Width - b.Width, Height = a.Height - b.Height };
-            }
-
-            return new Size();
+            return a is not null && b is not null ? new Size() { Width = a.Width - b.Width, Height = a.Height - b.Height } : new Size();
         }
 
         /// <exclude />
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public override bool Equals(object obj)
+        public override bool Equals(object? obj)
         {
-            if (ReferenceEquals(this, obj))
-            {
-                return true;
-            }
-
-            if (ReferenceEquals(obj, null))
-            {
-                return false;
-            }
-
-            return Equals(obj);
+            return ReferenceEquals(this, obj) || (obj is not null && Equals(obj));
         }
 
         /// <exclude />
@@ -711,12 +725,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         [EditorBrowsable(EditorBrowsableState.Never)]
         public static Size Subtract(Size left, Size right)
         {
-            if (left is not null && right is not null)
-            {
-                return new Size() { Width = left.Width - right.Width, Height = left.Height - right.Height };
-            }
-
-            return new Size();
+            return left is not null && right is not null
+                ? new Size() { Width = left.Width - right.Width, Height = left.Height - right.Height }
+                : new Size();
         }
     }
 
@@ -752,7 +763,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <remarks>
         /// This property specifies the horizontal position of a data point within the chart's coordinate system.
         /// </remarks>
-        public object X { get; set; } = null!;
+        public object? X { get; set; }
 
         /// <summary>
         /// Gets or sets the Y value of the point.
@@ -980,7 +991,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// Defines the current point.
         /// </summary>
         /// <value>
-        /// A <see cref="Syncfusion.Blazor.Toolkit.Charts.Point"/> object that represents the current point.
+        /// A <see cref="Point"/> object that represents the current point.
         /// </value>
         /// <remarks>
         /// This read-only property provides detailed information about the specific data point involved in rendering.
@@ -1118,7 +1129,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// Defines the current size of the chart.
         /// </summary>
         /// <value>
-        /// A <see cref="Syncfusion.Blazor.Toolkit.Charts.Size"/> object representing the current size of the chart.
+        /// A <see cref="Size"/> object representing the current size of the chart.
         /// </value>
         /// <remarks>
         /// This read-only property provides the updated size of the chart following a resize event.
@@ -1129,7 +1140,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// Defines the previous size of the chart.
         /// </summary>
         /// <value>
-        /// A <see cref="Syncfusion.Blazor.Toolkit.Charts.Size"/> object representing the previous size of the chart.
+        /// A <see cref="Size"/> object representing the previous size of the chart.
         /// </value>
         /// <remarks>
         /// This read-only property provides the chart's size prior to the occurrence of a resize event.
@@ -1197,7 +1208,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// Gets the point that was clicked.
         /// </summary>
         /// <value>
-        /// A <see cref="Syncfusion.Blazor.Toolkit.Charts.Point"/> object representing the clicked data point.
+        /// A <see cref="Point"/> object representing the clicked data point.
         /// </value>
         /// <remarks>
         /// This read-only property identifies the specific chart data point that was subjected to a click event.
@@ -1299,7 +1310,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <remarks>
         /// The text can be used for labeling the point in a tooltip or legend.
         /// </remarks>
-        public string PointText { get; set; } = string.Empty;
+        public string? PointText { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the x-coordinate value of the point.
@@ -1310,7 +1321,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <remarks>
         /// This property is crucial for positioning the point on the chart's X-axis.
         /// </remarks>
-        public object PointX { get; set; } = null!;
+        public object? PointX { get; set; }
 
         /// <summary>
         /// Gets or sets the y-coordinate value of the point.
@@ -1321,7 +1332,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <remarks>
         /// This property is crucial for positioning the point on the chart's Y-axis.
         /// </remarks>
-        public object PointY { get; set; } = null!;
+        public object? PointY { get; set; }
 
         /// <summary>
         /// Gets or sets the chart series index.
@@ -1346,7 +1357,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         public string SeriesName { get; set; } = string.Empty;
 
         /// <summary>
-        /// Gets the total y value of a data point in the stacking series types chart. This property allows for the inclusion of the cumulative sum of the data points in the chart. It can be used to customize the <see cref="Syncfusion.Blazor.Toolkit.Charts.TooltipRender"/> event to display the total value alongside other data points information.
+        /// Gets the total y value of a data point in the stacking series types chart. This property allows for the inclusion of the cumulative sum of the data points in the chart. It can be used to customize the <see cref="SfChart.TooltipRender"/> event to display the total value alongside other data points information.
         /// </summary>
         /// <value>
         /// The sum of the same point indexed y values for the stacking series type chart. The default value is <b>null</b>.
@@ -2086,7 +2097,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// This property provides details about each axis.
         /// </remarks>
         [JsonPropertyName("axisCollection")]
-        public List<AxisData> AxisCollection { get; set; } = null!;
+        public IList<AxisData> AxisCollection { get; set; } = null!;
     }
 
     /// <summary>
@@ -2157,7 +2168,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <param name="textStyle">The font style for the tooltip text.</param>
         /// <param name="headerText">The tooltip header text.</param>
         /// <param name="data">The data points associated with the tooltip.</param>
-        internal SharedTooltipRenderEventArgs(string name, bool cancel, List<string> text, ChartDefaultFont textStyle, string headerText, List<PointInfo> data)
+        internal SharedTooltipRenderEventArgs(string name, bool cancel, IList<string> text, ChartDefaultFont textStyle, string headerText, IList<PointInfo> data)
         {
             Name = name;
             Cancel = cancel;
@@ -2176,7 +2187,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <remarks>
         /// Use this property to define or access the text content displayed in the shared tooltip.
         /// </remarks>
-        public List<string> Text { get; set; }
+        public IList<string> Text { get; set; }
 
         /// <summary>
         /// Gets the text style for the shared tooltip.
@@ -2209,7 +2220,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <remarks>
         /// This read-only property provides comprehensive information about the data points that are currently highlighted by the shared tooltip.
         /// </remarks>
-        public List<PointInfo> Data { get; private set; }
+        public IList<PointInfo> Data { get; private set; }
     }
 
     /// <summary>
@@ -2226,7 +2237,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <remarks>
         /// Use this property to access or modify the axis information during the crosshair move event.
         /// </remarks>
-        public List<CrosshairAxisInfo> AxisInfo { get; set; } = new List<CrosshairAxisInfo>();
+        public IList<CrosshairAxisInfo> AxisInfo { get; set; } = [];
     }
 
     /// <summary>
@@ -2243,7 +2254,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <remarks>
         /// Use this property to access the details of data points selected by the user.
         /// </remarks>
-        public List<PointXY> SelectedDataValues { get; set; } = null!;
+        public IList<PointXY> SelectedDataValues { get; set; } = null!;
     }
 
     /// <summary>
@@ -2550,19 +2561,12 @@ namespace Syncfusion.Blazor.Toolkit.Charts
             {
                 JsonElement jsonElement = (JsonElement)value;
 
-                if (jsonElement.ValueKind == JsonValueKind.Number)
-                {
-                    Value = jsonElement.GetDouble();
-                }
-                else if (jsonElement.ValueKind == JsonValueKind.String &&
-                         DateTime.TryParse(jsonElement.GetString(), out DateTime dateTime))
-                {
-                    Value = dateTime;
-                }
-                else
-                {
-                    Value = jsonElement.GetString() ?? string.Empty;
-                }
+                Value = jsonElement.ValueKind == JsonValueKind.Number
+                    ? jsonElement.GetDouble()
+                    : jsonElement.ValueKind == JsonValueKind.String &&
+                        DateTime.TryParse(jsonElement.GetString(), out DateTime dateTime)
+                    ? dateTime
+                    : jsonElement.GetString() ?? string.Empty;
             }
         }
 

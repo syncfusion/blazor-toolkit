@@ -12,6 +12,10 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
     /// <typeparam name="TCalendarCell">Specifies the type of CalendarDayCell.</typeparam>
     public partial class CalendarDayCell<TCalendarCell> : CalendarBase<TCalendarCell>
     {
+        /// <summary>
+        /// Gets or sets the string localizer used to resolve localized text for the calendar day cells.
+        /// </summary>
+        /// <value>An <see cref="IStringLocalizer"/> instance resolved from dependency injection.</value>
         [Inject]
         protected new IStringLocalizer Localizer { get; set; } = default!;
 
@@ -492,7 +496,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
         private void UpdateMultiValues(DateTime[] values, TCalendarCell? dateValue, bool otherMnthBool, bool disabledCls)
         {
             dateValue = (dateValue is not null) ? dateValue : GenericValue(values[0]);
-            DateTime getValue = ConvertDate(dateValue!);
+            DateTime getValue = ConvertDate(dateValue);
             bool isSelected = false;
             for (int tempValue = 0; tempValue < values.Length; tempValue++)
             {
@@ -530,7 +534,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
                 UpdateFocus(otherMnthBool, disabledCls, LocalDates, CurrentCellDate);
                 if (Parent is not null && dateValue is not null)
                 {
-                    Parent.Value = default!;
+                    Parent.Value = default;
                 }
             }
         }
@@ -672,7 +676,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
                     }
                     else if (customClasses is not null && customClasses.Count == 0 && Parent is not null && Parent.CustomizedDates.ContainsKey(dateString))
                     {
-                        Parent.CustomizedDates.Remove(dateString);
+                        _ = Parent.CustomizedDates.Remove(dateString);
                     }
                 }
             }
@@ -912,14 +916,14 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
         /// Covers both <c>null</c> (when TValue is <c>DateTime?</c>) and <c>default(DateTime)</c>
         /// (which equals 0001-01-01 and is what Blazor passes when no Value is bound).
         /// </summary>
-        private bool IsNoValue(TCalendarCell? dateValue)
+        private static bool IsNoValue(TCalendarCell? dateValue)
         {
             if (dateValue is null)
             {
                 return true;
             }
             DateTime converted = ConvertDate(dateValue);
-            return converted == default(DateTime) || converted.Year < 1900;
+            return converted == default || converted.Year < 1900;
         }
 
         /// <summary>
@@ -1008,8 +1012,8 @@ namespace Syncfusion.Blazor.Toolkit.Calendars.Internal
             if (Parent is not null)
             {
                 string id = LocalDates.Ticks + "_" + Cells;
-                Parent.CellDetailsData?.RemoveAll(c => c.CellID == id);
-                Parent.PreviousCellListData?.RemoveAll(c => c.CellID == id);
+                _ = (Parent.CellDetailsData?.RemoveAll(c => c.CellID == id));
+                _ = (Parent.PreviousCellListData?.RemoveAll(c => c.CellID == id));
             }
             Parent = null;
             return base.DisposeAsyncCore();

@@ -1,11 +1,12 @@
-﻿using Microsoft.AspNetCore.Components.Rendering;
+﻿using System.Diagnostics.CodeAnalysis;
+using Microsoft.AspNetCore.Components.Rendering;
 
 namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 {
     /// <summary>
     /// Defines the contract for chart elements that require associated series data.
     /// </summary>
-    public interface IRequireSeries
+    internal interface IRequireSeries
     {
         /// <summary>
         /// Gets or sets the chart series renderer associated with this element.
@@ -22,7 +23,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// <see cref="ChartAxisRendererContainer"/> manages axis renderers, axis elements and coordinates layout
     /// and rendering passes for chart axes.
     /// </summary>
-    public class ChartAxisRendererContainer : ChartRendererContainer
+    internal class ChartAxisRendererContainer : ChartRendererContainer
     {
         #region Fields
         private int _axisIndex;
@@ -149,14 +150,15 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 
             AxisLayout.ComputePlotAreaBounds(newRect);
 
-            CartesianAxisLayout._previousAxisEnd = 0;
-            CartesianAxisLayout._previousStartX = 0;
-            CartesianAxisLayout._previousAxis = null;
+            CartesianAxisLayout axisLayout = (CartesianAxisLayout)AxisLayout;
+            axisLayout._previousAxisEnd = 0;
+            axisLayout._previousStartX = 0;
+            axisLayout._previousAxis = null;
 
             PerformAxisRenderingCalculations();
 
-            CartesianAxisLayout._previousAxisEnd = 0;
-            CartesianAxisLayout._previousAxis = null;
+            axisLayout._previousAxisEnd = 0;
+            axisLayout._previousAxis = null;
         }
 
         /// <summary>
@@ -323,6 +325,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// Creates and initializes a secondary axis with default settings.
         /// </summary>
         /// <returns>A new <see cref="ChartAxis"/> configured for secondary use.</returns>
+        [SuppressMessage("Usage", "BL0005:Component parameter should not be set outside of its component",
+            Justification = "This secondary ChartAxis is constructed programmatically as an internal model to satisfy the layout engine; it is never rendered from markup. Its parameters are initialized once here and not bound declaratively, so the BL0005 constraint does not apply.")]
         private static ChartAxis InitAxis()
         {
             ChartAxis newAxis = new()
@@ -455,6 +459,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// Renders child renderer components inside the render tree.
         /// </summary>
         /// <param name="builder">RenderTreeBuilder instance used to build content.</param>
+        [UnconditionalSuppressMessage("Trimming", "IL2072",
+            Justification = "element.RendererType is always one of the library's own internal chart renderer component types, assigned via typeof(...) from GetRendererType; those component types are statically referenced and therefore preserved by the trimmer.")]
         protected override void BuildRenderers(RenderTreeBuilder builder)
         {
             if (builder is null)

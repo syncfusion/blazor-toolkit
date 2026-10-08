@@ -63,7 +63,7 @@
         Assert.True(isTooltipRendered);
         Assert.Equal("Product A", eventArgs1.HeaderText);
         Assert.Equal("Product A", eventArgs1.Text[0]);
-        List<IPointInfo> data = eventArgs1.Data;
+        IList<IPointInfo> data = eventArgs1.Data;
         Assert.Equal(pointInfo, data);
 
         List<Touches> touches = new List<Touches>(){

@@ -14,14 +14,14 @@ namespace Syncfusion.Blazor.Toolkit.Charts
     public class ChartLastDataLabelFont : ChartSubComponent
     {
         #region Fields
-        ChartLastDataLabel? _lastDataLabel;
+        private ChartLastDataLabel? _lastDataLabel;
 
         // Cached values to minimize redundant renderer updates.
-        string _prevSize = string.Empty;
-        string _prevColor = string.Empty;
-        string _prevFontFamily = string.Empty;
-        string _prevFontWeight = string.Empty;
-        string _prevFontStyle = string.Empty;
+        private string _prevSize = string.Empty;
+        private string _prevColor = string.Empty;
+        private string _prevFontFamily = string.Empty;
+        private string _prevFontWeight = string.Empty;
+        private string _prevFontStyle = string.Empty;
         #endregion
 
         #region Properties
@@ -31,7 +31,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// </summary>
         /// <value>The parent <see cref="SfChart"/> if available; otherwise, <see langword="null"/>.</value>
         [CascadingParameter]
-        SfChart? Chart { get; set; }
+        private SfChart? Chart { get; set; }
 
         /// <summary>
         /// Gets or sets the font size of the last value label text.
@@ -211,7 +211,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <param name="chartThemeStyle">The theme style object from the chart.</param>
         /// <returns>Resolved font size string.</returns>
         internal string GetFontSize(ChartThemeStyle chartThemeStyle)
-            => !string.IsNullOrEmpty(Size) ? Size : chartThemeStyle?.CrosshairTextSize ?? string.Empty;
+        {
+            return !string.IsNullOrEmpty(Size) ? Size : chartThemeStyle?.CrosshairTextSize ?? string.Empty;
+        }
 
         /// <summary>
         /// Resolves the font weight using component value or theme defaults.
@@ -219,7 +221,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <param name="chartThemeStyle">The theme style object from the chart.</param>
         /// <returns>Resolved font weight string.</returns>
         internal string GetFontWeight(ChartThemeStyle chartThemeStyle)
-            => !string.IsNullOrEmpty(FontWeight) ? FontWeight : chartThemeStyle?.CrosshairFontWeight ?? string.Empty;
+        {
+            return !string.IsNullOrEmpty(FontWeight) ? FontWeight : chartThemeStyle?.CrosshairFontWeight ?? string.Empty;
+        }
 
         /// <summary>
         /// Resolves the font family using component value or theme defaults.
@@ -227,7 +231,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <param name="chartThemeStyle">The theme style object from the chart.</param>
         /// <returns>Resolved font family string.</returns>
         internal string GetFontFamily(ChartThemeStyle chartThemeStyle)
-            => !string.IsNullOrEmpty(FontFamily) ? FontFamily : chartThemeStyle?.CrosshairFontFamily ?? string.Empty;
+        {
+            return !string.IsNullOrEmpty(FontFamily) ? FontFamily : chartThemeStyle?.CrosshairFontFamily ?? string.Empty;
+        }
 
         /// <summary>
         /// Resolves the font color using component value or theme defaults.
@@ -235,7 +241,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <param name="chartThemeStyle">The theme style object from the chart.</param>
         /// <returns>Resolved font color string.</returns>
         internal string GetFontColor(ChartThemeStyle chartThemeStyle)
-            => !string.IsNullOrEmpty(Color) ? Color : chartThemeStyle?.CrosshairLabel ?? string.Empty;
+        {
+            return !string.IsNullOrEmpty(Color) ? Color : chartThemeStyle?.CrosshairLabel ?? string.Empty;
+        }
 
         /// <summary>
         /// Builds a <see cref="ChartFontOptions"/> instance from current values and theme defaults.
@@ -243,7 +251,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <param name="chartThemeStyle">The theme style object from the chart.</param>
         /// <returns>A fully resolved <see cref="ChartFontOptions"/> value object.</returns>
         internal ChartFontOptions GetFontOptions(ChartThemeStyle chartThemeStyle)
-            => new ChartFontOptions
+        {
+            return new()
             {
                 Color = GetFontColor(chartThemeStyle),
                 Size = GetFontSize(chartThemeStyle),
@@ -251,6 +260,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                 FontWeight = GetFontWeight(chartThemeStyle),
                 FontStyle = FontStyle
             };
+        }
 
         #endregion
     }

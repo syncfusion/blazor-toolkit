@@ -31,7 +31,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// Gets or sets additional attributes applied to the root element.
         /// </summary>
         [Parameter]
-        public Dictionary<string, object> Attributes { get; set; } =  new Dictionary<string, object>();
+        public Dictionary<string, object> Attributes { get; set; } = [];
 
         /// <summary>
         /// Gets or sets the template RenderFragment provided by the owner chart.

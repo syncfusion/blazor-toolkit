@@ -107,7 +107,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// ]]></code>
         /// </example>
         [Parameter]
-        public string Placeholder
+        public string? Placeholder
         {
             get => BasePlaceholder; set => BasePlaceholder = value;
         }
@@ -321,7 +321,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
 
         /// <inheritdoc/>
         /// <exclude/>
-        protected override string BasePlaceholder { get; set; } = default!;
+        protected override string? BasePlaceholder { get; set; }
 
         /// <inheritdoc/>
         /// <exclude/>
@@ -367,7 +367,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// </remarks>
         /// <exclude/>
         [CascadingParameter(Name = "InPlaceEditor")]
-        protected dynamic? TextBoxParent { get; set; }
+        protected object? TextBoxParent { get; set; }
 
         #endregion
     }

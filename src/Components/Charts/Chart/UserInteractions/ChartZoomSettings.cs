@@ -22,14 +22,14 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         private bool _enableSelectionZooming;
         private ZoomMode _mode = ZoomMode.XY;
         private ToolbarMode _toolbarDisplayMode = ToolbarMode.OnDemand;
-        private List<ToolbarItems> _toolbarItems = new List<ToolbarItems>
-        {
+        private IList<ToolbarItems> _toolbarItems =
+        [
             Toolkit.ToolbarItems.Zoom,
             Toolkit.ToolbarItems.ZoomIn,
             Toolkit.ToolbarItems.ZoomOut,
             Toolkit.ToolbarItems.Pan,
             Toolkit.ToolbarItems.Reset
-        };
+        ];
         private ChartZoomToolbarPosition? _toolbarPosition;
 
         #endregion
@@ -291,7 +291,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// </code>
         /// </example>
         [Parameter]
-        public List<ToolbarItems> ToolbarItems { get; set; } =
+        public IList<ToolbarItems> ToolbarItems { get; set; } =
         [
             Toolkit.ToolbarItems.Zoom,
             Toolkit.ToolbarItems.ZoomIn,

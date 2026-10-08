@@ -547,10 +547,10 @@ namespace Syncfusion.Blazor.Toolkit
     }
 
     /// <summary>
-    /// Specifies the direction from which the <see cref="SfDialog"/> can be resized.
+    /// Specifies the direction from which the <see cref="Popups.SfDialog"/> can be resized.
     /// </summary>
     /// <remarks>
-    /// This enumeration controls which edges and corners of the dialog are active for resizing. To enable resizing, set <see cref="SfDialog.EnableResize"/> to <c>true</c>.
+    /// This enumeration controls which edges and corners of the dialog are active for resizing. To enable resizing, set <see cref="Popups.SfDialog.EnableResize"/> to <c>true</c>.
     /// </remarks>
     public enum ResizeDirection
     {
@@ -610,10 +610,10 @@ namespace Syncfusion.Blazor.Toolkit
     }
 
     /// <summary>
-    /// Specifies the built-in animation effect to apply when the <see cref="SfDialog"/> is shown or hidden.
+    /// Specifies the built-in animation effect to apply when the <see cref="Popups.SfDialog"/> is shown or hidden.
     /// </summary>
     /// <remarks>
-    /// These effects provide visual transitions to enhance user experience. The animation is determined by the <see cref="DialogAnimationSettings.Effect"/> property.
+    /// These effects provide visual transitions to enhance user experience. The animation is determined by the <see cref="Popups.DialogAnimationSettings.Effect"/> property.
     /// </remarks>
     public enum DialogEffect
     {

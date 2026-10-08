@@ -1,5 +1,3 @@
-﻿using System;
-using System.Collections.Generic;
 using System.Dynamic;
 using System.Globalization;
 using System.Text.Json;
@@ -9,7 +7,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// <summary>
     /// Helper utilities used across DataVizCommon components.
     /// </summary>
-    public class DataVizCommonHelper
+    public static class DataVizCommonHelper
     {
         #region Constants
         private const string SPACE = " ";
@@ -27,22 +25,11 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <exception cref="ArgumentNullException">Thrown when <paramref name="dataType"/> is <c>null</c>.</exception>
         internal static string FindDataType(Type dataType)
         {
-            if (dataType.Equals(typeof(JsonElement)))
-            {
-                return "JsonElement";
-            }
-            else if (dataType.Equals(typeof(ExpandoObject)))
-            {
-                return "ExpandoObject";
-            }
-            else if (dataType.BaseType is not null && dataType.BaseType.Equals(typeof(DynamicObject)))
-            {
-                return "DynamicObject";
-            }
-            else
-            {
-                return string.Empty;
-            }
+            return dataType.Equals(typeof(JsonElement))
+                ? "JsonElement"
+                : dataType.Equals(typeof(ExpandoObject))
+                ? "ExpandoObject"
+                : dataType.BaseType is not null && dataType.BaseType.Equals(typeof(DynamicObject)) ? "DynamicObject" : string.Empty;
         }
 
         /// <summary>
@@ -113,7 +100,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             // Sourced from
             // https://www.w3.org/TR/wai-aria-1.2/#role_definitions — the same
             // set used by the audit's Full Assessment spec.
-            private static readonly HashSet<string> ValidRoles = new HashSet<string>(StringComparer.OrdinalIgnoreCase)
+            private static readonly HashSet<string> _validRoles = new(StringComparer.OrdinalIgnoreCase)
             {
                 "alert", "alertdialog", "application", "article", "banner",
                 "button", "cell", "checkbox", "columnheader", "combobox",
@@ -148,7 +135,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                     return;
                 }
 
-                if (!ValidRoles.Contains(value))
+                if (!_validRoles.Contains(value))
                 {
                     throw new ArgumentException(
                         $"'{value}' is not a valid WAI-ARIA role for {paramName}. " +

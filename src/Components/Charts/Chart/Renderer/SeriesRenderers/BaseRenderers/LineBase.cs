@@ -59,7 +59,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// </summary>
         /// <param name="data">Object to validate.</param>
         /// <returns>True when convertible to double; otherwise false.</returns>
-        private static bool IsValid(object data)
+        private static bool IsValid(object? data)
         {
             return double.TryParse(Convert.ToString(data, null), out double _);
         }

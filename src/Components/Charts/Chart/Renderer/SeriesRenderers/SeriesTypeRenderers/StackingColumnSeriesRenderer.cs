@@ -8,7 +8,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// <remarks>
     /// This renderer builds path options for stacking column series and invokes animation/rendering.
     /// </remarks>
-    public class StackingColumnSeriesRenderer : ColumnBaseRenderer
+    internal class StackingColumnSeriesRenderer : ColumnBaseRenderer
     {
         #region Private Methods
 
@@ -156,7 +156,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// <summary>
     /// Renderer for 100% stacking column series.
     /// </summary>
-    public class StackingColumn100SeriesRenderer : StackingColumnSeriesRenderer
+    internal class StackingColumn100SeriesRenderer : StackingColumnSeriesRenderer
     {
     }
 }

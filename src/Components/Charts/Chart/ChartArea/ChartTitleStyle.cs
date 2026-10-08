@@ -223,17 +223,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// </code>
         /// </example>
         [Parameter]
-        public string AccessibilityRole
-        {
-            get => _accessibilityRole;
-            set
-            {
-                DataVizCommonHelper.AriaRoleValidator.EnsureValidRole(value, nameof(AccessibilityRole));
-                _accessibilityRole = value;
-            }
-        }
-
-        private string _accessibilityRole = string.Empty;
+        public string AccessibilityRole { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the accessibility keyboard navigation focus option for the chart title.
@@ -285,6 +275,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         protected override void OnParametersSet()
         {
             base.OnParametersSet();
+            DataVizCommonHelper.AriaRoleValidator.EnsureValidRole(AccessibilityRole, nameof(AccessibilityRole));
             if (_position != Position)
             {
                 _position = Position;

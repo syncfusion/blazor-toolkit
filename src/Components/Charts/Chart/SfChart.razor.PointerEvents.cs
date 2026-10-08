@@ -1,4 +1,5 @@
-﻿using Syncfusion.Blazor.Toolkit.Charts.Internal;
+﻿using System.Diagnostics.CodeAnalysis;
+using Syncfusion.Blazor.Toolkit.Charts.Internal;
 
 namespace Syncfusion.Blazor.Toolkit.Charts
 {
@@ -222,6 +223,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// Executes the legend click action after debouncing validation.
         /// </summary>
         /// <param name="arguments">The chart internal mouse event arguments containing the legend click information</param>
+        [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Dispatches a debounced legend click that toggles series visibility, which reflects over the user-supplied DataSource element type. This method is reached only from render-tree-wired pointer events where Requires* annotations cannot be applied; the data-binding trim requirement is surfaced honestly on the public SfChart/ChartSeries data APIs.")]
+        [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "Dispatches a debounced legend click that toggles series visibility using reflection-based data binding over the user-supplied DataSource element type. This method is reached only from render-tree-wired pointer events where Requires* annotations cannot be applied; the AOT requirement is surfaced honestly on the public SfChart/ChartSeries data APIs.")]
         private void ExecuteLegendClick(ChartInternalMouseEventArgs arguments)
         {
             // This method is called on the last click of the rapid sequence

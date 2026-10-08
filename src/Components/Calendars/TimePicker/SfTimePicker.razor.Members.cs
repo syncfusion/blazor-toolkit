@@ -31,7 +31,6 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         private string InternalCssClass { get; set; } = default!;
         private bool InternalEnableRtl { get; set; }
         private bool InternalReadonly { get; set; }
-        private bool InternalEnableMask { get; set; }
         private string? InternalFormat { get; set; }
         private string[]? InternalInputFormats { get; set; }
         private Dictionary<string, object>? InternalKeyConfigs { get; set; }
@@ -39,7 +38,6 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         private int InternalStep { get; set; }
         private string? InternalWidth { get; set; }
         private int InternalZIndex { get; set; }
-        private int _step = 30;
 
         #endregion
 
@@ -149,16 +147,16 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// ]]></code>
         /// </example>
         [Parameter]
-        public string Placeholder
+        public string? Placeholder
         {
-            get => BasePlaceholder ?? default!; set => BasePlaceholder = value;
+            get => BasePlaceholder; set => BasePlaceholder = value;
         }
 
         /// <summary>
         /// Backing field for the public <see cref="Placeholder"/> parameter.
         /// </summary>
         /// <exclude/>
-        protected override string BasePlaceholder { get; set; } = default!;
+        protected override string? BasePlaceholder { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether the <see cref="SfTimePicker{TValue}"/> is in read-only mode, preventing user interaction.
@@ -322,9 +320,9 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// ]]></code>
         /// </example>
         [Parameter]
-        public string Width
+        public string? Width
         {
-            get => BaseWidth ?? default!; set => BaseWidth = value;
+            get => BaseWidth; set => BaseWidth = value;
         }
 
         /// <summary>
@@ -535,28 +533,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// ]]></code>
         /// </example>
         [Parameter]
-        public int Step
-        {
-            get => _step;
-            set
-            {
-                // Guard: non-positive values are invalid
-                if (value <= 0)
-                {
-                    _step = 30;
-                    return;
-                }
-
-                // Ensure step evenly divides a full day (1440 minutes)
-                if (1440 % value != 0)
-                {
-                    _step = GetNearestValidStep(value);
-                    return;
-                }
-
-                _step = value;
-            }
-        }
+        public int Step { get; set; } = 30;
 
         /// <summary>
         /// Gets or sets a value indicating whether the <see cref="SfTimePicker{TValue}"/> operates in strict mode for input validation.
@@ -610,7 +587,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// </remarks>
         /// <exclude />
         [CascadingParameter(Name = "InPlaceEditor")]
-        protected dynamic? TimePickerParent { get; set; }
+        protected object? TimePickerParent { get; set; }
     }
 
     /// <summary>
@@ -661,7 +638,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// Gets or sets the <see cref="Width"/> of the <see cref="SfTimePicker{TValue}"/> component.
         /// </summary>
         /// <exclude/>
-        public string Width { get; set; } = default!;
+        public string? Width { get; set; }
 
         /// <summary>
         /// Gets or sets the scroll bar position.
@@ -769,7 +746,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// Gets or sets the text that is shown as a hint or <see cref="Placeholder"/> until the user focuses or enter a value in TimePicker.
         /// </summary>
         /// <exclude/>
-        public string Placeholder { get; set; } = default!;
+        public string? Placeholder { get; set; }
 
         /// <summary>
         /// Gets or sets the <see cref="ValueString"/> of the <see cref="SfTimePicker{TValue}"/> in string type. The value is parsed based on the culture specific time format.

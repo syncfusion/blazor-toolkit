@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Syncfusion.Blazor.Toolkit.Charts.Internal;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Syncfusion.Blazor.Toolkit.Charts
 {
@@ -12,6 +13,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
     /// This sub-component wires to the parent <see cref="SfChart"/> and delegates render changes to a dedicated renderer.
     /// It uses change detection to minimize re-renders.
     /// </remarks>
+    [SuppressMessage("Usage", "BL0007:Component parameter should be auto property",
+        Justification = "These [Parameter] properties intentionally use explicit setters that compare against a backing field and dispatch incremental renderer updates (stack-label re-render) the moment a value changes. Converting them to auto-properties would require moving that reactive logic into OnParametersSet, changing when updates fire and thus the component's rendering behavior. The reactive-setter pattern is a deliberate part of the chart update pipeline.")]
     public class ChartStackLabelSettings : ChartSubComponent
     {
         #region Fields
@@ -20,14 +23,12 @@ namespace Syncfusion.Blazor.Toolkit.Charts
 
         private bool _prevVisible;
         private string _fill = Constants.Transparent;
-        double _angle;
-        double _stackLabelCornerRadiusX = 5;
-        double _stackLabelCornerRadiusY = 5;
-        string _format = null!;
+        private double _angle;
+        private double _stackLabelCornerRadiusX = 5;
+        private double _stackLabelCornerRadiusY = 5;
+        private string _format = null!;
 
-        ChartStackLabelBorder _border = new();
-        ChartStackLabelFont _font = new();
-        ChartStackLabelMargin _margin = new();
+        private ChartStackLabelBorder _border = new();
 
         #endregion
 
@@ -38,7 +39,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// </summary>
         /// <value>The parent <see cref="SfChart"/> instance when present; otherwise, <c>null</c>.</value>
         [CascadingParameter]
-        SfChart? chart { get; set; }
+        private SfChart? Chart { get; set; }
 
         /// <summary>
         /// Gets or sets a value that determines whether the stack labels are visible.
@@ -285,33 +286,13 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// Gets or sets the font configuration for the stack labels.
         /// </summary>
         /// <value>The <see cref="ChartStackLabelFont"/> instance.</value>
-        internal ChartStackLabelFont Font
-        {
-            get => _font;
-            set
-            {
-                if (_font != value)
-                {
-                    _font = value;
-                }
-            }
-        }
+        internal ChartStackLabelFont Font { get; set; } = new();
 
         /// <summary>
         /// Gets or sets the margin configuration for the stack labels.
         /// </summary>
         /// <value>The <see cref="ChartStackLabelMargin"/> instance.</value>
-        internal ChartStackLabelMargin Margin
-        {
-            get => _margin;
-            set
-            {
-                if (_margin != value)
-                {
-                    _margin = value;
-                }
-            }
-        }
+        internal ChartStackLabelMargin Margin { get; set; } = new();
 
         #endregion
 
@@ -330,17 +311,17 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         {
             base.OnInitialized();
 
-            if (chart is not null)
+            if (Chart is not null)
             {
-                chart._stackLabelSettings = this;
+                Chart._stackLabelSettings = this;
             }
 
-            Renderer = chart?._stackLabelRenderer ?? null!;
+            Renderer = Chart?._stackLabelRenderer ?? null!;
         }
 
         /// <exclude />
         /// <summary>
-        /// Applies parameter updates and keeps the parent chart's <see cref="SfChart.StackLabelSettings"/> reference synchronized.
+        /// Applies parameter updates and keeps the parent chart's <c>StackLabelSettings</c> reference synchronized.
         /// </summary>
         /// <remarks>
         /// This method does not trigger rendering directly; instead, property setters request redraws when values change.
@@ -351,7 +332,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         {
             base.OnParametersSet();
 
-            if (chart is null)
+            if (Chart is null)
             {
                 return;
             }
@@ -361,7 +342,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                 _renderer?.ToggleVisibility();
             }
 
-            chart._stackLabelSettings = this;
+            Chart._stackLabelSettings = this;
             _prevVisible = Visible;
         }
 
@@ -376,7 +357,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         [Browsable(false)]
         protected override ValueTask DisposeAsyncCore()
         {
-            chart = null;
+            Chart = null;
             ChildContent = null!;
             _renderer = null;
 
@@ -409,6 +390,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
 
                 case nameof(Margin):
                     Margin = (ChartStackLabelMargin)keyValue;
+                    break;
+
+                default:
                     break;
             }
         }

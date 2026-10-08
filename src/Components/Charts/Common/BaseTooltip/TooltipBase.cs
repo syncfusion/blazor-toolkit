@@ -35,7 +35,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// Gets the JS runtime used for potential JS interop operations.
         /// </summary>
         /// <value>An <see cref="IJSRuntime"/> instance provided by the owning chart.</value>
-        internal IJSRuntime JSRuntime { get; set; }
+        internal IJSRuntime JSRuntime { get; set; } = null!;
         #endregion
 
         #region Constructor

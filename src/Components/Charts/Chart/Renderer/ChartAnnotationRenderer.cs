@@ -6,7 +6,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// <summary>
     /// Renders and manages chart annotations, including positioning and visibility.
     /// </summary>
-    public class ChartAnnotationRenderer : ChartRenderer, IChartElementRenderer
+    internal class ChartAnnotationRenderer : ChartRenderer, IChartElementRenderer
     {
         #region Constants
         private const string ADAPTIVE_SMALL_ANNOTATION = "e-chart-small-annotation";
@@ -18,7 +18,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         private ChartEventLocation? _location;
         private object? _xCoordinate;
         private string? _yCoordinate;
-        private CultureInfo _culture = CultureInfo.InvariantCulture;
+        private readonly CultureInfo _culture = CultureInfo.InvariantCulture;
         private bool _annotationVisibility = true;
         private string? _annotationId;
         private bool _shouldUpdateAnnotationStyle;
@@ -89,8 +89,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 Rect? result = Annotation?.Region == Regions.Chart ? new Rect(0, 0, Owner.InitialRect.Width, Owner.InitialRect.Height) : Owner._axisContainer.AxisLayout.SeriesClipRect;
                 if (result is not null)
                 {
-                    finalLocation.X = ChartHelper.StringToNumber(_xCoordinate?.ToString() ?? null!, result.Width) + result.X;
-                    finalLocation.Y = ChartHelper.StringToNumber(_yCoordinate ?? null!, result.Height) + result.Y;
+                    finalLocation.X = ChartHelper.StringToNumber(_xCoordinate?.ToString(), result.Width) + result.X;
+                    finalLocation.Y = ChartHelper.StringToNumber(_yCoordinate, result.Height) + result.Y;
                 }
             }
             return finalLocation;

@@ -51,7 +51,7 @@ namespace Syncfusion.Blazor.Toolkit
             }
             if (!services.Any(s => s.ServiceType == typeof(HttpClient)))
             {
-                services.AddScoped<HttpClient>();
+                _ = services.AddScoped<HttpClient>();
             }
             return services;
         }

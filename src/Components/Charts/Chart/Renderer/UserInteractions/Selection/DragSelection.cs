@@ -39,7 +39,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 {
                     if (_chartInstance.SelectionMode == ChartSelectionMode.Lasso)
                     {
-                        GetPath(_chartInstance._mouseDownX, _chartInstance._mouseDownY, _chartInstance._mouseX, _chartInstance._mouseY, (_chartInstance.AllowMultiSelection ? _count : 0).ToString(culture));
+                        GetPath(_chartInstance._mouseDownX, _chartInstance._mouseDownY, _chartInstance._mouseX, _chartInstance._mouseY, (_chartInstance.AllowMultiSelection ? _count : 0).ToString(Culture));
                         _ = DrawDraggingRectAsync(_dragRect ?? new Rect(0, 0, 0, 0));
                     }
                     else
@@ -236,7 +236,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 ? currentPoint.IsSelected
                 : _chartInstance is not null && _chartInstance.AllowMultiSelection
                 ? IsPointSelect(currentPoint, xAxisOffset, yAxisOffset, [.. _filterArray.Values])
-                : currentPoint.SymbolLocations.Exists(location =>
+                : currentPoint.SymbolLocations.Any(location =>
                 location is not null &&
                 ChartHelper.WithInBounds(location.X + xAxisOffset, location.Y + yAxisOffset, selectionRect));
         }
@@ -249,7 +249,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="selectedPointValues">The collection to add the point values to.</param>
         private void SelectPointAndAddToValues(Point currentPoint, ChartSeriesRenderer seriesRenderer, List<PointXY> selectedPointValues)
         {
-            object selectedPointX = GetFormattedXValue(currentPoint);
+            object? selectedPointX = GetFormattedXValue(currentPoint);
 
             _ = SelectionChartAsync(ChartSelectedDataIndex.CreateSelectedData(currentPoint.Index, seriesRenderer.Index));
             selectedPointValues.Add(new PointXY
@@ -266,10 +266,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// </summary>
         /// <param name="currentPoint">The data point.</param>
         /// <returns>The formatted X value as an object.</returns>
-        private object GetFormattedXValue(Point currentPoint)
+        private object? GetFormattedXValue(Point currentPoint)
         {
             return _chartInstance?._axisContainer?.Axes["PrimaryXAxis"].ValueType == ValueType.Category
-                ? currentPoint.X.ToString() ?? string.Empty
+                ? currentPoint.X?.ToString()
                 : _chartInstance?._axisContainer?.Axes["PrimaryXAxis"].ValueType == ValueType.DateTime
                 ? Convert.ToDateTime(currentPoint.X, null)
                 : currentPoint.XValue;
@@ -332,7 +332,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             }
             bool isMultiDrag = _chartInstance.AllowMultiSelection, isDragResize = isMultiDrag && (_rectGrabbing || _resizing), isDrag = _rectGrabbing || _resizing;
             CircleOptions circle = CreateCloseCircle(isMultiDrag, isDrag, x, y);
-            _closeCircleArray[_closeIconId + CIRCLE_SUFFIX + (isMultiDrag ? (isDrag ? _targetIndex : _count).ToString(culture) : string.Empty)] = circle;
+            _closeCircleArray[_closeIconId + CIRCLE_SUFFIX + (isMultiDrag ? (isDrag ? _targetIndex : _count).ToString(Culture) : string.Empty)] = circle;
             PathOptions path = UpdatePathOptions(isMultiDrag, isDrag, x, y);
             SvgSelectionRect element = _chartInstance._parentRect?.RectsReference.Values.FirstOrDefault(item => item.Id == _draggedRect + ((isDragResize || !_chartInstance.AllowMultiSelection) ? _targetIndex : _count)) ?? null!;
             SvgSelectionPath elementPath = _chartInstance._parentRect?.PathsReference.Values.FirstOrDefault(item => item.Id == _draggedRect + ((isDragResize || !_chartInstance.AllowMultiSelection) ? _targetIndex : _count)) ?? null!;
@@ -359,9 +359,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         private CircleOptions CreateCloseCircle(bool isMultiDrag, bool isDrag, double x, double y)
         {
             return new CircleOptions(
-                _closeIconId + CIRCLE_SUFFIX + (isMultiDrag ? (isDrag ? _targetIndex : _count).ToString(culture) : string.Empty),
-                x.ToString(culture),
-                y.ToString(culture),
+                _closeIconId + CIRCLE_SUFFIX + (isMultiDrag ? (isDrag ? _targetIndex : _count).ToString(Culture) : string.Empty),
+                x.ToString(Culture),
+                y.ToString(Culture),
                 "10",
                 string.Empty,
                 2,
@@ -383,9 +383,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         {
             return new PathOptions
             (
-                _closeIconId + "cross_" + (isMultiDrag ? (isDrag ? _targetIndex : _count).ToString(culture) : string.Empty),
-                "M " + (x - 4).ToString(culture) + SPACE + (y - 4).ToString(culture) + " L " + (x + 4).ToString(culture) + SPACE + (y + 4).ToString(culture) +
-                " M " + (x - 4).ToString(culture) + SPACE + (y + 4).ToString(culture) + " L " + (x + 4).ToString(culture) + SPACE + (y - 4).ToString(culture),
+                _closeIconId + "cross_" + (isMultiDrag ? (isDrag ? _targetIndex : _count).ToString(Culture) : string.Empty),
+                "M " + (x - 4).ToString(Culture) + SPACE + (y - 4).ToString(Culture) + " L " + (x + 4).ToString(Culture) + SPACE + (y + 4).ToString(Culture) +
+                " M " + (x - 4).ToString(Culture) + SPACE + (y + 4).ToString(Culture) + " L " + (x + 4).ToString(Culture) + SPACE + (y - 4).ToString(Culture),
                 string.Empty,
                 2,
                 _chartInstance?._chartThemeStyle?.SelectionCircleStroke ?? string.Empty
@@ -830,7 +830,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                     Stroke = rectStroke,
                     StrokeWidth = "3",
                     Id = _draggedRect + _count,
-                    Path = _lassoPaths[_count.ToString(culture)],
+                    Path = _lassoPaths[_count.ToString(Culture)],
                     IsLasso = true
                 });
             }
@@ -838,7 +838,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             {
                 if (_chartInstance._parentRect is not null && _chartInstance._parentRect.PathsReference.ContainsKey(_draggedRect + _count))
                 {
-                    await _chartInstance._parentRect.PathsReference[_draggedRect + _count].ChangePathAsync(_lassoPaths[_count.ToString(culture)]).ConfigureAwait(true);
+                    await _chartInstance._parentRect.PathsReference[_draggedRect + _count].ChangePathAsync(_lassoPaths[_count.ToString(Culture)]).ConfigureAwait(true);
                 }
             }
         }
@@ -995,9 +995,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 else
                 {
                     SvgSelectionPath lassoEle = _chartInstance._parentRect?.PathsReference.Values.FirstOrDefault(item => item.Id == _draggedRect + _count) ?? null!;
-                    if (lassoEle is not null && _lassoPaths[_count.ToString(culture)].Contains('L', StringComparison.InvariantCulture))
+                    if (lassoEle is not null && _lassoPaths[_count.ToString(Culture)].Contains('L', StringComparison.InvariantCulture))
                     {
-                        await lassoEle.ChangePathAsync(_lassoPaths[_count.ToString(culture)] + "Z").ConfigureAwait(true);
+                        await lassoEle.ChangePathAsync(_lassoPaths[_count.ToString(Culture)] + "Z").ConfigureAwait(true);
                         await LassoCheckingAsync(_draggedRect + GetIndex(lassoEle.Id)).ConfigureAwait(true);
                     }
                 }
@@ -1248,7 +1248,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             {
                 bool isPath = _lassoPaths.Count > 0 && _lassoPaths.TryGetValue(id, out string? _) && !string.IsNullOrEmpty(_lassoPaths[id]) && !_lassoPaths[id].Contains('Z', StringComparison.InvariantCulture);
 
-                _lassoPaths[id] = isPath ? (_lassoPaths[id] + " L" + endX.ToString(culture) + SPACE + endY.ToString(culture)) : ("M " + startX.ToString(culture) + SPACE + startY.ToString(culture));
+                _lassoPaths[id] = isPath ? (_lassoPaths[id] + " L" + endX.ToString(Culture) + SPACE + endY.ToString(Culture)) : ("M " + startX.ToString(Culture) + SPACE + startY.ToString(Culture));
             }
         }
 

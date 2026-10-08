@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Globalization;
 using System.Dynamic;
@@ -12,6 +13,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
     /// <summary>
     /// Provides utility method used by data manager.
     /// </summary>
+    [RequiresUnreferencedCode("The Syncfusion data query engine builds LINQ expressions and reflects over the queried model type at runtime; members it depends on may be removed by the trimmer.")]
+    [RequiresDynamicCode("The Syncfusion data query engine constructs generic methods and compiles expression trees at runtime, which is not supported by Native AOT.")]
     public static class DataUtil
     {
         /// <summary>
@@ -138,7 +141,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
                     }
                 }
 
-                object propertyValue = GetObject(propertyName, value!);
+                object? propertyValue = GetObject(propertyName, value!);
                 string? key = propertyValue == null ? "null" : propertyValue.ToString();
 
                 if (!DistinctData.ContainsKey(key!))
@@ -226,7 +229,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="isLazyLoad">Specifies the isLazyLoad property as true to handle lazy load grouping.</param>
         /// <param name="isLazyGroupExpandAll">Specifies the isLazyGroupExpandAll as true to perform expand all for lazy load grouping.</param>
         /// <returns>IEnumerable - Grouped record.</returns>
-        public static IEnumerable Group<T>(IEnumerable jsonArray, string field, List<Aggregate> aggregates, int level, IDictionary<string, string> format, bool isLazyLoad = false, bool isLazyGroupExpandAll = false)
+        public static IEnumerable Group<T>(IEnumerable jsonArray, string field, IList<Aggregate> aggregates, int level, IDictionary<string, string> format, bool isLazyLoad = false, bool isLazyGroupExpandAll = false)
         {
             if (level == 0)
             {
@@ -334,7 +337,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="dataSource">Data source to be sorted.</param>
         /// <param name="sortedColumns">List of sort criteria.</param>
         /// <returns>IEnumerable - sorted records.</returns>
-        public static IEnumerable GroupSorting<T>(IEnumerable dataSource, List<Sort> sortedColumns)
+        public static IEnumerable GroupSorting<T>(IEnumerable dataSource, IList<Sort> sortedColumns)
         {
             if (dataSource != null && dataSource is Group<T>)
             {
@@ -368,7 +371,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="jsonData">Input data source.</param>
         /// <param name="aggregates">List of aggregate to be calculated.</param>
         /// <returns>Dictionary of aggregate results.</returns>
-        public static IDictionary<string, object> PerformAggregation(IEnumerable jsonData, List<Aggregate> aggregates)
+        public static IDictionary<string, object> PerformAggregation(IEnumerable jsonData, IList<Aggregate> aggregates)
         {
             Dictionary<string, object> res = [];
             Func<IEnumerable, string, string, Type, object> fn;
@@ -407,21 +410,21 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// </summary>
         /// <param name="jsonData">List of object.</param>
         /// <param name="index">Index of the item to be processed.</param>
-        /// <param name="field">Property name to get value.</param>
-        /// <returns>object.</returns>
-        public static object GetVal(IEnumerable jsonData, int index, string field)
+        /// <param name="field">Property name to get value, or null to return the item itself.</param>
+        /// <returns>The item or property value, or null when the source is empty or the value is missing or null.</returns>
+        public static object? GetVal(IEnumerable jsonData, int index, string? field)
         {
             IQueryable<object> jsonDataCol = jsonData.AsQueryable().Cast<object>();
-            return jsonDataCol.Any() ? field != null ? GetObject(field, jsonDataCol.ToArray()[index]) : jsonDataCol.ToArray()[index] : null!;
+            return jsonDataCol.Any() ? field != null ? GetObject(field, jsonDataCol.ToArray()[index]) : jsonDataCol.ToArray()[index] : null;
         }
 
         /// <summary>
         /// Gets the property value from object.
         /// </summary>
-        /// <param name="nameSpace">Property name to be accessed.</param>
-        /// <param name="from">Source object.</param>
-        /// <returns>object - property value.</returns>
-        public static object GetGroupValue(string nameSpace, object from)
+        /// <param name="nameSpace">Property name to be accessed, or null to return the source object itself.</param>
+        /// <param name="from">Source object, which may be null.</param>
+        /// <returns>The source object or property value, or null when the source or value is missing or null.</returns>
+        public static object? GetGroupValue(string? nameSpace, object? from)
         {
             return nameSpace != null ? GetObject(nameSpace, from) : from;
         }
@@ -430,12 +433,12 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// Gets the property value from object.
         /// </summary>
         /// <param name="nameSpace">Property name to be accessed.</param>
-        /// <param name="from">Source object.</param>
-        /// <returns>object - property value.</returns>
+        /// <param name="from">Source object, which may be null.</param>
+        /// <returns>The property value, or <see langword="null"/> when the source is null, the property is missing or its value is null.</returns>
         /// <remarks>For accessing complex/nested property value, given the nameSpace with field names delimited by dot(.).</remarks>
-        public static object GetObject(string nameSpace, object from)
+        public static object? GetObject(string nameSpace, object? from)
         {
-            return ReflectionExtension.GetValue(from, nameSpace);
+            return from == null ? null : ReflectionExtension.GetValue(from, nameSpace);
         }
 
         /// <summary>

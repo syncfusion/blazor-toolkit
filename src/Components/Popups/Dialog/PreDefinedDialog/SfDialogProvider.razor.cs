@@ -36,6 +36,9 @@ namespace Syncfusion.Blazor.Toolkit.Popups
     /// </example>
     public partial class SfDialogProvider : ComponentBase, IDisposable
     {
+        private static readonly Action<ILogger, Exception?> _logOnOpenError =
+            LoggerMessage.Define(LogLevel.Error, new EventId(0, nameof(_logOnOpenError)), "Error in OnOpen");
+
         /// <summary>
         /// Gets or sets the logger instance for diagnostic and error logging purposes.
         /// </summary>
@@ -88,7 +91,7 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         /// This collection manages the pending tasks that are waiting for dialog completion.
         /// Each task corresponds to a dialog service method call that returns a result asynchronously.
         /// </remarks>
-        private List<TaskCompletionSource<dynamic>>? CompleteTask { get; set; }
+        private List<TaskCompletionSource<dynamic?>>? CompleteTask { get; set; }
 
         /// <summary>
         /// Gets or sets the type of the current dialog (Alert, Confirm, or Prompt).
@@ -114,7 +117,6 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         /// </remarks>
         private string? DialogTitle { get; set; }
 
-        private readonly string _id = $"dialog-{Guid.NewGuid()}";
         private readonly string _promptInputId = $"dialog-input-{Guid.NewGuid()}";
 
         /// <summary>
@@ -157,14 +159,14 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         /// This method clears the dialog state, completes the pending task with the provided result,
         /// and triggers a UI refresh to hide the dialog.
         /// </remarks>
-        private Task CloseAsync(dynamic? result = null)
+        private Task CloseAsync(object? result = null)
         {
             InputValue = string.Empty;
             DialogOptions = null;
-            TaskCompletionSource<dynamic>? task = CompleteTask?.LastOrDefault();
+            TaskCompletionSource<dynamic?>? task = CompleteTask?.LastOrDefault();
             if (task is not null && task.Task is not null && !task.Task.IsCompleted)
             {
-                CompleteTask?.Remove(task);
+                _ = (CompleteTask?.Remove(task));
                 task.SetResult(result);
             }
             return Task.CompletedTask;
@@ -199,7 +201,7 @@ namespace Syncfusion.Blazor.Toolkit.Popups
                 {
                     if (Service is not null)
                     {
-                        Service.OnOpen -= OnOpen;
+                        Service.OnOpen -= OnOpenAsync;
                     }
                     if (DialogOptions is not null)
                     {
@@ -237,7 +239,7 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         {
             if (Service is not null)
             {
-                Service.OnOpen += OnOpen;
+                Service.OnOpen += OnOpenAsync;
             }
             else
             {
@@ -260,7 +262,7 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         /// which requires void return. Exceptions are logged via ILogger when available, otherwise
         /// they propagate to prevent silent failures that could mask runtime issues.
         /// </remarks>
-        private async void OnOpen(string type, DialogOptions options, string content, string? title, List<TaskCompletionSource<dynamic>> tasks)
+        private async void OnOpenAsync(string type, DialogOptions options, string content, string? title, List<TaskCompletionSource<dynamic?>> tasks)
         {
             CompleteTask = tasks;
             DialogType = type;
@@ -272,7 +274,7 @@ namespace Syncfusion.Blazor.Toolkit.Popups
             }
             catch (Exception ex) when (Logger is not null)
             {
-                Logger.LogError(ex, "Error in OnOpen");
+                _logOnOpenError(Logger, ex);
             }
             catch (Exception)
             {

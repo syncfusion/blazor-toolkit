@@ -360,8 +360,8 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
                 return false;
             }
             Type propertyType = typeof(T);
-            T? dateValue = Value is null ? default! : (T)SfBaseUtils.ChangeType(Value, propertyType);
-            T? previousDateVal = PreviousDate is null ? default : (T)SfBaseUtils.ChangeType(PreviousDate, propertyType);
+            T? dateValue = Value is null ? default : (T?)SfBaseUtils.ChangeType(Value, propertyType);
+            T? previousDateVal = PreviousDate is null ? default : (T?)SfBaseUtils.ChangeType(PreviousDate, propertyType);
             return !SfBaseUtils.Equals(dateValue, previousDateVal);
         }
 
@@ -373,60 +373,57 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// <remarks>
         /// Supports conversions for <c>DateTime</c>, <c>DateOnly</c>, and <c>DateTimeOffset</c> types.
         /// </remarks>
-        internal static DateTime ConvertDate(T dateValue)
+        internal static DateTime ConvertDate(T? dateValue)
         {
             Type propertyType = typeof(T);
             bool isNullable = Nullable.GetUnderlyingType(propertyType) is not null;
-            if (IsDateTimeType(dateValue, propertyType, isNullable))
-            {
-                return ConvertToDateTime(dateValue, propertyType);
-            }
-            if (IsDateOnlyType(dateValue, propertyType, isNullable))
-            {
-                return ConvertDateOnlyToDateTime(dateValue, propertyType);
-            }
-            if (IsDateTimeOffsetType(dateValue, propertyType, isNullable))
-            {
-                return ConvertDateTimeOffsetToDateTime(dateValue, propertyType);
-            }
-            return DateTime.Now;
+            return IsDateTimeType(dateValue, propertyType, isNullable)
+                ? ConvertToDateTime(dateValue, propertyType)
+                : IsDateOnlyType(dateValue, propertyType, isNullable)
+                ? ConvertDateOnlyToDateTime(dateValue, propertyType)
+                : IsDateTimeOffsetType(dateValue, propertyType, isNullable)
+                ? ConvertDateTimeOffsetToDateTime(dateValue, propertyType)
+                : DateTime.Now;
         }
 
-        private static bool IsDateTimeType(T dateValue, Type propertyType, bool isNullable)
+        private static bool IsDateTimeType(T? dateValue, Type propertyType, bool isNullable)
         {
             return (dateValue is not null && propertyType == typeof(DateTime)) || (isNullable && typeof(DateTime) == Nullable.GetUnderlyingType(propertyType));
         }
 
-        private static bool IsDateOnlyType(T dateValue, Type propertyType, bool isNullable)
+        private static bool IsDateOnlyType(T? dateValue, Type propertyType, bool isNullable)
         {
             return (dateValue is not null && propertyType == typeof(DateOnly)) || (isNullable && typeof(DateOnly) == Nullable.GetUnderlyingType(propertyType));
         }
 
-        private static bool IsDateTimeOffsetType(T dateValue, Type propertyType, bool isNullable)
+        private static bool IsDateTimeOffsetType(T? dateValue, Type propertyType, bool isNullable)
         {
             return (dateValue is not null && propertyType == typeof(DateTimeOffset)) || (isNullable && typeof(DateTimeOffset) == Nullable.GetUnderlyingType(propertyType));
         }
 
-        private static DateTime ConvertToDateTime(T dateValue, Type propertyType)
+        private static DateTime ConvertToDateTime(T? dateValue, Type propertyType)
         {
-            return (DateTime)SfBaseUtils.ChangeType(dateValue!, propertyType);
+            // Non-null date input converts to a boxed date; null must still fail at runtime unboxing.
+            return (DateTime)SfBaseUtils.ChangeType(dateValue, propertyType)!;
         }
 
-        private static DateTime ConvertDateOnlyToDateTime(T dateValue, Type propertyType)
+        private static DateTime ConvertDateOnlyToDateTime(T? dateValue, Type propertyType)
         {
-            DateOnly date = (DateOnly)SfBaseUtils.ChangeType(dateValue!, propertyType);
+            // Non-null date input converts to a boxed date; null must still fail at runtime unboxing.
+            DateOnly date = (DateOnly)SfBaseUtils.ChangeType(dateValue, propertyType)!;
             return date.ToDateTime(TimeOnly.MinValue);
         }
 
-        private static DateTime ConvertDateTimeOffsetToDateTime(T dateValue, Type propertyType)
+        private static DateTime ConvertDateTimeOffsetToDateTime(T? dateValue, Type propertyType)
         {
-            DateTimeOffset dateTimeOffset = (DateTimeOffset)SfBaseUtils.ChangeType(dateValue!, propertyType);
+            // Non-null date input converts to a boxed date; null must still fail at runtime unboxing.
+            DateTimeOffset dateTimeOffset = (DateTimeOffset)SfBaseUtils.ChangeType(dateValue, propertyType)!;
             return dateTimeOffset.DateTime;
         }
 
         internal virtual async Task BindNavigateEventAsync(NavigatedEventArgs eventArgs)
         {
-            await Task.CompletedTask;
+            await Task.CompletedTask.ConfigureAwait(false);
         }
 
         internal virtual async Task UpdateAriaActiveDescendantAsync(string? cellId)
@@ -452,7 +449,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// <exclude />
         protected virtual async Task ChangeEventAsync(EventArgs? args, bool isSelection = false)
         {
-            await Task.CompletedTask;
+            await Task.CompletedTask.ConfigureAwait(false);
         }
 
         internal virtual bool IsMultipleDatesSetProgrammatically()
@@ -467,9 +464,9 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
             {
                 propertyType = Nullable.GetUnderlyingType(propertyType);
             }
-            return propertyType == typeof(DateTime) ? (T)SfBaseUtils.ChangeType(dateValue, propertyType) : propertyType == typeof(DateOnly)
-                    ? (T)SfBaseUtils.ChangeType(DateOnly.FromDateTime(dateValue), propertyType)
-                    : (T)SfBaseUtils.ChangeType(new DateTimeOffset(dateValue), propertyType!);
+            return propertyType == typeof(DateTime) ? (T?)SfBaseUtils.ChangeType(dateValue, propertyType) : propertyType == typeof(DateOnly)
+                    ? (T?)SfBaseUtils.ChangeType(DateOnly.FromDateTime(dateValue), propertyType)
+                    : (T?)SfBaseUtils.ChangeType(new DateTimeOffset(dateValue), propertyType!);
         }
 
         internal async Task SetLocalStorageAsync(string persistId, T dataValue)
@@ -686,13 +683,13 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         {
             if (IsDateTimeOffsetType())
             {
-                return ((DateTimeOffset)SfBaseUtils.ChangeType(dateValue!, typeof(T))).DateTime;
+                return ConvertDateTimeOffsetToDateTime(dateValue, typeof(T));
             }
             else if (IsDateOnlyType())
             {
-                return ((DateOnly)SfBaseUtils.ChangeType(dateValue!, typeof(T))).ToDateTime(TimeOnly.MinValue);
+                return ConvertDateOnlyToDateTime(dateValue, typeof(T));
             }
-            return (DateTime)SfBaseUtils.ChangeType(dateValue!, typeof(T));
+            return ConvertToDateTime(dateValue, typeof(T));
         }
 
         /// <summary>

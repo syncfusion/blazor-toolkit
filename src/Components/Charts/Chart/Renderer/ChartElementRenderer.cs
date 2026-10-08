@@ -1,11 +1,12 @@
-﻿using Microsoft.AspNetCore.Components.Rendering;
+﻿using System.Diagnostics.CodeAnalysis;
+using Microsoft.AspNetCore.Components.Rendering;
 
 namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 {
     /// <summary>
     /// Represents a chart element descriptor used by renderers.
     /// </summary>
-    public interface IChartElement
+    internal interface IChartElement
     {
         /// <summary>
         /// Gets or sets the renderer key used to identify the renderer instance.
@@ -23,10 +24,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// <summary>
     /// Container renderer that manages a collection of chart element renderers and their lifecycle.
     /// </summary>
-    public class ChartRendererContainer : ChartRenderer
+    internal class ChartRendererContainer : ChartRenderer
     {
         #region Fields
-        private Queue<IChartElementRenderer> _rendererQueue = new();
+        private readonly Queue<IChartElementRenderer> _rendererQueue = new();
         private bool _firstRender = true;
         #endregion
 
@@ -70,9 +71,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// Orders the elements list with the provided ordering.
         /// </summary>
         /// <param name="chartElements">The ordered list of elements to apply.</param>
-        protected void OrderTheElements(List<IChartElement> chartElements)
+        protected void OrderTheElements(IList<IChartElement> chartElements)
         {
-            Elements = chartElements;
+            Elements = chartElements as List<IChartElement> ?? [.. chartElements];
         }
 
         /// <summary>
@@ -142,6 +143,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// Builds renderer components for each element using their RendererType.
         /// </summary>
         /// <param name="builder">The render tree builder to use.</param>
+        [UnconditionalSuppressMessage("Trimming", "IL2072",
+            Justification = "element.RendererType is always one of the library's own internal chart renderer component types, assigned via typeof(...) from GetRendererType; those component types are statically referenced and therefore preserved by the trimmer.")]
         protected virtual void BuildRenderers(RenderTreeBuilder builder)
         {
             if (builder is null)

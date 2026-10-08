@@ -1,5 +1,6 @@
 ﻿using System.Collections.Concurrent;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Reflection;
 using System.Runtime.CompilerServices;
@@ -400,6 +401,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// </summary>
         /// <param name="adaptiveAxes">The list of axes to use for adaptive rendering, or null to use all axes.</param>
         /// <returns>A <see cref="ScrollbarOptions"/> object containing scrollbar configuration.</returns>
+        [SuppressMessage("Usage", "BL0005:Component parameter should not be set outside of its component",
+            Justification = "ChartMargin is used here as a plain data model to build interop scrollbar options, not as a rendered child component. Its parameters are populated programmatically for this transient instance and are never assigned declaratively in markup, so the BL0005 constraint does not apply.")]
         private ScrollbarOptions GetScrollbarOptions(List<IAxis> adaptiveAxes)
         {
             ScrollbarOptions scrollbarOptions = new()
@@ -412,7 +415,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                 Width = _axisContainer?.AxisLayout.SeriesClipRect?.Width ?? 0,
                 Height = _axisContainer?.AxisLayout.SeriesClipRect?.Height ?? 0,
                 IsScrollExist = true,
-                isScrollEventCalled = OnScrollChanged is not null,
+                IsScrollEventCalled = OnScrollChanged is not null,
                 ChartTitleHeight = (_chartTitleRenderer?.TitleSize.Height ?? 0) * (_chartTitleRenderer?.TitleCollection.Count ?? 0),
                 ChartTitlePosition = Enum.GetName(_chartTitleRenderer?.TitleStyle?.Position ?? ChartTitlePosition.Top) ?? null!,
                 ChartSubTitleHeight = (_chartTitleRenderer?.SubTitleSize.Height ?? 0) * (_chartTitleRenderer?.SubTitleCollection.Count ?? 0),
@@ -662,7 +665,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
             _shouldAnimateSeries = false;
             if (animationInfo.Count > 0)
             {
-                await InvokeVoidAsync(_chartJsModule!, _chartJsInProcessModule!, Constants.DoInitialAnimation, animationInfo, _lastSeriesAnimationIndex).ConfigureAwait(false);
+                await InvokeVoidAsync(_chartJsModule, _chartJsInProcessModule, Constants.DoInitialAnimation, animationInfo, _lastSeriesAnimationIndex).ConfigureAwait(false);
                 if (_annotationContainer is not null && _annotationContainer.Elements.Count > 0)
                 {
                     _annotationContainer.Elements.ForEach(item =>
@@ -689,7 +692,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                 List<InitialAnimationInfo> animationInfo = [];
                 _seriesContainer?.PerformAnimation(animationInfo);
                 _trendlineContainer?.PerformAnimation(animationInfo);
-                await InvokeVoidAsync(_chartJsModule!, _chartJsInProcessModule!, Constants.DoInitialAnimation, animationInfo).ConfigureAwait(true);
+                await InvokeVoidAsync(_chartJsModule, _chartJsInProcessModule, Constants.DoInitialAnimation, animationInfo).ConfigureAwait(true);
                 _shouldAnimateSeries = false;
             }
         }
@@ -745,7 +748,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                     keys.Add(axis.TitleStyle.GetFontKey(_chartThemeStyle?.AxisTitleFontWeight ?? string.Empty, _chartThemeStyle?.AxisTitleFontFamily ?? string.Empty));
                     keys.Add(axis.CrosshairTooltip.TextStyle.GetFontKey(_chartThemeStyle?.CrosshairFontWeight ?? string.Empty, _chartThemeStyle?.CrosshairFontFamily ?? string.Empty));
                     keys.Add(axis.LabelStyle.GetFontKey(_chartThemeStyle?.AxisLabelFontWeight ?? string.Empty, _chartThemeStyle?.AxisLabelFontFamily ?? string.Empty));
-                    axis.StripLines.ForEach(x => keys.Add(x.TextStyle.GetFontKey(_chartThemeStyle?.StriplineFontWeight ?? string.Empty, _chartThemeStyle?.StriplineFontFamily ?? string.Empty)));
+                    foreach (ChartStripline stripline in axis.StripLines)
+                    {
+                        keys.Add(stripline.TextStyle.GetFontKey(_chartThemeStyle?.StriplineFontWeight ?? string.Empty, _chartThemeStyle?.StriplineFontFamily ?? string.Empty));
+                    }
                 }
             }
 
@@ -845,6 +851,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <summary>
         /// Processes data for series, and trendlines.
         /// </summary>
+        [RequiresUnreferencedCode(ChartSeriesRenderer.DataBindingTrimWarning)]
+        [RequiresDynamicCode(ChartSeriesRenderer.DataBindingAotWarning)]
         private void ProcessData()
         {
             _seriesContainer?.ProcessData();
@@ -868,7 +876,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <returns>The SVG height with "px" suffix.</returns>
         private string GetSvgHeight()
         {
-            double height = !string.IsNullOrEmpty(Height) ? IsRerendering && Height.Contains('%', StringComparison.InvariantCulture) ? AvailableSize.Height :  ChartHelper.StringToNumber(Height, _elementOffset.Height) : ChartDefaultHeight;
+            double height = !string.IsNullOrEmpty(Height) ? IsRerendering && Height.Contains('%', StringComparison.InvariantCulture) ? AvailableSize.Height : ChartHelper.StringToNumber(Height, _elementOffset.Height) : ChartDefaultHeight;
             return AvailableSize is not null ? Convert.ToString(height > 0 ? height : AvailableSize.Height, CultureInfo.InvariantCulture) + "px" : "0px";
         }
 
@@ -1023,6 +1031,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// Retrieves remote data for series from the data manager asynchronously.
         /// </summary>
         /// <returns>A task that represents the asynchronous operation.</returns>
+        [RequiresUnreferencedCode(ChartSeriesRenderer.DataBindingTrimWarning)]
+        [RequiresDynamicCode(ChartSeriesRenderer.DataBindingAotWarning)]
         private async Task GetRemoteDataAsync()
         {
             if (_seriesContainer is null)
@@ -1060,6 +1070,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <returns>
         /// A task that represents the asynchronous operation. The task result contains the query result as an object.
         /// </returns>
+        [RequiresUnreferencedCode(ChartSeriesRenderer.DataBindingTrimWarning)]
+        [RequiresDynamicCode(ChartSeriesRenderer.DataBindingAotWarning)]
         private async Task<object> GenerateAndExecuteQueryAsync(Query query)
         {
             return await DataManager.ExecuteQuery<object>(query).ConfigureAwait(true);
@@ -1097,7 +1109,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         {
             if (_crosshair.Enable)
             {
-                _crosshairModule = new Crosshair(this);
+                _crosshairModule = new Crosshair();
             }
             else if (_crosshair.Enable && _crosshairModule is not null)
             {
@@ -1122,6 +1134,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <returns>
         /// <c>true</c> if the renderer is disposed; otherwise, <c>false</c>.
         /// </returns>
+        [UnconditionalSuppressMessage("Trimming", "IL2075",
+            Justification = "Reflects over private fields ('_renderHandle', '_renderer', '_disposed') of the Blazor framework's own ComponentBase/RenderHandle/Renderer types to detect post-disposal state. These framework fields are always present at runtime and are not part of this library's trimmable surface. The lookups are additionally guarded by try/catch so a trimmed-away field degrades gracefully to 'not disposed'.")]
         private bool IsRendererDisposed()
         {
             const string RENDERHANDLE = "_renderHandle";
@@ -1131,17 +1145,29 @@ namespace Syncfusion.Blazor.Toolkit.Charts
             try
             {
                 FieldInfo field = GetType().BaseType?.BaseType?.BaseType?.BaseType?.BaseType?.GetField(RENDERHANDLE, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static) ?? null!;
-                if (field == null) return false;
+                if (field == null)
+                {
+                    return false;
+                }
 
                 object renderHandlerObj = field.GetValue(this) ?? null!;
-                if (renderHandlerObj == null) return false;
+                if (renderHandlerObj == null)
+                {
+                    return false;
+                }
 
                 RenderHandle renderHandler = (RenderHandle)renderHandlerObj;
                 FieldInfo rendererInfo = renderHandler.GetType().GetField(RENDERER, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static) ?? null!;
-                if (rendererInfo == null) return false;
+                if (rendererInfo == null)
+                {
+                    return false;
+                }
 
                 object renderer = rendererInfo.GetValue(renderHandler) ?? null!;
-                if (renderer == null) return false;
+                if (renderer == null)
+                {
+                    return false;
+                }
 
                 FieldInfo disposedInfo = renderer.GetType().BaseType?.GetField(DISPOSED, BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.Static) ?? null!;
                 return disposedInfo is not null && (bool)(disposedInfo.GetValue(renderer) ?? false);
@@ -1155,15 +1181,17 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <summary>
         /// Updates data for all series in the chart asynchronously.
         /// </summary>
+        [RequiresUnreferencedCode(ChartSeriesRenderer.DataBindingTrimWarning)]
+        [RequiresDynamicCode(ChartSeriesRenderer.DataBindingAotWarning)]
         private async Task UpdateDataAsync()
         {
             if (_seriesContainer is not null)
             {
-               
+
                 foreach (ChartSeriesRenderer seriesRenderer in _seriesContainer.Renderers.Cast<ChartSeriesRenderer>())
                 {
                     if (seriesRenderer.Series is not null)
-                      
+
                     {
                         _ = await seriesRenderer.Series.UpdateSeriesDataAsync().ConfigureAwait(true);
                     }
@@ -1189,7 +1217,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                     {
                         ChartAxis axis = keyValue.Value;
                         GetDistinctCharacter(axis.Title, axis.TitleStyle.GetChartFontOptions(_chartThemeStyle ?? null!), distinctKeys);
-                        axis.StripLines.ForEach(x => GetDistinctCharacter(x.Text, x.TextStyle.GetFontOptions(_chartThemeStyle ?? null!), distinctKeys));
+                        foreach (ChartStripline stripline in axis.StripLines)
+                        {
+                            GetDistinctCharacter(stripline.Text, stripline.TextStyle.GetFontOptions(_chartThemeStyle ?? null!), distinctKeys);
+                        }
                     }
                 }
 
@@ -1212,7 +1243,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                         isCustomLableFormat = yAxis.LabelFormat?.Contains("{value}", StringComparison.InvariantCulture) ?? false;
                         if (xAxis.ValueType == ValueType.Category)
                         {
-                             seriesRenderer.XAxisRenderer?.Labels?.ForEach(label => GetDistinctCharacter(label, xAxis.LabelStyle.GetChartFontOptions(_chartThemeStyle ?? null!), distinctKeys));
+                            seriesRenderer.XAxisRenderer?.Labels?.ForEach(label => GetDistinctCharacter(label, xAxis.LabelStyle.GetChartFontOptions(_chartThemeStyle ?? null!), distinctKeys));
                         }
 
                         if (_legendRenderer is not null)
@@ -1278,7 +1309,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                 return;
             }
 
-            Dictionary<string, SymbolLocation> charSizeList = JsonSerializer.Deserialize<Dictionary<string, SymbolLocation>>(result) ?? null!;
+            Dictionary<string, SymbolLocation> charSizeList = JsonSerializer.Deserialize(result, ChartInteropJsonContext.Default.DictionaryStringSymbolLocation) ?? null!;
             foreach (KeyValuePair<string, SymbolLocation> charSize in charSizeList)
             {
                 _ = _fontSizeCache.TryAdd(charSize.Key, new Size { Width = charSize.Value.X, Height = charSize.Value.Y });
@@ -1293,7 +1324,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         {
             if (_svgElement.Id is not null)
             {
-                await InvokeVoidAsync(_chartJsModule!, _chartJsInProcessModule!, methodName, [_svgElement, AvailableSize.Width.ToString(CultureInfo.InvariantCulture) + "px", AvailableSize.Height.ToString(CultureInfo.InvariantCulture) + "px", Focusable, _isFocused]).ConfigureAwait(true);
+                await InvokeVoidAsync(_chartJsModule, _chartJsInProcessModule, methodName, [_svgElement, AvailableSize.Width.ToString(CultureInfo.InvariantCulture) + "px", AvailableSize.Height.ToString(CultureInfo.InvariantCulture) + "px", Focusable, _isFocused]).ConfigureAwait(true);
                 _isFocused = true;
             }
         }
@@ -1305,7 +1336,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         {
             if (IsRendered && !IsDisposed)
             {
-                await InvokeVoidAsync(_chartJsModule!, _chartJsInProcessModule!, "destroy", [_dataId]).ConfigureAwait(true);
+                await InvokeVoidAsync(_chartJsModule, _chartJsInProcessModule, "destroy", [_dataId]).ConfigureAwait(true);
                 await WindowInstanceDisposeAsync(_dataId).ConfigureAwait(true);
             }
         }
@@ -1327,6 +1358,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// Performs layout calculations for the chart asynchronously.
         /// </summary>
         /// <returns>A task that represents the asynchronous operation.</returns>
+        [RequiresUnreferencedCode(ChartSeriesRenderer.DataBindingTrimWarning)]
+        [RequiresDynamicCode(ChartSeriesRenderer.DataBindingAotWarning)]
         internal async Task PerformLayoutAsync()
         {
             _neededRenderers.Clear();
@@ -1593,7 +1626,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
             {
                 foreach (ChartSeriesRenderer chartSeries in axisRenderer.SeriesRenderer)
                 {
-                    if (chartSeries is not null && chartSeries.Points?.Count > 0 && DateTime.TryParse(chartSeries.Points[0].X.ToString(), out DateTime temp))
+                    if (chartSeries is not null && chartSeries.Points?.Count > 0 && DateTime.TryParse(chartSeries.Points[0].X?.ToString(), out DateTime temp))
                     {
                         isUniversal = chartSeries.XAxisRenderer.IsDateOnly || chartSeries.XAxisRenderer.IsTimeOnly || chartSeries.IsDateTimeOffset
                             ? Convert.ToDateTime(Convert.ToString(chartSeries.Points[0].X, CultureInfo.InvariantCulture), CultureInfo.InvariantCulture).Kind == DateTimeKind.Utc
@@ -1624,7 +1657,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
             await Task.Delay(200).ConfigureAwait(true);
             if (_tooltip.Enable || _crosshair.Enable || _markerExplode is not null)
             {
-                await InvokeVoidAsync(_chartJsModule!, _chartJsInProcessModule!, "setUIBooleanValues", [_dataId, _isPointMouseDown, _disableTrackTooltip, (_dataEditingModule is not null && _dataEditingModule._isPointDragging)]).ConfigureAwait(true);
+                await InvokeVoidAsync(_chartJsModule, _chartJsInProcessModule, "setUIBooleanValues", [_dataId, _isPointMouseDown, _disableTrackTooltip, (_dataEditingModule is not null && _dataEditingModule._isPointDragging)]).ConfigureAwait(true);
             }
         }
 
@@ -1635,12 +1668,12 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         internal async Task SetTooltipDataAsync()
         {
             RemoveTemplateTooltip();
-            await InvokeVoidAsync(_chartJsModule!, _chartJsInProcessModule!, "setTooltipData", [_dataId, _seriesClipRects.ToArray(), _seriesMarkers.ToArray(), _seriesBorders.ToArray(), _axes.ToArray(), _tooltip.Template is not null ? null! : _tooltip ?? null!, _seriesContainer?._dateValuePairs as object ?? null!, _seriesContainer?._numberValuePairs as object ?? null!, _axisContainer?.AxisLayout.SeriesClipRect ?? null!, _template is not null ? "tooltip_template" : null!, Theme.ToString()]).ConfigureAwait(true);
+            await InvokeVoidAsync(_chartJsModule, _chartJsInProcessModule, "setTooltipData", [_dataId, _seriesClipRects.ToArray(), _seriesMarkers.ToArray(), _seriesBorders.ToArray(), _axes.ToArray(), _tooltip.Template is not null ? null : _tooltip ?? null, _seriesContainer?._dateValuePairs as object ?? null, _seriesContainer?._numberValuePairs as object ?? null, _axisContainer?.AxisLayout.SeriesClipRect ?? null, _template is not null ? "tooltip_template" : null, Theme.ToString()]).ConfigureAwait(true);
         }
 
         internal async Task SetTooltipStyleAsync(string tooltipDataId)
         {
-            await InvokeVoidAsync(_chartJsModule!, _chartJsInProcessModule!, "setTooltipStyle", [tooltipDataId]).ConfigureAwait(true);
+            await InvokeVoidAsync(_chartJsModule, _chartJsInProcessModule, "setTooltipStyle", [tooltipDataId]).ConfigureAwait(true);
         }
 
         /// <summary>
@@ -1650,7 +1683,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         {
             if (_zoomingModule is not null)
             {
-                await InvokeVoidAsync(_chartJsModule!, _chartJsInProcessModule!, "setZoomOptions", [_dataId, GetChartZoomSettings()]).ConfigureAwait(true);
+                await InvokeVoidAsync(_chartJsModule, _chartJsInProcessModule, "setZoomOptions", [_dataId, GetChartZoomSettings()]).ConfigureAwait(true);
             }
         }
 
@@ -1661,15 +1694,14 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         internal async Task SetTooltipCrosshairOptionsAsync()
         {
             _template = _tooltip.Template;
-            await InvokeVoidAsync(_chartJsModule!, _chartJsInProcessModule!, "setTooltipCrosshairOptions", [_dataId, _tooltip.GetTooltipForScript(), GetTooltipOptions()]).ConfigureAwait(true);
+            await InvokeVoidAsync(_chartJsModule, _chartJsInProcessModule, "setTooltipCrosshairOptions", [_dataId, _tooltip.GetTooltipForScript(), GetTooltipOptions()]).ConfigureAwait(true);
         }
 
         /// <summary>
         /// Updates axis zoom values based on provided axis data.
         /// </summary>
         /// <param name="axisCollections">Collection of axis data containing zoom factor and position.</param>
-        /// <param name="isChartPanning">Whether the update is triggered by chart panning.</param>
-        internal void UpdateAxisZoomValues(List<AxisData> axisCollections, bool isChartPanning = false)
+        internal void UpdateAxisZoomValues(IList<AxisData> axisCollections)
         {
             foreach (AxisData axisData in axisCollections)
             {
@@ -1718,6 +1750,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <summary>
         /// Initializes the static chart by calculating size and setting the initial rectangle.
         /// </summary>
+        [RequiresUnreferencedCode(ChartSeriesRenderer.DataBindingTrimWarning)]
+        [RequiresDynamicCode(ChartSeriesRenderer.DataBindingAotWarning)]
         internal void InitializeStaticChart()
         {
             try
@@ -1727,7 +1761,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                     // Force defaults when no DOM measurement is possible
                     if (_elementOffset.Width <= 0 || _elementOffset.Height <= 0)
                     {
-                        _svgWidth  ??= ChartDefaultWidth.ToString(CultureInfo.InvariantCulture);
+                        _svgWidth ??= ChartDefaultWidth.ToString(CultureInfo.InvariantCulture);
                         _svgHeight ??= ChartDefaultHeight.ToString(CultureInfo.InvariantCulture);
                     }
 
@@ -1823,7 +1857,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                 _interop.PreviousRequestTime = DateTime.Now;
                 await Task.Delay(UpdateThresholdMs).ConfigureAwait(true);
                 _redraw = false;
-                await InvokeVoidAsync(_chartJsModule!, _chartJsInProcessModule!, "doDynamicAnimation", [_pathAnimationElements.Values.ToArray(), _rectAnimationElements, _textAnimationElements.Values.ToArray(), _dynamicLastLabels]).ConfigureAwait(true);
+                await InvokeVoidAsync(_chartJsModule, _chartJsInProcessModule, "doDynamicAnimation", [_pathAnimationElements.Values.ToArray(), _rectAnimationElements, _textAnimationElements.Values.ToArray(), _dynamicLastLabels]).ConfigureAwait(true);
                 await UpdateDatalabelTemplateAsync().ConfigureAwait(true);
             }
         }
@@ -1884,7 +1918,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                 return;
             }
 
-            string[] result_2 = JsonSerializer.Deserialize<string[]>(result) ?? null!;
+            string[] result_2 = JsonSerializer.Deserialize(result, ChartInteropJsonContext.Default.StringArray) ?? null!;
             int i = 33, j = 0;
             foreach (string width in result_2)
             {
@@ -1973,26 +2007,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
 
             if (_seriesContainer?.Elements.Count > 0 && !_seriesContainer.Elements.Contains(series))
             {
-                bool isBar = series.Type is ChartSeriesType.Bar or ChartSeriesType.StackingBar or ChartSeriesType.StackingBar100;
-                switch (series.Type)
-                {
-                    case ChartSeriesType.Bar:
-                    case ChartSeriesType.StackingBar:
-                    case ChartSeriesType.StackingBar100:
-                        if (isBar)
-                        {
-                            _seriesContainer.AddElement(series);
-                        }
-
-                        break;
-                    default:
-                        if (!isBar)
-                        {
-                            _seriesContainer.AddElement(series);
-                        }
-
-                        break;
-                }
+                _seriesContainer.AddElement(series);
             }
             else if (_seriesContainer is not null && !_seriesContainer.Elements.Contains(series))
             {
@@ -2186,7 +2201,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
             _ = CalculateSecondaryElementPositionAsync();
             if (_tooltip.Enable || _crosshair.Enable || _markerExplode is not null)
             {
-                _ = InvokeVoidAsync(_chartJsModule!, _chartJsInProcessModule!, Constants.SetTooltipOptions, [_dataId, _tooltip.GetTooltipForScript(), GetTooltipOptions(), _seriesClipRects.ToArray(), _seriesMarkers.ToArray(), _seriesBorders.ToArray(), _axes.ToArray(), _seriesContainer?._dateValuePairs as object ?? null!, _seriesContainer?._numberValuePairs as object ?? null!]);
+                _ = InvokeVoidAsync(_chartJsModule, _chartJsInProcessModule, Constants.SetTooltipOptions, [_dataId, _tooltip.GetTooltipForScript(), GetTooltipOptions(), _seriesClipRects.ToArray(), _seriesMarkers.ToArray(), _seriesBorders.ToArray(), _axes.ToArray(), _seriesContainer?._dateValuePairs as object ?? null, _seriesContainer?._numberValuePairs as object ?? null]);
                 if (_seriesContainer is not null && !IsDisposed && (_seriesContainer._previousRequestTime == DateTime.MinValue || (DateTime.Now - _seriesContainer._previousRequestTime).TotalMilliseconds > UpdateThresholdMs))
                 {
                     _seriesContainer._previousRequestTime = DateTime.Now;
@@ -2235,7 +2250,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                 string result = await InvokeAsync<string>(_chartJsModule!, _chartJsInProcessModule!, Constants.GetDatalabelTemplateBoundsById, [legendTemplateIdCollection]).ConfigureAwait(true);
                 if (result is not null)
                 {
-                    List<SymbolLocation>? templateSizeList = JsonSerializer.Deserialize<List<SymbolLocation>>(result);
+                    List<SymbolLocation>? templateSizeList = JsonSerializer.Deserialize(result, ChartInteropJsonContext.Default.ListSymbolLocation);
                     GetSetLegendTemplateInfo(null!, templateSizeList ?? null!);
                     _isLegendTemplateCalled = true;
                     _legendRenderer?.UpdateLegendTemplatePosition();
@@ -2256,7 +2271,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
             if (templateIdCollection.Count > 0)
             {
                 string result = await InvokeAsync<string>(_chartJsModule!, _chartJsInProcessModule!, Constants.GetDatalabelTemplateBoundsById, [templateIdCollection]).ConfigureAwait(true);
-                List<SymbolLocation> templateSizeList = JsonSerializer.Deserialize<List<SymbolLocation>>(result) ?? null!;
+                List<SymbolLocation> templateSizeList = JsonSerializer.Deserialize(result, ChartInteropJsonContext.Default.ListSymbolLocation) ?? null!;
                 GetSetDataLabelTemplateInfo(null!, templateSizeList);
                 RenderDatalabelTemplate();
             }
@@ -2281,7 +2296,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                             axisTemplateIdCollection.Add(label.TemplateID ?? null!);
                         }
                         string result = await InvokeAsync<string>(_chartJsModule!, _chartJsInProcessModule!, "getAxisLabelTemplatesSize", [axisTemplateIdCollection]).ConfigureAwait(true);
-                        List<Size> templateSizeList = JsonSerializer.Deserialize<List<Size>>(result) ?? null!;
+                        List<Size> templateSizeList = JsonSerializer.Deserialize(result, ChartInteropJsonContext.Default.ListSize) ?? null!;
                         if (templateSizeList.Count > 0)
                         {
                             int i = 0;
@@ -2338,7 +2353,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <param name="focusId">The element ID to focus after setting the attribute.</param>
         internal async Task SetAttributeAsync(string id, string key, string data, string focusId)
         {
-            await InvokeVoidAsync(_chartJsModule!, _chartJsInProcessModule!, Constants.SetAttribute, [id, key, data, focusId]).ConfigureAwait(true);
+            await InvokeVoidAsync(_chartJsModule, _chartJsInProcessModule, Constants.SetAttribute, [id, key, data, focusId]).ConfigureAwait(true);
         }
 
         /// <summary>
@@ -2366,6 +2381,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <summary>
         /// Processes layout change by triggering prerender and refresh operations asynchronously.
         /// </summary>
+        [UnconditionalSuppressMessage("Trimming", "IL2026",
+            Justification = "Convergence point invoked (fire-and-forget) from the [Parameter] change notifications of many chart sub-components (axes, rows, columns, legend, multilevel labels, series renderers). Those setters are driven by the Blazor framework and cannot carry [RequiresUnreferencedCode]. The underlying data-binding requirement is honestly surfaced on the public data APIs (RefreshAsync, AddSeriesAsync, Sort, ClearSort).")]
+        [UnconditionalSuppressMessage("AOT", "IL3050",
+            Justification = "Convergence point invoked (fire-and-forget) from the [Parameter] change notifications of many chart sub-components. Those setters are driven by the Blazor framework and cannot carry [RequiresDynamicCode]. The underlying dynamic-code requirement is honestly surfaced on the public data APIs (RefreshAsync, AddSeriesAsync, Sort, ClearSort).")]
         internal async Task ProcessOnLayoutChangeAsync()
         {
             const int UPDATETHRESHOLD = 10;
@@ -2392,6 +2411,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <summary>
         /// Refreshes the chart by reinitializing axes, processing data, and updating renderers.
         /// </summary>
+        [RequiresUnreferencedCode(ChartSeriesRenderer.DataBindingTrimWarning)]
+        [RequiresDynamicCode(ChartSeriesRenderer.DataBindingAotWarning)]
         internal async Task RefreshChartAsync()
         {
             try

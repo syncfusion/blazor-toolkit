@@ -3,6 +3,7 @@ using System.Text.Json.Serialization;
 using Microsoft.JSInterop;
 using System.ComponentModel;
 using Microsoft.AspNetCore.Components;
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 using System.Collections;
 using System.Security.Cryptography;
@@ -14,31 +15,58 @@ namespace Syncfusion.Blazor.Toolkit.Data
     /// The DataManager is a data management component used for performing data operations in applications.
     /// It acts as an abstraction for using local data source - IEnumerable and remote data source - web services returning JSON or oData.
     /// </summary>
+    /// <example>
+    /// Bind to an in-memory collection using the <see cref="Json"/> property:
+    /// <code>
+    /// <![CDATA[
+    /// <SfDataManager Json="@Orders" Adaptor="Adaptors.BlazorAdaptor" />
+    /// ]]>
+    /// </code>
+    /// Or point to a remote service by setting the <see cref="Url"/> and an appropriate adaptor:
+    /// <code>
+    /// <![CDATA[
+    /// <SfDataManager Url="https://services.example.com/api/Orders" Adaptor="Adaptors.WebApiAdaptor" />
+    /// ]]>
+    /// </code>
+    /// </example>
     public class DataManager : SfBaseComponent
     {
+        /// <summary>
+        /// Shared trim-analyzer justification for query execution: the Syncfusion data query engine builds
+        /// LINQ expressions, reflects over the queried model type, and serializes requests with reflection-based
+        /// System.Text.Json, so members it depends on may be removed by the trimmer.
+        /// </summary>
+        internal const string QueryTrimWarning = "The Syncfusion data query engine builds LINQ expressions, reflects over the queried model type, and serializes requests with reflection-based System.Text.Json; members it depends on may be removed by the trimmer.";
+
+        /// <summary>
+        /// Shared AOT-analyzer justification for query execution: the engine constructs generic methods, compiles
+        /// expression trees, and uses reflection-based serialization at runtime, which is not supported by Native AOT.
+        /// </summary>
+        internal const string QueryAotWarning = "The Syncfusion data query engine constructs generic methods, compiles expression trees, and uses reflection-based serialization at runtime, which is not supported by Native AOT.";
+
         /// <summary>
         /// JavaScript runtime for invoking JS interop from this component.
         /// Use <see cref="JsRuntime"/> to call browser APIs or helper scripts required by the DataManager.
         /// </summary>
         /// <exclude />
         [Inject]
-        protected IJSRuntime JsRuntime { get; set; }
+        protected IJSRuntime JsRuntime { get; set; } = default!;
 
         /// <summary>
         /// HTTP client for remote data requests.
         /// </summary>
         /// <exclude />
         [Inject]
-        internal HttpClient HttpClient { get; set; }
+        internal HttpClient HttpClient { get; set; } = default!;
 
         /// <exclude />
         [JsonIgnore]
         [Inject]
-        public IServiceProvider ServiceProvider { get; set; }
+        public IServiceProvider ServiceProvider { get; set; } = default!;
 
         /// <exclude />
         [JsonIgnore]
-        public BaseAdaptor BaseAdaptor { get; set; }
+        public BaseAdaptor BaseAdaptor { get; set; } = null!;
 
         /// <summary>
         /// Specifies the HttpClient instance to be used  by DataManager.
@@ -49,7 +77,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <remarks>Use HttpClientInstance property to inject named HttpClient into DataManager.</remarks>
         [Parameter]
         [JsonIgnore]
-        public HttpClient HttpClientInstance { get; set; }
+        public HttpClient HttpClientInstance { get; set; } = null!;
 
         /// <summary>
         /// Specifies the endpoint URL. DataManager requests this URL when data is needed.
@@ -76,13 +104,13 @@ namespace Syncfusion.Blazor.Toolkit.Data
         [Parameter]
         [JsonIgnore]
         [JsonPropertyName("adaptorInstance")]
-        public Type AdaptorInstance { get; set; }
+        public Type AdaptorInstance { get; set; } = null!;
 
         /// <summary>
         /// Gets or Sets the properties to be specified for GraphQLAdaptor.
         /// </summary>
         [Parameter]
-        public GraphQLAdaptorOptions GraphQLAdaptorOptions { get; set; }
+        public GraphQLAdaptorOptions GraphQLAdaptorOptions { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the active adaptor instance used by the DataManager to perform data operations.
@@ -98,7 +126,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         [Parameter]
         [JsonIgnore]
         [JsonPropertyName("dataAdaptor")]
-        public IAdaptor DataAdaptor { get; set; }
+        public IAdaptor DataAdaptor { get; set; } = null!;
 
         /// <summary>
         /// Reference to a .NET object that can be passed to JavaScript for callback invocation.
@@ -108,7 +136,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// and is disposed during component cleanup to avoid memory leaks. Defaults to <c>null</c>.
         /// </value>
         [JsonIgnore]
-        public DotNetObjectReference<object> DotNetObjectRef { get; set; }
+        public DotNetObjectReference<object> DotNetObjectRef { get; set; } = null!;
 
         /// <summary>
         /// Specifies the IEnumerable collection. This data could be queried and manipulated.
@@ -118,7 +146,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// </value>
         [Parameter]
         [JsonPropertyName("json")]
-        public IEnumerable<object> Json { get; set; }
+        public IEnumerable<object> Json { get; set; } = null!;
 
         /// <summary>
         /// Specifies the key/value pair of headers.
@@ -132,7 +160,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// </remarks>
         [Parameter]
         [JsonPropertyName("headers")]
-        public IDictionary<string, string> Headers { get; set; }
+        public IDictionary<string, string> Headers { get; set; } = null!;
 
         /// <summary>
         /// Specifies the accept type.
@@ -153,7 +181,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// </value>
         [Parameter]
         [JsonPropertyName("data")]
-        public object Data { get; set; }
+        public object Data { get; set; } = null!;
 
         /// <summary>
         /// Specifies the time limit to clear the cached data.
@@ -195,7 +223,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// </value>
         [Parameter]
         [JsonPropertyName("requestType")]
-        public string RequestType { get; set; }
+        public string RequestType { get; set; } = null!;
 
         /// <summary>
         /// Specifies the primary key value.
@@ -206,7 +234,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// </value>
         [Parameter]
         [JsonPropertyName("key")]
-        public string Key { get; set; }
+        public string Key { get; set; } = null!;
 
         /// <summary>
         /// When <c>true</c>, indicates that the request is a cross-domain request.
@@ -229,7 +257,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <remarks>Use this only for cross-domain scenarios that require JSONP responses.</remarks>
         [Parameter]
         [JsonPropertyName("jsonp")]
-        public string Jsonp { get; set; }
+        public string Jsonp { get; set; } = null!;
 
         /// <summary>
         /// Expected response data type for remote requests (for example "json" or "jsonp").
@@ -240,7 +268,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// </value>
         [Parameter]
         [JsonPropertyName("dataType")]
-        public string DataType { get; set; }
+        public string DataType { get; set; } = null!;
 
         /// <summary>
         /// Enables offline mode in DataManager.
@@ -310,14 +338,14 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// DataManager can access configuration and lifecycle information.
         /// </summary>
         [CascadingParameter]
-        protected object Parent { get; set; }
+        protected object Parent { get; set; } = null!;
 
         /// <summary>
         /// Strongly-typed cascading parent when the parent component derives from <see cref="BaseComponent"/>.
         /// Provides convenient access to base-component helper methods and shared lifecycle state.
         /// </summary>
         [CascadingParameter]
-        protected BaseComponent BaseParent { get; set; }
+        protected BaseComponent BaseParent { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the child content to be rendered inside the DataManager component.
@@ -329,7 +357,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// </value>
         [Parameter]
         [JsonIgnore]
-        public RenderFragment ChildContent { get; set; }
+        public RenderFragment ChildContent { get; set; } = null!;
 
         /// <summary>
         /// Gets navigation manager to get base url.
@@ -337,13 +365,13 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <exclude />
         [Inject]
         [JsonIgnore]
-        private NavigationManager UriHelper { get; set; }
+        private NavigationManager UriHelper { get; set; } = default!;
 
         /// <summary>
         /// Gets the Base URL.
         /// </summary>
         /// <remarks>BaseUri will be used to get absolute of Url, InsertUrl, UpdateUrl and RemoveUrl properties.</remarks>
-        public string BaseUri { get; set; }
+        public string BaseUri { get; set; } = null!;
 
         /// <summary>
         /// Specifies the http client handler.
@@ -352,6 +380,9 @@ namespace Syncfusion.Blazor.Toolkit.Data
         [JsonIgnore]
         internal HttpHandler _httpHandler;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="DataManager"/> class, setting up the default data adaptor and the internal HTTP handler.
+        /// </summary>
         public DataManager()
         {
             InitDataManagerAdaptor();
@@ -366,6 +397,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <see cref="BaseUri"/>, and wiring this DataManager into its parent component if present.
         /// </summary>
         /// <exclude />
+        [UnconditionalSuppressMessage("Trimming", "IL2075", Justification = "The DataManager reflects over its parent component's DataManager/BaseParent/jsProperty members to wire itself into the Syncfusion component hierarchy; those members are preserved on the concrete component types that host a DataManager.")]
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync().ConfigureAwait(false);
@@ -387,10 +419,15 @@ namespace Syncfusion.Blazor.Toolkit.Data
                     // Dynamic SfDataManager insertion
                     if (Parent is SfDataBoundComponent _comp)
                     {
-                        if (_comp.IsRendered && !_comp.PropertyChanges.ContainsKey("DataSource"))
+                        if (_comp.IsRendered)
                         {
-                            _comp.PropertyChanges.Add("DataSource", this);
-                            await _comp.OnPropertyChangedAsync().ConfigureAwait(false);
+                            Dictionary<string, object> propertyChanges = _comp.PropertyChanges
+                                ?? throw new InvalidOperationException("A rendered data-bound component must have initialized PropertyChanges.");
+                            if (!propertyChanges.ContainsKey("DataSource"))
+                            {
+                                propertyChanges.Add("DataSource", this);
+                                await _comp.OnPropertyChangedAsync().ConfigureAwait(false);
+                            }
                         }
                     }
 
@@ -423,6 +460,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <returns>Task.</returns>
         /// <exclude />
         [EditorBrowsable(EditorBrowsableState.Never)]
+        [RequiresUnreferencedCode(QueryTrimWarning)]
+        [RequiresDynamicCode(QueryAotWarning)]
         public async Task<object> ExecuteQuery<T>(Query query)
         {
             ArgumentNullException.ThrowIfNull(query);
@@ -435,6 +474,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <typeparam name="T">Type of the model class.</typeparam>
         /// <param name="query">Query class which will be executed against data source.</param>
         /// <returns>Task.</returns>
+        [RequiresUnreferencedCode(QueryTrimWarning)]
+        [RequiresDynamicCode(QueryAotWarning)]
         public async Task<object> ExecuteQueryAsync<T>(Query query)
         {
             return await ExecuteQuery<T>(query).ConfigureAwait(false);
@@ -448,9 +489,11 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <returns>Task</returns>
         /// <exclude />
         [EditorBrowsable(EditorBrowsableState.Never)]
+        [RequiresUnreferencedCode(QueryTrimWarning)]
+        [RequiresDynamicCode(QueryAotWarning)]
         public async Task<object> ExecuteQuery<T>(DataManagerRequest queries)
         {
-            if (DataAdaptor != null && DataAdaptor.IsRemote())
+            if (DataAdaptor.IsRemote())
             {
                 if (Offline && queries != null)
                 {
@@ -460,15 +503,16 @@ namespace Syncfusion.Blazor.Toolkit.Data
                 object request = DataAdaptor.ProcessQuery(queries!);
                 using HttpRequestMessage queryRequest = HttpHandler.PrepareRequest((request as RequestOptions)!);
                 BeforeSend(queryRequest);
-                object dataResult = await (DataAdaptor?.PerformDataOperation<T>(queryRequest)).ConfigureAwait(false)!;
-                object finalData = await (DataAdaptor?.ProcessResponse<T>(dataResult, queries!)).ConfigureAwait(false)!;
+                // Re-read the adaptor after callbacks and awaits: custom adaptors can replace it.
+                object dataResult = await DataAdaptor.PerformDataOperation<T>(queryRequest).ConfigureAwait(false);
+                object finalData = await DataAdaptor.ProcessResponse<T>(dataResult, queries!).ConfigureAwait(false);
                 return finalData;
             }
             else
             {
-                DataManagerRequest request = (DataManagerRequest)DataAdaptor?.ProcessQuery(queries)!;
-                object dataResult = await (DataAdaptor?.PerformDataOperation<T>(request)).ConfigureAwait(false)!;
-                object finalData = await (DataAdaptor?.ProcessResponse<T>(dataResult, request)).ConfigureAwait(false)!;
+                DataManagerRequest request = (DataManagerRequest)DataAdaptor.ProcessQuery(queries);
+                object dataResult = await DataAdaptor.PerformDataOperation<T>(request).ConfigureAwait(false);
+                object finalData = await DataAdaptor.ProcessResponse<T>(dataResult, request).ConfigureAwait(false);
                 return finalData;
             }
         }
@@ -479,6 +523,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <typeparam name="T">Type of the model class</typeparam>
         /// <param name="queries">Query class which will be executed against data source.</param>
         /// <returns>Task</returns>
+        [RequiresUnreferencedCode(QueryTrimWarning)]
+        [RequiresDynamicCode(QueryAotWarning)]
         public async Task<object> ExecuteQueryAsync<T>(DataManagerRequest queries)
         {
             return await ExecuteQuery<T>(queries).ConfigureAwait(false);
@@ -489,6 +535,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// switches to a local <see cref="BlazorAdaptor"/>, then re-executes the query against the cached data.
         /// </summary>
         /// <exclude />
+        [RequiresUnreferencedCode(QueryTrimWarning)]
+        [RequiresDynamicCode(QueryAotWarning)]
         internal async Task<object> ProcessOfflineAsync<T>(DataManagerRequest queries)
         {
             // Fetch remote data
@@ -591,7 +639,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// </summary>
         /// <exclude />
         [JsonPropertyName("antiForgery")]
-        public string AntiForgery { get; set; }
+        public string AntiForgery { get; set; } = null!;
 
         /// <summary>
         /// Specifies that the count of records is required in the response.
@@ -612,7 +660,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// the table or view name to query. For OData services, this corresponds to the entity set name.
         /// </remarks>
         [JsonPropertyName("table")]
-        public string Table { get; set; }
+        public string Table { get; set; } = null!;
 
         /// <summary>
         /// Specifies the parent id mapping value.
@@ -624,7 +672,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// or building parent-child relationships in the resulting dataset.
         /// </remarks>
         [JsonPropertyName("IdMapping")]
-        public string IdMapping { get; set; }
+        public string IdMapping { get; set; } = null!;
 
         /// <summary>
         /// Specifies the grouped column details.
@@ -636,7 +684,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// structures based on common field values.
         /// </remarks>
         [JsonPropertyName("group")]
-        public List<string> Group { get; set; }
+        public IList<string> Group { get; set; } = null!;
 
         /// <summary>
         /// Specifies the select column details.
@@ -647,7 +695,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// for reducing bandwidth when you only need specific fields rather than entire records.
         /// </remarks>
         [JsonPropertyName("select")]
-        public List<string> Select { get; set; }
+        public IList<string> Select { get; set; } = null!;
 
         /// <summary>
         /// Specifies the relational table names to be eagerloaded.
@@ -658,7 +706,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// of database queries by including related data in a single query using joins or expansions.
         /// </remarks>
         [JsonPropertyName("expand")]
-        public List<string> Expand { get; set; }
+        public IList<string> Expand { get; set; } = null!;
 
         /// <summary>
         /// Specifies the sort criteria.
@@ -669,7 +717,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// Each <see cref="Sort"/> specifies a field name and whether to sort in ascending or descending order.
         /// </remarks>
         [JsonPropertyName("sorted")]
-        public List<Sort> Sorted { get; set; }
+        public IList<Sort> Sorted { get; set; } = null!;
 
         /// <summary>
         /// Specifies the search criteria.
@@ -680,7 +728,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// Each <see cref="SearchFilter"/> specifies the field name, operator, and value to search for.
         /// </remarks>
         [JsonPropertyName("search")]
-        public List<SearchFilter> Search { get; set; }
+        public IList<SearchFilter> Search { get; set; } = null!;
 
         /// <summary>
         /// Specifies the filter criteria.
@@ -691,7 +739,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// logical operators. Each <see cref="WhereFilter"/> specifies a field, operator, and value to filter by.
         /// </remarks>
         [JsonPropertyName("where")]
-        public List<WhereFilter> Where { get; set; }
+        public IList<WhereFilter> Where { get; set; } = null!;
 
         /// <summary>
         /// Specifies the aggregate details.
@@ -702,7 +750,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// to compute over the result set. Aggregates are computed after filtering and sorting.
         /// </remarks>
         [JsonPropertyName("aggregates")]
-        public List<Aggregate> Aggregates { get; set; }
+        public IList<Aggregate> Aggregates { get; set; } = null!;
 
         /// <summary>
         /// Specifies additional parameters.
@@ -714,7 +762,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// pagination, or any other custom server-side logic.
         /// </remarks>
         [JsonPropertyName("params")]
-        public IDictionary<string, object> Params { get; set; }
+        public IDictionary<string, object> Params { get; set; } = null!;
 
         /// <summary>
         /// Specifies the field names to find distinct values.
@@ -725,7 +773,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// This is useful for populating dropdown lists or eliminating duplicate entries.
         /// </remarks>
         [JsonPropertyName("distinct")]
-        public List<string> Distinct { get; set; }
+        public IList<string> Distinct { get; set; } = null!;
 
         /// <summary>
         /// Holds field and format method to handle group by format.
@@ -735,7 +783,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// Use this property to define custom formatting logic for grouped data. The key is the field
         /// name and the value is the format method to apply when rendering group headers or values.
         /// </remarks>
-        public IDictionary<string, string> GroupByFormatter { get; set; }
+        public IDictionary<string, string> GroupByFormatter { get; set; } = null!;
 
         /// <summary>
         /// Specifies that perform in-built grouping.
@@ -804,8 +852,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <summary>
         /// Sets the parent component reference used by the data adaptor.
         /// </summary>
-        /// <param name="parent">The parent component that owns or provides context to this adaptor.</param>
-        public void SetParent(BaseComponent parent)
+        /// <param name="parent">The parent component that owns or provides context to this adaptor, or null to clear it.</param>
+        public void SetParent(BaseComponent? parent)
         {
             _parent = parent;
         }
@@ -826,7 +874,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
             if (DataManager!.AdaptorInstance == null)
             {
                 DataManager.BaseAdaptor.Instance = this;
-                DataManager.BaseAdaptor.Instance.SetParent((DataManager.BaseAdaptor.ParentComponent as BaseComponent)!);
+                DataManager.BaseAdaptor.Instance.SetParent(DataManager.BaseAdaptor.ParentComponent as BaseComponent);
             }
 
             await base.OnInitializedAsync().ConfigureAwait(false);
@@ -837,23 +885,26 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// </summary>
         /// <param name="dataManagerRequest">DataManagerRequest containes the information regarding paging, grouping, filtering, searching which is handled on the DataGrid component side</param>
         /// <param name="additionalParam">An optional parameter that can be used to perform additional data operations.</param>
-        /// <returns>The data collection's type is determined by how this method has been implemented.</returns>
-        public virtual Task<object> ReadAsync(DataManagerRequest dataManagerRequest, string? additionalParam = null)
+        /// <returns>The implementation-defined data collection, or null when no result is supplied.</returns>
+        public virtual Task<object?> ReadAsync(DataManagerRequest dataManagerRequest, string? additionalParam = null)
         {
-            return Task.FromResult<object>(null!);
-        }        
+            return Task.FromResult<object?>(null);
+        }
     }
 
     /// <summary>
     /// Abstract class for Data adaptors.
     /// </summary>
+    /// <typeparam name="T">The non-nullable service type resolved from the component's owned service scope.</typeparam>
     /// <remarks>
     /// Extend DataAdaptor{T} component while creating custom adaptor component. DataAdaptor{T} component is extended from
     /// <see cref="OwningComponentBase{TService}"></see> so that
     /// services can be accessed from <see cref="OwningComponentBase{TService}.Service"/> property.
+    /// Generic subclasses must propagate the <c>where T : notnull</c> constraint required by the base component.
     /// </remarks>
     /// <exclude />
     public abstract class DataAdaptor<T> : OwningComponentBase<T>, IDataAdaptor
+        where T : notnull
     {
         /// <summary>
         /// JSON serializer options used for serializing adaptor data.
@@ -876,13 +927,13 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// </summary>
         /// <exclude />
         [CascadingParameter]
-        internal SfDataManager DataManager { get; set; }
+        internal SfDataManager DataManager { get; set; } = null!;
 
         /// <summary>
         /// Sets the parent component reference used by the data adaptor.
         /// </summary>
-        /// <param name="parent">The parent component that owns or provides context to this adaptor.</param>
-        public void SetParent(BaseComponent parent)
+        /// <param name="parent">The parent component that owns or provides context to this adaptor, or null to clear it.</param>
+        public void SetParent(BaseComponent? parent)
         {
             Parent = parent;
         }
@@ -894,17 +945,18 @@ namespace Syncfusion.Blazor.Toolkit.Data
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync().ConfigureAwait(false);
-            DataManager!.BaseAdaptor.Instance = this;
-            DataManager.BaseAdaptor.Instance.SetParent((DataManager.BaseAdaptor.ParentComponent as BaseComponent)!);
+            DataManager.BaseAdaptor.Instance = this;
+            DataManager.BaseAdaptor.Instance.SetParent(DataManager.BaseAdaptor.ParentComponent as BaseComponent);
         }
 
         /// <summary>
         /// Performs data Read operation asynchronously.
         /// </summary>
-        public virtual Task<object> ReadAsync(DataManagerRequest dataManagerRequest, string? additionalParam = null)
+        /// <returns>The implementation-defined data collection, or null when no result is supplied.</returns>
+        public virtual Task<object?> ReadAsync(DataManagerRequest dataManagerRequest, string? additionalParam = null)
         {
-            return Task.FromResult<object>(null!);
-        }       
+            return Task.FromResult<object?>(null);
+        }
     }
     internal class ForeignKeySortManager : IComparer<object>
     {
@@ -921,32 +973,33 @@ namespace Syncfusion.Blazor.Toolkit.Data
         internal IEnumerable<object> ForeignKeyDataSource { get; }
 
         /// <exclude />
-        private readonly Dictionary<string, ConcurrentDictionary<object?, object?>> _lookups = [];
+        private readonly Dictionary<string, ConcurrentDictionary<object, object?>> _lookups = [];
 
         /// <exclude />
-        private readonly Dictionary<string, Func<object, object?>> _fieldGetters = [];
+        private readonly Dictionary<string, Func<object?, object?>> _fieldGetters = [];
 
         /// <exclude />
-        private readonly Dictionary<string, Func<object, object?>> _valueGetters = [];
+        private readonly Dictionary<string, Func<object?, object?>> _valueGetters = [];
 
         /// <exclude />
-        private Func<object, object?>? _displayGetter;
+        private Func<object?, object?>? _displayGetter;
 
         /// <exclude />
         private static readonly ConcurrentDictionary<string, Func<object?, object?>> _getterCache = new();
 
+        [RequiresUnreferencedCode("Builds foreign-key lookups by reflecting over the runtime record type; the accessed properties may be removed by the trimmer.")]
         internal ForeignKeySortManager(string foreignKeyField, string foreignKeyValue, IEnumerable<object> foreignKeyDataSource)
         {
             ForeignKeyField = foreignKeyField;
             ForeignKeyValue = foreignKeyValue;
             ForeignKeyDataSource = foreignKeyDataSource;
-            Func<object, object?> fieldGetter = GetOrCompileGetter(foreignKeyField);
-            Func<object, object?> valueGetter = GetOrCompileGetter(foreignKeyValue);
+            Func<object?, object?> fieldGetter = GetOrCompileGetter(foreignKeyField);
+            Func<object?, object?> valueGetter = GetOrCompileGetter(foreignKeyValue);
 
             _fieldGetters[foreignKeyField] = fieldGetter;
             _valueGetters[foreignKeyField] = valueGetter;
 
-            ConcurrentDictionary<object?, object?> lookup = new();
+            ConcurrentDictionary<object, object?> lookup = new();
 
             _ = Parallel.ForEach(foreignKeyDataSource, item =>
             {
@@ -960,7 +1013,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
 
             _lookups[foreignKeyField] = lookup;
         }
-        internal void Initialize(List<Sort> sortColumns)
+        [RequiresUnreferencedCode("Compiles display accessors by reflecting over the runtime record type; the accessed properties may be removed by the trimmer.")]
+        internal void Initialize(IList<Sort> sortColumns)
         {
             foreach (Sort sort in sortColumns)
             {
@@ -971,7 +1025,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
 
             }
         }
-        private static Func<object, object?> GetOrCompileGetter(string path)
+        [RequiresUnreferencedCode("Compiles a property-path accessor that reflects over the runtime record type; the accessed properties may be removed by the trimmer.")]
+        private static Func<object?, object?> GetOrCompileGetter(string path)
         {
             return _getterCache.GetOrAdd(path, propertyPath =>
             {
@@ -1002,11 +1057,11 @@ namespace Syncfusion.Blazor.Toolkit.Data
             });
         }
 
-        private object? GetDisplayName(object record)
+        private object? GetDisplayName(object? record)
         {
             if (_displayGetter == null)
             {
-                if (_fieldGetters.TryGetValue(ForeignKeyField, out Func<object, object?>? fkGetter))
+                if (_fieldGetters.TryGetValue(ForeignKeyField, out Func<object?, object?>? fkGetter))
                 {
                     object? foreignkeyValue = fkGetter(record);
                     if (foreignkeyValue == null)
@@ -1014,7 +1069,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
                         return null;
                     }
 
-                    if (_lookups.TryGetValue(ForeignKeyField, out ConcurrentDictionary<object?, object?>? lookup) && lookup.TryGetValue(foreignkeyValue, out object? displayValue))
+                    if (_lookups.TryGetValue(ForeignKeyField, out ConcurrentDictionary<object, object?>? lookup) && lookup.TryGetValue(foreignkeyValue, out object? displayValue))
                     {
                         return displayValue;
                     }
@@ -1027,7 +1082,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
                 return null;
             }
 
-            foreach (ConcurrentDictionary<object?, object?> lookup in _lookups.Values)
+            foreach (ConcurrentDictionary<object, object?> lookup in _lookups.Values)
             {
                 if (lookup.TryGetValue(fkValueFromDisplay, out object? displayValue))
                 {
@@ -1037,26 +1092,17 @@ namespace Syncfusion.Blazor.Toolkit.Data
 
             return null;
         }
-        public int Compare(object x, object y)
+        public int Compare(object? x, object? y)
         {
             object? xDisplayValue = GetDisplayName(x);
             object? yDisplayValue = GetDisplayName(y);
-            if (xDisplayValue == null && yDisplayValue == null)
-            {
-                return 0;
-            }
-
-            if (xDisplayValue == null)
-            {
-                return -1;
-            }
-
-            if (yDisplayValue == null)
-            {
-                return 1;
-            }
-
-            return xDisplayValue is string xs && yDisplayValue is string ys
+            return xDisplayValue == null && yDisplayValue == null
+                ? 0
+                : xDisplayValue == null
+                ? -1
+                : yDisplayValue == null
+                ? 1
+                : xDisplayValue is string xs && yDisplayValue is string ys
                 ? StringComparer.OrdinalIgnoreCase.Compare(xs, ys)
                 : Comparer<object>.Default.Compare(xDisplayValue, yDisplayValue);
         }
@@ -1073,7 +1119,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// Gets the field name.
         /// </summary>
         /// <value>The name of the data field to sort by.</value>
-        public string Name { get; set; }
+        public string Name { get; set; } = null!;
 
         /// <summary>
         /// Gets the sort direction.
@@ -1082,13 +1128,13 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// The sort direction: "ascending" for A-Z order, "descending" for Z-A order.
         /// Defaults to "ascending" when not specified.
         /// </value>
-        public string Direction { get; set; }
+        public string Direction { get; set; } = null!;
 
         /// <summary>
         /// Gets the sort comparer.
         /// </summary>
         /// <exclude />
-        public object Comparer { get; set; }
+        public object Comparer { get; set; } = null!;
     }
 
     /// <summary>
@@ -1100,13 +1146,13 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// Collection of fields to search.
         /// </summary>
         /// <value>An array of field names to search across. Multiple fields allow searching in multiple columns simultaneously.</value>
-        public List<string> Fields { get; set; }
+        public IList<string> Fields { get; set; } = null!;
 
         /// <summary>
         /// Specifies the search key.
         /// </summary>
         /// <value>The search term to match against the specified fields.</value>
-        public string Key { get; set; }
+        public string Key { get; set; } = null!;
 
         /// <summary>
         /// Specifies the search operator. By default, contains operator will be used.
@@ -1115,7 +1161,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// The operator used for the search comparison. Defaults to "contains" if not specified.
         /// Common operators include "startswith", "endswith", "equals", "contains".
         /// </value>
-        public string Operator { get; set; }
+        public string Operator { get; set; } = null!;
 
         /// <summary>
         /// Specifies that incasesensitive search to be done.
@@ -1148,13 +1194,13 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// Specifies the field name.
         /// </summary>
         [JsonPropertyName("field")]
-        public string Field { get; set; }
+        public string Field { get; set; } = null!;
 
         /// <summary>
         /// Specifies the aggregate type.
         /// </summary>
         [JsonPropertyName("type")]
-        public string Type { get; set; }
+        public string Type { get; set; } = null!;
     }
 
     /// <summary>
@@ -1169,21 +1215,21 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// The name of the data field to filter on. Use dot notation for nested properties.
         /// </value>
         [JsonPropertyName("field")]
-        public string Field { get; set; }
+        public string Field { get; set; } = null!;
 
         /// <summary>
-            /// Specifies that filter should be incasesensitive.
-            /// </summary>
-            /// <value>
-            /// <c>true</c> to perform case-insensitive string comparison; <c>false</c> for case-sensitive.
-            /// Defaults to <c>false</c>. Only applies when the field type is string.
-            /// </value>
-            /// <remarks>
-            /// When filtering string fields, enable this property to ignore character casing during comparison.
-            /// For example, filtering with "apple" would match "Apple", "APPLE", and "apple".
-            /// </remarks>
-            [JsonPropertyName("ignoreCase")]
-            public bool IgnoreCase { get; set; }
+        /// Specifies that filter should be incasesensitive.
+        /// </summary>
+        /// <value>
+        /// <c>true</c> to perform case-insensitive string comparison; <c>false</c> for case-sensitive.
+        /// Defaults to <c>false</c>. Only applies when the field type is string.
+        /// </value>
+        /// <remarks>
+        /// When filtering string fields, enable this property to ignore character casing during comparison.
+        /// For example, filtering with "apple" would match "Apple", "APPLE", and "apple".
+        /// </remarks>
+        [JsonPropertyName("ignoreCase")]
+        public bool IgnoreCase { get; set; }
 
         /// <summary>
         /// Specifies that ignore accent/diacritic letters while searching.
@@ -1217,7 +1263,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// Local data operations support operators like "equals", "notequal", "contains", "startswith", "endswith".
         /// </remarks>
         [JsonPropertyName("operator")]
-        public string Operator { get; set; }
+        public string Operator { get; set; } = null!;
 
         /// <summary>
         /// Provides the complex filter merge condition.
@@ -1230,7 +1276,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// filter conditions in <see cref="Predicates"/> are combined.
         /// </remarks>
         [JsonPropertyName("condition")]
-        public string Condition { get; set; }
+        public string Condition { get; set; } = null!;
 
         /// <summary>
         /// Specifies the filter value.
@@ -1241,13 +1287,13 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// For date fields, use a DateTime value. Complex types can be used for advanced filtering scenarios.
         /// </remarks>
         [JsonPropertyName("value")]
-        public object value { get; set; }
+        public object value { get; set; } = null!;
 
         /// <summary>
         /// Specifies the collection filter criteria.
         /// </summary>
         [JsonPropertyName("predicates")]
-        public List<WhereFilter> Predicates { get; set; }
+        public IList<WhereFilter> Predicates { get; set; } = null!;
 
         /// <summary>
         /// Specifies the column type to denoting the type of data it displays. 
@@ -1259,7 +1305,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// </summary>
         /// <param name="predicates">List of predicates.</param>
         /// <returns>WhereFilter.</returns>
-        public static WhereFilter And(List<WhereFilter> predicates)
+        public static WhereFilter And(IList<WhereFilter> predicates)
         {
             return new WhereFilter() { Condition = "and", IsComplex = true, Predicates = predicates };
         }
@@ -1269,7 +1315,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// </summary>
         /// <param name="predicates">List of predicates.</param>
         /// <returns>WhereFilter.</returns>
-        public static WhereFilter Or(List<WhereFilter> predicates)
+        public static WhereFilter Or(IList<WhereFilter> predicates)
         {
             return new WhereFilter() { Condition = "or", IsComplex = true, Predicates = predicates };
         }
@@ -1463,7 +1509,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// ]]>
         /// </code>
         /// </example>
-        public string Query { get; set; }
+        public string Query { get; set; } = null!;
 
         /// <summary>
         /// Defines the mutations used to perform CRUD operations in the GraphQL service.
@@ -1476,7 +1522,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// The <c>Mutation</c> property provides a way to define and manage mutations for performing CRUD operations in the GraphQL service.        
         /// These mutations facilitate creating, updating, and deleting data, allowing comprehensive data manipulation through GraphQL service.
         /// </remarks>
-        public GraphQLMutation Mutation { get; set; }
+        public GraphQLMutation Mutation { get; set; } = null!;
 
         /// <summary>
         /// Defines the resolver function name used in the GraphQL service.
@@ -1529,7 +1575,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// ]]>
         /// </code>
         /// </example>
-        public string ResolverName { get; set; }
+        public string ResolverName { get; set; } = null!;
     }
 
     /// <summary>
@@ -1574,7 +1620,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// ]]>
         /// </code>
         /// </example>
-        public string Insert { get; set; }
+        public string Insert { get; set; } = null!;
 
         /// <summary>
         /// Defines the mutation used to perform an update operation in a GraphQL service.
@@ -1614,7 +1660,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// ]]>
         /// </code>
         /// </example>
-        public string Update { get; set; }
+        public string Update { get; set; } = null!;
 
         /// <summary>
         /// Defines the mutation used to perform delete operation in GraphQL service.
@@ -1653,7 +1699,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// ]]>
         /// </code>
         /// </example>
-        public string Delete { get; set; }
+        public string Delete { get; set; } = null!;
 
         /// <summary>
         /// Defines the mutation used to perform CRUD operation Synchronously in GraphQL service.
@@ -1695,7 +1741,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// ]]>
         /// </code>
         /// </example>
-        public string Batch { get; set; }
+        public string Batch { get; set; } = null!;
     }
 
 
@@ -1722,7 +1768,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// Gets or sets the key field used by the adaptor.
         /// </summary>
         [JsonPropertyName("key")]
-        internal string Key { get; set; }
+        internal string Key { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the service URL used by the adaptor.
@@ -1787,7 +1833,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// Gets the result of the data operation.
         /// </summary>
         [JsonPropertyName("result")]
-        public IEnumerable Result { get; set; }
+        public IEnumerable Result { get; set; } = null!;
 
         /// <summary>
         /// Gets the total count of the records in data source.
@@ -1799,12 +1845,12 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// Gets the aggregate result based on the aggregate query.
         /// </summary>
         [JsonPropertyName("aggregates")]
-        public IDictionary<string, object> Aggregates { get; set; }
+        public IDictionary<string, object> Aggregates { get; set; } = null!;
 
         /// <summary>
         /// Gets the filtered records.
         /// </summary>
-        public IEnumerable FilteredRecords { get; set; }
+        public IEnumerable FilteredRecords { get; set; } = null!;
     }
 
     /// <summary>
@@ -1816,7 +1862,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <summary>
         /// Gets or sets the active data adaptor instance.
         /// </summary>
-        public IDataAdaptor Instance { get; set; }
+        public IDataAdaptor Instance { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the generic type used to deserialize records for the adaptor.
@@ -1831,7 +1877,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <summary>
         /// Gets or sets the owning data manager instance.
         /// </summary>
-        public DataManager DataManagerInstance { get; set; }
+        public DataManager DataManagerInstance { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the JSON serializer options used when deserializing data.
@@ -1860,7 +1906,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="type">The adaptor type to create.</param>
         /// <param name="parentComponent">The parent component associated with the adaptor.</param>
         /// <param name="dataManagerInstance">The owning data manager instance.</param>
-        public BaseAdaptor(Type type, object parentComponent, DataManager dataManagerInstance)
+        public BaseAdaptor([DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] Type type, object parentComponent, DataManager dataManagerInstance)
         {
             ParentComponent = parentComponent;
             DataManagerInstance = dataManagerInstance;
@@ -1868,18 +1914,13 @@ namespace Syncfusion.Blazor.Toolkit.Data
             {
                 Instance = (DataAdaptor)DataManagerInstance.ServiceProvider.GetService(type)!;
                 Instance ??= (DataAdaptor)Activator.CreateInstance(type)!;
-                Instance.SetParent((parentComponent as BaseComponent)!);
+                Instance.SetParent(parentComponent as BaseComponent);
             }
 
             GenericType = ParentComponent.GetType();
-            if (GenericType.IsGenericType && GenericType.GetGenericArguments().Length > 0)
-            {
-                GenericType = GenericType.GetGenericArguments()[0];
-            }
-            else
-            {
-                GenericType = null!;
-            }
+            GenericType = GenericType.IsGenericType && GenericType.GetGenericArguments().Length > 0
+                ? GenericType.GetGenericArguments()[0]
+                : null!;
         }
     }
 
@@ -1893,7 +1934,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// Unique identifier.
         /// </summary>
         [JsonPropertyName("groupGuid")]
-        public string GroupGuid { get; set; }
+        public string GroupGuid { get; set; } = null!;
 
         /// <summary>
         /// Specifies the level of this group.
@@ -1911,13 +1952,13 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// Specifies the ungrouped records.
         /// </summary>
         [JsonPropertyName("records")]
-        public IEnumerable Records { get; set; }
+        public IEnumerable Records { get; set; } = null!;
 
         /// <summary>
         /// Specifies the group key value.
         /// </summary>
         [JsonPropertyName("key")]
-        public object Key { get; set; }
+        public object Key { get; set; } = null!;
 
         /// <summary>
         /// Specifies the count of items in this group.
@@ -1929,42 +1970,42 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// Specifies the items of the group.
         /// </summary>
         [JsonPropertyName("items")]
-        public IEnumerable Items { get; set; }
+        public IEnumerable Items { get; set; } = null!;
 
         /// <summary>
         /// Specifies the aggregates of this group.
         /// </summary>
         [JsonPropertyName("aggregates")]
-        public object Aggregates { get; set; }
+        public object Aggregates { get; set; } = null!;
 
         /// <summary>
         /// Specifies the field value.
         /// </summary>
         [JsonPropertyName("field")]
-        public string Field { get; set; }
+        public string Field { get; set; } = null!;
 
         /// <summary>
         /// Specifies the header text of the field.
         /// </summary>
         [JsonPropertyName("headerText")]
-        public string HeaderText { get; set; }
+        public string HeaderText { get; set; } = null!;
 
         /// <summary>
         /// Specifies the foreign key.
         /// </summary>
         [JsonPropertyName("foreignKey")]
-        public string ForeignKey { get; set; }
+        public string ForeignKey { get; set; } = null!;
 
         /// <summary>
         /// Specifies the result.
         /// </summary>
         [JsonPropertyName("result")]
-        public object Result { get; set; }
+        public object Result { get; set; } = null!;
 
         /// <summary>
         /// Specifies the grouped data.
         /// </summary>
-        public IEnumerable GroupedData { get; set; }
+        public IEnumerable GroupedData { get; set; } = null!;
 
         /// <summary>
         /// This pertains to the group key value in its unformatted state, which is used for sorting purposes to maintain consistency.
@@ -1983,15 +2024,15 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <summary>
         /// Sets the parent component reference used by the adaptor.
         /// </summary>
-        /// <param name="parent">The parent component that owns or provides context to the adaptor.</param>
-        void SetParent(BaseComponent parent);
+        /// <param name="parent">The parent component that owns or provides context to the adaptor, or null to clear it.</param>
+        void SetParent(BaseComponent? parent);
 
         /// <summary>
         /// Returns the data collection after performing data operations based on request from <see cref="DataManagerRequest"/>
         /// </summary>
         /// <param name="dataManagerRequest">DataManagerRequest containes the information regarding paging, grouping, filtering, searching which is handled on the DataGrid component side</param>
         /// <param name="additionalParam">An optional parameter that can be used to perform additional data operations.</param>
-        /// <returns>The data collection's type is determined by how this method has been implemented.</returns>
-        Task<object> ReadAsync(DataManagerRequest dataManagerRequest, string? additionalParam = null);      
+        /// <returns>The implementation-defined data collection, or null when no result is supplied.</returns>
+        Task<object?> ReadAsync(DataManagerRequest dataManagerRequest, string? additionalParam = null);
     }
 }

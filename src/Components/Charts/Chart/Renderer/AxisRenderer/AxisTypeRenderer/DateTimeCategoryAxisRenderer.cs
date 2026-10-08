@@ -19,7 +19,6 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         #endregion
 
         #region Fields
-        private List<string> _mondayLabels = [];
         private bool _isMonday;
         private int _previousIndex;
 
@@ -27,7 +26,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// Gets the collection of labels for the start of each week.
         /// </summary>
         /// <value>A list of datetime values representing Monday labels.</value>
-        private List<string> MondayLabels => _mondayLabels;
+        private List<string> MondayLabels { get; set; } = [];
         #endregion
 
         #region Private Methods
@@ -137,7 +136,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         {
             if (IsMaximumSpacing(index, ticksbwtLabel))
             {
-                _mondayLabels.Add(currentDate.ToString(CultureInfo.InvariantCulture));
+                MondayLabels.Add(currentDate.ToString(CultureInfo.InvariantCulture));
                 _isMonday = true;
             }
             else
@@ -321,7 +320,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         internal override void GenerateVisibleLabels()
         {
             VisibleLabels = [];
-            _mondayLabels = [];
+            MondayLabels = [];
             _isMonday = false;
 
             double ticksBetweenLabel = CalculateTicksBetweenLabel();

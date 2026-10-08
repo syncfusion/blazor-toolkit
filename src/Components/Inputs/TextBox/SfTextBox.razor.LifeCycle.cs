@@ -36,8 +36,8 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// </list>
         /// </remarks>
         /// <exclude/>
-        [RequiresUnreferencedCode("Reflection on TextBoxParent type and ComponentRef property which may be trimmed")]
-        [DynamicDependency(DynamicallyAccessedMemberTypes.NonPublicProperties, typeof(SfTextBox))]
+        [UnconditionalSuppressMessage("Trimming", "IL2026",
+            Justification = "OnInitializedAsync is a Blazor framework lifecycle override and cannot carry [RequiresUnreferencedCode]. The only reflective work it performs is delegated to AssignComponentRef, whose trimming requirement is handled locally there via a preserved NonPublicProperties dependency.")]
         protected override async Task OnInitializedAsync()
         {
             try
@@ -65,17 +65,34 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
                     InputHtmlAttributes = SfBaseUtils.UpdateDictionary(TYPE, typeEnumValue, InputHtmlAttributes);
                 }
                 SetCssClass();
-                if (TextBoxParent is not null && Convert.ToString(TextBoxParent.Type, CultureInfo.CurrentCulture) == "Text")
+                if (TextBoxParent is not null)
                 {
-                    PropertyInfo? componentRefProperty = TextBoxParent?.GetType().GetProperty("ComponentRef", BindingFlags.NonPublic | BindingFlags.Instance);
-                    componentRefProperty?.SetValue(TextBoxParent, this);
-
+                    AssignComponentRef(TextBoxParent);
                 }
             }
             catch (Exception ex)
             {
                 throw new InvalidOperationException("Unhandled exception occurred. ", ex);
             }
+        }
+
+        /// <summary>
+        /// Assigns this text box as the <c>ComponentRef</c> of its hosting parent component via reflection.
+        /// </summary>
+        /// <param name="textBoxParent">The parent component that exposes a non-public <c>ComponentRef</c> property.</param>
+        [UnconditionalSuppressMessage("Trimming", "IL2075",
+            Justification = "The parent's 'Type' and non-public 'ComponentRef' properties are preserved through the DynamicDependency below; they are internal wiring properties of the toolkit's own parent components and are never trimmed.")]
+        [DynamicDependency(DynamicallyAccessedMemberTypes.NonPublicProperties, typeof(SfTextBox))]
+        private void AssignComponentRef(object textBoxParent)
+        {
+            Type parentType = textBoxParent.GetType();
+            object? parentTypeValue = parentType.GetProperty("Type", BindingFlags.Public | BindingFlags.Instance)?.GetValue(textBoxParent);
+            if (Convert.ToString(parentTypeValue, CultureInfo.CurrentCulture) != "Text")
+            {
+                return;
+            }
+            PropertyInfo? componentRefProperty = parentType.GetProperty("ComponentRef", BindingFlags.NonPublic | BindingFlags.Instance);
+            componentRefProperty?.SetValue(textBoxParent, this);
         }
 
         /// <summary>
@@ -228,7 +245,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
                 {
                     try
                     {
-                        await InvokeVoidAsync(_textBoxJsModule!, _textBoxJsInProcessModule!, "destroy", InputElement).ConfigureAwait(true);
+                        await InvokeVoidAsync(_textBoxJsModule, _textBoxJsInProcessModule, "destroy", InputElement).ConfigureAwait(true);
                     }
                     catch (JSDisconnectedException)
                     {

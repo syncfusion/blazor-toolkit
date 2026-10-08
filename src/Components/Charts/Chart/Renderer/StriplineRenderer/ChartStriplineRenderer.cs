@@ -10,7 +10,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// This renderer handles both pixel-based and value-based striplines, supports repeated striplines,
     /// segmented striplines, and text rendering with customizable positioning and rotation.
     /// </remarks>
-    public class ChartStriplineRenderer : ChartRenderer, IChartElementRenderer
+    internal class ChartStriplineRenderer : ChartRenderer, IChartElementRenderer
     {
         #region Constants
         private const string SPACE = " ";
@@ -19,11 +19,11 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         #region Fields
         private Rect? _rect;
         private Rect? _seriesClipRect;
-        private CultureInfo _culture = CultureInfo.InvariantCulture;
+        private readonly CultureInfo _culture = CultureInfo.InvariantCulture;
         private ChartAxisRenderer? _axisRenderer;
         private ChartAxis? _axis;
         private PathOptions? _striplinePath;
-        private List<TextOptions> _striplineText = [];
+        private readonly List<TextOptions> _striplineText = [];
         #endregion
 
         #region Properties
@@ -680,7 +680,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// <summary>
     /// Specialized renderer for striplines rendered behind chart series.
     /// </summary>
-    public class ChartStriplineBehindRenderer : ChartStriplineRenderer
+    internal class ChartStriplineBehindRenderer : ChartStriplineRenderer
     {
         #region Lifecycle Methods
 
@@ -710,7 +710,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// <summary>
     /// Specialized renderer for striplines rendered over chart series.
     /// </summary>
-    public class ChartStriplineOverRenderer : ChartStriplineRenderer
+    internal class ChartStriplineOverRenderer : ChartStriplineRenderer
     {
         #region Lifecycle Methods
 

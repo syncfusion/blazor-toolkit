@@ -1,4 +1,5 @@
 ﻿using Microsoft.JSInterop;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Reflection;
 
@@ -11,18 +12,14 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         /// <remarks>
-        /// Invoked by the framework during the first render. The method assigns the time-icon class, registers the component reference with the parent composite control when the parent is a <c>DateTime</c> type, and adjusts <see cref="SfCalendar{TValue}.Min"/> and <see cref="SfCalendar{TValue}.Max"/> to the supported Islamic (Hijri) range when <see cref="SfCalendar{TValue}.CalendarMode"/> is <see cref="CalendarType.Islamic"/>.
+        /// Invoked by the framework during the first render. The method assigns the time-icon class, registers the component reference with the parent composite control when the parent is a <c>DateTime</c> type, and adjusts <see cref="CalendarBase{TValue}.Min"/> and <see cref="CalendarBase{TValue}.Max"/> to the supported Islamic (Hijri) range when <see cref="CalendarBase{TValue}.CalendarMode"/> is <see cref="CalendarType.Islamic"/>.
         /// </remarks>
         /// <exclude/>
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync().ConfigureAwait(true);
             TimeIcon = TIME_ICON;
-            if (DateTimePickerParent != null && Convert.ToString(DateTimePickerParent?.Type, CultureInfo.CurrentCulture) == "DateTime")
-            {
-                PropertyInfo? componentRefProperty = DateTimePickerParent?.GetType().GetProperty("ComponentRef", BindingFlags.NonPublic | BindingFlags.Instance);
-                componentRefProperty?.SetValue(DateTimePickerParent, this);
-            }
+            InitializeDateTimeParentReference();
             if (CalendarMode == CalendarType.Islamic)
             {
                 if (Min == new DateTime(1900, 1, 1))
@@ -33,6 +30,23 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
                 {
                     Max = new DateTime(2069, 10, 16);
                 }
+            }
+        }
+
+        [UnconditionalSuppressMessage("Trimming", "IL2075",
+            Justification = "DateTimePickerParent is the library's own InPlaceEditor component supplied via cascading parameter; its 'Type' and 'ComponentRef' members are statically referenced by the editor type and therefore preserved by the trimmer.")]
+        private void InitializeDateTimeParentReference()
+        {
+            if (DateTimePickerParent is null)
+            {
+                return;
+            }
+            Type parentType = DateTimePickerParent.GetType();
+            object? parentTypeValue = parentType.GetProperty("Type", BindingFlags.Public | BindingFlags.Instance)?.GetValue(DateTimePickerParent);
+            if (Convert.ToString(parentTypeValue, CultureInfo.CurrentCulture) == "DateTime")
+            {
+                PropertyInfo? componentRefProperty = parentType.GetProperty("ComponentRef", BindingFlags.NonPublic | BindingFlags.Instance);
+                componentRefProperty?.SetValue(DateTimePickerParent, this);
             }
         }
 

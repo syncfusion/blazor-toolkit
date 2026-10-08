@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using Syncfusion.Blazor.Toolkit.Internal;
+using System.Diagnostics.CodeAnalysis;
 using System.Dynamic;
 using System.Globalization;
 using System.Reflection;
@@ -20,10 +21,15 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// It manages data binding, point calculations, animation orchestration, and SVG rendering coordination.
     /// Derived classes override virtual members to implement specific series visualization logic.
     /// </remarks>
-    public abstract class ChartSeriesRenderer : ChartRenderer, IChartElementRenderer, IRequireAxis
+    internal abstract class ChartSeriesRenderer : ChartRenderer, IChartElementRenderer, IRequireAxis
     {
         #region Constants
         private const StringComparison INVARIANT_COMPARISON = StringComparison.InvariantCulture;
+
+        // Shared trim/AOT justification strings for the data-binding pipeline, which reflects over
+        // the user-supplied DataSource element type and serializes chart points with reflection-based JSON.
+        internal const string DataBindingTrimWarning = "The chart data-binding pipeline reflects over the user-supplied DataSource element type to read X/Y and mapping members by name; those members may be removed by the trimmer.";
+        internal const string DataBindingAotWarning = "The chart data-binding pipeline uses reflection-based property access and System.Text.Json serialization over the user-supplied DataSource element type, which may require runtime code generation not supported by Native AOT.";
         #endregion
 
         #region Fields
@@ -222,12 +228,12 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <summary>
         /// Gets or sets the collection of X-axis data values for this series.
         /// </summary>
-        public List<double> XData { get; set; } = null!;
+        public IList<double> XData { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the collection of Y-axis data values for this series.
         /// </summary>
-        public List<double> YData { get; set; } = null!;
+        public IList<double> YData { get; set; } = null!;
 
         /// <summary>
         /// Gets or sets the minimum X-axis value in the series data.
@@ -261,6 +267,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <summary>
         /// Initializes the series renderer and assigns renderer to series and container.
         /// </summary>
+        [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Chart data binding reflects over the user-supplied DataSource element type. This is a Blazor lifecycle override where Requires* annotations are not permitted (IL2046); the reflection is inherent to data-bound charting and degrades gracefully.")]
+        [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "Chart data binding uses reflection-based member access and JSON serialization over the user-supplied DataSource element type. This is a Blazor lifecycle override where Requires* annotations are not permitted (IL2046).")]
         protected override void OnInitialized()
         {
             base.OnInitialized();
@@ -304,7 +312,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             IsSeriesRender = !firstRender;
             if (!firstRender && Series?.Container is not null && Series.Container._redraw)
             {
-                
+
                 await Series.Container.PerformRedrawAnimationAsync().ConfigureAwait(true);
             }
             if (!firstRender)
@@ -334,6 +342,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <summary>
         /// Initializes axis renderers and processes series data on first render.
         /// </summary>
+        [RequiresUnreferencedCode(DataBindingTrimWarning)]
+        [RequiresDynamicCode(DataBindingAotWarning)]
         private void InitializeSeriesAxis()
         {
             if (Series is null || Owner is null)
@@ -370,6 +380,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <summary>
         /// Routes data processing based on detected data type (JSON, ExpandoObject, DynamicObject, or standard CLR).
         /// </summary>
+        [RequiresUnreferencedCode(DataBindingTrimWarning)]
+        [RequiresDynamicCode(DataBindingAotWarning)]
         private void ProcessDataByType(string dataType, Type firstDataType, string xName, string yName, IEnumerable<object> currentViewData)
         {
             switch (dataType)
@@ -410,7 +422,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             else
             {
                 point.Visible = false;
-                point.X = null!;
+                point.X = null;
                 point.XValue = double.NaN;
             }
         }
@@ -624,6 +636,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="xName">The property name for X-axis values.</param>
         /// <param name="yName">The property name for Y-axis values.</param>
         /// <param name="currentViewData">The enumerable collection of data objects.</param>
+        [RequiresUnreferencedCode(DataBindingTrimWarning)]
+        [RequiresDynamicCode(DataBindingAotWarning)]
         protected virtual void ProcessExpandoObjectData(Type firstDataType, string xName, string yName, IEnumerable<object> currentViewData)
         {
             string pointColor = Series?.PointColorMapping ?? string.Empty;
@@ -668,6 +682,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <summary>
         /// Processes DynamicObject data source, extracting X/Y values using dynamic member access.
         /// </summary>
+        [RequiresUnreferencedCode(DataBindingTrimWarning)]
+        [RequiresDynamicCode(DataBindingAotWarning)]
         protected virtual void ProcessDynamicObjectData(Type firstDataType, string xName, string yName, IEnumerable<object> currentViewData)
         {
             string pointColor = Series?.PointColorMapping ?? string.Empty;
@@ -708,6 +724,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <summary>
         /// Processes JsonElement data source, extracting X/Y values with null-safety checks.
         /// </summary>
+        [RequiresUnreferencedCode(DataBindingTrimWarning)]
+        [RequiresDynamicCode(DataBindingAotWarning)]
         protected virtual void ProcessJObjectData(Type firstDataType, string xName, string yName, IEnumerable<object> currentViewData)
         {
             string pointColor = Series?.PointColorMapping ?? null!;
@@ -750,6 +768,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <summary>
         /// Processes standard CLR object data using reflection for optimal performance.
         /// </summary>
+        [RequiresUnreferencedCode(DataBindingTrimWarning)]
+        [RequiresDynamicCode(DataBindingAotWarning)]
         protected virtual void ProcessObjectData(Type firstDataType, string xName, string yName, IEnumerable<object> currentViewData)
         {
             if (firstDataType is null || currentViewData is null || Series is null || Owner is null)
@@ -765,9 +785,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             using IPropertyAccessor sortingInfo = FastReflectionExtension.CreateAccessor(firstDataType, Owner._sorting.SortKey);
 
             int index = 0;
-            XAxisRenderer.IsDateOnly = x.PropertyInfo.PropertyType.Name == "DateOnly";
-            XAxisRenderer.IsTimeOnly = x.PropertyInfo.PropertyType.Name == "TimeOnly";
-            IsDateTimeOffset = x.PropertyInfo.PropertyType.Name == "DateTimeOffset";
+            XAxisRenderer.IsDateOnly = x.PropertyInfo?.PropertyType.Name == "DateOnly";
+            XAxisRenderer.IsTimeOnly = x.PropertyInfo?.PropertyType.Name == "TimeOnly";
+            IsDateTimeOffset = x.PropertyInfo?.PropertyType.Name == "DateTimeOffset";
 
             bool isSortingEnabled = !string.IsNullOrEmpty(Owner?._sorting.SortKey) && !Owner._sorting.SortKey.Equals("X", StringComparison.OrdinalIgnoreCase);
             object[] tempArray = [.. currentViewData];
@@ -776,13 +796,13 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             foreach (object data in tempArray)
             {
                 IChartPoint chartPoint = new();
-                object text = textMapping.PropertyInfo is not null ? textMapping.GetValue(data) : string.Empty;
+                object? text = textMapping.PropertyInfo is not null ? textMapping.GetValue(data) : string.Empty;
                 Point point = new()
                 {
                     X = chartPoint.X = x.GetValue(data),
                     Y = chartPoint.Y = y.PropertyInfo is not null ? y.GetValue(data) : GetPropertyValue(data, yName),
                     Interior = chartPoint.Interior = Convert.ToString(pointColor.GetValue(data), CultureInfo.InvariantCulture) ?? string.Empty,
-                    Text = chartPoint.Text = text is not null ? Convert.ToString(text, CultureInfo.InvariantCulture) ?? string.Empty : null!,
+                    Text = chartPoint.Text = text is not null ? Convert.ToString(text, CultureInfo.InvariantCulture) ?? string.Empty : null,
                     Tooltip = chartPoint.Tooltip = Convert.ToString(tooltipMapping.GetValue(data), CultureInfo.InvariantCulture) ?? string.Empty
                 };
 
@@ -853,7 +873,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <summary>
         /// Extracts sorting value from a standard CLR object.
         /// </summary>
-        protected void FindObjectDataSortingValue<T>(IPropertyAccessor sortingInfo, object data, string x, T point)
+        [RequiresUnreferencedCode(DataBindingTrimWarning)]
+        protected void FindObjectDataSortingValue<T>(IPropertyAccessor sortingInfo, object data, string? x, T point)
         {
             if (IsPointValueMapped(point, out double pointSortValue))
             {
@@ -861,7 +882,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             }
             else
             {
-                object sortObject = sortingInfo?.PropertyInfo is not null ? sortingInfo.GetValue(data) : GetPropertyValue(data, Owner?._sorting.SortKey ?? string.Empty);
+                object? sortObject = sortingInfo?.PropertyInfo is not null ? sortingInfo.GetValue(data) : GetPropertyValue(data, Owner?._sorting.SortKey ?? string.Empty);
                 double sortValue = (sortObject is not null) ? Convert.ToDouble(sortObject, null) : 0;
                 FindSumOfSameIndex(FindSeriesAxisKey() + x, sortValue, false);
             }
@@ -870,7 +891,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <summary>
         /// Extracts sorting value from an ExpandoObject.
         /// </summary>
-        protected void FindExpandoObjectDataSortingValue<T>(string sortkey, IDictionary<string, object> expandoData, string x, T point)
+        protected void FindExpandoObjectDataSortingValue<T>(string sortkey, IDictionary<string, object> expandoData, string? x, T point)
         {
             if (IsPointValueMapped(point, out double pointSortValue))
             {
@@ -888,7 +909,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <summary>
         /// Extracts sorting value from a DynamicObject.
         /// </summary>
-        protected void FindDynamicObjectDataSortingValue<T>(string sortkey, DynamicObject data, string x, T point)
+        [RequiresUnreferencedCode(DataBindingTrimWarning)]
+        [RequiresDynamicCode(DataBindingAotWarning)]
+        protected void FindDynamicObjectDataSortingValue<T>(string sortkey, DynamicObject data, string? x, T point)
         {
             if (IsPointValueMapped(point, out double pointSortValue))
             {
@@ -904,7 +927,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <summary>
         /// Extracts sorting value from a JsonElement.
         /// </summary>
-        protected void FindJObjectDataSortingValue<T>(string sortkey, JsonElement jsonObject, string x, T point)
+        protected void FindJObjectDataSortingValue<T>(string sortkey, JsonElement jsonObject, string? x, T point)
         {
             if (IsPointValueMapped(point, out double pointSortValue))
             {
@@ -912,7 +935,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             }
             else
             {
-                object sortValue = jsonObject.GetProperty(sortkey).ValueKind == JsonValueKind.Null ? 0.0 : ChartHelper.GetObjectValue(jsonObject.GetProperty(sortkey));
+                object? sortValue = jsonObject.GetProperty(sortkey).ValueKind == JsonValueKind.Null ? 0.0 : ChartHelper.GetObjectValue(jsonObject.GetProperty(sortkey));
                 FindSumOfSameIndex(FindSeriesAxisKey() + x, Convert.ToDouble(sortValue, Culture), false);
             }
         }
@@ -924,6 +947,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="name">The property name for Y-axis values.</param>
         /// <param name="i">The index of the empty point.</param>
         /// <returns>The calculated average value.</returns>
+        [RequiresUnreferencedCode(DataBindingTrimWarning)]
         protected double GetAverage(Type type, string name, int i)
         {
             PropertyInfo prop = type?.GetProperty(name) ?? null!;
@@ -1119,6 +1143,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <summary>
         /// Processes the current view data and extracts X/Y values based on data type.
         /// </summary>
+        [RequiresUnreferencedCode(DataBindingTrimWarning)]
+        [RequiresDynamicCode(DataBindingAotWarning)]
         internal virtual void ProcessData()
         {
             SeriesRenderEventArgs eventArgs = new
@@ -1175,7 +1201,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         {
             if (XAxisRenderer.Axis?.ValueType == ValueType.Category)
             {
-                PushCategoryData(point, index, point.X.ToString() ?? string.Empty);
+                if (point.X is not null)
+                {
+                    PushCategoryData(point, index, point.X.ToString() ?? string.Empty);
+                }
             }
             else if (XAxisRenderer.Axis?.ValueType is ValueType.DateTime or ValueType.DateTimeCategory)
             {
@@ -1220,11 +1249,12 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <remarks>
         /// Uses reflection to locate properties. Searches nested objects if the direct property is not found.
         /// </remarks>
-        internal static object GetPropertyValue(object src, string propName)
+        [RequiresUnreferencedCode(DataBindingTrimWarning)]
+        internal static object? GetPropertyValue(object? src, string? propName)
         {
             if (src is null || propName is null)
             {
-                return null!;
+                return null;
             }
             if (propName.Contains('.', StringComparison.OrdinalIgnoreCase))
             {
@@ -1233,10 +1263,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             }
             else
             {
-                PropertyInfo prop = src.GetType().GetProperty(propName) ?? null!;
+                PropertyInfo? prop = src.GetType().GetProperty(propName);
                 if (prop is not null)
                 {
-                    return prop.GetValue(src, null) ?? null!;
+                    return prop.GetValue(src, null);
                 }
                 else
                 {
@@ -1245,7 +1275,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                     {
                         if (property.PropertyType != typeof(string) && property.PropertyType.IsClass)
                         {
-                            object value = src.GetType().GetProperty(property.Name)?.GetValue(src, null) ?? null!;
+                            object? value = src.GetType().GetProperty(property.Name)?.GetValue(src, null);
                             if (value is not null)
                             {
                                 return GetPropertyValue(value, propName);
@@ -1254,7 +1284,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                     }
                 }
 
-                return null!;
+                return null;
             }
         }
 
@@ -1305,6 +1335,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="chartPoint">The chart-specific point data.</param>
         /// <param name="i">The point's index in the data collection.</param>
         /// <param name="type">The CLR type of the data object.</param>
+        [RequiresUnreferencedCode(DataBindingTrimWarning)]
         internal virtual void SetEmptyPoint(Point point, IChartPoint chartPoint, int i, Type type)
         {
             if (!FindVisibility(point))
@@ -1349,6 +1380,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <summary>
         /// Calculates and assigns the average of neighboring values for an empty point.
         /// </summary>
+        [RequiresUnreferencedCode(DataBindingTrimWarning)]
         internal virtual void CalculateAverageValue(Point point, IChartPoint chartPoint, int i, Type type)
         {
             point.Y = point.YValue = YData[i] = (double)(chartPoint.Y = chartPoint.YValue = GetAverage(type, Series?.YName ?? string.Empty, i));
@@ -1523,6 +1555,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="isRemoteData">Indicates whether the series data update is triggered by remote data. If <see langword="true"/>, the update
         /// process will not refresh the current view data from the series.</param>
         /// <returns>A task that represents the asynchronous operation of updating the series data and chart state.</returns>
+        [RequiresUnreferencedCode(DataBindingTrimWarning)]
+        [RequiresDynamicCode(DataBindingAotWarning)]
         internal async Task UpdateSeriesDataAsync(bool isRemoteData = false)
         {
             bool isLastRenderer = Owner?._seriesContainer?.Renderers.Last() == Series?.Renderer;
@@ -1834,6 +1868,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// Updates the rendering state and axis ranges for the series, ensuring that empty data points and stacking
         /// values are correctly processed.
         /// </summary>
+        [RequiresUnreferencedCode(DataBindingTrimWarning)]
+        [RequiresDynamicCode(DataBindingAotWarning)]
         internal void UpdateEmptyPoint()
         {
             RendererShouldRender = Series?.Visible ?? true;
@@ -2042,7 +2078,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// </summary>
         /// <param name="point">The data point.</param>
         /// <returns>The Y value to use for marker rendering.</returns>
-        internal virtual object GetMarkerY(Point point)
+        internal virtual object? GetMarkerY(Point point)
         {
             return point.Y;
         }
@@ -2086,7 +2122,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// formatted as a date.</param>
         /// <returns>An object representing the X value of the chart point. If a trend line is present and a date format is
         /// specified, returns a DateTime object; otherwise, returns the original value.</returns>
-        internal virtual object GetPointXValue(object pointX, string dateFormat)
+        internal virtual object? GetPointXValue(object? pointX, string dateFormat)
         {
             return Series?.Renderer?.Container is not null && Series.Renderer.Container.IsTrendLine && !string.IsNullOrEmpty(dateFormat) ? DateTime.Parse(Intl.GetDateFormat(ChartHelper.GetDate(Convert.ToDouble(pointX, Culture)), string.Empty), CultureInfo.CurrentCulture) : pointX;
         }
@@ -2121,6 +2157,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="point">The point whose property values are used to substitute corresponding placeholders in the template.</param>
         /// <param name="format">The template string containing placeholders to be replaced with values from the point and series properties.</param>
         /// <returns>A string with all recognized placeholders replaced by their corresponding values from the point and series.</returns>
+        [UnconditionalSuppressMessage("Trimming", "IL2075", Justification = "Reflects over the public properties of the library's own Point and ChartSeries types to substitute template placeholders; those properties are statically referenced throughout the chart renderer and are therefore preserved by the trimmer.")]
         internal string ParseTemplate(Point point, string format)
         {
             PropertyInfo[] pointInfo = point.GetType().GetProperties();
@@ -2211,6 +2248,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <summary>
         /// Updates the category data for the chart by processing series renderers and recalculating point totals.
         /// </summary>
+        [RequiresUnreferencedCode(DataBindingTrimWarning)]
+        [RequiresDynamicCode(DataBindingAotWarning)]
         internal void UpdateCategoryData()
         {
             XAxisRenderer.Labels.Clear();
@@ -2252,6 +2291,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="point">The point for which chart data is to be processed. The <paramref name="point"/> parameter must specify a
         /// valid index within the chart points collection.</param>
         /// <exception cref="InvalidOperationException">Thrown if an error occurs while processing or serializing the chart data for the specified point.</exception>
+        [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Serializes an internal IChartPoint DTO whose members are statically referenced throughout the chart renderer and are therefore preserved by the trimmer; no user-supplied data type is serialized here.")]
+        [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "Serializes an internal IChartPoint DTO with well-known custom converters (DateOnly/TimeOnly); no user-supplied type requiring runtime code generation is serialized here.")]
         internal virtual void GetChartData(Point point)
         {
             try
@@ -2271,6 +2312,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <typeparam name="T">The type of the chart data point to serialize and append. Must be compatible with JSON serialization.</typeparam>
         /// <param name="ChartPoint">The chart data point to serialize and append to the chart data buffer. Cannot be null.</param>
         /// <exception cref="InvalidOperationException">Thrown if an error occurs during serialization or appending of the chart data point.</exception>
+        [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Called only with internal chart-point DTO types whose members are statically referenced throughout the chart renderer and are therefore preserved by the trimmer; no user-supplied data type is serialized here.")]
+        [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "Called only with internal chart-point DTO types serialized with well-known custom converters (DateOnly/TimeOnly); no user-supplied type requiring runtime code generation is serialized here.")]
         internal void AppendChartData<T>(T ChartPoint)
         {
             try
@@ -2301,7 +2344,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="rectY">A list of rectangles whose Y values may influence the data point calculation. If null, an empty list is
         /// used.</param>
         /// <returns>A string representing the calculated data point value based on the provided coordinates and rectangle list.</returns>
-        internal string GetDataPoints(double x = 0, double y = 0, List<Rect> rectY = null!)
+        internal string GetDataPoints(double x = 0, double y = 0, IList<Rect> rectY = null!)
         {
             double rectYvalue = 0;
             rectY ??= [];

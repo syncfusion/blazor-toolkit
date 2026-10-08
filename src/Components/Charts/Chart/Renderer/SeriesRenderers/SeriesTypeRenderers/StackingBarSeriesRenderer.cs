@@ -10,7 +10,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// and supplies path options for SVG rendering. It preserves existing behaviors while
     /// improving readability, null-safety and single-responsibility of methods.
     /// </remarks>
-    public class StackingBarSeriesRenderer : ColumnBaseRenderer
+    internal class StackingBarSeriesRenderer : ColumnBaseRenderer
     {
         #region Private Methods
 
@@ -159,7 +159,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// <summary>
     /// Renderer specialization for 100% stacked bar series; inherits stacking behavior.
     /// </summary>
-    public class StackingBar100SeriesRenderer : StackingBarSeriesRenderer
+    internal class StackingBar100SeriesRenderer : StackingBarSeriesRenderer
     {
     }
 }

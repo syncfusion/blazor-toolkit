@@ -7,7 +7,7 @@
     /// This renderer transforms data values using logarithmic scale, supports custom log base,
     /// and automatically calculates appropriate intervals for the logarithmic scale.
     /// </remarks>
-    public class LogarithmicAxisRenderer : ChartAxisRenderer
+    internal class LogarithmicAxisRenderer : ChartAxisRenderer
     {
         #region Internal Methods
 
@@ -122,7 +122,7 @@
         /// </summary>
         /// <param name="pointValue">The point value to format.</param>
         /// <returns>The formatted text representation.</returns>
-        internal override object GetFormatText(object pointValue)
+        internal override object GetFormatText(object? pointValue)
         {
             return FormatValue(Convert.ToDouble(pointValue, Culture));
         }

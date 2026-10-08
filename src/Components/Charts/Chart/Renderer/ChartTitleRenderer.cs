@@ -10,12 +10,12 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// This renderer handles layout calculations, font metrics, and SVG rendering for chart titles.
     /// It manages both title and subtitle collections, supports RTL rendering, and integrates with the theme system.
     /// </remarks>
-    public class ChartTitleRenderer : ChartRenderer
+    internal class ChartTitleRenderer : ChartRenderer
     {
         #region Fields
         private Rect? _availableRect;
         private double _maxWidth;
-        private CultureInfo _culture = CultureInfo.InvariantCulture;
+        private readonly CultureInfo _culture = CultureInfo.InvariantCulture;
         #endregion
 
         #region Properties

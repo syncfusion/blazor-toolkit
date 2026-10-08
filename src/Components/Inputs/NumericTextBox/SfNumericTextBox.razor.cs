@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 using Syncfusion.Blazor.Toolkit.Internal;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using System.Text;
 using Microsoft.Extensions.Logging;
@@ -39,11 +40,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         private const string ROOT_CLASS = "e-control e-numerictextbox e-lib";
         private const string ROLE = "role";
         private const string SPIN_BUTTON = "spinbutton";
-        private const string ARIA_LIVE = "aria-live";
-        private const string ASSERTIVE = "assertive";
         private const string ARIA_LABEL = "aria-label";
-        private const string ARIA_LABELLEDBY = "aria-labelledby";
-        private const string ARIA_DESCRIBEDBY = "aria-describedby";
         private const string INCREMENT_CONTENT = "increment";
         private const string ADD = "add";
         private const string SUB = "sub";
@@ -99,6 +96,18 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
 
         private bool IsSpinButtonChanged { get; set; }
 
+        /// <summary>
+        /// True while the clear button has a value and should accept keyboard focus.
+        /// Do not also require <see cref="SfInputBase{TValue}.IsFocused"/>: Tab blurs
+        /// the input before Blazor can repaint a focus-only tabindex, so the button
+        /// would stay at -1 and Tab would skip it.
+        /// </summary>
+        private bool IsClearButtonTabbable =>
+            ShowClearButton &&
+            !Readonly &&
+            !Disabled &&
+            !string.IsNullOrEmpty(FormatValueAsString(InputTextValue));
+
         private bool IsNumberCulture { get; set; }
 
         private string? ValidClass { get; set; }
@@ -137,7 +146,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// </summary>
         /// <exclude/>
         [Inject]
-        protected ILogger<SfNumericTextBox<TValue>> Logger { get; set; }
+        protected ILogger<SfNumericTextBox<TValue>> Logger { get; set; } = default!;
 
         private IJSInProcessObjectReference? _numericTextBoxJsInProcessModule;
         private DotNetObjectReference<SfNumericTextBox<TValue>>? _selectRangeDotNetRef;
@@ -187,7 +196,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
                         {
                             return;
                         }
-                        PropertyChanges?.Remove(nameof(Value));
+                        _ = (PropertyChanges?.Remove(nameof(Value)));
                         await ChangeValueAsync(value: (Value is null) ? default : StrictMode ? TrimValue(Value) : Value).ConfigureAwait(true);
                         if (prop.Key == "Value")
                         {
@@ -328,7 +337,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
                             TValue? inputValue = string.IsNullOrEmpty(inputTextValue) || IsDecimalSeparator ? default : ChangeType(double.Parse(inputTextValue, CultureInfo.CurrentCulture));
                             int? numberOfDecimals = GetNumberOfDecimals(Value, inputTextValue);
                             string maximumFraction = (numberOfDecimals is not null) ? numberOfDecimals.Value.ToString(CultureInfo.InvariantCulture) : string.Empty;
-                            inputTextValue = (inputValue is null) ? inputTextValue : Intl.GetNumericFormat<TValue>(inputValue, GetFormatString(inputValue, maximumFraction), Currency);
+                            inputTextValue = (inputValue is null) ? inputTextValue : Intl.GetNumericFormat(inputValue, GetFormatString(inputValue, maximumFraction), Currency);
                             inputTextValue = IsNumberCulture ? RemoveCultureDigits(inputTextValue) : inputTextValue;
                             if (IsIgnoreDecimal())
                             {
@@ -350,7 +359,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
                             TValue? inputValue = string.IsNullOrEmpty(inputTextValue) || IsDecimalSeparator ? default : ChangeType(decimal.Parse(inputTextValue, CultureInfo.CurrentCulture));
                             int? numberOfDecimals = GetNumberOfDecimals(Value, inputTextValue);
                             string maximumFraction = (numberOfDecimals is not null) ? numberOfDecimals.Value.ToString(CultureInfo.InvariantCulture) : string.Empty;
-                            inputTextValue = (inputValue is null) ? inputTextValue : Intl.GetNumericFormat<TValue>(inputValue, GetFormatString(inputValue, maximumFraction), Currency);
+                            inputTextValue = (inputValue is null) ? inputTextValue : Intl.GetNumericFormat(inputValue, GetFormatString(inputValue, maximumFraction), Currency);
                             inputTextValue = IsNumberCulture ? RemoveCultureDigits(inputTextValue) : inputTextValue;
                             if (IsIgnoreDecimal())
                             {
@@ -437,7 +446,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         {
             PreviousStep = NotifyPropertyChanges(STEP, Step, PreviousStep);
             PreviousDecimals = NotifyPropertyChanges(DECIMALS, Decimals, PreviousDecimals);
-            NotifyPropertyChanges(nameof(CssClass), CssClass, ContainerCssClass);
+            _ = NotifyPropertyChanges(nameof(CssClass), CssClass, ContainerCssClass);
             PreviousMax = NotifyPropertyChanges(MAX, Max, PreviousMax);
             PreviousMin = NotifyPropertyChanges(MIN, Min, PreviousMin);
             PreviousFormat = NotifyPropertyChanges(nameof(Format), Format, PreviousFormat);
@@ -559,7 +568,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             }
             if (IsInValidNumber && StrictMode)
             {
-                await InvokeVoidAsync(_numericTextBoxJsModule, _numericTextBoxJsInProcessModule, "clearInvalid", [DataId, default!]).ConfigureAwait(true);
+                await InvokeVoidAsync(_numericTextBoxJsModule, _numericTextBoxJsInProcessModule, "clearInvalid", [DataId, default]).ConfigureAwait(true);
 
             }
         }
@@ -619,7 +628,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             ContainerClass = IsValidState
                 ? ContainerClass.Replace(ERROR_CLASS, string.Empty, StringComparison.Ordinal)
                 : ContainerClass.Contains(ERROR_CLASS, StringComparison.Ordinal) ? ContainerClass : ContainerClass + " " + ERROR_CLASS;
-            SfBaseUtils.UpdateDictionary(ARIA_INVALID, IsValidState ? FALSE : TRUE, InputHtmlAttributes);
+            _ = SfBaseUtils.UpdateDictionary(ARIA_INVALID, IsValidState ? FALSE : TRUE, InputHtmlAttributes);
         }
 
         /// <summary>
@@ -648,8 +657,8 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
                 decimal value2 = decimal.Round(Convert.ToDecimal(result, CultureInfo.CurrentCulture), decimals);
                 double value1 = Math.Round(Convert.ToDouble(result, CultureInfo.CurrentCulture), decimals);
                 result = valueString.Contains('E', StringComparison.Ordinal) ? result :
-                    (propertyType == typeof(double) || Nullable.GetUnderlyingType(propertyType) == typeof(double)) ? (TValue)SfBaseUtils.ChangeType(value1, propertyType, true) :
-                        (TValue)SfBaseUtils.ChangeType(value2, propertyType, true);
+                    (propertyType == typeof(double) || Nullable.GetUnderlyingType(propertyType) == typeof(double)) ? (TValue?)SfBaseUtils.ChangeType(value1, propertyType, true) :
+                        (TValue?)SfBaseUtils.ChangeType(value2, propertyType, true);
             }
             return result;
         }
@@ -672,7 +681,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             {
 
                 await SetValueAsync(null, FloatLabelType, ShowClearButton).ConfigureAwait(true);
-                InputHtmlAttributes.Remove(ARIA_VALUE_NOW);
+                _ = InputHtmlAttributes.Remove(ARIA_VALUE_NOW);
             }
         }
 
@@ -784,7 +793,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             }
             else
             {
-                InputHtmlAttributes.Remove(ARIA_VALUE_MAX);
+                _ = InputHtmlAttributes.Remove(ARIA_VALUE_MAX);
             }
             if (isMin)
             {
@@ -792,7 +801,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             }
             else
             {
-                InputHtmlAttributes.Remove(ARIA_VALUE_MIN);
+                _ = InputHtmlAttributes.Remove(ARIA_VALUE_MIN);
             }
         }
 
@@ -833,7 +842,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             try
             {
                 string maximumFraction = decimals is not null ? decimals.Value.ToString(CultureInfo.InvariantCulture) : string.Empty;
-                return Intl.GetNumericFormat<TValue>(value, "n" + maximumFraction, Currency);
+                return Intl.GetNumericFormat(value, "n" + maximumFraction, Currency);
             }
             catch (FormatException ex)
             {
@@ -897,7 +906,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         internal override async Task OnAfterScriptRenderedAsync()
         {
             await UpdateIsDeviceModeAsync().ConfigureAwait(true);
-            await InvokeVoidAsync(_numericTextBoxJsModule, _numericTextBoxJsInProcessModule, "initialize", [DataId, ContainerElement, InputElement, DotnetObjectReference!, new NumericClientProps { Readonly = Readonly, Disabled = Disabled, Locale = CultureInfo.CurrentCulture.Name, ValidateDecimalOnType = ValidateDecimalOnType, Decimals = Decimals, DecimalSeparator = CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator, AllowMouseWheel = AllowMouseWheel }]).ConfigureAwait(true);
+            await InvokeVoidAsync(_numericTextBoxJsModule, _numericTextBoxJsInProcessModule, "initialize", [DataId, ContainerElement, InputElement, DotnetObjectReference, new NumericClientProps { Readonly = Readonly, Disabled = Disabled, Locale = CultureInfo.CurrentCulture.Name, ValidateDecimalOnType = ValidateDecimalOnType, Decimals = Decimals, DecimalSeparator = CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator, AllowMouseWheel = AllowMouseWheel }]).ConfigureAwait(true);
             if (SyncfusionService is not null)
             {
                 IsDevice = SyncfusionService.IsDeviceMode;
@@ -1104,6 +1113,10 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             Dictionary<string, object> returnValue = new() { { "isRendered", false }, { "formatValue", string.Empty } };
             if (!Disabled && !Readonly)
             {
+                // Browser focus arrives through this JS callback, not @onfocus.
+                // Mark focused before revealing the clear button so it is a tab stop
+                // before the pending Tab key moves focus.
+                IsFocused = true;
                 IsFocus = true;
                 if (ValueExpression is not null)
                 {
@@ -1264,7 +1277,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
                     if (tempVal.StartsWith(negativeSign, StringComparison.Ordinal))
                     {
                         hasNegative = true;
-                        tempVal = tempVal.Substring(tempVal.StartsWith(negativeSign, StringComparison.Ordinal) ? 1 : negativeSign.Length);
+                        tempVal = tempVal[(tempVal.StartsWith(negativeSign, StringComparison.Ordinal) ? 1 : negativeSign.Length)..];
                     }
                 }
                 string pattern = $"[^0-9{Regex.Escape(dropDecimalSeparator)}]";
@@ -1291,20 +1304,20 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
                 {
                     if (c is >= '０' and <= '９')
                     {
-                        sb.Append((char)(c - '０' + '0'));
+                        _ = sb.Append((char)(c - '０' + '0'));
                     }
                     else if ((c == '-' || (negativeSignStr.Length == 1 && c.ToString() == negativeSignStr)) && isFirstChar && !hasNegativeProcessed)
                     {
-                        sb.Append(negativeSignStr);
+                        _ = sb.Append(negativeSignStr);
                         hasNegativeProcessed = true;
                     }
                     else if (char.IsDigit(c))
                     {
-                        sb.Append(c);
+                        _ = sb.Append(c);
                     }
                     else if (c.ToString() == decimalSeparator)
                     {
-                        sb.Append(decimalSeparator);
+                        _ = sb.Append(decimalSeparator);
                     }
                     else if (c.ToString() == thousandSeparator)
                     {
@@ -1754,6 +1767,10 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// <remarks>
         /// This method completes the precision rounding process by rounding the multiplied value and then dividing it back to the original scale. The rounding step eliminates floating-point precision artifacts.
         /// </remarks>
+        [UnconditionalSuppressMessage("Trimming", "IL2026",
+            Justification = "The dynamic arithmetic operates only on the closed set of built-in numeric primitives permitted for TValue (byte, int, double, decimal, etc.); their operator members are intrinsic to the runtime and cannot be trimmed away.")]
+        [UnconditionalSuppressMessage("AOT", "IL3050",
+            Justification = "The dynamic arithmetic operates only on built-in numeric primitives whose operators the runtime resolves without generating new code; converting to static generic math would require changing the public TValue constraint, which the API contract forbids.")]
         private TValue DivideValue(TValue value, double divide)
         {
             dynamic? result = value;

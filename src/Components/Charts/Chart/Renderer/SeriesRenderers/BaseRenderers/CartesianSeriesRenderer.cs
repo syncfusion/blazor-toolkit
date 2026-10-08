@@ -9,7 +9,7 @@
     /// update consumers by invoking <see cref="OnAxisChanged"/> when any axis
     /// related property changes.
     /// </remarks>
-    public interface IRequireAxis
+    internal interface IRequireAxis
     {
         #region Properties
 
@@ -83,13 +83,13 @@
         /// Gets or sets the X data points for the series.
         /// </summary>
         /// <value>A mutable list of X coordinate values. Implementers should avoid exposing internal lists directly when possible.</value>
-        List<double> XData { get; set; }
+        IList<double> XData { get; set; }
 
         /// <summary>
         /// Gets or sets the Y data points for the series.
         /// </summary>
         /// <value>A mutable list of Y coordinate values. Implementers should avoid exposing internal lists directly when possible.</value>
-        List<double> YData { get; set; }
+        IList<double> YData { get; set; }
 
         #endregion
 

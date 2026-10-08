@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 using Syncfusion.Blazor.Toolkit.Data;
 using System.Dynamic;
@@ -9,6 +10,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
     /// <summary>
     /// DataOperation class that performs data operation in DynamicObject type data sources.
     /// </summary>
+    [RequiresUnreferencedCode("The Syncfusion data query engine builds LINQ expressions and reflects over the queried model type at runtime; members it depends on may be removed by the trimmer.")]
+    [RequiresDynamicCode("The Syncfusion data query engine constructs generic methods and compiles expression trees at runtime, which is not supported by Native AOT.")]
     public static class DynamicObjectOperation
     {
         /// <summary>
@@ -59,7 +62,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="dataSource">Input data source to be sorted.</param>
         /// <param name="sortedColumns">List of sort criteria.</param>
         /// <returns>IQuerable.</returns>
-        public static IQueryable PerformSorting(IQueryable dataSource, List<Sort> sortedColumns)
+        public static IQueryable PerformSorting(IQueryable dataSource, IList<Sort> sortedColumns)
         {
             bool firstTime = true;
             IQueryable<IDynamicMetaObjectProvider> dt = dataSource.Cast<IDynamicMetaObjectProvider>().AsQueryable();
@@ -68,7 +71,10 @@ namespace Syncfusion.Blazor.Toolkit.Data
             List<SortedColumn> sortedColumn = [];
             if (sortedColumns != null && sortedColumns.Count > 1)
             {
-                sortedColumns.Reverse();
+                for (int i = 0, j = sortedColumns.Count - 1; i < j; i++, j--)
+                {
+                    (sortedColumns[j], sortedColumns[i]) = (sortedColumns[i], sortedColumns[j]);
+                }
             }
 
             foreach (Sort column in sortedColumns ?? [])
@@ -97,16 +103,16 @@ namespace Syncfusion.Blazor.Toolkit.Data
                     if (firstTime)
                     {
                         dt = column.Comparer != null
-                            ? dt.OrderBy(column.Field, (column.Comparer as IComparer<object>)!, sourceType).Cast<IDynamicMetaObjectProvider>().AsQueryable()
-                            : dt.OrderBy(x => ReflectionExtension.GetValueFromIDynamicMetaObject(x, column.Field, true));
+                            ? dt.OrderBy((column.Comparer as IComparer<object>)!, sourceType).Cast<IDynamicMetaObjectProvider>().AsQueryable()
+                            : dt.OrderBy(x => ReflectionExtension.GetValueFromIDynamicMetaObject(x, column.Field ?? string.Empty, true));
                         firstTime = false;
                     }
                     else
                     {
                         data = (IOrderedQueryable<IDynamicMetaObjectProvider>)dt;
                         dt = column.Comparer != null
-                            ? data.ThenBy(column.Field, (column.Comparer as IComparer<object>)!, sourceType).Cast<IDynamicMetaObjectProvider>().AsQueryable()
-                            : data.ThenBy(x => ReflectionExtension.GetValueFromIDynamicMetaObject(x, column.Field, true));
+                            ? data.ThenBy((column.Comparer as IComparer<object>)!, sourceType).Cast<IDynamicMetaObjectProvider>().AsQueryable()
+                            : data.ThenBy(x => ReflectionExtension.GetValueFromIDynamicMetaObject(x, column.Field ?? string.Empty, true));
                     }
                 }
                 else
@@ -114,16 +120,16 @@ namespace Syncfusion.Blazor.Toolkit.Data
                     if (firstTime)
                     {
                         dt = column.Comparer != null
-                            ? dt.OrderByDescending(column.Field, (column.Comparer as IComparer<object>)!, sourceType).Cast<IDynamicMetaObjectProvider>().AsQueryable()
-                            : dt.OrderByDescending(x => ReflectionExtension.GetValueFromIDynamicMetaObject(x, column.Field, true));
+                            ? dt.OrderByDescending((column.Comparer as IComparer<object>)!, sourceType).Cast<IDynamicMetaObjectProvider>().AsQueryable()
+                            : dt.OrderByDescending(x => ReflectionExtension.GetValueFromIDynamicMetaObject(x, column.Field ?? string.Empty, true));
                         firstTime = false;
                     }
                     else
                     {
                         data = (IOrderedQueryable<IDynamicMetaObjectProvider>)dt;
                         dt = column.Comparer != null
-                            ? data.ThenByDescending(column.Field, (column.Comparer as IComparer<object>)!, sourceType).Cast<IDynamicMetaObjectProvider>().AsQueryable()
-                            : data.ThenByDescending(x => ReflectionExtension.GetValueFromIDynamicMetaObject(x, column.Field, true));
+                            ? data.ThenByDescending((column.Comparer as IComparer<object>)!, sourceType).Cast<IDynamicMetaObjectProvider>().AsQueryable()
+                            : data.ThenByDescending(x => ReflectionExtension.GetValueFromIDynamicMetaObject(x, column.Field ?? string.Empty, true));
                     }
                 }
             }
@@ -137,9 +143,9 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="dataSource">Input data source.</param>
         /// <param name="whereFilter">List of filter criteria.</param>
         /// <param name="condition">Condition to merge two filter criteria.</param>
-        /// <param name="columnTypes">Type collection of each property in data source.</param>
+        /// <param name="columnTypes">Type collection of each property in data source, or null to infer types.</param>
         /// <returns></returns>
-        public static IQueryable PerformFiltering(IEnumerable dataSource, List<WhereFilter> whereFilter, string condition, IDictionary<string, Type> columnTypes = null)
+        public static IQueryable PerformFiltering(IEnumerable dataSource, IList<WhereFilter> whereFilter, string condition, IDictionary<string, Type>? columnTypes = null)
         {
             IQueryable<IDynamicMetaObjectProvider> data = dataSource.Cast<IDynamicMetaObjectProvider>().AsQueryable();
             ParameterExpression paramExpression = Expression.Parameter(typeof(object));
@@ -154,26 +160,26 @@ namespace Syncfusion.Blazor.Toolkit.Data
             return data;
         }
 
-        private static Type GetColumnType(IEnumerable dataSource, string filterString, bool nullable = true)
+        private static Type? GetColumnType(IEnumerable dataSource, string filterString, bool nullable = true)
         {
             _ = nullable;
-            List<IDynamicMetaObjectProvider>? dataSourceList = [.. dataSource.Cast<IDynamicMetaObjectProvider>()];
-            if (dataSourceList?.Count == 0)
+            List<IDynamicMetaObjectProvider> dataSourceList = [.. dataSource.Cast<IDynamicMetaObjectProvider>()];
+            if (dataSourceList.Count == 0)
             {
-                return null!;
+                return null;
             }
-            Type? rowType = dataSourceList?[0].GetType();
+            Type rowType = dataSourceList[0].GetType();
 
-            IDynamicMetaObjectProvider? rowData = dataSourceList?[0];
-            object? propertyValue = ReflectionExtension.GetValueFromIDynamicMetaObject(rowData!, filterString, true);
+            IDynamicMetaObjectProvider? rowData = dataSourceList[0];
+            object? propertyValue = ReflectionExtension.GetValueFromIDynamicMetaObject(rowData, filterString, true);
             if (propertyValue == null)
             {
-                rowData = dataSourceList?.Where(x => ReflectionExtension.GetValueFromIDynamicMetaObject(x, filterString, true) != null).FirstOrDefault();
+                rowData = dataSourceList.FirstOrDefault(x => ReflectionExtension.GetValueFromIDynamicMetaObject(x, filterString, true) != null);
             }
-            return propertyValue?.GetType()!;
+            return propertyValue?.GetType();
         }
 
-        private static Type ColumnType(IDictionary<string, Type> columns, string field, object data = null!)
+        private static Type? ColumnType(IDictionary<string, Type> columns, string field, object? data = null)
         {
             Type? type = null;
             string[] Fields = field.Split('.');
@@ -195,7 +201,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
                             {
                                 type = value;
                             }
-                            data = customData!;
+                            data = customData;
                         }
                         else
                         {
@@ -212,7 +218,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
                 type = columns.TryGetValue(field, out Type? value) ? value : null;
             }
 
-            return type!;
+            return type;
         }
 
         /// <summary>
@@ -222,11 +228,10 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="searchFilter">List of search criteria.</param>
         /// <returns>IEnumerable - searched records.</returns>
         /// <param name="columnTypes">Type collection of each property in data source.</param>
-        public static IQueryable PerformSearching(IEnumerable dataSource, List<SearchFilter> searchFilter, IDictionary<string, Type>? columnTypes = null)
+        public static IQueryable PerformSearching(IEnumerable dataSource, IList<SearchFilter> searchFilter, IDictionary<string, Type>? columnTypes = null)
         {
             IQueryable<IDynamicMetaObjectProvider>? data = null;
             Type? type = dataSource.GetElementType();
-            Type t = typeof(object);
             if (type == null)
             {
                 Type? type1 = dataSource?.GetType();
@@ -281,9 +286,9 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="whereFilter">List of filter criteria.</param>
         /// <param name="condition">Condition to merge two filter criteria.</param>
         /// <param name="paramExpression">Parameter expression.</param>
-        /// <param name="columnTypes">Type collection of each property in data source.</param>
+        /// <param name="columnTypes">Type collection of each property in data source, or null to infer types.</param>
         /// <returns>Expression.</returns>
-        public static Expression PredicateBuilder(IEnumerable dataSource, List<WhereFilter> whereFilter, string condition, ParameterExpression paramExpression, IDictionary<string, Type> columnTypes = null)
+        public static Expression PredicateBuilder(IEnumerable dataSource, IList<WhereFilter> whereFilter, string condition, ParameterExpression paramExpression, IDictionary<string, Type>? columnTypes = null)
         {
             Type? type = dataSource.GetElementType();
             if (type == null)
@@ -298,10 +303,10 @@ namespace Syncfusion.Blazor.Toolkit.Data
                 if (filter.IsComplex)
                 {
                     predicate = predicate == null
-                        ? PredicateBuilder(dataSource!, filter.Predicates, filter.Condition, paramExpression, columnTypes!)
+                        ? PredicateBuilder(dataSource!, filter.Predicates, filter.Condition, paramExpression, columnTypes)
                         : condition == "or"
-                            ? predicate.OrElsePredicate(PredicateBuilder(dataSource!, filter.Predicates, filter.Condition, paramExpression, columnTypes!))
-                            : predicate.AndAlsoPredicate(PredicateBuilder(dataSource!, filter.Predicates, filter.Condition, paramExpression, columnTypes!));
+                            ? predicate.OrElsePredicate(PredicateBuilder(dataSource!, filter.Predicates, filter.Condition, paramExpression, columnTypes))
+                            : predicate.AndAlsoPredicate(PredicateBuilder(dataSource!, filter.Predicates, filter.Condition, paramExpression, columnTypes));
                 }
                 else
                 {

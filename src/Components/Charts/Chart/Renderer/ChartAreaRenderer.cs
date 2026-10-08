@@ -9,7 +9,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// This renderer is attached to the owning chart via <see cref="ChartRenderer.Owner"/>.
     /// It draws the area rectangle and optional background image inside the series clip rectangle.
     /// </remarks>
-    public class ChartAreaRenderer : ChartRenderer
+    internal class ChartAreaRenderer : ChartRenderer
     {
         #region Properties
 

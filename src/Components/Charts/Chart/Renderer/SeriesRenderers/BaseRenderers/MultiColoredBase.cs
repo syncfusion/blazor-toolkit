@@ -57,7 +57,11 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 
             if ((endPointLocation.X - startPointLocation.X > 0) && (endPointLocation.Y - startPointLocation.Y > 0))
             {
-                Owner?._svgRenderer?.OpenClipPath(builder, Owner._svgRenderer.Seq++, clipPathId);
+                if (Owner?._svgRenderer is not null)
+                {
+                    SvgRendering.OpenClipPath(builder, Owner._svgRenderer.Seq++, clipPathId);
+                }
+
                 Owner?._svgRenderer?.RenderRect(builder, new RectOptions(
                     clipPathId + "_Rect",
                     startPointLocation.X,
@@ -91,11 +95,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 
             if (axis.ValueType == ValueType.DateTime)
             {
-                if (segmentValue is double val)
-                {
-                    return val;
-                }
-                return ChartHelper.GetTime(segmentValue is not null ? Convert.ToDateTime(segmentValue, Culture) : new DateTime(1970, 1, 1).AddMilliseconds(Math.Max(axis.Renderer?.VisibleRange.End ?? 0, _maxSegmentValue)));
+                return segmentValue is double val
+                    ? val
+                    : ChartHelper.GetTime(segmentValue is not null ? Convert.ToDateTime(segmentValue, Culture) : new DateTime(1970, 1, 1).AddMilliseconds(Math.Max(axis.Renderer?.VisibleRange.End ?? 0, _maxSegmentValue)));
             }
             else if (axis.AxisValueType is not null && axis.AxisValueType.Contains("Category", StringComparison.InvariantCulture))
             {
@@ -186,20 +188,14 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             {
                 if (a.Value != null)
                 {
-                    double currentSegmentValue;
-                    if (axis.ValueType == ValueType.DateTime)
-                    {
-                        currentSegmentValue = a.Value switch
+                    double currentSegmentValue = axis.ValueType == ValueType.DateTime
+                        ? a.Value switch
                         {
                             DateTime dt => ChartHelper.GetTime(dt),
                             double d => d,
                             _ => ChartHelper.GetTime(Convert.ToDateTime(a.Value, Culture))
-                        };
-                    }
-                    else
-                    {
-                        currentSegmentValue = Convert.ToDouble(a.Value, Culture);
-                    }
+                        }
+                        : Convert.ToDouble(a.Value, Culture);
                     _maxSegmentValue = Math.Max(_maxSegmentValue, currentSegmentValue);
                 }
             });
@@ -280,7 +276,6 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 
             ChartAxis axis = series.SegmentAxis == Segment.X ? XAxisRenderer.Axis ?? null! : YAxisRenderer.Axis ?? null!;
             IncludeSegment(segments, axis, segments.Count);
-            PathOptions attributeOptions = null!;
 
             for (int index = 0; index < segments.Count; index++)
             {
@@ -299,7 +294,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 {
                     foreach (PathOptions option in options)
                     {
-                        attributeOptions = BuildAttributeOptions(option, series!, segment, index, clipPath);
+                        PathOptions attributeOptions = BuildAttributeOptions(option, series!, segment, index, clipPath);
                         attributeOptions.Direction = ChartHelper.AppendPathElements(Owner ?? null!, attributeOptions.Direction, attributeOptions.Id);
                         _ = Owner?._svgRenderer?.RenderPath(builder, attributeOptions);
                     }

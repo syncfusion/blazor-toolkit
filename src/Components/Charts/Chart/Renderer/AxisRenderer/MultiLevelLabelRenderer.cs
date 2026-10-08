@@ -17,7 +17,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         private double[]? _y_AxisPrevHeight;
         private double[]? _x_AxisMultiLabelHeight;
         private double[]? _x_AxisPrevHeight;
-        private CultureInfo _culture = CultureInfo.InvariantCulture;
+        private readonly CultureInfo _culture = CultureInfo.InvariantCulture;
         private ChartAxis? _axis;
         private ChartAxisRenderer? _axisRenderer;
         private SfChart? _chart;
@@ -49,7 +49,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             bool isVertical = _axisRenderer?.Orientation == Orientation.Vertical;
             double axisValue = isVertical ? _axisRenderer?.Rect.Height ?? 0 : _axisRenderer?.Rect.Width ?? 0;
             axisValue = double.IsNaN(axisValue) ? 0 : axisValue;
-            List<ChartMultiLevelLabel> multiLevelLabelCollection = _axisRenderer?.Axis?.MultiLevelLabels ?? null!;
+            IList<ChartMultiLevelLabel> multiLevelLabelCollection = _axisRenderer?.Axis?.MultiLevelLabels ?? null!;
             int labelCount = multiLevelLabelCollection.Count;
             double data = 0;
             double padding = 10;

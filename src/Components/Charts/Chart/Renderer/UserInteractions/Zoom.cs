@@ -8,7 +8,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// This class manages wheel, pinch, and touch zoom state, invokes zooming events, 
     /// and coordinates toolkit visibility based on user interactions.
     /// </remarks>
-    public class Zoom
+    internal class Zoom
     {
         #region Constants
         private const int UPDATETHRESHOLD = 10;

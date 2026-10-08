@@ -58,7 +58,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// the results of the entire upload batch and take appropriate action based on the outcomes.
         /// </remarks>
         [JsonPropertyName("fileData")]
-        public List<FileInfo> FileData { get; set; } = [];
+        public IList<FileInfo> FileData { get; set; } = [];
     }
 
     /// <summary>
@@ -111,7 +111,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// or displaying confirmation messages to users before removal.
         /// </remarks>
         [JsonPropertyName("filesData")]
-        public List<FileInfo> FilesData { get; set; } = [];
+        public IList<FileInfo> FilesData { get; set; } = [];
 
         /// <summary>
         /// Gets or sets additional custom data in key-value pair format to be submitted with the removal request.
@@ -207,7 +207,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// progress tracking, or preprocessing before the upload begins.
         /// </remarks>
         [JsonPropertyName("filesData")]
-        public List<FileInfo> FilesData { get; set; } = [];
+        public IList<FileInfo> FilesData { get; set; } = [];
 
         /// <summary>
         /// Gets or sets additional custom data in key-value pair format to be sent with the file upload request.
@@ -312,7 +312,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// for logging, user confirmation, or implementing custom clear logic.
         /// </remarks>
         [JsonPropertyName("filesData")]
-        public List<FileInfo> FilesData { get; set; } = [];
+        public IList<FileInfo> FilesData { get; set; } = [];
     }
 
     /// <summary>
@@ -813,7 +813,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// or displaying confirmation messages to users before removal.
         /// </remarks>
         [JsonPropertyName("filesData")]
-        public List<FileInfo> FilesData { get; set; } = [];
+        public IList<FileInfo> FilesData { get; set; } = [];
 
         /// <summary>
         /// Gets or sets a value indicating whether the selected raw file data should be sent to the server during removal.
@@ -992,7 +992,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// preprocessing, or displaying file information to users before upload begins.
         /// </remarks>
         [JsonPropertyName("filesData")]
-        public List<FileInfo> FilesData { get; set; } = [];
+        public IList<FileInfo> FilesData { get; set; } = [];
 
         /// <summary>
         /// Gets or sets a value indicating whether the file selection operation has been canceled.
@@ -1035,7 +1035,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// file processing and filtering during the selection process.
         /// </remarks>
         [JsonPropertyName("modifiedFilesData")]
-        public List<FileInfo> ModifiedFilesData { get; set; } = [];
+        public IList<FileInfo> ModifiedFilesData { get; set; } = [];
 
         /// <summary>
         /// Gets or sets the progress interval step value for the progress bar.
@@ -1256,7 +1256,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// of uploaded files, including validation, storage operations, and content manipulation.
         /// </remarks>
         [JsonPropertyName("files")]
-        public List<UploadFiles>? Files { get; set; }
+        public IList<UploadFiles>? Files { get; set; }
     }
 
     /// <summary>
@@ -2110,7 +2110,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// </remarks>
         [DefaultValue(null)]
         [JsonPropertyName("files")]
-        public List<UploadedFile>? Files { get; set; }
+        public IList<UploadedFile>? Files { get; set; }
 
         /// <summary>
         /// Gets or sets additional HTML attributes to be applied to the root element of the uploader component.

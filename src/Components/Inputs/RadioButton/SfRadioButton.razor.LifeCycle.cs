@@ -24,7 +24,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// <summary>
         /// Reacts to parameter changes for the radio button after the initial render, persisting
         /// user-driven <see cref="SfSelectionBase{TChecked}.Checked"/> updates to local storage when
-        /// <see cref="EnablePersistence"/> is enabled.
+        /// <see cref="SfSelectionBase{TChecked}.EnablePersistence"/> is enabled.
         /// </summary>
         /// <returns>A <see cref="Task"/> representing the asynchronous operation.</returns>
         /// <remarks>
@@ -38,7 +38,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// using <c>SfBaseUtils.Equals</c> to avoid redundant writes for value-equal updates.
         /// </para>
         /// <para>
-        /// Persistence is performed only when <see cref="EnablePersistence"/> is <see langword="true"/>
+        /// Persistence is performed only when <see cref="SfSelectionBase{TChecked}.EnablePersistence"/> is <see langword="true"/>
         /// and both the current and initial checked values are non-null.
         /// </para>
         /// </remarks>

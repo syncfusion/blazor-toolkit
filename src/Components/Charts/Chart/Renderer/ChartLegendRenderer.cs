@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Components.Rendering;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Components;
 
 namespace Syncfusion.Blazor.Toolkit.Charts.Internal
@@ -15,7 +16,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// - Managing legend paging and templates
     /// - Handling legend click and hover interactions
     /// </remarks>
-    public class ChartLegendRenderer : LegendBase, ILegendMethods
+    internal class ChartLegendRenderer : LegendBase, ILegendMethods
     {
         #region Fields
         private int _seriesIndex;
@@ -427,7 +428,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 double availWidth = CalculateAvailableWidth(legendOption, textPadding);
                 if (legendOption is { })
                 {
-                    legendOption.Text = ChartHelper.TextTrim(Convert.ToDouble(availWidth.ToString("F4", culture), culture), legendOption.Text, LegendTextStyle ?? null!);
+                    legendOption.Text = ChartHelper.TextTrim(Convert.ToDouble(availWidth.ToString("F4", Culture), Culture), legendOption.Text, LegendTextStyle ?? null!);
                 }
             }
         }
@@ -716,7 +717,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 
             RowHeights?.Insert(len, Math.Max(len >= 0 && len < RowHeights.Count ? RowHeights[len] : 0, MaxItemHeight));
 
-            double columnHeightsValue = ComputeColumnHeightValue(legendOption!, columnCount, padding, firstLegend);
+            double columnHeightsValue = ComputeColumnHeightValue(legendOption, columnCount, padding, firstLegend);
             ColumnHeights?.Insert((int)columnCount, columnHeightsValue);
         }
 
@@ -765,16 +766,13 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             double padding = Legend?.Padding ?? 0;
             double columnHeight = (ColumnHeights?.Count > 0 ? ColumnHeights.Max() : 0) + padding;
 
-            columnHeight = Math.Max(columnHeight + (wrapTextCount > 1 ? padding : 0), (MaxItemHeight + padding) + padding);
+            columnHeight = Math.Max(columnHeight + (wrapTextCount > 1 ? padding : 0), MaxItemHeight + padding + padding);
             IsPaging = LegendBounds.Height < columnHeight && rowCount > 0;
             rowCount = IsPaging ? rowCount : 1;
 
             if (render)
             {
                 SetBounds(Math.Max(rowWidth + padding, maximumWidth), columnHeight);
-
-                double rowsPerPageDenom = Math.Max(1.0, (double)RowCountPerPage - 1.0);
-                double linesPerPageDenom = Math.Max(0.0, Math.Ceiling((LegendBounds.Height - (Legend?.Padding ?? 0)) / _textHeight) + 1.0);
 
                 TotalPageCount = Math.Ceiling((rowCount / Math.Max(1, RowCountPerPage - 1)) + (wrapTextCount / Math.Max(0, Math.Ceiling((LegendBounds.Height - (Legend?.Padding ?? 0)) / _textHeight) + 1)));
             }
@@ -871,6 +869,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="eventArgs">The mouse event arguments.</param>
         /// <param name="isMouseMove">Indicates whether triggered by mouse movement.</param>
         /// <param name="targetId">The ID of the target element.</param>
+        [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Toggling series visibility via a legend click reflects over the user-supplied DataSource element type. This method belongs to ChartLegendRenderer, which is instantiated by the chart's render tree via RenderTreeBuilder.OpenComponent<T>; that roots all of the component's members and cannot tolerate a [RequiresUnreferencedCode] method (IL2026 at the generated render callsite). The trim requirement is surfaced honestly on the public SfChart/ChartSeries data APIs.")]
+        [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "Toggling series visibility via a legend click uses reflection-based data binding over the user-supplied DataSource element type. This method belongs to ChartLegendRenderer, which is instantiated by the chart's render tree via RenderTreeBuilder.OpenComponent<T> and cannot tolerate a [RequiresDynamicCode] method. The AOT requirement is surfaced honestly on the public SfChart/ChartSeries data APIs.")]
         private void ProcessLegendItemClick(ChartInternalMouseEventArgs eventArgs, bool isMouseMove, string targetId)
         {
             if (!ChartHelper.WithInBounds(eventArgs.MouseX, eventArgs.MouseY, Owner?._legendRenderer?.PagingRect ?? null!) && ChartHelper.WithInBounds(eventArgs.MouseX, eventArgs.MouseY, Owner?._legendRenderer?.LegendBounds ?? null!) && LegendCollection.Count != 0)
@@ -890,6 +890,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// Handles legend click events.
         /// </summary>
         /// <param name="isMouseMove">Indicates whether triggered by mouse movement.</param>
+        [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Toggling series visibility via a legend click reflects over the user-supplied DataSource element type. This method belongs to ChartLegendRenderer, which is instantiated by the chart's render tree via RenderTreeBuilder.OpenComponent<T>; that roots all of the component's members and cannot tolerate a [RequiresUnreferencedCode] method (IL2026 at the generated render callsite). The trim requirement is surfaced honestly on the public SfChart/ChartSeries data APIs.")]
+        [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "Toggling series visibility via a legend click uses reflection-based data binding over the user-supplied DataSource element type. This method belongs to ChartLegendRenderer, which is instantiated by the chart's render tree via RenderTreeBuilder.OpenComponent<T> and cannot tolerate a [RequiresDynamicCode] method. The AOT requirement is surfaced honestly on the public SfChart/ChartSeries data APIs.")]
         private void LegendClick(bool isMouseMove)
         {
             ChartSeriesRenderer seriesRenderer = Owner?._visibleSeriesRenderers[_seriesIndex] ?? null!;
@@ -932,6 +934,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// </summary>
         /// <param name="seriesRenderer">The series renderer.</param>
         /// <param name="isMouseMove">Indicates whether triggered by mouse movement.</param>
+        [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Toggling series visibility via a legend click reflects over the user-supplied DataSource element type. This method belongs to ChartLegendRenderer, which is instantiated by the chart's render tree via RenderTreeBuilder.OpenComponent<T>; that roots all of the component's members and cannot tolerate a [RequiresUnreferencedCode] method (IL2026 at the generated render callsite). The trim requirement is surfaced honestly on the public SfChart/ChartSeries data APIs.")]
+        [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "Toggling series visibility via a legend click uses reflection-based data binding over the user-supplied DataSource element type. This method belongs to ChartLegendRenderer, which is instantiated by the chart's render tree via RenderTreeBuilder.OpenComponent<T> and cannot tolerate a [RequiresDynamicCode] method. The AOT requirement is surfaced honestly on the public SfChart/ChartSeries data APIs.")]
         private void UpdateSeriesInterior(ChartSeriesRenderer seriesRenderer, bool isMouseMove)
         {
             if (!string.IsNullOrEmpty(seriesRenderer.Series?.Fill))
@@ -987,6 +991,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// </summary>
         /// <param name="series">The series renderer.</param>
         /// <param name="visibility">The current visibility state.</param>
+        [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Toggling series visibility via a legend click reflects over the user-supplied DataSource element type. This method belongs to ChartLegendRenderer, which is instantiated by the chart's render tree via RenderTreeBuilder.OpenComponent<T>; that roots all of the component's members and cannot tolerate a [RequiresUnreferencedCode] method (IL2026 at the generated render callsite). The trim requirement is surfaced honestly on the public SfChart/ChartSeries data APIs.")]
+        [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "Toggling series visibility via a legend click uses reflection-based data binding over the user-supplied DataSource element type. This method belongs to ChartLegendRenderer, which is instantiated by the chart's render tree via RenderTreeBuilder.OpenComponent<T> and cannot tolerate a [RequiresDynamicCode] method. The AOT requirement is surfaced honestly on the public SfChart/ChartSeries data APIs.")]
         private void ChangeSeriesVisiblity(ChartSeriesRenderer series, bool visibility)
         {
             HasLegendClicked = true;
@@ -1008,7 +1014,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 
             if (currentTextOption is { })
             {
-                currentTextOption.Y = yValue.ToString(culture);
+                currentTextOption.Y = yValue.ToString(Culture);
             }
 
             string id = Owner?.ID + "_chart_legend_template_" + Convert.ToString(legendOption.SeriesIndex, null);
@@ -1024,7 +1030,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             TemplateOptions.Add(new LegendItemTemplateOptions()
             {
                 Id = id,
-                style = style,
+                Style = style,
                 LegendTemplate = legendOption.LegendTemplate
             });
         }
@@ -1097,7 +1103,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="pageNumberElement">The page number text element.</param>
         protected async Task TranslatePageAsync(double page, double pageNumber, SvgText pageNumberElement = null!)
         {
-            Transform = "translate(0,-" + (ClipPathHeight * page).ToString(culture) + ")";
+            Transform = "translate(0,-" + (ClipPathHeight * page).ToString(Culture) + ")";
             CurrentPageNumber = pageNumber;
 
             if (Owner is not null)
@@ -1245,6 +1251,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// </summary>
         /// <param name="targetId">The target element ID.</param>
         /// <param name="isMouseMove">Indicates whether triggered by mouse movement.</param>
+        [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Toggling series visibility via legend keyboard navigation reflects over the user-supplied DataSource element type. This method belongs to ChartLegendRenderer, which is instantiated by the chart's render tree via RenderTreeBuilder.OpenComponent<T>; that roots all of the component's members and cannot tolerate a [RequiresUnreferencedCode] method (IL2026 at the generated render callsite). The trim requirement is surfaced honestly on the public SfChart/ChartSeries data APIs.")]
+        [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "Toggling series visibility via legend keyboard navigation uses reflection-based data binding over the user-supplied DataSource element type. This method belongs to ChartLegendRenderer, which is instantiated by the chart's render tree via RenderTreeBuilder.OpenComponent<T> and cannot tolerate a [RequiresDynamicCode] method. The AOT requirement is surfaced honestly on the public SfChart/ChartSeries data APIs.")]
         internal void ProcessNavigationLegendEnter(string targetId, bool isMouseMove = false)
         {
             if (LegendSettings is not null && !LegendSettings.Visible)
@@ -1268,6 +1276,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// </summary>
         /// <param name="eventArgs">The mouse event arguments.</param>
         /// <param name="isMouseMove">Indicates whether this is triggered by mouse movement.</param>
+        [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Toggling series visibility via a legend click reflects over the user-supplied DataSource element type. This method belongs to ChartLegendRenderer, which is instantiated by the chart's render tree via RenderTreeBuilder.OpenComponent<T>; that roots all of the component's members and cannot tolerate a [RequiresUnreferencedCode] method (IL2026 at the generated render callsite). The trim requirement is surfaced honestly on the public SfChart/ChartSeries data APIs.")]
+        [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "Toggling series visibility via a legend click uses reflection-based data binding over the user-supplied DataSource element type. This method belongs to ChartLegendRenderer, which is instantiated by the chart's render tree via RenderTreeBuilder.OpenComponent<T> and cannot tolerate a [RequiresDynamicCode] method. The AOT requirement is surfaced honestly on the public SfChart/ChartSeries data APIs.")]
         internal void Click(ChartInternalMouseEventArgs eventArgs, bool isMouseMove = false)
         {
             if (LegendSettings is not null && !LegendSettings.Visible)

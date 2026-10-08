@@ -18,45 +18,44 @@
         class="e-control e-chart e-lib e-touch @CustomClass">
         <div id="@(ID + "_Secondary_Element")">
             <div id="@(ID + "_Annotation_Collections")">
-                <ChartAnnotationRendererContainer></ChartAnnotationRendererContainer>
+                @(RenderInternalComponent<ChartAnnotationRendererContainer>())
             </div>
             <ChartTooltipComponent @ref="@_templateTooltip" ID="@(ID + "_tooltip")" Class="ejSVGTooltip"></ChartTooltipComponent>
             <ChartTooltipComponent @ref="@_striplineTooltip" ID="@(ID + "_stripline_tooltip")" Class="ejSVGTooltip"></ChartTooltipComponent>
-            <DataLabelTemplateContainer></DataLabelTemplateContainer>
-            <AxisLabelTemplateContainer></AxisLabelTemplateContainer>
-            <LegendItemTemplateContainer></LegendItemTemplateContainer>
+            @(RenderInternalComponent<DataLabelTemplateContainer>())
+            @(RenderInternalComponent<AxisLabelTemplateContainer>())
+            @(RenderInternalComponent<LegendItemTemplateContainer>())
             @if(NoDataTemplate is not null)
             {
-                <NoDataTemplateContainer></NoDataTemplateContainer>
+                @(RenderInternalComponent<NoDataTemplateContainer>())
             }
             <TrimTooltipBase @ref="@_trimTooltip"></TrimTooltipBase>
             <div id="@(ID + "_scrollElement")"></div>
         </div>
         <svg @ref="_svgElement" id="@GetSvgId()" width="@_svgWidth" height="@_svgHeight">
-            <ChartBorderRenderer></ChartBorderRenderer>
-            <ChartAreaRenderer></ChartAreaRenderer>
-            <ChartTitleRenderer></ChartTitleRenderer>
-            <ChartLegendRenderer></ChartLegendRenderer>
-            <ChartColumnRendererContainer></ChartColumnRendererContainer>
-            <ChartRowRendererContainer></ChartRowRendererContainer>
+            @(RenderInternalComponent<ChartBorderRenderer>())
+            @(RenderInternalComponent<ChartAreaRenderer>())
+            @(RenderInternalComponent<ChartTitleRenderer>())
+            @(RenderInternalComponent<ChartLegendRenderer>())
+            @(RenderInternalComponent<ChartColumnRendererContainer>())
+            @(RenderInternalComponent<ChartRowRendererContainer>())
             <g id="@(ID + "AxisInsideCollection")">
-                <ChartAxisRendererContainer></ChartAxisRendererContainer>
+                @(RenderInternalComponent<ChartAxisRendererContainer>())
             </g>
-            <ChartStriplineBehindContainer></ChartStriplineBehindContainer>
-            <ChartIndicatorContainer></ChartIndicatorContainer>
+            @(RenderInternalComponent<ChartStriplineBehindContainer>())
             <g id="@(ID + "SeriesCollection")">
-                <ChartSeriesRendererContainer></ChartSeriesRendererContainer>
-                <ChartStackLabelRenderer></ChartStackLabelRenderer>
+                @(RenderInternalComponent<ChartSeriesRendererContainer>())
+                @(RenderInternalComponent<ChartStackLabelRenderer>())
             </g>
-            <CustomLegendRenderer></CustomLegendRenderer>
+            @(RenderInternalComponent<CustomLegendRenderer>())
             <g id="@(ID + "AxisOutsideCollection")">
-                <ChartAxisOutsideContainer></ChartAxisOutsideContainer>
+                @(RenderInternalComponent<ChartAxisOutsideContainer>())
             </g>
             <g id="@(ID + "TrendLineCollection")">
-                <ChartTrendlineContainer></ChartTrendlineContainer>
+                @(RenderInternalComponent<ChartTrendlineContainer>())
             </g>
             <SvgAxisGroup @ref="_crossGroup" ChartId="@ID"></SvgAxisGroup>
-            <ChartStriplineOverContainer></ChartStriplineOverContainer>
+            @(RenderInternalComponent<ChartStriplineOverContainer>())
             <ZoomToolkit @ref="_zoomingToolkitContent"></ZoomToolkit>
             <ZoomContent @ref="_zoomingContent"></ZoomContent>
             <SelectionStyleComponent @ref="@_selectionStyle" ComponentId="@(ID + "_selection")" GivenPattern="@_selectionPatternCollection"></SelectionStyleComponent>

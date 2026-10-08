@@ -47,7 +47,7 @@
         /// </summary>
         /// <param name="obj">The System.ComponentModel.SortDescription instance to compare.</param>
         /// <returns>true.</returns>
-        public override readonly bool Equals(object obj)
+        public override readonly bool Equals(object? obj)
         {
             return obj is SortDescription other && Equals(other);
         }

@@ -305,16 +305,13 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// </summary>
         private string AppendYAxisLabelBorder(ChartAxis axis, ChartAxisRenderer axisRenderer, Rect rect, string labelBorder, int i, double startY, double endY, double endX, double scrollBarHeight)
         {
-            switch (axis.Border.Type)
+            return axis.Border.Type switch
             {
-                case BorderType.Rectangle:
-                case BorderType.WithoutTopBorder:
-                    return AppendRectangleOrWithoutTopBorderYAxis(axisRenderer, rect, labelBorder, i, startY, endY, endX, scrollBarHeight);
-                case BorderType.WithoutTopandBottomBorder:
-                    return AppendWithoutTopAndBottomBorderYAxis(rect, labelBorder, startY, endY, endX, scrollBarHeight);
-                default:
-                    return labelBorder;
-            }
+                BorderType.Rectangle or BorderType.WithoutTopBorder => AppendRectangleOrWithoutTopBorderYAxis(axisRenderer, rect, labelBorder, i, startY, endY, endX, scrollBarHeight),
+                BorderType.WithoutTopandBottomBorder => AppendWithoutTopAndBottomBorderYAxis(rect, labelBorder, startY, endY, endX, scrollBarHeight),
+                BorderType.Brace or BorderType.WithoutBorder or BorderType.CurlyBrace or BorderType.Auto => labelBorder,
+                _ => labelBorder,
+            };
         }
 
         /// <summary>
