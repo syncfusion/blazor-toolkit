@@ -8,8 +8,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     public partial class StyleElement
     {
         #region Fields
-        private RenderFragment _templateContent { get; set; } = null!;
-        private bool _allowStyles { get; set; }
+        private RenderFragment TemplateContent { get; set; } = null!;
+        private bool AllowStyles { get; set; }
         #endregion
 
         #region Private Methods
@@ -36,8 +36,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="styleContent">The CSS text to append. Null or whitespace is ignored.</param>
         internal void AppendStyleElement(string styleContent)
         {
-            _allowStyles = true;
-            _templateContent = RenderStyles(styleContent);
+            AllowStyles = true;
+            TemplateContent = RenderStyles(styleContent);
             _ = InvokeAsync(StateHasChanged);
         }
         #endregion

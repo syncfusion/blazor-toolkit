@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 using Syncfusion.Blazor.Toolkit.Internal;
 using System.Text.Json.Serialization;
@@ -15,7 +16,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// Gets or sets the data manager used by the component.
         /// </summary>
         [JsonIgnore]
-        public DataManager DataManager { get; set; }
+        public DataManager DataManager { get; set; } = default!;
 
         /// <summary>
         /// Gets or sets the main parent component when the data-bound component is nested.
@@ -64,9 +65,11 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <typeparam name="T">The type used when creating an empty local data source.</typeparam>
         /// <param name="dataSource">The data source to adapt.</param>
         /// <returns>The assigned data manager or original data source when already a data manager instance.</returns>
+        [SuppressMessage("Usage", "BL0005:Component parameter should not be set outside of its component",
+            Justification = "DataManager is used here as a data-access model rather than a rendered child component. Its Json parameter is populated programmatically to wrap the caller's data source; it is never assigned declaratively in markup for this instance, so the BL0005 constraint does not apply.")]
         protected object SetDataManager<T>(object dataSource)
         {
-            if (dataSource is Data.SfDataManager || dataSource is DataManager)
+            if (dataSource is SfDataManager || dataSource is DataManager)
             {
                 return dataSource;
             }
@@ -75,16 +78,11 @@ namespace Syncfusion.Blazor.Toolkit.Data
             if (dataSource != null)
             {
                 Type type = dataSource.GetType();
-                if (typeof(IEnumerable).IsAssignableFrom(type) ^ typeof(IEnumerable<object>).IsAssignableFrom(type))
-                {
-                    DataManager = new DataManager() { Json = ((IEnumerable)dataSource).Cast<object>() };
-                }
-                else
-                {
-                    DataManager = dataSource is IQueryable
+                DataManager = typeof(IEnumerable).IsAssignableFrom(type) ^ typeof(IEnumerable<object>).IsAssignableFrom(type)
+                    ? new DataManager() { Json = ((IEnumerable)dataSource).Cast<object>() }
+                    : dataSource is IQueryable
                         ? new DataManager() { Json = [.. (IEnumerable<object>)dataSource] }
                         : new DataManager() { Json = (IEnumerable<object>)dataSource };
-                }
             }
             else
             {
@@ -116,6 +114,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// Captures direct parameter values after the first render.
         /// </summary>
         /// <param name="firstRender">A value indicating whether this is the first render.</param>
+        [UnconditionalSuppressMessage("Trimming", "IL2075", Justification = "Reflects over the concrete component's own public properties named by DirectParamKeys to capture their initial values; those properties are declared on the component type itself and are preserved.")]
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             await base.OnAfterRenderAsync(firstRender).ConfigureAwait(false);
@@ -180,11 +179,14 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// Releases component resources and clears tracked data.
         /// </summary>
         /// <returns>A task that represents the asynchronous dispose operation.</returns>
-        protected override ValueTask DisposeAsyncCore()
+        protected override async ValueTask DisposeAsyncCore()
         {
             DirectParameters?.Clear();
-            DataManager?.Dispose();
-            return base.DisposeAsyncCore();
+            if (DataManager is not null)
+            {
+                await DataManager.DisposeAsync().ConfigureAwait(false);
+            }
+            await base.DisposeAsyncCore().ConfigureAwait(false);
         }
     }
 }

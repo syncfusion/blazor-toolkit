@@ -247,7 +247,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
 
         /// <summary>
         /// Computes the accessible name for the switch input. Exactly one source wins
-        /// (in priority order: <see cref="AriaLabel"/>, external <see cref="Label"/>,
+        /// (in priority order: <see cref="SfSelectionBase{TChecked}.AriaLabel"/>, external <see cref="Label"/>,
         /// then the currently-active <see cref="OnLabel"/> / <see cref="OffLabel"/>).
         /// </summary>
         /// <remarks>
@@ -274,9 +274,9 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             {
                 isChecked = Checked is not null && Convert.ToBoolean(Checked, CultureInfo.InvariantCulture);
             }
-            catch (Exception)
+            catch (Exception ex) when (ex is FormatException or InvalidCastException)
             {
-                // Falls through to the off-state label below.
+                // Checked value is not convertible to a bool. Falls through to the off-state label below.
             }
 
             string? active = isChecked ? OnLabel : OffLabel;

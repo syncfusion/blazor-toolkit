@@ -37,7 +37,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// <summary>
     /// Handles data label measurement, layout and rendering for a ChartSeries.
     /// </summary>
-    public class ChartDataLabelRenderer : ChartRenderer, IChartElementRenderer
+    internal class ChartDataLabelRenderer : ChartRenderer, IChartElementRenderer
     {
         #region Constants
         private const int MAX_LABEL_POSITION_ATTEMPTS = 4;
@@ -55,16 +55,15 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         private bool _isRotationEnabled;
         private double _borderWidth;
         private double _markerHeight;
-        private double _errorHeight;
         private double _locationX;
         private double _locationY;
         private double _labelAngle;
         private List<Size> _prevPointSize = [];
         private ChartEventMargin _margin = new();
-        private CultureInfo _culture = CultureInfo.InvariantCulture;
-        private List<RectOptions> _rectOptions = [];
-        private List<TextOptions> _textOptions = [];
-        private List<Rect> _dataLabelActualRectOptions = [];
+        private readonly CultureInfo _culture = CultureInfo.InvariantCulture;
+        private readonly List<RectOptions> _rectOptions = [];
+        private readonly List<TextOptions> _textOptions = [];
+        private readonly List<Rect> _dataLabelActualRectOptions = [];
         #endregion
 
         #region Properties
@@ -284,10 +283,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             {
                 case ChartLabelPosition.Top:
                 case ChartLabelPosition.Outer:
-                    labelLocation = labelLocation - _markerHeight - _borderWidth - (size.Height / 2) - _margin.Bottom - 5 - _errorHeight;
+                    labelLocation = labelLocation - _markerHeight - _borderWidth - (size.Height / 2) - _margin.Bottom - 5;
                     break;
                 case ChartLabelPosition.Bottom:
-                    labelLocation = labelLocation + _markerHeight + _borderWidth + (size.Height / 2) + _margin.Top + 5 + _errorHeight;
+                    labelLocation = labelLocation + _markerHeight + _borderWidth + (size.Height / 2) + _margin.Top + 5;
                     break;
                 case ChartLabelPosition.Auto:
                     labelLocation = CalculatePathActualPosition(
@@ -441,22 +440,14 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             double extraSpace = _borderWidth + ((!_inverted ? textSize.Height : textSize.Width) / 2) + 5;
             position = AdjustPositionForSeriesType(position, series);
 
-            switch (position)
+            labelLocation = position switch
             {
-                case ChartLabelPosition.Bottom:
-                    labelLocation = !_inverted ? isNegative ? (labelLocation - rect.Height + extraSpace + _margin.Top) : (labelLocation + rect.Height - extraSpace - _margin.Bottom) : isNegative ? (labelLocation + rect.Width - extraSpace - _margin.Left) : (labelLocation - rect.Width + extraSpace + _margin.Right);
-                    break;
-                case ChartLabelPosition.Middle:
-                    labelLocation = !_inverted ? isNegative ? labelLocation - (rect.Height / 2) : labelLocation + (rect.Height / 2) : isNegative ? labelLocation + (rect.Width / 2) : labelLocation - (rect.Width / 2);
-                    break;
-                case ChartLabelPosition.Auto:
-                    labelLocation = CalculateRectActualPosition(labelLocation, rect, isNegative, series, textSize, labelIndex, point, extraSpace);
-                    break;
-                default:
-                    extraSpace += _errorHeight;
-                    labelLocation = CalculateTopAndOuterPosition(labelLocation, position, series, extraSpace, isNegative);
-                    break;
-            }
+                ChartLabelPosition.Bottom => !_inverted ? isNegative ? (labelLocation - rect.Height + extraSpace + _margin.Top) : (labelLocation + rect.Height - extraSpace - _margin.Bottom) : isNegative ? (labelLocation + rect.Width - extraSpace - _margin.Left) : (labelLocation - rect.Width + extraSpace + _margin.Right),
+                ChartLabelPosition.Middle => !_inverted ? isNegative ? labelLocation - (rect.Height / 2) : labelLocation + (rect.Height / 2) : isNegative ? labelLocation + (rect.Width / 2) : labelLocation - (rect.Width / 2),
+                ChartLabelPosition.Auto => CalculateRectActualPosition(labelLocation, rect, isNegative, series, textSize, labelIndex, point, extraSpace),
+                ChartLabelPosition.Outer or ChartLabelPosition.Top => CalculateTopAndOuterPosition(labelLocation, position, series, extraSpace, isNegative),
+                _ => CalculateTopAndOuterPosition(labelLocation, position, series, extraSpace, isNegative)
+            };
 
             _fontBackground = (!_inverted ? (labelLocation < rect.Y || labelLocation > rect.Y + rect.Height) : (labelLocation < rect.X || labelLocation > rect.X + rect.Width)) ? (_fontBackground == Constants.Transparent ? _chartBackground : _fontBackground) :
                 _fontBackground == Constants.Transparent ? (!string.IsNullOrEmpty(point.Interior) ? point.Interior : SeriesRenderer?.Interior) : _fontBackground;
@@ -640,6 +631,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="labelIndex">The label index.</param>
         private void CreateDataLabelTemplate(ChartSeries series, ChartDataLabel dataLabel, Point point, TextRenderEventArgs data, int labelIndex)
         {
+            ChartDataLabelFont? font = dataLabel.Font;
+            ArgumentNullException.ThrowIfNull(font);
             ChartAxisRenderer v_Axis = Owner is not null && Owner._requireInvertedAxis ? SeriesRenderer?.XAxisRenderer ?? null! : SeriesRenderer?.YAxisRenderer ?? null!;
             ChartAxisRenderer h_Axis = Owner is not null && Owner._requireInvertedAxis ? SeriesRenderer?.YAxisRenderer ?? null! : SeriesRenderer?.XAxisRenderer ?? null!;
             _margin = new ChartEventMargin() { Left = 0, Right = 0, Bottom = 0, Top = 0 };
@@ -680,7 +673,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 _templateOptions.Add(new DatalabelTemplateOptions()
                 {
                     Id = id,
-                    Style = "position: absolute;background-color:" + data.Color + ";" + ChartHelper.GetFontStyle(dataLabel.Font) + "border:" + data.Border.Width.ToString(_culture) + "px solid " + data.Border.Color + ";left:" + left + ";top:" + top + ";visibility:" + visibility + ";",
+                    Style = "position: absolute;background-color:" + data.Color + ";" + ChartHelper.GetFontStyle(font) + "border:" + data.Border.Width.ToString(_culture) + "px solid " + data.Border.Color + ";left:" + left + ";top:" + top + ";visibility:" + visibility + ";",
                     Template = data.Template(templatedata)
                 });
                 if (isAnimation)
@@ -1445,6 +1438,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// </summary>
         /// <param name="series">The <see cref="ChartSeries"/> whose data labels are being prepared.</param>
         /// <param name="dataLabel">The <see cref="ChartDataLabel"/> configuration containing style, position, and template settings.</param>
+        /// <exception cref="ArgumentNullException">The configured label font is null.</exception>
         internal void CalculateRenderTreeBuilderOptions(ChartSeries series, ChartDataLabel dataLabel)
         {
             if (SeriesRenderer is null)
@@ -1452,6 +1446,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 return;
             }
 
+            // ChartDataLabel supplies a default font even without a font child component.
+            // Both SVG measurement and templates require that configuration; null is not
+            // an alternative inheritance mode. Keep the existing theme resolution intact.
+            ArgumentNullException.ThrowIfNull(dataLabel.Font, nameof(dataLabel.Font));
             RenderingState state = InitializeRenderingState(series, dataLabel);
             List<Point>? visiblePoints = GetVisiblePointsAndPrepareRotation(series, dataLabel, state, out ChartFontOptions font);
 

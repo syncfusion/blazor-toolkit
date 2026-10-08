@@ -59,7 +59,7 @@ namespace Syncfusion.Blazor.Toolkit.Popups
             {
                 // If a handle id is provided, build a selector to target that handle element.
                 string targetProp = !string.IsNullOrEmpty(handleId) ? "#" + handleId : Target;
-                await InvokeVoidAsync(_tooltipJsModule, _tooltipInProcessModule, SHOWTOOLTIP, _dataId, animation!, targetProp).ConfigureAwait(true);
+                await InvokeVoidAsync(_tooltipJsModule, _tooltipInProcessModule, SHOWTOOLTIP, _dataId, animation, targetProp).ConfigureAwait(true);
             }
         }
 
@@ -98,7 +98,7 @@ namespace Syncfusion.Blazor.Toolkit.Popups
             animation ??= Animation.Close;
             if (_isScriptRendered && await IsTooltipJsAvailableAsync().ConfigureAwait(true))
             {
-                await InvokeVoidAsync(_tooltipJsModule, _tooltipInProcessModule, HIDETOOLTIP, _dataId, animation!).ConfigureAwait(true);
+                await InvokeVoidAsync(_tooltipJsModule, _tooltipInProcessModule, HIDETOOLTIP, _dataId, animation).ConfigureAwait(true);
             }
         }
 

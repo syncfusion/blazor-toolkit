@@ -193,17 +193,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// </code>
         /// </example>
         [Parameter]
-        public string AccessibilityRole
-        {
-            get => _accessibilityRole;
-            set
-            {
-                DataVizCommonHelper.AriaRoleValidator.EnsureValidRole(value, nameof(AccessibilityRole));
-                _accessibilityRole = value;
-            }
-        }
-
-        private string _accessibilityRole = string.Empty;
+        public string AccessibilityRole { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the accessibility keyboard navigation focus option for the <see cref="SfChart">Chart</see> component.
@@ -573,10 +563,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         {
             if (_isScriptLoaded)
             {
-                await InvokeVoidAsync(_chartJsModule!, _chartJsInProcessModule!, Constants.SetHighlightSelectionOptions, [_dataId, GetSelectionHighlightOptions()]).ConfigureAwait(false);
+                await InvokeVoidAsync(_chartJsModule, _chartJsInProcessModule, Constants.SetHighlightSelectionOptions, [_dataId, GetSelectionHighlightOptions()]).ConfigureAwait(false);
                 if (is_selectionModule)
                 {
-                    await InvokeVoidAsync(_chartJsModule!, _chartJsInProcessModule!, Constants.SelectDataIndex, [_dataId, _currentData.SelectedDataIndexes?.ToArray() ?? []]).ConfigureAwait(false);
+                    await InvokeVoidAsync(_chartJsModule, _chartJsInProcessModule, Constants.SelectDataIndex, [_dataId, _currentData.SelectedDataIndexes?.ToArray() ?? []]).ConfigureAwait(false);
                 }
             }
         }
@@ -849,7 +839,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                 if ((_tooltip.Enable || _crosshair.Enable || _markerExplode is not null) && _isScriptCalled)
                 {
                     _seriesContainer.SetGlobalizationValues();
-                    await InvokeVoidAsync(_chartJsModule!, _chartJsInProcessModule!, Constants.SetTooltipOptions, [_dataId, _tooltip.GetTooltipForScript(), GetTooltipOptions(), _seriesClipRects.ToArray(), _seriesMarkers.ToArray(), _seriesBorders.ToArray(), _axes.ToArray(), _seriesContainer._dateValuePairs, _seriesContainer._numberValuePairs]).ConfigureAwait(true);
+                    await InvokeVoidAsync(_chartJsModule, _chartJsInProcessModule, Constants.SetTooltipOptions, [_dataId, _tooltip.GetTooltipForScript(), GetTooltipOptions(), _seriesClipRects.ToArray(), _seriesMarkers.ToArray(), _seriesBorders.ToArray(), _axes.ToArray(), _seriesContainer._dateValuePairs, _seriesContainer._numberValuePairs]).ConfigureAwait(true);
                 }
             }
         }
@@ -879,7 +869,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                 {
                     if (renderer is ChartSeriesRenderer seriesRenderer)
                     {
-                        seriesRenderer.Series?.DataCollectionChanged(source ?? null!, e);
+                        seriesRenderer.Series?.DataCollectionChanged(source ?? null, e);
                     }
                 }
             }
@@ -898,7 +888,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                 {
                     if (renderer is ChartSeriesRenderer seriesRenderer)
                     {
-                        seriesRenderer.Series?.PropertyChanged(source ?? null!, e);
+                        seriesRenderer.Series?.PropertyChanged(source ?? null, e);
                     }
                 }
             }

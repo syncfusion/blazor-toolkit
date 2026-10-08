@@ -1,5 +1,5 @@
 using System.ComponentModel;
-using Microsoft.AspNetCore.Components;
+using System.Diagnostics.CodeAnalysis;
 using Syncfusion.Blazor.Toolkit.Charts.Internal;
 
 namespace Syncfusion.Blazor.Toolkit.Charts
@@ -16,6 +16,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <remarks>
         /// This method is used to update the chart with new data and settings.
         /// </remarks>
+        [RequiresUnreferencedCode(ChartSeriesRenderer.DataBindingTrimWarning)]
+        [RequiresDynamicCode(ChartSeriesRenderer.DataBindingAotWarning)]
         public async Task RefreshAsync(bool shouldAnimate = true)
         {
             try
@@ -34,7 +36,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                 ApplyZoomkit();
                 await UpdateDatalabelTemplateAsync().ConfigureAwait(true);
                 UpdateClientSideScrollbar();
-                await InvokeVoidAsync(_chartJsModule!, _chartJsInProcessModule!, Constants.SetHighlightSelectionOptions, new object[] { _dataId, GetSelectionHighlightOptions() }).ConfigureAwait(true);
+                await InvokeVoidAsync(_chartJsModule, _chartJsInProcessModule, Constants.SetHighlightSelectionOptions, [_dataId, GetSelectionHighlightOptions()]).ConfigureAwait(true);
                 await PerformDelayAnimationAsync().ConfigureAwait(false);
             }
             catch
@@ -51,6 +53,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// </summary>
         /// <exclude/>
         [EditorBrowsable(EditorBrowsableState.Never)]
+        [RequiresUnreferencedCode(ChartSeriesRenderer.DataBindingTrimWarning)]
+        [RequiresDynamicCode(ChartSeriesRenderer.DataBindingAotWarning)]
         public void RefreshLiveData()
         {
             _ = RefreshChartAsync();
@@ -62,7 +66,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <param name="seriesCollection">Specifies the chart series collection.</param>
         /// <exclude/>
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public async Task AddSeriesAsync(List<ChartSeries> seriesCollection)
+        [RequiresUnreferencedCode(ChartSeriesRenderer.DataBindingTrimWarning)]
+        [RequiresDynamicCode(ChartSeriesRenderer.DataBindingAotWarning)]
+        public async Task AddSeriesAsync(IList<ChartSeries> seriesCollection)
         {
             if (seriesCollection is null)
             {
@@ -75,7 +81,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                 {
                     series.Container = this;
                     series.RendererType = ChartSeriesRenderer.GetRendererType(series.Type);
-                    await series.UpdateSeriesDataAsync().ConfigureAwait(false);
+                    _ = await series.UpdateSeriesDataAsync().ConfigureAwait(false);
                     if (series.Marker is not null && series.Marker.Visible && _shouldRenderMarker)
                     {
                         series.Marker.RendererType = typeof(ChartMarkerRenderer);
@@ -94,8 +100,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                     AddSeries(series);
                     foreach (ChartTrendline trendline in series.Trendlines)
                     {
-                        trendline.Parent = new ChartTrendlines();
-                        trendline.Parent.Series = series;
+                        trendline.Parent = new ChartTrendlines
+                        {
+                            Series = series
+                        };
                         trendline.InitTrendline();
                     }
                 }
@@ -132,7 +140,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         {
             if (_seriesContainer is not null)
             {
-                foreach (ChartSeries series in _seriesContainer.Elements.ToList())
+                foreach (ChartSeries series in _seriesContainer.Elements.ToList().Cast<ChartSeries>())
                 {
                     _seriesContainer.RemoveElement(series);
                 }
@@ -172,7 +180,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         {
             if (_isChartFirstRender && _isScriptLoaded)
             {
-                await InvokeVoidAsync(_chartJsModule!, _chartJsInProcessModule!, "showTooltip", new object[] { x, y, isPoint, this._dataId }).ConfigureAwait(false);
+                await InvokeVoidAsync(_chartJsModule, _chartJsInProcessModule, "showTooltip", [x, y, isPoint, _dataId]).ConfigureAwait(false);
             }
         }
 
@@ -201,7 +209,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         {
             if (_isChartFirstRender && _isScriptLoaded)
             {
-                await InvokeVoidAsync(_chartJsModule!, _chartJsInProcessModule!, "hideTooltip", new object[] { this._dataId }).ConfigureAwait(false);
+                await InvokeVoidAsync(_chartJsModule, _chartJsInProcessModule, "hideTooltip", [_dataId]).ConfigureAwait(false);
             }
         }
 
@@ -235,7 +243,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         {
             if (_isChartFirstRender && _isScriptLoaded)
             {
-                await InvokeVoidAsync(_chartJsModule!, _chartJsInProcessModule!, "showCrosshair", new object[] { x, y, this._dataId }).ConfigureAwait(false);
+                await InvokeVoidAsync(_chartJsModule, _chartJsInProcessModule, "showCrosshair", [x, y, _dataId]).ConfigureAwait(false);
             }
         }
 
@@ -265,7 +273,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         {
             if (_isChartFirstRender && _isScriptLoaded)
             {
-                await InvokeVoidAsync(_chartJsModule!, _chartJsInProcessModule!, "hideCrosshair", new object[] { this._dataId }).ConfigureAwait(false);
+                await InvokeVoidAsync(_chartJsModule, _chartJsInProcessModule, "hideCrosshair", [_dataId]).ConfigureAwait(false);
             }
         }
 
@@ -293,6 +301,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// }  
         /// </code>  
         /// </example> 
+        [RequiresUnreferencedCode(ChartSeriesRenderer.DataBindingTrimWarning)]
+        [RequiresDynamicCode(ChartSeriesRenderer.DataBindingAotWarning)]
         public void Sort(string propertyName, Data.ListSortDirection direction)
         {
             _sorting.SetSortKeyAndDirection(propertyName, direction);
@@ -320,6 +330,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// }  
         /// </code>  
         /// </example> 
+        [RequiresUnreferencedCode(ChartSeriesRenderer.DataBindingTrimWarning)]
+        [RequiresDynamicCode(ChartSeriesRenderer.DataBindingAotWarning)]
         public void ClearSort()
         {
             _sorting.ClearSortKey();
@@ -379,7 +391,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// Prevents the Chart render. This method will internally sets value to be returned from ShouldRender method.
         /// </summary>
         /// <param name="preventRender">Default value is true. Once PreventRender(true) called, component won't re-render until PreventRender(false) called.</param>
-        public void PreventRender(bool preventRender = true) => _render.ShouldChartRender = !preventRender;
+        public void PreventRender(bool preventRender = true)
+        {
+            _render.ShouldChartRender = !preventRender;
+        }
 
         #endregion
     }

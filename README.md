@@ -15,14 +15,24 @@ Built with community collaboration in mind, the toolkit incorporates user feedba
 [![GitHub issues](https://img.shields.io/github/issues/syncfusion/blazor-toolkit?style=flat-square)](https://github.com/syncfusion/blazor-toolkit/issues)
 [![GitHub pull requests](https://img.shields.io/github/issues-pr/syncfusion/blazor-toolkit?style=flat-square)](https://github.com/syncfusion/blazor-toolkit/pulls)
 
-<!-- Build, test, and issues badges require GitHub Actions workflows to be configured.
-     When CI workflows exist, uncomment these lines:
-     [![Build](https://img.shields.io/github/actions/workflow/status/syncfusion/blazor-toolkit/build.yml?style=flat-square)](https://github.com/syncfusion/blazor-toolkit/actions)
-     [![Tests](https://img.shields.io/github/actions/workflow/status/syncfusion/blazor-toolkit/test.yml?style=flat-square)](https://github.com/syncfusion/blazor-toolkit/actions)
-     [![GitHub issues](https://img.shields.io/github/issues/syncfusion/blazor-toolkit?style=flat-square)](https://github.com/syncfusion/blazor-toolkit/issues)
--->
+[![CI](https://img.shields.io/github/actions/workflow/status/syncfusion/blazor-toolkit/ci.yml?branch=main&style=flat-square&label=CI)](https://github.com/syncfusion/blazor-toolkit/actions/workflows/ci.yml)
+[![CodeQL](https://img.shields.io/github/actions/workflow/status/syncfusion/blazor-toolkit/codeql.yml?branch=main&style=flat-square&label=CodeQL)](https://github.com/syncfusion/blazor-toolkit/actions/workflows/codeql.yml)
+[![.NET 8 | 9 | 10](https://img.shields.io/badge/tested%20on-.NET%208%20%7C%209%20%7C%2010-512BD4?style=flat-square)](https://github.com/syncfusion/blazor-toolkit/actions/workflows/ci.yml)
+
+> **MIT licensed · No eligibility check · WCAG + published VPAT · SBOM shipped · CodeQL-scanned · Trim/AOT ready · .NET 8 / 9 / 10**
 
 ![Blazor_Toolkit_product](https://cdn.syncfusion.com/content/images/blazor-toolkit/blazor-toolkit-demo.png)
+
+## Is this really free? Yes.
+
+The Syncfusion® Toolkit for Blazor is released under the **MIT License** — the same permissive license as other popular open-source Blazor libraries. There is **no eligibility check, no revenue cap, and no registration** required to use it.
+
+- ✅ **Free for everyone** — individuals, startups, and enterprises alike.
+- ✅ **No Community License gate** — the eligibility criteria that apply to the broader commercial Syncfusion suite do **not** apply to this package.
+- ✅ **Use it in commercial and closed-source products** — MIT permits it.
+- ✅ **A clean upgrade path, not a lock-in** — when you outgrow the toolkit (large-scale Data Grid, Pivot, Scheduler, document processing, and 100+ more controls), the commercial [Syncfusion Blazor suite](https://www.syncfusion.com/blazor-components) shares familiar API ergonomics, so moving up is an incremental step rather than a rewrite.
+
+If you only ever use this toolkit, you never pay anything. That's the deal.
 
 ## Quick Contributor Start
 

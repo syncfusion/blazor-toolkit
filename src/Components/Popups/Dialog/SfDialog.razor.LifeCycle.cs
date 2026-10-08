@@ -137,7 +137,7 @@ namespace Syncfusion.Blazor.Toolkit.Popups
                     string localStorageValue = await InvokeAsync<string>(_baseJsModule!, _baseJsInProcessModule!, JS_WINDOW_LOCAL_STORAGE_GET_ITEM, [ID]).ConfigureAwait(true);
                     if (localStorageValue is not null)
                     {
-                        Dictionary<string, object>? localValue = JsonSerializer.Deserialize<Dictionary<string, object>>(localStorageValue);
+                        Dictionary<string, object>? localValue = JsonSerializer.Deserialize(localStorageValue, DialogInteropJsonContext.Default.DictionaryStringObject);
                         Dictionary<string, object>? updatedInstance = GetInstance(true);
                         string? X = localValue is not null && localValue.TryGetValue("X", out object? xVal) ? xVal?.ToString() ?? string.Empty : string.Empty;
                         string? Y = localValue is not null && localValue.TryGetValue("Y", out object? yVal) ? yVal?.ToString() ?? string.Empty : string.Empty;

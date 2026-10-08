@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Components;
 using Syncfusion.Blazor.Toolkit.Charts.Internal;
 using Syncfusion.Blazor.Toolkit.Internal;
@@ -8,6 +9,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
     /// <summary>
     /// Represents an axis within a chart, providing customization options for the axis's appearance and behavior.
     /// </summary>
+    [SuppressMessage("Usage", "BL0007:Component parameter should be auto property",
+        Justification = "These [Parameter] properties intentionally use explicit setters that compare against a backing field and dispatch incremental renderer updates (axis re-render / layout change) the moment a value changes. Converting them to auto-properties would require moving that reactive logic into OnParametersSet, changing when updates fire and thus the component's rendering behavior. The reactive-setter pattern is a deliberate part of the chart update pipeline.")]
     public class ChartAxis : ChartSubComponent, IChartElement
     {
         #region Private Fields
@@ -145,6 +148,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         {
             get => _isIndexed;
 
+            [RequiresUnreferencedCode(ChartSeriesRenderer.DataBindingTrimWarning)]
+            [RequiresDynamicCode(ChartSeriesRenderer.DataBindingAotWarning)]
             set
             {
                 if (_isIndexed != value)
@@ -238,8 +243,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                 {
                     if (Renderer is not null && Container?._axisContainer is not null && Container._axisContainer.Axes.ContainsKey(_name))
                     {
-                        Container._axisContainer.Axes.Remove(_name);
-                        Container._axisContainer.Axes.TryAdd(value, this);
+                        _ = Container._axisContainer.Axes.Remove(_name);
+                        _ = Container._axisContainer.Axes.TryAdd(value, this);
                         _name = value;
                     }
                     else
@@ -385,7 +390,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
 
                     if (Container is not null && Container._axisContainer is not null)
                     {
-                        ChartAxisRenderer renderer = Container._axisContainer.Renderers.Find(renderer => renderer.GetType().Equals(ChartAxisRenderer.GetRendererType(_valueType)) && (renderer as ChartAxisRenderer)?.Axis?.Name == this.Name) as ChartAxisRenderer ?? null!;
+                        ChartAxisRenderer renderer = Container._axisContainer.Renderers.Find(renderer => renderer.GetType().Equals(ChartAxisRenderer.GetRendererType(_valueType)) && (renderer as ChartAxisRenderer)?.Axis?.Name == Name) as ChartAxisRenderer ?? null!;
                         Container._axisContainer.RemoveRenderer(renderer);
                         _valueType = value;
                         RendererType = ChartAxisRenderer.GetRendererType(_valueType);
@@ -1999,7 +2004,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                     {
                         if (Container?._axisContainer is not null)
                         {
-                            foreach (ChartAxisRenderer renderer in Container._axisContainer.Renderers)
+                            foreach (ChartAxisRenderer renderer in Container._axisContainer.Renderers.Cast<ChartAxisRenderer>())
                             {
                                 renderer.ClearAxisInfo();
                                 renderer.UpdateAxisRendering();
@@ -2133,7 +2138,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// </code>
         /// </example> 
         [Parameter]
-        public List<ChartStripline> StripLines { get; set; } = new List<ChartStripline>();
+        public IList<ChartStripline> StripLines { get; set; } = [];
 
         /// <summary> 
         /// Gets or sets a collection of <see cref="ChartMultiLevelLabel"/> representing the multilevel labels for the axis. 
@@ -2167,7 +2172,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// </code>
         /// </example>
         [Parameter]
-        public List<ChartMultiLevelLabel> MultiLevelLabels { get; set; } = new List<ChartMultiLevelLabel>();
+        public IList<ChartMultiLevelLabel> MultiLevelLabels { get; set; } = [];
 
         /// <summary> 
         /// Gets or sets an instance of <see cref="ChartAxisLabelBorder"/> that specifies the border for the axis labels. 
@@ -2416,7 +2421,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <param name="isInversed">A boolean indicating whether the axis should be inverted.</param>
         internal void SetIsInversed(bool isInversed)
         {
-            this._isInversed = isInversed;
+            _isInversed = isInversed;
         }
 
         /// <summary>
@@ -2478,7 +2483,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                     MinorTickLines = (ChartAxisMinorTickLines)keyValue;
                     break;
                 case nameof(MultiLevelLabels):
-                    MultiLevelLabels = (List<ChartMultiLevelLabel>)keyValue;
+                    MultiLevelLabels = (IList<ChartMultiLevelLabel>)keyValue;
                     break;
                 case nameof(Border):
                     Border = (ChartAxisLabelBorder)keyValue;

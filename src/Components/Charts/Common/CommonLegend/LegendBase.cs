@@ -17,16 +17,21 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// <exclude />
     [EditorBrowsable(EditorBrowsableState.Never)]
     [Browsable(false)]
-    public class LegendBase : ChartRenderer
+    internal class LegendBase : ChartRenderer
     {
         #region Constants
         private const double PAGE_BUTTON_SIZE = 8;
         #endregion
 
         #region Fields
-        private string _baseControl { get; set; } = string.Empty;
-        private string _pagingTransform { get; set; } = string.Empty;
-        protected CultureInfo culture { get; set; } = CultureInfo.InvariantCulture;
+        private string BaseControl { get; set; } = string.Empty;
+        private string PagingTransform { get; set; } = string.Empty;
+
+        /// <summary>
+        /// Gets or sets the culture used to format legend text, such as numeric and date values.
+        /// </summary>
+        /// <value>A <see cref="CultureInfo"/> instance. Defaults to <see cref="CultureInfo.InvariantCulture"/>.</value>
+        protected CultureInfo Culture { get; set; } = CultureInfo.InvariantCulture;
         #endregion
 
         #region Properties
@@ -46,7 +51,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             /// Gets or sets the template inline style string.
             /// </summary>
             /// <value>The inline style string.</value>
-            public string? style { get; set; }
+            public string? Style { get; set; }
 
             /// <summary>
             /// Gets or sets the legend template fragment.
@@ -59,7 +64,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// Gets or sets the collection of legend options.
         /// </summary>
         /// <value>The legend option collection.</value>
-        internal List<LegendOption> LegendCollection { get; set; } = new List<LegendOption>();
+        internal List<LegendOption> LegendCollection { get; set; } = [];
 
         /// <summary>
         /// Gets or sets the legend position.
@@ -101,19 +106,19 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// Gets or sets the row heights collection.
         /// </summary>
         /// <value>The row heights collection.</value>
-        protected List<double>? RowHeights { get; set; }
+        protected IList<double>? RowHeights { get; set; }
 
         /// <summary>
         /// Gets or sets the page heights collection.
         /// </summary>
         /// <value>The page heights collection.</value>
-        protected List<double>? PageHeights { get; set; }
+        protected IList<double>? PageHeights { get; set; }
 
         /// <summary>
         /// Gets or sets the column heights collection.
         /// </summary>
         /// <value>The column heights collection.</value>
-        protected List<double>? ColumnHeights { get; set; }
+        protected IList<double>? ColumnHeights { get; set; }
 
         /// <summary>
         /// Gets or sets the chart row count.
@@ -143,13 +148,13 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// Gets or sets the page X collections.
         /// </summary>
         /// <value>The page X collections.</value>
-        protected List<double> PageXCollections { get; set; } = new List<double>();
+        protected IList<double> PageXCollections { get; set; } = [];
 
         /// <summary>
         /// Gets or sets the paging regions.
         /// </summary>
         /// <value>The paging regions.</value>
-        protected List<Rect> PagingRegions { get; set; } = new List<Rect>();
+        protected IList<Rect> PagingRegions { get; set; } = [];
 
         /// <summary>
         /// Gets or sets the legend element identifier.
@@ -235,19 +240,19 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// Gets or sets the legend symbol options.
         /// </summary>
         /// <value>The legend symbol options.</value>
-        internal List<LegendSymbols> LegendOptions { get; set; } = new List<LegendSymbols>();
+        internal List<LegendSymbols> LegendOptions { get; set; } = [];
 
         /// <summary>
         /// Gets or sets the template options.
         /// </summary>
         /// <value>The template options.</value>
-        internal List<LegendItemTemplateOptions> TemplateOptions { get; set; } = new List<LegendItemTemplateOptions>();
+        internal List<LegendItemTemplateOptions> TemplateOptions { get; set; } = [];
 
         /// <summary>
         /// Gets or sets the paging options.
         /// </summary>
         /// <value>The paging options.</value>
-        protected List<LegendSymbols> PagingOptions { get; set; } = new List<LegendSymbols>();
+        protected IList<LegendSymbols> PagingOptions { get; set; } = [];
 
         /// <summary>
         /// Gets or sets the legend instance.
@@ -259,7 +264,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// Gets or sets the legend item rectangles.
         /// </summary>
         /// <value>The legend item rectangles.</value>
-        internal List<Rect> LegendCollectionRect { get; set; } = new List<Rect>();
+        internal List<Rect> LegendCollectionRect { get; set; } = [];
 
         /// <summary>
         /// Gets or sets the paging rectangle.
@@ -321,8 +326,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="legendOption">The legend option instance.</param>
         /// <param name="index">The legend item index.</param>
         /// <param name="pointerValue">The pointer cursor value.</param>
-        /// <param name="legend">The legend instance.</param>
-        private void CreateCustomLegendTemplate(LegendOption legendOption, int index, string pointerValue, ILegendBase legend)
+        private void CreateCustomLegendTemplate(LegendOption legendOption, int index, string pointerValue)
         {
             TextOptions currentTextOption = LegendOptions[index].TextOption;
             string id = Owner?.ID + "_chart_legend_template_" + Convert.ToString(legendOption.SeriesIndex, null);
@@ -333,7 +337,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             TemplateOptions.Add(new LegendItemTemplateOptions()
             {
                 Id = id,
-                style = style,
+                Style = style,
                 LegendTemplate = legendOption.LegendTemplate
             });
         }
@@ -344,10 +348,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="textOption">The text options used for paging.</param>
         private void CalculatePagingElements(TextOptions textOption)
         {
-            PagingRegions = new List<Rect>();
+            PagingRegions = [];
             CurrentPageNumber = CurrentPageNumber > 1 && CurrentPageNumber > TotalPageCount ? TotalPageCount : CurrentPageNumber;
 
-            ChartFontOptions font = new ChartFontOptions
+            ChartFontOptions font = new()
             {
                 Size = textOption.FontSize,
                 Color = textOption.Fill,
@@ -360,7 +364,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             double iconSize = PAGE_BUTTON_SIZE;
             double y = LegendBounds.Y + ClipPathHeight + ((LegendBounds.Height - ClipPathHeight) / 2);
             double transformX = IsRTL ? BorderWidth + (iconSize / 2) : LegendBounds.Width - ((2 * (iconSize + 8)) + 8 + size.Width);
-            _pagingTransform = "translate(" + transformX.ToString(culture) + ", " + 0 + ")";
+            PagingTransform = "translate(" + transformX.ToString(Culture) + ", " + 0 + ")";
 
             InitializePagingSymbols(textOption, size, iconSize, y);
             InitializePagingRegions(textOption, size, iconSize, y);
@@ -375,7 +379,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="y">The y location.</param>
         private void InitializePagingSymbols(TextOptions textOption, Size size, double iconSize, double y)
         {
-            PathOptions symbolOption = new PathOptions(!IsRTL ? PageUpID ?? string.Empty : PageDownID ?? string.Empty, string.Empty, string.Empty, 5, "#545454", 1, Constants.Transparent, string.Empty, string.Empty, "Legend paging", "-1");
+            PathOptions symbolOption = new(!IsRTL ? PageUpID ?? string.Empty : PageDownID ?? string.Empty, string.Empty, string.Empty, 5, "#545454", 1, Constants.Transparent, string.Empty, string.Empty, "Legend paging", "-1");
             double x = LegendBounds.X + (iconSize / 2);
 
             PagingOptions.Add(new LegendSymbols()
@@ -383,13 +387,13 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 FirstSymbol = CalculateSymbol(new ChartEventLocation(x, y), "LeftArrow", new Size(iconSize, iconSize), string.Empty, symbolOption)
             });
 
-            textOption.X = Convert.ToString(x + (iconSize / 2) + 8, culture);
-            textOption.Y = Convert.ToString(y + (size.Height / 4), culture);
+            textOption.X = Convert.ToString(x + (iconSize / 2) + 8, Culture);
+            textOption.Y = Convert.ToString(y + (size.Height / 4), Culture);
             textOption.Id = PageNumberID ?? string.Empty;
             textOption.Text = !IsRTL ? CurrentPageNumber + "/" + TotalPageCount : TotalPageCount + "/" + CurrentPageNumber;
             PagingOptions[0].TextOption = textOption;
 
-            x = Convert.ToDouble(textOption.X, culture) + 8 + (iconSize / 2) + size.Width;
+            x = Convert.ToDouble(textOption.X, Culture) + 8 + (iconSize / 2) + size.Width;
             symbolOption = new PathOptions(!IsRTL ? PageDownID ?? string.Empty : PageUpID ?? string.Empty, string.Empty, string.Empty, 5, Constants.Transparent, 1, "#545454");
             PagingOptions[0].SecondSymbol = CalculateSymbol(new ChartEventLocation(x, y), "RightArrow", new Size(iconSize, iconSize), string.Empty, symbolOption);
         }
@@ -408,13 +412,13 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 
             PagingRegions.Add(new Rect(x + regionOffset - (iconSize * 0.5), y - (iconSize * 0.5), iconSize, iconSize));
 
-            x = Convert.ToDouble(textOption.X, culture) + 8 + (iconSize / 2) + size.Width;
+            x = Convert.ToDouble(textOption.X, Culture) + 8 + (iconSize / 2) + size.Width;
             PagingRegions.Add(new Rect(x + regionOffset - (iconSize * 0.5), y - (iconSize * 0.5), iconSize, iconSize));
 
             PagingRect = new Rect()
             {
                 X = LegendBounds.X + (iconSize / 2) + regionOffset - (iconSize * 0.5),
-                Y = y - (iconSize * 0.5) - size.Height / 4,
+                Y = y - (iconSize * 0.5) - (size.Height / 4),
                 Width = size.Width * 2.7,
                 Height = size.Height
             };
@@ -433,7 +437,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             }
             else if (symbolOption.ShapeName == ShapeName.Path)
             {
-                Owner?._svgRenderer?.RenderPath(builder, symbolOption.PathOption);
+                _ = Owner?._svgRenderer?.RenderPath(builder, symbolOption.PathOption);
             }
             else if (symbolOption.ShapeName == ShapeName.Image)
             {
@@ -448,7 +452,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="svgRenderer">The SVG renderer.</param>
         private void RenderPagingElements(RenderTreeBuilder builder, SvgRendering svgRenderer)
         {
-            svgRenderer.OpenGroupElement(builder, LegendID + "_navigation", _pagingTransform, string.Empty, "e-legend-cursor");
+            svgRenderer.OpenGroupElement(builder, LegendID + "_navigation", PagingTransform, string.Empty, "e-legend-cursor");
             foreach (LegendSymbols pagingOption in PagingOptions.ToArray())
             {
                 pagingOption.FirstSymbol.PathOption.TabIndex = "0";
@@ -470,19 +474,19 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         {
             if (IsInverse && !IsRTL)
             {
-                return Convert.ToString(legendOption.Location.X - (legendOption.LegendTemplate is null ? ((Legend?.ShapeWidth ?? 0) / 2) : 0), culture);
+                return Convert.ToString(legendOption.Location.X - (legendOption.LegendTemplate is null ? ((Legend?.ShapeWidth ?? 0) / 2) : 0), Culture);
             }
             else if (IsRTL && !IsInverse)
             {
-                return Convert.ToString(legendOption.Location.X - (textWidth + (legendOption.LegendTemplate is null ? (Legend?.ShapeWidth / 2) + Legend?.ShapePadding : 0)), culture) ?? null!;
+                return Convert.ToString(legendOption.Location.X - (textWidth + (legendOption.LegendTemplate is null ? (Legend?.ShapeWidth / 2) + Legend?.ShapePadding : 0)), Culture) ?? null!;
             }
             else if (IsInverse && IsRTL)
             {
-                return Convert.ToString(legendOption.Location.X - (textWidth - (Legend?.ShapeWidth / 2)), culture) ?? null!; ;
+                return Convert.ToString(legendOption.Location.X - (textWidth - (Legend?.ShapeWidth / 2)), Culture) ?? null!; ;
             }
             else
             {
-                return Convert.ToString(legendOption.Location.X + (legendOption.LegendTemplate is null ? (Legend?.ShapeWidth / 2) + (Legend?.ShapePadding ?? 0) : 0), culture) ?? null!;
+                return Convert.ToString(legendOption.Location.X + (legendOption.LegendTemplate is null ? (Legend?.ShapeWidth / 2) + (Legend?.ShapePadding ?? 0) : 0), Culture) ?? null!;
             }
         }
 
@@ -495,16 +499,16 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         private void CreateLegendElements(RenderTreeBuilder builder, SvgRendering svgRenderer, ChartDefaultBorder legendBorder)
         {
             string clipPath = LegendID + "_clipPath";
-            RectOptions Option = new RectOptions(LegendID + "_element", LegendBounds.X, LegendBounds.Y, LegendBounds.Width, LegendBounds.Height, legendBorder.Width, legendBorder.Color ?? null!, Legend?.Background ?? string.Empty, 0, 0, Legend?.Opacity ?? 1, string.Empty, "pointer-events: none; cursor: " + (Legend is not null && Legend.ToggleVisibility ? "default" : "pointer"));
+            RectOptions Option = new(LegendID + "_element", LegendBounds.X, LegendBounds.Y, LegendBounds.Width, LegendBounds.Height, legendBorder.Width, legendBorder.Color ?? null!, Legend?.Background ?? string.Empty, 0, 0, Legend?.Opacity ?? 1, string.Empty, "pointer-events: none; cursor: " + (Legend is not null && Legend.ToggleVisibility ? "default" : "pointer"));
             svgRenderer.RenderRect(builder, Option);
-            svgRenderer.OpenClipPath(builder, svgRenderer.Seq++, clipPath);
+            SvgRendering.OpenClipPath(builder, svgRenderer.Seq++, clipPath);
             Option.Id = clipPath + "_rect";
             Option.Width = LegendBounds.Width;
 
             if (IsPaging)
             {
                 Option.Height = LegendCollection.Any(a => a.LegendTemplate is not null) ? ClipPathHeight : Math.Max(1, RowCountPerPage - 1) * (MaxItemHeight + (Legend?.Padding ?? 0));
-                Transform = "translate(0,-" + (ClipPathHeight * (CurrentPageNumber - 1)).ToString(culture) + ")";
+                Transform = "translate(0,-" + (ClipPathHeight * (CurrentPageNumber - 1)).ToString(Culture) + ")";
             }
             else
             {
@@ -526,11 +530,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         private string ResolveLegendMarkerFill(LegendOption legendOption, string defaultFill)
         {
             ChartSeries? series = Owner?._visibleSeriesRenderers?.ElementAtOrDefault((int)legendOption.SeriesIndex)?.Series;
-            if (ChartHelper.NeedsLegendHorizontalLineGradient(series ?? null!))
-            {
-                return Owner?._visibleSeriesRenderers?.ElementAtOrDefault((int)legendOption.SeriesIndex)?.Interior ?? defaultFill;
-            }
-            return defaultFill;
+            return ChartHelper.NeedsLegendHorizontalLineGradient(series ?? null!)
+                ? Owner?._visibleSeriesRenderers?.ElementAtOrDefault((int)legendOption.SeriesIndex)?.Interior ?? defaultFill
+                : defaultFill;
         }
 
         /// <summary>
@@ -592,10 +594,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 x_Align = (LegendBounds.Width - MaxRowWidth) / 2;
             }
 
-            double x_Location = (!IsRTL) ? LegendBounds.X + x_Align + (Legend?.Padding ?? 0) + (LegendCollection[0].LegendTemplate is null ? ((Legend?.ShapeWidth ?? 0) / 2) : 0)
-                : (LegendBounds.X + LegendBounds.Width) - ((Legend?.Padding ?? 0) + (LegendCollection[0].LegendTemplate is null ? ((Legend?.ShapeWidth ?? 0) / 2) : 0) + x_Align);
+            double x_Location = !IsRTL ? LegendBounds.X + x_Align + (Legend?.Padding ?? 0) + (LegendCollection[0].LegendTemplate is null ? ((Legend?.ShapeWidth ?? 0) / 2) : 0)
+                : LegendBounds.X + LegendBounds.Width - ((Legend?.Padding ?? 0) + (LegendCollection[0].LegendTemplate is null ? ((Legend?.ShapeWidth ?? 0) / 2) : 0) + x_Align);
 
-            ChartEventLocation start = new ChartEventLocation(x_Location, LegendBounds.Y + (Legend?.Padding ?? 0) + (MaxItemHeight / 2));
+            ChartEventLocation start = new(x_Location, LegendBounds.Y + (Legend?.Padding ?? 0) + (MaxItemHeight / 2));
             textPadding = (LegendCollection[0].LegendTemplate is null ? ((Legend?.ShapePadding ?? 0) + (Legend?.ShapeWidth ?? 0)) : 0) + (!IsVertical ? ItemPadding : (Legend?.Padding ?? 0));
             LegendCollection[firstLegend].Location = start;
 
@@ -629,7 +631,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             {
                 if (legendOption.Render && (!string.IsNullOrEmpty(legendOption.Text) || legendOption.LegendTemplate is not null))
                 {
-                    int legendIndex = !Reverse ? count : (LegendCollection.Count - 1) - count;
+                    int legendIndex = !Reverse ? count : LegendCollection.Count - 1 - count;
                     BaseLegendRef?.GetRenderPoint(legendOption, start, textPadding, PreviousLegend, count, firstLegend);
                     List<SymbolOptions> symbols = CalculateLegendOptions(legendOption, (int)legendOption.SeriesIndex);
 
@@ -644,7 +646,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 
                     if (legendOption.LegendTemplate is not null)
                     {
-                        CreateCustomLegendTemplate(legendOption, count, pointerValue, Legend ?? null!);
+                        CreateCustomLegendTemplate(legendOption, count, pointerValue);
                     }
 
                     PreviousLegend = legendOption;
@@ -665,17 +667,12 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             {
                 LegendCollectionRect.Add(new Rect(
                     legendOption.Location.X - (legendOption.LegendTemplate is null ? (Legend?.ShapeWidth ?? 0) : 0) - ItemPadding,
-                    legendOption.Location.Y, 0, 0 )
+                    legendOption.Location.Y, 0, 0)
                 );
 
-                if (count < LegendCollection.Count - 1)
-                {
-                    LegendCollectionRect[count].Width = LegendCollection[count + 1].Location.X - LegendCollection[count].Location.X;
-                }
-                else
-                {
-                    LegendCollectionRect[count].Width = LegendBounds.X + LegendBounds.Width - ItemPadding - LegendCollection[count].Location.X;
-                }
+                LegendCollectionRect[count].Width = count < LegendCollection.Count - 1
+                    ? LegendCollection[count + 1].Location.X - LegendCollection[count].Location.X
+                    : LegendBounds.X + LegendBounds.Width - ItemPadding - LegendCollection[count].Location.X;
 
                 count++;
             }
@@ -705,7 +702,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 
                     if (currentTextOption is not null)
                     {
-                        currentTextOption.Y = yValue.ToString(culture);
+                        currentTextOption.Y = yValue.ToString(Culture);
                     }
 
                     string id = Owner?.ID + "_chart_legend_template_" + Convert.ToString(legendOption.SeriesIndex, null);
@@ -720,7 +717,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                     LegendItemTemplateOptions? currentTemplateOption = TemplateOptions.Find(t => t.Id == legendOption.TemplateID);
                     if (currentTemplateOption is not null)
                     {
-                        currentTemplateOption.style =
+                        currentTemplateOption.Style =
                             "position: absolute; visibility: " + visibility + ";" +
                             " left: " + currentTextOption?.X + "px;" +
                             " top: " + currentTextOption?.Y + "px;" +
@@ -730,14 +727,14 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 }
                 else
                 {
-                    if (legendOption.LegendTemplate is not null && legendOption.LocatedPageIndex > CurrentPageNumber || legendOption.LocatedPageIndex < CurrentPageNumber)
+                    if ((legendOption.LegendTemplate is not null && legendOption.LocatedPageIndex > CurrentPageNumber) || legendOption.LocatedPageIndex < CurrentPageNumber)
                     {
                         TextOptions? currentTextOption = LegendOptions.Find(l => l.Index == legendOption.SeriesIndex)?.TextOption;
                         LegendItemTemplateOptions? currentTemplateOption = TemplateOptions.Find(t => t.Id == legendOption.TemplateID);
 
                         if (currentTemplateOption is not null)
                         {
-                            currentTemplateOption.style =
+                            currentTemplateOption.Style =
                                 "position: absolute; visibility: hidden;" +
                                 " left: " + currentTextOption?.X + "px;" +
                                 " top: " + currentTextOption?.Y + "px;" +
@@ -748,7 +745,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 }
             }
 
-            TextOptions textOption = new TextOptions()
+            TextOptions textOption = new()
             {
                 FontSize = LegendCollection[0].TextStyle.GetFontSize(Owner?._chartThemeStyle ?? null!),
                 FontFamily = LegendCollection[0].TextStyle.GetFontFamily(Owner?._chartThemeStyle ?? null!),
@@ -781,10 +778,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 
             return new TextOptions()
             {
-                Id = LegendID + GenerateId("_text_", index, legendOption), 
+                Id = LegendID + GenerateId("_text_", index, legendOption),
                 Text = legendOption.Text,
                 X = xLoc,
-                Y = Convert.ToString(legendOption.Location.Y + (legendOption.LegendTemplate is null ? (MaxItemHeight / 4) : -(MaxItemHeight / 2)), culture),
+                Y = Convert.ToString(legendOption.Location.Y + (legendOption.LegendTemplate is null ? (MaxItemHeight / 4) : -(MaxItemHeight / 2)), Culture),
                 Fill = !string.IsNullOrEmpty(fill) ? fill : "black",
                 FontFamily = legendOption.TextStyle.GetFontFamily(Owner?._chartThemeStyle ?? null!),
                 FontSize = legendOption.TextStyle.GetFontSize(Owner?._chartThemeStyle ?? null!),
@@ -802,7 +799,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// </summary>
         /// <param name="legendOption">The legend option.</param>
         /// <returns>Symbol color.</returns>
-        private string DetermineSymbolColor(LegendOption legendOption)
+        private static string DetermineSymbolColor(LegendOption legendOption)
         {
             return legendOption.Visible ? legendOption.Fill : "#D3D3D3";
         }
@@ -814,15 +811,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <returns>Shape name string.</returns>
         private string DetermineShape(LegendOption legendOption)
         {
-            string shape;
-            if (_baseControl == "Chart")
-            {
-                shape = legendOption.Shape == LegendShape.SeriesType ? legendOption.Type : Convert.ToString(legendOption.Shape, null) ?? string.Empty;
-            }
-            else
-            {
-                shape = legendOption.Shape == LegendShape.SeriesType ? Convert.ToString(legendOption.AccType, null) : Convert.ToString(legendOption.Shape, null) ?? string.Empty;
-            }
+            string shape = BaseControl == "Chart"
+                ? legendOption.Shape == LegendShape.SeriesType ? legendOption.Type : Convert.ToString(legendOption.Shape, null) ?? string.Empty
+                : legendOption.Shape == LegendShape.SeriesType ? Convert.ToString(legendOption.AccType, null) : Convert.ToString(legendOption.Shape, null) ?? string.Empty;
 
             return shape == "Scatter" ? Convert.ToString(legendOption.MarkerShape, null) ?? string.Empty : shape;
         }
@@ -839,7 +830,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 return false;
             }
 
-            string typeString = legendOption.Type.ToString(culture).ToLower(culture);
+            string typeString = legendOption.Type.ToString(Culture).ToLower(Culture);
             return typeString.Contains("line", StringComparison.InvariantCulture) && !typeString.Contains("area", StringComparison.InvariantCulture);
         }
 
@@ -848,7 +839,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// </summary>
         /// <param name="legendOption">The legend option.</param>
         /// <returns>True when custom border needed.</returns>
-        private bool IsCustomBorderSeries(LegendOption legendOption)
+        private static bool IsCustomBorderSeries(LegendOption legendOption)
         {
             return legendOption.Type == ChartSeriesType.Scatter.ToString() || legendOption.Type == ChartSeriesType.Bubble.ToString();
         }
@@ -859,7 +850,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="isStrokeWidth">Indicates whether stroke width is needed.</param>
         /// <param name="seriesWidth">Series stroke width value.</param>
         /// <returns>Stroke width value.</returns>
-        private double GetBaseStrokeWidth(bool isStrokeWidth, double seriesWidth)
+        private static double GetBaseStrokeWidth(bool isStrokeWidth, double seriesWidth)
         {
             return isStrokeWidth ? seriesWidth : 1;
         }
@@ -869,7 +860,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// </summary>
         /// <param name="legendOption">The legend option.</param>
         /// <returns>Dash array or empty string.</returns>
-        private string GetDashArray(LegendOption legendOption)
+        private static string GetDashArray(LegendOption legendOption)
         {
             bool needsDashArray = legendOption.Shape == LegendShape.SeriesType &&
                 (legendOption.Type == ChartSeriesType.Line.ToString() ||
@@ -888,7 +879,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="legendOption">Legend option.</param>
         /// <param name="symbolColor">Symbol color fallback.</param>
         /// <returns>Tuple stroke width and border color.</returns>
-        private (double StrokeWidth, string BorderColor) ApplyCustomBorder(bool isCustomBorder, double strokeWidth, LegendOption legendOption, string symbolColor)
+        private static (double StrokeWidth, string BorderColor) ApplyCustomBorder(bool isCustomBorder, double strokeWidth, LegendOption legendOption, string symbolColor)
         {
             string borderColor = string.Empty;
             double width = strokeWidth;
@@ -920,7 +911,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <returns>Symbol location.</returns>
         private ChartEventLocation CreateSymbolLocation(LegendOption legendOption, double padding)
         {
-            ChartEventLocation symbolLocation = new ChartEventLocation(0, 0)
+            ChartEventLocation symbolLocation = new(0, 0)
             {
                 X = IsInverse ? (IsRTL ? legendOption.Location.X - (legendOption.TextSize.Width + padding) : legendOption.Location.X + legendOption.TextSize.Width + padding) : legendOption.Location.X,
                 Y = legendOption.Location.Y
@@ -970,7 +961,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             if ((currentShape == "Line" && legendOption.MarkerVisibility && legendOption.MarkerShape != ChartShape.Image) || legendOption.AccType == "Doughnut")
             {
                 shape = Convert.ToString(legendOption.AccType == "Doughnut" ? "Circle" : legendOption.MarkerShape.ToString(), null);
-                PathOptions markerOption = new PathOptions(
+                PathOptions markerOption = new(
                     LegendID + GenerateId("_shape_" + "marker_", index, legendOption),
                     string.Empty,
                     string.Empty,
@@ -1030,7 +1021,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// </summary>
         internal void CalculateRenderTreeBuilderOptions()
         {
-            LegendCollectionRect = new List<Rect>();
+            LegendCollectionRect = [];
             int firstLegend = FindFirstLegendPosition();
             LegendOption firstLegendOption = LegendCollection[0];
 
@@ -1047,7 +1038,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 return;
             }
 
-            PageXCollections = new List<double>();
+            PageXCollections = [];
 
             ChartEventLocation start = SetupStartAndPagingMetrics(firstLegend, out double textPadding, out string pointerValue);
             BuildLegendSymbolsAndTemplates(start, textPadding, pointerValue, firstLegend);
@@ -1064,7 +1055,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <returns>The generated identifier.</returns>
         internal string GenerateId(string prefix, int count, LegendOption option = null!)
         {
-            return _baseControl == "Chart" ? prefix + count : prefix + option.PointIndex;
+            return BaseControl == "Chart" ? prefix + count : prefix + option.PointIndex;
         }
 
         /// <summary>
@@ -1080,7 +1071,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             foreach (LegendSymbols legendOption in LegendOptions.ToArray())
             {
                 string ariaLabel = !string.IsNullOrEmpty(Owner?._legendRenderer?.LegendSettings?.AccessibilityDescriptionFormat) ? (Owner._legendRenderer.LegendSettings.AccessibilityDescriptionFormat.Contains("${value}", StringComparison.Ordinal) ? Owner._legendRenderer.LegendSettings.AccessibilityDescriptionFormat.Replace("${value}", legendOption.TextOption?.Text, StringComparison.Ordinal) : Owner._legendRenderer.LegendSettings.AccessibilityDescriptionFormat) : "Show " + legendOption.TextOption?.Text;
-                svgRenderer.OpenGroupElement(builder, LegendID + GenerateId( "_g_", legendOption.Index), string.Empty, string.Empty, (Legend is not null && !Legend.ToggleVisibility ? "e-legend-default" : "e-legend-pointer"), (Owner?._legendRenderer?.LegendSettings is not null && Owner.Focusable && Owner._legendRenderer.LegendSettings.Focusable) && legendOption.Index == 0 ? "0" : "", ariaLabel, "false", string.Empty, !string.IsNullOrEmpty(Owner?._legendRenderer?.LegendSettings?.AccessibilityRole) ? Owner._legendRenderer.LegendSettings.AccessibilityRole : "button", "true");
+                svgRenderer.OpenGroupElement(builder, LegendID + GenerateId("_g_", legendOption.Index), string.Empty, string.Empty, Legend is not null && !Legend.ToggleVisibility ? "e-legend-default" : "e-legend-pointer", Owner?._legendRenderer?.LegendSettings is not null && Owner.Focusable && Owner._legendRenderer.LegendSettings.Focusable && legendOption.Index == 0 ? "0" : "", ariaLabel, "false", string.Empty, !string.IsNullOrEmpty(Owner?._legendRenderer?.LegendSettings?.AccessibilityRole) ? Owner._legendRenderer.LegendSettings.AccessibilityRole : "button", "true");
 
                 if (legendOption.FirstSymbol is not null && legendOption.Template is null)
                 {
@@ -1116,8 +1107,6 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <returns>The list of symbol options.</returns>
         internal List<SymbolOptions> CalculateLegendOptions(LegendOption legendOption, int index)
         {
-            SymbolOptions legendSymbol = null!, legendMarkerSymbol = null!;
-            string borderColor = string.Empty;
             string symbolColor = DetermineSymbolColor(legendOption);
             string shape = DetermineShape(legendOption);
 
@@ -1126,21 +1115,18 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             double strokeWidth = GetBaseStrokeWidth(isStrokeWidth, legendOption.SeriesWidth);
             string dashArray = GetDashArray(legendOption);
 
-            (double StrokeWidth, string BorderColor) borderResult = ApplyCustomBorder(isCustomBorder, strokeWidth, legendOption, symbolColor);
-            strokeWidth = borderResult.StrokeWidth;
-            borderColor = borderResult.BorderColor;
+            string borderColor;
+            (strokeWidth, borderColor) = ApplyCustomBorder(isCustomBorder, strokeWidth, legendOption, symbolColor);
 
             double padding = GetLegendPadding(legendOption);
             ChartEventLocation symbolLocation = CreateSymbolLocation(legendOption, padding);
             PathOptions symbolOption = CreateSymbolPathOptions(legendOption, index, dashArray, strokeWidth, isCustomBorder, borderColor, symbolColor);
 
-            legendSymbol = CalculateSymbol(symbolLocation, shape, new Size(Legend?.ShapeWidth ?? 0, Legend?.ShapeHeight ?? 0), string.Empty, symbolOption);
+            SymbolOptions legendSymbol = CalculateSymbol(symbolLocation, shape, new Size(Legend?.ShapeWidth ?? 0, Legend?.ShapeHeight ?? 0), string.Empty, symbolOption);
 
-            (SymbolOptions MarkerSymbol, string Shape) markerResult = TryCreateMarkerSymbol(shape, legendOption, index, strokeWidth, symbolColor, symbolLocation, symbolOption);
-            legendMarkerSymbol = markerResult.MarkerSymbol;
-            shape = markerResult.Shape;
+            (SymbolOptions legendMarkerSymbol, _) = TryCreateMarkerSymbol(shape, legendOption, index, strokeWidth, symbolColor, symbolLocation, symbolOption);
 
-            return new List<SymbolOptions>() { legendSymbol, legendMarkerSymbol };
+            return [legendSymbol, legendMarkerSymbol];
         }
 
         /// <summary>
@@ -1153,17 +1139,17 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="seriesType">The series type.</param>
         internal void CalculateLegendBounds(Rect rect, Size availableSize, double marginTop, string baseComponent, string seriesType)
         {
-            _baseControl = baseComponent;
+            BaseControl = baseComponent;
             LegendID = ChartId + "_chart_legend";
             PageUpID = LegendID + "_pageup";
             PageDownID = LegendID + "_pagedown";
             PageNumberID = LegendID + "_pagenumber";
             LegendTranslateID = LegendID + "_translate_g";
-            GetPosition(availableSize, _baseControl, seriesType);
+            GetPosition(availableSize, BaseControl, seriesType);
 
             LegendBounds = new Rect() { X = rect.X, Y = rect.Y, Width = 0, Height = 0 };
-            string DefaultValue = (_baseControl == "BulletChart") ? "40%" : "20%";
-            IsVertical = Position == LegendPosition.Left || Position == LegendPosition.Right;
+            string DefaultValue = (BaseControl == "BulletChart") ? "40%" : "20%";
+            IsVertical = Position is LegendPosition.Left or LegendPosition.Right;
             ItemPadding = !double.IsNaN(Legend?.ItemPadding ?? 0) ? Legend?.ItemPadding ?? 0 : IsVertical ? 8 : 20;
 
             if (IsVertical)
@@ -1200,37 +1186,38 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 
             double padding = legendBorder.Width;
             double legendHeight = LegendBounds.Height + padding + legendMargin.Top + legendMargin.Bottom;
-            double legendWidth = LegendBounds.Width + padding + legendMargin.Left + legendMargin.Right, marginBottom = chartMargin.Bottom;
+            double legendWidth = LegendBounds.Width + padding + legendMargin.Left + legendMargin.Right;
+            _ = chartMargin.Bottom;
 
             if (Position == LegendPosition.Bottom)
             {
                 LegendBounds.X = AlignLegend(LegendBounds.X, availableSize.Width, LegendBounds.Width, Legend?.Alignment ?? Alignment.Center);
                 LegendBounds.Y = rect.Y + (rect.Height - legendHeight) + padding + legendMargin.Top + RangeNavigatorHeight();
-                ChartHelper.SubtractThickness(rect, new Thickness(0, 0, 0, legendHeight));
+                _ = ChartHelper.SubtractThickness(rect, new Thickness(0, 0, 0, legendHeight));
             }
             else if (Position == LegendPosition.Top)
             {
                 LegendBounds.X = AlignLegend(LegendBounds.X, availableSize.Width, LegendBounds.Width, Legend?.Alignment ?? Alignment.Center);
                 LegendBounds.Y = rect.Y + (padding / 2) + legendMargin.Top;
-                ChartHelper.SubtractThickness(rect, new Thickness(0, 0, legendHeight, 0));
+                _ = ChartHelper.SubtractThickness(rect, new Thickness(0, 0, legendHeight, 0));
             }
             else if (Position == LegendPosition.Right)
             {
                 LegendBounds.X = rect.X + (rect.Width - LegendBounds.Width) - legendMargin.Right;
                 LegendBounds.Y = rect.Y + AlignLegend(0, availableSize.Height - (rect.Y + (!double.IsNaN(chartMargin.Bottom) ? chartMargin.Bottom : (SyncfusionService is not null && SyncfusionService.IsDeviceMode ? 5 : 10))), LegendBounds.Height, Legend?.Alignment ?? Alignment.Center);
-                ChartHelper.SubtractThickness(rect, new Thickness(0, legendWidth, 0, 0));
+                _ = ChartHelper.SubtractThickness(rect, new Thickness(0, legendWidth, 0, 0));
             }
             else if (Position == LegendPosition.Left)
             {
                 LegendBounds.X = LegendBounds.X + legendMargin.Left;
                 LegendBounds.Y = rect.Y + AlignLegend(0, availableSize.Height - (rect.Y + (!double.IsNaN(chartMargin.Bottom) ? chartMargin.Bottom : (SyncfusionService is not null && SyncfusionService.IsDeviceMode ? 5 : 10))), LegendBounds.Height, Legend?.Alignment ?? Alignment.Center);
-                ChartHelper.SubtractThickness(rect, new Thickness(legendWidth, 0, 0, 0));
+                _ = ChartHelper.SubtractThickness(rect, new Thickness(legendWidth, 0, 0, 0));
             }
             else
             {
                 LegendBounds.X = location.X;
                 LegendBounds.Y = location.Y;
-                ChartHelper.SubtractThickness(rect, new Thickness(0, 0, 0, 0));
+                _ = ChartHelper.SubtractThickness(rect, new Thickness(0, 0, 0, 0));
             }
         }
 
@@ -1260,7 +1247,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// Returns the range navigator height.
         /// </summary>
         /// <returns>The range navigator height.</returns>
-        internal double RangeNavigatorHeight()
+        internal static double RangeNavigatorHeight()
         {
             return 0;
         }

@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Components;
 using Syncfusion.Blazor.Toolkit.Charts.Internal;
 
@@ -7,13 +8,13 @@ namespace Syncfusion.Blazor.Toolkit.Charts
     /// <summary>
     /// Represents the settings for a chart legend.
     /// </summary>
+    [SuppressMessage("Usage", "BL0007:Component parameter should be auto property",
+        Justification = "These [Parameter] properties intentionally use explicit setters that compare against a backing field and dispatch incremental renderer updates (legend re-render / layout change) the moment a value changes. Converting them to auto-properties would require moving that reactive logic into OnParametersSet, changing when updates fire and thus the component's rendering behavior. The reactive-setter pattern is a deliberate part of the chart update pipeline.")]
     public class ChartLegendSettings : ChartSubComponent, ILegendBase
     {
         #region Fields
 
         private bool _visible = true;
-        private bool _toggleVisibility = true;
-        private bool _enableHighlight;
         private bool _reverse;
         private bool _isInversed;
         private string _width = null!;
@@ -128,18 +129,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// </code>
         /// </example>
         [Parameter]
-        public bool EnableHighlight
-        {
-            get => _enableHighlight;
-
-            set
-            {
-                if (_enableHighlight != value)
-                {
-                    _enableHighlight = value;
-                }
-            }
-        }
+        public bool EnableHighlight { get; set; }
 
         /// <summary> 
         /// Gets or sets the width for the legend. 
@@ -829,18 +819,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// </code>
         /// </example>
         [Parameter]
-        public bool ToggleVisibility
-        {
-            get => _toggleVisibility;
-
-            set
-            {
-                if (_toggleVisibility != value)
-                {
-                    _toggleVisibility = value;
-                }
-            }
-        }
+        public bool ToggleVisibility { get; set; } = true;
 
         /// <summary> 
         /// Gets or sets the tabindex value of the legend for accessibility purposes. 

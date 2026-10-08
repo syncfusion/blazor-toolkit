@@ -22,7 +22,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// <remarks>
         /// This method does NOT use ConfigureAwait(false) because event callbacks require the synchronization context.
         /// </remarks>
-        private async Task<T> InvokeEventIfHasDelegateAsync<T>(EventCallback<T> eventCallback, T args)
+        private static async Task<T> InvokeEventIfHasDelegateAsync<T>(EventCallback<T> eventCallback, T args)
         {
             if (eventCallback.HasDelegate)
             {
@@ -73,7 +73,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// </example>
         public async Task CancelAsync(FileInfo[]? fileData = null)
         {
-            await InvokeVoidAsync(_uploaderJsModule!, _uploaderJsInProcessModule!, "cancel", [DataId, fileData!]).ConfigureAwait(true);
+            await InvokeVoidAsync(_uploaderJsModule, _uploaderJsInProcessModule, "cancel", [DataId, fileData]).ConfigureAwait(true);
         }
         /// <summary>
         /// Clears all file entries from the upload list, including both uploaded files and files in the upload queue.
@@ -111,7 +111,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         [EditorBrowsable(EditorBrowsableState.Never)]
         public async Task CreateFileListAsync(FileInfo[] fileData, bool? isSelectedFile = null)
         {
-            await InvokeVoidAsync(_uploaderJsModule!, _uploaderJsInProcessModule!, "createFileList", [DataId, fileData, isSelectedFile!]).ConfigureAwait(true);
+            await InvokeVoidAsync(_uploaderJsModule, _uploaderJsInProcessModule, "createFileList", [DataId, fileData, isSelectedFile]).ConfigureAwait(true);
         }
         /// <summary>
         /// Retrieves the data of files that are displayed in the file list.
@@ -186,9 +186,9 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// await uploaderInstance.PauseAsync();
         /// ]]></code>
         /// </example>
-        public async Task PauseAsync(List<FileInfo>? fileData = null, bool? custom = null)
+        public async Task PauseAsync(IList<FileInfo>? fileData = null, bool? custom = null)
         {
-            await InvokeVoidAsync(_uploaderJsModule!, _uploaderJsInProcessModule!, "pause", [DataId, fileData!, custom!]).ConfigureAwait(true);
+            await InvokeVoidAsync(_uploaderJsModule, _uploaderJsInProcessModule, "pause", [DataId, fileData, custom]).ConfigureAwait(true);
         }
         /// <summary>
         /// Removes the uploaded files from the server manually by calling the remove URL action.
@@ -236,8 +236,8 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         private async Task RemoveViaServerAsync(FileInfo[] fileData, bool? customTemplate,
             bool? removeDirectly, bool? postRawFile, object args)
         {
-            await InvokeVoidAsync(_uploaderJsModule!, _uploaderJsInProcessModule!, "remove",
-                [DataId, fileData, customTemplate!, removeDirectly!, postRawFile!, args]).ConfigureAwait(true);
+            await InvokeVoidAsync(_uploaderJsModule, _uploaderJsInProcessModule, "remove",
+                [DataId, fileData, customTemplate, removeDirectly, postRawFile, args]).ConfigureAwait(true);
         }
 
         /// <summary>
@@ -275,7 +275,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// <param name="custom">A <see cref="bool"/> value indicating whether custom UI is being used. Set to <c>true</c> if using custom UI templates.</param>
         /// <returns>A <see cref="Task"/> that represents the asynchronous resume operation.</returns>
         /// <remarks>
-        /// This method continues the upload process for files that were previously paused using <see cref="PauseAsync(List{FileInfo}?, bool?)"/>.
+        /// This method continues the upload process for files that were previously paused using <see cref="PauseAsync(IList{FileInfo}, bool?)"/>.
         /// The upload resumes from the exact point where it was paused, utilizing the already uploaded chunks without re-uploading them.
         /// This feature is particularly useful for handling large file uploads where network interruptions or user preferences require temporary pausing.
         /// </remarks>
@@ -291,7 +291,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// </example>
         public async Task ResumeAsync(FileInfo[]? fileData = null, bool? custom = null)
         {
-            await InvokeVoidAsync(_uploaderJsModule!, _uploaderJsInProcessModule!, "resume", [DataId, fileData!, custom!]).ConfigureAwait(true);
+            await InvokeVoidAsync(_uploaderJsModule, _uploaderJsInProcessModule, "resume", [DataId, fileData, custom]).ConfigureAwait(true);
         }
         /// <summary>
         /// Retries the canceled or failed file upload based on the specified file data.
@@ -318,7 +318,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// </example>
         public async Task RetryAsync(FileInfo[]? fileData = null, bool? fromcanceledStage = null, bool? custom = null)
         {
-            await InvokeVoidAsync(_uploaderJsModule!, _uploaderJsInProcessModule!, "retry", [DataId, fileData!, fromcanceledStage!, custom!]).ConfigureAwait(true);
+            await InvokeVoidAsync(_uploaderJsModule, _uploaderJsInProcessModule, "retry", [DataId, fileData, fromcanceledStage, custom]).ConfigureAwait(true);
         }
         /// <summary>
         /// Sorts the file data alphabetically based on the file names.
@@ -388,7 +388,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         private async Task UploadViaServerAsync(FileInfo[] files, bool? custom)
         {
             bool? forceCustom = (!ShowFileList && custom == null) ? true : custom;
-            await InvokeVoidAsync(_uploaderJsModule!, _uploaderJsInProcessModule!, "upload", [DataId, files, forceCustom!]).ConfigureAwait(true);
+            await InvokeVoidAsync(_uploaderJsModule, _uploaderJsInProcessModule, "upload", [DataId, files, forceCustom]).ConfigureAwait(true);
         }
 
         /// <summary>

@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using Microsoft.AspNetCore.Components.Web;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 
 namespace Syncfusion.Blazor.Toolkit.Charts.Internal
@@ -29,10 +30,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         private string? _elementOpacity;
         private string? _elementId;
         private Rect? _iconRect;
-        private string? _hoveredID;
         private string _iconRectOverFill = Constants.Transparent;
         private string _iconRectSelectionFill = Constants.Transparent;
-        private CultureInfo _culture = CultureInfo.InvariantCulture;
+        private readonly CultureInfo _culture = CultureInfo.InvariantCulture;
         private string? _zoomingKitCollection;
         private double _zoomkitOpacity;
 
@@ -60,7 +60,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             _elementId = Chart?.ID;
             // Resolve theme-aware color tokens for the zoom toolkit. High Contrast is treated as a third branch.
             // The soft accessibility yellow (#FFD939) matches the selectionCircleStroke / tabColor tokens in ChartHelper.GetThemeStyle("HighContrast").
-            bool isHighContrast = Chart?.Theme == Theme.HighContrast || Chart?.Theme == Theme.HighContrastLight;
+            bool isHighContrast = Chart?.Theme is Theme.HighContrast or Theme.HighContrastLight;
             bool isDark = Chart?.Theme == Theme.FluentDark;
             _selectionColor = isHighContrast ? "#FFD939" : (isDark ? "#D6D6D6" : "#424242");
             _fillColor = isHighContrast ? "#FFD939" : (isDark ? "#D6D6D6" : "#424242");
@@ -111,7 +111,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="builder">The <see cref="RenderTreeBuilder"/> used to render the component.</param>
         private void ShowZoomingToolkit(RenderTreeBuilder builder)
         {
-            List<ToolbarItems> toolboxItems = Chart?._zoomSettings.ToolbarItems ?? null!;
+            IList<ToolbarItems> toolboxItems = Chart?._zoomSettings.ToolbarItems ?? null!;
             Rect areaBounds = Chart?._axisContainer?.AxisLayout.SeriesClipRect ?? null!;
             Size size = MeasureResetText();
             int length = IsDevice() ? 1 : toolboxItems.Count;
@@ -128,7 +128,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             }
 
             toolboxItems = IsDevice() ? [ToolbarItems.Reset] : toolboxItems;
-            RectOptions rectOptions = new(_elementId + "_Zooming_Rect", 0, 0, width, height + (SPACING * 2), 1, Constants.Transparent, Chart?.Theme == Theme.HighContrast || Chart?.Theme == Theme.HighContrastLight ? "#000000" : (Chart?.Theme != Theme.FluentDark ? "#fafafa" : "#1C1B1F"), 4, 4, 1);
+            RectOptions rectOptions = new(_elementId + "_Zooming_Rect", 0, 0, width, height + (SPACING * 2), 1, Constants.Transparent, Chart?.Theme is Theme.HighContrast or Theme.HighContrastLight ? "#000000" : (Chart?.Theme != Theme.FluentDark ? "#fafafa" : "#1C1B1F"), 4, 4, 1);
             RenderZoomKit(builder, transX, transY, rectOptions, length, toolboxItems, iconSize);
         }
 
@@ -199,7 +199,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <summary>
         /// Renders the complete zoom kit toolbar.
         /// </summary>
-        private void RenderZoomKit(RenderTreeBuilder builder, double transX, double transY, RectOptions rectOptions, int length, List<ToolbarItems> toolboxItems, double iconSize)
+        private void RenderZoomKit(RenderTreeBuilder builder, double transX, double transY, RectOptions rectOptions, int length, IList<ToolbarItems> toolboxItems, double iconSize)
         {
             SvgRendering renderer = Chart?._svgRenderer ?? null!;
 
@@ -292,7 +292,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="toolboxItems">Items to render.</param>
         /// <param name="length">Count of items.</param>
         /// <param name="iconSize">Icon size for spacing.</param>
-        private void RenderToolbarItems(RenderTreeBuilder builder, List<ToolbarItems> toolboxItems, int length, double iconSize)
+        private void RenderToolbarItems(RenderTreeBuilder builder, IList<ToolbarItems> toolboxItems, int length, double iconSize)
         {
             SvgRendering renderer = Chart?._svgRenderer ?? null!;
             double xPosition = SPACING;
@@ -365,7 +365,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
                 Transform = "rotate(0," + 0 + ',' + 0 + ')',
                 DominantBaseline = "middle",
                 FontSize = "12px",
-                Fill = (Chart?.Theme == Theme.HighContrast || Chart?.Theme == Theme.HighContrastLight) ? "#FFD939" : (Chart?.Theme != Theme.FluentDark ? "black" : "white")
+                Fill = (Chart?.Theme is Theme.HighContrast or Theme.HighContrastLight) ? "#FFD939" : (Chart?.Theme != Theme.FluentDark ? "black" : "white")
             });
         }
 
@@ -577,7 +577,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 
             render.RenderRect(builder, new RectOptions(zoomingZoomIn + "_1", _iconRect?.X ?? 0, _iconRect?.Y ?? 0, _iconRect?.Width ?? 0, _iconRect?.Height ?? 0, 0, Constants.Transparent, _selectedIconId == zoomingZoomIn && _isIconSelected ? _iconRectOverFill : Constants.Transparent, 4, 4, 1));
             _ = render.RenderPath(builder, new PathOptions(zoomingZoomIn + "_2", direction, null!, 0, Constants.Transparent, 1, _selectedIconId == zoomingZoomIn && _isIconSelected ? _selectionColor ?? string.Empty : _fillColor ?? string.Empty));
-            render.RenderPolygon(builder, render.Seq++, zoomingZoomIn + "_3", _selectedIconId == zoomingZoomIn && _isIconSelected ? _selectionColor ?? string.Empty : _fillColor ?? string.Empty, polygonDirection);
+            SvgRendering.RenderPolygon(builder, render.Seq++, zoomingZoomIn + "_3", _selectedIconId == zoomingZoomIn && _isIconSelected ? _selectionColor ?? string.Empty : _fillColor ?? string.Empty, polygonDirection);
         }
 
         /// <summary>
@@ -638,25 +638,16 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// </summary>
         internal void RemoveTooltip()
         {
-            if (!string.IsNullOrEmpty(_hoveredID))
-            {
-                bool isPanning = Chart?._zoomingModule is not null && Chart._zoomingModule.IsPanning;
-                bool isZoom = _hoveredID.Contains("_Zoom_", StringComparison.InvariantCulture);
-
-                string rectFill = isPanning ? _hoveredID.Contains("_Pan_", StringComparison.InvariantCulture) ? _iconRectSelectionFill : Constants.Transparent : isZoom ? _iconRectSelectionFill : Constants.Transparent;
-                string pathFill = isPanning ? _hoveredID.Contains("_Pan_", StringComparison.InvariantCulture) ? _selectionColor ?? string.Empty : _fillColor ?? string.Empty : isZoom ? _selectionColor ?? string.Empty : _fillColor ?? string.Empty;
-
-                SetAttribute(_hoveredID, "fill", rectFill);
-                SetAttribute(_hoveredID.Replace("_1", "_2", StringComparison.InvariantCulture), "fill", pathFill);
-                SetAttribute(_hoveredID.Replace("_1", "_3", StringComparison.InvariantCulture), "fill", isPanning ? _fillColor ?? string.Empty : isZoom ? _selectionColor ?? string.Empty : _fillColor ?? string.Empty);
-            }
-
             _ = RemoveElementAsync("EJ2_Chart_ZoomTip");
         }
 
         /// <summary>
         /// Resets the zoom state and refreshes the chart layout.
         /// </summary>
+        [UnconditionalSuppressMessage("Trimming", "IL2026",
+            Justification = "ChartSeriesRendererContainer.ProcessData() only touches the library's own strongly-typed chart series model and renderer members, which are statically referenced and therefore preserved by the trimmer.")]
+        [UnconditionalSuppressMessage("AOT", "IL3050",
+            Justification = "ChartSeriesRendererContainer.ProcessData() does not require runtime code generation; it operates over the library's own strongly-typed chart series model.")]
         internal async Task SetDeferredZoomAsync(SfChart chart)
         {
             chart._disableTrackTooltip = false;

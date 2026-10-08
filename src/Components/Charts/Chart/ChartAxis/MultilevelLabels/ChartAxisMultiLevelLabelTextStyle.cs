@@ -1,4 +1,5 @@
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Components;
 
 namespace Syncfusion.Blazor.Toolkit.Charts
@@ -129,6 +130,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <exclude />
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
+        [UnconditionalSuppressMessage("Trimming", "IL2026",
+            Justification = "OnParametersSet is a Blazor framework lifecycle override and cannot carry [RequiresUnreferencedCode]. It re-runs the chart data pipeline via RefreshChartAsync; that requirement is honestly surfaced on the public data APIs (RefreshAsync, AddSeriesAsync).")]
+        [UnconditionalSuppressMessage("AOT", "IL3050",
+            Justification = "OnParametersSet is a Blazor framework lifecycle override and cannot carry [RequiresDynamicCode]. It re-runs the chart data pipeline via RefreshChartAsync; that requirement is honestly surfaced on the public data APIs (RefreshAsync, AddSeriesAsync).")]
         protected override void OnParametersSet()
         {
             base.OnParametersSet();

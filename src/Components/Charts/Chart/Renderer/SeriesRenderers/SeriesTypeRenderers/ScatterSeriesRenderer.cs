@@ -116,10 +116,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         private void AddPointSymbolLocation(Point point)
         {
             point.SymbolLocations.Add(ChartHelper.GetPoint(XAxisRenderer.GetPointValue(point.XValue), YAxisRenderer.GetPointValue(point.YValue), XAxisRenderer, YAxisRenderer, XLength, YLength, Owner is not null && Owner._requireInvertedAxis));
-            point.SymbolLocations.ForEach(loc =>
+            foreach (ChartEventLocation loc in point.SymbolLocations)
             {
                 ChartPoints?[point.Index]?.SymbolLocations.Add(new IChartInternalLocation(Math.Round(loc.X, 2), Math.Round(loc.Y, 2)));
-            });
+            }
         }
 
         /// <summary>

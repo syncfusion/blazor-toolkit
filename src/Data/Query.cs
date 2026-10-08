@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -20,48 +21,53 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <summary>
         /// Specifies the primary key value.
         /// </summary>
-        public string Key { get; set; }
+        public string Key { get; set; } = null!;
 
         /// <summary>
         /// Specifies the foreign key value.
         /// </summary>
-        public string FKey { get; set; }
+        public string FKey { get; set; } = null!;
 
         /// <summary>
         /// Specifies the table name.
         /// </summary>
         /// <remarks>Table name is used by the remote adaptors.</remarks>
-        public string FromTable { get; set; }
+        public string FromTable { get; set; } = null!;
 
         /// <summary>
         /// Specifies the lookup table names.
         /// </summary>
-        public string[] Lookups { get; set; }
+        public string[] Lookups { get; set; } = null!;
 
         /// <summary>
         /// Specifies the relation table/resource names.
         /// </summary>
-        public List<object> Expands { get; set; }
+        /// <remarks>
+        /// This property keeps a public setter because it is populated through object
+        /// initializers and reassigned by the fluent query builder; the declared type is
+        /// <see cref="IList{T}"/> to keep the public surface free of concrete collection types.
+        /// </remarks>
+        public IList<object> Expands { get; set; } = null!;
 
         /// <summary>
         /// Gets the sort column details.
         /// </summary>
-        public object[] SortedColumns { get; set; }
+        public object[] SortedColumns { get; set; } = null!;
 
         /// <summary>
         /// Gets the group column details.
         /// </summary>
-        public object[] GroupedColumns { get; set; }
+        public object[] GroupedColumns { get; set; } = null!;
 
         /// <summary>
         /// Specifies the sub query details.
         /// </summary>
-        public string SubQuerySelector { get; set; }
+        public string SubQuerySelector { get; set; } = null!;
 
         /// <summary>
         /// Specifies the sub query.
         /// </summary>
-        public Query SubQuery { get; set; }
+        public Query SubQuery { get; set; } = null!;
 
         /// <summary>
         /// Specifies the presence of child.
@@ -71,7 +77,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <summary>
         /// Gets the additional parameters to be used.
         /// </summary>
-        public IDictionary<string, object> Params { get; set; }
+        public IDictionary<string, object> Params { get; set; } = null!;
 
         /// <summary>
         /// Specifies that count value is required in responses from remote services.
@@ -81,29 +87,40 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <summary>
         /// Gets the data manager instance.
         /// </summary>
-        public DataManager DataManager { get; set; }
+        public DataManager DataManager { get; set; } = null!;
 
         /// <summary>
         /// Gets the list of distinct values.
         /// </summary>
-        public List<string> Distincts { get; set; }
+        /// <remarks>
+        /// This property keeps a public setter because it is populated through object
+        /// initializers and reassigned by the fluent query builder; the declared type is
+        /// <see cref="IList{T}"/> to keep the public surface free of concrete collection types.
+        /// </remarks>
+        public IList<string> Distincts { get; set; } = null!;
 
         /// <summary>
         /// Gets the id mapping value used for child data source process.
         /// </summary>
-        public string IdMapping { get; set; }
+        public string IdMapping { get; set; } = null!;
 
-        //This variable is for Clone method json serialize options.
-        private readonly JsonSerializerOptions _cloneJsonSettings = new()
+        // Builds the JSON serialize options used by the Clone method. Constructed on demand (instead of in a
+        // field initializer) so the JsonStringEnumConverter dynamic-code requirement is confined to the
+        // trim/AOT-annotated Clone method rather than the Query constructor.
+        [RequiresDynamicCode("Uses JsonStringEnumConverter, which requires runtime code generation not supported by Native AOT.")]
+        private static JsonSerializerOptions CreateCloneJsonSettings()
         {
-            PropertyNameCaseInsensitive = true,
-            NumberHandling = JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString,
-            Converters = {
+            return new JsonSerializerOptions
+            {
+                PropertyNameCaseInsensitive = true,
+                NumberHandling = JsonNumberHandling.AllowReadingFromString | JsonNumberHandling.WriteAsString,
+                Converters = {
                                 new DateTimeZoneHandlingConverter(),
                                 new JsonStringEnumConverter(),
                                 new ExpandoObjectConverter()
                             }
-        };
+            };
+        }
 
         /// <summary>
         /// Adds the table or resource name.
@@ -185,10 +202,17 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// </summary>
         /// <param name="fieldNames">List of fields to select.</param>
         /// <returns>Query.</returns>
-        public Query Select(List<string> fieldNames)
+        public Query Select(IList<string> fieldNames)
         {
             Queries.Select = Queries.Select ?? [];
-            fieldNames?.ForEach((select) => Queries.Select.Add(select));
+            if (fieldNames is not null)
+            {
+                foreach (string select in fieldNames)
+                {
+                    Queries.Select.Add(select);
+                }
+            }
+
             return this;
         }
 
@@ -228,11 +252,15 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="predicates">Specifies the list of predicates to be used.</param>
         /// <returns>Query</returns>
         /// <remarks>Multiple Where method can be chained to create complex filter criteria.</remarks>
-        public Query Where(List<WhereFilter> predicates)
+        public Query Where(IList<WhereFilter> predicates)
         {
             ArgumentNullException.ThrowIfNull(predicates);
             Queries.Where = Queries.Where ?? [];
-            predicates.ForEach(Queries.Where.Add);
+            foreach (WhereFilter predicate in predicates)
+            {
+                Queries.Where.Add(predicate);
+            }
+
             return this;
         }
 
@@ -246,7 +274,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="ignoreAccent">Ignore accents/diacritic words during searching.</param>
         /// <returns></returns>
         /// <remarks>Multiple Search method can be chained to create complex search criteria.</remarks>
-        public Query Search(string searchKey, List<string> fieldNames, string? @operator = null, bool ignoreCase = false, bool ignoreAccent = false)
+        public Query Search(string searchKey, IList<string> fieldNames, string? @operator = null, bool ignoreCase = false, bool ignoreAccent = false)
         {
             @operator = @operator is not null and not "none" ? @operator.ToString() : "contains"; _ = ignoreCase; _ = ignoreAccent;
             Queries.Search = Queries.Search ?? [];
@@ -300,7 +328,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="fieldNames">Specifies the column names to group.</param>
         /// <param name="groupFormat">Specifies the group format.</param>
         /// <returns>Query.</returns>
-        public Query Group(List<string> fieldNames, IDictionary<string, string>? groupFormat = null)
+        public Query Group(IList<string> fieldNames, IDictionary<string, string>? groupFormat = null)
         {
             Queries.Group = Queries.Group ?? [];
             foreach (string fieldName in fieldNames ?? [])
@@ -393,10 +421,17 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="fieldNames">List of relational table names.</param>
         /// <returns>Query.</returns>
         /// <remarks>Given table names should be eager loaded. Lazy loading is not supported.</remarks>
-        public Query Expand(List<string> fieldNames)
+        public Query Expand(IList<string> fieldNames)
         {
             Queries.Expand = Queries.Expand ?? [];
-            fieldNames?.ForEach((expand) => Queries.Expand.Add(expand));
+            if (fieldNames is not null)
+            {
+                foreach (string expand in fieldNames)
+                {
+                    Queries.Expand.Add(expand);
+                }
+            }
+
             return this;
         }
 
@@ -404,11 +439,13 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// Performs deep cloning of the given Query.
         /// </summary>
         /// <returns>Query.</returns>
+        [RequiresUnreferencedCode("Deep clones the query by round-tripping it through reflection-based System.Text.Json; the serialized members may be removed by the trimmer.")]
+        [RequiresDynamicCode("Deep clones the query using reflection-based System.Text.Json serialization, which requires runtime code generation not supported by Native AOT.")]
         public Query Clone()
         {
             Query clone = new()
             {
-                Queries = JsonSerializer.Deserialize<DataManagerRequest>(JsonSerializer.Serialize(Queries), _cloneJsonSettings)!,
+                Queries = JsonSerializer.Deserialize<DataManagerRequest>(JsonSerializer.Serialize(Queries), CreateCloneJsonSettings())!,
                 IsCountRequired = IsCountRequired
             };
             return clone;
@@ -420,6 +457,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="source">Source Query instance.</param>
         /// <param name="destination">Destination Query instance.</param>
         /// <returns></returns>
+        [RequiresUnreferencedCode("Compares queries by serializing them with reflection-based System.Text.Json; the serialized members may be removed by the trimmer.")]
+        [RequiresDynamicCode("Compares queries using reflection-based System.Text.Json serialization, which requires runtime code generation not supported by Native AOT.")]
         public static bool IsEqual(Query source, Query destination)
         {
             return JsonSerializer.Serialize(source?.Queries).Equals(JsonSerializer.Serialize(destination?.Queries), StringComparison.Ordinal);
@@ -440,6 +479,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// </summary>
         /// <param name="value">The value to serialize.</param>
         /// <returns>Serialized token string.</returns>
+        [RequiresUnreferencedCode("Serializes an arbitrary query token with reflection-based System.Text.Json; the serialized members may be removed by the trimmer.")]
+        [RequiresDynamicCode("Serializes an arbitrary query token with reflection-based System.Text.Json, which requires runtime code generation not supported by Native AOT.")]
         private static string SerializeToken(object? value)
         {
             return JsonSerializer.Serialize(value, _writeJsonSettings);
@@ -473,6 +514,11 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="writer">The JSON writer.</param>
         /// <param name="value">The query value to serialize.</param>
         /// <param name="options">The serializer options.</param>
+        // JsonConverter<T>.Write cannot declare [RequiresUnreferencedCode]/[RequiresDynamicCode] (it would break
+        // the base signature and trigger IL2046). This converter serializes query tokens with reflection-based
+        // System.Text.Json; query tokens are simple primitive/string values produced by the fluent Query API.
+        [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Serializes simple query tokens (strings, enums, primitives) produced by the fluent Query API; no user model types are serialized here.")]
+        [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "Serializes simple query tokens (strings, enums, primitives) produced by the fluent Query API; no user model types are serialized here.")]
         public override void Write(Utf8JsonWriter writer, Query value, JsonSerializerOptions options)
         {
             Query query = value;
@@ -486,7 +532,10 @@ namespace Syncfusion.Blazor.Toolkit.Data
 
             if (request?.Aggregates != null)
             {
-                request.Aggregates.ForEach((agg) => sb.Append('.').Append($"aggregate({SerializeToken(agg.Field)},{SerializeToken(agg.Type)})"));
+                foreach (Aggregate agg in request.Aggregates)
+                {
+                    _ = sb.Append('.').Append($"aggregate({SerializeToken(agg.Field)},{SerializeToken(agg.Type)})");
+                }
             }
 
             if (request?.Expand != null)
@@ -496,7 +545,10 @@ namespace Syncfusion.Blazor.Toolkit.Data
 
             if (request?.Group != null)
             {
-                request.Group.ForEach((grp) => sb.Append('.').Append($"group({SerializeToken(grp)})"));
+                foreach (string grp in request.Group)
+                {
+                    _ = sb.Append('.').Append($"group({SerializeToken(grp)})");
+                }
             }
 
             if (request?.Params != null)
@@ -514,10 +566,10 @@ namespace Syncfusion.Blazor.Toolkit.Data
 
             if (request?.Search != null)
             {
-                request.Search.ForEach((search) =>
+                foreach (SearchFilter search in request.Search)
                 {
                     _ = sb.Append('.').Append($"search({SerializeToken(search.Key)}, {SerializeToken(search.Fields)}, {SerializeToken(search.Operator)})");
-                });
+                }
             }
 
             if (request?.Select != null)
@@ -532,7 +584,10 @@ namespace Syncfusion.Blazor.Toolkit.Data
 
             if (request?.Sorted != null)
             {
-                request.Sorted.ForEach((sort) => sb.Append('.').Append($"sortBy({SerializeToken(sort.Name)}, {SerializeToken(sort.Direction)})"));
+                foreach (Sort sort in request.Sorted)
+                {
+                    _ = sb.Append('.').Append($"sortBy({SerializeToken(sort.Name)}, {SerializeToken(sort.Direction)})");
+                }
             }
 
             if (request?.Take != 0)
@@ -542,7 +597,10 @@ namespace Syncfusion.Blazor.Toolkit.Data
 
             if (request?.Where != null)
             {
-                request.Where.ForEach((filter) => sb.Append('.').Append($"where(sf.data.Predicate.fromJson({JsonSerializer.Serialize(filter)}))"));
+                foreach (WhereFilter filter in request.Where)
+                {
+                    _ = sb.Append('.').Append($"where(sf.data.Predicate.fromJson({JsonSerializer.Serialize(filter)}))");
+                }
             }
 
             string tmp = JsonSerializer.Serialize(sb.ToString(), _writeJsonSettings);

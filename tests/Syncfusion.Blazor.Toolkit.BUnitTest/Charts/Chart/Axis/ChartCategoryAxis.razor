@@ -1,5 +1,7 @@
 ﻿@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit.Charts.Internal
 @using Syncfusion.Blazor.Toolkit.Tests
+@using System.Globalization
 @using Bunit
 @using Xunit
 
@@ -181,36 +183,74 @@
 
     SfFixture fixture4 { get; set; }
     bool _canAssert4 = false;
-    async Task CheckLabelPlacement(Fixture fixture4)
+    Task CheckLabelPlacement(Fixture fixture4)
     {
+        // Width="60%" needs a 1000px container to reproduce the 600px chart baseline.
+        ((SfFixture)fixture4).SetChartContainerSize(1000, 450);
         var cut = fixture4.GetComponentUnderTest<SfChart>();
-        await Task.Delay(300);
-        var svg = cut.Find("#container0_AxisLabel_0");
-        var svg1 = cut.Find("#containerAxisLine_1");
-        var label1 = cut.Find("#container0_AxisLabel_1");
-        var label2 = cut.Find("#container0_AxisLabel_2");
-        var label3 = cut.Find("#container0_AxisLabel_3");
-        var label4 = cut.Find("#container0_AxisLabel_4");
-        var label5 = cut.Find("#container0_AxisLabel_5");
-        var label6 = cut.Find("#container0_AxisLabel_6");
-        Assert.True(Convert.ToDouble(svg.GetAttribute("Month")) < Convert.ToDouble(svg1.GetAttribute("d").Split(" ")[1]));
-        // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(svg.GetAttribute("x") == "63.099999999999994");
-        Assert.True(svg.GetAttribute("y") == "435.84999999999997");
-        Assert.True(label1.GetAttribute("x") == "138.37142857142857");
-        Assert.True(label1.GetAttribute("y") == "435.84999999999997");
-        Assert.True(label2.GetAttribute("x") == "215.6535714285714");
-        Assert.True(label2.GetAttribute("y") == "435.84999999999997");
-        Assert.True(label3.GetAttribute("x") == "299.55");
-        Assert.True(label3.GetAttribute("y") == "435.84999999999997");
-        Assert.True(label4.GetAttribute("x") == "364.1857142857143");
-        Assert.True(label4.GetAttribute("y") == "435.84999999999997");
-        Assert.True(label5.GetAttribute("x") == "439.45714285714286");
-        Assert.True(label5.GetAttribute("y") == "435.84999999999997");
-        Assert.True(label6.GetAttribute("x") == "514.7285714285715");
-        Assert.True(label6.GetAttribute("y") == "435.84999999999997");
+        cut.WaitForAssertion(() =>
+        {
+            Assert.Equal(600d, cut.Instance.AvailableSize.Width);
+            Assert.Equal(450d, cut.Instance.AvailableSize.Height);
+            var svg = cut.Find("#container0_AxisLabel_0");
+            var svg1 = cut.Find("#containerAxisLine_1");
+            var label1 = cut.Find("#container0_AxisLabel_1");
+            var label2 = cut.Find("#container0_AxisLabel_2");
+            var label3 = cut.Find("#container0_AxisLabel_3");
+            var label4 = cut.Find("#container0_AxisLabel_4");
+            var label5 = cut.Find("#container0_AxisLabel_5");
+            var label6 = cut.Find("#container0_AxisLabel_6");
+            // The trimmed OnTicks label starts at the Y-axis, not at a nonexistent "Month" attribute.
+            Assert.Equal(double.Parse(svg1.GetAttribute("d")!.Split(" ")[1], CultureInfo.InvariantCulture),
+                LabelExtent(svg).Left, 6);
+            // Note: Values may vary slightly depending on screen resolution.
+            Assert.True(svg.GetAttribute("x") == "63.099999999999994");
+            Assert.True(svg.GetAttribute("y") == "435.84999999999997");
+            Assert.True(label1.GetAttribute("x") == "138.37142857142857");
+            Assert.True(label1.GetAttribute("y") == "435.84999999999997");
+            Assert.True(label2.GetAttribute("x") == "215.6535714285714");
+            Assert.True(label2.GetAttribute("y") == "435.84999999999997");
+            Assert.True(label3.GetAttribute("x") == "299.55");
+            Assert.True(label3.GetAttribute("y") == "435.84999999999997");
+            Assert.True(label4.GetAttribute("x") == "364.1857142857143");
+            Assert.True(label4.GetAttribute("y") == "435.84999999999997");
+            Assert.True(label5.GetAttribute("x") == "439.45714285714286");
+            Assert.True(label5.GetAttribute("y") == "435.84999999999997");
+            Assert.True(label6.GetAttribute("x") == "514.7285714285715");
+            Assert.True(label6.GetAttribute("y") == "435.84999999999997");
+        });
         cut.SetParametersAndRender();
+        return Task.CompletedTask;
     }
+
+    private static double SvgNumber(AngleSharp.Dom.IElement element, string attribute)
+    {
+        var value = element.GetAttribute(attribute);
+        Assert.False(string.IsNullOrWhiteSpace(value), $"Missing SVG attribute '{attribute}' on '{element.Id}'.");
+        return double.Parse(value!, CultureInfo.InvariantCulture);
+    }
+
+    private static (double Left, double Right) LabelExtent(AngleSharp.Dom.IElement label)
+    {
+        var font = new ChartFontOptions
+        {
+            Size = label.GetAttribute("font-size")!,
+            FontFamily = label.GetAttribute("font-family")!,
+            FontStyle = label.GetAttribute("font-style")!,
+            FontWeight = label.GetAttribute("font-weight")!
+        };
+        double width = ChartHelper.MeasureText(label.TextContent.Trim(), font).Width;
+        Assert.True(width > 0);
+        double x = SvgNumber(label, "x");
+        double left = label.GetAttribute("text-anchor") switch
+        {
+            "middle" => x - width / 2,
+            "end" => x - width,
+            _ => x
+        };
+        return (left, left + width);
+    }
+
     public class SalesInfo4
     {
         public string x { get; set; }
@@ -301,21 +341,34 @@
 
     SfFixture fixture6 { get; set; }
     bool _canAssert6 = false;
-    async Task CheckEdgeLabelPlacementSHift(Fixture fixture6)
+    Task CheckEdgeLabelPlacementSHift(Fixture fixture6)
     {
+        ((SfFixture)fixture6).SetChartContainerSize(1000, 450);
         var cut = fixture6.GetComponentUnderTest<SfChart>();
-        await Task.Delay(300);
-        var svg = cut.Find("#container0_AxisLabel_0");
-        var chartarea = cut.Find("#container_ChartAreaBorder");
-        Assert.True(Convert.ToDouble(svg.GetAttribute("x")) < Convert.ToDouble(chartarea.GetAttribute("x")));
-        // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(svg.GetAttribute("x") == "50.11071428571428");
-        Assert.True(svg.GetAttribute("y") == "435.84999999999997");
-        var svg1 = cut.Find("#container0_AxisLabel_6");
-        Assert.True(Convert.ToDouble(svg1.GetAttribute("x")) > Convert.ToDouble(chartarea.GetAttribute("Width")) + Convert.ToDouble(chartarea.GetAttribute("x")));
-        Assert.True(svg1.GetAttribute("x") == "509.98928571428576");
-        Assert.True(svg1.GetAttribute("y") == "435.84999999999997");
+        cut.WaitForAssertion(() =>
+        {
+            Assert.Equal(600d, cut.Instance.AvailableSize.Width);
+            Assert.Equal(450d, cut.Instance.AvailableSize.Height);
+            var svg = cut.Find("#container0_AxisLabel_0");
+            var svg1 = cut.Find("#container0_AxisLabel_6");
+            var chartarea = cut.Find("#container_ChartAreaBorder");
+            Assert.Equal(Sales6[0].x, svg.TextContent.Trim());
+            Assert.Equal(Sales6[6].x, svg1.TextContent.Trim());
+            var first = LabelExtent(svg);
+            var last = LabelExtent(svg1);
+            double plotLeft = SvgNumber(chartarea, "x");
+            double plotRight = plotLeft + SvgNumber(chartarea, "width");
+            // BetweenTicks permits overflow: compare full labels, not just their start coordinates.
+            Assert.True(first.Left < plotLeft && first.Right > plotLeft);
+            Assert.True(last.Left < plotRight && last.Right > plotRight);
+            // Note: Values may vary slightly depending on screen resolution.
+            Assert.True(svg.GetAttribute("x") == "50.11071428571428");
+            Assert.True(svg.GetAttribute("y") == "435.84999999999997");
+            Assert.True(svg1.GetAttribute("x") == "509.98928571428576");
+            Assert.True(svg1.GetAttribute("y") == "435.84999999999997");
+        });
         cut.SetParametersAndRender();
+        return Task.CompletedTask;
     }
     public class SalesInfo6
     {
@@ -358,22 +411,34 @@
 
     SfFixture fixture7 { get; set; }
     bool _canAssert7 = false;
-    async Task CheckEdgeLabelPlacementSHiftInversed(Fixture fixture7)
+    Task CheckEdgeLabelPlacementSHiftInversed(Fixture fixture7)
     {
+        ((SfFixture)fixture7).SetChartContainerSize(1000, 450);
         var cut = fixture7.GetComponentUnderTest<SfChart>();
-        await Task.Delay(300);
-        var svg = cut.Find("#container0_AxisLabel_0");
-        var chartarea = cut.Find("#container_ChartAreaBorder");
-        Assert.True(Convert.ToDouble(svg.GetAttribute("x")) > Convert.ToDouble(chartarea.GetAttribute("x")));
-        // Note: Values may vary slightly depending on screen resolution.
-        Assert.True(svg.GetAttribute("x") == "501.73928571428576");
-        Assert.True(svg.GetAttribute("y") == "435.84999999999997");
-        var svg1 = cut.Find("#container0_AxisLabel_6");
-        Assert.True(Convert.ToDouble(svg1.GetAttribute("x")) < Convert.ToDouble(chartarea.GetAttribute("Width")) + Convert.ToDouble(chartarea.GetAttribute("x")));
-        Assert.True(svg1.GetAttribute("x") == "58.360714285714266");
-        Assert.True(svg1.GetAttribute("y") == "435.84999999999997");
+        cut.WaitForAssertion(() =>
+        {
+            Assert.Equal(600d, cut.Instance.AvailableSize.Width);
+            Assert.Equal(450d, cut.Instance.AvailableSize.Height);
+            var svg = cut.Find("#container0_AxisLabel_0");
+            var svg1 = cut.Find("#container0_AxisLabel_6");
+            var chartarea = cut.Find("#container_ChartAreaBorder");
+            Assert.Equal(Sales7[0].x, svg.TextContent.Trim());
+            Assert.Equal(Sales7[6].x, svg1.TextContent.Trim());
+            var first = LabelExtent(svg);
+            var last = LabelExtent(svg1);
+            double plotLeft = SvgNumber(chartarea, "x");
+            double plotRight = plotLeft + SvgNumber(chartarea, "width");
+            // Inversion swaps the edges; BetweenTicks does not promise clipping to the plot or SVG.
+            Assert.True(first.Left < plotRight && first.Right > plotRight);
+            Assert.True(last.Left < plotLeft && last.Right > plotLeft);
+            // Note: Values may vary slightly depending on screen resolution.
+            Assert.True(svg.GetAttribute("x") == "501.73928571428576");
+            Assert.True(svg.GetAttribute("y") == "435.84999999999997");
+            Assert.True(svg1.GetAttribute("x") == "58.360714285714266");
+            Assert.True(svg1.GetAttribute("y") == "435.84999999999997");
+        });
         cut.SetParametersAndRender();
-       
+        return Task.CompletedTask;
     }
     public class SalesInfo7
     {

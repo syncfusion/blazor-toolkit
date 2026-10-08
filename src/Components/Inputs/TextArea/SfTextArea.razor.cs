@@ -61,7 +61,6 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         private const string ARIA_MULTILINE = "aria-multiline";
         private const string OUTLINE = "e-outline";
         private const string ARIA_LABEL = "aria-label";
-        private const string ARIA_LABELLEDBY = "aria-labelledby";
         private const string ARIA_DESCRIBEDBY = "aria-describedby";
         private const string ARIA_INVALID = "aria-invalid";
         private const string TRUE = "true";
@@ -440,7 +439,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// Implements WCAG 3.3.1 (Error Identification) and 4.1.2 (Name, Role, Value).
         /// When the field becomes valid, <c>aria-invalid</c> is removed entirely and any
         /// <c>err_</c> token previously appended to <c>aria-describedby</c> is preserved verbatim
-        /// (a user-supplied <see cref="AriaDescribedBy"/> is never overwritten).
+        /// (a user-supplied <see cref="SfInputBase{TValue}.AriaDescribedBy"/> is never overwritten).
         /// </remarks>
         private void SyncInvalidAriaState()
         {

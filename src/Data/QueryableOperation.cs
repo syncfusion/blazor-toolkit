@@ -1,4 +1,5 @@
-﻿using System.Linq.Expressions;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Linq.Expressions;
 using System.Reflection;
 using Syncfusion.Blazor.Toolkit.Data;
 using Syncfusion.Blazor.Toolkit.Internal;
@@ -11,6 +12,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
     /// <summary>
     /// DataOperation class that performs data operation in IQueryable type data sources.
     /// </summary>
+    [RequiresUnreferencedCode("The Syncfusion data query engine builds LINQ expressions and reflects over the queried model type at runtime; members it depends on may be removed by the trimmer.")]
+    [RequiresDynamicCode("The Syncfusion data query engine constructs generic methods and compiles expression trees at runtime, which is not supported by Native AOT.")]
     public static class QueryableOperation
     {
         private static Type DataSourceType<T>(IQueryable<T> dataSource)
@@ -78,7 +81,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="dataSource">Input data source to be grouped.</param>
         /// <param name="grouped">List of column names by which rows will be grouped.</param>
         /// <returns>IQueryable.</returns>
-        public static IQueryable PerformGrouping<T>(IQueryable<T> dataSource, List<string> grouped)
+        public static IQueryable PerformGrouping<T>(IQueryable<T> dataSource, IList<string> grouped)
         {
             return EnumerableOperation.PerformGrouping(dataSource, grouped).AsQueryable();
         }
@@ -89,7 +92,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="dataSource">Data source to be sorted.</param>
         /// <param name="sortedColumns">List of sort criteria.</param>
         /// <returns>IQueryable - sorted records.</returns>
-        public static IQueryable<T> PerformSorting<T>(IQueryable<T> dataSource, List<SortedColumn> sortedColumns)
+        public static IQueryable<T> PerformSorting<T>(IQueryable<T> dataSource, IList<SortedColumn> sortedColumns)
         {
             return (IOrderedQueryable<T>)EnumerableOperation.PerformSorting(dataSource, sortedColumns, typeof(T));
         }
@@ -100,12 +103,15 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="dataSource">Data source to be sorted.</param>
         /// <param name="sortColumns">List of sort criteria.</param>
         /// <returns>IQueryable - sorted records.</returns>
-        public static IQueryable<T> PerformSorting<T>(IQueryable<T> dataSource, List<Sort> sortColumns)
+        public static IQueryable<T> PerformSorting<T>(IQueryable<T> dataSource, IList<Sort> sortColumns)
         {
             sortColumns ??= [];
             if (sortColumns.Count != 0)
             {
-                sortColumns.Reverse();
+                for (int i = 0, j = sortColumns.Count - 1; i < j; i++, j--)
+                {
+                    (sortColumns[j], sortColumns[i]) = (sortColumns[i], sortColumns[j]);
+                }
             }
             else
             {
@@ -169,14 +175,14 @@ namespace Syncfusion.Blazor.Toolkit.Data
                 }
                 else if (string.Equals(type?.Name, "ExpandoObject", StringComparison.Ordinal))
                 {
-                    object value = DataUtil.GetObject(filterString, dataSource.AsQueryable().ElementAt(0));
+                    object? value = DataUtil.GetObject(filterString, dataSource.AsQueryable().ElementAt(0));
                     type = value?.GetType();
                     return type!;
                 }
                 else if (type!.IsSubclassOf(typeof(DynamicObject)))
                 {
-                    object value = DataUtil.GetObject(filterString, dataSource.AsQueryable().ElementAt(0));
-                    type = value.GetType();
+                    object? value = DataUtil.GetObject(filterString, dataSource.AsQueryable().ElementAt(0));
+                    type = value?.GetType() ?? throw new InvalidOperationException($"Cannot infer the type of dynamic field '{filterString}' from a null or missing value in the first record.");
                     return type;
                 }
                 else
@@ -195,7 +201,11 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="dataSource">Data source to be filtered.</param>
         /// <param name="searchFilter">List of search criteria.</param>
         /// <returns>IQueryable - searched records.</returns>
-        public static IQueryable<T> PerformSearching<T>(IQueryable<T> dataSource, List<SearchFilter> searchFilter)
+        /// <exception cref="InvalidOperationException">
+        /// The source contains <see cref="DynamicObject"/> records and a searched field is null or missing
+        /// in the first record, so its type cannot be inferred. Later records are not used for type inference.
+        /// </exception>
+        public static IQueryable<T> PerformSearching<T>(IQueryable<T> dataSource, IList<SearchFilter> searchFilter)
         {
             Type? type = dataSource != null ? DataSourceType(dataSource) : null;
             foreach (SearchFilter? filter in searchFilter ?? [])
@@ -253,7 +263,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
             return dataSource!;
         }
 
-        private static Expression PredicateBuilder<T>(IQueryable<T> dataSource, List<WhereFilter> whereFilter, string condition, ParameterExpression paramExpression, Type type)
+        private static Expression PredicateBuilder<T>(IQueryable<T> dataSource, IList<WhereFilter> whereFilter, string condition, ParameterExpression paramExpression, Type type)
         {
             _ = typeof(object);
             Expression? predicate = null;
@@ -328,11 +338,15 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <summary>
         /// Apply the given filter criteria against the data source and returns the filtered records.
         /// </summary>
+        /// <exception cref="InvalidOperationException">
+        /// The source contains <see cref="DynamicObject"/> records and a filtered field is null or missing
+        /// in the first record, so its type cannot be inferred. Later records are not used for type inference.
+        /// </exception>
         /// <param name="dataSource">Data source to be filtered.</param>
         /// <param name="whereFilter">List of filter criteria.</param>
         /// <param name="condition">Filter merge condition. Value can be either AND or OR.</param>
         /// <returns>IQueryable - filtered records.</returns>
-        public static IQueryable<T> PerformFiltering<T>(IQueryable<T> dataSource, List<WhereFilter> whereFilter, string condition)
+        public static IQueryable<T> PerformFiltering<T>(IQueryable<T> dataSource, IList<WhereFilter> whereFilter, string condition)
         {
             Type? type = dataSource != null ? DataSourceType(dataSource) : null;
             ParameterExpression paramExpression = type!.Parameter();
@@ -346,7 +360,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="dataSource">Input data source.</param>
         /// <param name="select">Fields to select.</param>
         /// <returns></returns>
-        public static IQueryable PerformSelect(IQueryable dataSource, List<string> select)
+        public static IQueryable PerformSelect(IQueryable dataSource, IList<string> select)
         {
             IEnumerable<string> sel = select.Where(item => item != null);
             Type type = dataSource.AsQueryable().GetObjectType();
@@ -375,7 +389,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// <param name="dataSource">Input data source.</param>
         /// <param name="select">Fields to select.</param>
         /// <returns></returns>
-        public static IQueryable PerformSelect<T>(IQueryable dataSource, List<string> select)
+        public static IQueryable PerformSelect<T>(IQueryable dataSource, IList<string> select)
         {
             IEnumerable<string> sel = select.Where(item => item != null);
             Type type = dataSource.AsQueryable().GetObjectType();

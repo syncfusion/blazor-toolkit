@@ -220,7 +220,7 @@ namespace Syncfusion.Blazor.Toolkit.Popups
             }
 
             _isScriptRendered = true;
-            await InvokeVoidAsync(_tooltipJsModule, _tooltipInProcessModule, WIREEVENTS, _dataId, _tooltipElement, DotnetObjectReference!, GetProperties(), GetEventsList()).ConfigureAwait(true);
+            await InvokeVoidAsync(_tooltipJsModule, _tooltipInProcessModule, WIREEVENTS, _dataId, _tooltipElement, DotnetObjectReference, GetProperties(), GetEventsList()).ConfigureAwait(true);
         }
 
         internal override async Task ImportComponentModuleAsync()

@@ -81,7 +81,7 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
         /// <para>When the <c>class</c> attribute is specified, its value is merged with the component's computed CSS classes.</para>
         /// </remarks>
         [Parameter(CaptureUnmatchedValues = true)]
-        public Dictionary<string, object> HtmlAttributes { get; set; } = new();
+        public Dictionary<string, object> HtmlAttributes { get; set; } = [];
 
         /// <exclude />
         /// <summary>

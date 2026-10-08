@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Syncfusion.Blazor.Toolkit.Charts.Internal;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Syncfusion.Blazor.Toolkit.Charts
 {
@@ -33,19 +34,20 @@ namespace Syncfusion.Blazor.Toolkit.Charts
     /// ]]>
     /// </code>
     /// </example>
+    [SuppressMessage("Usage", "BL0007:Component parameter should be auto property",
+        Justification = "These [Parameter] properties intentionally use explicit setters that compare against a backing field and dispatch incremental renderer updates (last-data-label re-render) the moment a value changes. Converting them to auto-properties would require moving that reactive logic into OnParametersSet, changing when updates fire and thus the component's rendering behavior. The reactive-setter pattern is a deliberate part of the chart update pipeline.")]
     public class ChartLastDataLabel : ChartSubComponent, ISubcomponentTracker, IChartElement
     {
         #region Fields
-        bool _showLabel;
-        string _dashArray = string.Empty;
-        string _background = string.Empty;
-        double _lineWidth = Constants.DefaultBorderWidth;
-        string _lineColor = string.Empty;
-        double _cornerRadiusX = Constants.DefaultCornerRadius;
-        double _cornerRadiusY = Constants.DefaultCornerRadius;
+        private bool _showLabel;
+        private string _dashArray = string.Empty;
+        private string _background = string.Empty;
+        private double _lineWidth = Constants.DefaultBorderWidth;
+        private string _lineColor = string.Empty;
+        private double _cornerRadiusX = Constants.DefaultCornerRadius;
+        private double _cornerRadiusY = Constants.DefaultCornerRadius;
 
-        LastDataLabelRenderer? _renderer;
-        Type _rendererType = null!;
+        private LastDataLabelRenderer? _renderer;
         #endregion
 
         #region Properties
@@ -285,11 +287,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <exclude />
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
-        public Type RendererType
-        {
-            get => _rendererType;
-            set => _rendererType = value;
-        }
+        public Type RendererType { get; set; } = null!;
 
         /// <summary>
         /// Internal renderer instance used by the charting infrastructure.
@@ -332,10 +330,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
             }
 
             RendererType = typeof(LastDataLabelRenderer);
-            if (Series is not null)
-            {
-                Series.UpdateSeriesProperties("LastDataLabel", this);
-            }
+            Series?.UpdateSeriesProperties("LastDataLabel", this);
         }
 
         /// <exclude />
@@ -389,6 +384,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                     break;
                 case nameof(Font):
                     Font = (ChartLastDataLabelFont)keyValue;
+                    break;
+                default:
                     break;
             }
         }

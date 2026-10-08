@@ -51,7 +51,7 @@ namespace Syncfusion.Blazor.Toolkit
     }
 
     /// <summary>
-    /// Specifies the selection behavior of the <see cref="SfButtonGroup"/>.
+    /// Specifies the selection behavior of the <see cref="Buttons.SfButtonGroup"/>.
     /// </summary>
     public enum SelectionMode
     {
@@ -72,7 +72,7 @@ namespace Syncfusion.Blazor.Toolkit
     }
 
     /// <summary>
-    /// Specifies the layout position of an icon inside a <see cref="SfButton"/>.
+    /// Specifies the layout position of an icon inside a <see cref="Buttons.SfButton"/>.
     /// </summary>
     /// <remarks>
     /// This enumeration determines where the icon is placed relative to the button content: left, right, above, or below.

@@ -1,5 +1,6 @@
 ﻿using Microsoft.JSInterop;
 using Microsoft.AspNetCore.Components;
+using System.Diagnostics.CodeAnalysis;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 
@@ -62,6 +63,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         public void Dispose()
         {
             Dispose(true);
+            GC.SuppressFinalize(this);
         }
 
         /// <summary>
@@ -83,7 +85,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
     /// <exclude />
     internal static class SyncfusionInterop
     {
-        internal static async ValueTask<T> HandleInteropCallAsync<T>(IJSRuntime jsRuntime, Func<ValueTask<T>> jsInteropCall, string nameSpace, string elementId = "")
+        internal static async ValueTask<T> HandleInteropCallAsync<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.PublicFields | DynamicallyAccessedMemberTypes.PublicProperties)] T>(IJSRuntime jsRuntime, Func<ValueTask<T>> jsInteropCall, string nameSpace, string elementId = "")
         {
             try
             {
@@ -96,7 +98,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
             }
         }
 
-        internal static async ValueTask<T> InitAsync<T>(
+        internal static async ValueTask<T> InitAsync<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.PublicFields | DynamicallyAccessedMemberTypes.PublicProperties)] T>(
             IJSRuntime jsRuntime,
             string elementId,
             object model,
@@ -115,21 +117,23 @@ namespace Syncfusion.Blazor.Toolkit.Data
         }
 
 
-        internal static async ValueTask<T> UpdateAsync<T>(IJSRuntime jsRuntime, string elementId, string model, string nameSpace)
+        internal static async ValueTask<T> UpdateAsync<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.PublicFields | DynamicallyAccessedMemberTypes.PublicProperties)] T>(IJSRuntime jsRuntime, string elementId, string model, string nameSpace)
         {
             return await HandleInteropCallAsync(jsRuntime, () =>
                 jsRuntime.InvokeAsync<T>("sfBlazor.setModel", elementId, model, nameSpace),
                 nameSpace, elementId).ConfigureAwait(true);
         }
 
-        internal static async ValueTask<T> InvokeMethodAsync<T>(IJSRuntime jsRuntime, string elementId, string methodName, string moduleName, object[] args, string nameSpace, ElementReference? element = null)
+        [RequiresUnreferencedCode("Serializes the method arguments with reflection-based System.Text.Json; the serialized argument types' members may be removed by the trimmer.")]
+        [RequiresDynamicCode("Serializes the method arguments with reflection-based System.Text.Json, which requires runtime code generation not supported by Native AOT.")]
+        internal static async ValueTask<T> InvokeMethodAsync<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.PublicFields | DynamicallyAccessedMemberTypes.PublicProperties)] T>(IJSRuntime jsRuntime, string elementId, string methodName, string moduleName, object[] args, string nameSpace, ElementReference? element = null)
         {
             return await HandleInteropCallAsync(jsRuntime, () =>
                 jsRuntime.InvokeAsync<T>("sfBlazor.invokeMethod", elementId, methodName, moduleName, JsonSerializer.Serialize(args), element),
                 nameSpace, elementId).ConfigureAwait(true);
         }
 
-        internal static ValueTask<T> LogError<T>(IJSRuntime jsRuntime, Exception e, string message = "")
+        internal static ValueTask<T> LogError<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.PublicFields | DynamicallyAccessedMemberTypes.PublicProperties)] T>(IJSRuntime jsRuntime, Exception e, string message = "")
         {
             try
             {

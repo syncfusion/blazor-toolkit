@@ -1,11 +1,12 @@
-﻿using Microsoft.AspNetCore.Components.Rendering;
+﻿using System.Diagnostics.CodeAnalysis;
+using Microsoft.AspNetCore.Components.Rendering;
 
 namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 {
     /// <summary>
     /// Manages and coordinates row renderers for chart layout and axis assignment.
     /// </summary>
-    public class ChartRowRendererContainer : ChartRendererContainer
+    internal class ChartRowRendererContainer : ChartRendererContainer
     {
         #region Properties
 
@@ -111,6 +112,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// Builds the render tree, including default renderer components when necessary.
         /// </summary>
         /// <param name="builder">The <see cref="RenderTreeBuilder"/> used to construct the render tree.</param>
+        [UnconditionalSuppressMessage("Trimming", "IL2072",
+            Justification = "DefaultRendererType only ever contains the library's own internal chart renderer component types, assigned via typeof(...); those component types are statically referenced and therefore preserved by the trimmer.")]
         protected override void BuildRenderTree(RenderTreeBuilder builder)
         {
             int seq = 0;

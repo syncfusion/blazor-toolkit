@@ -470,6 +470,120 @@ each major release. The file's per-rule rationale is duplicated in
 `Justification` comments so each audit can be completed without
 referring back to this table.
 
+#### Standing IDE compatibility rationale (2026-10-02)
+
+The audit found 291 unique warning-level IDE diagnostic locations:
+267 in the clean library build and 24 additional simplifications in
+`dotnet format style --verify-no-changes --no-restore --severity warn`.
+Of these, 148 were fixed in source. The remaining 143 compatibility
+findings are covered by 135 central `Scope = "member"` entries in
+`src/Properties/GlobalSuppressions.cs`.
+Entries are grouped by rule, use exact `~F` / `~M` / `~P` targets and
+carry a `2026-10-02:` justification. Counts differ where several
+locations belong to one method. Documented IDs were checked against
+the generated XML documentation; undocumented private-member IDs
+were derived from source declarations.
+
+| Rule | Diagnostics | Entries | Standing rationale |
+|---|---:|---:|---|
+| `IDE0032` | 96 | 96 | Target the backing **field** at each diagnostic, not its property. Retain custom/reactive chart accessors, lazy query-method caches and guarded uploader event reads. Ordinary auto-properties lose side effects, lazy initialization or guard semantics; C# 14 `field` syntax cannot compile on .NET 8/C# 12 or .NET 9/C# 13. Six trivial properties were already converted and are excluded. |
+| `IDE0031` | 27 | 22 | All suggestions are null-conditional **assignments**, including event `-=`. Retain explicit guards in shared older-target source because this assignment syntax requires C# 14. |
+| `IDE0340` | 4 | 1 | Keep bound `Nullable<DateTime>` / `Nullable<DateTimeOffset>` `nameof` expressions in the exact private `QueryableExtensions.Predicate` overload. Unbound generic `nameof` requires C# 14, unavailable in C# 12/13. |
+| `IDE1006` | 11 | 11 | Preserve ABI/source and JS/JSON names: protected `BaseComponent._uniqueId`; public `Refresh`, `Trigger`, `UpdateModel`; both `DataManager.ExecuteQuery<T>` overloads; `WhereFilter.value`; `SfTimePicker<T>.ShowPopup`/`HidePopup`; and internal `IChartInternalLocation.x`/`y` wire names. |
+| `IDE0060` | 3 | 3 | Preserve public `SfChart.TriggerZoomingEvents(string, bool)`, protected `SfDatePicker<T>.SelectCalendarAsync(bool)` and public `ValueConvert.ParseValueWithTypeInformation(string, object, bool)` signatures, including parameter names for named arguments and JS dispatch compatibility. |
+| `IDE0390` | 1 | 1 | Keep `SfChart.UpdateNeededRenderersAsync` as an awaited async helper so errors remain faulted-Task results rather than synchronous throws. |
+| `IDE0391` | 1 | 1 | Keep `TrimTooltipBase.OnInitializedAsync` in the async lifecycle hook to preserve initialization ordering, subclass/base-call contracts and faulted-Task error delivery. |
+| **Total** | **143** | **135** | No new type-, namespace- or assembly-wide suppression. |
+
+Only the stale `CA2213` entries for `ChartStackLabelSettings._font`
+and `ChartStackLabelSettings._margin` were removed: their explicit
+fields were removed by the safe auto-property conversion. The
+`_border` entry and every other pre-existing suppression remain unchanged.
+Analyzer settings and security policy/suppressions are unchanged.
+**BL0007 suppressions and `docs/BL0007-analysis.md` are unchanged.**
+Re-attest these entries at each major release, especially if supported
+language versions or member contracts change.
+
+Verification on 2026-10-02:
+
+- Clean library build across .NET 8/9/10: **0 IDE diagnostics, 0 errors**;
+  total warnings decreased from 940 to 405. The remaining 135 unique
+  non-IDE locations (reported once per target) were unchanged.
+- Warning-level style verification: **0 findings** in the library;
+  all five other C# projects also reported no warning-level style fixes.
+- Sample solution and Playwright sample-host solution builds passed.
+- bUnit could not execute: the parent test project's default compile
+  glob includes `Buttons/ButtonGroup/obj` assembly attributes, causing
+  duplicate attributes. A temporary external build target excluding
+  only those nested generated inputs exposed five existing `CS0266`
+  `IList<T>`-to-`List<T>` assignment errors in `SfDialogTest.cs`,
+  `SharedTooltip.razor`, `Crosshair.razor`, and `Events.razor`.
+  Test source and project configuration were not changed; no passing
+  regression-test result is claimed.
+
+#### Nullable and Razor follow-up (2026-10-03)
+
+This follow-up supersedes the remaining-warning and blocked-test results above:
+
+- Clean library build across .NET 8/9/10: **3 warnings, 0 errors**, down
+  from 405 warnings. All three are the same `CS8714` location on
+  `DataAdaptor<T>` in `src/Data/DataManager.cs`, reported once per target.
+- All 19 unique `RZ10012` findings were fixed by rendering the internal
+  chart components through typed fragments while retaining their accessibility,
+  ordering, SVG nesting, and cascading context.
+- Accurate nullable annotations were explicitly approved for existing null
+  inputs/results. CLR signatures and collection types were retained. Null
+  reflection values, grouping sentinels, and prompt cancellation remain null;
+  no replacement empty values or required public properties were introduced.
+- Null/missing first-record `DynamicObject` values cannot establish a query
+  field's type. Filtering/searching now report `InvalidOperationException`
+  with the field name rather than an incidental null dereference; later
+  records are not substituted for inference. This exception clarification is
+  documented on the public methods and in `CHANGELOG.md`.
+- Chart axis-overlap tracking was made instance-scoped after parallel tests
+  exposed a shared-static-state race. A deterministic two-layout regression
+  failed before the fix and passed afterward; reset timing/values are retained.
+- bUnit now compiles: nested `obj`/`bin` C# is excluded and the five test
+  assignments consume the existing `IList<T>` contracts. Chart fixtures mock
+  real module boundaries and wait for initialization rather than treating
+  initial markup as completed initialization. **2,735 tests passed, 0 failed,
+  0 skipped**, including 142 new regression cases. The test project targets
+  .NET 8; this is not a claim of running tests on .NET 9/10.
+- Warning-level library style verification reports **0 findings**. No new
+  warnings were reported in the added regression-test files or shared chart
+  fixture. Existing warnings elsewhere in the test project are outside this
+  library-warning cleanup; the entire repository is not warning-free.
+- Library analyzer/security settings, `GlobalSuppressions.cs`, and BL0007
+  policy remain unchanged. This pass added no suppressions and disabled no
+  analyzer rules. Browser end-to-end, trimming publication, and Native AOT
+  publication were not run as part of this follow-up.
+
+#### Approved generic adaptor constraint (2026-10-03)
+
+The initially deferred `CS8714` is now addressed with explicit approval:
+`DataAdaptor<T>` declares `where T : notnull`, matching the service-type
+requirement of `OwningComponentBase<T>`. This supersedes the three-warning
+status above. The existing `DataAdaptor<object>` test subclass already satisfies
+this requirement; no repository generic subclasses required changes.
+
+Consumer migration: propagate `where T : notnull` on generic subclasses and
+use non-nullable service type arguments. Nullable arguments and unconstrained
+type parameters may produce new compiler diagnostics when consumers rebuild,
+including errors where warnings are treated as errors. `notnull` is a
+compiler-level nullability contract, not a new CLR-enforced runtime constraint.
+Existing binaries, service resolution, owned scopes, and disposal behavior are
+unchanged. No broader `class` or `new()` restriction was introduced, and no
+analyzer setting or suppression was changed.
+
+Verification after the approved constraint change:
+
+- Non-incremental library build across .NET 8/9/10: **0 warnings, 0 errors**.
+- bUnit on .NET 8: **2,735 passed, 0 failed, 0 skipped**.
+- Warning-level library style verification: **0 findings**.
+- Sample solution and Playwright sample-host solution builds: **passed**.
+- These results apply to the library build and stated checks; existing warnings
+  in test/sample projects and editor-only suggestions are not claimed resolved.
+
 ### Trim and AOT residual warnings
 
 Residual `ILLink` warnings from `-p:PublishTrimmed=true` against

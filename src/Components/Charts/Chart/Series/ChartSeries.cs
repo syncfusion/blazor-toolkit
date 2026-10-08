@@ -1,6 +1,6 @@
-using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 using Microsoft.AspNetCore.Components;
 using Syncfusion.Blazor.Toolkit.Charts.Internal;
@@ -25,6 +25,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
     /// ]]>
     /// </code>
     /// </example>
+    [SuppressMessage("Usage", "BL0007:Component parameter should be auto property",
+        Justification = "These [Parameter] properties intentionally use explicit setters that compare against a backing field and dispatch incremental renderer updates (series re-render / data refresh) the moment a value changes. Converting them to auto-properties would require moving that reactive logic into OnParametersSet, changing when updates fire and thus the component's rendering behavior. The reactive-setter pattern is a deliberate part of the chart update pipeline.")]
     public class ChartSeries : ChartDataBoundComponent, IChartElement
     {
         #region Constants
@@ -49,7 +51,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
 
         internal bool _isSeriesChanged;
         internal bool _isLegendClicked;
-        internal ChartDataEditSettings _chartDataEditSettings;
+        internal ChartDataEditSettings? _chartDataEditSettings;
         #endregion
 
         #region Properties
@@ -79,6 +81,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         [Parameter]
         public RenderFragment LegendItemTemplate { get; set; } = null!;
 
+        private ChartSeriesType _type = ChartSeriesType.Line;
+
         /// <summary>
         /// Specifies the type of series, such as Line, Column, Area, and others.
         /// </summary>
@@ -96,7 +100,6 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// ]]>
         /// </code>
         /// </example>
-        private ChartSeriesType _type = ChartSeriesType.Line;
         [Parameter]
         public ChartSeriesType Type
         {
@@ -145,6 +148,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
             }
         }
 
+        private bool _visible = true;
+
         /// <summary>
         /// Specifies the visibility of the series.
         /// </summary>
@@ -159,11 +164,12 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// ]]>
         /// </code>
         /// </example>
-        private bool _visible = true;
         [Parameter]
         public bool Visible
         {
             get => _visible;
+            [RequiresUnreferencedCode(ChartSeriesRenderer.DataBindingTrimWarning)]
+            [RequiresDynamicCode(ChartSeriesRenderer.DataBindingAotWarning)]
             set
             {
                 if (_visible != value)
@@ -207,6 +213,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
             }
         }
 
+        private double _widthProperty = 1;
+
         /// <summary>
         /// Defines the stroke width for the series (e.g., line-type series and indicator signal lines).
         /// </summary>
@@ -224,7 +232,6 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// ]]>
         /// </code>
         /// </example>
-        private double _widthProperty = 1;
         [Parameter]
         public double Width
         {
@@ -610,6 +617,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         [Parameter]
         public string Volume { get; set; } = string.Empty;
 
+        private string _name = string.Empty;
+
         /// <summary>
         /// Specifies the name of the series.
         /// </summary>
@@ -630,28 +639,29 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// ]]>
         /// </code>
         /// </example>
-        private string _name = string.Empty;
         [Parameter]
         public string Name
         {
             get => _name;
+            [RequiresUnreferencedCode(ChartSeriesRenderer.DataBindingTrimWarning)]
+            [RequiresDynamicCode(ChartSeriesRenderer.DataBindingAotWarning)]
             set
             {
                 if (_name != value)
                 {
                     _name = value;
 
-                if (Container is not null && Container._isChartFirstRender)
-                {
-                    Renderer?.UpdateSeriesDataAsync();
-                    if (Container._legendRenderer is not null && !Container._isLayoutChange)
-
+                    if (Container is not null && Container._isChartFirstRender)
                     {
-                        Container._legendRenderer.RendererShouldRender = Visible;
-                        Container._legendRenderer.UpdateLegendShape(Renderer ?? null!);
-                        Container._legendRenderer.ProcessRenderQueue();
+                        _ = Renderer?.UpdateSeriesDataAsync();
+                        if (Container._legendRenderer is not null && !Container._isLayoutChange)
+
+                        {
+                            Container._legendRenderer.RendererShouldRender = Visible;
+                            Container._legendRenderer.UpdateLegendShape(Renderer ?? null!);
+                            Container._legendRenderer.ProcessRenderQueue();
+                        }
                     }
-                }
 
                 }
             }
@@ -680,6 +690,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         [Parameter]
         public int ZOrder { get; set; }
 
+        private string _fill = string.Empty;
+
         /// <summary>
         /// Gets or sets the fill color for the chart series.
         /// </summary>
@@ -704,7 +716,6 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// ]]>
         /// </code>
         /// </example>
-        private string _fill = string.Empty;
         [Parameter]
         public string Fill
         {
@@ -741,6 +752,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
             }
         }
 
+        private IEnumerable<object> _dataSource = null!;
+
         /// <summary>
         /// Gets or sets the data source for the chart.
         /// </summary>
@@ -772,7 +785,6 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// ]]>
         /// </code>
         /// </example>
-        private IEnumerable<object> _dataSource = null!;
         [Parameter]
         public IEnumerable<object> DataSource
         {
@@ -796,7 +808,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
 
                             if (_dataSource.Any() && _dataSource.First() is INotifyPropertyChanged)
                             {
-                                foreach (INotifyPropertyChanged item in (_dataSource).Cast<INotifyPropertyChanged>())
+                                foreach (INotifyPropertyChanged item in _dataSource.Cast<INotifyPropertyChanged>())
                                 {
                                     item.PropertyChanged += PropertyChanged;
                                 }
@@ -829,6 +841,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
             }
         }
 
+        private Query _query = null!;
+
         /// <summary>
         /// Specifies the query to select data from <c>DataSource</c>.
         /// </summary>
@@ -836,11 +850,12 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <remarks>
         /// This property is applicable when the DataSource is SfDataManager.
         /// </remarks>
-        private Query _query = null!;
         [Parameter]
         public Query Query
         {
             get => _query;
+            [RequiresUnreferencedCode(ChartSeriesRenderer.DataBindingTrimWarning)]
+            [RequiresDynamicCode(ChartSeriesRenderer.DataBindingAotWarning)]
             set
             {
                 if (_query != value)
@@ -850,6 +865,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                 }
             }
         }
+
+        private bool _enableComplexProperty;
 
         /// <summary>
         /// Improves chart performance through data mapping.
@@ -870,7 +887,6 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// ]]>
         /// </code>
         /// </example>
-        private bool _enableComplexProperty;
         [Parameter]
         public bool EnableComplexProperty
         {
@@ -884,6 +900,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                 }
             }
         }
+
+        private bool _enableTooltip = true;
 
         /// <summary>
         /// If set to <c>true</c>, the tooltip for the series will be visible.
@@ -904,7 +922,6 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// ]]>
         /// </code>
         /// </example>
-        private bool _enableTooltip = true;
         [Parameter]
         public bool EnableTooltip
         {
@@ -921,6 +938,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                 }
             }
         }
+
+        private bool _showNearestTooltip = true;
 
         /// <summary>
         /// Gets or sets a value that determines whether tooltips are displayed for the nearest data point to the cursor for this series.
@@ -942,7 +961,6 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// ]]>
         /// </code>
         /// </example>
-        private bool _showNearestTooltip = true;
         [Parameter]
         public bool ShowNearestTooltip
         {
@@ -956,6 +974,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                 }
             }
         }
+
+        private string _tooltipFormat = null!;
 
         /// <summary>
         /// Defines the tooltip format for the series.
@@ -975,7 +995,6 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// ]]>
         /// </code>
         /// </example>
-        private string _tooltipFormat = null!;
         [Parameter]
         public string TooltipFormat
         {
@@ -989,6 +1008,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                 }
             }
         }
+
+        private string _pointColorMapping = string.Empty;
 
         /// <summary>
         /// Gets or sets the data source field name that contains the color value of points.
@@ -1022,11 +1043,12 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// ]]>
         /// </code>
         /// </example>
-        private string _pointColorMapping = string.Empty;
         [Parameter]
         public string PointColorMapping
         {
             get => _pointColorMapping;
+            [RequiresUnreferencedCode(ChartSeriesRenderer.DataBindingTrimWarning)]
+            [RequiresDynamicCode(ChartSeriesRenderer.DataBindingAotWarning)]
             set
             {
                 if (_pointColorMapping != value)
@@ -1074,6 +1096,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         [Parameter]
         public string Size { get; set; } = string.Empty;
 
+        private string _dashArrayProperty = "0";
+
         /// <summary>
         /// Defines the pattern of dashes and gaps to stroke the lines.
         /// </summary>
@@ -1091,7 +1115,6 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// ]]>
         /// </code>
         /// </example>
-        private string _dashArrayProperty = "0";
         [Parameter]
         public string DashArray
         {
@@ -1107,6 +1130,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                 }
             }
         }
+
+        private double _opacityProperty = 1;
 
         /// <summary>
         /// Defines the opacity of the series fill.
@@ -1125,7 +1150,6 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// ]]>
         /// </code>
         /// </example>
-        private double _opacityProperty = 1;
         [Parameter]
         public double Opacity
         {
@@ -1164,6 +1188,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         [Parameter]
         public ChartSeriesBorder Border { get; set; } = new();
 
+        private LegendShape _legendShape = LegendShape.SeriesType;
+
         /// <summary>
         /// Specifies the legend shape of the series.
         /// </summary>
@@ -1182,7 +1208,6 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// ]]>
         /// </code>
         /// </example>
-        private LegendShape _legendShape = LegendShape.SeriesType;
         [Parameter]
         public LegendShape LegendShape
         {
@@ -1248,12 +1273,12 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// When nested under <see cref="ChartSeries"/>, <c>ChartIndicator</c>, or <c>ChartTrendline</c>, the gradient is applied
         /// automatically to the owning element. 
         /// </remarks>
-  
+
         internal ChartLinearGradient? LinearGradient
         {
             get; set;
         } = new();
-     
+
 
         /// <summary>
         /// Provides options to configure a radial gradient for a chart element owned by this series.
@@ -1271,12 +1296,12 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// When placed under <see cref="ChartSeries"/>, <c>ChartIndicator</c>, or <see cref="ChartTrendline"/>, the gradient is applied
         /// automatically. 
         /// </remarks>
-       
+
         internal ChartRadialGradient? RadialGradient
         {
             get; set;
         } = new();
-       
+
 
         /// <summary>
         /// Specifies the customization of the empty point settings for the series.
@@ -1301,6 +1326,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         [Parameter]
         public ChartEmptyPointSettings EmptyPointSettings { get; set; } = new();
 
+        private double _columnSpacing;
+
         /// <summary>
         /// Defines the space between adjacent series for rectangle-shaped series.
         /// </summary>
@@ -1319,7 +1346,6 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// ]]>
         /// </code>
         /// </example>
-        private double _columnSpacing;
         [Parameter]
         public double ColumnSpacing
         {
@@ -1363,6 +1389,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         [Parameter]
         public ChartCornerRadius CornerRadius { get; set; } = new();
 
+        private double _columnWidth = double.NaN;
+
         /// <summary>
         /// Specifies the column width of the rectangle-shaped series.
         /// </summary>
@@ -1381,7 +1409,6 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// ]]>
         /// </code>
         /// </example>
-        private double _columnWidth = double.NaN;
         [Parameter]
         public double ColumnWidth
         {
@@ -1402,6 +1429,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
             }
         }
 
+        private double _columnWidthInPixel = double.NaN;
+
         /// <summary>
         /// Gets or sets the width of the columns, in pixels, for the <see cref="ChartSeries"/> points.
         /// </summary>
@@ -1420,7 +1449,6 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// ]]>
         /// </code>
         /// </example>
-        private double _columnWidthInPixel = double.NaN;
         [Parameter]
         public double ColumnWidthInPixel
         {
@@ -1474,6 +1502,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         [Parameter]
         public Segment SegmentAxis { get; set; } = Segment.X;
 
+        private double _cardinalSplineTension = 0.5;
+
         /// <summary>
         /// Specifies the tension for the Cardinal Spline in spline series.
         /// </summary>
@@ -1492,11 +1522,12 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// ]]>
         /// </code>
         /// </example>
-        private double _cardinalSplineTension = 0.5;
         [Parameter]
         public double CardinalSplineTension
         {
             get => _cardinalSplineTension;
+            [RequiresUnreferencedCode(ChartSeriesRenderer.DataBindingTrimWarning)]
+            [RequiresDynamicCode(ChartSeriesRenderer.DataBindingAotWarning)]
             set
             {
                 if (Math.Abs(_cardinalSplineTension - value) > double.Epsilon)
@@ -1506,6 +1537,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                 }
             }
         }
+
+        private SplineType _splineType = SplineType.Natural;
 
         /// <summary>
         /// Specifies the type of spline to be drawn in spline series.
@@ -1525,11 +1558,12 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// ]]>
         /// </code>
         /// </example>
-        private SplineType _splineType = SplineType.Natural;
         [Parameter]
         public SplineType SplineType
         {
             get => _splineType;
+            [RequiresUnreferencedCode(ChartSeriesRenderer.DataBindingTrimWarning)]
+            [RequiresDynamicCode(ChartSeriesRenderer.DataBindingAotWarning)]
             set
             {
                 if (_splineType != value)
@@ -1539,6 +1573,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                 }
             }
         }
+
+        private StepPosition _stepPosition = StepPosition.Left;
 
         /// <summary>
         /// Defines the position of steps for step series.
@@ -1558,7 +1594,6 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// ]]>
         /// </code>
         /// </example>
-        private StepPosition _stepPosition = StepPosition.Left;
         [Parameter]
         public StepPosition StepPosition
         {
@@ -1664,7 +1699,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// </code>
         /// </example>
         [Parameter]
-        public IList<ChartTrendline> Trendlines { get; set; } = new List<ChartTrendline>();
+        public IList<ChartTrendline> Trendlines { get; set; } = [];
 
         /// <summary>
         /// Specifies the segments of the multicolor series.
@@ -1844,7 +1879,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// </code>
         /// </example>
         [Parameter]
-        public ChartDataEditSettings ChartDataEditSettings
+        public ChartDataEditSettings? ChartDataEditSettings
         {
             get => _chartDataEditSettings;
             set
@@ -1852,7 +1887,10 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                 if (_chartDataEditSettings != value)
                 {
                     _chartDataEditSettings = value;
-                    _chartDataEditSettings._isPropertyChanged = false;
+                    if (_chartDataEditSettings is { } editSettings)
+                    {
+                        editSettings._isPropertyChanged = false;
+                    }
                 }
             }
         }
@@ -1908,6 +1946,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
+        [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Primes the initial data query by reflecting over the user-supplied DataSource element type. This is a Blazor lifecycle override where Requires* annotations are not permitted (IL2046); the data-binding trim requirement is surfaced honestly on the public SfChart/ChartSeries data APIs.")]
+        [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "Primes the initial data query using reflection-based data binding over the user-supplied DataSource element type. This is a Blazor lifecycle override where Requires* annotations are not permitted (IL2046); the AOT requirement is surfaced honestly on the public SfChart/ChartSeries data APIs.")]
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync().ConfigureAwait(false);
@@ -1924,6 +1964,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// </summary>
         [EditorBrowsable(EditorBrowsableState.Never)]
         [Browsable(false)]
+        [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Reprocesses data-source changes by reflecting over the user-supplied DataSource element type. This is a Blazor lifecycle override where Requires* annotations are not permitted (IL2046); the data-binding trim requirement is surfaced honestly on the public SfChart/ChartSeries data APIs.")]
+        [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "Reprocesses data-source changes using reflection-based data binding over the user-supplied DataSource element type. This is a Blazor lifecycle override where Requires* annotations are not permitted (IL2046); the AOT requirement is surfaced honestly on the public SfChart/ChartSeries data APIs.")]
         protected override async Task OnParametersSetAsync()
         {
             _shouldProcess = true;
@@ -2081,6 +2123,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
             return Task.CompletedTask;
         }
 
+        [RequiresUnreferencedCode(ChartSeriesRenderer.DataBindingTrimWarning)]
+        [RequiresDynamicCode(ChartSeriesRenderer.DataBindingAotWarning)]
         private async Task<object> GenerateAndExecuteQueryAsync(Query query)
         {
             return await DataManager.ExecuteQuery<object>(query).ConfigureAwait(false);
@@ -2114,6 +2158,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// and possibly the legend or data label templates.
         /// </summary>
         /// <returns>An awaitable task.</returns>
+        [RequiresUnreferencedCode(ChartSeriesRenderer.DataBindingTrimWarning)]
+        [RequiresDynamicCode(ChartSeriesRenderer.DataBindingAotWarning)]
         private async Task ProcessUpdateWithoutLayoutChangeAsync()
         {
             _ = Renderer?.UpdateSeriesDataAsync();
@@ -2184,6 +2230,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// Refreshes the series when datasource or item properties change, with throttling.
         /// </summary>
         /// <returns>A task that completes when refresh is processed or deferred.</returns>
+        [RequiresUnreferencedCode(ChartSeriesRenderer.DataBindingTrimWarning)]
+        [RequiresDynamicCode(ChartSeriesRenderer.DataBindingAotWarning)]
         private async Task RefreshSeriesAsync()
         {
             if (Container is not null && Container._isRefreshed) { return; }
@@ -2192,13 +2240,19 @@ namespace Syncfusion.Blazor.Toolkit.Charts
             {
                 Container?._svgRenderer?.RefreshElementList();
                 if (Renderer != null)
+                {
                     Renderer.IsSeriesRender = false;
+                }
+
                 _ = SetDataManager<object>((DataSource is not null) ? DataSource : Container?.DataSource ?? null!);
                 Container?._seriesContainer?.AddToRenderQueue(Renderer ?? null!);
                 UpdateDataSource = true;
 
                 if (Renderer != null)
+                {
                     await Renderer.UpdateSeriesDataAsync().ConfigureAwait(false);
+                }
+
                 if (!IsDisposed && Container is not null && Container._seriesContainer is not null &&
                     (Container._seriesContainer._previousRequestTime == DateTime.MinValue
                      || (DateTime.Now - Container._seriesContainer._previousRequestTime).TotalMilliseconds > UPDATE_THRESHOLD))
@@ -2243,8 +2297,11 @@ namespace Syncfusion.Blazor.Toolkit.Charts
                 Container._needAxisRendering = true;
             }
 
-            CartesianAxisLayout._previousAxisEnd = 0;
-            CartesianAxisLayout._previousAxis = null;
+            if (Container?._axisContainer?.AxisLayout is CartesianAxisLayout axisLayout)
+            {
+                axisLayout._previousAxisEnd = 0;
+                axisLayout._previousAxis = null;
+            }
         }
 
         /// <summary>
@@ -2333,6 +2390,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// </summary>
         /// <param name="source">The notifying collection.</param>
         /// <param name="e">Change details.</param>
+        [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Live-data refresh reflects over the user-supplied DataSource element type. This method matches the INotifyCollectionChanged event-handler delegate signature and cannot carry Requires* annotations; the data-binding trim requirement is surfaced honestly on the public SfChart/ChartSeries data APIs.")]
+        [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "Live-data refresh uses reflection-based data binding over the user-supplied DataSource element type. This method matches the INotifyCollectionChanged event-handler delegate signature and cannot carry Requires* annotations; the AOT requirement is surfaced honestly on the public SfChart/ChartSeries data APIs.")]
         internal void DataCollectionChanged(object? source, NotifyCollectionChangedEventArgs e)
         {
             if (Container != null)
@@ -2349,6 +2408,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// </summary>
         /// <param name="sender">The changed data item.</param>
         /// <param name="e">Change details.</param>
+        [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "Live-data refresh reflects over the user-supplied DataSource element type. This method matches the INotifyPropertyChanged event-handler delegate signature and cannot carry Requires* annotations; the data-binding trim requirement is surfaced honestly on the public SfChart/ChartSeries data APIs.")]
+        [UnconditionalSuppressMessage("AOT", "IL3050", Justification = "Live-data refresh uses reflection-based data binding over the user-supplied DataSource element type. This method matches the INotifyPropertyChanged event-handler delegate signature and cannot carry Requires* annotations; the AOT requirement is surfaced honestly on the public SfChart/ChartSeries data APIs.")]
         internal void PropertyChanged(object? sender, PropertyChangedEventArgs e)
         {
             _ = RefreshSeriesAsync();
@@ -2358,6 +2419,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// Handles legend click toggling for this series.
         /// </summary>
         /// <param name="value">A boolean indicating desired visibility.</param>
+        [RequiresUnreferencedCode(ChartSeriesRenderer.DataBindingTrimWarning)]
+        [RequiresDynamicCode(ChartSeriesRenderer.DataBindingAotWarning)]
         internal void OnLegendClick(bool value)
         {
             PrepareForLegendToggle();
@@ -2457,6 +2520,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// Ensures the component has a data manager (from DataSource or parent) and retrieves current page of data.
         /// </summary>
         /// <returns>The current view data set.</returns>
+        [RequiresUnreferencedCode(ChartSeriesRenderer.DataBindingTrimWarning)]
+        [RequiresDynamicCode(ChartSeriesRenderer.DataBindingAotWarning)]
         internal async Task<IEnumerable<object>> UpdateSeriesDataAsync()
         {
             await EnsureDataManagerAsync().ConfigureAwait(false);
@@ -2528,6 +2593,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// <param name="accessibilityDescriptionFormat">Accessibility format for points.</param>
         /// <param name="accessibilityRole">ARIA role.</param>
         /// <param name="focusable">Focusable flag.</param>
+        [RequiresUnreferencedCode(ChartSeriesRenderer.DataBindingTrimWarning)]
+        [RequiresDynamicCode(ChartSeriesRenderer.DataBindingAotWarning)]
         internal void SetTrendlineValues(
             string name, string xname, string yname, string dashArray, double width, string fill, LegendShape legendShape,
             bool tooltip, ChartSeriesBorder border,
@@ -2552,6 +2619,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         /// Sets the display name of the series.
         /// </summary>
         /// <param name="name">The series name to use.</param>
+        [RequiresUnreferencedCode(ChartSeriesRenderer.DataBindingTrimWarning)]
+        [RequiresDynamicCode(ChartSeriesRenderer.DataBindingAotWarning)]
         internal void SetName(string name)
         {
             Name = name;

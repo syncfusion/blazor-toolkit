@@ -2,6 +2,7 @@ using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Collections;
+using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 
 namespace Syncfusion.Blazor.Toolkit.Data
@@ -104,6 +105,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         }
 
         /// <exclude />
+        [RequiresUnreferencedCode(DataManager.QueryTrimWarning)]
+        [RequiresDynamicCode(DataManager.QueryAotWarning)]
         public static HttpRequestMessage PrepareRequest(RequestOptions options)
         {
             if (!options.Url!.StartsWith("http", StringComparison.Ordinal))
@@ -135,6 +138,8 @@ namespace Syncfusion.Blazor.Toolkit.Data
         }
 
         /// <exclude />
+        [RequiresUnreferencedCode(DataManager.QueryTrimWarning)]
+        [RequiresDynamicCode(DataManager.QueryAotWarning)]
         public static HttpRequestMessage PrepareBatchRequest(RequestOptions options, Type? ModelType = null)
         {
             if (!options.Url!.StartsWith("http", StringComparison.Ordinal))
@@ -175,7 +180,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
                 for (int i = 0; i < batchRecords.Changed.Count; i++)
                 {
                     using MultipartContent changeSet = new("mixed", options.CSet!);
-                    object value = DataUtil.GetVal(batchRecords.Changed, i, options.KeyField!);
+                    object? value = DataUtil.GetVal(batchRecords.Changed, i, options.KeyField!);
                     string urlKey = DataUtil.GetODataUrlKey(null!, options.KeyField!, value, ModelType);
                     string param = DataUtil.GetAdditionalParams(options);
                     using HttpRequestMessage putRequest = new(options.UpdateType!, $"{options.BaseUrl}{urlKey}{param}");

@@ -12,7 +12,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// This renderer is attached to ChartSeries.LastDataLabel.Renderer and produces
     /// background rect, connector path and centered text for the last visible point.
     /// </remarks>
-    public class LastDataLabelRenderer : ChartRenderer, IChartElementRenderer
+    internal class LastDataLabelRenderer : ChartRenderer, IChartElementRenderer
     {
         #region Constants
         private const double DEFAULT_PADDING = 6;
@@ -20,16 +20,16 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         #endregion
 
         #region Fields
-        private double _padding = DEFAULT_PADDING;
+        private readonly double _padding = DEFAULT_PADDING;
         private double _translateX;
         private double _translateY;
         private bool _shouldAnimate = true;
         private string _transformValue = string.Empty;
         private string _previousTransform = string.Empty;
         private string ElementId { get; set; } = string.Empty;
-        private List<RectOptions> _rectOptions = [];
-        private List<TextOptions> _textOptions = [];
-        private List<PathOptions> _pathOptions = [];
+        private readonly List<RectOptions> _rectOptions = [];
+        private readonly List<TextOptions> _textOptions = [];
+        private readonly List<PathOptions> _pathOptions = [];
         private CultureInfo Culture { get; set; } = CultureInfo.InvariantCulture;
         #endregion
 

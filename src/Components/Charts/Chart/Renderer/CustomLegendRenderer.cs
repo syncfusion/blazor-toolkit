@@ -5,7 +5,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     /// <summary>
     /// Renderer that draws the chart legend into the SVG layer when a legend exists.
     /// </summary>
-    public class CustomLegendRenderer : ChartRenderer
+    internal class CustomLegendRenderer : ChartRenderer
     {
         #region Lifecycle Methods
 

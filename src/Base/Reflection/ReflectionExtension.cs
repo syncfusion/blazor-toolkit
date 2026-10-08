@@ -1,4 +1,5 @@
-﻿using System.Dynamic;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Dynamic;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using Microsoft.CSharp.RuntimeBinder;
@@ -29,6 +30,8 @@ namespace Syncfusion.Blazor.Toolkit
         /// For accessing complex or nested property values, provide the <paramref name="propertyName"/>
         /// with field names delimited by a dot (for example, <c>"Address.City"</c>).
         /// </remarks>
+        [RequiresUnreferencedCode("Reflects over the runtime type of the supplied object to read a property or field by name; those members may be removed by the trimmer.")]
+        [RequiresDynamicCode("May dispatch to a late-bound dynamic call site to read a member, which requires runtime code generation not supported by Native AOT.")]
         public static object? GetValue(object obj, string propertyName, bool reflectComplexProperty = true)
         {
             if (string.IsNullOrEmpty(propertyName) || obj is null)
@@ -55,6 +58,8 @@ namespace Syncfusion.Blazor.Toolkit
             return value;
         }
 
+        [RequiresUnreferencedCode("Reflects over the runtime type of the supplied object to read a property or field by name; those members may be removed by the trimmer.")]
+        [RequiresDynamicCode("May dispatch to a late-bound dynamic call site to read a member, which requires runtime code generation not supported by Native AOT.")]
         private static object? GetValueForDirectProperty(object obj, string propertyName)
         {
             Type dataObjectType = obj.GetType();
@@ -83,24 +88,17 @@ namespace Syncfusion.Blazor.Toolkit
         /// This method dispatches to <see cref="GetValueFromExpandoObject"/>, <see cref="GetValueFromDynamicObject"/>,
         /// or <see cref="GetValueFromDynamicMetaObjectProvider"/> based on the runtime type of <paramref name="obj"/>.
         /// </remarks>
+        [RequiresUnreferencedCode("Reflects over the runtime type of the supplied dynamic object to read a member by name; those members may be removed by the trimmer.")]
+        [RequiresDynamicCode("May dispatch to a late-bound dynamic call site to read a member, which requires runtime code generation not supported by Native AOT.")]
         public static object? GetValueFromIDynamicMetaObject(object obj, string propertyName, bool reflectComplexProperty = false)
         {
-            if (obj is ExpandoObject expandoObject)
-            {
-                return GetValueFromExpandoObject(expandoObject!, propertyName, reflectComplexProperty);
-            }
-
-            if (obj is DynamicObject dynamicObject)
-            {
-                return GetValueFromDynamicObject(dynamicObject, propertyName, reflectComplexProperty);
-            }
-
-            if (obj is IDynamicMetaObjectProvider dynamicMetaObjectProvider)
-            {
-                return GetValueFromDynamicMetaObjectProvider(dynamicMetaObjectProvider, propertyName, reflectComplexProperty);
-            }
-
-            throw new NotImplementedException(obj?.GetType().Name ?? "obj is null");
+            return obj is ExpandoObject expandoObject
+                ? GetValueFromExpandoObject(expandoObject!, propertyName, reflectComplexProperty)
+                : obj is DynamicObject dynamicObject
+                ? GetValueFromDynamicObject(dynamicObject, propertyName, reflectComplexProperty)
+                : obj is IDynamicMetaObjectProvider dynamicMetaObjectProvider
+                ? GetValueFromDynamicMetaObjectProvider(dynamicMetaObjectProvider, propertyName, reflectComplexProperty)
+                : throw new NotImplementedException(obj?.GetType().Name ?? "obj is null");
         }
 
         /// <summary>
@@ -112,6 +110,8 @@ namespace Syncfusion.Blazor.Toolkit
         /// <see langword="true"/> to resolve nested properties delimited by dot (<c>.</c>); otherwise <see langword="false"/>.
         /// </param>
         /// <returns>The property value of the specified object.</returns>
+        [RequiresUnreferencedCode("Resolving nested (dot-delimited) property paths reflects over the runtime type of the nested value; those members may be removed by the trimmer.")]
+        [RequiresDynamicCode("Uses a DynamicObject member binder to read members, which requires runtime code generation not supported by Native AOT.")]
         public static object? GetValueFromDynamicObject(DynamicObject obj, string propertyName, bool reflectComplexProperty = false)
         {
             if (obj is null || string.IsNullOrEmpty(propertyName))
@@ -160,6 +160,8 @@ namespace Syncfusion.Blazor.Toolkit
         /// <see langword="true"/> to resolve nested properties delimited by dot (<c>.</c>); otherwise <see langword="false"/>.
         /// </param>
         /// <returns>The property value of the specified object.</returns>
+        [RequiresUnreferencedCode("Uses a late-bound dynamic call site and reflects over the runtime type of the supplied object to read a member by name; those members may be removed by the trimmer.")]
+        [RequiresDynamicCode("Creates a late-bound dynamic call site to read a member, which requires runtime code generation not supported by Native AOT.")]
         public static object? GetValueFromDynamicMetaObjectProvider(IDynamicMetaObjectProvider obj, string propertyName, bool reflectComplexProperty = false)
         {
             if (obj is null || string.IsNullOrEmpty(propertyName))
@@ -211,6 +213,8 @@ namespace Syncfusion.Blazor.Toolkit
         /// <see langword="true"/> to resolve nested properties delimited by dot (<c>.</c>); otherwise <see langword="false"/>.
         /// </param>
         /// <returns>The property value of the specified object, or <see langword="null"/> if the key is not found.</returns>
+        [RequiresUnreferencedCode("Resolving nested (dot-delimited) property paths reflects over the runtime type of the nested value; those members may be removed by the trimmer.")]
+        [RequiresDynamicCode("Resolving nested property paths may dispatch to a late-bound dynamic call site, which requires runtime code generation not supported by Native AOT.")]
         public static object? GetValueFromExpandoObject(IDictionary<string, object> obj, string propertyName, bool reflectComplexProperty = false)
         {
             if (obj is null || string.IsNullOrEmpty(propertyName))
@@ -253,27 +257,32 @@ namespace Syncfusion.Blazor.Toolkit
         /// Parameter values are initialized with default instances using recursion where necessary.
         /// </summary>
         /// <param name="type">The type of object to create.</param>
-        /// <param name="createsubtypes">
+        /// <param name="createSubtypes">
         /// <see langword="true"/> to also initialize writable, non-primitive nested properties with new instances; otherwise <see langword="false"/>.
         /// </param>
         /// <returns>
-        /// A reference to the newly created object, or <see langword="null"/> if creation fails due to an exception.
+        /// A reference to the newly created object, or <see langword="null"/> if activation returns null.
+        /// Exceptions raised during creation are propagated to the caller.
         /// </returns>
+        /// <exception cref="ArgumentNullException">Thrown when <paramref name="type"/> is null.</exception>
         /// <remarks>
-        /// When <paramref name="createsubtypes"/> is <see langword="true"/>, nested properties of interface or complex types are also
+        /// When <paramref name="createSubtypes"/> is <see langword="true"/>, nested properties of interface or complex types are also
         /// recursively initialized to facilitate deep-copy or factory scenarios.
         /// </remarks>
+        [RequiresUnreferencedCode("Reflects over the type's constructors and properties to construct and populate an instance; those members may be removed by the trimmer.")]
+        [RequiresDynamicCode("Creates instances of runtime-resolved types via Activator.CreateInstance and constructor invocation, which may require runtime code generation not supported by Native AOT.")]
         public static object? TryCreateInstance(Type type, bool createSubtypes = false)
         {
             try
             {
-                ConstructorInfo[]? constructors = type?.GetConstructors();
-                ConstructorInfo? constructor = constructors?.FirstOrDefault();
-                object obj;
+                ArgumentNullException.ThrowIfNull(type);
+                ConstructorInfo[] constructors = type.GetConstructors();
+                ConstructorInfo? constructor = constructors.FirstOrDefault();
+                object? obj;
                 if (constructor is not null)
                 {
                     ParameterInfo[] parameters = constructor.GetParameters();
-                    object[] parameterValues = new object[parameters.Length];
+                    object?[] parameterValues = new object?[parameters.Length];
 
                     for (int i = 0; i < parameters.Length; i++)
                     {
@@ -288,10 +297,10 @@ namespace Syncfusion.Blazor.Toolkit
                         else if (parameters[i].ParameterType == type)
                         {
                             // Use LINQ to find the first suitable non-recursive parameter type from any constructor.
-                            ParameterInfo validConstructorParameter = constructors
+                            ParameterInfo? validConstructorParameter = constructors
                                 .SelectMany(c => c.GetParameters()) // Flatten all parameters from all constructors
                                 .FirstOrDefault(p =>
-                                { 
+                                {
                                     // Only consider parameters that are not the recursive type
                                     if (p.ParameterType != type)
                                     {
@@ -352,9 +361,10 @@ namespace Syncfusion.Blazor.Toolkit
     /// Provides a dynamic binder for retrieving member values from <see cref="DynamicObject"/> instances.
     /// </summary>
     /// <exclude/>
+    [method: RequiresDynamicCode("Creating a dynamic GetMemberBinder call site may require runtime code generation not supported by Native AOT.")]
     internal class DataMemberBinder(string name, bool ignoreCase) : GetMemberBinder(name, ignoreCase)
     {
-        public override DynamicMetaObject FallbackGetMember(DynamicMetaObject target, DynamicMetaObject errorSuggestion)
+        public override DynamicMetaObject FallbackGetMember(DynamicMetaObject target, DynamicMetaObject? errorSuggestion)
         {
             throw new NotImplementedException();
         }
@@ -364,9 +374,10 @@ namespace Syncfusion.Blazor.Toolkit
     /// Provides a dynamic binder for setting member values on <see cref="DynamicObject"/> instances.
     /// </summary>
     /// <exclude/>
+    [method: RequiresDynamicCode("Creating a dynamic SetMemberBinder call site may require runtime code generation not supported by Native AOT.")]
     internal class DataSetMemberBinder(string name, bool ignoreCase) : SetMemberBinder(name, ignoreCase)
     {
-        public override DynamicMetaObject FallbackSetMember(DynamicMetaObject target, DynamicMetaObject value, DynamicMetaObject errorSuggestion)
+        public override DynamicMetaObject FallbackSetMember(DynamicMetaObject target, DynamicMetaObject value, DynamicMetaObject? errorSuggestion)
         {
             throw new NotImplementedException();
         }

@@ -3,7 +3,7 @@
     /// <summary>
     /// Sets and gets the options for customizing the bottom, left, right, top margin of the chart component.
     /// </summary>
-    public class ChartEventMargin
+    internal class ChartEventMargin
     {
         /// <summary>
         /// Sets and gets the bottom margin for the chart component.

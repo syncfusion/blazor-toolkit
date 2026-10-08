@@ -59,7 +59,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// });
         /// ]]></code>
         /// </example>
-        public List<UploadedFile> Files { get; set; } = [];
+        public IList<UploadedFile> Files { get; } = [];
 
         /// <summary>
         /// Updates the child property by adding a file to the Files collection.
@@ -107,8 +107,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         protected override ValueTask DisposeAsyncCore()
         {
             Parent = null;
-            Files?.Clear();
-            Files = null!;
+            Files.Clear();
             return base.DisposeAsyncCore();
         }
     }

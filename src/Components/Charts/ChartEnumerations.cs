@@ -1103,7 +1103,7 @@ namespace Syncfusion.Blazor.Toolkit
     }
 
     /// <summary>
-    /// Specifies the position of the title for the <see cref="SfChart">Chart</see>.
+    /// Specifies the position of the title for the <see cref="Charts.SfChart">Chart</see>.
     /// </summary>
     public enum ChartTitlePosition
     {
