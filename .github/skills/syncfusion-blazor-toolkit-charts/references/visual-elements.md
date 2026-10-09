@@ -442,7 +442,7 @@ A linear gradient blends colors along a straight path from a defined start point
 **Basic Vertical Linear Gradient (Series):**
 
 ```razor
-@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit
 
 <SfChart Title="Monthly Sales Performance">
     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
@@ -536,7 +536,7 @@ A radial gradient blends colors outward from a central point, creating a circula
 **Basic Radial Gradient (Series):**
 
 ```razor
-@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit
 
 <SfChart Title="Monthly Sales Performance">
     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />

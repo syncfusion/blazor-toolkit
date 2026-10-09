@@ -35,7 +35,7 @@ Ensure `Syncfusion.Blazor.Toolkit` is referenced in your project file:
 Add the following to your `_Imports.razor` or place the same @using directive at the top of a specific Razor page if you only need it locally.:
 
 ```razor
-@using Syncfusion.Blazor.Toolkit.Calendars
+@using Syncfusion.Blazor.Toolkit
 ```
 
 ### 3. Register Services (if required)
@@ -141,7 +141,7 @@ This calendar starts in the decade view (showing a grid of years) and only allow
 Use the `DayCellRendering` event to disable dates:
 
 ```razor
-@using Syncfusion.Blazor.Toolkit.Calendars
+@using Syncfusion.Blazor.Toolkit
 
 <SfCalendar TValue="DateTime"
     DayCellRendering="@DisableSundays">

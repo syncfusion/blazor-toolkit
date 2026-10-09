@@ -145,7 +145,7 @@ The `EnableResize` property allows users to dynamically adjust the size of a dia
 To enable dragging capabilities, set the `AllowDragging` property to true on the Dialog component. When enabled, users can drag the Dialog by clicking and holding the Dialog header area.
 
 ```razor
-@using Syncfusion.Blazor.Toolkit.Popups
+@using Syncfusion.Blazor.Toolkit
 
 <div id="target-draggable">
     <div>

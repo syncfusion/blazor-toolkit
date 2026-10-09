@@ -50,7 +50,7 @@ In `_Imports.razor`, add:
 
 For button components with icons or enum values like `IconPosition`, add the buttons namespace to your page or component:
 ```razor
-@using Syncfusion.Blazor.Toolkit.Buttons
+@using Syncfusion.Blazor.Toolkit
 ```
 
 ## First Button Component
@@ -225,7 +225,7 @@ The application starts at `https://localhost:7145` (or similar port).
 ### Issue 1: Button Not Rendering
 **Symptom:** No button appears on page
 **Solution:** 
-- Verify `@using` statement includes `Syncfusion.Blazor.Toolkit.Buttons`
+- Verify `@using` statement includes `Syncfusion.Blazor.Toolkit`
 - Check that services are registered in `Program.cs`
 - Ensure CSS file is imported in layout
 

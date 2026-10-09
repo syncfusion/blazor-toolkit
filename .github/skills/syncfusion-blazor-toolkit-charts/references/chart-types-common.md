@@ -74,7 +74,7 @@ Line charts visualize time-dependent data by connecting data points with lines, 
 ### Basic Implementation
 
 ```razor
-@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit
 
 <SfChart>
     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>

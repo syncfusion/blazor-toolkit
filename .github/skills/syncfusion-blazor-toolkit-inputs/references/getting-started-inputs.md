@@ -117,7 +117,7 @@ Every input component requires at minimum:
 
 ```razor
 @page "/basic-input"
-@using Syncfusion.Blazor.Toolkit.Inputs
+@using Syncfusion.Blazor.Toolkit
 
 <div class="input-container">
     <label>Text Input:</label>
@@ -249,7 +249,7 @@ Triggered when the component value changes:
 
 ```razor
 @page "/counter"
-@using Syncfusion.Blazor.Toolkit.Inputs
+@using Syncfusion.Blazor.Toolkit
 
 <div>
     <p>Count: @count</p>
@@ -265,7 +265,7 @@ Triggered when the component value changes:
 
 ```razor
 @page "/form"
-@using Syncfusion.Blazor.Toolkit.Inputs
+@using Syncfusion.Blazor.Toolkit
 
 <div class="form-container">
     <div class="form-group">
@@ -306,7 +306,7 @@ Triggered when the component value changes:
 ### Conditional State Management
 
 ```razor
-@using Syncfusion.Blazor.Toolkit.Inputs
+@using Syncfusion.Blazor.Toolkit
 
 <div>
     <div style="display: flex; align-items: center; gap: 10px;">
@@ -331,7 +331,7 @@ Triggered when the component value changes:
 ### Reactive Updates with StateHasChanged
 
 ```razor
-@using Syncfusion.Blazor.Toolkit.Inputs
+@using Syncfusion.Blazor.Toolkit
 
 <div>
     <SfTextBox ValueChange="OnInputChange"></SfTextBox>
@@ -359,7 +359,7 @@ Add these using statements to your Razor components:
 
 ```csharp
 // Input components
-using Syncfusion.Blazor.Toolkit.Inputs;
+using Syncfusion.Blazor.Toolkit;
 ```
 
 ### Global Imports (_Imports.razor)
@@ -380,7 +380,7 @@ Add to your `_Imports.razor` to avoid repeating using statements:
 
 @* Counter.razor *@
 @page "/counter"
-@using Syncfusion.Blazor.Toolkit.Inputs
+@using Syncfusion.Blazor.Toolkit
 
 <div class="counter-demo">
     <h2>Counter Component</h2>

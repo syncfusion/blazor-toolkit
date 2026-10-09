@@ -46,7 +46,7 @@ The Syncfusion Blazor Chart component is a powerful data visualization tool that
 **CRITICAL: Use this reference FIRST for all API-related questions**
 
 Use this authoritative API reference when:
-- Looking up correct enum values (ChartSeriesType, ValueType, SelectionMode, etc.)
+- Looking up correct enum values (ChartSeriesType, ValueType, ChartSelectionMode, etc.)
 - Finding public method signatures (RefreshAsync, ExportAsync, ShowTooltip, etc.)
 - Verifying property names and types
 - Generating code samples
@@ -410,7 +410,7 @@ The `SfChart` component provides several public methods for programmatic control
 **Always use `Syncfusion.Blazor.Toolkit.` prefix for:**
 - `ValueType` (Category, Double, DateTime, etc.)
 - `ChartSeriesType` (Column, Line, Area, etc.)
-- `LegendPosition`, `SelectionMode`, `ZoomMode`, `ChartShape`, etc.
+- `LegendPosition`, `ChartSelectionMode`, `ZoomMode`, `ChartShape`, etc.
 
 ### 2. Component Property Restrictions
 
@@ -584,7 +584,7 @@ Here's a minimal example to create a column chart with data:
 - `Theme` - Visual theme. One of `Theme.Fluent` (default), `Theme.FluentDark`, `Theme.HighContrast`, `Theme.HighContrastLight`. See the **Themes** section below.
 - `Background` - Chart background color
 - `EnableAnimation` - Enable/disable animation (default: true)
-- `SelectionMode` - Selection mode (None, Series, Point, Cluster, DragXY, DragX, DragY, Lasso)
+- `ChartSelectionMode` - Selection mode (None, Series, Point, Cluster, DragXY, DragX, DragY, Lasso)
 - `HighlightMode` - Highlight mode (None, Series, Point, Cluster)
 
 ### Themes
@@ -649,7 +649,7 @@ The theme flows into:
   - `EnablePinchZooming` - Enable pinch zoom (touch devices)
   - `EnablePan` - Enable panning
   - `Mode` - Zoom mode (X, Y, XY)
-- `SelectionMode` - Selection behavior (see SelectionMode enum)
+- `SelectionMode` - Selection behavior (see ChartSelectionMode enum)
 - `ChartCrosshairSettings` - Crosshair configuration
   - `Enable` - Show/hide crosshair
   - `LineType` - Crosshair line type (Vertical, Horizontal, Both)

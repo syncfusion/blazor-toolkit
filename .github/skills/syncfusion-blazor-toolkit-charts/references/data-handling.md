@@ -51,7 +51,7 @@ Complete guide to data handling, binding, manipulation, and optimization pattern
 ### Basic Data Binding with List<T>
 
 ```razor
-@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit
 
 <SfChart>
     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"/>
@@ -150,7 +150,7 @@ Complete guide to data handling, binding, manipulation, and optimization pattern
 ### Remote Data Binding
 
 ```razor
-@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit
 @using Syncfusion.Blazor.Data
 
 <SfChart>

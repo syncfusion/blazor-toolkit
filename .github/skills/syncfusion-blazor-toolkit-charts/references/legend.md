@@ -298,7 +298,7 @@ Prevent series toggling when legend is clicked:
 This is useful when combined with selection modes:
 
 ```razor
-<SfChart SelectionMode="Syncfusion.Blazor.Toolkit.Charts.SelectionMode.Series">
+<SfChart SelectionMode="ChartSelectionMode.Series">
         <ChartSeries DataSource="@Data1" Name="Q1" XName="X" YName="Y"/>
         <ChartSeries DataSource="@Data2" Name="Q2" XName="X" YName="Y"/>
         <ChartSeries DataSource="@Data3" Name="Q3" XName="X" YName="Y"/>

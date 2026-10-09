@@ -42,7 +42,7 @@ SfTooltip is a lightweight component that displays contextual help text or infor
 ### Minimal Tooltip Example
 
 ```razor
-@using Syncfusion.Blazor.Toolkit.Popups
+@using Syncfusion.Blazor.Toolkit
 
 <SfTooltip Content="This is a tooltip">
     <span>Hover over me</span>
@@ -220,7 +220,7 @@ Ensure Syncfusion CSS is included in `_Host.cshtml` or `App.razor`:
 
 ```razor
 @using Syncfusion.Blazor.Toolkit
-@using Syncfusion.Blazor.Toolkit.Popups
+@using Syncfusion.Blazor.Toolkit
 
 <SfTooltip Content="Let's go green to save the planet!!" Animation="@Animation">
     <SfButton Content="Show Tooltip"></SfButton>
@@ -442,7 +442,7 @@ The `OpensOn` property determines the event that triggers the Tooltip to appear.
 ### Lifecycle Events
 
 ```razor
-@using Syncfusion.Blazor.Toolkit.Popups
+@using Syncfusion.Blazor.Toolkit
 
 <SfTooltip Content="Event handling demo"
            Opened="@OnTooltipOpened"
@@ -539,7 +539,7 @@ The `OpensOn` property determines the event that triggers the Tooltip to appear.
 ### Collision Detection
 
 ```razor
-@using Syncfusion.Blazor.Toolkit.Popups
+@using Syncfusion.Blazor.Toolkit
 <SfTooltip Content="Collision detection demo"
            Colliding="@OnCollision">
     <span style="text-decoration: underline; cursor: help;">
@@ -589,7 +589,7 @@ The `OpensOn` property determines the event that triggers the Tooltip to appear.
 These methods allow programmatic control over showing and hiding the tooltip with optional animation settings and target element specification.
 
 ```razor
-@using Syncfusion.Blazor.Toolkit.Popups
+@using Syncfusion.Blazor.Toolkit
 
 <SfTooltip @ref="tooltip" Content="Animated tooltip" OpensOn="Custom">
     <SfButton class="e-btn" @onclick="ShowTooltip">

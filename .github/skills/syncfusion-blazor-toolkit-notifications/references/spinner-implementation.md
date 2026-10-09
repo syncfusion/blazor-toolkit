@@ -83,7 +83,7 @@ Add the Syncfusion namespace to your `_Imports.razor`:
 For Spinner-specific types in your Razor pages, add individual namespaces:
 
 ```razor
-@using Syncfusion.Blazor.Toolkit.Spinner
+@using Syncfusion.Blazor.Toolkit
 ```
 
 ### Step 5: Basic Spinner Component

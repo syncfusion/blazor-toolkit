@@ -129,19 +129,14 @@ var app = builder.Build();
 
 ### Step 3: Add Script Reference
 
-In `App.razor` (or `_Layout.cshtml` for older templates), add the script reference before the closing `</body>` tag:
+In `App.razor` (or `_Layout.cshtml` / `index.html`), scripts are served from the toolkit bundle:
 
 ```html
 <body>
     <!-- Other content -->
     
-    <script src="_content/Syncfusion.Blazor.Core/scripts/syncfusion-blazor.min.js" type="text/javascript"></script>
+    <script src="_content/Syncfusion.Blazor.Toolkit/scripts/chart.js" type="text/javascript"></script>
 </body>
-```
-
-**Note:** The Chart component script is included in `syncfusion-blazor.min.js`. For individual component scripts:
-```html
-<script src="_content/Syncfusion.Blazor.Toolkit.Charts/scripts/sf-chart.min.js" type="text/javascript"></script>
 ```
 
 ## Creating Your First Chart

@@ -135,7 +135,7 @@ DatePicker, DateTimePicker, and TimePicker support popup events:
 ### EditForm and DataAnnotations
 
 ```razor
-@using Syncfusion.Blazor.Toolkit.Calendars
+@using Syncfusion.Blazor.Toolkit
 @using System.ComponentModel.DataAnnotations
 
 <EditForm Model="@model" OnValidSubmit="@HandleSubmit">
@@ -232,7 +232,7 @@ DatePicker, DateTimePicker, and TimePicker support popup events:
 ### Multiple Components Coordination
 
 ```razor
-@using Syncfusion.Blazor.Toolkit.Calendars
+@using Syncfusion.Blazor.Toolkit
 
 <SfDatePicker TValue="DateTime?"
     ValueChange="@OnStartDateChanged"
@@ -262,7 +262,7 @@ DatePicker, DateTimePicker, and TimePicker support popup events:
 ### Complete Example with Multiple Features
 
 ```razor
-@using Syncfusion.Blazor.Toolkit.Calendars
+@using Syncfusion.Blazor.Toolkit
 @using System.ComponentModel.DataAnnotations
 
 <EditForm Model="@booking" OnValidSubmit="@SubmitBooking">

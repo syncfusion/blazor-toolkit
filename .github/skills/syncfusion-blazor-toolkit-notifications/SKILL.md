@@ -55,7 +55,7 @@ The Notifications components provide visual feedback during asynchronous operati
 | Anti-pattern | Symptom | Fix |
 |---|---|---|
 | `Visible="@_busy" @bind-Visible VisibleChanged="@(v => _busy = v)"` | Re-render storm; spinner "stuck open" or "stuck closed" | Pick exactly one: `@bind-Visible="@_busy"` |
-| Using `SfSpinner` for confirmation ("are you sure?") | User double-clicks the button before the spinner fades out; double-commit | Use `Syncfusion.Blazor.Toolkit.Popups.SfDialog` with `IsModal="true"` |
+| Using `SfSpinner` for confirmation ("are you sure?") | User double-clicks the button before the spinner fades out; double-commit | Use `Syncfusion.Blazor.Toolkit.SfDialog` with `IsModal="true"` |
 | `position: fixed` overlay inside a Static SSR page | `JS` not available pre-interactivity; overlay renders without scroll lock | Either upgrade to interactive render mode, or rely on element-level overlay (don't lock body scroll) |
 | `<SfSpinner>` nested inside `<SfButton>` | Pointer events pass through; user clicks the button while spinner is "showing" | Use `Disabled="@_busy"` on the button, and place `<SfSpinner>` *adjacent to* (not inside) the button |
 | No `role="alert"` / `aria-busy="true"` on the parent overlay element | Screen readers don't know the page is busy; user confused | Wrap with `<div role="alert" aria-busy="true">` while the spinner is up |
