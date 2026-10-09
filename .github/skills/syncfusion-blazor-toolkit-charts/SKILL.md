@@ -9,7 +9,7 @@ metadata:
 
 # Implementing Syncfusion Blazor Charts
 
-**NuGet:** `Syncfusion.Blazor.Toolkit` + `Syncfusion.Blazor.Themes`  
+**NuGet:** `Syncfusion.Blazor.Toolkit`  
 **Namespace:** `Syncfusion.Blazor.Toolkit`
 
 A comprehensive guide for implementing the Syncfusion Blazor Chart component to create interactive, feature-rich data visualizations in Blazor applications. The Chart component supports core series types (line, area, column/bar, scatter, bubble, spline) and stacking/step/spline variants, multiple axes, interactivity, and customization.
@@ -63,7 +63,7 @@ Topics covered:
 - All enum values are **exact** - do not use variations
 - Method names follow C# conventions (e.g., `RefreshAsync` not `Refresh`)
 - Always use `@ref` to access chart instance for method calls
-- Namespace: `Syncfusion.Blazor.Toolkit.Charts`
+- Namespace: `Syncfusion.Blazor.Toolkit`
 
 ---
 
@@ -80,7 +80,7 @@ Use this when:
 
 Topics covered:
 - Installation and prerequisites
-- Package setup (Syncfusion.Blazor.Toolkit.Charts)
+- Package setup (Syncfusion.Blazor.Toolkit)
 - Namespace imports and service registration
 - Script references
 - Basic chart implementation
@@ -464,7 +464,7 @@ Here's a minimal example to create a column chart with data:
 
 ```razor
 @page "/chart-demo"
-@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit
 
 <SfChart Title="Sales Analysis">
     <ChartPrimaryXAxis Title="Month" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
@@ -506,9 +506,9 @@ Here's a minimal example to create a column chart with data:
 ```
 
 **Prerequisites:**
-1. Install `Syncfusion.Blazor.Toolkit.Charts` NuGet package
-2. Add `@using Syncfusion.Blazor.Toolkit.Charts` to `_Imports.razor`
-3. Register service: `builder.Services.AddSyncfusionBlazor();` in `Program.cs`
+1. Install `Syncfusion.Blazor.Toolkit` NuGet package
+2. Add `@using Syncfusion.Blazor.Toolkit` to `_Imports.razor`
+3. Register service: `builder.Services.AddSyncfusionBlazorToolkit();` in `Program.cs`
 4. Add script reference in `App.razor`
 
 ---
@@ -606,7 +606,7 @@ The theme flows into:
 **Example — High Contrast:**
 
 ```razor
-@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit
 
 <SfChart Theme="Theme.HighContrast" Title="Sales Data">
     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
