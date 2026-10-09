@@ -41,7 +41,7 @@ SfDialog is a versatile modal or modeless dialog component from Syncfusion Blazo
 In your Razor component or `_Imports.razor`:
 
 ```csharp
-@using Syncfusion.Blazor.Toolkit.Popups
+@using Syncfusion.Blazor.Toolkit
 ```
 
 ### 2. Register the Component
@@ -68,8 +68,8 @@ In `_Host.cshtml` or `App.razor`:
 
 ```razor
 @page "/dialog-demo"
-@using Syncfusion.Blazor.Toolkit.Popups
-@using Syncfusion.Blazor.Toolkit.Buttons
+@using Syncfusion.Blazor.Toolkit
+@using Syncfusion.Blazor.Toolkit
 
 <SfDialog @bind-Visible="isDialogOpen" Width="500px" Height="auto">
     <DialogTemplates>

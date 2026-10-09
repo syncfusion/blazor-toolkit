@@ -45,7 +45,7 @@ buttons, drag, resize, animation, and a service for dynamic creation.
    need to invoke `OnClose` first.
 
 ```razor
-@using Syncfusion.Blazor.Toolkit.Popups
+@using Syncfusion.Blazor.Toolkit
 @implements IAsyncDisposable
 
 <SfDialog @ref="confirm"
@@ -115,7 +115,7 @@ See the **Core Rules** snippet above for a full modal example.
 ### Pattern 2 — Programmatic lifecycle
 
 ```razor
-@using Syncfusion.Blazor.Toolkit.Popups
+@using Syncfusion.Blazor.Toolkit
 
 <SfDialog @ref="dlg" AllowPrerender="false" />
 <button @onclick="@(() => dlg.Show())">Open programmatically</button>
@@ -163,7 +163,7 @@ the button onclick never invokes it. Pressing "Yes" effectively does nothing.
 
 **Correct — `EventCallback<T>`-based:**
 ```razor
-@using Syncfusion.Blazor.Toolkit.Popups
+@using Syncfusion.Blazor.Toolkit
 
 <SfDialog @bind-Visible="@_showConfirm" IsModal="true" Header="Confirm"
           AllowPrerender="false" ShowCloseIcon="true">
@@ -201,7 +201,7 @@ Parent wires `@bind-OnDecision` and gets a bool back.
 
 **Fix:**
 ```razor
-@using Syncfusion.Blazor.Toolkit.Popups
+@using Syncfusion.Blazor.Toolkit
 
 <SfDialog @ref="dialog" AllowPrerender="false" />
 <button @onclick="@(() => dialog.Show())">Open</button>
@@ -244,7 +244,7 @@ Parent wires `@bind-OnDecision` and gets a bool back.
 
 **Fix:**
 ```razor
-@using Syncfusion.Blazor.Toolkit.Popups
+@using Syncfusion.Blazor.Toolkit
 
 <SfDialog AllowPrerender="false">
     <DialogTemplates>
@@ -269,7 +269,7 @@ Parent wires `@bind-OnDecision` and gets a bool back.
 
 **Correct:**
 ```razor
-@using Syncfusion.Blazor.Toolkit.Popups
+@using Syncfusion.Blazor.Toolkit
 
 <SfDialog OnClose="@BlockIfDirty" @bind-Visible="@_open">
     <DialogTemplates>

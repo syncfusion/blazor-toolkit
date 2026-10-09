@@ -25,7 +25,7 @@ Complete, copy-paste-ready real-world examples demonstrating common chart implem
 
 ```razor
 @page "/sales-dashboard"
-@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit
 
 <div class="dashboard-container">
     <h2>Sales Performance Dashboard</h2>
@@ -121,12 +121,12 @@ Note: Financial chart examples (candlestick, HILO, OHLC) have been removed — t
 
 ```razor
 @page "/performance-comparison"
-@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit
 
 <div class="performance-container">
     <h2>Quarterly Performance Comparison</h2>
     <SfChart Title="Team Performance Metrics" Width="100%" Height="450px" 
-             SelectionMode="Syncfusion.Blazor.Toolkit.Charts.SelectionMode.Point">
+             SelectionMode="ChartSelectionMode.Point">
         <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" 
                            Title="Quarters">
         </ChartPrimaryXAxis>
@@ -217,7 +217,7 @@ Note: Financial chart examples (candlestick, HILO, OHLC) have been removed — t
 
 ```razor
 @page "/trend-analysis"
-@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit
 
 <div class="trend-container">
     <h2>Sales Trend Analysis with Forecast</h2>
@@ -307,7 +307,7 @@ Note: Accumulation/Pie/Doughnut charts are not available in this build; regional
 
 ```razor
 @page "/realtime-monitoring"
-@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit
 @using System.Collections.ObjectModel
 @using System.Timers
 
@@ -431,7 +431,7 @@ Note: Accumulation/Pie/Doughnut charts are not available in this build; regional
 
 ```razor
 @page "/interactive-report"
-@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit
 
 <div class="report-container">
     <h2>Interactive Sales Report</h2>
@@ -563,7 +563,7 @@ Note: Accumulation/Pie/Doughnut charts are not available in this build; regional
 
 ```razor
 @page "/responsive-analytics"
-@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit
 
 <div class="analytics-container">
     <h2>Mobile-Responsive Analytics</h2>

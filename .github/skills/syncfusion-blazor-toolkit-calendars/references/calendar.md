@@ -188,7 +188,7 @@ Control the calendar view display and navigation:
 
 <!-- Specify week rule -->
 @using System.Globalization
-@using Syncfusion.Blazor.Toolkit.Calendars
+@using Syncfusion.Blazor.Toolkit
 
 <SfCalendar TValue="DateTime"
     WeekNumber="true"
@@ -224,7 +224,7 @@ Control the calendar view display and navigation:
 | `RemoveDatesAsync(DateTime[] dates)` | `Task` | Removes dates from selection in multi-selection mode |
 
 ```razor
-@using Syncfusion.Blazor.Toolkit.Calendars
+@using Syncfusion.Blazor.Toolkit
 
 <SfCalendar TValue="DateTime"
     ValueChange="@OnValueChanged"

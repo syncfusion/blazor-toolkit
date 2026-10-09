@@ -25,7 +25,7 @@ The Syncfusion button component automatically handles hover and pressed states t
 
 > **Note:** For button components with icons or enum values like `IconPosition` and `ButtonType`, add the buttons namespace to your page or component:
 > ```razor
-> @using Syncfusion.Blazor.Toolkit.Buttons
+> @using Syncfusion.Blazor.Toolkit
 > ```
 
 ## Disabled State

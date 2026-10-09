@@ -56,7 +56,7 @@
 Category axis is used to represent string values instead of numeric values.
 
 ```cshtml
-@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit
 
 <SfChart>
     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
@@ -816,7 +816,7 @@ Bind series to axis using `YAxisName` or `XAxisName`:
 ## Complete Working Example
 
 ```cshtml
-@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit
 
 <SfChart Title="Multi-Axis Sales and Temperature Analysis" Width="100%" Height="450px">
     <!-- Primary X-Axis: Category -->

@@ -233,7 +233,7 @@ Enable strict mode to validate and reset invalid entries:
 
 @code {
     private string _triggeredEvent = string.Empty;
-	public void BlurHandler(Syncfusion.Blazor.Toolkit.Calendars.BlurEventArgs args)
+	public void BlurHandler(Syncfusion.Blazor.Toolkit.BlurEventArgs args)
 	{
 	    _triggeredEvent = "Blur event is triggered";
 	}
@@ -244,7 +244,7 @@ Enable strict mode to validate and reset invalid entries:
 	    _triggeredEvent = "ValueChange event is triggered";
 	}
 
-	public void FocusHandler(Syncfusion.Blazor.Toolkit.Calendars.FocusEventArgs args)
+	public void FocusHandler(Syncfusion.Blazor.Toolkit.FocusEventArgs args)
 	{
 	    _triggeredEvent = "Focus event is triggered";
 	}
@@ -303,7 +303,7 @@ Enable strict mode to validate and reset invalid entries:
 ## Form Integration
 
 ```razor
-@using Syncfusion.Blazor.Toolkit.Calendars
+@using Syncfusion.Blazor.Toolkit
 @using System.ComponentModel.DataAnnotations
 
 <EditForm Model="@model" OnValidSubmit="@HandleSubmit">

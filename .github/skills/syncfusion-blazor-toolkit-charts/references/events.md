@@ -524,7 +524,7 @@ Triggers after point, series, or cluster selection is completed.
 **Example**:
 
 ```razor
-<SfChart SelectionMode="Syncfusion.Blazor.Toolkit.Charts.SelectionMode.Point">
+<SfChart SelectionMode="ChartSelectionMode.Point">
     <ChartEvents OnSelectionChanged="OnSelectionChangedHandler"></ChartEvents>
     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
         <ChartSeries DataSource="@SalesData" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column">

@@ -19,7 +19,7 @@ This page contains the steps to build and run the Syncfusion Toolkit for Blazor 
 3. Run these commands:
     ```dotnetcli
     dotnet restore
-    dotnet build ./Syncfusion.Blazor.Toolkit.slnx
+    dotnet build ./src/Syncfusion.Blazor.Toolkit.slnx
     ```
 
 ### Release sanity check (local)

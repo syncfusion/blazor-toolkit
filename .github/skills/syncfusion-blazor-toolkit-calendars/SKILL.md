@@ -85,7 +85,7 @@ at 19:00 (Jan 1 local = 00:00 UTC) sees "Dec 31 disabled" — wrong.
 side:
 
 ```razor
-@using Syncfusion.Blazor.Toolkit.Calendars
+@using Syncfusion.Blazor.Toolkit
 
 <SfCalendar TValue="DateTime?"
             EnableUtc="true"
@@ -132,7 +132,7 @@ private void OnCell(RenderDayCellEventArgs args)
 
 **Bad:**
 ```razor
-@using Syncfusion.Blazor.Toolkit.Calendars
+@using Syncfusion.Blazor.Toolkit
 
 <SfDatePicker TValue="DateTime?"
               @bind-Value="@_date"
@@ -143,7 +143,7 @@ private void OnCell(RenderDayCellEventArgs args)
 **Correct:** use `@bind-Value:after` (.NET 8+) for post-commit logic:
 
 ```razor
-@using Syncfusion.Blazor.Toolkit.Calendars
+@using Syncfusion.Blazor.Toolkit
 
 <SfDatePicker TValue="DateTime?"
               @bind-Value="@_date"
@@ -187,7 +187,7 @@ date on click instead of keeping a timer running.
 
 **Correct:**
 ```razor
-@using Syncfusion.Blazor.Toolkit.Calendars
+@using Syncfusion.Blazor.Toolkit
 
 <SfCalendar TValue="DateTime?"
             EnableUtc="true"
@@ -205,7 +205,7 @@ date on click instead of keeping a timer running.
 ## Minimal Example
 
 ```razor
-@using Syncfusion.Blazor.Toolkit.Calendars
+@using Syncfusion.Blazor.Toolkit
 
 <SfDatePicker TValue="DateTime?"
               Placeholder="Select a date"

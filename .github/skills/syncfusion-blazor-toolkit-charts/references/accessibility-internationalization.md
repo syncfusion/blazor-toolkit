@@ -146,7 +146,7 @@ Complete keyboard support following WCAG 2.2 guidelines.
 Optimize chart content for screen readers with descriptive labels.
 
 ```razor
-@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit
 
 <SfChart Title="Quarterly Revenue Report" 
          Description="Bar chart showing quarterly revenue from Q1 to Q4">
@@ -188,7 +188,7 @@ Optimize chart content for screen readers with descriptive labels.
 Support system high contrast themes for improved visibility.
 
 ```razor
-@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit
 
 <SfChart Title="High Contrast Chart" Theme="Theme.HighContrast">
     <ChartPrimaryXAxis Title="Categories" />
@@ -221,9 +221,9 @@ Support system high contrast themes for improved visibility.
 Implement proper focus indicators and management by enabling selection on the chart.
 
 ```razor
-@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit
 
-<SfChart Title="Focus Managed Chart" SelectionMode="SelectionMode.Point" SelectionPattern="SelectionPattern.Dots">
+<SfChart Title="Focus Managed Chart" SelectionMode="ChartSelectionMode.Point" SelectionPattern="SelectionPattern.Dots">
     <ChartPrimaryXAxis Title="Products" />
     <ChartPrimaryYAxis Title="Units Sold" />
     
@@ -260,7 +260,7 @@ Configure chart to use specific locales for formatting.
 
 ```razor
 @using Syncfusion.Blazor
-@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit
 @using System.Globalization
 
 <SfChart Title="International Sales" Locale="de-DE">
@@ -300,7 +300,7 @@ Configure chart to use specific locales for formatting.
 Apply culture-specific number formatting.
 
 ```razor
-@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit
 @using System.Globalization
 
 <SfChart Title="Number Formatting Examples">
@@ -338,7 +338,7 @@ Apply culture-specific number formatting.
 Format dates according to locale conventions.
 
 ```razor
-@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit
 
 <SfChart Title="Date Time Formatting">
     <ChartPrimaryXAxis Title="Timeline" ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" 
@@ -375,7 +375,7 @@ Format dates according to locale conventions.
 Display currency using locale-specific symbols.
 
 ```razor
-@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit
 @using System.Globalization
 
 <SfChart Title="Multi-Currency Revenue">
@@ -421,7 +421,7 @@ Translate chart text elements for different languages.
 
 ```razor
 @using Syncfusion.Blazor
-@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit
 
 <SfChart Title="@GetLocalizedText("ChartTitle")">
     <ChartPrimaryXAxis Title="@GetLocalizedText("XAxisTitle")" />
@@ -488,7 +488,7 @@ Translate chart text elements for different languages.
 Enable right-to-left layout for RTL languages.
 
 ```razor
-@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit
 
 <SfChart Title="مخطط المبيعات" EnableRtl="true">
     <ChartPrimaryXAxis Title="المنتجات" />
@@ -525,7 +525,7 @@ Enable right-to-left layout for RTL languages.
 Define custom locale settings for specialized requirements.
 
 ```razor
-@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit
 @using System.Globalization
 
 <SfChart Title="Custom Locale Chart">
@@ -566,7 +566,7 @@ Load and apply locale data dynamically.
 
 ```razor
 @using Syncfusion.Blazor
-@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit
 
 <div>
     <label>Select Language: </label>
@@ -647,7 +647,7 @@ Load and apply locale data dynamically.
 Ensure color choices meet WCAG 2.2 Level AA standards.
 
 ```razor
-@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit
 
 <SfChart Title="WCAG Compliant Chart">
     <ChartPrimaryXAxis Title="Categories" />
@@ -688,7 +688,7 @@ Ensure color choices meet WCAG 2.2 Level AA standards.
 Use palettes designed for various types of color blindness.
 
 ```razor
-@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit
 
 <SfChart Title="Color-Blind Friendly Chart">
     <ChartPrimaryXAxis Title="Years" />
@@ -751,7 +751,7 @@ Use palettes designed for various types of color blindness.
 Maintain proper contrast ratios between chart elements.
 
 ```razor
-@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit
 
 <SfChart Title="High Contrast Chart" Background="#FFFFFF">
     <ChartPrimaryXAxis Title="Months">
@@ -795,9 +795,9 @@ Maintain proper contrast ratios between chart elements.
 Provide pattern fills as alternatives to color coding for improved accessibility to color-blind users. Multiple series with different patterns help differentiate data.
 
 ```razor
-@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit
 
-<SfChart Title="Pattern-Based Chart" SelectionMode="SelectionMode.Series" SelectionPattern="SelectionPattern.DiagonalForward">
+<SfChart Title="Pattern-Based Chart" SelectionMode="ChartSelectionMode.Series" SelectionPattern="SelectionPattern.DiagonalForward">
     <ChartPrimaryXAxis Title="Segments" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
     <ChartPrimaryYAxis Title="Market Share %" />
     
@@ -848,7 +848,7 @@ Provide pattern fills as alternatives to color coding for improved accessibility
 Ensure touch targets meet minimum size requirements (44x44 pixels).
 
 ```razor
-@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit
 
 <SfChart Title="Touch-Optimized Chart">
     <ChartPrimaryXAxis Title="Products" />
@@ -887,7 +887,7 @@ Ensure touch targets meet minimum size requirements (44x44 pixels).
 Optimize charts for mobile devices and touch interactions.
 
 ```razor
-@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit
 
 <SfChart Title="Mobile Accessible Chart" Height="400px">
     <ChartPrimaryXAxis Title="Months" />
@@ -926,7 +926,7 @@ Optimize charts for mobile devices and touch interactions.
 Implement features that adapt to different screen sizes and orientations.
 
 ```razor
-@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit
 
 <SfChart Title="Adaptive Layout Chart" Height="@ChartHeight">
     <ChartPrimaryXAxis Title="Categories" />
@@ -1031,7 +1031,7 @@ Recommended tools for validating chart accessibility:
 
 ```razor
 <!-- Fix: Enable proper selection and zoom features -->
-<ChartSelectionSettings Enable="true" Mode="Syncfusion.Blazor.Toolkit.Charts.SelectionMode.Point" />
+<ChartSelectionSettings Enable="true" Mode="ChartSelectionMode.Point" />
 <ChartZoomSettings EnableSelectionZooming="true" />
 ```
 

@@ -74,7 +74,7 @@ Calendar components support standard date format strings:
 
 ### Min and Max Dates
 ```razor
-@using Syncfusion.Blazor.Toolkit.Calendars
+@using Syncfusion.Blazor.Toolkit
 
 <SfDatePicker TValue="DateTime?"
     Min="@minDate"
@@ -91,7 +91,7 @@ Calendar components support standard date format strings:
 Disable specific days using the `DayCellRendering` event:
 
 ```razor
-@using Syncfusion.Blazor.Toolkit.Calendars
+@using Syncfusion.Blazor.Toolkit
 
 <SfCalendar TValue="DateTime"
     DayCellRendering="@DisableWeekends">
@@ -112,7 +112,7 @@ Disable specific days using the `DayCellRendering` event:
 
 ### Custom Validation
 ```razor
-@using Syncfusion.Blazor.Toolkit.Calendars
+@using Syncfusion.Blazor.Toolkit
 
 <SfDatePicker TValue="DateTime?"
     ValueChange="@ValidateDate">

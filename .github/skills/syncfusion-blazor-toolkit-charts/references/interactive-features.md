@@ -364,11 +364,11 @@ Allow users to select data points, series, or regions for highlighting or furthe
 Select individual data points:
 
 ```razor
-<SfChart Title="Product Performance" SelectionMode="Syncfusion.Blazor.Toolkit.Charts.SelectionMode.Point">
+<SfChart Title="Product Performance" SelectionMode="ChartSelectionMode.Point">
     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"/>
     
     <ChartSelectionSettings Enable="true" 
-                             Mode="Syncfusion.Blazor.Toolkit.Charts.SelectionMode.Point"
+                             Mode="ChartSelectionMode.Point"
                              Type="SelectionType.Highlight"
                              Pattern="SelectionPattern.Dots"/>
     
@@ -389,7 +389,7 @@ Select individual data points:
 Select entire series:
 
 ```razor
-<SfChart Title="Quarterly Sales" SelectionMode="Syncfusion.Blazor.Toolkit.Charts.SelectionMode.Series">
+<SfChart Title="Quarterly Sales" SelectionMode="ChartSelectionMode.Series">
         <ChartSeries DataSource="@Q1Data" Name="Q1" XName="Month" YName="Revenue" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column"/>
         <ChartSeries DataSource="@Q2Data" Name="Q2" XName="Month" YName="Revenue" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column"/>
         <ChartSeries DataSource="@Q3Data" Name="Q3" XName="Month" YName="Revenue" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column"/>
@@ -401,7 +401,7 @@ Select entire series:
 Select all points at the same index across series:
 
 ```razor
-<SfChart Title="Regional Comparison" SelectionMode="Syncfusion.Blazor.Toolkit.Charts.SelectionMode.Cluster">
+<SfChart Title="Regional Comparison" SelectionMode="ChartSelectionMode.Cluster">
     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"/>
     
         <ChartSeries DataSource="@NorthRegion" Name="North" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column"/>
@@ -415,7 +415,7 @@ Select all points at the same index across series:
 Enable rectangular drag selection:
 
 ```razor
-<SfChart SelectionMode="Syncfusion.Blazor.Toolkit.Charts.SelectionMode.DragXY">
+<SfChart SelectionMode="ChartSelectionMode.DragXY">
     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"/>
     
         <ChartSeries DataSource="@ScatterData" 
@@ -437,7 +437,7 @@ Enable rectangular drag selection:
 Configure selection behavior and appearance:
 
 ```razor
-<SfChart SelectionMode="Syncfusion.Blazor.Toolkit.Charts.SelectionMode.Point">
+<SfChart SelectionMode="ChartSelectionMode.Point">
         <ChartSeries DataSource="@ChartData" 
                      XName="X" 
                      YName="Y" 
@@ -450,7 +450,7 @@ Configure selection behavior and appearance:
 
 ```razor
 <SfChart Title="Multi-Select Chart" 
-         SelectionMode="Syncfusion.Blazor.Toolkit.Charts.SelectionMode.Point" 
+         SelectionMode="ChartSelectionMode.Point" 
          IsMultiSelect="true">
         <ChartSeries DataSource="@Data" XName="X" YName="Y" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column"/>
 </SfChart>
@@ -459,7 +459,7 @@ Configure selection behavior and appearance:
 **Selection Events:**
 
 ```razor
-<SfChart SelectionMode="Syncfusion.Blazor.Toolkit.Charts.SelectionMode.Point" 
+<SfChart SelectionMode="ChartSelectionMode.Point" 
          OnSelectionComplete="HandleSelectionComplete">
         <ChartSeries DataSource="@ChartData" XName="X" YName="Y" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column"/>
 </SfChart>
