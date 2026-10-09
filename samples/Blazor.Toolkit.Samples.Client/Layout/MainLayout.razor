@@ -2,9 +2,7 @@
 @implements IAsyncDisposable
 
 @using Microsoft.AspNetCore.Components.Web
-@using Syncfusion.Blazor.Toolkit.Buttons
-@using Syncfusion.Blazor.Toolkit.Popups
-@using Syncfusion.Blazor.Toolkit.Inputs
+@using Syncfusion.Blazor.Toolkit;
 
 @inject Syncfusion.Blazor.Toolkit.SyncfusionBlazorToolkitService SyncfusionService
 @inject NavigationManager Urihelper
@@ -200,7 +198,7 @@
     </aside>
 }
 
-<Syncfusion.Blazor.Toolkit.Popups.SfDialogProvider/>
+<Syncfusion.Blazor.Toolkit.SfDialogProvider/>
 
 @code {
     // Injected services

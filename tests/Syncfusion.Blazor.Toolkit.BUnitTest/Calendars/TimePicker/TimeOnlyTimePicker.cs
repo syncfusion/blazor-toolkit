@@ -1,7 +1,7 @@
-﻿using Xunit;
+using Xunit;
 using Bunit;
-using Syncfusion.Blazor.Toolkit.Calendars;
-using Syncfusion.Blazor.Toolkit.Inputs;
+using Syncfusion.Blazor.Toolkit;
+using Syncfusion.Blazor.Toolkit;
 
 namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.TimePicker
 {

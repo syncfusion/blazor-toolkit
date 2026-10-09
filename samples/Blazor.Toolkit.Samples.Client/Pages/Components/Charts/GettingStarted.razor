@@ -1,7 +1,8 @@
 @page "/charts/getting-started"
 @inherits TocPublishingComponentBase
 
-@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit;
+
 @using Blazor.Toolkit.Samples.Client.Pages.Demos.Charts.GettingStarted
 
 <PageTitle>Blazor Chart Quick Start | Syncfusion Toolkit</PageTitle>
@@ -139,7 +140,8 @@ var app = builder.Build();";
 
     private string CssAssets = @"<link id=""syncfusion-theme"" href=""_content/Syncfusion.Blazor.Toolkit/styles/fluent.min.css"" rel=""stylesheet"" />";
 
-    private string BasicChartExample = @"@using Syncfusion.Blazor.Toolkit.Charts
+    private string BasicChartExample = @"@using Syncfusion.Blazor.Toolkit;
+
 
 <SfChart>
 
@@ -167,7 +169,8 @@ var app = builder.Build();";
     };
 }";
 
-    private string ChartTitleExample = @"@using Syncfusion.Blazor.Toolkit.Charts
+    private string ChartTitleExample = @"@using Syncfusion.Blazor.Toolkit;
+
 
 <SfChart Title=""Sales Analysis"">
     <ChartPrimaryXAxis Title=""Month"" ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category""></ChartPrimaryXAxis>
@@ -178,7 +181,8 @@ var app = builder.Build();";
 
 </SfChart>";
 
-    private string DataLabelExample = @"@using Syncfusion.Blazor.Toolkit.Charts
+    private string DataLabelExample = @"@using Syncfusion.Blazor.Toolkit;
+
 
 <SfChart Title=""Sales Analysis"">
     <ChartPrimaryXAxis Title=""Month"" ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category""></ChartPrimaryXAxis>
@@ -192,7 +196,8 @@ var app = builder.Build();";
 
 </SfChart>";
 
-    private string TooltipExample = @"@using Syncfusion.Blazor.Toolkit.Charts
+    private string TooltipExample = @"@using Syncfusion.Blazor.Toolkit;
+
 
 <SfChart Title=""Sales Analysis"">
     <ChartPrimaryXAxis Title=""Month"" ValueType=""Syncfusion.Blazor.Toolkit.ValueType.Category""></ChartPrimaryXAxis>

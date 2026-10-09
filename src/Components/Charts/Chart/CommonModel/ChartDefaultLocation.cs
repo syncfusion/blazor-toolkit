@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using System.ComponentModel;
 
-namespace Syncfusion.Blazor.Toolkit.Charts
+namespace Syncfusion.Blazor.Toolkit
 {
     /// <summary>
     /// Provides options for customizing the location of chart elements, such as legends and titles.

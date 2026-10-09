@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.Extensions.Logging;
 
-namespace Syncfusion.Blazor.Toolkit.Popups
+namespace Syncfusion.Blazor.Toolkit
 {
     /// <summary>
     /// The DialogProvider component serves as a target container where built-in dialogs are rendered using <see cref="SfDialogService.ConfirmAsync(string, string, DialogOptions)"/>,

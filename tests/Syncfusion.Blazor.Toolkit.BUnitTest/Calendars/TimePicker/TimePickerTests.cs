@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Threading.Tasks;
 using Bunit;
 using Xunit;
-using Syncfusion.Blazor.Toolkit.Calendars;
+using Syncfusion.Blazor.Toolkit;
 using Microsoft.AspNetCore.Components;
 
 namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.TimePicker

@@ -1,7 +1,7 @@
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Components;
 
-namespace Syncfusion.Blazor.Toolkit.Popups
+namespace Syncfusion.Blazor.Toolkit
 {
     /// <summary>
     /// A class used for configuring the animation properties in the <see cref="SfDialog"/> component.

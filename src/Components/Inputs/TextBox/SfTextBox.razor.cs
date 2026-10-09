@@ -6,7 +6,7 @@ using System.Text.RegularExpressions;
 using Microsoft.JSInterop;
 using System.ComponentModel;
 
-namespace Syncfusion.Blazor.Toolkit.Inputs
+namespace Syncfusion.Blazor.Toolkit
 {
     /// <summary>
     /// Represents the Toolkit TextBox component for Blazor applications, which provides an enhanced input element
@@ -506,7 +506,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// <para>Focus events that occur as a side effect of clicking the clear button are suppressed to avoid duplicate focus notifications.</para>
         /// </remarks>
         /// <exclude/>
-        protected override async Task FocusHandlerAsync(FocusEventArgs args)
+        protected override async Task FocusHandlerAsync(Microsoft.AspNetCore.Components.Web.FocusEventArgs args)
         {
             if (OnFocus.HasDelegate && !_isClearIconClick)
             {
@@ -539,7 +539,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// <para>The change detection logic ensures that value changes are properly captured and notified even if they occurred during input without explicit change events being fired.</para>
         /// </remarks>
         /// <exclude/>
-        protected override async Task FocusOutHandlerAsync(FocusEventArgs args)
+        protected override async Task FocusOutHandlerAsync(Microsoft.AspNetCore.Components.Web.FocusEventArgs args)
         {
             if (!(string.IsNullOrEmpty(_previousValue) && string.IsNullOrEmpty(Value) && string.IsNullOrEmpty(InputTextValue)) && _previousValue != InputTextValue)
             {

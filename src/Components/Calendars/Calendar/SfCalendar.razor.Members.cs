@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using System.Linq.Expressions;
 
-namespace Syncfusion.Blazor.Toolkit.Calendars
+namespace Syncfusion.Blazor.Toolkit
 {
     /// <summary>
     /// Represents a graphical Calendar UI component that displays a Gregorian calendar and allows users to select one or more dates with ease and accessibility.

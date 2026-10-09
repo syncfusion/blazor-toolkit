@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components;
 
-namespace Syncfusion.Blazor.Toolkit.Inputs
+namespace Syncfusion.Blazor.Toolkit
 {
     /// <summary>
     /// Represents the Syncfusion Switch component's members including constants, fields, and parameters.

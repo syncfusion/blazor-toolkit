@@ -1,13 +1,13 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.JSInterop;
-using Syncfusion.Blazor.Toolkit.Calendars.Interfaces;
+using Syncfusion.Blazor.Toolkit.Interfaces;
 using Syncfusion.Blazor.Toolkit.Calendars.Internal;
 using Syncfusion.Blazor.Toolkit.Internal;
 using System.Globalization;
 using System.Text.RegularExpressions;
 
-namespace Syncfusion.Blazor.Toolkit.Calendars
+namespace Syncfusion.Blazor.Toolkit
 {
     /// <summary>
     /// The DatePicker is a graphical user interface component that allows the user to select or enter a date value.

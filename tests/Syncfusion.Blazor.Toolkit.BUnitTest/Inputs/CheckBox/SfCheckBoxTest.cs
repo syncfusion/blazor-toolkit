@@ -1,9 +1,9 @@
-﻿using Bunit;
+using Bunit;
 using Xunit;
 using Microsoft.AspNetCore.Components.Web;
-using Syncfusion.Blazor.Toolkit.Buttons;
+using Syncfusion.Blazor.Toolkit;
 using Microsoft.AspNetCore.Components;
-using Syncfusion.Blazor.Toolkit.Inputs;
+using Syncfusion.Blazor.Toolkit;
 using Microsoft.Extensions.Options;
 using Microsoft.Extensions.DependencyInjection;
 

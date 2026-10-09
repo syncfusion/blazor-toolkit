@@ -1,8 +1,11 @@
-@namespace Syncfusion.Blazor.Toolkit.Inputs
-@using Syncfusion.Blazor.Toolkit.Buttons
+@namespace Syncfusion.Blazor.Toolkit
+@using Syncfusion.Blazor.Toolkit;
+
 @inherits SfSelectionBase<TChecked>
 @typeparam TChecked
 
+@* Shared theme emitter: render-time, sibling placed BEFORE the root element. *@
+<SfThemeRoot />
 <div class="@_rootClass">
     <input @ref="_input"
     id="@_idValue"

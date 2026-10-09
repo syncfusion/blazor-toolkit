@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
 
-namespace Syncfusion.Blazor.Toolkit.Calendars
+namespace Syncfusion.Blazor.Toolkit
 {
     /// <summary>
     /// The DateTimePicker is a graphical user interface component that allows the user to select or enter a date and time value.

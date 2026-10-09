@@ -6,7 +6,7 @@ using Syncfusion.Blazor.Toolkit.Tests;
 using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
-using Syncfusion.Blazor.Toolkit.Buttons;
+using Syncfusion.Blazor.Toolkit;
 
 namespace Syncfusion.Blazor.Toolkit.Tests.Buttons
 {

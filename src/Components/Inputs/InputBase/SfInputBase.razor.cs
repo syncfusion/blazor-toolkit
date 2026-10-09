@@ -8,7 +8,7 @@ using Microsoft.Extensions.Localization;
 using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Syncfusion.Blazor.Toolkit.Inputs
+namespace Syncfusion.Blazor.Toolkit
 {
     /// <summary>
     /// Represents the base class for text-based input components in the <see cref="Toolkit"/> library.
@@ -778,7 +778,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// focus processing logic while maintaining the base class's standard focus handling behavior.
         /// </remarks>
         /// <exclude/>
-        protected virtual async Task FocusHandlerAsync(FocusEventArgs args)
+        protected virtual async Task FocusHandlerAsync(Microsoft.AspNetCore.Components.Web.FocusEventArgs args)
         {
             await Task.CompletedTask.ConfigureAwait(true);
         }
@@ -793,7 +793,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// blur processing logic while maintaining the base class's standard focus-out handling behavior.
         /// </remarks>
         /// <exclude/>
-        protected virtual async Task FocusOutHandlerAsync(FocusEventArgs args)
+        protected virtual async Task FocusOutHandlerAsync(Microsoft.AspNetCore.Components.Web.FocusEventArgs args)
         {
             await Task.CompletedTask.ConfigureAwait(true);
         }
@@ -1001,7 +1001,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// <item><description>Calls virtual <see cref="FocusHandlerAsync"/> and triggers <c>OnFocus</c> event</description></item>
         /// </list>
         /// </remarks>
-        internal async Task OnFocusHandlerAsync(FocusEventArgs args)
+        internal async Task OnFocusHandlerAsync(Microsoft.AspNetCore.Components.Web.FocusEventArgs args)
         {
             if (!Disabled)
             {
@@ -1035,7 +1035,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         /// <item><description>Invokes state change if no blur event delegate is configured</description></item>
         /// </list>
         /// </remarks>
-        internal async Task OnBlurHandlerAsync(FocusEventArgs? args = null)
+        internal async Task OnBlurHandlerAsync(Microsoft.AspNetCore.Components.Web.FocusEventArgs? args = null)
         {
             UpdateFloatLabelOnBlur();
             if (ContainerClass.Contains(INPUTGROUP, StringComparison.Ordinal) || ContainerClass.Contains(OUTLINE, StringComparison.Ordinal) || ContainerClass.Contains(FILLED, StringComparison.Ordinal))
@@ -1049,7 +1049,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
             }
 
             IsFocused = false;
-            args ??= new FocusEventArgs();
+            args ??= new Microsoft.AspNetCore.Components.Web.FocusEventArgs();
             ClearIconClass = BaseShowClearButton ? SfBaseUtils.AddClass(ClearIconClass, CLEARICONHIDE) : ClearIconClass;
             if (!Disabled)
             {

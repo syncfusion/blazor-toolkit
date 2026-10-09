@@ -3,7 +3,7 @@ using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 
-namespace Syncfusion.Blazor.Toolkit.Popups
+namespace Syncfusion.Blazor.Toolkit
 {
     /// <summary>
     /// A class used for configuring the button properties in the <see cref="SfDialog"/> component.

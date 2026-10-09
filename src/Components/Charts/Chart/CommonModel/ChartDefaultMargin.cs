@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using System.ComponentModel;
 
-namespace Syncfusion.Blazor.Toolkit.Charts
+namespace Syncfusion.Blazor.Toolkit
 {
     /// <summary>
     /// Provides the options for customizing the bottom, left, right, and top margins of the chart component.

@@ -1,7 +1,7 @@
 using Microsoft.JSInterop;
 using Syncfusion.Blazor.Toolkit.Internal;
 
-namespace Syncfusion.Blazor.Toolkit.Calendars
+namespace Syncfusion.Blazor.Toolkit
 {
     public partial class SfCalendar<TValue> : CalendarBase<TValue>
     {

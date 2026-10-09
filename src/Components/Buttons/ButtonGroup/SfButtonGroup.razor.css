@@ -1,24 +1,989 @@
-/* SfButtonGroup.razor.css — CSS isolation for SfButtonGroup. */
-.e-btn-group {
+/* ============================================================================
+ * SfButtonGroup isolated CSS
+ *
+ * Source: src/wwwroot/styles/buttongroup.scss (compiled-equivalent, hand-resolved).
+ * Compiled by the Blazor Razor SDK into a per-component scope class
+ * (e.g. ".sfButtonGroup-abc123") and concatenated into the component bundle.
+ *
+ * Variable policy
+ *   - Theme tokens reference :root CSS custom properties defined in the
+ *     shared stylesheet (Phase C file). No literal colours.
+ *
+ * Scope notes
+ *   - .e-btn-group root rule targets the wrapper <div> rendered by
+ *     SfButtonGroup (classes "e-btn-group" + scope). Selectors compile
+ *     as ".<scope>.e-btn-group { ... }" which still matches the root.
+ *   - The "input + label.e-btn" selector chains emitted by Button.razor's
+ *     selection-mode branch are descendants of the wrapper. They use
+ *     ::deep  so the compiler does not insert scope classes into the
+ *     chain — only the root gets scoped, and the descendant combinators
+ *     reach the leaf <input> / <label> elements regardless of whether
+ *     Button becomes its own Blazor component in future refactors.
+ *   - Inner Button items rendered through SelectionMode.None delegate
+ *     to <SfButton> and inherit SfButton.razor.css automatically.
+ * ============================================================================ */
+
+/* ---- Layout (was @include export-module('button-group-layout')) ---- */
+
+.e-btn-group,
+.e-css.e-btn-group {
     display: inline-flex;
-    align-items: stretch;
+    border-radius: 4px;
+    flex-direction: row;
+    position: relative;
 }
 
-.e-btn-group .e-btn {
+/* Selection mode renders label elements instead of SfButton components. */
+.e-btn-group ::deep label.e-btn {
+    -webkit-font-smoothing: antialiased;
+    border: 1px solid;
+    border-radius: 4px;
+    box-sizing: border-box;
+    cursor: pointer;
+    display: inline-block;
+    font-family: var(--e-font-family), var(--e-font-sans);
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 20px;
+    outline: none;
+    padding: 5px 12px;
+    text-align: center;
+    text-decoration: none;
+    user-select: none;
+    vertical-align: middle;
+    white-space: nowrap;
+    background: var(--color-sf-secondary-bg-color);
+    border-color: var(--color-sf-secondary-border-color);
+    box-shadow: none;
+    color: var(--color-sf-secondary-text-color);
+    transition: box-shadow 280ms cubic-bezier(.4, 0, .2, 1);
+}
+
+.e-btn-group ::deep label.e-btn.e-primary {
+    background: var(--color-sf-primary-bg-color);
+    border-color: var(--color-sf-primary-border-color);
+    color: var(--color-sf-primary-text-color);
+}
+
+.e-btn-group ::deep label.e-btn.e-success {
+    background: var(--color-sf-success-bg-color);
+    border-color: var(--color-sf-success-border-color);
+    color: var(--color-sf-success-text);
+}
+
+.e-btn-group ::deep label.e-btn.e-info {
+    background: var(--color-sf-info-bg-color);
+    border-color: var(--color-sf-info-border-color);
+    color: var(--color-sf-info-text);
+}
+
+.e-btn-group ::deep label.e-btn.e-warning {
+    background: var(--color-sf-warning-bg-color);
+    border-color: var(--color-sf-warning-border-color);
+    color: var(--color-sf-warning-text);
+}
+
+.e-btn-group ::deep label.e-btn.e-danger {
+    background: var(--color-sf-danger-bg-color);
+    border-color: var(--color-sf-danger-border-color);
+    color: var(--color-sf-danger-text);
+}
+
+.e-btn-group ::deep label.e-btn.e-outline {
+    background: transparent;
+    border-color: var(--color-sf-secondary-border-color);
+    color: var(--color-sf-secondary-text-color);
+}
+
+.e-btn-group ::deep input + label.e-btn {
+    margin-bottom: 0;
+}
+
+.e-btn-group ::deep input {
+    -moz-appearance: none;
+    height: 1px;
+    margin: 0 0 0 -1px;
+    opacity: 0;
+    position: absolute;
+    width: 1px;
+}
+
+.e-btn-group ::deep input:disabled + label.e-btn,
+.e-btn-group ::deep :disabled {
+    cursor: default;
+    pointer-events: none;
+}
+
+.e-btn-group ::deep .e-btn-icon {
+    font-size: 14px;
+}
+
+/* Horizontal (LTR) corner combinations */
+.e-btn-group:not(.e-rtl):not(.e-vertical) ::deep .e-btn:not(:first-of-type):not(:last-of-type) {
     border-radius: 0;
 }
 
-.e-btn-group .e-btn:first-child {
-    border-top-left-radius: var(--e-corner, 4px);
-    border-bottom-left-radius: var(--e-corner, 4px);
+.e-btn-group:not(.e-rtl):not(.e-vertical) ::deep .e-btn:first-of-type,
+.e-btn-group:not(.e-rtl):not(.e-vertical) ::deep .e-btn:last-of-type:not(:last-child) {
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
 }
 
-.e-btn-group .e-btn:last-child {
-    border-top-right-radius: var(--e-corner, 4px);
-    border-bottom-right-radius: var(--e-corner, 4px);
+.e-btn-group:not(.e-rtl):not(.e-vertical) ::deep .e-btn:last-of-type {
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
 }
 
-@media (forced-colors: active) {
-    .e-btn-group { forced-color-adjust: none; }
-    .e-btn-group .e-btn { border: 1px solid ButtonText; }
+.e-btn-group:not(.e-rtl):not(.e-vertical) ::deep .e-split-btn-wrapper + .e-btn {
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+}
+
+.e-btn-group:not(.e-rtl):not(.e-vertical) ::deep .e-split-btn-wrapper:not(:first-child):not(:last-child) .e-btn:last-child {
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.e-btn-group:not(.e-rtl):not(.e-vertical) ::deep .e-split-btn-wrapper:not(:first-child):not(:last-child) .e-btn:first-child {
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+}
+
+.e-btn-group:not(.e-rtl):not(.e-vertical) ::deep .e-split-btn-wrapper:first-child .e-btn:last-child {
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.e-btn-group:not(.e-rtl):not(.e-vertical) ::deep .e-split-btn-wrapper:last-child .e-btn:first-child {
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+}
+
+/* RTL corner combinations */
+.e-btn-group.e-rtl ::deep .e-btn {
+    margin-left: -1px;
+}
+
+.e-btn-group.e-rtl ::deep .e-btn:not(:first-of-type):not(:last-of-type) {
+    border-radius: 0;
+}
+
+.e-btn-group.e-rtl ::deep .e-btn:first-of-type,
+.e-btn-group.e-rtl ::deep .e-btn:last-of-type:not(:last-child) {
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+}
+
+.e-btn-group.e-rtl ::deep .e-btn:last-of-type {
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.e-btn-group.e-rtl ::deep .e-split-btn-wrapper + .e-btn {
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.e-btn-group.e-rtl ::deep .e-split-btn-wrapper:not(:first-child):not(:last-child) .e-btn:last-child {
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+}
+
+.e-btn-group.e-rtl ::deep .e-split-btn-wrapper:not(:first-child):not(:last-child) .e-btn:first-child {
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.e-btn-group.e-rtl ::deep .e-split-btn-wrapper:first-child .e-btn:last-child {
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+}
+
+.e-btn-group.e-rtl ::deep .e-split-btn-wrapper:last-child .e-btn:first-child {
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+}
+
+/* Vertical orientation */
+.e-btn-group.e-vertical {
+    flex-direction: column;
+}
+
+.e-btn-group.e-vertical ::deep input {
+    margin: -1px 0 0;
+}
+
+.e-btn-group.e-vertical ::deep .e-btn:not(.e-outline) {
+    margin-top: -1px;
+}
+
+.e-btn-group.e-vertical ::deep .e-btn:not(:first-of-type):not(:last-of-type) {
+    border-radius: 0;
+}
+
+.e-btn-group.e-vertical ::deep .e-btn:first-of-type {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+}
+
+.e-btn-group.e-vertical ::deep .e-btn:last-of-type {
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+/* Rounded corner (LTR) */
+.e-btn-group.e-round-corner:not(.e-vertical):not(.e-rtl) {
+    border-radius: 20px;
+}
+
+.e-btn-group.e-round-corner:not(.e-vertical):not(.e-rtl) ::deep .e-btn:first-of-type {
+    border-bottom-left-radius: 20px;
+    border-top-left-radius: 20px;
+}
+
+.e-btn-group.e-round-corner:not(.e-vertical):not(.e-rtl) ::deep .e-btn:last-of-type {
+    border-bottom-right-radius: 20px;
+    border-top-right-radius: 20px;
+}
+
+.e-btn-group.e-round-corner:not(.e-vertical):not(.e-rtl) ::deep .e-btn:last-of-type:not(:last-child) {
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.e-btn-group.e-round-corner:not(.e-vertical):not(.e-rtl) ::deep .e-split-btn-wrapper + .e-btn {
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+}
+
+.e-btn-group.e-round-corner:not(.e-vertical):not(.e-rtl) ::deep .e-split-btn-wrapper:first-child .e-btn:first-child {
+    border-bottom-left-radius: 20px;
+    border-top-left-radius: 20px;
+}
+
+.e-btn-group.e-round-corner:not(.e-vertical):not(.e-rtl) ::deep .e-split-btn-wrapper:first-child .e-btn:last-child {
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.e-btn-group.e-round-corner:not(.e-vertical):not(.e-rtl) ::deep .e-split-btn-wrapper:last-child .e-btn:first-child {
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+}
+
+.e-btn-group.e-round-corner:not(.e-vertical):not(.e-rtl) ::deep .e-split-btn-wrapper:last-child .e-btn:last-child {
+    border-bottom-right-radius: 20px;
+    border-top-right-radius: 20px;
+}
+
+/* Rounded corner (RTL) */
+.e-btn-group.e-round-corner.e-rtl {
+    border-radius: 20px;
+}
+
+.e-btn-group.e-round-corner.e-rtl ::deep .e-btn:first-of-type {
+    border-bottom-right-radius: 20px;
+    border-top-right-radius: 20px;
+}
+
+.e-btn-group.e-round-corner.e-rtl ::deep .e-btn:last-of-type {
+    border-bottom-left-radius: 20px;
+    border-top-left-radius: 20px;
+}
+
+.e-btn-group.e-round-corner.e-rtl ::deep .e-btn:last-of-type:not(:last-child) {
+    border-bottom-left-radius: 0;
+    border-top-left-radius: 0;
+}
+
+.e-btn-group.e-round-corner.e-rtl ::deep .e-btn:first-of-type:not(:first-child) {
+    border-bottom-right-radius: 0;
+    border-top-right-radius: 0;
+}
+
+/* ---- Theme (was @include export-module('button-group-theme')) ---- */
+
+.e-btn-group,
+.e-css.e-btn-group {
+    /* stylelint-disable */
+    /* stylelint-enable */
+}
+
+.e-btn-group:not(.e-outline),
+.e-css.e-btn-group:not(.e-outline) {
+    box-shadow: none;
+}
+
+.e-btn-group ::deep .e-btn:hover {
+    box-shadow: none;
+}
+
+.e-btn-group ::deep .e-btn:focus-visible,
+.e-btn-group ::deep input:focus-visible + label.e-btn {
+    /* stylelint-disable-next-line declaration-no-important */
+    box-shadow: inset 0 0 0 1px var(--color-sf-shadow-color), inset 0 0 0 2px var(--color-sf-shadow-color1) !important;
+}
+
+/* Hover (Outline) */
+.e-btn-group ::deep .e-btn:hover,
+.e-btn-group ::deep input:hover + label.e-btn {
+    /* Will be overridden below for .e-outline buttons. */
+}
+
+.e-btn-group ::deep .e-btn:hover.e-outline,
+.e-btn-group ::deep input:hover + label.e-btn.e-outline {
+    background: var(--color-sf-secondary-bg-color-hover);
+    border-color: var(--color-sf-secondary-border-color-hover);
+    color: var(--color-sf-content-text-color);
+}
+
+/* Focus (Normal) */
+.e-btn-group ::deep .e-btn:focus,
+.e-btn-group ::deep input:focus-visible + label.e-btn,
+.e-btn-group ::deep input:focus + label.e-btn {
+    background: var(--color-sf-secondary-bg-color-selected);
+    border-color: var(--color-sf-secondary-border-color-selected);
+    color: var(--color-sf-secondary-text-color-selected);
+    outline: var(--color-sf-secondary-bg-color) 0 solid;
+    outline-offset: 0;
+    box-shadow: none;
+    outline-color: inherit;
+}
+
+.e-btn-group ::deep .e-btn:focus.e-primary,
+.e-btn-group ::deep input:focus-visible + label.e-btn.e-primary,
+.e-btn-group ::deep input:focus + label.e-btn.e-primary {
+    background: var(--color-sf-primary-bg-color-selected);
+    border-color: var(--color-sf-primary-border-color-selected);
+    color: var(--color-sf-primary-text-selected);
+    outline: var(--color-sf-secondary-bg-color) 0 solid;
+    outline-offset: 0;
+    box-shadow: none;
+    outline-color: inherit;
+}
+
+.e-btn-group ::deep .e-btn:focus.e-success,
+.e-btn-group ::deep input:focus-visible + label.e-btn.e-success,
+.e-btn-group ::deep input:focus + label.e-btn.e-success {
+    background: var(--color-sf-success-bg-color-selected);
+    border-color: var(--color-sf-success-border-color-selected);
+    color: var(--color-sf-primary-text-color);
+    box-shadow: none;
+    outline-color: inherit;
+}
+
+.e-btn-group ::deep .e-btn:focus.e-info,
+.e-btn-group ::deep input:focus-visible + label.e-btn.e-info,
+.e-btn-group ::deep input:focus + label.e-btn.e-info {
+    background: var(--color-sf-info-bg-color-selected);
+    border-color: var(--color-sf-info-border-color-selected);
+    color: var(--color-sf-content-text-color);
+    box-shadow: none;
+    outline-color: inherit;
+}
+
+.e-btn-group ::deep .e-btn:focus.e-warning,
+.e-btn-group ::deep input:focus-visible + label.e-btn.e-warning,
+.e-btn-group ::deep input:focus + label.e-btn.e-warning {
+    background: var(--color-sf-warning-bg-color-selected);
+    border-color: var(--color-sf-warning-border-color-selected);
+    color: var(--color-sf-warning-text-hover);
+    box-shadow: none;
+    outline-color: inherit;
+}
+
+.e-btn-group ::deep .e-btn:focus.e-danger,
+.e-btn-group ::deep input:focus-visible + label.e-btn.e-danger,
+.e-btn-group ::deep input:focus + label.e-btn.e-danger {
+    background: var(--color-sf-danger-bg-color-selected);
+    border-color: var(--color-sf-success-border-color-selected);
+    color: var(--color-sf-danger-text-hover);
+    box-shadow: none;
+    outline-color: inherit;
+}
+
+.e-btn-group ::deep .e-btn:focus.e-link,
+.e-btn-group ::deep input:focus-visible + label.e-btn.e-link,
+.e-btn-group ::deep input:focus + label.e-btn.e-link {
+    border-radius: 0;
+    text-decoration: underline;
+    color: var(--color-sf-primary-bg-color-hover);
+    background-color: transparent;
+    border-color: transparent;
+    box-shadow: none;
+    outline: none;
+}
+
+/* Focus (Outline) */
+.e-btn-group ::deep .e-btn:focus.e-outline,
+.e-btn-group ::deep input:focus-visible + label.e-btn.e-outline,
+.e-btn-group ::deep input:focus + label.e-btn.e-outline {
+    /* stylelint-disable-next-line declaration-no-important */
+    background: var(--color-sf-secondary-bg-color-selected) !important;
+    /* stylelint-disable-next-line declaration-no-important */
+    border-color: var(--color-sf-secondary-border-color-selected) !important;
+    /* stylelint-disable-next-line declaration-no-important */
+    color: var(--color-sf-secondary-text-color-selected) !important;
+    box-shadow: none;
+}
+
+.e-btn-group ::deep .e-btn:focus.e-outline.e-primary,
+.e-btn-group ::deep input:focus-visible + label.e-btn.e-outline.e-primary,
+.e-btn-group ::deep input:focus + label.e-btn.e-outline.e-primary {
+    /* stylelint-disable-next-line declaration-no-important */
+    background: var(--color-sf-primary-bg-color-pressed) !important;
+    /* stylelint-disable-next-line declaration-no-important */
+    border-color: var(--color-sf-primary-border-color-pressed) !important;
+    /* stylelint-disable-next-line declaration-no-important */
+    color: var(--color-sf-primary-text-pressed) !important;
+    box-shadow: none;
+}
+
+.e-btn-group ::deep .e-btn:focus.e-outline.e-success,
+.e-btn-group ::deep input:focus-visible + label.e-btn.e-outline.e-success,
+.e-btn-group ::deep input:focus + label.e-btn.e-outline.e-success {
+    /* stylelint-disable-next-line declaration-no-important */
+    background: var(--color-sf-success-bg-color-pressed) !important;
+    /* stylelint-disable-next-line declaration-no-important */
+    border-color: var(--color-sf-success-border-color-pressed) !important;
+    /* stylelint-disable-next-line declaration-no-important */
+    color: var(--color-sf-success-text) !important;
+    box-shadow: none;
+}
+
+.e-btn-group ::deep .e-btn:focus.e-outline.e-info,
+.e-btn-group ::deep input:focus-visible + label.e-btn.e-outline.e-info,
+.e-btn-group ::deep input:focus + label.e-btn.e-outline.e-info {
+    /* stylelint-disable-next-line declaration-no-important */
+    background: var(--color-sf-info-bg-color-pressed) !important;
+    /* stylelint-disable-next-line declaration-no-important */
+    border-color: var(--color-sf-info-border-color-pressed) !important;
+    /* stylelint-disable-next-line declaration-no-important */
+    color: var(--color-sf-info-text-pressed) !important;
+    box-shadow: none;
+}
+
+.e-btn-group ::deep .e-btn:focus.e-outline.e-warning,
+.e-btn-group ::deep input:focus-visible + label.e-btn.e-outline.e-warning,
+.e-btn-group ::deep input:focus + label.e-btn.e-outline.e-warning {
+    /* stylelint-disable-next-line declaration-no-important */
+    background: var(--color-sf-warning-bg-color-pressed) !important;
+    /* stylelint-disable-next-line declaration-no-important */
+    border-color: var(--color-sf-warning-border-color-pressed) !important;
+    /* stylelint-disable-next-line declaration-no-important */
+    color: var(--color-sf-warning-text-pressed) !important;
+    box-shadow: none;
+}
+
+.e-btn-group ::deep .e-btn:focus.e-outline.e-danger,
+.e-btn-group ::deep input:focus-visible + label.e-btn.e-outline.e-danger,
+.e-btn-group ::deep input:focus + label.e-btn.e-outline.e-danger {
+    /* stylelint-disable-next-line declaration-no-important */
+    background: var(--color-sf-danger-bg-color-pressed) !important;
+    /* stylelint-disable-next-line declaration-no-important */
+    border-color: var(--color-sf-danger-border-color-pressed) !important;
+    /* stylelint-disable-next-line declaration-no-important */
+    color: var(--color-sf-danger-text-pressed) !important;
+    box-shadow: none;
+}
+
+/* Active / Checked (Normal) */
+.e-btn-group ::deep .e-btn:active,
+.e-btn-group ::deep input:active + label.e-btn,
+.e-btn-group ::deep input:checked + label.e-btn {
+    /* variant-specific rules emitted below */
+}
+
+.e-btn-group ::deep .e-btn:active:not(.e-outline),
+.e-btn-group ::deep input:active + label.e-btn:not(.e-outline),
+.e-btn-group ::deep input:checked + label.e-btn:not(.e-outline) {
+    background: var(--color-sf-secondary-bg-color-pressed);
+    border-color: var(--color-sf-secondary-border-color-pressed);
+    color: var(--color-sf-secondary-text-color-pressed);
+    outline: var(--color-sf-secondary-bg-color) 0 solid;
+    outline-offset: 0;
+}
+
+.e-btn-group ::deep .e-btn:active:not(.e-outline).e-primary,
+.e-btn-group ::deep input:active + label.e-btn:not(.e-outline).e-primary,
+.e-btn-group ::deep input:checked + label.e-btn:not(.e-outline).e-primary {
+    background: var(--color-sf-primary-bg-color-pressed);
+    border-color: var(--color-sf-primary-border-color-pressed);
+    color: var(--color-sf-primary-text-pressed);
+    outline: var(--color-sf-secondary-bg-color) 0 solid;
+    box-shadow: none;
+}
+
+.e-btn-group ::deep .e-btn:active:not(.e-outline).e-success,
+.e-btn-group ::deep input:active + label.e-btn:not(.e-outline).e-success,
+.e-btn-group ::deep input:checked + label.e-btn:not(.e-outline).e-success {
+    background: var(--color-sf-success-bg-color-pressed);
+    border-color: var(--color-sf-success-border-color-pressed);
+    color: var(--color-sf-primary-text-color);
+    box-shadow: none;
+}
+
+.e-btn-group ::deep .e-btn:active:not(.e-outline).e-info,
+.e-btn-group ::deep input:active + label.e-btn:not(.e-outline).e-info,
+.e-btn-group ::deep input:checked + label.e-btn:not(.e-outline).e-info {
+    background: var(--color-sf-info-bg-color-pressed);
+    border-color: var(--color-sf-info-border-color-pressed);
+    color: var(--color-sf-info-text-pressed);
+    box-shadow: none;
+}
+
+.e-btn-group ::deep .e-btn:active:not(.e-outline).e-warning,
+.e-btn-group ::deep input:active + label.e-btn:not(.e-outline).e-warning,
+.e-btn-group ::deep input:checked + label.e-btn:not(.e-outline).e-warning {
+    background: var(--color-sf-warning-bg-color-pressed);
+    border-color: var(--color-sf-warning-border-color-pressed);
+    color: var(--color-sf-warning-text-pressed);
+    box-shadow: none;
+}
+
+.e-btn-group ::deep .e-btn:active:not(.e-outline).e-danger,
+.e-btn-group ::deep input:active + label.e-btn:not(.e-outline).e-danger,
+.e-btn-group ::deep input:checked + label.e-btn:not(.e-outline).e-danger {
+    background: var(--color-sf-danger-bg-color-pressed);
+    border-color: var(--color-sf-danger-border-color-pressed);
+    color: var(--color-sf-danger-text-pressed);
+    box-shadow: none;
+}
+
+/* Active / Checked (Outline) */
+.e-btn-group ::deep .e-btn:active.e-outline,
+.e-btn-group ::deep input:active + label.e-btn.e-outline,
+.e-btn-group ::deep input:checked + label.e-btn.e-outline {
+    background: var(--color-sf-secondary-bg-color-pressed);
+    border-color: var(--color-sf-secondary-border-color-pressed);
+    box-shadow: none;
+    color: var(--color-sf-secondary-text-color-pressed);
+}
+
+.e-btn-group ::deep .e-btn:active.e-outline.e-primary,
+.e-btn-group ::deep input:active + label.e-btn.e-outline.e-primary,
+.e-btn-group ::deep input:checked + label.e-btn.e-outline.e-primary {
+    background: var(--color-sf-primary-bg-color-pressed);
+    border-color: var(--color-sf-primary-border-color-pressed);
+    box-shadow: none;
+    color: var(--color-sf-primary-text-pressed);
+}
+
+.e-btn-group ::deep .e-btn:active.e-outline.e-success,
+.e-btn-group ::deep input:active + label.e-btn.e-outline.e-success,
+.e-btn-group ::deep input:checked + label.e-btn.e-outline.e-success {
+    background: var(--color-sf-success-bg-color-pressed);
+    border-color: var(--color-sf-success-border-color-pressed);
+    box-shadow: none;
+    color: var(--color-sf-success-text);
+}
+
+.e-btn-group ::deep .e-btn:active.e-outline.e-info,
+.e-btn-group ::deep input:active + label.e-btn.e-outline.e-info,
+.e-btn-group ::deep input:checked + label.e-btn.e-outline.e-info {
+    background: var(--color-sf-info-bg-color-pressed);
+    border-color: var(--color-sf-info-border-color-pressed);
+    box-shadow: none;
+    color: var(--color-sf-info-text-pressed);
+}
+
+.e-btn-group ::deep .e-btn:active.e-outline.e-warning,
+.e-btn-group ::deep input:active + label.e-btn.e-outline.e-warning,
+.e-btn-group ::deep input:checked + label.e-btn.e-outline.e-warning {
+    background: var(--color-sf-warning-bg-color-pressed);
+    border-color: var(--color-sf-warning-border-color-pressed);
+    box-shadow: none;
+    color: var(--color-sf-warning-text-pressed);
+}
+
+.e-btn-group ::deep .e-btn:active.e-outline.e-danger,
+.e-btn-group ::deep input:active + label.e-btn.e-outline.e-danger,
+.e-btn-group ::deep input:checked + label.e-btn.e-outline.e-danger {
+    background: var(--color-sf-danger-bg-color-pressed);
+    border-color: var(--color-sf-danger-border-color-pressed);
+    box-shadow: none;
+    color: var(--color-sf-danger-text-pressed);
+}
+
+/* Disabled (Normal) */
+.e-btn-group ::deep .e-btn:disabled,
+.e-btn-group ::deep input:disabled + label.e-btn {
+    background-color: var(--color-sf-secondary-bg-color-disabled);
+    border-color: var(--color-sf-secondary-border-color-disabled);
+    box-shadow: none;
+    color: var(--color-sf-primary-text-disabled);
+    border-color: var(--color-sf-secondary-border-color);
+}
+
+.e-btn-group ::deep .e-btn:disabled.e-primary,
+.e-btn-group ::deep input:disabled + label.e-btn.e-primary {
+    background: var(--color-sf-primary-bg-color-disabled);
+    border-color: var(--color-sf-primary-border-color-disabled);
+    box-shadow: none;
+    color: var(--color-sf-primary-text-disabled);
+    border-color: var(--color-sf-primary-border-color);
+}
+
+.e-btn-group ::deep .e-btn:disabled.e-success,
+.e-btn-group ::deep input:disabled + label.e-btn.e-success {
+    background: var(--color-sf-success-bg-color-disabled);
+    border-color: var(--color-sf-secondary-border-color-disabled);
+    box-shadow: none;
+    color: var(--color-sf-success-text-disabled);
+    border-color: var(--color-sf-success-border-color);
+}
+
+.e-btn-group ::deep .e-btn:disabled.e-info,
+.e-btn-group ::deep input:disabled + label.e-btn.e-info {
+    background: var(--color-sf-info-bg-color-disabled);
+    border-color: var(--color-sf-secondary-border-color-disabled);
+    box-shadow: none;
+    color: var(--color-sf-info-text-disabled);
+    border-color: var(--color-sf-info-border-color);
+}
+
+.e-btn-group ::deep .e-btn:disabled.e-warning,
+.e-btn-group ::deep input:disabled + label.e-btn.e-warning {
+    background: var(--color-sf-warning-bg-color-disabled);
+    border-color: var(--color-sf-secondary-border-color-disabled);
+    box-shadow: none;
+    color: var(--color-sf-warning-text-disabled);
+    border-color: var(--color-sf-warning-border-color);
+}
+
+.e-btn-group ::deep .e-btn:disabled.e-danger,
+.e-btn-group ::deep input:disabled + label.e-btn.e-danger {
+    background: var(--color-sf-danger-bg-color-disabled);
+    border-color: var(--color-sf-secondary-border-color-disabled);
+    box-shadow: none;
+    color: var(--color-sf-danger-text-disabled);
+    border-color: var(--color-sf-danger-border-color);
+}
+
+.e-btn-group ::deep .e-btn:disabled.e-link,
+.e-btn-group ::deep input:disabled + label.e-btn.e-link {
+    color: var(--color-sf-primary-text-disabled);
+    background: transparent;
+    box-shadow: none;
+    text-decoration: none;
+    border-color: transparent;
+}
+
+/* Disabled (Outline) */
+.e-btn-group ::deep .e-btn:disabled.e-outline,
+.e-btn-group ::deep input:disabled + label.e-btn.e-outline {
+    background: transparent;
+    border-color: var(--color-sf-secondary-border-color-disabled);
+    color: var(--color-sf-secondary-text-color-disabled);
+    /* stylelint-disable-next-line declaration-no-important */
+    background: var(--color-sf-secondary-bg-color-disabled) !important;
+    border-color: var(--color-sf-secondary-border-color);
+}
+
+.e-btn-group ::deep .e-btn:disabled.e-outline.e-primary,
+.e-btn-group ::deep input:disabled + label.e-btn.e-outline.e-primary {
+    background: transparent;
+    border-color: rgba(15, 108, 189, .65);
+    box-shadow: none;
+    color: rgba(15, 108, 189, .65);
+    border-color: var(--color-sf-primary-bg-color);
+}
+
+.e-btn-group ::deep .e-btn:disabled.e-outline.e-success,
+.e-btn-group ::deep input:disabled + label.e-btn.e-outline.e-success {
+    background: transparent;
+    border-color: rgba(15, 108, 189, .65);
+    box-shadow: none;
+    color: rgba(15, 108, 189, .65);
+    border-color: var(--color-sf-success-bg-color);
+}
+
+.e-btn-group ::deep .e-btn:disabled.e-outline.e-info,
+.e-btn-group ::deep input:disabled + label.e-btn.e-outline.e-info {
+    background: transparent;
+    border-color: rgba(15, 108, 189, .65);
+    box-shadow: none;
+    color: rgba(15, 189, 189, .65);
+    border-color: var(--color-sf-info-bg-color);
+}
+
+.e-btn-group ::deep .e-btn:disabled.e-outline.e-warning,
+.e-btn-group ::deep input:disabled + label.e-btn.e-outline.e-warning {
+    background: transparent;
+    border-color: rgba(15, 108, 189, .65);
+    box-shadow: none;
+    color: rgba(15, 108, 189, .65);
+    border-color: var(--color-sf-warning-bg-color);
+}
+
+.e-btn-group ::deep .e-btn:disabled.e-outline.e-danger,
+.e-btn-group ::deep input:disabled + label.e-btn.e-outline.e-danger {
+    background: transparent;
+    border-color: rgba(15, 108, 189, .65);
+    box-shadow: none;
+    color: rgba(15, 108, 189, .65);
+    border-color: var(--color-sf-danger-bg-color);
+}
+
+/* Horizontal outline border arrangement (LTR): collapse shared borders */
+.e-btn-group:not(.e-vertical):not(.e-rtl) ::deep .e-btn.e-outline:not(:first-of-type):not(:last-of-type),
+.e-btn-group:not(.e-vertical):not(.e-rtl) ::deep input + label.e-btn.e-outline:not(:first-of-type):not(:last-of-type) {
+    border-left: transparent;
+    border-right: transparent;
+}
+
+.e-btn-group:not(.e-vertical):not(.e-rtl) ::deep .e-btn.e-outline:first-of-type,
+.e-btn-group:not(.e-vertical):not(.e-rtl) ::deep input + label.e-btn.e-outline:first-of-type {
+    border-right: transparent;
+}
+
+.e-btn-group:not(.e-vertical):not(.e-rtl) ::deep .e-btn.e-outline:last-of-type,
+.e-btn-group:not(.e-vertical):not(.e-rtl) ::deep input + label.e-btn.e-outline:last-of-type {
+    border-left: transparent;
+}
+
+/* Horizontal outline border arrangement (RTL) */
+.e-btn-group:not(.e-vertical).e-rtl ::deep .e-btn.e-outline:not(:first-of-type):not(:last-of-type),
+.e-btn-group:not(.e-vertical).e-rtl ::deep input + label.e-btn.e-outline:not(:first-of-type):not(:last-of-type) {
+    border-left: transparent;
+    border-right: transparent;
+}
+
+.e-btn-group:not(.e-vertical).e-rtl ::deep .e-btn.e-outline:first-of-type,
+.e-btn-group:not(.e-vertical).e-rtl ::deep input + label.e-btn.e-outline:first-of-type {
+    border-left: transparent;
+}
+
+.e-btn-group:not(.e-vertical).e-rtl ::deep .e-btn.e-outline:last-of-type,
+.e-btn-group:not(.e-vertical).e-rtl ::deep input + label.e-btn.e-outline:last-of-type {
+    border-right: transparent;
+}
+
+/* Vertical outline border arrangement */
+.e-btn-group.e-vertical ::deep .e-btn.e-outline:not(:first-of-type):not(:last-of-type),
+.e-btn-group.e-vertical ::deep input + label.e-btn.e-outline:not(:first-of-type):not(:last-of-type) {
+    border-bottom: transparent;
+    border-top: transparent;
+}
+
+.e-btn-group.e-vertical ::deep .e-btn.e-outline:first-of-type,
+.e-btn-group.e-vertical ::deep input + label.e-btn.e-outline:first-of-type {
+    border-bottom: transparent;
+}
+
+.e-btn-group.e-vertical ::deep .e-btn.e-outline:last-of-type,
+.e-btn-group.e-vertical ::deep input + label.e-btn.e-outline:last-of-type {
+    border-top: transparent;
+}
+
+/* Outline focus variant border colour overrides (mirrors @include different-states) */
+.e-btn-group ::deep .e-btn:focus.e-outline,
+.e-btn-group ::deep input:focus + label.e-btn.e-outline {
+    border-color: var(--color-sf-secondary-border-color);
+    outline-color: inherit;
+}
+
+.e-btn-group ::deep .e-btn:focus.e-outline.e-primary,
+.e-btn-group ::deep input:focus + label.e-btn.e-outline.e-primary {
+    border-color: var(--color-sf-primary-bg-color);
+    outline-color: inherit;
+}
+
+.e-btn-group ::deep .e-btn:focus.e-outline.e-success,
+.e-btn-group ::deep input:focus + label.e-btn.e-outline.e-success {
+    border-color: var(--color-sf-success-border-color-selected);
+    outline-color: inherit;
+}
+
+.e-btn-group ::deep .e-btn:focus.e-outline.e-info,
+.e-btn-group ::deep input:focus + label.e-btn.e-outline.e-info {
+    border-color: var(--color-sf-info-border-color-selected);
+    outline-color: inherit;
+}
+
+.e-btn-group ::deep .e-btn:focus.e-outline.e-warning,
+.e-btn-group ::deep input:focus + label.e-btn.e-outline.e-warning {
+    border-color: var(--color-sf-warning-border-color-selected);
+    outline-color: inherit;
+}
+
+.e-btn-group ::deep .e-btn:focus.e-outline.e-danger,
+.e-btn-group ::deep input:focus + label.e-btn.e-outline.e-danger {
+    border-color: var(--color-sf-danger-border-color-selected);
+    outline-color: inherit;
+}
+
+/* Cross-component overrides. The deep combinator must be separate from the
+   descendant selector so these rules reach SfButton-rendered children. */
+.e-btn-group ::deep .e-btn:hover,
+.e-btn-group ::deep input:hover + label.e-btn {
+    box-shadow: none;
+}
+
+.e-btn-group ::deep .e-btn:active,
+.e-btn-group ::deep .e-btn.e-active,
+.e-btn-group ::deep input:active + label.e-btn,
+.e-btn-group ::deep input:checked + label.e-btn {
+    background: var(--color-sf-secondary-bg-color-pressed);
+    border-color: var(--color-sf-secondary-border-color-pressed);
+    color: var(--color-sf-secondary-text-color-pressed);
+}
+
+.e-btn-group ::deep .e-btn.e-info:hover,
+.e-btn-group ::deep .e-btn.e-info:active,
+.e-btn-group ::deep .e-btn.e-info.e-active,
+.e-btn-group ::deep input:hover + label.e-btn.e-info,
+.e-btn-group ::deep input:active + label.e-btn.e-info,
+.e-btn-group ::deep input:checked + label.e-btn.e-info {
+    background: var(--color-sf-info-bg-color-hover);
+    border-color: var(--color-sf-info-border-color-hover);
+    color: var(--color-sf-primary-text-color);
+}
+
+.e-btn-group ::deep .e-btn.e-outline:hover,
+.e-btn-group ::deep .e-btn.e-outline:active,
+.e-btn-group ::deep .e-btn.e-outline.e-active,
+.e-btn-group ::deep input:hover + label.e-btn.e-outline,
+.e-btn-group ::deep input:active + label.e-btn.e-outline,
+.e-btn-group ::deep input:checked + label.e-btn.e-outline {
+    background: var(--color-sf-secondary-bg-color-pressed);
+    border-color: var(--color-sf-secondary-border-color-pressed);
+    color: var(--color-sf-secondary-text-color-pressed);
+}
+
+.e-btn-group.e-vertical ::deep .e-btn:not(:first-of-type):not(:last-of-type),
+.e-btn-group.e-vertical ::deep input + label.e-btn:not(:first-of-type):not(:last-of-type) {
+    border-radius: 0;
+}
+
+.e-btn-group.e-vertical ::deep .e-btn:first-of-type,
+.e-btn-group.e-vertical ::deep input + label.e-btn:first-of-type {
+    border-bottom-left-radius: 0;
+    border-bottom-right-radius: 0;
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+}
+
+.e-btn-group.e-vertical ::deep .e-btn:last-of-type,
+.e-btn-group.e-vertical ::deep input + label.e-btn:last-of-type {
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+.e-btn-group.e-round-corner:not(.e-vertical):not(.e-rtl) ::deep .e-btn:first-of-type,
+.e-btn-group.e-round-corner:not(.e-vertical):not(.e-rtl) ::deep input + label.e-btn:first-of-type {
+    border-bottom-left-radius: 20px;
+    border-top-left-radius: 20px;
+}
+
+.e-btn-group.e-round-corner:not(.e-vertical):not(.e-rtl) ::deep .e-btn:last-of-type,
+.e-btn-group.e-round-corner:not(.e-vertical):not(.e-rtl) ::deep input + label.e-btn:last-of-type {
+    border-bottom-right-radius: 20px;
+    border-top-right-radius: 20px;
+}
+
+.e-btn-group.e-round-corner.e-rtl ::deep .e-btn:first-of-type,
+.e-btn-group.e-round-corner.e-rtl ::deep input + label.e-btn:first-of-type {
+    border-bottom-right-radius: 20px;
+    border-top-right-radius: 20px;
+}
+
+.e-btn-group.e-round-corner.e-rtl ::deep .e-btn:last-of-type,
+.e-btn-group.e-round-corner.e-rtl ::deep input + label.e-btn:last-of-type {
+    border-bottom-left-radius: 20px;
+    border-top-left-radius: 20px;
+}
+
+/* Keep the outside outline while removing separators between vertical items. */
+.e-btn-group.e-vertical ::deep .e-btn.e-outline:not(:first-of-type):not(:last-of-type),
+.e-btn-group.e-vertical ::deep label.e-btn.e-outline:not(:first-of-type):not(:last-of-type) {
+    border-top-color: transparent;
+    border-bottom-color: transparent;
+}
+
+.e-btn-group.e-vertical ::deep .e-btn.e-outline:first-of-type,
+.e-btn-group.e-vertical ::deep label.e-btn.e-outline:first-of-type {
+    border-bottom-color: transparent;
+}
+
+.e-btn-group.e-vertical ::deep .e-btn.e-outline:last-of-type,
+.e-btn-group.e-vertical ::deep label.e-btn.e-outline:last-of-type {
+    border-top-color: transparent;
+}
+
+/* Button defines outline active background as transparent !important.
+   ButtonGroup owns the selected appearance inside a group. */
+.e-btn-group ::deep .e-btn.e-outline:active,
+.e-btn-group ::deep .e-btn.e-outline.e-active {
+    background: var(--color-sf-secondary-bg-color-pressed) !important;
+    border-color: var(--color-sf-secondary-border-color-pressed) !important;
+    color: var(--color-sf-secondary-text-color-pressed) !important;
+}
+
+.e-btn-group ::deep .e-btn.e-outline:focus {
+    background: var(--color-sf-secondary-bg-color-pressed) !important;
+    border-color: var(--color-sf-secondary-border-color-pressed) !important;
+    color: var(--color-sf-secondary-text-color-pressed) !important;
+}
+
+/* Selection demos expose the selected state through aria-pressed on the input. */
+.e-btn-group ::deep input[aria-pressed="true"] + label.e-btn {
+    background: var(--color-sf-primary-bg-color-selected) !important;
+    border-color: var(--color-sf-primary-border-color-selected) !important;
+    color: var(--color-sf-primary-text-color) !important;
+}
+
+.e-btn-group ::deep input:checked + label.e-btn.e-primary,
+.e-btn-group ::deep label.e-btn.e-primary.e-active {
+    background: var(--color-sf-primary-bg-color-selected) !important;
+    border-color: var(--color-sf-primary-border-color-selected) !important;
+    color: var(--color-sf-primary-text-color) !important;
+}
+
+.e-btn-group ::deep label.e-btn:focus:not(.e-active) {
+    background: transparent !important;
+    border-color: var(--color-sf-secondary-border-color) !important;
+    color: var(--color-sf-secondary-text-color) !important;
+}
+
+.e-btn-group ::deep label.e-btn:hover:not(.e-active) {
+    background: var(--color-sf-secondary-bg-color-hover) !important;
+    border-color: var(--color-sf-secondary-border-color-hover) !important;
+    color: var(--color-sf-content-text-color) !important;
+}
+
+.e-btn-group ::deep label.e-btn.e-primary:hover:not(.e-active) {
+    background: var(--color-sf-primary-bg-color-hover) !important;
+    border-color: var(--color-sf-primary-border-color-hover) !important;
+    color: var(--color-sf-primary-text-color) !important;
+}
+
+.e-btn-group ::deep label.e-btn.e-success:hover:not(.e-active) {
+    background: var(--color-sf-success-bg-color-hover) !important;
+    border-color: var(--color-sf-success-border-color-hover) !important;
+    color: var(--color-sf-primary-text-color) !important;
+}
+
+.e-btn-group ::deep label.e-btn.e-info:hover:not(.e-active) {
+    background: var(--color-sf-info-bg-color-hover) !important;
+    border-color: var(--color-sf-info-border-color-hover) !important;
+    color: var(--color-sf-primary-text-color) !important;
+}
+
+.e-btn-group ::deep label.e-btn.e-warning:hover:not(.e-active) {
+    background: var(--color-sf-warning-bg-color-hover) !important;
+    border-color: var(--color-sf-warning-border-color-hover) !important;
+    color: var(--color-sf-warning-text-hover) !important;
+}
+
+.e-btn-group ::deep label.e-btn.e-danger:hover:not(.e-active) {
+    background: var(--color-sf-danger-bg-color-hover) !important;
+    border-color: var(--color-sf-danger-border-color-hover) !important;
+    color: var(--color-sf-danger-text-hover) !important;
 }

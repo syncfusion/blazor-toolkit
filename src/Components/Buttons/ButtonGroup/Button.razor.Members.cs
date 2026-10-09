@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using System.ComponentModel;
 
-namespace Syncfusion.Blazor.Toolkit.Buttons
+namespace Syncfusion.Blazor.Toolkit
 {
     public partial class Button
     {

@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace Syncfusion.Blazor.Toolkit.Popups
+namespace Syncfusion.Blazor.Toolkit
 {
     /// <summary>
     /// System.Text.Json source-generation context for the small, well-known data-transfer

@@ -824,7 +824,9 @@ var SfDialog = (function () {
                 sfBlazorToolkit.base.detach(this.primaryButtonEle);
                 this.primaryButtonEle = null;
             }
-            sfBlazorToolkit.Resize.resizeDestroy();
+            if (window.sfBlazorToolkit && window.sfBlazorToolkit.Resize && typeof window.sfBlazorToolkit.Resize.resizeDestroy === 'function') {
+                window.sfBlazorToolkit.Resize.resizeDestroy();
+            }
             if (this.element) {
                 this.element = null;
             }

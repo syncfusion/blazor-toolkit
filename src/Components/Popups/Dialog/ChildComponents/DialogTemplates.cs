@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
 
-namespace Syncfusion.Blazor.Toolkit.Popups
+namespace Syncfusion.Blazor.Toolkit
 {
     /// <summary>
     /// A component class used within the <see cref="SfDialog"/> to configure custom templates for the header, content, and footer sections of the dialog.

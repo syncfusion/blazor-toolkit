@@ -89,8 +89,9 @@ The short version of the policy is:
 - **Patch (`x.y.z`)** — backwards-compatible bug fixes only.
 
 Until the project ships a `1.0.0` release, the minor digit may
-include breaking changes per SemVer §4. The currently shipped
-version is `v1.0.1`.
+include breaking changes per SemVer §4. The current source declares
+`2.0.0` in `src/Syncfusion.Blazor.Toolkit.csproj`; the most recent
+published release on the GitHub releases page is `v1.0.2`.
 
 APIs marked `[Obsolete]` are retained for at least **two minor
 releases** before removal. APIs marked `[Experimental]` are not

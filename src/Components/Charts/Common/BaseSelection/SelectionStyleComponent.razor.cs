@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components;
 using Syncfusion.Blazor.Toolkit.Charts.Internal;
 
-namespace Syncfusion.Blazor.Toolkit.Charts
+namespace Syncfusion.Blazor.Toolkit
 {
     /// <summary>
     /// Component that exposes selection style pattern data for charts.
@@ -35,7 +35,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts
         {
             if (data is not null && data.Count > 0)
             {
-                GivenPattern = data;
+                GivenPattern = new List<PatternOptions>(data);
                 _ = InvokeAsync(StateHasChanged);
             }
         }

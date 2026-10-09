@@ -1,9 +1,9 @@
-﻿using System;
+using System;
 using System.IO;
 using AngleSharp.Dom;
 using Bunit;
 using Xunit;
-using Syncfusion.Blazor.Toolkit.Buttons;
+using Syncfusion.Blazor.Toolkit;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.Extensions.Options;

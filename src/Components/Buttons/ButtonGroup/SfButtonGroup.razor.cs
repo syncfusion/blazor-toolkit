@@ -1,6 +1,6 @@
 using Syncfusion.Blazor.Toolkit.Internal;
 
-namespace Syncfusion.Blazor.Toolkit.Buttons
+namespace Syncfusion.Blazor.Toolkit
 {
     /// <summary>
     /// The ButtonGroup component is a container that groups a series of buttons on a single line and supports different selection modes, such as single and multiple selections.

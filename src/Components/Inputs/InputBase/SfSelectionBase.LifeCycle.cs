@@ -1,6 +1,6 @@
 using Syncfusion.Blazor.Toolkit.Internal;
 
-namespace Syncfusion.Blazor.Toolkit.Inputs
+namespace Syncfusion.Blazor.Toolkit
 {
     /// <summary>
     /// Partial class containing lifecycle method implementations for <see cref="SfSelectionBase{TChecked}"/>.

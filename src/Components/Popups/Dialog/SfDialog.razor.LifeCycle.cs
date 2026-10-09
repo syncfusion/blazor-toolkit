@@ -3,7 +3,7 @@ using Syncfusion.Blazor.Toolkit.Internal;
 using System.Text.Json;
 using Microsoft.Extensions.Logging;
 
-namespace Syncfusion.Blazor.Toolkit.Popups
+namespace Syncfusion.Blazor.Toolkit
 {
     public partial class SfDialog : SfBaseComponent
     {

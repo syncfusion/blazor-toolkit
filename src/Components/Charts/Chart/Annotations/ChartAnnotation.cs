@@ -1,8 +1,8 @@
-﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components;
 using System.ComponentModel;
 using Syncfusion.Blazor.Toolkit.Charts.Internal;
 
-namespace Syncfusion.Blazor.Toolkit.Charts
+namespace Syncfusion.Blazor.Toolkit
 {
     /// <summary>
     /// Represents an annotation, a user-defined HTML element that can be added to a chart.

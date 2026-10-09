@@ -2,7 +2,7 @@ using AngleSharp.Css.Dom;
 using Bunit;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
-using Syncfusion.Blazor.Toolkit.Inputs;
+using Syncfusion.Blazor.Toolkit;
 using System.ComponentModel.DataAnnotations;
 using Xunit;
 

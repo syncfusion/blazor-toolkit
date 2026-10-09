@@ -1,6 +1,8 @@
-@namespace Syncfusion.Blazor.Toolkit.Buttons
+@namespace Syncfusion.Blazor.Toolkit
 @inherits SfBaseComponent
 
+@* Shared theme emitter: render-time, sibling placed BEFORE the root element (never inside it). Only one instance per renderer emits. *@
+<SfThemeRoot />
 <button
         type="@Type.ToString().ToLower()"
         @attributes="HtmlAttributes"

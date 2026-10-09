@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Localization;
 using Microsoft.JSInterop;
 using Syncfusion.Blazor.Toolkit;
-using Syncfusion.Blazor.Toolkit.Popups;
+//using Syncfusion.Blazor.Toolkit.Popups;
 using System.Globalization;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);

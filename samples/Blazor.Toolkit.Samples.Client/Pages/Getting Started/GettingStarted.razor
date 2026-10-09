@@ -1,6 +1,7 @@
 @page "/getting-started"
 @inherits TocPublishingComponentBase
 @using Blazor.Toolkit.Samples.Client.Pages.Components.LayoutSection
+@using Blazor.Toolkit.Samples.Client.Pages.Demos.GettingStarted.Overview
 
 <PageTitle>Getting Started | Syncfusion Blazor Toolkit</PageTitle>
 
@@ -345,7 +346,7 @@
             <div class="sf-banner-body">
                 <div class="sf-banner-title">Package installed successfully</div>
                 <div class="sf-banner-sub">
-                    <code>Syncfusion.Blazor.Toolkit</code> &middot; v1.0.1 added to your project.
+                    <code>Syncfusion.Blazor.Toolkit</code> &middot; v2.0.0 added to your project.
                 </div>
             </div>
         </div>
@@ -422,35 +423,9 @@
             and the markup below to render a toolkit Button.
         </p>
         <div class="sf-code-card">
-            <CodePreview FileName="Home.razor"
-                         IsCodeAlone="true"
-                         SourceFile="@_homeRenderModeSourceFile" />
-        </div>
-        <div class="sf-code-card">
-            <CodePreview FileName="Home.razor"
-                         IsCodeAlone="true"
-                         SourceFile="@_usageSourceFile" />
+            <CodePreview PreviewComponent="typeof(ButtonCode)" SourceFile="Pages/Demos/GettingStarted/Overview/ButtonCode.razor" />
         </div>
 
-        <div class="sf-preview-card" aria-label="Button component preview">
-            <div class="sf-preview-head">
-                <span class="sf-preview-label">Preview</span>
-                <span class="sf-preview-meta">Home.razor</span>
-            </div>
-            <div class="sf-preview-body">
-                @* Live preview: use SfButtonGroup with semantic color
-                   variants so the user can see ButtonGroup + Button
-                   styling side-by-side. *@
-                <SfButtonGroup CssClass="sf-btn-group-preview">
-                    <Button CssClass="e-outline">Default</Button>
-                    <Button CssClass="e-primary">Primary</Button>
-                    <Button CssClass="e-success">Success</Button>
-                    <Button CssClass="e-info">Info</Button>
-                    <Button CssClass="e-warning">Warning</Button>
-                    <Button CssClass="e-danger">Danger</Button>
-                </SfButtonGroup>
-            </div>
-        </div>
     </section>
 
     @* ============================================================

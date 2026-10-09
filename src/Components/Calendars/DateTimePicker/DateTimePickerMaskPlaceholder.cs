@@ -1,4 +1,4 @@
-namespace Syncfusion.Blazor.Toolkit.Calendars
+namespace Syncfusion.Blazor.Toolkit
 {
     /// <summary>
     /// Provides configuration for placeholder text to be displayed in a masked <see cref="SfDateTimePicker{TValue}"/> control, based on the <see cref="SfDatePicker{TValue}.Format"/>, until the user enters a value.

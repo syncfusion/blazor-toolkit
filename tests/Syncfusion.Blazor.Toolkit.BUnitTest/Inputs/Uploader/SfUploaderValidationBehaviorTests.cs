@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
 using Bunit;
-using Syncfusion.Blazor.Toolkit.Inputs;
+using Syncfusion.Blazor.Toolkit;
 using Syncfusion.Blazor.Toolkit.Tests;
-using FileInfo = Syncfusion.Blazor.Toolkit.Inputs.FileInfo;
+using FileInfo = Syncfusion.Blazor.Toolkit.FileInfo;
 
 namespace Syncfusion.Blazor.Toolkit.Tests.Inputs.Uploader
 {

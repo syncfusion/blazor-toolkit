@@ -1,7 +1,7 @@
 using System.ComponentModel;
 using System.Globalization;
 
-namespace Syncfusion.Blazor.Toolkit.Popups
+namespace Syncfusion.Blazor.Toolkit
 {
     /// <summary>
     /// A class that represents the dialog utility service which is used to configure and display built-in dialog boxes such as alert, confirmation, and prompt dialogs.

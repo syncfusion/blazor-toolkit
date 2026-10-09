@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Components;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace Syncfusion.Blazor.Toolkit.Inputs
+namespace Syncfusion.Blazor.Toolkit
 {
     /// <summary>
     /// Represents the asynchronous settings configuration for the <see cref="SfUploader"/> component, enabling chunk upload, retry mechanisms, and server endpoint configurations.

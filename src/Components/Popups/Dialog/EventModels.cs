@@ -2,7 +2,7 @@ using System.ComponentModel;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Components.Web;
 
-namespace Syncfusion.Blazor.Toolkit.Popups
+namespace Syncfusion.Blazor.Toolkit
 {
     /// <summary>
     /// Provides the dimension data for the <see cref="SfDialog.GetDimensionAsync"/> method.

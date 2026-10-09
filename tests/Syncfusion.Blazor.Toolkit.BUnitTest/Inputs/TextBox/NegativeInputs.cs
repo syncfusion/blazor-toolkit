@@ -1,6 +1,6 @@
 using Xunit;
 using Bunit;
-using Syncfusion.Blazor.Toolkit.Inputs;
+using Syncfusion.Blazor.Toolkit;
 using System.Collections.Generic;
 
 namespace Syncfusion.Blazor.Toolkit.Tests.Inputs.TextBox

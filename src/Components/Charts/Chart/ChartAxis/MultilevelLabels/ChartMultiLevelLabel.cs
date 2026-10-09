@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Components;
 using System.ComponentModel;
 using System.Diagnostics.CodeAnalysis;
 
-namespace Syncfusion.Blazor.Toolkit.Charts
+namespace Syncfusion.Blazor.Toolkit
 {
     /// <summary>
     /// Provides options to customize a single multi-level label for a chart axis.

@@ -9,7 +9,7 @@ using System.ComponentModel;
 using System.Dynamic;
 using System.Globalization;
 
-namespace Syncfusion.Blazor.Toolkit.Inputs
+namespace Syncfusion.Blazor.Toolkit
 {
     /// <summary>
     /// Represents the SfUploader component that provides functionality for uploading files to a server.

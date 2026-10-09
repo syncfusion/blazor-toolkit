@@ -1,10 +1,10 @@
-﻿using AngleSharp.Css.Dom;
+using AngleSharp.Css.Dom;
 using Bunit;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
-using Syncfusion.Blazor.Toolkit.Buttons;
-using Syncfusion.Blazor.Toolkit.Calendars;
-using Syncfusion.Blazor.Toolkit.Inputs;
+using Syncfusion.Blazor.Toolkit;
+using Syncfusion.Blazor.Toolkit;
+using Syncfusion.Blazor.Toolkit;
 using System.Globalization;
 using Xunit;
 

@@ -1,6 +1,8 @@
-@namespace Syncfusion.Blazor.Toolkit.Buttons
+@namespace Syncfusion.Blazor.Toolkit
 @inherits SfBaseComponent
 
+@* Shared theme emitter: render-time, sibling placed BEFORE the root element (never inside the button-group, which relies on :first-child/:last-child and input + label selectors). *@
+<SfThemeRoot />
 <div class="@BuildCssClass()" role="group" @attributes="@GetMergedAttributes()">
     <CascadingValue Value="@this">
         @ChildContent

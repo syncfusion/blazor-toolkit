@@ -1,9 +1,9 @@
-﻿using Microsoft.JSInterop;
-using System.Diagnostics.CodeAnalysis;
+using Microsoft.JSInterop;
 using System.Globalization;
 using System.Reflection;
+using System.Diagnostics.CodeAnalysis;
 
-namespace Syncfusion.Blazor.Toolkit.Calendars
+namespace Syncfusion.Blazor.Toolkit
 {
     public partial class SfDateTimePicker<TValue> : SfDatePicker<TValue>
     {

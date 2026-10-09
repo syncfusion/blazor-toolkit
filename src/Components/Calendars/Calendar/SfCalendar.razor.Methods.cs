@@ -1,6 +1,6 @@
 using Syncfusion.Blazor.Toolkit.Internal;
 
-namespace Syncfusion.Blazor.Toolkit.Calendars
+namespace Syncfusion.Blazor.Toolkit
 {
     /// <summary>
     /// The <see cref="SfCalendar{TValue}"/> component displays a visual Gregorian calendar allowing users to select one or multiple dates interactively, supporting navigation and multiple selection modes for varied scenarios such as event scheduling, booking, or date range input.

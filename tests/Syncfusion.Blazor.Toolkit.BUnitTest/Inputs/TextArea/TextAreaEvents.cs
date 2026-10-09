@@ -1,6 +1,6 @@
-﻿using Xunit;
+using Xunit;
 using Bunit;
-using Syncfusion.Blazor.Toolkit.Inputs;
+using Syncfusion.Blazor.Toolkit;
 using Microsoft.AspNetCore.Components;
 
 namespace Syncfusion.Blazor.Toolkit.Tests.Inputs.TextArea

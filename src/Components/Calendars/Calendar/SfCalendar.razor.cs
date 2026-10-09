@@ -1,7 +1,7 @@
 using Syncfusion.Blazor.Toolkit.Calendars.Internal;
 using Syncfusion.Blazor.Toolkit.Internal;
 
-namespace Syncfusion.Blazor.Toolkit.Calendars
+namespace Syncfusion.Blazor.Toolkit
 {
     /// <summary>
     /// Represents the Syncfusion Blazor Calendar component, which provides a user-friendly interface for displaying and selecting dates on a Gregorian calendar.

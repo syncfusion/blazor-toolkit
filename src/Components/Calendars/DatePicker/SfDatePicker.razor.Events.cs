@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
 
-namespace Syncfusion.Blazor.Toolkit.Calendars
+namespace Syncfusion.Blazor.Toolkit
 {
     public partial class SfDatePicker<TValue>
     {

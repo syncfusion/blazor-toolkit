@@ -1,8 +1,8 @@
-﻿using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Components;
+using System.Diagnostics.CodeAnalysis;
 using Syncfusion.Blazor.Toolkit.Data;
 
-namespace Syncfusion.Blazor.Toolkit.Charts
+namespace Syncfusion.Blazor.Toolkit
 {
     /// <summary>
     /// Configures the sorting option for the chart.

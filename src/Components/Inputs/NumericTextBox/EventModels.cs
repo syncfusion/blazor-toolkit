@@ -1,4 +1,4 @@
-namespace Syncfusion.Blazor.Toolkit.Inputs
+namespace Syncfusion.Blazor.Toolkit
 {
     /// <summary>
     /// Represents the event arguments for the value change event in the NumericTextBox component.
@@ -16,7 +16,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
     /// @code {
     ///     private double numericValue = 10;
     /// 
-    ///     private void OnValueChange(ChangeEventArgs<double> args)
+    ///     private void OnValueChange(NumericTextBoxChangeEventArgs<double> args)
     ///     {
     ///         Console.WriteLine($"Previous Value: {args.PreviousValue}");
     ///         Console.WriteLine($"Current Value: {args.Value}");
@@ -25,7 +25,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
     /// }
     /// ]]></code>
     /// </example>
-    public class ChangeEventArgs<T>
+    public class NumericTextBoxChangeEventArgs<T>
     {
         /// <summary>
         /// Gets or sets the original event arguments that triggered the change event.

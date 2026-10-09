@@ -41,11 +41,11 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="index">Index to ensure uniqueness.</param>
         /// <param name="patternName">Pattern enumeration value.</param>
         /// <returns>A configured <see cref="PatternOptions"/> instance.</returns>
-        private static PatternOptions CreatePatternOptions(string color, int index, SelectionPattern patternName)
+        private static PatternOptions CreatePatternOptions(string styleId, string color, int index, SelectionPattern patternName)
         {
             return new PatternOptions()
             {
-                Id = patternName + "_Selection" + "_" + color + "_" + index,
+                Id = styleId + "_" + patternName + "_Selection" + "_" + color + "_" + index,
                 PatternUnits = "userSpaceOnUse"
             };
         }
@@ -57,9 +57,9 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <param name="color">Color string safe for ids.</param>
         /// <param name="index">Index for uniqueness.</param>
         /// <returns>String suitable for SVG fill like "url(#...)"</returns>
-        private static string BuildPatternUrl(SelectionPattern patternName, string color, int index)
+        private static string BuildPatternUrl(string styleId, SelectionPattern patternName, string color, int index)
         {
-            return "url(#" + patternName + "_Selection_" + color + "_" + index + ")";
+            return "url(#" + styleId + "_" + patternName + "_Selection_" + color + "_" + index + ")";
         }
 
         /// <summary>
@@ -438,13 +438,14 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         protected string FindPattern(string color, int index, SelectionPattern patternName, double opacity)
         {
             List<object> pathOptions = [];
-            PatternOptions patternGroup = CreatePatternOptions(color, index, patternName);
+            string patternStyleId = string.IsNullOrEmpty(StyleId) ? "pattern" : StyleId;
+            PatternOptions patternGroup = CreatePatternOptions(patternStyleId, color, index, patternName);
 
             ConfigurePattern(patternName, patternGroup, pathOptions, color, opacity);
 
             patternGroup.ShapeOptions = pathOptions;
             ReqPatterns?.Add(patternGroup);
-            return BuildPatternUrl(patternName, color, index);
+            return BuildPatternUrl(patternStyleId, patternName, color, index);
         }
         #endregion
 

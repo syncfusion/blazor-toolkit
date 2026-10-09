@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components;
 
-namespace Syncfusion.Blazor.Toolkit.Calendars
+namespace Syncfusion.Blazor.Toolkit
 {
     /// <summary>
     /// Configures the event handlers for the <see cref="SfTimePicker{TValue}"/> component, allowing you to respond to various user interactions and component lifecycle events.
@@ -59,7 +59,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// Gets or sets an event callback that is invoked when the user inputs or modifies the value in the TimePicker.
         /// </summary>
         /// <value>
-        /// An <see cref="EventCallback"/> that receives a <see cref="ChangeEventArgs"/> containing the input value information.
+        /// An <see cref="EventCallback{TValue}"/> that receives a <see cref="ChangeEventArgs{TValue}"/> containing the input value information.
         /// </value>
         /// <remarks>
         /// This event is triggered on each user input as they type or modify the time value directly in the input field.
@@ -69,14 +69,14 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// <SfTimePicker TValue="DateTime?" OnInput="@OnInput">
         /// </SfTimePicker>
         /// @code{
-        ///    private void OnInput(ChangeEventArgs args) {
+        ///    private void OnInput(ChangeEventArgs<DateTime?> args) {
         ///         Console.WriteLine("Input value changed");
         ///     }
         /// }
         /// ]]></code>
         /// </example>
         [Parameter]
-        public EventCallback<ChangeEventArgs> OnInput { get; set; }
+        public EventCallback<ChangeEventArgs<TValue>> OnInput { get; set; }
 
         /// <summary>
         /// Gets or sets an event callback that is triggered after a time value is selected from the popup.
@@ -206,7 +206,7 @@ namespace Syncfusion.Blazor.Toolkit.Calendars
         /// <code><![CDATA[
         /// <SfTimePicker TValue="DateTime?" OnFocus="@OnFocus"></SfTimePicker>
         /// @code{
-        /// private void OnFocus(Syncfusion.Blazor.Toolkit.Calendars.FocusEventArgs args)
+        /// private void OnFocus(Syncfusion.Blazor.Toolkit.FocusEventArgs args)
         /// {
         /// // Your logic here
         /// }

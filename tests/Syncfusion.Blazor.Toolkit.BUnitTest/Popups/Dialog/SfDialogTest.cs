@@ -3,8 +3,8 @@ using AngleSharp.Dom;
 using Bunit;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.Extensions.DependencyInjection;
-using Syncfusion.Blazor.Toolkit.Buttons;
-using Syncfusion.Blazor.Toolkit.Popups;
+using Syncfusion.Blazor.Toolkit;
+using Syncfusion.Blazor.Toolkit;
 using Xunit;
 
 namespace Syncfusion.Blazor.Toolkit.Tests.Dialog
@@ -1122,7 +1122,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Dialog
             var mouseEvent = new MouseEventArgs();
             var args = new DragStopEventArgs { Event = mouseEvent, Name = "Drag Stop" };
             await component.Instance.DragStopEventAsync(args);
-            var args1 = new Syncfusion.Blazor.Toolkit.Popups.DragEventArgs { Event = mouseEvent, Name = "Dragging" };
+            var args1 = new Syncfusion.Blazor.Toolkit.DragEventArgs { Event = mouseEvent, Name = "Dragging" };
             await component.Instance.DragEventAsync(args1);
             var args2 = new DragStartEventArgs { Event = mouseEvent, Name = "DragStart" };
             await component.Instance.DragStartEventAsync(args2);
@@ -1238,7 +1238,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Dialog
         [Fact(Timeout = 10000, DisplayName = "DragEventArgs testing")]
         public void DragEventArgs()
         {
-            var model = new Syncfusion.Blazor.Toolkit.Popups.DragEventArgs
+            var model = new Syncfusion.Blazor.Toolkit.DragEventArgs
             {
                 Event = new(),
                 Name = "#Name"

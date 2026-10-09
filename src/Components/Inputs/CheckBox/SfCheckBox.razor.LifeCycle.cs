@@ -1,6 +1,7 @@
+using Microsoft.Extensions.Logging;
 using Microsoft.JSInterop;
 
-namespace Syncfusion.Blazor.Toolkit.Inputs
+namespace Syncfusion.Blazor.Toolkit
 {
     public partial class SfCheckBox<TChecked>
     {

@@ -1,4 +1,4 @@
-namespace Syncfusion.Blazor.Toolkit.Inputs
+namespace Syncfusion.Blazor.Toolkit
 {
     /// <summary>
     /// Provides data for the <see cref="SfTextBox"/> changed event that occurs when the value of the component is modified.

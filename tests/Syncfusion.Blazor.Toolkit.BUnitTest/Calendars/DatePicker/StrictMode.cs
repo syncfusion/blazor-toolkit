@@ -1,6 +1,6 @@
-﻿using Xunit;
+using Xunit;
 using Bunit;
-using Syncfusion.Blazor.Toolkit.Calendars;
+using Syncfusion.Blazor.Toolkit;
 
 namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.DatePicker
 {

@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using System.ComponentModel;
 
-namespace Syncfusion.Blazor.Toolkit.Charts
+namespace Syncfusion.Blazor.Toolkit
 {
     /// <summary>
     /// Represents the collection of color stops for the gradient fill of a chart <see cref="ChartSeries"/>.

@@ -3,7 +3,7 @@ using Blazor.Toolkit.Samples.Components;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.Localization;
 using Syncfusion.Blazor.Toolkit;
-using Syncfusion.Blazor.Toolkit.Popups;
+//using Syncfusion.Blazor.Toolkit.Popups;
 using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);

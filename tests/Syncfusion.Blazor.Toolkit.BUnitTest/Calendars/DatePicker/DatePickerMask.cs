@@ -1,7 +1,7 @@
 using Xunit;
 using Bunit;
-using Syncfusion.Blazor.Toolkit.Calendars;
-using Syncfusion.Blazor.Toolkit.Inputs;
+using Syncfusion.Blazor.Toolkit;
+using Syncfusion.Blazor.Toolkit;
 using Microsoft.AspNetCore.Components;
 using System.Globalization;
 using System.Text.RegularExpressions;

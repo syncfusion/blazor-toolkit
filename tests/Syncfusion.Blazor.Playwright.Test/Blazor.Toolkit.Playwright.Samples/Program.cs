@@ -1,6 +1,6 @@
 using Blazor.Toolkit.Playwright.Samples.Components;
 using Syncfusion.Blazor.Toolkit;
-using Syncfusion.Blazor.Toolkit.Popups;
+using Syncfusion.Blazor.Toolkit;
 
 var builder = WebApplication.CreateBuilder(args);
 

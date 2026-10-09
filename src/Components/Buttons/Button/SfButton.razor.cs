@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Components.Web;
 using Syncfusion.Blazor.Toolkit.Internal;
 using System.Text;
 
-namespace Syncfusion.Blazor.Toolkit.Buttons
+namespace Syncfusion.Blazor.Toolkit
 {
     /// <summary> 
     /// Represents a graphical user interface <see cref="ComponentBase"/> that triggers events when clicked, supporting text, icons, SVG, or a combination as its content.

@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
 
-namespace Syncfusion.Blazor.Toolkit.Inputs
+namespace Syncfusion.Blazor.Toolkit
 {
     /// <summary>
     /// The NumericTextBox is used to get the number inputs from the user. The input values can be incremented or decremented by a predefined step value.

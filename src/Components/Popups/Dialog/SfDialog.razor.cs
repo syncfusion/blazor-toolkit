@@ -5,7 +5,7 @@ using Microsoft.JSInterop;
 using Syncfusion.Blazor.Toolkit.Internal;
 using System.ComponentModel;
 
-namespace Syncfusion.Blazor.Toolkit.Popups
+namespace Syncfusion.Blazor.Toolkit
 {
     /// <summary>
     /// The Blazor Dialog is a user interface (UI) component that displays critical information, errors, warnings, and questions to users, as well as confirms decisions and collects input from the users.

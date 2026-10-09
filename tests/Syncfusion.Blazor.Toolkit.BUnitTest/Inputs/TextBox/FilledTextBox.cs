@@ -1,6 +1,6 @@
-﻿using Xunit;
+using Xunit;
 using Bunit;
-using Syncfusion.Blazor.Toolkit.Inputs;
+using Syncfusion.Blazor.Toolkit;
 using AngleSharp.Css.Dom;
 using Syncfusion.Blazor.Toolkit.Tests;
 

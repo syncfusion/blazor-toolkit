@@ -1,9 +1,12 @@
-﻿@page "/chart-smart-axis-labels"
+@page "/chart-smart-axis-labels"
 
 @using Syncfusion.Blazor.Toolkit
-@using Syncfusion.Blazor.Toolkit.Charts
-@using Syncfusion.Blazor.Toolkit.Buttons
-@using Syncfusion.Blazor.Toolkit.Inputs
+@using Syncfusion.Blazor.Toolkit;
+
+@using Syncfusion.Blazor.Toolkit;
+
+@using Syncfusion.Blazor.Toolkit;
+
 
 @inject NavigationManager NavigationManager
 
@@ -121,8 +124,8 @@
                                   Value="@Width"
                                   Min="1"
                                   Max="120"
-                                  Step="1">
-                    <NumericTextBoxEvents TValue="int?" ValueChange="OnLabelWidthChanged" />
+                                  Step="1"
+                                  ValueChange="@((args) => OnLabelWidthChanged(args))">
                 </SfNumericTextBox>
             </td>
         </tr>
@@ -169,7 +172,7 @@
         => IsTrim = EnableTrim = value;
 
     private void OnLabelWidthChanged(
-        Syncfusion.Blazor.Toolkit.Inputs.ChangeEventArgs<int?> args)
+        Syncfusion.Blazor.Toolkit.NumericTextBoxChangeEventArgs<int?> args)
     {
         if (args.Value.HasValue)
             LabelWidth = Width = args.Value.Value;

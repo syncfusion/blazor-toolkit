@@ -1,9 +1,9 @@
-﻿using Microsoft.JSInterop;
+using Microsoft.JSInterop;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Components;
 using Syncfusion.Blazor.Toolkit.Internal;
 
-namespace Syncfusion.Blazor.Toolkit.Inputs
+namespace Syncfusion.Blazor.Toolkit
 {
     /// <summary>
     /// Represents the Toolkit TextArea component for Blazor applications, which provides a multiline text input element

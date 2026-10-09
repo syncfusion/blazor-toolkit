@@ -1,4 +1,4 @@
-﻿using Microsoft.JSInterop;
+using Microsoft.JSInterop;
 using Syncfusion.Blazor.Toolkit.Charts.Internal;
 using System.ComponentModel;
 using System.Text.Json;
@@ -6,7 +6,7 @@ using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Components;
 using System.Globalization;
 
-namespace Syncfusion.Blazor.Toolkit.Charts
+namespace Syncfusion.Blazor.Toolkit
 {
     /// <summary>
     /// Partial class that contains JavaScript interop handlers and related helpers for the SfChart component.

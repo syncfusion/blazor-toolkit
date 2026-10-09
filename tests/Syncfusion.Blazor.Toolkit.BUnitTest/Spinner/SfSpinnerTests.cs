@@ -1,6 +1,6 @@
 using Bunit;
 using Microsoft.AspNetCore.Components;
-using Syncfusion.Blazor.Toolkit.Spinner;
+using Syncfusion.Blazor.Toolkit;
 using Syncfusion.Blazor.Toolkit.Tests;
 using Xunit;
 

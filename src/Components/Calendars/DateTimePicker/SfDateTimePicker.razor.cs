@@ -3,7 +3,7 @@ using Syncfusion.Blazor.Toolkit.Calendars.Internal;
 using Syncfusion.Blazor.Toolkit.Internal;
 using System.Globalization;
 
-namespace Syncfusion.Blazor.Toolkit.Calendars
+namespace Syncfusion.Blazor.Toolkit
 {
     /// <summary>
     /// The DateTimePicker is a graphical user interface component that allows users to select both date and time values through an interactive popup interface.

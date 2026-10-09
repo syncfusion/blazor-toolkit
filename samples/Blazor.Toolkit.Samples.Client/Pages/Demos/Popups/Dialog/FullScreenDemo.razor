@@ -56,4 +56,10 @@
     .dark .full-screen-dialog-header {
         color: #fff;
     }
+
+    @@media (forced-colors: active) {
+        .full-screen-dialog-header::after {
+            background: Highlight;
+        }
+    }
 </style>

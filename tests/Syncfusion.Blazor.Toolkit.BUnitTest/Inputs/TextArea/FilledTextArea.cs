@@ -5,7 +5,7 @@ using Xunit;
 using Bunit;
 using System.Linq;
 using System.Threading.Tasks;
-using Syncfusion.Blazor.Toolkit.Inputs;
+using Syncfusion.Blazor.Toolkit;
 using AngleSharp.Css.Dom;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;

@@ -36,6 +36,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests
                 ?? throw new MissingMemberException($"SfFixture requires the non-public instance property '{serv.GetType().FullName}.IsScriptRendered' to initialize script state.");
             isScriptRendered.SetValue(serv, true);
             Services.AddScoped((IServiceProvider provider) => serv);
+            ComponentFactories.AddStub<SfThemeRoot>();
         }
     }
 }

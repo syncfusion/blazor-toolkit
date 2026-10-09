@@ -1,5 +1,6 @@
 @page "/switch/state-persistence"
-@using Syncfusion.Blazor.Toolkit.Inputs
+@using Syncfusion.Blazor.Toolkit;
+
 @layout MainLayout
 
 <h1>Switch - State Persistence</h1>
@@ -12,7 +13,7 @@
               Label="Remember my preference"
               @bind-Checked="persistValue" />
     <p>Current Value: <strong id="persist-value">@persistValue</strong></p>
-    <p style="font-size: 12px; color: #666;">Storage Key: <code>Syncfusion.Blazor.Toolkit.Buttons.SfSwitch_switch-persist-enabled_Checked</code></p>
+    <p style="font-size: 12px; color: #666;">Storage Key: <code>Syncfusion.Blazor.Toolkit.SfSwitch_switch-persist-enabled_Checked</code></p>
 </div>
 
 <div class="test-container">

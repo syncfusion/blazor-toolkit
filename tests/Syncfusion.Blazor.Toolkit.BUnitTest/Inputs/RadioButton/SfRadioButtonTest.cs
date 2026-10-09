@@ -2,8 +2,8 @@ using AngleSharp.Dom;
 using Bunit;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using Syncfusion.Blazor.Toolkit.Buttons;
-using Syncfusion.Blazor.Toolkit.Inputs;
+using Syncfusion.Blazor.Toolkit;
+using Syncfusion.Blazor.Toolkit;
 using Xunit;
 
 namespace Syncfusion.Blazor.Toolkit.Tests.Inputs

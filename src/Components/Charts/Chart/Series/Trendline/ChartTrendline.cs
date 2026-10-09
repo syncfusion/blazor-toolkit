@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Components;
 using Syncfusion.Blazor.Toolkit.Internal;
 using Syncfusion.Blazor.Toolkit.Charts.Internal;
 
-namespace Syncfusion.Blazor.Toolkit.Charts
+namespace Syncfusion.Blazor.Toolkit
 {
     /// <summary>
     /// Represents a single trendline configuration used to predict or visualize trends over a series.

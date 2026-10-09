@@ -1,4 +1,5 @@
-﻿@using Syncfusion.Blazor.Toolkit.Buttons
+@using Syncfusion.Blazor.Toolkit;
+
 @inject IJSRuntime JSRuntime
 
 <div class="code-preview-wrapper">
@@ -264,7 +265,7 @@
     }
 
         .code-preview-wrapper .preview-section {
-            background-color: var(--bg-color);
+            background-color: transparent;
             padding: 20px;
             display: flex; /* Turn it into a flex container */
             justify-content: center; /* Center horizontally */
@@ -346,9 +347,12 @@
         .code-preview-header {
             background: Canvas !important;
             color: CanvasText !important;
+            border-bottom: 1px solid CanvasText !important;
         }
         .code-preview-wrapper {
             background: Canvas !important;
+            border: 1px solid CanvasText !important;
+            overflow: hidden;
         }
         .copy-btn {
             background: transparent !important;
@@ -359,6 +363,9 @@
             border: 1px solid Highlight !important;
             background: Highlight !important;
             color: HighlightText !important;
+        }
+        .code-preview-title {
+            border-bottom: 1px solid ButtonText !important;
         }
     }
 </style>

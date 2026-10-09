@@ -2,7 +2,7 @@ using Microsoft.JSInterop;
 using Syncfusion.Blazor.Toolkit.Internal;
 using System.Globalization;
 
-namespace Syncfusion.Blazor.Toolkit.Inputs
+namespace Syncfusion.Blazor.Toolkit
 {
     public partial class SfNumericTextBox<TValue>
     {
@@ -71,7 +71,7 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
                 if (!InputHtmlAttributes.ContainsKey(ARIA_LABEL) && !string.IsNullOrWhiteSpace(AriaLabel))
                 {
                     // When AriaLabel is explicitly supplied, forward it. We deliberately do NOT
-                    // add a generic "numeric textbox" placeholder when no AriaLabel is supplied —
+                    // add a generic "numeric textbox" placeholder when no AriaLabel is supplied ï¿½
                     // visible labels already carry the accessible name, and a hardcoded fallback
                     // creates redundant screen-reader announcements.
                     InputHtmlAttributes = SfBaseUtils.UpdateDictionary(ARIA_LABEL, AriaLabel, InputHtmlAttributes);

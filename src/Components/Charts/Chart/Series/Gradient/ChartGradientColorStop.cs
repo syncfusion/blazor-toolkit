@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Components;
 using System.ComponentModel;
 using Syncfusion.Blazor.Toolkit.Charts.Internal;
 
-namespace Syncfusion.Blazor.Toolkit.Charts
+namespace Syncfusion.Blazor.Toolkit
 {
     /// <summary>
     /// Represents a single color stop that defines a color transition for the series gradient fill.

@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Components;
-namespace Syncfusion.Blazor.Toolkit.Inputs
+namespace Syncfusion.Blazor.Toolkit
 {
     public partial class SfRadioButton<TChecked>
     {

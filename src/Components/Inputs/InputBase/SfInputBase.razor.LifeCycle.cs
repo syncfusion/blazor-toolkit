@@ -1,6 +1,6 @@
-﻿using Microsoft.JSInterop;
+using Microsoft.JSInterop;
 
-namespace Syncfusion.Blazor.Toolkit.Inputs
+namespace Syncfusion.Blazor.Toolkit
 {
     public abstract partial class SfInputBase<TValue>
     {

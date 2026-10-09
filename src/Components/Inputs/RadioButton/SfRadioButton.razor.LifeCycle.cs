@@ -1,6 +1,6 @@
 using Syncfusion.Blazor.Toolkit.Internal;
 
-namespace Syncfusion.Blazor.Toolkit.Inputs
+namespace Syncfusion.Blazor.Toolkit
 {
     public partial class SfRadioButton<TChecked>
     {

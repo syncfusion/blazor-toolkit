@@ -91,6 +91,70 @@ function disposeWindowsInstance(id) {
 }
 
 /**
+ * FALLBACK ONLY. The shared theme is delivered at render time as a
+ * <style id="sf-theme-root"> element emitted by the <SfThemeRoot /> component
+ * (present in static SSR / prerendered HTML, with no JavaScript). This function
+ * is only reached from SfThemeRoot.EnsureFallbackAsync when a renderer has NO
+ * SfThemeRoot owner (a derived component that forgot to render the emitter).
+ * Idempotent: if an element with the given id already exists (rendered by
+ * Blazor, or injected earlier), this is a no-op, so it can never duplicate or
+ * race the render-time element. Never removes or mutates Blazor-owned DOM.
+ * @param {string} id - The id to assign to the <style> element (sf-theme-root).
+ * @param {string} payload - The full CSS payload (root tokens, icon font, keyframes, HC).
+ * @param {string} [contextId] - Optional context identifier. When provided, a
+ *     <meta> marker element is created in document.head with this value,
+ *     enabling detection of context changes (e.g., Server → WebAssembly
+ *     upgrade in Auto mode).
+ * @returns {boolean} True when a new style element was appended; false on no-op.
+ */
+function ensureThemeRoot(id, payload, contextId) {
+    if (!id || typeof document === 'undefined') return false;
+    if (document.getElementById(id)) return false;
+    var style = document.createElement('style');
+    style.id = id;
+    style.setAttribute('data-sf-theme-root', 'true');
+    style.appendChild(document.createTextNode(payload));
+    (document.head || document.documentElement).appendChild(style);
+
+    // If a contextId is provided, set a marker on the style element and create
+    // a <meta> element in document.head so the .NET side can detect when the
+    // render context has changed (e.g., after a Server → WebAssembly upgrade).
+    if (contextId) {
+        style.setAttribute('data-sf-context', contextId);
+        var existingMarker = document.querySelector('meta[data-sf-context]');
+        if (existingMarker) {
+            existingMarker.setAttribute('data-sf-context', contextId);
+        } else {
+            var marker = document.createElement('meta');
+            marker.setAttribute('data-sf-context', contextId);
+            document.head.appendChild(marker);
+        }
+    }
+    return true;
+}
+
+/**
+ * Retrieve the current context marker value from document.head. Used by the
+ * .NET side to detect whether the render context has changed since the last
+ * style injection.
+ * @returns {string|null} The current context ID, or null if no marker exists.
+ */
+function getContextMarker() {
+    if (typeof document === 'undefined') return null;
+    var marker = document.querySelector('meta[data-sf-context]');
+    return marker ? marker.getAttribute('data-sf-context') : null;
+}
+
+// Expose on the global window object so IJSRuntime.InvokeVoidAsync can
+// resolve it without going through the ES module namespace (base.js is
+// loaded as a classic <script>, not via ES import).
+window.sfBlazorToolkit = window.sfBlazorToolkit || {};
+window.sfBlazorToolkit.themeRoot = { ensure: ensureThemeRoot, getContext: getContextMarker };
+
+exports.ensureThemeRoot = ensureThemeRoot;
+exports.getContextMarker = getContextMarker;
+
+/**
  * Null/undefined guard.
  * @param {*} value
  * @returns {boolean}
@@ -1291,7 +1355,7 @@ function setImmediate(handler) {
         }
     };
     window.addEventListener('message', messageHandler, false);
-    window.postMessage(secret, '*');
+    window.postMessage(secret, window.location.origin);
     return unbind = function () {
         window.removeEventListener('message', messageHandler);
         handler = messageHandler = secret = undefined;
@@ -2065,8 +2129,8 @@ var blazorCultureFormats = {
 (function (IntlBase) {
     /* eslint-disable */
     // tslint:disable-next-line:max-line-length.
-    IntlBase.negativeDataRegex = /^(('[^']+'|''|[^*#@0,.E])*)(\*.)?((([#,]*[0,]*0+)(\.0*[0-9]*#*)?)|([#,]*@+#*))(E\+?0+)?(('[^']+'|''|[^*#@0,.E])*)$/;
-    IntlBase.customRegex = /^(('[^']+'|''|[^*#@0,.])*)(\*.)?((([0#,]*[0,]*[0#]*[0#\ ]*)(\.[0#]*)?)|([#,]*@+#*))(E\+?0+)?(('[^']+'|''|[^*#@0,.E])*)$/;
+    IntlBase.negativeDataRegex = /^(('[^']+'|''|'(?![^']*')|[^*#@0,.E'])*)(\*.)?((([#,]*[0,]*0+)(\.0*[0-9]*#*)?)|([#,]*@+#*))(E\+?0+)?(('[^']+'|''|'(?![^']*')|[^*#@0,.E'])*)$/;
+    IntlBase.customRegex = /^(('[^']+'|''|'(?![^']*')|[^*#@0,.'])*)(\*.)?((([0#,]*[0,]*[0#]*[0#\ ]*)(\.[0#]*)?)|([#,]*@+#*))(E\+?0+)?(('[^']+'|''|'(?![^']*')|[^*#@0,.E'])*)$/;
     IntlBase.latnParseRegex = /0|1|2|3|4|5|6|7|8|9/g;
     var fractionRegex = /[0-9]/g;
     IntlBase.defaultCurrency = '$';

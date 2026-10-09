@@ -1,4 +1,4 @@
-﻿@namespace Syncfusion.Blazor.Toolkit.Buttons
+@namespace Syncfusion.Blazor.Toolkit
 @inherits SfBaseComponent
 
 @if (ButtonGroup?.Mode == SelectionMode.None)
@@ -30,13 +30,13 @@ else
            id="@InputId"
            name="@(string.IsNullOrEmpty(Name) ? ButtonGroup?._inputName : Name)"
            value="@(string.IsNullOrEmpty(Value) ? InputId : Value)"
-           checked="@Selected"
+           checked="@_selected"
            disabled="@Disabled"
            @onkeydown="HandleInputKeyDownAsync"
            @onchange="HandleInputChangeAsync"
            @attributes="HtmlAttributes">
 
-       <label for="@InputId" class="@(string.IsNullOrEmpty(CssClass) ? "e-btn" : "e-btn " + CssClass) @(Selected ? "e-active" : null)" @onclick="ClickHandlerAsync" title="@title">
+    <label for="@InputId" class="@GetSelectionCssClass()" @onclick="ClickHandlerAsync" title="@title">
         @if (!string.IsNullOrEmpty(IconCss) && (IconPosition == IconPosition.Left || IconPosition == IconPosition.Top))
         {
             <span class="@IconCss e-btn-icon"></span>

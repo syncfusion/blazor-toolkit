@@ -1,7 +1,7 @@
-﻿using Syncfusion.Blazor.Toolkit.Charts.Internal;
+using Syncfusion.Blazor.Toolkit.Charts.Internal;
 using System.ComponentModel;
 
-namespace Syncfusion.Blazor.Toolkit.Charts
+namespace Syncfusion.Blazor.Toolkit
 {
     /// <summary>
     /// Represents the configuration for marker explosion on chart data point interaction.

@@ -1,10 +1,12 @@
-@namespace Syncfusion.Blazor.Toolkit.Popups
+@namespace Syncfusion.Blazor.Toolkit
 @using Syncfusion.Blazor;
 @using Microsoft.AspNetCore.Components;
 @inherits SfBaseComponent
 @using System.Text.Encodings.Web
 
 
+@* Shared theme emitter: render-time, sibling placed BEFORE the tooltip target element (never inside the popup content that scripts relocate). *@
+<SfThemeRoot />
 @*Tooltip element*@
 <div id="@ID" @ref="_tooltipElement" @attributes="@_attributes">
     <CascadingValue Value="@this" IsFixed="true">

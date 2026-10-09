@@ -1,7 +1,7 @@
-﻿using Microsoft.JSInterop;
+using Microsoft.JSInterop;
 using System.Text.Json.Serialization;
 
-namespace Syncfusion.Blazor.Toolkit.Popups
+namespace Syncfusion.Blazor.Toolkit
 {
     /// <summary>
     /// Animation options that are common for both open and close actions of the Tooltip.

@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
 
-namespace Syncfusion.Blazor.Toolkit.Inputs
+namespace Syncfusion.Blazor.Toolkit
 {
     /// <summary>
     /// Represents a class that contains all the event callbacks for the <see cref="SfUploader"/> component.

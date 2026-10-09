@@ -1,6 +1,6 @@
 using Xunit;
 using Bunit;
-using Syncfusion.Blazor.Toolkit.Calendars;
+using Syncfusion.Blazor.Toolkit;
 
 namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.DatePicker
 {
@@ -18,10 +18,10 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.DatePicker
             .Add(p => p.Created, (object args) => {
                 createCount++;
                 Assert.Equal(1, createCount);
-            }).Add(p=>p.OnFocus, (Syncfusion.Blazor.Toolkit.Calendars.FocusEventArgs args) => {
+            }).Add(p=>p.OnFocus, (Syncfusion.Blazor.Toolkit.FocusEventArgs args) => {
                 focusCount++;
                 Assert.Equal(1, focusCount);
-            }).Add(p => p.OnBlur, (Syncfusion.Blazor.Toolkit.Calendars.BlurEventArgs args) => {
+            }).Add(p => p.OnBlur, (Syncfusion.Blazor.Toolkit.BlurEventArgs args) => {
                 blurCount++;
                 Assert.Equal(1, blurCount);
             })
@@ -201,7 +201,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.DatePicker
         public async Task FocusEvent()
         {
             int focusCount = 0;
-            var dateInstance = RenderComponent<SfDatePicker<DateTime?>>(param => param.Add(p => p.OnFocus, (Syncfusion.Blazor.Toolkit.Calendars.FocusEventArgs args) => {
+            var dateInstance = RenderComponent<SfDatePicker<DateTime?>>(param => param.Add(p => p.OnFocus, (Syncfusion.Blazor.Toolkit.FocusEventArgs args) => {
                 focusCount++;
             }));
             var inputElement = dateInstance.Find("input");

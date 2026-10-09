@@ -1,6 +1,6 @@
-﻿using Microsoft.JSInterop;
+using Microsoft.JSInterop;
 
-namespace Syncfusion.Blazor.Toolkit.Inputs
+namespace Syncfusion.Blazor.Toolkit
 {
     /// <summary>
     /// Partial lifecycle implementation for the <c>SfSwitch&lt;TChecked&gt;</c> component.

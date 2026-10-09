@@ -36,11 +36,24 @@ namespace Syncfusion.Blazor.Toolkit.Tests
             BeforeEachRun();
         }
 
+        /// <summary>
+        /// When <see langword="true"/> (default) the render-time theme emitter (<see cref="SfThemeRoot"/>) is replaced by a
+        /// bUnit stub. The emitter writes a ~90 KB &lt;style&gt; element into the first render of every component; bUnit
+        /// re-serialises and re-parses the whole markup on every query, which makes the ~2,600 component tests ~2x slower and
+        /// pushes the time-boxed ones over their timeout. The emitter itself is covered by <c>SfThemeRootTests</c> and
+        /// <c>SfThemeRootEnforcementTests</c>, which opt out by overriding this property.
+        /// </summary>
+        protected virtual bool StubThemeRoot => true;
+
         public virtual void BeforeEachRun()
         {
             JSInterop.Mode = JSRuntimeMode.Loose;
             Services.AddSyncfusionBlazorToolkit();
             Services.AddOptions();
+            if (StubThemeRoot)
+            {
+                ComponentFactories.AddStub<SfThemeRoot>();
+            }
         }
 
         public new void Dispose()

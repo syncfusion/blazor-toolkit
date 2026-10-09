@@ -1,9 +1,9 @@
-﻿using Xunit;
+using Xunit;
 using Bunit;
-using Syncfusion.Blazor.Toolkit.Calendars;
+using Syncfusion.Blazor.Toolkit;
 using static Bunit.ComponentParameterFactory;
 using Microsoft.AspNetCore.Components.Web;
-using Syncfusion.Blazor.Toolkit.Buttons;
+using Syncfusion.Blazor.Toolkit;
 using Microsoft.AspNetCore.Components;
 
 namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.Calendar

@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Rendering;
 using Syncfusion.Blazor.Toolkit.Charts.Internal;
@@ -26,7 +26,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
     }
 }
 
-namespace Syncfusion.Blazor.Toolkit.Charts
+namespace Syncfusion.Blazor.Toolkit
 {
     /// <summary>
     /// Provides a base renderer component for chart subcomponents.

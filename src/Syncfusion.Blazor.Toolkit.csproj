@@ -2,7 +2,7 @@
 
   <PropertyGroup>
 	<!-- NuGet package metadata and assembly (DLL) properties -->
-	<Version>1.0.0</Version>
+	<Version>2.0.0</Version>
 	<PackageId>Syncfusion.Blazor.Toolkit</PackageId>
 	<Product>Syncfusion Blazor Toolkit Components</Product>
 	<Authors>Syncfusion Inc.</Authors>

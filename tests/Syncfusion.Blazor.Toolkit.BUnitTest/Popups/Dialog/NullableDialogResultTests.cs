@@ -1,6 +1,6 @@
 using System.Reflection;
 using Microsoft.AspNetCore.Components.Web;
-using Syncfusion.Blazor.Toolkit.Popups;
+using Syncfusion.Blazor.Toolkit;
 using Xunit;
 
 namespace Syncfusion.Blazor.Toolkit.Tests.Popups.Dialog

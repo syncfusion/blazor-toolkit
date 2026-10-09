@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Components;
-using Syncfusion.Blazor.Toolkit.Inputs;
+using Syncfusion.Blazor.Toolkit;
 
-namespace Syncfusion.Blazor.Toolkit.Calendars
+namespace Syncfusion.Blazor.Toolkit
 {
     /// <summary>
     /// Represents the Syncfusion DatePicker component, a graphical user interface control that enables users to select or enter a date value interactively or via direct input.

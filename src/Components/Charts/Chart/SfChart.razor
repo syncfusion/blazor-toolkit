@@ -1,12 +1,14 @@
-﻿@using Syncfusion.Blazor.Toolkit.Charts.Internal
+@using Syncfusion.Blazor.Toolkit.Charts.Internal
 @using Syncfusion.Blazor.Toolkit.Data
 
-@namespace Syncfusion.Blazor.Toolkit.Charts
+@namespace Syncfusion.Blazor.Toolkit
 @inherits SfDataBoundComponent
 @implements IHandleEvent
 
 @{ _svgRenderer?.ResetSequence(); }
 
+@* Shared theme emitter: render-time, HTML sibling placed BEFORE the chart root <div> - never inside the <svg>. *@
+<SfThemeRoot />
 <CascadingValue Value="this">
     <div
         id="@ID"

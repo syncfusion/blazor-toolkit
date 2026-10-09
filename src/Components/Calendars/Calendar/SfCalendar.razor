@@ -2,8 +2,10 @@
 @using Syncfusion.Blazor.Toolkit.Calendars.Internal
 @typeparam TValue
 @inherits CalendarBase<TValue>
-@namespace Syncfusion.Blazor.Toolkit.Calendars
+@namespace Syncfusion.Blazor.Toolkit
 
+@* Shared theme emitter: render-time, sibling placed BEFORE the root element. *@
+<SfThemeRoot />
 <div id="@ID" @ref="Element" class="@RootClass" role="grid" aria-label="@(string.IsNullOrWhiteSpace(AriaLabel) ? Localizer?["Calendar"]?.Value ?? "Calendar" : AriaLabel)" @attributes="_containerAttr" tabindex="@this.TabIndex">
     <CascadingValue Value="@this">
             <CalendarBaseRender @ref="@CalendarBase" TValue="TValue" CssClass="@this.CssClass" Disabled="@this.Disabled" MultiSelection="@this.IsMultiSelection" @bind-MultiValues="@this.Values" CalendarMode="@this.CalendarMode"></CalendarBaseRender>

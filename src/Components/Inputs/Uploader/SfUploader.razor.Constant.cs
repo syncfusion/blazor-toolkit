@@ -1,4 +1,4 @@
-namespace Syncfusion.Blazor.Toolkit.Inputs
+namespace Syncfusion.Blazor.Toolkit
 {
     /// <summary>
     /// The Syncfusion Blazor Uploader component provides a comprehensive file upload solution with advanced features for uploading images, documents, and other files to a server.

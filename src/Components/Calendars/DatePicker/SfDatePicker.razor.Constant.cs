@@ -1,4 +1,4 @@
-namespace Syncfusion.Blazor.Toolkit.Calendars
+namespace Syncfusion.Blazor.Toolkit
 {
     /// <summary>
     /// The DatePicker is a graphical user interface component that allows users to select or enter a date value. It offers interactive and accessible features for choosing dates via keyboard, mouse, or touch input in web applications.

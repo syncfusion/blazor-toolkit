@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
 
-namespace Syncfusion.Blazor.Toolkit.Popups
+namespace Syncfusion.Blazor.Toolkit
 {
     /// <summary>
     /// Provides options to configure built-in dialogs shown using <see cref="SfDialogService.ConfirmAsync(string, string, DialogOptions)"/>,

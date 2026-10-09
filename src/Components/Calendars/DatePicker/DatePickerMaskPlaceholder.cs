@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Components;
-using Syncfusion.Blazor.Toolkit.Calendars.Interfaces;
+using Microsoft.AspNetCore.Components;
+using Syncfusion.Blazor.Toolkit.Interfaces;
 
-namespace Syncfusion.Blazor.Toolkit.Calendars
+namespace Syncfusion.Blazor.Toolkit
 {
     /// <summary>
     /// Provides configuration for placeholder text to be displayed in a masked <see cref="SfDatePicker{TValue}"/> control, based on the <see cref="SfDatePicker{TValue}.Format"/>, until the user enters a value.

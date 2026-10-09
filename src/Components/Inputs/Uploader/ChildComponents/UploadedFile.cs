@@ -2,7 +2,7 @@ using System.ComponentModel;
 using Microsoft.AspNetCore.Components;
 using Syncfusion.Blazor.Toolkit.Internal;
 
-namespace Syncfusion.Blazor.Toolkit.Inputs
+namespace Syncfusion.Blazor.Toolkit
 {
     /// <summary>
     /// Represents a list of files that are preloaded and displayed in the <see cref="SfUploader"/> component during initial rendering.

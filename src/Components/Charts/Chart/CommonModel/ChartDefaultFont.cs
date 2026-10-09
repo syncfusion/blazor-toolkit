@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Components;
 using Syncfusion.Blazor.Toolkit.Charts.Internal;
 using System.Text.Json.Serialization;
 
-namespace Syncfusion.Blazor.Toolkit.Charts
+namespace Syncfusion.Blazor.Toolkit
 {
     /// <summary>
     /// Provides comprehensive options for customizing font properties used throughout the chart component.

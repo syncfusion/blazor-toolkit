@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Components;
-using Syncfusion.Blazor.Toolkit.Calendars.Interfaces;
+using Microsoft.AspNetCore.Components;
+using Syncfusion.Blazor.Toolkit.Interfaces;
 
-namespace Syncfusion.Blazor.Toolkit.Calendars
+namespace Syncfusion.Blazor.Toolkit
 {
     /// <summary>
     /// Configures the placeholder text for the <see cref="SfTimePicker{TValue}"/> mask, which is displayed based on the specified format until the user enters a value.

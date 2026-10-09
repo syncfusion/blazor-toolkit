@@ -1,7 +1,7 @@
-﻿@using Microsoft.Extensions.Localization
-@using Syncfusion.Blazor.Toolkit.Buttons;
+@using Microsoft.Extensions.Localization
+@using Syncfusion.Blazor.Toolkit;
 @inherits SfBaseComponent
-@namespace Syncfusion.Blazor.Toolkit.Popups
+@namespace Syncfusion.Blazor.Toolkit
 @inject IStringLocalizer Localizer
 
 @code {
@@ -88,6 +88,9 @@
     };
 }
 
+@* Shared theme emitter: render-time. Unconditional (outside the IsModal / prerender branches) and a sibling of the
+   dialog container, so it is never inside the dialog element that scripts move to <body>. *@
+<SfThemeRoot />
 @if (!IsModal)
 {
     @if (AllowPrerender || (!AllowPrerender && IsPreRender))

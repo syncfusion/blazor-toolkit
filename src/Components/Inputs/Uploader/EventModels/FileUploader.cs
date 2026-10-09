@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Components;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Components.Forms;
 
-namespace Syncfusion.Blazor.Toolkit.Inputs
+namespace Syncfusion.Blazor.Toolkit
 {
     /// <summary>
     /// Defines default configuration constants for the file uploader component.

@@ -1,9 +1,9 @@
-﻿using Xunit;
+using Xunit;
 using Bunit;
 using static Bunit.ComponentParameterFactory;
-using Syncfusion.Blazor.Toolkit.Inputs;
+using Syncfusion.Blazor.Toolkit;
 using Microsoft.AspNetCore.Components.Web;
-using Syncfusion.Blazor.Toolkit.Buttons;
+using Syncfusion.Blazor.Toolkit;
 
 namespace Syncfusion.Blazor.Toolkit.Tests.Inputs.TextBox
 {

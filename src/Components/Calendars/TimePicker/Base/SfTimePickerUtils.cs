@@ -1,4 +1,4 @@
-﻿namespace Syncfusion.Blazor.Toolkit.Calendars
+namespace Syncfusion.Blazor.Toolkit
 {
     /// <summary>
     /// Provides common utility methods for the Blazor toolkit Calendars components.

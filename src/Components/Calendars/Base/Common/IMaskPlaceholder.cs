@@ -1,4 +1,4 @@
-﻿namespace Syncfusion.Blazor.Toolkit.Calendars.Interfaces
+namespace Syncfusion.Blazor.Toolkit.Interfaces
 {
     /// <summary>
     /// Defines the contract for components that handle mask placeholder operations in calendar components.

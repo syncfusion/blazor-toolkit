@@ -237,6 +237,8 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
             {
                 return;
             }
+            ReqPatterns?.Clear();
+            InnerHTML = string.Empty;
             SelectionPattern selectionPattern = _chartInstance.SelectionPattern;
             SelectionPattern highlightPattern = _chartInstance.HighlightPattern;
             bool isHighlight = StyleId is not null && StyleId.Contains("highlight", StringComparison.Ordinal);

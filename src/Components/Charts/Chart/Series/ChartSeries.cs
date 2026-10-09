@@ -7,7 +7,7 @@ using Syncfusion.Blazor.Toolkit.Charts.Internal;
 using Syncfusion.Blazor.Toolkit.Data;
 using Syncfusion.Blazor.Toolkit.Internal;
 
-namespace Syncfusion.Blazor.Toolkit.Charts
+namespace Syncfusion.Blazor.Toolkit
 {
     /// <summary>
     /// Defines the options for a series in a chart, allowing customization of its appearance and behavior.

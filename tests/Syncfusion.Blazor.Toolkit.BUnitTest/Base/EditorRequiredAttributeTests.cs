@@ -4,12 +4,12 @@
 using System.ComponentModel;
 using System.Reflection;
 using Microsoft.AspNetCore.Components;
-using Syncfusion.Blazor.Toolkit.Buttons;
-using Syncfusion.Blazor.Toolkit.Calendars;
-using Syncfusion.Blazor.Toolkit.Charts;
-using Syncfusion.Blazor.Toolkit.Inputs;
-using Syncfusion.Blazor.Toolkit.Popups;
-using Syncfusion.Blazor.Toolkit.Spinner;
+using Syncfusion.Blazor.Toolkit;
+using Syncfusion.Blazor.Toolkit;
+using Syncfusion.Blazor.Toolkit;
+using Syncfusion.Blazor.Toolkit;
+using Syncfusion.Blazor.Toolkit;
+using Syncfusion.Blazor.Toolkit;
 using Xunit;
 
 namespace Syncfusion.Blazor.Toolkit.BUnitTest.Base;

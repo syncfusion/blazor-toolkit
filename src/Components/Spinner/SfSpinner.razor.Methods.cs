@@ -1,4 +1,4 @@
-namespace Syncfusion.Blazor.Toolkit.Spinner
+namespace Syncfusion.Blazor.Toolkit
 {
     /// <summary>
     /// Contains the public method implementations for the <see cref="SfSpinner"/> component.

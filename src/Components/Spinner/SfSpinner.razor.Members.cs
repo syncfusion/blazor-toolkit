@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
 
-namespace Syncfusion.Blazor.Toolkit.Spinner
+namespace Syncfusion.Blazor.Toolkit
 {
     /// <summary>
     /// Contains the member and parameter definitions for the <see cref="SfSpinner"/> component.

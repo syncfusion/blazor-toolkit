@@ -1,10 +1,10 @@
-﻿using Microsoft.JSInterop;
+using Microsoft.JSInterop;
 using Syncfusion.Blazor.Toolkit.Inputs.Internal;
 using Syncfusion.Blazor.Toolkit.Internal;
 using System.ComponentModel;
 using Microsoft.AspNetCore.Components;
 
-namespace Syncfusion.Blazor.Toolkit.Inputs
+namespace Syncfusion.Blazor.Toolkit
 {
     /// <summary>
     /// Represents the Syncfusion Blazor File Uploader component that provides asynchronous file upload functionality with advanced features.

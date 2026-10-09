@@ -1,6 +1,6 @@
 using System.Text.Json.Serialization;
 
-namespace Syncfusion.Blazor.Toolkit.Popups
+namespace Syncfusion.Blazor.Toolkit
 {
 
     /// <summary>

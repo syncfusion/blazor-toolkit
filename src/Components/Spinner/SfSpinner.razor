@@ -1,7 +1,9 @@
 @using Syncfusion.Blazor.Toolkit.Spinner.Internal
 @inherits SfBaseComponent
-@namespace Syncfusion.Blazor.Toolkit.Spinner
+@namespace Syncfusion.Blazor.Toolkit
 
+@* Shared theme emitter: render-time, sibling placed BEFORE the root element. *@
+<SfThemeRoot />
 <div class="@_spinnerClass"
      @attributes="@_attributes"
      role="status"

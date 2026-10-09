@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components;
 
-namespace Syncfusion.Blazor.Toolkit.Calendars
+namespace Syncfusion.Blazor.Toolkit
 {
     /// <summary>
     /// Provides customizable text placeholders for different input segments (such as day, month, year, hour, minute, second, and day of week) in masked date and time components. These placeholders offer hints or instructions until the user provides input, improving usability and accessibility.

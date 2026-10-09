@@ -5,7 +5,7 @@ using Microsoft.JSInterop;
 using Syncfusion.Blazor.Toolkit.Internal;
 using System.Globalization;
 
-namespace Syncfusion.Blazor.Toolkit.Inputs
+namespace Syncfusion.Blazor.Toolkit
 {
     /// <summary>
     /// Represents a Switch that toggles between checked (ON) and unchecked (OFF) states.

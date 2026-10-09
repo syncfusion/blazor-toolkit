@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 
-namespace Syncfusion.Blazor.Toolkit.Calendars
+namespace Syncfusion.Blazor.Toolkit
 {
     /// <summary>
     /// Represents the event callbacks for the <see cref="SfDateTimePicker{TValue}"/> component, providing handlers for various user interactions and component lifecycle events.

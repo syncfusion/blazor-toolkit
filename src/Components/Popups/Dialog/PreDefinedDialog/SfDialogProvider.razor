@@ -1,9 +1,12 @@
 @using Microsoft.Extensions.Localization
-@using Syncfusion.Blazor.Toolkit.Inputs
-@using Syncfusion.Blazor.Toolkit.Popups;
-@namespace Syncfusion.Blazor.Toolkit.Popups
+@using Syncfusion.Blazor.Toolkit;
+
+@using Syncfusion.Blazor.Toolkit;
+@namespace Syncfusion.Blazor.Toolkit
 @inject IStringLocalizer Localizer
 
+@* Shared theme emitter: render-time, unconditional (the provider can be idle with no dialog rendered). *@
+<SfThemeRoot />
 @if (DialogOptions is not null)
 {
     <SfDialog @bind-Visible="IsVisible" ShowCloseIcon="DialogOptions.ShowCloseIcon" Width="@DialogOptions.Width" Height="@DialogOptions.Height" IsModal="true" AllowDragging="DialogOptions.AllowDragging" CloseOnEscape="DialogOptions.CloseOnEscape" CssClass="@DialogOptions.CssClass" ZIndex="DialogOptions.ZIndex" Closed="OnDialogClose">

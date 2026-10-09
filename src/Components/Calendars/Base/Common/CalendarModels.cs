@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Components.Web;
 using System.ComponentModel;
 using System.Text.Json.Serialization;
 
-namespace Syncfusion.Blazor.Toolkit.Calendars
+namespace Syncfusion.Blazor.Toolkit
 {
     /// <summary>
     /// Provides event arguments for the blur event when a calendar component loses focus.

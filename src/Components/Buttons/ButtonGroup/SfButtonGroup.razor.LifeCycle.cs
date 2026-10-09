@@ -1,4 +1,4 @@
-namespace Syncfusion.Blazor.Toolkit.Buttons
+namespace Syncfusion.Blazor.Toolkit
 {
     /// <content>
     /// Lifecycle methods for <see cref="SfButtonGroup"/>.

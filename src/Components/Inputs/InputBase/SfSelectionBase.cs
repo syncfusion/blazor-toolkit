@@ -4,7 +4,7 @@ using Syncfusion.Blazor.Toolkit.Internal;
 using System.ComponentModel;
 using System.Linq.Expressions;
 
-namespace Syncfusion.Blazor.Toolkit.Inputs
+namespace Syncfusion.Blazor.Toolkit
 {
     /// <summary>
     /// Provides a base class for form _input components in Syncfusion Blazor, encapsulating common functionality and API contracts for _input controls with checked/value states.

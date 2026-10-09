@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Logging;
 
-namespace Syncfusion.Blazor.Toolkit.Spinner
+namespace Syncfusion.Blazor.Toolkit
 {
 
     /// <summary>

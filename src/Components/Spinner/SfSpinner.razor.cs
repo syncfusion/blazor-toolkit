@@ -2,7 +2,7 @@ using Syncfusion.Blazor.Toolkit.Internal;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Logging;
 
-namespace Syncfusion.Blazor.Toolkit.Spinner
+namespace Syncfusion.Blazor.Toolkit
 {
     /// <summary>
     /// The Spinner is a component that provides a visual indication of an ongoing operation, such as loading or processing, to keep the user informed and engaged.

@@ -1,7 +1,7 @@
 using Bunit;
 using Microsoft.JSInterop;
-using Syncfusion.Blazor.Toolkit.Buttons;
-using Syncfusion.Blazor.Toolkit.Popups;
+using Syncfusion.Blazor.Toolkit;
+using Syncfusion.Blazor.Toolkit;
 using Xunit;
 
 namespace Syncfusion.Blazor.Toolkit.Tests.Tooltip

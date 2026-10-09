@@ -2,7 +2,7 @@ using System;
 using System.Globalization;
 using Bunit;
 using Xunit;
-using Syncfusion.Blazor.Toolkit.Calendars;
+using Syncfusion.Blazor.Toolkit;
 
 namespace Syncfusion.Blazor.Toolkit.Tests.Calendars.DateTimePicker
 {

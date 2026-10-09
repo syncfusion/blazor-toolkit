@@ -1,7 +1,7 @@
-﻿using Microsoft.AspNetCore.Components;
-using Syncfusion.Blazor.Toolkit.Inputs;
+using Microsoft.AspNetCore.Components;
+using Syncfusion.Blazor.Toolkit;
 
-namespace Syncfusion.Blazor.Toolkit.Calendars
+namespace Syncfusion.Blazor.Toolkit
 {
     /// <summary>
     /// The SfTimePicker is an intuitive component which provides options to select a time value from a popup list or to set a desired time value through direct input.

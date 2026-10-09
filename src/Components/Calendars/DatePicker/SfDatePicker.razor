@@ -1,11 +1,13 @@
 @using Microsoft.AspNetCore.Components;
 @using Microsoft.AspNetCore.Components.Web;
-@using Syncfusion.Blazor.Toolkit.Inputs;
+@using Syncfusion.Blazor.Toolkit;
 @using Syncfusion.Blazor.Toolkit.Calendars.Internal;
-@namespace Syncfusion.Blazor.Toolkit.Calendars
+@namespace Syncfusion.Blazor.Toolkit
 @typeparam TValue
 @inherits CalendarBase<TValue>
 
+@* Shared theme emitter: render-time, sibling placed BEFORE the root element. *@
+<SfThemeRoot />
 <SfInputBase>
     <CascadingValue Value="this">
         @if (this.FloatLabelType == FloatLabelType.Auto || this.FloatLabelType == FloatLabelType.Always)

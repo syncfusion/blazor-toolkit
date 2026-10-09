@@ -43,3 +43,6 @@ contents.
 
 - 2026-09-06 — initial emission for the v1.0.0 release preview; pinned
   here as part of MS-2.5 partner attestation.
+- 2026-10-09 — recorded as the last-updated stamp; a 2.0.0 SBOM must
+  be regenerated against the signed `.nupkg` before the candidate
+  SHA is frozen (CHANGELOG.md `[2.0.0]`).

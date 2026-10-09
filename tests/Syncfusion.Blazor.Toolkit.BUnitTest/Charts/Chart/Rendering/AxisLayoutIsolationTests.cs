@@ -1,5 +1,5 @@
 using System.Reflection;
-using Syncfusion.Blazor.Toolkit.Charts;
+using Syncfusion.Blazor.Toolkit;
 using Syncfusion.Blazor.Toolkit.Charts.Internal;
 using Xunit;
 

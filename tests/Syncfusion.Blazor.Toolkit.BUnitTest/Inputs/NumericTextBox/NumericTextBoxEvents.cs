@@ -1,6 +1,6 @@
-﻿using Xunit;
+using Xunit;
 using Bunit;
-using Syncfusion.Blazor.Toolkit.Inputs;
+using Syncfusion.Blazor.Toolkit;
 
 namespace Syncfusion.Blazor.Toolkit.Tests.Inputs.NumericTextBox
 {
@@ -59,7 +59,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Inputs.NumericTextBox
             var Name = string.Empty;
             var PreviousValue = 0;
             var value = 0;
-            var numeric = RenderComponent<SfNumericTextBox<int?>>(param => param.Add(p => p.Value, 2024).Add(p => p.ShowClearButton, true).Add(p => p.ValueChange, (ChangeEventArgs<int?> args) =>
+            var numeric = RenderComponent<SfNumericTextBox<int?>>(param => param.Add(p => p.Value, 2024).Add(p => p.ShowClearButton, true).Add(p => p.ValueChange, (NumericTextBoxChangeEventArgs<int?> args) =>
                   {
                       ChangeCount++;
                       eventType = args.Event?.ToString();
@@ -128,7 +128,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Inputs.NumericTextBox
             var numeric = RenderComponent<SfNumericTextBox<double?>>(param => param
                 .Add(p => p.Value, 2024.5)
                 .Add(p => p.ShowClearButton, true)
-                .Add(p => p.ValueChange, (ChangeEventArgs<double?> args) =>
+                .Add(p => p.ValueChange, (NumericTextBoxChangeEventArgs<double?> args) =>
                     {
                         ChangeCount++;
                         eventType = args.Event?.ToString();
@@ -220,7 +220,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Inputs.NumericTextBox
         {
             var changeCount = 0;
             IRenderedComponent<SfNumericTextBox<double?>> numeric = null;
-            numeric = RenderComponent<SfNumericTextBox<double?>>(param => param.Add(p => p.Value, 10).Add(p => p.ShowClearButton, true).Add(p => p.ValueChange, (ChangeEventArgs<double?> args) =>
+            numeric = RenderComponent<SfNumericTextBox<double?>>(param => param.Add(p => p.Value, 10).Add(p => p.ShowClearButton, true).Add(p => p.ValueChange, (NumericTextBoxChangeEventArgs<double?> args) =>
                   {
                       changeCount++;
                       numeric.SetParametersAndRender(param => param.Add(p => p.Value, null));

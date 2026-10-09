@@ -1,7 +1,7 @@
 using Microsoft.Extensions.Logging;
 using Syncfusion.Blazor.Toolkit.Internal;
 
-namespace Syncfusion.Blazor.Toolkit.Spinner
+namespace Syncfusion.Blazor.Toolkit
 {
     /// <summary>
     /// Contains the lifecycle method implementations for the <see cref="SfSpinner"/> component.

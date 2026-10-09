@@ -1,16 +1,20 @@
-/*
- * MS-4.10 / LPS-13 — CSS isolation for the Spinner Border.
- *
- * `style="@SvgStyle"` on the host emits only `--spinner-size` /
- * `--spinner-thickness` declarations. Those are CSS custom properties
- * computed at runtime from the parent `SfSpinner.Size` /
- * `SfSpinner.Thickness` parameters. All other visual rules live here.
- */
+/* SfSpinner Border -- Fluent-theme styling for the inner SVG spinner arc and
+   background circle. The path / arc elements are scoped to <Border>'s root
+   so that CSS isolation sees the .e-path-circle / .e-path-arc match.
+
+   Width / height come from the runtime --spinner-size custom property
+   emitted by Border.razor; stroke-width comes from --spinner-thickness.
+   The fluent-spinner-rotate keyframe is declared in this file because
+   CSS-isolated keyframes are scoped to the component that declares them. */
 
 .e-spin-fluent {
     width: var(--spinner-size, 30px);
     height: var(--spinner-size, 30px);
     transform-origin: center;
+    animation: fluent-spinner-rotate 1.3s infinite cubic-bezier(0.53, 0.21, 0.29, 0.67);
+    display: block;
+    margin: 0 auto;
+    overflow: visible;
 }
 
 .e-path-circle,
@@ -20,8 +24,21 @@
 
 .e-spin-fluent .e-path-circle {
     fill: none;
+    stroke: var(--color-sf-primary-lighter);
 }
 
 .e-spin-fluent .e-path-arc {
     fill: none;
+    stroke: var(--color-sf-primary);
+}
+
+@keyframes fluent-spinner-rotate {
+    0% {
+        -webkit-transform: rotate(0);
+        transform: rotate(0);
+    }
+    100% {
+        -webkit-transform: rotate(360deg);
+        transform: rotate(360deg);
+    }
 }

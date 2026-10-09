@@ -2,8 +2,8 @@ using Bunit;
 using Xunit;
 using System.Reflection;
 using System.Text.Json;
-using Syncfusion.Blazor.Toolkit.Popups;
-using Syncfusion.Blazor.Toolkit.Buttons;
+using Syncfusion.Blazor.Toolkit;
+using Syncfusion.Blazor.Toolkit;
 
 namespace Syncfusion.Blazor.Toolkit.Tests.Tooltip
 {

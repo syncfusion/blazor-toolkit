@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using Xunit;
 using Bunit;
-using Syncfusion.Blazor.Toolkit.Inputs;
+using Syncfusion.Blazor.Toolkit;
 using Syncfusion.Blazor.Toolkit.Tests;
 
 namespace Syncfusion.Blazor.Toolkit.Tests.Inputs.Uploader

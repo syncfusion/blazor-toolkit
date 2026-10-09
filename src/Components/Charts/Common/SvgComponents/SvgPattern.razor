@@ -1,22 +1,46 @@
 ﻿@namespace Syncfusion.Blazor.Toolkit.Charts.Internal
 
 <pattern id="@Id" height="@Height" width="@Width" patternUnits="@PatternUnits">
+    @{
+        int shapeIndex = 0;
+    }
     @foreach (object shape in ShapeOptions ?? [])
     {
         if (shape is RectOptions)
         {
             RectOptions rectOption = (RectOptions)shape;
-            <SvgRect @key="@("rect:" + rectOption.X + ":" + rectOption.Y)" X="@rectOption.X" Y="@rectOption.Y" Height="@rectOption.Height" Width="@rectOption.Width" Opacity="@rectOption.Opacity" Fill="@rectOption.Fill" />
+            // MS-4.10 — `@key` must be unique among siblings of the same component type.
+            // Selection/highlight patterns (e.g. Chessboard, Pacman, Dots) routinely add
+            // multiple `RectOptions` with the same `(X, Y)` (e.g. a white background rect
+            // and a dark fill rect both anchored at `0, 0`). A key derived from
+            // `X`/`Y` alone therefore collides as `rect:0:0` and crashes the renderer
+            // when the pattern changes. We compose the key from the rect's own `Id`
+            // when one is supplied, falling back to the loop index so every sibling is
+            // always unique even when the option list contains duplicate geometry.
+            string rectKey = !string.IsNullOrEmpty(rectOption.Id)
+                ? "rect:" + rectOption.Id
+                : "rect:idx:" + shapeIndex;
+            <SvgRect @key="@rectKey" X="@rectOption.X" Y="@rectOption.Y" Height="@rectOption.Height" Width="@rectOption.Width" Opacity="@rectOption.Opacity" Fill="@rectOption.Fill" />
         }
         else if (shape is PathOptions)
         {
             PathOptions pathOption = (PathOptions)shape;
-            <SvgPath @key="@("path:" + pathOption.GetHashCode())" Direction="@pathOption.Direction" Opacity="@pathOption.Opacity" Stroke="@pathOption.Stroke" StrokeWidth="@pathOption.StrokeWidth" Fill="@pathOption.Fill" />
+            // `GetHashCode()` is not guaranteed unique across instances (and many
+            // built-in patterns pass the same `Direction` string repeatedly), so
+            // prefer the option's `Id` and otherwise fall back to the loop index.
+            string pathKey = !string.IsNullOrEmpty(pathOption.Id)
+                ? "path:" + pathOption.Id
+                : "path:idx:" + shapeIndex;
+            <SvgPath @key="@pathKey" Direction="@pathOption.Direction" Opacity="@pathOption.Opacity" Stroke="@pathOption.Stroke" StrokeWidth="@pathOption.StrokeWidth" Fill="@pathOption.Fill" />
         }
         else if (shape is EllipseOptions)
         {
             EllipseOptions ellipse = (EllipseOptions)shape;
-            <SvgEllipse @key="@("ellipse:" + ellipse.Cx + ":" + ellipse.Cy + ":" + ellipse.Rx + ":" + ellipse.Ry)" Cx="@ellipse.Cx" Cy="@ellipse.Cy" Opacity="@ellipse.Opacity" Fill="@ellipse.Fill" Stroke="@ellipse.Stroke" StrokeWidth="@ellipse.StrokeWidth" Rx="@ellipse.Rx" Ry="@ellipse.Ry" />
+            string ellipseKey = !string.IsNullOrEmpty(ellipse.Id)
+                ? "ellipse:" + ellipse.Id
+                : "ellipse:idx:" + shapeIndex;
+            <SvgEllipse @key="@ellipseKey" Cx="@ellipse.Cx" Cy="@ellipse.Cy" Opacity="@ellipse.Opacity" Fill="@ellipse.Fill" Stroke="@ellipse.Stroke" StrokeWidth="@ellipse.StrokeWidth" Rx="@ellipse.Rx" Ry="@ellipse.Ry" />
         }
+        shapeIndex++;
     }
 </pattern>

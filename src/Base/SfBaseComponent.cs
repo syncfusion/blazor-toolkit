@@ -124,6 +124,22 @@ namespace Syncfusion.Blazor.Toolkit
         internal Dictionary<string, object>? PropertyChanges { get; set; }
 
         /// <summary>
+        /// Tracks whether the shared theme-root styles have been injected for the
+        /// current IJSRuntime context. This flag is reset to <c>false</c> when a
+        /// context change is detected (e.g., Server → WebAssembly upgrade in
+        /// Auto mode), allowing the styles to be re-injected for the new context.
+        /// </summary>
+        /// <remarks>
+        /// This flag is necessary because in WebAssembly mode, the IJSRuntime
+        /// is not available during the prerender or static render phase. The
+        /// style injection must therefore be deferred until JSRuntime becomes
+        /// available, which may happen on a render where <c>firstRender</c> is
+        /// <c>false</c>. Without this flag, styles would either be skipped
+        /// (in WASM mode) or injected multiple times (if checked on every render).
+        /// </remarks>
+        private bool _stylesInjected = false;
+
+        /// <summary>
         /// A bridge reference passed to JavaScript so the client can invoke .NET instance methods on this component.
         /// </summary>
         /// <remarks>
@@ -173,10 +189,31 @@ namespace Syncfusion.Blazor.Toolkit
 
                 await ImportComponentModuleAsync().ConfigureAwait(true);
 
+                // The shared theme (:root tokens, icon font, keyframes, high-contrast, ...) is delivered
+                // at render time by <SfThemeRoot /> (see SfThemeRoot.cs), NOT from here. This call is a
+                // safety net for a derived component that forgot to render <SfThemeRoot />: it is a
+                // no-op whenever the renderer already has an emitter, so it never races with or
+                // duplicates the render-time style element.
+                if (JSRuntime is not null)
+                {
+                    await SfThemeRoot.EnsureFallbackAsync(JSRuntime).ConfigureAwait(true);
+                }
+
                 // Notify the component that the required scripts have been loaded.
                 await OnAfterScriptRenderedAsync().ConfigureAwait(true);
             }
             PropertyChanges?.Clear();
+        }
+
+        /// <summary>
+        /// Returns a stable identifier for this component instance, used to
+        /// track the render context for CSS injection. Derived components may
+        /// override this to provide a custom context ID.
+        /// </summary>
+        /// <returns>A unique string identifying this render context.</returns>
+        protected virtual string GetContextId()
+        {
+            return GetHashCode().ToString("X");
         }
 
         /// <summary>

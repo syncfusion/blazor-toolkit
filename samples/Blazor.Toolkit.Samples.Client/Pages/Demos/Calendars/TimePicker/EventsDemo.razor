@@ -1,4 +1,4 @@
-﻿<div class="control-wrapper">
+<div class="control-wrapper">
 	<SfTimePicker TValue="DateTime?" Width="300px" Placeholder="Select a time" ShowClearButton="true" OnBlur="BlurHandler" ValueChange="ValueChangeHandler" OnFocus="FocusHandler"></SfTimePicker>
 </div>
 <div class="mt-3">
@@ -6,17 +6,17 @@
 </div>
 @code {
     private string _triggeredEvent = string.Empty;
-	public void BlurHandler(Syncfusion.Blazor.Toolkit.Calendars.BlurEventArgs args)
+	public void BlurHandler(Syncfusion.Blazor.Toolkit.BlurEventArgs args)
 	{
 	    _triggeredEvent = "Blur event is triggered";
 	}
 
-	public void ValueChangeHandler(Syncfusion.Blazor.Toolkit.Calendars.ChangeEventArgs<DateTime?> args)
+	public void ValueChangeHandler(Syncfusion.Blazor.Toolkit.ChangeEventArgs<DateTime?> args)
 	{
 	    _triggeredEvent = "ValueChange event is triggered";
 	}
 
-	public void FocusHandler(Syncfusion.Blazor.Toolkit.Calendars.FocusEventArgs args)
+	public void FocusHandler(Syncfusion.Blazor.Toolkit.FocusEventArgs args)
 	{
 	    _triggeredEvent = "Focus event is triggered";
 	}

@@ -1,5 +1,5 @@
-﻿using System.Diagnostics;
-namespace Syncfusion.Blazor.Toolkit.Buttons
+using System.Diagnostics;
+namespace Syncfusion.Blazor.Toolkit
 {
     public partial class SfButton
     {

@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using Xunit;
 using Bunit;
-using Syncfusion.Blazor.Toolkit.Inputs;
+using Syncfusion.Blazor.Toolkit;
 using Syncfusion.Blazor.Toolkit.Tests;
 using Microsoft.AspNetCore.Components;
 

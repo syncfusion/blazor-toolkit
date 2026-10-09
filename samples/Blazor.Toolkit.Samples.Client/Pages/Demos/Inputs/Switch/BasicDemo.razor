@@ -1,5 +1,7 @@
-﻿<SfSwitch @bind-Checked="basicChecked"></SfSwitch>
-<span class="status-text">Status: @(basicChecked ? "ON" : "OFF")</span>
+﻿<div class="switch-container d-inline-flex align-items-center gap-2">
+    <SfSwitch @bind-Checked="basicChecked"></SfSwitch>
+    <span class="status-text">Status: @(basicChecked ? "ON" : "OFF")</span>
+</div>
 
 @code {
     private bool basicChecked = false;

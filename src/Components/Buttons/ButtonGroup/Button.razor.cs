@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Syncfusion.Blazor.Toolkit.Internal;
 
-namespace Syncfusion.Blazor.Toolkit.Buttons
+namespace Syncfusion.Blazor.Toolkit
 {
     /// <summary>
     /// Represents a single button within a <see cref="SfButtonGroup"/>. The button can display text, an icon, or both, and triggers an action when clicked.
@@ -52,6 +52,18 @@ namespace Syncfusion.Blazor.Toolkit.Buttons
         /// </summary>
         [CascadingParameter]
         internal SfButtonGroup? ButtonGroup { get; set; }
+
+        #endregion
+
+        #region Helper Methods
+
+        /// <exclude />
+        private string GetSelectionCssClass()
+        {
+            string activeClass = _selected ? " e-active" : string.Empty;
+            string cssClass = CssClass.Replace("e - primary", "e-primary", StringComparison.Ordinal);
+            return string.IsNullOrEmpty(cssClass) ? "e-btn" + activeClass : "e-btn " + cssClass + activeClass;
+        }
 
         #endregion
 

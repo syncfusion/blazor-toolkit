@@ -1,6 +1,6 @@
 using Bunit;
 using Microsoft.JSInterop;
-using Syncfusion.Blazor.Toolkit.Inputs;
+using Syncfusion.Blazor.Toolkit;
 using System.Linq;
 using System.Threading.Tasks;
 using Xunit;

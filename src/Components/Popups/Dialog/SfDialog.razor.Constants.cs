@@ -1,4 +1,4 @@
-namespace Syncfusion.Blazor.Toolkit.Popups
+namespace Syncfusion.Blazor.Toolkit
 {
     public partial class SfDialog : SfBaseComponent
     {

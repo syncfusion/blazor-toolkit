@@ -1,8 +1,8 @@
-﻿using Bunit;
+using Bunit;
 using Microsoft.AspNetCore.Components.Web;
 using Xunit;
-using Syncfusion.Blazor.Toolkit.Buttons;
-using Syncfusion.Blazor.Toolkit.Inputs;
+using Syncfusion.Blazor.Toolkit;
+using Syncfusion.Blazor.Toolkit;
 using Microsoft.AspNetCore.Components;
 
 namespace Syncfusion.Blazor.Toolkit.Tests.Buttons
