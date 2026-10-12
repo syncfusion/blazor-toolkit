@@ -3,13 +3,11 @@
 - [Overview](#overview)
 - [Prerequisites](#prerequisites)
 - [Installation Steps](#installation-steps)
-   - [Option 1: Visual Studio](#option-1-visual-studio)
-   - [Option 2: Visual Studio Code](#option-2-visual-studio-code)
-   - [Option 3: .NET CLI](#option-3-net-cli)
+   - [Code Studio / .NET CLI](#code-studio--net-cli)
 - [Configuration](#configuration)
    - [Step 1: Add Namespaces](#step-1-add-namespaces)
    - [Step 2: Register Syncfusion Services](#step-2-register-syncfusion-services)
-   - [Step 3: Add Script Reference](#step-3-add-script-reference)
+   - [Step 3: Add Bundled Styles](#step-3-add-bundled-styles)
 - [Creating Your First Chart](#creating-your-first-chart)
    - [Basic Empty Chart](#basic-empty-chart)
    - [Chart with Data](#chart-with-data)
@@ -19,15 +17,12 @@
    - [Adding Legend](#adding-legend)
 - [Complete Example](#complete-example)
 - [Running the Application](#running-the-application)
-   - [Visual Studio](#visual-studio)
-   - [Visual Studio Code / .NET CLI](#visual-studio-code-net-cli)
 - [Multiple Series Example](#multiple-series-example)
 - [Common Setup Issues](#common-setup-issues)
    - [Issue: Chart Not Rendering](#issue-chart-not-rendering)
    - [Issue: No Data Displayed](#issue-no-data-displayed)
    - [Issue: Interactive Mode Error](#issue-interactive-mode-error)
 - [Next Steps](#next-steps)
-- [Additional Resources](#additional-resources)
 
 # Getting Started with Blazor Chart Component
 
@@ -35,68 +30,27 @@ This guide covers everything you need to set up and create your first Blazor Cha
 
 ## Overview
 
-The Syncfusion Blazor Chart component can be integrated into Blazor Server or WebAssembly applications. This guide walks through the setup process using Visual Studio, Visual Studio Code, or .NET CLI.
+Use Toolkit Chart in a Blazor app developed with Code Studio or the .NET CLI. The source in this repository is authoritative; commercial Chart setup instructions are not interchangeable.
 
 ## Prerequisites
 
-- **.NET SDK:** Version 6.0 or later
-- **Development Environment:** Visual Studio 2022, Visual Studio Code, or .NET CLI
-- **Blazor App:** Server, WebAssembly, or Hybrid app template
-- **System Requirements:** Check [Syncfusion Blazor system requirements](https://blazor.syncfusion.com/documentation/system-requirements)
+- **Consumer framework:** .NET 8 or later; the library targets `net8.0;net9.0;net10.0`.
+- **Repository development:** .NET SDK 10 for the multi-target library and samples.
+- **Interactivity:** Server, WebAssembly, or Auto for interactive chart features. Chart also has a static SSR path, with renderer detection compiled on .NET 9+.
 
 ## Installation Steps
 
-### Option 1: Visual Studio
+### Code Studio / .NET CLI
 
-#### Step 1: Create Blazor App
-1. Open Visual Studio 2022
-2. Create new project → **Blazor Web App** template
-3. Configure project name and location
-4. Select **Interactive render mode** (Server, WebAssembly, or Auto)
-5. Choose **Interactivity location** (Global or Per page/component)
+Create a Blazor Web App, then add the single Toolkit package:
 
-#### Step 2: Install NuGet Package
-1. Right-click project → **Manage NuGet Packages**
-2. Search for `Syncfusion.Blazor.Toolkit`
-3. Install the package
-
-**Or use Package Manager Console:**
-```powershell
-Install-Package Syncfusion.Blazor.Toolkit
-```
-
-### Option 2: Visual Studio Code
-
-#### Step 1: Create Blazor App
 ```bash
 dotnet new blazor -o BlazorChartApp -int Server
 cd BlazorChartApp
+dotnet add package Syncfusion.Blazor.Toolkit
 ```
 
-#### Step 2: Install NuGet Package
-```bash
-dotnet add package Syncfusion.Blazor.Toolkit.Charts
-dotnet restore
-```
-
-### Option 3: .NET CLI
-
-#### Step 1: Verify .NET SDK
-```bash
-dotnet --version
-```
-
-#### Step 2: Create Blazor App
-```bash
-dotnet new blazor -o BlazorChartApp -int Server
-cd BlazorChartApp
-```
-
-#### Step 3: Install Package
-```bash
-dotnet add package Syncfusion.Blazor.Toolkit.Charts
-dotnet restore
-```
+`Syncfusion.Blazor.Toolkit.Charts` is a component namespace, not a NuGet package. The remaining snippets are fragments to integrate into the generated app, not standalone host programs. Enable interactivity on the page (as shown below) or an ancestor; configuring Server services alone does not make every page interactive.
 
 ## Configuration
 
@@ -105,45 +59,34 @@ dotnet restore
 Open `_Imports.razor` and add:
 
 ```razor
-@using Syncfusion.Blazor
+@using Syncfusion.Blazor.Toolkit
 @using Syncfusion.Blazor.Toolkit.Charts
 ```
 
 ### Step 2: Register Syncfusion Services
 
-In `Program.cs`, add the Syncfusion Blazor service:
+`Program.cs` fragment (keep the template's endpoint, middleware, and `app.Run()` setup):
 
 ```csharp
-using Syncfusion.Blazor;
+using Syncfusion.Blazor.Toolkit;
 
 var builder = WebApplication.CreateBuilder(args);
-
-// Add services to the container
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
-
-// Register Syncfusion Blazor Service
-builder.Services.AddSyncfusionBlazor();
+builder.Services.AddSyncfusionBlazorToolkit();
 
 var app = builder.Build();
 ```
 
-### Step 3: Add Script Reference
+### Step 3: Add Bundled Styles
 
-In `App.razor` (or `_Layout.cshtml` for older templates), add the script reference before the closing `</body>` tag:
+In the host document's `<head>` (`App.razor` for a Blazor Web App):
 
 ```html
-<body>
-    <!-- Other content -->
-    
-    <script src="_content/Syncfusion.Blazor.Core/scripts/syncfusion-blazor.min.js" type="text/javascript"></script>
-</body>
+<link href="_content/Syncfusion.Blazor.Toolkit/styles/fluent.min.css" rel="stylesheet" />
 ```
 
-**Note:** The Chart component script is included in `syncfusion-blazor.min.js`. For individual component scripts:
-```html
-<script src="_content/Syncfusion.Blazor.Toolkit.Charts/scripts/sf-chart.min.js" type="text/javascript"></script>
-```
+No separate commercial Themes package or global Syncfusion script is required. Components import their bundled ES modules automatically. Keep the template's Blazor framework script.
 
 ## Creating Your First Chart
 
@@ -154,6 +97,8 @@ Create a new Razor page (e.g., `ChartDemo.razor`) and add:
 ```razor
 @page "/chart-demo"
 @using Syncfusion.Blazor.Toolkit.Charts
+@using static Microsoft.AspNetCore.Components.Web.RenderMode
+@rendermode InteractiveServer
 
 <SfChart>
 </SfChart>
@@ -292,9 +237,11 @@ Enable legend for multi-series charts:
 
 ## Complete Example
 
-Here's a complete working example combining all elements:
+Page example combining the elements above; it depends on the configured host and imports. It has not been compile-tested in this documentation sync:
 
 ```razor
+@using static Microsoft.AspNetCore.Components.Web.RenderMode
+@rendermode InteractiveServer
 @page "/chart-demo"
 @using Syncfusion.Blazor.Toolkit.Charts
 
@@ -348,15 +295,13 @@ Here's a complete working example combining all elements:
 
 ## Running the Application
 
-### Visual Studio
-- Press `Ctrl + F5` (Windows) or `⌘ + F5` (macOS)
+From the application's directory in Code Studio's terminal:
 
-### Visual Studio Code / .NET CLI
 ```bash
 dotnet run
 ```
 
-Navigate to the chart page URL (e.g., `https://localhost:5001/chart-demo`)
+Navigate to `/chart-demo` using the listening URL printed by the application.
 
 ## Multiple Series Example
 
@@ -411,12 +356,11 @@ To compare multiple datasets:
 
 ### Issue: Chart Not Rendering
 
-**Cause:** Missing service registration or script reference
-
-**Solution:** 
-1. Verify `AddSyncfusionBlazor()` in `Program.cs`
-2. Check script reference in `App.razor`
-3. Ensure namespaces in `_Imports.razor`
+**Check setup:**
+1. Verify `AddSyncfusionBlazorToolkit()` in `Program.cs`
+2. Check bundled CSS and successful automatic ES-module requests (do not add a commercial global script)
+3. Ensure both Toolkit and Charts namespaces are imported
+4. Confirm the host render mode matches the required interactions
 
 ### Issue: No Data Displayed
 
@@ -428,14 +372,13 @@ To compare multiple datasets:
 
 ### Issue: Interactive Mode Error
 
-**Cause:** Component requires interactivity
+Tooltips, zooming, selection, and event/method-driven interactions require an interactive host. For example, on a page in a server-interactive app:
 
-**Solution:** Add render mode at page top:
 ```razor
 @rendermode InteractiveServer
 ```
 
-Or configure globally in `App.razor`.
+Configure the matching services and endpoints in the host. Static Chart rendering is also implemented: `IsStaticServerRendering()` detects the static renderer only on .NET 9+. Static output does not provide interactive events or JS methods; do not claim Chart is never SSR-capable.
 
 ## Next Steps
 

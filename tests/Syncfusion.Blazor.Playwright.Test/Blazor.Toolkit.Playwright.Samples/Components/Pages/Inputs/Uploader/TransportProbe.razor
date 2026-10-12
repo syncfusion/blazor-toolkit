@@ -1,0 +1,135 @@
+@using Syncfusion.Blazor.Toolkit.Inputs
+@using UploaderFile = Syncfusion.Blazor.Toolkit.Inputs.FileInfo
+@implements IDisposable
+
+<SfUploader @ref="uploader" ID="@ProbeId" AutoUpload="false" MaxFileSize="4096"
+            HttpClientInstance="client" BeforeUpload="Before" BeforeRemove="BeforeRemove" Success="Succeeded" OnFailure="Failed"
+            Paused="Paused" OnResume="Resumed" OnChunkSuccess="ChunkSucceeded" OnChunkFailure="ChunkFailed">
+    <UploaderAsyncSettings @ref="settings" SaveUrl="@saveUrl" RemoveUrl="@removeUrl"
+                           ChunkSize="@(Chunked ? 1024 : 0)" RetryCount="@Retries" RetryAfterDelay="100" />
+    <UploaderButtons @ref="buttons" Browse="@browse" />
+</SfUploader>
+
+@code {
+    [Parameter] public string ProbeId { get; set; } = "ProbeA";
+    [Parameter] public bool Chunked { get; set; }
+    [Parameter] public bool Defaults { get; set; }
+    [Parameter] public bool Live { get; set; }
+    [Parameter] public int Retries { get; set; }
+    [Parameter] public Action<string> Log { get; set; } = _ => { };
+    private SfUploader uploader = default!;
+    private UploaderAsyncSettings settings = default!;
+    private UploaderButtons buttons = default!;
+    private readonly List<HttpClient> clients = [];
+    private HttpClient client = default!;
+    private bool rendered;
+    private bool disposed;
+    private int generation;
+    private string saveUrl = "/r06-upload/a";
+    private string removeUrl = "/r06-upload/remove-a";
+    private string browse = "Browse";
+    private readonly TaskCompletionSource<bool> gate = new(TaskCreationOptions.RunContinuationsAsynchronously);
+    public string HeaderMode { get; set; } = "file";
+    public bool Credentials { get; set; }
+    public bool HoldBefore { get; set; }
+
+    protected override void OnInitialized()
+    {
+        client = NewClient("DUMMY_INITIAL");
+        if (Live) saveUrl = "/r06-live/save";
+    }
+    protected override bool ShouldRender() => !rendered;
+    protected override void OnAfterRender(bool firstRender) => rendered = true;
+    // Frozen parent prevents ledger/control rerenders from resetting a deliberately updated child.
+    private HttpClient NewClient(string value)
+    {
+        var result = new HttpClient(new NoNetworkHandler());
+        if (Defaults) result.DefaultRequestHeaders.Add("X-R06-Default", value);
+        clients.Add(result);
+        return result;
+    }
+    private async Task Before(BeforeUploadEventArgs args)
+    {
+        var name = args.FilesData[0].Name;
+        Log(ProbeId + ":before:" + name);
+        if (HoldBefore) await gate.Task;
+        if (disposed) { args.Cancel = true; return; }
+        args.CurrentRequest = HeaderMode switch
+        {
+            "null" => null,
+            "empty" => Array.Empty<object>(),
+            _ => new object[] { new Dictionary<string, string> { ["X-R06-Explicit"] = "DUMMY_" + ProbeId + "_" + name } }
+        };
+        args.CustomFormData = new object[] { new Dictionary<string, string> { ["r06-marker"] = "DUMMY_" + ProbeId + "_" + name } };
+        args.WithCredentials = Credentials;
+        Log(ProbeId + ":decision:" + name + ":" + HeaderMode + ":" + args.WithCredentials);
+        Log(ProbeId + ":released:" + name);
+    }
+    private void BeforeRemove(BeforeRemoveEventArgs args)
+    {
+        var marker = "DUMMY_REMOVE_" + args.FilesData[0].Name;
+        args.CurrentRequest = HeaderMode switch
+        {
+            "null" => null,
+            "empty" => Array.Empty<object>(),
+            _ => new object[] { new Dictionary<string, string> { ["X-R06-Explicit"] = marker } }
+        };
+        args.CustomFormData = new object[] { new Dictionary<string, string> { ["r06-marker"] = marker } };
+        Log(ProbeId + ":remove-decision:" + args.FilesData[0].Name + ":" + HeaderMode);
+    }
+    private void Succeeded(SuccessEventArgs e)
+    {
+        Log(ProbeId + ":success:" + e.File.Name + ":" + e.Response?.WithCredentials);
+        Log(ProbeId + ":operation:" + e.Operation + ":" + e.File.Name);
+    }
+    private void Failed(FailureEventArgs e) => Log(ProbeId + ":failure:" + e.File.Name);
+    private void ChunkSucceeded(SuccessEventArgs e) => Log(ProbeId + ":chunk:" + e.File.Name + ":" + e.ChunkIndex);
+    private void ChunkFailed(FailureEventArgs e) => Log(ProbeId + ":chunk-failed:" + e.ChunkIndex);
+    private void Paused(PauseResumeEventArgs e) => Log(ProbeId + ":paused:" + e.ChunkIndex);
+    private void Resumed(PauseResumeEventArgs e) => Log(ProbeId + ":resumed:" + e.ChunkIndex);
+    private async Task<UploaderFile[]> File(int index) => [(await uploader.GetFilesDataAsync())[index]];
+    public async Task Upload(int index) => await uploader.UploadAsync(await File(index));
+    public async Task Remove(int index) => await uploader.RemoveAsync(await File(index), postRawFile: false);
+    public Task Clear() => uploader.ClearAllAsync();
+    public async Task Retry(bool fromStage) => await uploader.RetryAsync(await File(0), fromcanceledStage: fromStage);
+    public async Task Pause() => await uploader.PauseAsync(await File(0));
+    public async Task Resume() => await uploader.ResumeAsync(await File(0));
+    public void Release() => gate.TrySetResult(true);
+    public async Task Snapshot() => Log(ProbeId + ":status:" + string.Join(",", (await uploader.GetFilesDataAsync()).Select(f => f.StatusCode)));
+    public async Task Sync() => await uploader.SetParametersAsync(ParameterView.FromDictionary(new Dictionary<string, object> { ["CssClass"] = "probe-" + ++generation }));
+    public async Task Mutate(bool replace)
+    {
+        if (replace) client = NewClient("DUMMY_REPLACED");
+        else { client.DefaultRequestHeaders.Remove("X-R06-Default"); client.DefaultRequestHeaders.Add("X-R06-Default", "DUMMY_MUTATED"); }
+        await uploader.SetParametersAsync(ParameterView.FromDictionary(new Dictionary<string, object> { ["HttpClientInstance"] = client }));
+        Log(ProbeId + ":client-updated");
+    }
+    public async Task Child(string kind)
+    {
+        try
+        {
+            if (kind == "buttons")
+            {
+                browse = "Changed";
+                await buttons.SetParametersAsync(ParameterView.FromDictionary(new Dictionary<string, object> { ["Browse"] = browse }));
+            }
+            else
+            {
+                saveUrl = "/r06-upload/b";
+                removeUrl = "/r06-upload/remove-b";
+                await settings.SetParametersAsync(ParameterView.FromDictionary(new Dictionary<string, object> { ["SaveUrl"] = saveUrl, ["RemoveUrl"] = removeUrl }));
+            }
+            Log(ProbeId + ":child-ok:" + kind);
+        }
+        catch (InvalidOperationException e) when (e.ToString().Contains("Could not find 'sfBlazorToolkit.Uploader.propertyChanges'", StringComparison.Ordinal))
+        {
+            Log(ProbeId + ":child-missing-export:" + kind);
+        }
+    }
+    public void Dispose() { disposed = true; Release(); foreach (var item in clients) item.Dispose(); }
+    private sealed class NoNetworkHandler : HttpMessageHandler
+    {
+        protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken) =>
+            throw new InvalidOperationException("Dummy probe must not use the .NET client transport.");
+    }
+}

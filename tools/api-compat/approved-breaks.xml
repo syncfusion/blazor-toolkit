@@ -1,0 +1,1167 @@
+<?xml version='1.0' encoding='utf-8'?>
+<Suppressions>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.ChartRenderer</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.Internal.AnimationOptions</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.Internal.AxisLabelTemplateContainer</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.Internal.ChartAnnotationRenderer</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.Internal.ChartAnnotationRendererContainer</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.Internal.ChartAreaRenderer</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.Internal.ChartAxisOutsideContainer</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.Internal.ChartAxisOutsideRenderer</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.Internal.ChartAxisRenderer</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.Internal.ChartAxisRendererContainer</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.Internal.ChartBorderRenderer</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.Internal.ChartColumnRenderer</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.Internal.ChartColumnRendererContainer</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.Internal.ChartDataLabelRenderer</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.Internal.ChartEventMargin</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.Internal.ChartLegendRenderer</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.Internal.ChartRendererContainer</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.Internal.ChartRowRenderer</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.Internal.ChartRowRendererContainer</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.Internal.ChartSeriesRenderer</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.Internal.ChartSeriesRendererContainer</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.Internal.ChartStackLabelRenderer</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.Internal.ChartStriplineBehindContainer</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.Internal.ChartStriplineBehindRenderer</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.Internal.ChartStriplineContainer</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.Internal.ChartStriplineOverContainer</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.Internal.ChartStriplineOverRenderer</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.Internal.ChartStriplineRenderer</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.Internal.ChartTitleRenderer</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.Internal.ChartTrendlineContainer</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.Internal.ColumnBaseRenderer</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.Internal.ColumnSeriesRenderer</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.Internal.CustomLegendRenderer</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.Internal.DataEditing</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.Internal.DataLabelAnimatioInfo</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.Internal.DataLabelTemplateContainer</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.Internal.DateTimeAxisRenderer</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.Internal.DateTimeBase</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.Internal.DomRect</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.Internal.DynamicAccTextAnimationOptions</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.Internal.DynamicLastLabelOptions</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.Internal.DynamicPathAnimationOptions</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.Internal.DynamicRectAnimationOptions</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.Internal.DynamicTextAnimationOptions</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.Internal.EllipseOptions</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.Internal.ErrorBarAnimationInfo</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.Internal.IBubblePoint</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.Internal.IChartElement</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.Internal.IChartElementRenderer</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.Internal.IChartEventBorder</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.Internal.IChartInternalLocation</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.Internal.IChartPoint</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.Internal.IChartZoomSettings</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.Internal.IFinancialPoint</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.Internal.ILegendBase</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.Internal.ILegendMethods</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.Internal.ImageOptions</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.Internal.IMarkerSettingModel</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.Internal.InitialAnimationInfo</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.Internal.IRequireAxis</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.Internal.IRequireSeries</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.Internal.LastDataLabelRenderer</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.Internal.LegendBase</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.Internal.LegendItemTemplateContainer</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.Internal.LegendSymbols</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.Internal.LogarithmicAxisRenderer</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.Internal.MarkerAnimationInfo</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.Internal.NoDataTemplateContainer</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.Internal.NumericAxisRenderer</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.Internal.ParetoAxisRenderer</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.Internal.PrimaryXAxisRenderer</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.Internal.PrimaryYAxisRenderer</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.Internal.RectOptions</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.Internal.StackingBar100SeriesRenderer</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.Internal.StackingBarSeriesRenderer</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.Internal.StackingColumn100SeriesRenderer</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.Internal.StackingColumnSeriesRenderer</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.Internal.SvgRendering</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.Internal.SymbolOptions</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.Internal.TextLocation</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.Internal.TextOptions</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.Internal.Thickness</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.Internal.TooltipContainer</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0001</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.Internal.Zoom</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Calendars.SfDatePicker`1.get_DatePickerParent</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Calendars.SfDateTimePicker`1.get_DateTimePickerParent</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Calendars.SfTimePicker`1.get_TimePickerParent</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Charts.ChartAxis.get_MultiLevelLabels</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Charts.ChartAxis.get_StripLines</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Charts.ChartMultiLevelLabel.get_Categories</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Charts.ChartZoomSettings.get_ToolbarItems</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Charts.CrosshairMoveEventArgs.get_AxisInfo</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Charts.Internal.ChartData.get_CurrentPoints</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Charts.Internal.ChartData.set_CurrentPoints(System.Collections.Generic.List{Syncfusion.Blazor.Toolkit.Charts.Internal.PointData})</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Charts.Internal.ChartHelper.#ctor</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Charts.Internal.ChartInternalMouseEventArgs.get_Touches</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Charts.Internal.DataVizCommonHelper.#ctor</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Charts.Internal.IAxis.get_Labels</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Charts.Internal.ISharedTooltipRenderEventArgs.get_Data</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Charts.Internal.ISharedTooltipRenderEventArgs.get_Text</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Charts.Internal.PatternOptions.get_ShapeOptions</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Charts.Internal.SvgPattern.get_ShapeOptions</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Charts.Internal.SvgSelectionRectCollection.get_SelectedRectangles</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Charts.Point.get_Regions</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Charts.Point.get_SymbolLocations</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Charts.SelectionCompleteEventArgs.get_SelectedDataValues</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Charts.SelectionStyleComponent.get_GivenPattern</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Charts.SfChart.AddSeriesAsync(System.Collections.Generic.List{Syncfusion.Blazor.Toolkit.Charts.ChartSeries})</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Charts.SharedTooltipRenderEventArgs.get_Data</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Charts.SharedTooltipRenderEventArgs.get_Text</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Charts.ZoomingEventArgs.get_AxisCollection</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Data.CRUDModel`1.get_Added</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Data.CRUDModel`1.get_Changed</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Data.CRUDModel`1.get_Deleted</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Data.DataManagerRequest.get_Aggregates</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Data.DataManagerRequest.get_Distinct</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Data.DataManagerRequest.get_Expand</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Data.DataManagerRequest.get_Group</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Data.DataManagerRequest.get_Search</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Data.DataManagerRequest.get_Select</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Data.DataManagerRequest.get_Sorted</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Data.DataManagerRequest.get_Where</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Data.DataOperations.PerformFiltering(System.Collections.IEnumerable,System.Collections.Generic.List{Syncfusion.Blazor.Toolkit.Data.WhereFilter},System.String)</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Data.DataOperations.PerformFiltering``1(System.Collections.Generic.IEnumerable{``0},System.Collections.Generic.List{Syncfusion.Blazor.Toolkit.Data.WhereFilter},System.String)</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Data.DataOperations.PerformFiltering``1(System.Linq.IQueryable{``0},System.Collections.Generic.List{Syncfusion.Blazor.Toolkit.Data.WhereFilter},System.String)</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Data.DataOperations.PerformGrouping(System.Collections.IEnumerable,System.Collections.Generic.List{System.String})</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Data.DataOperations.PerformGrouping``1(System.Collections.Generic.IEnumerable{``0},System.Collections.Generic.List{System.String})</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Data.DataOperations.PerformGrouping``1(System.Linq.IQueryable{``0},System.Collections.Generic.List{System.String})</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Data.DataOperations.PerformSearching(System.Collections.IEnumerable,System.Collections.Generic.List{Syncfusion.Blazor.Toolkit.Data.SearchFilter})</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Data.DataOperations.PerformSearching``1(System.Collections.Generic.IEnumerable{``0},System.Collections.Generic.List{Syncfusion.Blazor.Toolkit.Data.SearchFilter})</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Data.DataOperations.PerformSearching``1(System.Linq.IQueryable{``0},System.Collections.Generic.List{Syncfusion.Blazor.Toolkit.Data.SearchFilter})</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Data.DataOperations.PerformSelect(System.Collections.IEnumerable,System.Collections.Generic.List{System.String})</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Data.DataOperations.PerformSelect``1(System.Linq.IQueryable{``0},System.Collections.Generic.List{System.String})</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Data.DataOperations.PerformSorting(System.Collections.IEnumerable,System.Collections.Generic.List{Syncfusion.Blazor.Toolkit.Data.Sort})</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Data.DataOperations.PerformSorting(System.Collections.IEnumerable,System.Collections.Generic.List{Syncfusion.Blazor.Toolkit.Data.SortedColumn})</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Data.DataOperations.PerformSorting``1(System.Collections.Generic.IEnumerable{``0},System.Collections.Generic.List{Syncfusion.Blazor.Toolkit.Data.Sort})</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Data.DataOperations.PerformSorting``1(System.Collections.Generic.IEnumerable{``0},System.Collections.Generic.List{Syncfusion.Blazor.Toolkit.Data.SortedColumn})</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Data.DataOperations.PerformSorting``1(System.Linq.IQueryable{``0},System.Collections.Generic.List{Syncfusion.Blazor.Toolkit.Data.Sort})</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Data.DataOperations.PerformSorting``1(System.Linq.IQueryable{``0},System.Collections.Generic.List{Syncfusion.Blazor.Toolkit.Data.SortedColumn})</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Data.DataUtil.Group``1(System.Collections.IEnumerable,System.String,System.Collections.Generic.List{Syncfusion.Blazor.Toolkit.Data.Aggregate},System.Int32,System.Collections.Generic.IDictionary{System.String,System.String},System.Boolean,System.Boolean)</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Data.DataUtil.GroupSorting``1(System.Collections.IEnumerable,System.Collections.Generic.List{Syncfusion.Blazor.Toolkit.Data.Sort})</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Data.DataUtil.PerformAggregation(System.Collections.IEnumerable,System.Collections.Generic.List{Syncfusion.Blazor.Toolkit.Data.Aggregate})</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Data.DynamicObjectOperation.PerformFiltering(System.Collections.IEnumerable,System.Collections.Generic.List{Syncfusion.Blazor.Toolkit.Data.WhereFilter},System.String,System.Collections.Generic.IDictionary{System.String,System.Type})</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Data.DynamicObjectOperation.PerformSearching(System.Collections.IEnumerable,System.Collections.Generic.List{Syncfusion.Blazor.Toolkit.Data.SearchFilter},System.Collections.Generic.IDictionary{System.String,System.Type})</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Data.DynamicObjectOperation.PerformSorting(System.Linq.IQueryable,System.Collections.Generic.List{Syncfusion.Blazor.Toolkit.Data.Sort})</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Data.DynamicObjectOperation.PredicateBuilder(System.Collections.IEnumerable,System.Collections.Generic.List{Syncfusion.Blazor.Toolkit.Data.WhereFilter},System.String,System.Linq.Expressions.ParameterExpression,System.Collections.Generic.IDictionary{System.String,System.Type})</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Data.EnumerableOperation.PerformFiltering(System.Collections.IEnumerable,System.Collections.Generic.List{Syncfusion.Blazor.Toolkit.Data.WhereFilter},System.String)</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Data.EnumerableOperation.PerformGrouping(System.Collections.IEnumerable,System.Collections.Generic.List{System.String})</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Data.EnumerableOperation.PerformSearching(System.Collections.IEnumerable,System.Collections.Generic.List{Syncfusion.Blazor.Toolkit.Data.SearchFilter})</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Data.EnumerableOperation.PerformSorting(System.Collections.IEnumerable,System.Collections.Generic.List{Syncfusion.Blazor.Toolkit.Data.Sort})</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Data.EnumerableOperation.PerformSorting(System.Collections.IEnumerable,System.Collections.Generic.List{Syncfusion.Blazor.Toolkit.Data.SortedColumn},System.Type)</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Data.EnumerableOperation.PredicateBuilder(System.Collections.IEnumerable,System.Collections.Generic.List{Syncfusion.Blazor.Toolkit.Data.WhereFilter},System.String,System.Linq.Expressions.ParameterExpression,System.Type)</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Data.Query.Expand(System.Collections.Generic.List{System.String})</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Data.Query.get_Distincts</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Data.Query.get_Expands</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Data.Query.Group(System.Collections.Generic.List{System.String},System.Collections.Generic.IDictionary{System.String,System.String})</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Data.Query.Search(System.String,System.Collections.Generic.List{System.String},System.String,System.Boolean,System.Boolean)</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Data.Query.Select(System.Collections.Generic.List{System.String})</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Data.Query.Where(System.Collections.Generic.List{Syncfusion.Blazor.Toolkit.Data.WhereFilter})</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Data.QueryableExtensions.GroupByMany(System.Collections.IEnumerable,System.Type,System.Collections.Generic.List{Syncfusion.Blazor.Toolkit.Data.SortDescription},System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.IComparer{System.Object}},System.Func{System.String,System.Linq.Expressions.Expression},System.String[])</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Data.QueryableExtensions.GroupByMany(System.Collections.IEnumerable,System.Type,System.Collections.Generic.List{Syncfusion.Blazor.Toolkit.Data.SortDescription},System.Func{System.String,System.Linq.Expressions.Expression},System.String[])</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Data.QueryableExtensions.GroupByMany(System.Linq.IQueryable,System.Type,System.Collections.Generic.List{Syncfusion.Blazor.Toolkit.Data.SortDescription},System.String[])</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Data.QueryableExtensions.GroupByMany``1(System.Collections.Generic.IEnumerable{``0},System.Collections.Generic.List{Syncfusion.Blazor.Toolkit.Data.SortDescription},System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.IComparer{System.Object}},System.Collections.Generic.List{System.String},System.Func{``0,System.Object}[])</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Data.QueryableExtensions.GroupByMany``1(System.Collections.Generic.IEnumerable{``0},System.Collections.Generic.List{Syncfusion.Blazor.Toolkit.Data.SortDescription},System.Collections.Generic.Dictionary{System.String,System.Collections.Generic.IComparer{System.Object}},System.String[],System.Collections.Generic.IEnumerable{System.Func{``0,System.Object}})</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Data.QueryableExtensions.GroupByMany``1(System.Collections.Generic.IEnumerable{``0},System.Collections.Generic.List{Syncfusion.Blazor.Toolkit.Data.SortDescription},System.Collections.Generic.IEnumerable{System.Func{``0,System.Object}})</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Data.QueryableExtensions.GroupByMany``1(System.Collections.Generic.IEnumerable{``0},System.Collections.Generic.List{Syncfusion.Blazor.Toolkit.Data.SortDescription},System.Func{``0,System.Object}[])</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Data.QueryableOperation.PerformFiltering``1(System.Linq.IQueryable{``0},System.Collections.Generic.List{Syncfusion.Blazor.Toolkit.Data.WhereFilter},System.String)</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Data.QueryableOperation.PerformGrouping``1(System.Linq.IQueryable{``0},System.Collections.Generic.List{System.String})</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Data.QueryableOperation.PerformSearching``1(System.Linq.IQueryable{``0},System.Collections.Generic.List{Syncfusion.Blazor.Toolkit.Data.SearchFilter})</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Data.QueryableOperation.PerformSelect(System.Linq.IQueryable,System.Collections.Generic.List{System.String})</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Data.QueryableOperation.PerformSelect``1(System.Linq.IQueryable,System.Collections.Generic.List{System.String})</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Data.QueryableOperation.PerformSorting``1(System.Linq.IQueryable{``0},System.Collections.Generic.List{Syncfusion.Blazor.Toolkit.Data.Sort})</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Data.QueryableOperation.PerformSorting``1(System.Linq.IQueryable{``0},System.Collections.Generic.List{Syncfusion.Blazor.Toolkit.Data.SortedColumn})</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Data.SearchFilter.get_Fields</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Data.WhereFilter.And(System.Collections.Generic.List{Syncfusion.Blazor.Toolkit.Data.WhereFilter})</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Data.WhereFilter.get_Predicates</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Data.WhereFilter.Or(System.Collections.Generic.List{Syncfusion.Blazor.Toolkit.Data.WhereFilter})</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Inputs.ActionCompleteEventArgs.get_FileData</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Inputs.BeforeRemoveEventArgs.get_FilesData</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Inputs.BeforeUploadEventArgs.get_FilesData</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Inputs.ClearingEventArgs.get_FilesData</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Inputs.RemovingEventArgs.get_FilesData</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Inputs.SelectedEventArgs.get_FilesData</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Inputs.SelectedEventArgs.get_ModifiedFilesData</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Inputs.SfTextBox.get_TextBoxParent</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Inputs.SfUploader.PauseAsync(System.Collections.Generic.List{Syncfusion.Blazor.Toolkit.Inputs.FileInfo},System.Nullable{System.Boolean})</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Inputs.UploadChangeEventArgs.get_Files</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Inputs.UploadedFiles.get_Files</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Inputs.UploadedFiles.set_Files(System.Collections.Generic.List{Syncfusion.Blazor.Toolkit.Inputs.UploadedFile})</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Inputs.UploaderModel.get_Files</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0002</DiagnosticId>
+    <Target>M:Syncfusion.Blazor.Toolkit.Popups.SfDialog.GetButtonItems</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0009</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.Internal.ChartHelper</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0009</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Charts.Internal.DataVizCommonHelper</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+  <Suppression>
+    <DiagnosticId>CP0021</DiagnosticId>
+    <Target>T:Syncfusion.Blazor.Toolkit.Data.DataAdaptor`1``0:notnull</Target>
+    <IsBaselineSuppression>false</IsBaselineSuppression>
+    <Justification>User-approved exact existing 2.0 major break, 2026-10-06. See docs/API-COMPATIBILITY.md and reviewed surface guard; no future member/type change approved.</Justification>
+  </Suppression>
+</Suppressions>

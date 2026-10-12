@@ -51,7 +51,8 @@
 | `Disabled` | `bool` | `false` | Disable user input |
 | `ReadOnly` | `bool` | `false` | Prevent modification |
 | `CssClass` | `string` | `""` | Custom CSS classes |
-| `Multiline` | `bool` | `false` | Allow multiple lines (for multi-line text) |
+
+`SfTextBox.Multiline` was removed in v1.0.2. Use `SfTextArea` for multiline input; do not pass an unrecognized `Multiline` attribute to `SfTextBox`.
 
 ### Appearance Properties
 
@@ -126,12 +127,12 @@ The TextBox component offers two visual variants: `Filled`, and `Outlined`
 }
 ```
 
-### Multi-line TextBox
+### Multi-line Input
 
-Use the `Multiline` property for multi-line text input (textarea behavior):
+Use the dedicated `SfTextArea` component (same Inputs namespace):
 
 ```razor
-<SfTextBox @bind-Value="@notes" Multiline="true" Placeholder="Enter your notes"></SfTextBox>
+<SfTextArea @bind-Value="@notes" Placeholder="Enter your notes"></SfTextArea>
 
 @code {
     private string notes = "";

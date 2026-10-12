@@ -55,6 +55,41 @@
 <SfUploader AutoUpload="false" AllowedExtensions=".jpg,.png,.pdf"></SfUploader>
 ```
 
+This is a selection/configuration fragment, not a persistence workflow.
+`SaveUrl` is optional: choose either an HTTP endpoint through
+`UploaderAsyncSettings` or a no-URL .NET handler via `OnValueChange`.
+The source's `UploadChangeEventArgs.Files` contains `UploadFiles` entries
+whose nullable `File` property is an `IBrowserFile`.
+
+Interactive stream-reading fragment (deliberately discards bytes; replace
+`Stream.Null` with an application-owned destination after server-side validation):
+
+```razor
+@using System.IO
+@using Syncfusion.Blazor.Toolkit.Inputs
+
+<SfUploader AutoUpload="true" MaxFileSize="5242880" OnValueChange="ReadFiles" />
+
+@code {
+    private async Task ReadFiles(UploadChangeEventArgs args)
+    {
+        if (args.Files is null) return;
+        foreach (var upload in args.Files)
+        {
+            if (upload.File is null) continue;
+            await using var stream = upload.File.OpenReadStream(5 * 1024 * 1024);
+            await stream.CopyToAsync(Stream.Null);
+        }
+    }
+}
+```
+
+Handle read/validation failures in the application. Client extension/size
+filters are not security boundaries; do not use the supplied filename as a
+storage path. `OpenReadStream` limits bytes read, not SignalR message size.
+Use application-controlled HTTP URLs; public demo endpoints below are not
+production storage and must not receive private files.
+
 ### With Upload URL
 
 ```razor

@@ -139,7 +139,7 @@ Complete keyboard support following WCAG 2.2 guidelines.
 | `Ctrl + +` / `Ctrl + -` | Zoom in/out |
 | `Arrow Keys` (during pan) | Pan chart |
 | `R` | Reset zoom |
-| `Ctrl + P` | Print chart |
+| `Ctrl + P` | Browser print command; not a Toolkit Chart API |
 
 ### Screen Reader Support
 
@@ -218,12 +218,13 @@ Support system high contrast themes for improved visibility.
 
 ### Focus Management
 
-Implement proper focus indicators and management by enabling selection on the chart.
+Enable selection as part of the interaction design; separately validate focus indicators and keyboard navigation.
 
 ```razor
+@using Syncfusion.Blazor.Toolkit
 @using Syncfusion.Blazor.Toolkit.Charts
 
-<SfChart Title="Focus Managed Chart" SelectionMode="SelectionMode.Point" SelectionPattern="SelectionPattern.Dots">
+<SfChart Title="Focus Managed Chart" SelectionMode="ChartSelectionMode.Point" SelectionPattern="SelectionPattern.Dots">
     <ChartPrimaryXAxis Title="Products" />
     <ChartPrimaryYAxis Title="Units Sold" />
     
@@ -642,14 +643,14 @@ Load and apply locale data dynamically.
 
 ## Color Accessibility
 
-### WCAG Compliance
+### Color evaluation target — not conformance evidence
 
-Ensure color choices meet WCAG 2.2 Level AA standards.
+Evaluate actual foreground/background pairs, graphical-object contrast and non-color alternatives against applicable WCAG 2.2 A/AA criteria. No palette below has retained rendered measurements or conformance evidence. The fragments have not been compile/run-tested here; R20 must verify their APIs before adoption. Palette selection alone cannot establish accessible chart behavior.
 
 ```razor
 @using Syncfusion.Blazor.Toolkit.Charts
 
-<SfChart Title="WCAG Compliant Chart">
+<SfChart Title="Color evaluation example">
     <ChartPrimaryXAxis Title="Categories" />
     <ChartPrimaryYAxis Title="Values" />
     
@@ -795,9 +796,10 @@ Maintain proper contrast ratios between chart elements.
 Provide pattern fills as alternatives to color coding for improved accessibility to color-blind users. Multiple series with different patterns help differentiate data.
 
 ```razor
+@using Syncfusion.Blazor.Toolkit
 @using Syncfusion.Blazor.Toolkit.Charts
 
-<SfChart Title="Pattern-Based Chart" SelectionMode="SelectionMode.Series" SelectionPattern="SelectionPattern.DiagonalForward">
+<SfChart Title="Pattern-Based Chart" SelectionMode="ChartSelectionMode.Series" SelectionPattern="SelectionPattern.DiagonalForward">
     <ChartPrimaryXAxis Title="Segments" ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
     <ChartPrimaryYAxis Title="Market Share %" />
     
@@ -1029,10 +1031,12 @@ Recommended tools for validating chart accessibility:
 
 **Issue 4: Poor Keyboard Navigation**
 
+Configuration fragment: selection is an `SfChart` parameter. Enabling mouse selection/zoom does not itself prove keyboard accessibility; validate keyboard paths and provide a data alternative.
+
 ```razor
-<!-- Fix: Enable proper selection and zoom features -->
-<ChartSelectionSettings Enable="true" Mode="Syncfusion.Blazor.Toolkit.Charts.SelectionMode.Point" />
-<ChartZoomSettings EnableSelectionZooming="true" />
+<SfChart SelectionMode="Syncfusion.Blazor.Toolkit.ChartSelectionMode.Point">
+    <ChartZoomSettings EnableSelectionZooming="true" />
+</SfChart>
 ```
 
 **Best Practices Summary**

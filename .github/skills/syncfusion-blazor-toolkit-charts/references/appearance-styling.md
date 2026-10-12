@@ -16,7 +16,6 @@ This comprehensive reference guide covers all aspects of appearance customizatio
 - [Chart Background and Border](#chart-background-and-border)
    - [Background Color](#background-color)
    - [Border Styling](#border-styling)
-   - [Combined Background and Border](#combined-background-and-border)
 - [Chart Area Customization](#chart-area-customization)
    - [Chart Area Background](#chart-area-background)
    - [Chart Area Border](#chart-area-border)
@@ -53,9 +52,10 @@ Control the size of your chart using width and height properties. Charts can be 
 
 ### Default Dimensions
 
-When no size is specified, charts render with default dimensions:
-- **Default Width**: 600px
-- **Default Height**: 450px
+`Width` and `Height` parameters default to `"100%"`. The renderer also has
+600 × 450 fallback dimensions; static rendering initializes SVG dimensions
+to 600 × 450. Set explicit dimensions or provide a sized container when a
+particular layout is required.
 
 ### Pixel-Based Sizing
 
@@ -635,12 +635,12 @@ Syncfusion Blazor Charts support built-in themes and custom theme creation.
 
 ### Built-in Themes
 
-Apply predefined themes by including the theme API:
+Toolkit themes are `Fluent`, `FluentDark`, `HighContrast`, and `HighContrastLight` from `Syncfusion.Blazor.Toolkit.Theme`. Commercial theme enum values are not available here.
 
 ```razor
 @using Syncfusion.Blazor.Toolkit.Charts
 
-<SfChart Title="Product Performance" Theme="Syncfusion.Blazor.Theme.Bootstrap5">
+<SfChart Title="Product Performance" Theme="Syncfusion.Blazor.Toolkit.Theme.Fluent">
     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
     
         <ChartSeries DataSource="@PerformanceData" XName="Product" YName="Rating" 
@@ -664,16 +664,11 @@ Apply predefined themes by including the theme API:
 }
 ```
 
-**Available Built-in Themes:**
-- Material
-- Bootstrap
-- Bootstrap 4
-- Bootstrap 5
-- Fabric
-- Tailwind
-- Material 3
-- Fluent
-- High Contrast
+**Available Toolkit themes:**
+- `Theme.Fluent`
+- `Theme.FluentDark`
+- `Theme.HighContrast`
+- `Theme.HighContrastLight`
 
 ### Custom Theme Colors
 
@@ -685,7 +680,7 @@ Create a custom appearance by overriding default palette:
 <SfChart Title="Regional Sales" Palettes="@CustomThemePalette">
     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
     
-        <ChartSeries Deries DataSource ource="@RegionalData" XName="Region" YName="Sales" 
+        <ChartSeries DataSource="@RegionalData" XName="Region" YName="Sales"
                      Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column" />
 </SfChart>
 

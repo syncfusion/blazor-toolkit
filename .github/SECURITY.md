@@ -1,61 +1,30 @@
 # Security Policy
 
-## 1. Purpose
+## Reporting a vulnerability
 
-We prioritize our project’s security and encourage the community to responsibly report any vulnerabilities.
+Report suspected vulnerabilities privately to **security@syncfusion.com**, rather than in a public issue. Include:
 
-## 2. Reporting a Vulnerability
+- affected package version, component, render mode, and environment;
+- reproducible steps or a minimal example, without credentials or personal data;
+- expected and observed behavior, impact, and any relevant evidence.
 
-We take the security of our Syncfusion Blazor Toolkit project very seriously. If you discover a security vulnerability, please report it responsibly using the steps outlined below.
+Please coordinate public disclosure with the security contact and wait for confirmation that the issue has been addressed before announcing exploit details publicly.
 
-### 2.1 How to Report
+## Response and servicing status
 
-#### 2.1.1 Contact us privately:
-- Please email us at **security@syncfusion.com** with a detailed report of the vulnerability.
-- Wait until we verify that the problem has been fixed before making the announcement in public.
+The private reporting route above is retained. Acknowledgement, investigation, remediation, and disclosure timing must be confirmed with the security contact for the specific report. This repository does not substantiate a contractual support or remediation SLA, supported-version window, or fixed servicing schedule.
 
-#### 2.1.2 Provide details:
-- Provide instructions on how to replicate the vulnerability.
-- Share any possible impact or exploitation scenarios.
+**Legacy claims superseded:** earlier text promised acknowledgement within two business days, 7/30/90-day remediation, immediate out-of-band patches, and monthly servicing on a specified Wednesday. Approval and delivery evidence for those commitments was not established in this documentation review; they must not be treated as current guarantees.
 
-#### 2.1.3 Expect a response:
-- We will acknowledge receipt of your report within **2 business days**.
-- You will receive updates on the progress as we investigate and resolve the issue.
+Public release information is available on the [GitHub Releases page](https://github.com/syncfusion/blazor-toolkit/releases). A release listing alone does not verify remediation of a particular vulnerability.
 
-## 3. Security Patch Process
+## Evidence and limits
 
-### 3.1 Severity classification and remediation SLAs
+The [threat model](THREAT-MODEL.md) records trust boundaries, configured checks, and risks requiring disposition. [Render-mode security](RENDER-MODE-SECURITY.md) explains the division between library behavior and host responsibilities.
 
-Once a vulnerability is verified, it is classified by severity. The following SLAs apply from the date of verification:
+- Security analysis and vulnerability checks are configured in the repository; their presence is not a clean scan result or an attestation about a published package.
+- CI is configured to produce unsigned review packages. Signing and publishing remain a manual release-maintainer process outside public CI; completion and signature status for any particular release are unverified here.
+- SBOM generation configuration and snapshot limitations are documented in the [SBOM evidence notes](../artifacts/sbom/README.md).
+- Host applications remain responsible for authentication, authorization, endpoint validation, content trust, and deployment security.
 
-| Severity | Definition | Target remediation |
-|---|---|---|
-| **Critical** | Remote code execution, complete authentication bypass, or data exfiltration | ≤ 7 days |
-| **High** | Significant privilege escalation, persistent XSS, or supply-chain compromise | ≤ 30 days |
-| **Medium** | Limited-scope XSS, information disclosure, or denial of service | ≤ 90 days |
-| **Low** | Hardening improvements or defence-in-depth gaps with no direct exploitability | Next planned release |
-
-### 3.2 Response steps
-
-After a vulnerability is reported and verified:
-- We will assess its severity and assign a classification from the table above.
-- A fix will be developed and tested internally against the applicable SLA target.
-
-The resolution will be included in the next available release. For Critical or High findings, an out-of-band security patch will be issued immediately.
-
-Affected users will be notified in the GitHub repository's **Releases** page and other relevant channels.
-
-### 3.3 Monthly servicing
-
-On a **monthly cadence** (targeting the second Wednesday of each month), the maintainers will:
-
-1. Run `dotnet list package --vulnerable` against all projects and review any flagged advisories.
-2. Review and apply dependency updates (NuGet and npm) with a focus on security-relevant changes.
-3. Triage any open security issues or disclosures received since the last cycle.
-4. Produce a patch release if Critical or High findings are present; bundle Medium and Low fixes into the next minor release.
-
-## 4. Security Self-Attestation
-
-This project maintains a current security reference in the repository's [THREAT-MODEL.md](THREAT-MODEL.md) document (sibling to this file in `.github/`). The project team has reviewed the current architecture, package surface, and release flow and has documented the principal risks and mitigations in good faith.
-
-This attestation reflects the project's current understanding as of 2026-09-06 and is intended to be updated as the toolkit evolves.
+This is an evidence-grounded repository reference, **not a security certification, maintainer sign-off, or risk acceptance**. Earlier self-attestation language is superseded; no approval is recorded by this update.

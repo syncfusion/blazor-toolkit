@@ -285,7 +285,7 @@ When you need more complex layouts — such as multiple elements, styled section
                     </div>
                     
                     <div style="margin-bottom: 15px;">
-                        <SfTextBox @bind-Value="formData.Message" Placeholder="Message" Multiline="true" FloatLabelType="FloatLabelType.Auto" />
+                        <SfTextArea @bind-Value="formData.Message" Placeholder="Message" FloatLabelType="FloatLabelType.Auto" />
                     </div>
                     
                     @if (!string.IsNullOrEmpty(validationError))

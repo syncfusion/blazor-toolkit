@@ -25,18 +25,16 @@ page.
 
 ## Core Rules
 
-1. **Default trigger is `Auto` (hover or focus)** — `OpensOn="OpensOn.Auto"`.
-   Use `Hover` for mouse-only aesthetics, `Focus` for keyboard-only flows,
-   `Click` for non-interactive triggers (`<p>`, `<span>`).
-2. **Use `Content` for text, `ContentTemplate` for markup** — never wrap HTML
-   strings in `Content`. Templates also accept `RenderFragment` so you can
-   keep rich content inside the tooltip.
+1. **`OpensOn` is a string**, default `"Auto"` (hover or focus).
+   Use `OpensOn="Hover"`, `"Focus"`, `"Click"`, or `"Custom"`, not an enum
+   expression. Ensure click triggers also have keyboard-operable semantics.
+2. **Use `Content` for text, `ContentTemplate` for markup.** `Content` is
+   a string, not a `RenderFragment`; templates hold non-interactive markup.
 3. **Tooltip never blocks the page.** It traps no focus and dismisses on
-   `Escape` automatically. Don't rely on it to *confirm* a destructive
-   action.
-4. **`@bind-Visible` is supported but rarely needed** — the hover/focus
-   lifecycle handles visibility automatically. Use `@bind-Visible` only with
-   `OpensOn="OpensOn.Custom"`.
+   `Escape`. Don't rely on it to confirm a destructive action.
+4. **There is no `Visible` / `VisibleChanged` or `@bind-Visible` API.** For
+   manual control use `OpensOn="Custom"` and await `OpenAsync()` / `CloseAsync()`
+   after the component reference is assigned.
 5. **Wrap `disabled` triggers with a focusable wrapper** — `<SfButton
    Disabled="true">` doesn't fire mouse/focus events. Wrap with a
    `<span tabindex="0">` to attach the tooltip, or render a fallback
@@ -50,13 +48,17 @@ page.
 
 ## Minimal Example
 
+Use an interactive host for tooltip behavior. Other snippets are configuration
+fragments unless they declare all referenced state and handlers.
+
 ```razor
 @using Syncfusion.Blazor.Toolkit
 @using Syncfusion.Blazor.Toolkit.Popups
+@using Syncfusion.Blazor.Toolkit.Buttons
 
 <SfTooltip Target="#saveBtn" Content="Save (Ctrl+S)"
-           Position="TooltipPosition.TopCenter"
-           OpensOn="OpensOn.Auto"
+           Position="Position.TopCenter"
+           OpensOn="Auto"
            ShowTipPointer="true">
     <SfButton id="saveBtn">Save</SfButton>
 </SfTooltip>
@@ -95,20 +97,17 @@ If you're unsure, read the cross-skill decision matrix first:
 @using Syncfusion.Blazor.Toolkit
 @using Syncfusion.Blazor.Toolkit.Popups
 
-<SfTooltip Position="TooltipPosition.BottomCenter"
-            Target="#btn"
-            WindowCollision="true"
-            TargetContainer="#custom">
-    <ContentTemplate>
-        <div class="tooltip-html">
+<div id="custom">
+    <SfTooltip Position="Position.BottomCenter" Target="#btn"
+               WindowCollision="true">
+        <ContentTemplate>
             <p>HTML inside a <strong>tooltip</strong>.</p>
-            <SfButton Content="Inner button" />
-        </div>
-    </ContentTemplate>
-    <Target>
-        <SfButton id="btn" Content="HTML Tooltip" />
-    </Target>
-</SfTooltip>
+        </ContentTemplate>
+        <ChildContent>
+            <button id="btn" type="button">HTML Tooltip</button>
+        </ChildContent>
+    </SfTooltip>
+</div>
 ```
 
 ### Pattern 3 — Disabled control with focusable wrapper
@@ -124,27 +123,34 @@ If you're unsure, read the cross-skill decision matrix first:
 </SfTooltip>
 ```
 
-### Pattern 4 — Programmatic Show / Hide (Custom mode)
+### Pattern 4 — Programmatic Open / Close (Custom mode)
 
 ```razor
-@using Syncfusion.Blazor.Toolkit
 @using Syncfusion.Blazor.Toolkit.Popups
 
-<SfTooltip @ref="tt" Content="Manually controlled" OpensOn="OpensOn.Custom">
-    <SfButton @onclick="@(() => tt.Show())">Show tooltip</SfButton>
+<SfTooltip @ref="tt" Content="Manually controlled" OpensOn="Custom">
+    <button type="button" @onclick="@(() => tt.OpenAsync())">Show tooltip</button>
 </SfTooltip>
+<button type="button" @onclick="@(() => tt.CloseAsync())">Hide tooltip</button>
+
+@code {
+    private SfTooltip tt = default!;
+}
 ```
 
 ## Key Properties & Events
 
 | Group | Members |
 |---|---|
-| Content | `Content` (string/RenderFragment), `ContentTemplate` (RenderFragment); use `Content` for text, `ContentTemplate` for HTML |
-| Trigger | `Target` / `TargetSelector`, `OpensOn` (Auto/Hover/Focus/Click/Custom), `OpenDelay`/`CloseDelay` (ms) |
-| Position | `Position` (12-slot enum, default `TopCenter`), `TipPointerPosition`, `ShowTipPointer`, `WindowCollision`, `TargetContainer`, `Container`, `OffsetX`/`OffsetY`, `Sticky`, `MouseTrail` |
-| Animation | `Animation` (`TooltipAnimation`, default `Fade`) — pick exactly one `Effect` |
-| Events | `OnOpen`/`OnOpened` (before/after portal insert); `OnClose`/`OnClosed` (before/after portal remove) |
-| Methods (`@ref`) | `Show()` / `Hide()` / `Refresh()` / `DisposeAsync()` |
+| Content | `Content` (string), `ContentTemplate` (RenderFragment), `ChildContent` (trigger markup) |
+| Trigger | `Target` (selector), `OpensOn` (string: Auto/Hover/Focus/Click/Custom), `OpenDelay`/`CloseDelay` (ms) |
+| Position | `Position` (enum, default `TopCenter`), `TipPointerPosition`, `ShowTipPointer`, `WindowCollision`, `TargetContainer`, `Container`, `OffsetX`/`OffsetY`, `IsSticky`, `MouseTrail` |
+| Animation | `AnimationModel` with `Open` / `Close` (`TooltipAnimationSettings`) and `Effect` enum values |
+| Events | `OnOpen` / `Opened`; `OnClose` / `Closed` (`TooltipEventArgs`) |
+| Methods (`@ref`) | `OpenAsync(string? handleId = null, TooltipAnimationSettings? animation = null)`, `CloseAsync(TooltipAnimationSettings? animation = null)`, `RefreshAsync()`, `RefreshPositionAsync(ElementReference? target = null)`; each returns `Task` |
+
+There is no `TargetSelector`, `TooltipPosition`, or visibility binding. Source:
+`src/Components/Popups/Tooltip/SfTooltip.razor.{Members,Events,Methods}.cs`.
 
 ## Accessibility
 
@@ -155,7 +161,7 @@ If you're unsure, read the cross-skill decision matrix first:
 | Esc dismiss | Default |
 | Disabled buttons | Wrap in focusable `<span tabindex="0">` — see Pattern 3 |
 
-> ⚠️ Tooltips are **static** (`role="tooltip"`, not `role="alert"`). Don't rely on them for async announcements — use [SfSpinner](../syncfusion-blazor-toolkit-notifications/SKILL.md) for that.
+> ⚠️ Tooltip content is informational (`role="tooltip"`, not `role="alert"`); this does not mean its behavior works in Static SSR. For async progress use [SfSpinner](../../syncfusion-blazor-toolkit-notifications/SKILL.md) with appropriate live-region semantics.
 
 ## Decision Tree
 
@@ -171,7 +177,7 @@ Need hover help?
 ├─ On a non-focusable element (<p>)?
 │  └─ OpensOn="Click" + role="button" + tabindex="0"
 └─ Shows HTML or rich formatting?
-   └─ <ContentTemplate> or Content="RenderFragment"
+   └─ <ContentTemplate> (Content is string-only)
 ```
 
 ## Don'ts
@@ -207,9 +213,9 @@ Need hover help?
 @using Syncfusion.Blazor.Toolkit
 @using Syncfusion.Blazor.Toolkit.Popups
 
-<!-- Wrap disabled button in tab-able span; tooltip finds the wrapper -->
-<SfTooltip Content="Please fill the form" OpensOn="OpensOn.Auto">
-    <span tabindex="0" aria-disabled="true" class="disabled-wrapper">
+<!-- Target the focusable wrapper rather than the disabled button. -->
+<SfTooltip Content="Please fill the form" OpensOn="Auto" Target="#disabledSaveHelp">
+    <span id="disabledSaveHelp" tabindex="0" aria-disabled="true" class="disabled-wrapper">
         <SfButton Disabled="true">Save</SfButton>
     </span>
 </SfTooltip>
@@ -241,28 +247,27 @@ to `SfDialog` with `IsModal="false"`:
 @code { private void OpenHelp() { /* render SfDialog IsModal="false" with full help */ } }
 ```
 
-### Workflow 3 — Agent sets both `Effect="Fade"` and `Effect="Slide"` via different syntaxes
+### Workflow 3 — Use the source animation model
 
-**Bad:**
-```razor
-@using Syncfusion.Blazor.Toolkit
-@using Syncfusion.Blazor.Toolkit.Popups
-
-<SfTooltip Content="…" Animation="new TooltipAnimation { Effect = AnimationEffect.Fade, … }" />
-<SfTooltip Content="…" Animation="@(new TooltipAnimation { Effect = AnimationEffect.Slide, … })" />
-<!-- @ref+lifecycle uses the second; good luck having both render -->
-```
-
-**Correct:** one tooltip, one effect. Combine with `Duration`:
+`Animation` takes `AnimationModel`, whose `Open` and `Close` values are
+`TooltipAnimationSettings`. `TooltipAnimation` / `AnimationEffect` are not
+this component's model/enum.
 
 ```razor
 @using Syncfusion.Blazor.Toolkit
 @using Syncfusion.Blazor.Toolkit.Popups
 
-<SfTooltip Content="…"
-           Animation="@(new TooltipAnimation { Effect = AnimationEffect.Fade, Duration = 200 })">
-    <span>Target</span>
+<SfTooltip Content="Help" Animation="animation">
+    <button type="button">Target</button>
 </SfTooltip>
+
+@code {
+    private AnimationModel animation = new()
+    {
+        Open = new TooltipAnimationSettings { Effect = Effect.FadeIn, Duration = 200 },
+        Close = new TooltipAnimationSettings { Effect = Effect.FadeOut, Duration = 200 }
+    };
+}
 ```
 
 ### Workflow 4 — Agent wants to *prevent* focus when the trigger is a button
@@ -272,7 +277,7 @@ to `SfDialog` with `IsModal="false"`:
 @using Syncfusion.Blazor.Toolkit
 @using Syncfusion.Blazor.Toolkit.Popups
 
-<SfTooltip Content="Delete this" OpensOn="OpensOn.Hover">
+<SfTooltip Content="Delete this" OpensOn="Hover">
     <SfButton OnClick="Delete">Delete</SfButton>
 </SfTooltip>
 ```
@@ -283,40 +288,46 @@ pointer enter).
 **Fix:** keep `OpensOn="Auto"` (default), or — if `Hover` was intentional —
 add a static `:focus` CSS style and roll your own focus announcement.
 
-### Workflow 5 — Agent changes `Target` at runtime, expects tooltip to reposition
+### Workflow 5 — Refresh targets after DOM updates
 
-**Bad:**
+`Target` is a CSS selector (`"#other"`, not an element ID without `#`).
+The component tracks parameter changes. When application rendering adds or
+replaces target DOM, call `RefreshAsync()` after that render; use
+`RefreshPositionAsync()` when only the position needs recalculation.
+
+Interactive fragment showing a post-render refresh:
+
 ```razor
-@using Syncfusion.Blazor.Toolkit
 @using Syncfusion.Blazor.Toolkit.Popups
 
-<SfTooltip Target="@TargetId" Content="…">
-    <SfButton>@currentLabel</SfButton>
+<button type="button" @onclick="AddTarget">Add target</button>
+<SfTooltip @ref="tt" Target=".help-target" Content="Help">
+    <ChildContent>
+        <button class="help-target" type="button">First</button>
+        @if (showSecond)
+        {
+            <button class="help-target" type="button">Second</button>
+        }
+    </ChildContent>
 </SfTooltip>
-@code { private string TargetId = ""; private void Move() { TargetId = "other"; } }
-```
 
-`Target` resolves once at mount. Changing it without `Refresh()` causes
-the arrow to point at the old location.
-
-**Fix:**
-```razor
-@using Syncfusion.Blazor.Toolkit
-@using Syncfusion.Blazor.Toolkit.Popups
-
-<SfTooltip @ref="tt" Target="@TargetId" Content="…">
-    <SfButton>@currentLabel</SfButton>
-</SfTooltip>
 @code {
-    private TooltipRef? tt;
-    private void Move() { TargetId = "other"; tt?.Refresh(); }
+    private SfTooltip? tt;
+    private bool showSecond;
+    private bool refreshPending;
+
+    private void AddTarget() { showSecond = true; refreshPending = true; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (refreshPending && tt is not null)
+        {
+            refreshPending = false;
+            await tt.RefreshAsync();
+        }
+    }
 }
 ```
-
-(Or — and this is the simpler route — use `<SfTooltip>` as a *wrapper*
-of the trigger rather than a `Target=` reference, so positioning follows
-the trigger DOM automatically.)
-  silently
 
 ## Next Steps
 

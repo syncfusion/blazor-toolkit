@@ -19,7 +19,7 @@ metadata:
 
 # Syncfusion Blazor Toolkit Buttons
 
-> ✅ **Render mode:** Works in **all** render modes — `SfButton` is usable in Static SSR; only event handlers (`OnClick`) require interactivity. Read `AGENTS.md` to determine the project's interactivity mode before wiring event handlers.
+> ✅ **Render mode:** `SfButton` can render in Static SSR; client event handlers (`OnClick`) and button-group selection callbacks require interactivity. Read `AGENTS.md` for host conventions. Examples are fragments unless they include all imports, state, services, and handlers.
 
 ## Core Rules
 
@@ -48,7 +48,7 @@ metadata:
 | Anti-pattern | Symptom | Fix |
 |---|---|---|
 | `async void OnClick = …` | Exceptions silently escape the dispatcher; spinner "sticks" with no error | `async Task OnClick(MouseEventArgs e)` — let Blazor handle re-rendering |
-| `<SfButton>` inside `<a>` | Two interactive roles; click intercepted; ARIA mis-announcement | Use `<SfButton>` with `CssClass="e-link"` instead, or a true `<a>` |
+| `<SfButton>` inside `<a>` | Invalid nested interactive controls | Use a single real `<a href="…">` for navigation; `e-link` CSS does not change a button's semantics |
 | `Disabled="@(bool?)flag"` | Nullable binding throws on toggle; component treats as always-false | Bind to a `bool`, never `bool?` |
 | Override `:focus` without `:focus-visible` replacement | WCAG 2.4.7 violation; keyboard users lose focus visibility | Define `:focus-visible { outline: 2px solid var(--brand) }` |
 | `OnClick` for form submit with no surrounding `<EditForm>` | Validation skipped; data posted without `DataAnnotationsValidator` | Wrap in `<EditForm Model="…"><DataAnnotationsValidator/>` then call `OnValidSubmit` |
@@ -105,27 +105,39 @@ Re-rendering also fights the awaited continuations.
 **Why it fails:** empty selection is valid `Multiple` mode. Form-validation
 won't catch "user selected nothing" unless you write a custom validator.
 
-**Correct:**
+**Correct:** selection belongs to each child `Button`. `SelectedChanged` is
+`EventCallback<bool>`; `SfButtonGroup` has no group selection DTO/event.
+This interactive form example validates that at least one option is selected:
+
 ```razor
+@using Syncfusion.Blazor.Toolkit
 @using Syncfusion.Blazor.Toolkit.Buttons
 @using System.ComponentModel.DataAnnotations
 
 <EditForm Model="editor">
-    <DataAnnotationsValidator/>
-    <ValidationMessage For="@(() => editor.Selection)"/>
-    <SfButtonGroup Mode="@SelectionMode.Multiple"
-                   SelectedChanged="@SelectionChanged">
-        <Button>Bold</Button>
-        <Button>Italic</Button>
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <SfButtonGroup Mode="SelectionMode.Multiple">
+        <Button @bind-Selected="editor.Bold">Bold</Button>
+        <Button @bind-Selected="editor.Italic">Italic</Button>
     </SfButtonGroup>
+    <button type="submit">Validate</button>
 </EditForm>
 
 @code {
-    private void SelectionChanged(Syncfusion.Blazor.Toolkit.Buttons.SelectedItemsChangedEventArgs e)
+    private EditorModel editor = new();
+
+    public class EditorModel : IValidatableObject
     {
-        editor.Selection = e.SelectedIndexes; // not empty after a click
+        public bool Bold { get; set; }
+        public bool Italic { get; set; }
+
+        public IEnumerable<ValidationResult> Validate(ValidationContext context)
+        {
+            if (!Bold && !Italic)
+                yield return new ValidationResult("Choose at least one option.");
+        }
     }
-    public class EditorModel { [Required] public int[] Selection { get; set; } = Array.Empty<int>(); }
 }
 ```
 
@@ -141,19 +153,14 @@ won't catch "user selected nothing" unless you write a custom validator.
 **Why it fails:** clicking the button bubbles to the parent anchor and
 fires two navigations. ARIA reports two controls on one element.
 
-**Correct:**
-```razor
-@using Syncfusion.Blazor.Toolkit.Buttons
+**Correct:** use one native link for navigation:
 
-<a href="/detail/42" role="link">
-    <SfButton Content="Open"
-              CssClass="e-link"
-              HtmlAttributes="@(new Dictionary<string, object> { ["aria-label"] = "Open detail 42" })"/>
-</a>
+```razor
+<a href="/detail/42" class="e-btn e-link" aria-label="Open detail 42">Open</a>
 ```
 
-`CssClass="e-link"` re-skins the button as a link, removing the button
-semantics; the anchor remains the real interactive role.
+`CssClass="e-link"` changes appearance only. `SfButton` still renders a
+button, so do not nest it inside an anchor or describe it as a semantic link.
 
 ### Workflow 4 — Agent assumes `Disabled="@isProcessing"` clears via the button click
 
@@ -186,9 +193,9 @@ flag itself.
 }
 ```
 
-**Or:** simpler, rely on the framework's `IsBusy`/`ButtonState` pattern or
-a wrapping `<SfSpinner>` overlay (see
-[syncfusion-blazor-toolkit-notifications](../syncfusion-blazor-toolkit-notifications/SKILL.md)).
+**Or:** keep the same application-owned busy flag and show an adjacent
+`SfSpinner` (see
+[syncfusion-blazor-toolkit-notifications](../syncfusion-blazor-toolkit-notifications/SKILL.md)). `IsBusy` / `ButtonState` are not `SfButton` APIs.
 
 ## Minimal Example
 

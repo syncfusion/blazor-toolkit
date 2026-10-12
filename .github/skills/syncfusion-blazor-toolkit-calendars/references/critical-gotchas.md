@@ -13,115 +13,99 @@ description: >
 # Calendar Critical Gotchas
 
 **Always read this before generating calendar code.** Syncfusion Blazor Toolkit
-calendar components share one event model but have four component-specific
-quirks. The eight gotchas below cover ~95% of bugs reported in the
-`#calendar-bugs` channel.
+components have component-specific value and event contracts. The guidance
+below is checked against `src/Components/Calendars/`; fragments still need
+the Toolkit Calendar imports and the application's host configuration.
 
-## 1. `TValue` is *not* optional — pick the right type
+## 1. Match `TValue` to the model
 
 | Need | `TValue` | Why |
 |---|---|---|
-| Date without time | `DateOnly?` (or `DateTime?` for legacy) | Avoids accidental timezone drift |
-| Date + time | `DateTime?` | Default; min/max round-trip cleanly |
-| Time-only | `DateTime?` with `Format="HH:mm"` | `TimeOnly` is **not** supported by SfTimePicker |
-| UTC-stable | `DateTime?` with `EnableUtc="true"` | Server thinks UTC, browser thinks local |
-| Pre-blazor-1 model | `DateTime` (non-nullable) | Avoid — no longer recommended |
+| Date without time | `DateOnly?` | Models a date, not an instant |
+| Date + time | `DateTime?` | Application defines the timezone semantics |
+| Time-only | `TimeOnly?` on `SfTimePicker` | Supported by its parsing/conversion source |
+| Date-bearing time value | `DateTime?` on `SfTimePicker` | Supported alternative |
+| Required initialized value | Non-nullable supported type | Valid; `EditForm` does not change a property's type |
+
+Configuration fragments; declare matching bound fields:
 
 ```razor
-<!-- ✅ Date-only calendar -->
-<SfCalendar TValue="DateOnly?" @bind-Value="@selectedDay" />
+<SfCalendar TValue="DateOnly?" @bind-Value="selectedDay" />
+<SfDateTimePicker TValue="DateTime?" @bind-Value="selectedAt" />
+<SfTimePicker TValue="TimeOnly?" @bind-Value="selectedTime" Format="HH:mm" />
 
-<!-- ✅ Date+time picker -->
-<SfDateTimePicker TValue="DateTime?" @bind-Value="@selectedAt" />
-
-<!-- ❌ Wrong — TimeOnly will not bind -->
-<SfTimePicker TValue="TimeOnly?" @bind-Value="@t" />
+@code {
+    private DateOnly? selectedDay;
+    private DateTime? selectedAt;
+    private TimeOnly? selectedTime;
+}
 ```
 
-**Don't** use `DateTime` (non-nullable) for forms — `EditForm` annotates the
-property as nullable and binds `null` on first render, which crashes a
-non-nullable `TValue`.
+Nullable values allow empty fields and meaningful `[Required]` validation.
 
-## 2. UTC vs local time — the #1 production bug
+## 2. UTC vs local time
 
-`SfCalendar.Value` (and friends) is **stored as the calendar component's local
-timezone** unless `EnableUtc="true"`.
+There is **no `EnableUtc` parameter** in these Toolkit components. A date
+selection is not automatically a UTC instant. Use `DateOnly` for date-only
+business data. For appointments, explicitly combine the chosen date/time
+with an application-selected timezone and handle ambiguous/invalid daylight
+saving times before persisting an instant. Do not assume the server's local
+timezone is the user's timezone.
 
-```razor
-<SfCalendar TValue="DateTime?"
-            EnableUtc="true"   <!-- calendar reads/writes UTC -->
-            @bind-Value="@value" />
-```
+## 3. `Format` and culture
 
-Without `EnableUtc="true"`:
-- Server (UTC) reads `2026-03-15 00:00:00` from the user in Tokyo (UTC+9) who
-  selected "15 Mar" — that's the previous day in Tokyo's interpretation.
-- The displayed date is correct (because format uses local), but the bound
-  `DateTime` is the wrong absolute instant.
-
-**Rule:** In Server / Auto render modes that persist dates to a database,
-**always set `EnableUtc="true"`** and `ToLocalTime()` only on display.
-
-## 3. `Format` vs culture — string is culture-invariant
-
-| Value | Meaning | Bind target |
-|---|---|---|
-| `Format="dd/MM/yyyy"` | Literal `dd/MM/yyyy` regardless of culture | Stateless |
-| `Format="d"` | Short date from `CultureInfo.CurrentCulture` | `CurrentCulture` at render |
-| `Format="D"` | Long date from `CultureInfo.CurrentCulture` | `CurrentCulture` at render |
-| `Format="MMMM yyyy"` | Custom invariant pattern | Stateless |
+| Value | Meaning |
+|---|---|
+| `Format="dd/MM/yyyy"` | Custom pattern; `/` is a culture-sensitive date separator |
+| `Format="d"` | Culture's short date pattern |
+| `Format="D"` | Culture's long date pattern |
+| `Format="MMMM yyyy"` | Custom pattern with a localized month name |
 
 ```razor
-<!-- ✅ Use literal pattern when the user-facing format must not change with browser locale -->
 <SfDatePicker TValue="DateTime?" Format="yyyy-MM-dd" />
-
-<!-- ✅ Use culture token when internationalization is the goal -->
 <SfDatePicker TValue="DateTime?" Format="d" />
 ```
 
-**Don't** mix the two in the same form — you get inconsistent error messages
-(`formatException("The string 'dd/MM/yyyy' was not recognized")`).
+Custom and standard patterns may coexist; choose intentionally and validate
+with the configured culture. `Format` belongs to the picker inputs, not
+`SfCalendar`.
 
-## 4. `Min` and `Max` are *inclusive* AND *local-timezone-relative*
+## 4. `Min` and `Max` are inclusive
 
-The component compares `Min`/`Max` against `Value` after **converting Value to
-the calendar's timezone**. If `Min = new DateTime(2026, 1, 1)` and the user is
-in Sydney (UTC+11), the calendar disables everything before
-`2026-01-01 00:00 Sydney` = `2025-12-31 13:00 UTC` on the value side.
+Provide bounds consistent with the intended date/time value. Do not assume
+the component converts them to a browser timezone. For date-only selection:
 
 ```razor
 <SfDatePicker TValue="DateTime?"
-              Min="@new DateTime(2026, 1, 1)"
-              Max="@new DateTime(2026, 12, 31)" />
+              Min="@(new DateTime(2026, 1, 1))"
+              Max="@(new DateTime(2026, 12, 31))" />
 ```
 
-**Rule:** Always provide `Min`/`Max` in the calendar's local timezone, never in
-UTC, unless `EnableUtc="true"`.
+One-sided ranges are valid; supply both limits when the domain requires them.
 
 ## 5. `DayCellRendering` mutation rules
 
-`DayCellRendering` runs **per cell, per render** (~42 calls for a month view).
-Mutation inside the handler is allowed, but **don't** set `args.IsDisabled`
-on a non-day property — only `args.IsDisabled`, `args.CellText`, and
-`args.CellClass` are supported.
+`DayCellRendering` runs per rendered day cell. Use `IsDisabled` to disable
+a date and `CellData.ClassList` to add styling. `CellClass`, `CellText`,
+`IsHighlight`, and `AddClass` are not properties/methods on the event args.
 
 ```razor
-<SfCalendar TValue="DateTime"
-            DayCellRendering="@OnCell">
-    @code {
-        private void OnCell(RenderDayCellEventArgs args)
+<SfCalendar TValue="DateTime?" DayCellRendering="OnCell" />
+
+@code {
+    private void OnCell(RenderDayCellEventArgs args)
+    {
+        if (args.Date.DayOfWeek is DayOfWeek.Saturday or DayOfWeek.Sunday)
         {
-            if (args.Date.DayOfWeek is DayOfWeek.Saturday
-                                  or DayOfWeek.Sunday)
-            {
-                args.IsDisabled = true;
-            }
-            // args.IsHighlight  ← ❌ does not exist
-            // args.AddClass    ← ❌ use args.CellClass = "..." instead
+            args.IsDisabled = true;
+            if (args.CellData is not null)
+                args.CellData.ClassList += " weekend-cell";
         }
     }
-</SfCalendar>
+}
 ```
+
+Supply CSS for `weekend-cell`; avoid replacing the component's existing classes.
 
 ## 6. Accessibility — `aria-label` is NOT auto-applied
 
@@ -140,20 +124,14 @@ the parent so screen readers announce the field.
 
 ## 7. Don't combine `@bind-Value` and `ValueChanged`
 
-`ValueChanged` fires **after** `@bind-Value` commits the new value. If you wire
-both, you'll fire the handler twice on every change.
+`@bind-Value` generates `Value` and `ValueChanged`. Supplying `ValueChanged`
+again is a duplicate parameter, not a supported double-fire pattern. For
+post-binding side effects, use `@bind-Value:after` (fragment; declare `d` and
+`OnDChanged` in the owning component):
 
 ```razor
-<!-- ❌ Double-fire -->
-<SfDatePicker TValue="DateTime?"
-              @bind-Value="@d"
-              ValueChanged="@OnD" />
-
-<!-- ✅ Pick one -->
-<SfDatePicker TValue="DateTime?" @bind-Value="@d" @bind-Value:after="OnDChanged" />
+<SfDatePicker TValue="DateTime?" @bind-Value="d" @bind-Value:after="OnDChanged" />
 ```
-
-`@bind-Value:after` is the dotnet-8 way to run logic after binding commits.
 
 ## 8. `DateTime.Now` snapshot — calendars don't re-render on `tick`
 
@@ -186,8 +164,9 @@ expected to stay open across midnight.
 
 ## When in doubt
 
-- Date-only ⇒ `DateOnly?` + `Format="yyyy-MM-dd"` + `EnableUtc="false"`
-- Date + time ⇒ `DateTime?` + sensible `Format` + decide UTC per row
-- Time-only ⇒ `DateTime?` + `Format="HH:mm"` (do not use `TimeOnly?`)
-- Range restricted ⇒ Set `Min`/`Max` in the *display* timezone + use
-  `DayCellRendering` for per-cell disable (weekends, holidays)
+- Date-only ⇒ `DateOnly?`; set `Format` only on picker inputs
+- Date + time ⇒ `DateTime?` plus an explicit application timezone policy
+- Time-only ⇒ `TimeOnly?` on `SfTimePicker`, e.g. `Format="HH:mm"`
+- Range restricted ⇒ consistent `Min`/`Max` values and `DayCellRendering`
+  for per-cell disabling (weekends, holidays)
+- Source ⇒ `src/Components/Calendars/`, not commercial component assumptions

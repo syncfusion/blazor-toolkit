@@ -340,6 +340,48 @@ jobs:
           if-no-files-found: ignore
           retention-days: 14
 
+  # Exact historical baseline + approved 2.0 exceptions + current contract guard.
+  api-compatibility:
+    name: API compatibility
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v7
+      - name: Setup pinned SDK
+        uses: actions/setup-dotnet@v6
+        with:
+          dotnet-version: '10.0.401'
+      - name: Setup Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: '22'
+      - name: Prepare themes
+        run: npm ci && npx gulp blazor-toolkit-themes
+      - name: Test verifier
+        run: python3 -m unittest discover -s tools/api-compat -p test_gate.py
+      - name: Build fresh comparison inputs
+        run: |
+          dotnet build src/Syncfusion.Blazor.Toolkit.csproj -c Release --no-incremental -p:CycloneDxEnabled=false
+          dotnet build tools/ApiContractProbe/ApiContractProbe.csproj -c Release
+          dotnet build tools/ApiContractProbe/Fixtures/RazorConsumer.csproj -c Release -p:CycloneDxEnabled=false
+      - name: Verify released and reviewed contracts
+        run: >-
+          python3 tools/api-compat/gate.py
+          --assemblies src/bin/Release
+          --probe tools/ApiContractProbe/bin/Release/net10.0/ApiContractProbe.dll
+          --output artifacts/api-compat
+      - name: Retain compatibility evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: api-compatibility
+          path: |
+            artifacts/api-compat/*.log
+            artifacts/api-compat/contracts-*.json
+          if-no-files-found: error
+          retention-days: 14
+
   # =========================================================
   # Job 6: Pack — D7 / CI-01
   # -----------------------------------------------------------------
@@ -357,7 +399,7 @@ jobs:
     name: Pack (.NET ${{ matrix.dotnet-version }})
     runs-on: ubuntu-latest
     timeout-minutes: 20
-    needs: [bunit, playwright, vulnerability-scan, eslint-security, xss-scan]
+    needs: [bunit, playwright, vulnerability-scan, eslint-security, xss-scan, api-compatibility]
     strategy:
       fail-fast: false
       matrix:
@@ -415,7 +457,7 @@ jobs:
   summary:
     name: CI Summary
     runs-on: ubuntu-latest
-    needs: [bunit, playwright, vulnerability-scan, eslint-security, xss-scan, pack]
+    needs: [bunit, playwright, vulnerability-scan, eslint-security, xss-scan, api-compatibility, pack]
     if: always()
     permissions:
       contents: read
@@ -429,6 +471,7 @@ jobs:
           echo "NuGet vuln scan result: ${{ needs.vulnerability-scan.result }}"
           echo "ESLint security result: ${{ needs.eslint-security.result }}"
           echo "XSS scan result:        ${{ needs.xss-scan.result }}"
+          echo "API compatibility:      ${{ needs.api-compatibility.result }}"
           echo "Pack result:            ${{ needs.pack.result }}"
 
           if [[ "${{ needs.bunit.result }}" != "success" \
@@ -436,6 +479,7 @@ jobs:
              || "${{ needs.vulnerability-scan.result }}" != "success" \
              || "${{ needs.eslint-security.result }}" != "success" \
              || "${{ needs.xss-scan.result }}" != "success" \
+             || "${{ needs.api-compatibility.result }}" != "success" \
              || "${{ needs.pack.result }}" != "success" ]]; then
             echo "One or more jobs failed → failing the workflow"
             exit 1
@@ -453,8 +497,9 @@ jobs:
             const vulnOk = '${{ needs.vulnerability-scan.result }}' === 'success';
             const eslintOk = '${{ needs.eslint-security.result }}' === 'success';
             const xssOk = '${{ needs.xss-scan.result }}' === 'success';
+            const apiOk = '${{ needs.api-compatibility.result }}' === 'success';
             const packOk = '${{ needs.pack.result }}' === 'success';
-            const overall = (bunitOk && pwOk && vulnOk && eslintOk && xssOk && packOk)
+            const overall = (bunitOk && pwOk && vulnOk && eslintOk && xssOk && apiOk && packOk)
               ? '✅ All checks passed'
               : '❌ Some checks failed';
 
@@ -467,6 +512,7 @@ jobs:
             | **NuGet vulnerability scan** | ${vulnOk ? '✅ Passed' : '❌ Failed'} |
             | **ESLint security** | ${eslintOk ? '✅ Passed' : '❌ Failed'} |
             | **XSS / unsafe markup scan** | ${xssOk ? '✅ Passed' : '❌ Failed'} |
+            | **API compatibility** | ${apiOk ? '✅ Passed' : '❌ Failed'} |
             | **Pack** (.NET 8/9/10, unsigned) | ${packOk ? '✅ Passed' : '❌ Failed'} |
 
             **Overall:** ${overall}

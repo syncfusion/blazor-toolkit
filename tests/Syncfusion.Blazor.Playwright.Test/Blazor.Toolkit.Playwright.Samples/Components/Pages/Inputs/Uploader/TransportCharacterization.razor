@@ -1,0 +1,142 @@
+@page "/inputs/uploader/transport/{Scenario}"
+@using Syncfusion.Blazor.Toolkit.Inputs
+@using System.Net.Http
+@implements IDisposable
+@inject IConfiguration Configuration
+
+@if (Configuration["R06_CHARACTERIZATION"] != "1")
+{
+    <p>Transport characterization is disabled. Start the dedicated local harness to enable it.</p>
+}
+else
+{
+<h1>Local uploader transport characterization</h1>
+<p>Dummy values only. Requests must be intercepted by the characterization harness.</p>
+<SfUploader @ref="uploader" ID="R06Uploader" AutoUpload="false" MaxFileSize="4096"
+            HttpClientInstance="client" CssClass="@cssClass"
+            BeforeUpload="BeforeUpload" BeforeRemove="BeforeRemove"
+            OnUploadStart="UploadStart" OnChunkUploadStart="ChunkStart" OnRemove="RemoveStart"
+            Success="Success" OnChunkSuccess="ChunkSuccess" OnChunkFailure="ChunkFailure"
+            OnFailure="Failure" OnActionComplete="Complete">
+    <UploaderAsyncSettings SaveUrl="/r06-upload/save" RemoveUrl="/r06-upload/remove"
+                           ChunkSize="@(Scenario.StartsWith("chunk", StringComparison.Ordinal) ? 1024 : 0)"
+                           RetryCount="1" RetryAfterDelay="100" />
+</SfUploader>
+<button id="r06-upload" @onclick="Upload">Upload</button>
+<button id="r06-remove" @onclick="Remove">Remove</button>
+<button id="r06-direct-remove" @onclick="DirectRemove">Direct remove</button>
+<button id="r06-release" @onclick="Release">Release callback</button>
+<button id="r06-update" @onclick="UpdateClient">Mutate defaults and parent parameter</button>
+<button id="r06-barrier" @onclick="Barrier">Circuit checkpoint</button>
+<pre id="r06-ledger">@string.Join("\n", ledger)</pre>
+<div id="r06-handler-sends">@handler.Sends</div>
+}
+
+@code {
+    [Parameter] public string Scenario { get; set; } = "defaults";
+    private SfUploader uploader = default!;
+    private readonly CountingHandler handler = new();
+    private HttpClient client = default!;
+    private readonly List<string> ledger = [];
+    private readonly TaskCompletionSource<bool> gate = new(TaskCreationOptions.RunContinuationsAsynchronously);
+    private string cssClass = "r06-initial";
+    private bool disposed;
+
+    protected override void OnInitialized()
+    {
+        client = new HttpClient(handler);
+        client.DefaultRequestHeaders.Add("X-R06-Backend", "DUMMY_BACKEND_INITIAL");
+        client.DefaultRequestHeaders.Add("Authorization", "Bearer DUMMY_PRIVILEGED");
+    }
+
+    private void Record(string entry)
+    {
+        if (disposed) return;
+        ledger.Add(entry);
+        StateHasChanged();
+    }
+
+    private static object Headers(string stage) => new object[]
+    {
+        new Dictionary<string, string> { ["X-R06-Explicit"] = "DUMMY_" + stage }
+    };
+
+    private async Task<bool> Wait(string stage)
+    {
+        Record(stage + ":entered");
+        if (Scenario == stage || Scenario == stage + "-cancel") await gate.Task;
+        if (disposed) return true;
+        Record(stage + ":released");
+        return Scenario == stage + "-cancel";
+    }
+
+    private async Task BeforeUpload(BeforeUploadEventArgs args)
+    {
+        args.Cancel = await Wait("before-upload");
+        args.CurrentRequest = Headers("BEFORE_UPLOAD");
+    }
+
+    private async Task BeforeRemove(BeforeRemoveEventArgs args)
+    {
+        args.Cancel = await Wait("before-remove");
+        args.CurrentRequest = Headers("BEFORE_REMOVE");
+    }
+
+    private async Task UploadStart(UploadingEventArgs args)
+    {
+        args.Cancel = await Wait("upload-start");
+        args.CurrentRequest = Headers("UPLOAD_START");
+        Record("upload-index:" + args.CurrentChunkIndex);
+    }
+
+    private async Task ChunkStart(UploadingEventArgs args)
+    {
+        Record("chunk-start:" + args.CurrentChunkIndex);
+        if (Scenario == "chunk-late" && args.CurrentChunkIndex == 2) await gate.Task;
+        if (disposed) { args.Cancel = true; return; }
+        args.CurrentRequest = Headers("CHUNK_" + args.CurrentChunkIndex);
+        Record("chunk-released:" + args.CurrentChunkIndex);
+    }
+
+    private async Task RemoveStart(RemovingEventArgs args)
+    {
+        args.Cancel = await Wait("remove-start");
+        args.CurrentRequest = Headers("REMOVE_START");
+    }
+
+    private void Success(SuccessEventArgs args) => Record("success:" + args.Operation);
+    private void ChunkSuccess(SuccessEventArgs args) => Record("chunk-success:" + args.ChunkIndex);
+    private void ChunkFailure(FailureEventArgs args) => Record("chunk-failure:" + args.ChunkIndex);
+    private void Failure(FailureEventArgs args) => Record("failure:" + args.Operation);
+    private void Complete(ActionCompleteEventArgs args) => Record("complete");
+    private Task Upload() => uploader.UploadAsync();
+    private async Task Remove() => await uploader.RemoveAsync((await uploader.GetFilesDataAsync()).Take(1).ToArray(), postRawFile: false);
+    private async Task DirectRemove() => await uploader.RemoveAsync((await uploader.GetFilesDataAsync()).Take(1).ToArray(), removeDirectly: true, postRawFile: false);
+    private void Release() => gate.TrySetResult(true);
+    private void Barrier() => Record("barrier");
+
+    private void UpdateClient()
+    {
+        client.DefaultRequestHeaders.Remove("X-R06-Backend");
+        client.DefaultRequestHeaders.Add("X-R06-Backend", "DUMMY_BACKEND_UPDATED");
+        cssClass = "r06-updated";
+        Record("updated");
+    }
+
+    public void Dispose()
+    {
+        disposed = true;
+        gate.TrySetResult(true);
+        client?.Dispose(); // Fixture owns this client; production uploader does not.
+    }
+
+    private sealed class CountingHandler : HttpMessageHandler
+    {
+        public int Sends { get; private set; }
+        protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+        {
+            Sends++;
+            throw new InvalidOperationException("The local fixture must not send through HttpClient.");
+        }
+    }
+}

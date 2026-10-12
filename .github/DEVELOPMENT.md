@@ -1,474 +1,321 @@
 # Development Guide
 
-This page contains the steps to build and run the Syncfusion Toolkit for Blazor repository from source. If you are looking to build apps with the Syncfusion Toolkit for Blazor, please head over to the links in the [README](https://github.com/syncfusion/blazor-toolkit/blob/main/README.md) to get started.
+Build and work on the Syncfusion Toolkit for Blazor from source. For application
+setup, start with the [README](../README.md). Work from `main` and target pull
+requests there. The toolkit is Chart-first; this repository does not contain a
+Grid component. See [CONTRIBUTING.md](CONTRIBUTING.md) before starting a large change.
 
-## Initial setup
-   ### Windows
-   - Install Visual Studio 2022 (v17.10 or newer) with ASP.NET and web development workload.
-   - Install [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0).
-   - Clone the repository:
-     ```shell
-     git clone https://github.com/syncfusion/blazor-toolkit.git
-     cd blazor-toolkit
-     ```
+## Prerequisites
 
-## Building the Solution
+- **.NET 10 SDK** for the `net8.0;net9.0;net10.0` library and the .NET 10 sample
+  hosts. There is no checked-in `global.json` SDK pin. Check `dotnet --info` and
+  `dotnet --list-sdks` in the terminal used for the build.
+- **.NET 8 runtime** to execute the `net8.0` bUnit project. Installing SDK 10
+  alone does not install that runtime; check `dotnet --list-runtimes`.
+- **Node.js 22.13 or newer within the 22.x line** is the documented CI-aligned
+  choice, with npm, for ESLint/tooling and themes. R00 ran on Node 26.10.0/npm
+  12.1.0, not Node 22; that run does not validate all supported tooling versions.
+- **CycloneDX global .NET tool** for default non-CI library builds and packs:
+  `dotnet tool install --global CycloneDX`. The target invokes the executable
+  under `$HOME/.dotnet/tools` (Windows: `%USERPROFILE%\.dotnet\tools`) directly.
+  Record the installed version when collecting evidence; it is not pinned here.
+- **`wasm-tools` for SDK 10** is needed for WebAssembly AOT/native-toolchain
+  scenarios: `dotnet workload install wasm-tools`. It was not listed among R00's
+  installed workloads, and the ordinary Debug gallery build passed; do not
+  treat it as a measured prerequisite for that build or claim AOT was tested.
+- Git and an editor such as Code Studio. Use a terminal whose .NET installation
+  contains both the selected SDK and the runtime needed by the tests.
 
-1. Open a command prompt/terminal window.
-2. Navigate to the location of your cloned `syncfusion/blazor-toolkit` repo.
-3. Run these commands:
-    ```dotnetcli
-    dotnet restore
-    dotnet build ./Syncfusion.Blazor.Toolkit.slnx
-    ```
+## Build from the repository root
 
-### Release sanity check (local)
-
-If you want to mimic what `.github/workflows/nuget-publish.yml` does on a release runner, pass `-p:ContinuousIntegrationBuild=true` so SourceLink and the package hash match what CI produces:
-
-```dotnetcli
-dotnet restore src/Syncfusion.Blazor.Toolkit.csproj -p:ContinuousIntegrationBuild=true
-dotnet build   src/Syncfusion.Blazor.Toolkit.csproj -c Release --no-restore -p:ContinuousIntegrationBuild=true
-dotnet pack    src/Syncfusion.Blazor.Toolkit.csproj -c Release --no-build -o nupkg -p:ContinuousIntegrationBuild=true
-```
-
-> **Note**: `dotnet pack` triggers a `BeforeBuild` target that runs `npm install` and `gulp blazor-toolkit-themes` if `src/wwwroot/styles/fluent.min.css` is absent. Make sure Node.js (LTS) is on `PATH`. The release workflow installs Node 22 explicitly to handle this.
-
-## Running Samples
-
-- Open the `samples/Blazor.Toolkit.Samples.slnx` file in Visual Studio.
-- Set the desired sample project as the startup project and run.
-
-## What branch should I use?
-
-As a general rule:
-- [main](https://github.com/syncfusion/blazor-toolkit/tree/main)
-
-## Sample projects
-
-### Samples
-```
-├── samples
-│   ├── Blazor.Toolkit.Samples
-│   ├── Blazor.Toolkit.Samples.Client
-```
-
-- *Blazor.Toolkit.Samples*: Full gallery sample with all of the controls and features of the Syncfusion Blazor Toolkit.
-- *Blazor.Toolkit.Samples.Client*: Client-side Blazor WebAssembly sample project.
-
-## Security Review Cycle
-
-The threat model and security posture are reviewed on a structured schedule:
-
-| Trigger | Activity |
-|---|---|
-| Every **major release** (`x.0.0`) | Full review of [THREAT-MODEL.md](THREAT-MODEL.md): reassess all threats, verify mitigations, update or re-ratify the accepted-risks table. |
-| Every **minor release** (`x.y.0`) | Review the accepted-risks table; escalate any entry whose circumstances have changed. |
-| **Monthly servicing** | Dependency review and CVE triage per [SECURITY.md §3.3](SECURITY.md). |
-
-The outcome of each structured review is recorded by updating the "Security Self-Attestation" date in [SECURITY.md](SECURITY.md) and the accepted-risks table in [THREAT-MODEL.md](THREAT-MODEL.md).
-
-## Versioning and API stability
-
-The project follows [Semantic Versioning 2.0.0](https://semver.org/spec/v2.0.0.html).
-Release history lives on the GitHub release page:
-
-> **Release history:** <https://github.com/syncfusion/blazor-toolkit/releases>
-
-Every published tag has a release page on that URL that enumerates
-the added, changed, deprecated, and removed APIs for that version.
-Consumers should subscribe to the GitHub Releases feed (or watch
-the repo's releases-only notifications) to be notified of new
-versions.
-
-The short version of the policy is:
-
-- **Major (`x.0.0`)** — breaking public-API changes; the public
-  surface is re-baselined in `PublicAPI.Shipped.txt`.
-- **Minor (`x.y.0`)** — backwards-compatible additions only.
-- **Patch (`x.y.z`)** — backwards-compatible bug fixes only.
-
-Until the project ships a `1.0.0` release, the minor digit may
-include breaking changes per SemVer §4. The currently shipped
-version is `v1.0.1`.
-
-APIs marked `[Obsolete]` are retained for at least **two minor
-releases** before removal. APIs marked `[Experimental]` are not
-covered by the SemVer compatibility promise and may change in any
-release.
-
----
-
-## Release readiness defects (D1–D9, manual NuGet signing)
-
-The numbers below correspond to the readiness-defect list reviewed on
-2026-09-06. Per current policy, NuGet package signing and publishing
-are performed **manually** by the release maintainer; no signing or
-publishing automation exists in this public repository and none must
-be added.
-
-### D1 / LP-10 — Pinned release commit (automatic on public commit)
-
-`RepositoryCommit` is **not** declared as a literal in
-`src/Syncfusion.Blazor.Toolkit.csproj`. It is populated automatically
-during `dotnet pack` by:
-
-- `Microsoft.SourceLink.GitHub` reading the local `.git/HEAD` and
-  storing the SHA in `SourceRevisionId`; and
-- `Directory.Build.props` defaulting `RepositoryCommit` to
-  `$(SourceRevisionId)` (which the .NET SDK emits into the `.nuspec`
-  `<repository>` element).
-
-The maintainer must run `dotnet pack` from a clone whose `HEAD`
-matches the on-`main` tag-candidate commit. Verification before sign:
+Generate themes explicitly from the root, where `package.json` and `gulpfile.js`
+reside. The current checkout has a tracked, matching `package-lock.json`; use
+`npm ci` to install its resolutions. If working from a revision without a matching
+lockfile, use `npm install` and record the newly resolved dependencies.
 
 ```sh
-git cat-file -e <SHA>^{commit} \
-  || { echo "ERROR: <SHA> is not on main"; exit 1; }
+npm ci
+npx gulp blazor-toolkit-themes
+dotnet restore src/Syncfusion.Blazor.Toolkit.slnx
+dotnet build src/Syncfusion.Blazor.Toolkit.slnx -c Release --no-restore
 ```
 
-### Release Checklist — RepositoryCommit resolution (MS-1.4(b) / LP-10)
+The source solution contains the library only. Do not use a bare root-level
+`dotnet restore` or an assumed root-level solution path. The project's
+`RunGulpOnceBeforeBuild` fallback checks for `fluent.min.css` on the first target
+framework, but explicit root-level generation avoids its working-directory
+ambiguity and refreshes CSS after SCSS changes. `dotnet pack --no-build` must not
+be relied on to generate themes or rebuild assemblies.
 
-The `<RepositoryCommit>` field on the produced `.nuspec` is **never** a
-literal in the repository; it is populated automatically at `dotnet pack`
-time via `Microsoft.SourceLink.GitHub` + `Directory.Build.props`. The
-release maintainer MUST run the following checklist on every candidate
-build, **before** triggering Manual NuGet sign and publish (PI-01, PI-02)
-below.
+For local development only, `-p:CycloneDxEnabled=false` can be passed to build,
+test, or pack commands to skip the SBOM targets when the global tool is unavailable.
+This is an opt-out, not release evidence or certification. No target configuration
+change is needed. See [Repository metadata and SBOM](#repository-metadata-and-sbom).
 
-1. **Confirm the public commit SHA on disk matches the on-`main`
-   tag-candidate commit.**
+## Run tests and samples
 
-   ```sh
-   git rev-parse HEAD                 # local SHA
-   git ls-remote https://github.com/syncfusion/blazor-toolkit.git HEAD \
-     | awk '{print $1}'               # upstream SHA
-   test "$LOCAL_SHA" = "$UPSTREAM_SHA" \
-     || { echo "ERROR: HEAD is not on main"; exit 1; }
-   ```
+Run the component tests using the explicit project path:
 
-2. **Confirm `SourceRevisionId` (set by SourceLink during `dotnet
-   restore` for `EmbedUntrackedSources=true`) equals the local SHA.**
+```sh
+dotnet test tests/Syncfusion.Blazor.Toolkit.BUnitTest/Syncfusion.Blazor.Toolkit.BUnitTest.csproj -c Release -f net8.0
+```
 
-   ```sh
-   dotnet restore src/Syncfusion.Blazor.Toolkit.csproj
-   git rev-parse HEAD                 # local SHA — must match
-   # SourceLink injects the SHA into the assembly metadata; the
-   # .nupkg's <repository> element will reflect it after pack.
-   ```
+The earlier `run-tests.sh` reference is not a repository entry point: no such
+script is present. Use the explicit project command above rather than a hardcoded
+SDK path.
 
-3. **Smoke-pack the unsigned `.nupkg` per TFM and inspect the `<repository>`
-   element.**
+The standalone ButtonGroup project now references Toolkit source, not a wildcard
+commercial package, and runs only its ButtonGroup tests plus shared harness checks:
 
-   ```sh
-   dotnet pack src/Syncfusion.Blazor.Toolkit.csproj \
-     -c Release \
-     -p:ContinuousIntegrationBuild=true \
-     -o ./verify-pkg
-   unzip -p verify-pkg/Syncfusion.Blazor.Toolkit.<Version>.nupkg \
-     Syncfusion.Blazor.Toolkit.nuspec \
-     | grep -E '<repository '
-   # Expected: an XML element whose 'commit' attribute equals the local SHA.
-   ```
+```sh
+dotnet test tests/Syncfusion.Blazor.Toolkit.BUnitTest/Buttons/ButtonGroup/Syncfusion.Blazor.Tests.ButtonGroup.csproj -c Debug
+```
 
-4. **Record the SHA + branch on the private release ticket.** This is
-   the same SHA the CI `pack` job echoes (`PACK_REPO_COMMIT=${github.event.pull_request.head.sha || github.sha}`);
-   the on-disk SHA MUST match it. If it does not, abort the release —
-   do not ad-hoc re-pack, do not bypass.
+Those cases also run in the main suite; do not sum the two results as unique
+coverage. Build the nested project before the parent when checking nested-output
+exclusion. `TestProjectContractTests` checks project declarations and emitted
+assembly identity; it assumes test output is beneath the checkout, not an external
+artifact directory. It is not full transitive/MSBuild-import enforcement.
 
-   - `Directory.Build.props` — `RepositoryCommit` default + branch resolution (`<SourceRevision>` → `<RepositoryCommit>`)
-   - `src/Syncfusion.Blazor.Toolkit.csproj` — `<RepositoryUrl>`, `<EmbedUntrackedSources>true</EmbedUntrackedSources>`, `<PublishRepositoryUrl>true</PublishRepositoryUrl>`
-   - `.github/workflows/ci.yml` — `pack` job smoke-packs an unsigned `.nupkg` per TFM to confirm the wire-up
+[R02 evidence](../docs/evidence/2026-10-06-r02-1922761/index.md) records 2,738 main
+cases passing in both Debug and Release, 36 standalone cases passing, and default
+clean/nonincremental library builds succeeding without R00's compiler switches.
+The earlier compiler-state failure was **not reproduced**, not proven fixed;
+retain diagnostics if it recurs. Existing test/sample warnings are not waived.
 
-### D2 / PI-01 — Strong-name signing (manual)
+Build the gallery solution and run its server host (the client is a referenced
+WebAssembly project, not a separate server):
 
-Shipped assemblies are strong-name signed by the release maintainer
-as part of the manual sign-and-publish procedure. The public
-repository contains no strong-name key material, no `SignAssembly=true`
-directive, and no `AssemblyOriginatorKeyFile` value — by policy.
-Public CI does not import, reference, or attempt to use any signing
-artefact. Consumers can therefore trust that the absence of automated
-signing in CI is deliberate and that a signed `.nupkg` is the
-result of the manual procedure in [§Manual NuGet sign and publish](#manual-nuget-sign-and-publish-pi-01-pi-02)
-below.
+```sh
+dotnet build samples/Blazor.Toolkit.Samples.slnx -c Release
+dotnet run --project samples/Blazor.Toolkit.Samples/Blazor.Toolkit.Samples.csproj -c Release
+```
 
-- Accepted Risk AR-1 in THREAT-MODEL.md.
+For browser checks, after theme generation and npm installation:
 
-### D3 / PI-02 — Authenticode and `.nupkg` signing (manual)
+```sh
+npx playwright install chromium
+npx playwright test
+```
 
-The inner DLLs are not Authenticode signed (`NotSigned`). The outer
-`.nupkg` is signed manually (primary + counter) by the release
-maintainer as part of the same manual sign-and-publish procedure. Public
-CI does not generate, sign, or modify a `.nupkg` for publication.
+On Linux, browser system dependencies may also be needed. Playwright starts
+`tests/Syncfusion.Blazor.Playwright.Test/Blazor.Toolkit.Playwright.Samples/Blazor.Toolkit.Playwright.Samples.csproj`
+on port 5000. It can reuse an existing server, so ensure that port belongs to the
+intended host. Current coverage is Chromium against one .NET 10 Interactive
+Server host, not all browsers or render modes. See [TEST-MATRIX.md](TEST-MATRIX.md)
+for configured checks, local results, and gaps.
 
-- Accepted Risk AR-2 in THREAT-MODEL.md.
+## Versioning and evidence status
 
-### D4 / BEQ-10 — Required parameters
+Use [Semantic Versioning](https://semver.org/spec/v2.0.0.html): major for breaking
+APIs, minor for compatible additions, patch for compatible fixes. [R03's API policy](../docs/API-COMPATIBILITY.md)
+now pins NuGet 1.0.2 and APICompat 10.0.401, records 194 individually named approved
+major exceptions, and separately guards the reviewed current public/protected,
+Razor/callback and representative JSON surface. The user authorized source
+`Version=2.0.0` as an **uncommitted source change**, not a publication. No
+`PublicAPI.Shipped.txt` is used; compressed contract manifests and exact exceptions
+live under `tools/api-compat/`.
 
-Every `Sf*` component parameter whose XML documentation describes the
-parameter as required must also carry `[EditorRequired]`. The
-`tests/Syncfusion.Blazor.Toolkit.BUnitTest/Base/EditorRequiredAttributeTests.cs`
-bUnit test enforces this by reflection over every public `[Parameter]`
-in `src/Components/` and asserts `EditorRequiredAttribute` presence
-when the docs mark the parameter as required.
+Follow the policy's build/gate commands before changing an API. CI's new
+`api-compatibility` job blocks pack/summary on failure; remote results and admin
+required-check settings remain unverified. [R03 evidence](../docs/evidence/2026-10-06-r03-1922761/index.md)
+retains passing source checks and deliberate rejected mutations. Never generate
+blanket suppressions or automatically replace reviewed snapshots. CSS isolation
+is planned separately; current asset instructions remain until consumer-tested.
+Compatibility and deprecation decisions still require review; no fixed removal
+window or universal old-state migration guarantee is established.
 
-### D5 / BEQ-20 — `e-*` style contract
+The public-release metadata reviewed on 2026-10-03 and rechecked in the
+[retained R00 response on 2026-10-06](../docs/evidence/2026-10-06-r00-1922761/index.md#release-identity) lists
+[v1.0.2](https://github.com/syncfusion/blazor-toolkit/releases/tag/v1.0.2)
+(2026-09-01) and
+[v1.0.1](https://github.com/syncfusion/blazor-toolkit/releases/tag/v1.0.1)
+(2026-06-26), both with empty release-asset lists. No `v1.0.0` release record was
+present in those responses. This does not establish the absence of a tag or NuGet
+package. Source was `1.0.0` in that baseline; R03 now authorizes `2.0.0` in the
+uncommitted tree. Maintainers must still reconcile candidate source/package/tag
+identity before publishing. Local unreleased changes and the dated results below
+are not evidence of what shipped in those releases.
 
-Global styles for the toolkit are namespaced under `e-*`. They are
-shipped from `src/wwwroot/styles/` and consumed via the
-`_content/Syncfusion.Blazor.Toolkit/styles` static asset path. The
-contract, including stable selectors and renaming policy, is defined
-in [`src/wwwroot/styles/STYLE-CONTRACT.md`](../src/wwwroot/styles/STYLE-CONTRACT.md).
-A subset of components uses Blazor CSS isolation for self-contained
-styling (`Border.razor.css` under `Spinner`, `SfNumericTextBox.razor.css`);
-those files are colocated with the component.
+## Manual release preparation
 
-### D6 / PI-06 — SBOM (manual)
+**Signing and publication remain manual, owner-controlled operations.** Public
+CI smoke-packs unsigned review artifacts; there is no public publish workflow.
+Absence of signing configuration does not prove that a released package or its
+assemblies are signed. Strong-name, Authenticode, and NuGet package signatures
+are different checks and require evidence from the actual final artifact.
 
-For every release, the release maintainer generates an SPDX 2.3 SBOM
-and a CycloneDX 1.5 SBOM **locally**, **from the signed `.nupkg`**,
-and attaches both to the GitHub release as release assets. This step
-is part of the manual process described under D8 / D9. Public CI does
-not upload any SBOM.
-
-- Accepted Risk AR-5 in THREAT-MODEL.md.
-
-### D7 / CI-01 — PR CI gates pack
-
-Every PR runs restore → build → bUnit → Playwright → eslint → xss →
-vulnerability scan → **pack** for .NET 8/9/10. The `pack` job
-produces an **unsigned** `.nupkg` artifact labelled
-`unsigned-pkg-<tfm>` for human review only. Pack must succeed with
-`RepositoryCommit=<PR head SHA>` before the summary job reports
-success. The artifact is not the publication candidate and is not
-intended to be pushed to nuget.org.
-
-### D8 / CI-07 — Public repository security boundary
-
-There is no `.github/workflows/nuget-publish.yml`, no signing tool
-invocation, no SHA-256 hand-off, no `STRONG_NAME_KEY_BASE64` secret
-reference, and no `no-secrets.yml` sentinel. Adding any of these is
-prohibited by the manual-signing policy. The repository boundary is
-the maintainer's local machine running the manual procedure below.
-
-- Accepted Risk AR-4 in THREAT-MODEL.md.
-
-### D9 / CI-08 — Manual sign-and-publish hand-off
-
-There is no automated immutable-artifact job in CI. The
-tamper-evident control point is the maintainer's local pre-publish
-verification: the maintainer runs `sha256sum` against the final
-`.nupkg` and records the digest in the private release ticket before
-executing `dotnet nuget push`. No public workflow participates in or
-records this hand-off.
-
-- Accepted Risk AR-4 in THREAT-MODEL.md.
+For every release, copy the [release checklist](../docs/RELEASE-CHECKLIST.md)
+into the release record. Start with approval and a source `<Version>` update
+before freezing the candidate SHA; the checklist includes evaluated-version
+checks to catch missed updates. Use the [manual/external evidence tracker](../docs/MANUAL-EXTERNAL-EVIDENCE-TRACKER.md)
+for named owners, execution steps, report formats and approval records. The
+[remaining-issue closure plan](../docs/ENTERPRISE-READINESS-PLAN.md#12-remaining-issue-closure-plan)
+orders implementation work; these documents do not authorize signing/publication
+or mark an unexecuted gate complete.
 
 ### Manual NuGet sign and publish (PI-01, PI-02)
 
-This procedure is the canonical sign-and-publish process. It is
-performed **locally** by the Syncfusion release maintainer; no part
-of it runs on public CI.
+This is a preparation checklist, not a replacement for the release owner's
+approved signing tools and procedure. Do not add publishing credentials or
+signing keys to this repository or public CI.
 
-1. Pre-flight:
-   - Confirm the tag candidate SHA exists on `main`:
-     `git cat-file -e <SHA>^{commit}`.
-   - `RepositoryCommit` is populated automatically from the local
-     `.git/HEAD` via `Microsoft.SourceLink.GitHub` +
-     `Directory.Build.props` (AR-3) — no manual substitution is
-     required.
-2. Restore + Build + Pack (locally):
-   ```dotnetcli
+1. Agree the version and candidate commit with the release owner. Start from a
+   clean checkout of that exact public commit and record SDK, runtime, npm,
+   dependency, workload, and CycloneDX versions plus relevant test results.
+2. Fetch the approved upstream `main` reference, verify the candidate's ancestry
+   with `git merge-base --is-ancestor <candidate-sha> <upstream-remote>/main`, and
+   compare `git rev-parse HEAD` with the approved candidate SHA. Merely finding
+   an object with `git cat-file -e` does not prove it belongs to `main`; the
+   current tip of `main` need not equal an approved earlier candidate.
+3. Generate themes, restore, build, and pack the same candidate using a consistent
+   Release configuration. Confirm the agreed package version rather than assuming
+   the source `1.0.0` value is appropriate. For an **unsigned local smoke check**
+   after the prerequisite/theme steps:
+
+   ```sh
    dotnet restore src/Syncfusion.Blazor.Toolkit.csproj
-   dotnet build   src/Syncfusion.Blazor.Toolkit.csproj -c Release --no-restore
-   dotnet pack    src/Syncfusion.Blazor.Toolkit.csproj -c Release --no-build -o nupkg -p:ContinuousIntegrationBuild=true
+   dotnet build src/Syncfusion.Blazor.Toolkit.csproj -c Release --no-restore
+   dotnet pack src/Syncfusion.Blazor.Toolkit.csproj -c Release --no-build -o nupkg
    ```
-3. Strong-name sign the inner assemblies (PI-01, manual):
-   ```sh
-   sn -R <assembly.dll> <strong-name.snk>   # private key, never committed
-   ```
-4. Re-pack with the signed DLLs:
-   ```dotnetcli
-   dotnet pack src/Syncfusion.Blazor.Toolkit.csproj -c Release --no-build -o nupkg-final
-   ```
-5. Sign the `.nupkg` (PI-02, manual):
-   ```sh
-   nuget sign nupkg-final/Syncfusion.Blazor.Toolkit.<version>.nupkg \
-     -CertificateSubjectName "<maintainer's code-signing subject>" \
-     -CertificateStore Location=CurrentUser;StoreName=My \
-     -TimestampserverUrl http://timestamp.digicert.com \
-     -HashAlgorithm SHA256
-   ```
-6. Cross-sign with a counter-signing certificate as configured by
-   the maintainer:
-   ```sh
-   nuget sign nupkg-final/Syncfusion.Blazor.Toolkit.<version>.nupkg \
-     -CertificateSubjectName "<counter-signing subject>" \
-     -CertificateStore Location=CurrentUser;StoreName=My
-   ```
-7. Generate SBOMs locally from the **signed** `.nupkg`:
-   ```sh
-   cd nupkg-final
-   cyclonedx-dotnet -i Syncfusion.Blazor.Toolkit.<version>.nupkg -o bom.xml
-   spdx-tools generate -i Syncfusion.Blazor.Toolkit.<version>.nupkg -o spdx.json
-   ```
-8. Compute the audit-trail hashes:
-   ```sh
-   sha256sum *.nupkg *.spdx.json bom.xml > SHA256SUMS
-   ```
-9. Publish:
-   ```sh
-   dotnet nuget push nupkg-final/Syncfusion.Blazor.Toolkit.<version>.nupkg \
-     -ApiKey $NUGET_API_KEY -Source https://api.nuget.org/v3/index.json
-   ```
-10. Attach `*.spdx.json`, `bom.xml`, and `SHA256SUMS` to the GitHub
-    release page corresponding to the tag. The signed `.nupkg` itself
-    is published **only** via `dotnet nuget push` in step 9.
-11. No csproj revert is required — `RepositoryCommit` is automatic.
 
-### Repository metadata + SBOM during `dotnet pack`
+4. Inspect the `.nuspec` repository URL, commit and version, target-framework
+   contents, static assets, PDB/SourceLink metadata, and any included SBOM.
+   Metadata strings are assertions to check, not proof of provenance.
+5. Apply any required assembly signing **before** final packaging using the
+   owner's approved build/signing process. Do not use `sn -R` as a recipe to
+   convert an arbitrary unsigned DLL into a correctly strong-named assembly.
+   The public source build is not evidence of the released assemblies' signing.
+6. Apply and verify the final NuGet signature with the owner's approved tooling,
+   certificate policy and timestamp procedure. Repeated `nuget sign` calls are
+   not a generic countersigning procedure. Verify any repository countersignature
+   separately on the downloaded published package. No certificate identity, HSM
+   use, or signature status is established by this guide.
+7. Collect package-specific dependency/license and SBOM evidence, recording the
+   input artifact and tool versions. The source-project CycloneDX output described
+   below is not an inventory derived from a signed package. Do not label it so.
+8. Record a SHA-256 digest of the **final** candidate and keep the verification
+   record with the release approval. A digest identifies bytes; by itself it
+   neither authenticates the publisher nor proves source/build provenance.
+   Do not rebuild or mutate the artifact after final verification.
+9. The authorized owner publishes manually through the approved private process.
+   Verify the downloaded package, release/tag/version mapping and any evidence
+   attachments afterward. Record any repository-added signature separately from
+   the pre-upload artifact. This guide contains no publication credential examples.
 
-`Directory.Build.props` (repo root) sets defaults so a normal
-`dotnet pack` run from a public commit automatically wires:
+`ContinuousIntegrationBuild` is already set in `Directory.Build.props`. Setting
+that property does not run a workflow or guarantee identical local/CI hashes.
 
-- `RepositoryUrl` — set per packable project in its `.csproj`.
-- `RepositoryType` — `git`, set per packable project.
-- `RepositoryCommit` — auto-populated from
-  `Microsoft.SourceLink.GitHub`'s `SourceRevisionId` (the local
-  `.git/HEAD` SHA). Override with `-p:SourceRevision=<SHA>` if the
-  checkout context demands it.
-- `RepositoryBranch` — resolved at build time from `.git/HEAD` by
-  the `_ResolveRepositoryBranch` target. Override with
-  `-p:RepositoryBranch=<name>` for a hotfix-branch release.
-- **SBOM** — `Directory.Build.targets` runs `dotnet CycloneDX` after
-  the kernel is compiled and packages `Syncfusion.Blazor.Toolkit.cdx.json`
-  inside the `.nupkg` at `_sbom/cyclonedx/<tfm>/`, plus a sibling copy
-  at `artifacts/sbom/<id>/<version>/<tfm>/`.
+### Historical readiness references (2026-09-06)
 
-Sources:
+The D1–D9 / LP / PI / BEQ / CI labels below are retained for audit traceability,
+not as certifications or closure claims. Consult [THREAT-MODEL.md](THREAT-MODEL.md)
+for the historical accepted-risk discussion; current evidence must be attached
+before relying on a control.
 
-- `Directory.Build.props` (defaults + `_ResolveRepositoryBranch`)
-- `Directory.Build.targets` (`_GenerateCycloneDxSbom`,
-  `_PackCycloneDxSbomIntoNupkg`)
-- `src/Syncfusion.Blazor.Toolkit.csproj` (`<RepositoryUrl>`,
-  `<PublishRepositoryUrl>true`, `<EmbedUntrackedSources>true`)
+| Reference | Current interpretation / evidence needed |
+|---|---|
+| D1 / LP-10 / MS-1.4(b) | Repository metadata is configured; inspect the candidate `.nuspec`, SourceLink data and approved public commit. |
+| D2 / PI-01 (AR-1) | Strong-name signing is an owner-controlled release concern; final-assembly verification is required. |
+| D3 / PI-02 (AR-2) | Authenticode and package-signature status must be checked separately on released artifacts. |
+| D4 / BEQ-10 | `Base/EditorRequiredAttributeTests.cs` checks selected types using `DescriptionAttribute`, not XML documentation across every public parameter. Review XML-doc/`[EditorRequired]` consistency separately. |
+| D5 / BEQ-20 | Review styles under `src/wwwroot/styles/` and the [style contract](../src/wwwroot/styles/STYLE-CONTRACT.md); do not infer universal selector/isolation coverage. |
+| D6 / PI-06 (AR-5) | Conditional source-project CycloneDX generation exists; release SBOM completeness and attachments remain unverified. |
+| D7 / CI-01 | CI declares dependent unsigned pack jobs, not verified successful publication; see [TEST-MATRIX.md](TEST-MATRIX.md). |
+| D8 / CI-07 and D9 / CI-08 (AR-4) | Signing/publishing stay manual. No public automated signed-artifact hand-off or provenance attestation is configured. |
 
-The maintainer must `dotnet tool install --global CycloneDX` once on
-the release workstation before the first release.
+### Repository metadata and SBOM
 
-### Why there is no public publish workflow
+Read [Directory.Build.props](../Directory.Build.props),
+[Directory.Build.targets](../Directory.Build.targets) and the
+[library project](../src/Syncfusion.Blazor.Toolkit.csproj) as the source of truth.
+SourceLink and the repository-property defaults are intended to populate package
+metadata. Their presence alone does not verify a commit, branch, or artifact.
+Inspect the actual package, especially with detached checkouts or worktrees.
 
-There is intentionally no `.github/workflows/nuget-publish.yml` in
-this repository. NuGet Trusted Publishing (OIDC) is **not** used for
-this package. The reasons are:
+The SBOM targets have these important boundaries:
 
-1. **Manual signing** — the `.nupkg` is signed (primary + counter)
-   on the release maintainer's local machine with an HSM-backed code
-   signing identity. OIDC would have CI sign and push directly, which
-   contradicts the published manual-signing policy (THREAT-MODEL.md
-   AR-1, AR-2, AR-4).
-2. **Trusted identity in CI is broader** — an OIDC trust relationship
-   between GitHub Actions and nuget.org means that any workflow job
-   with the right permissions can push a package impersonating this
-   repo. The release workstation, in contrast, is the only place
-   the code-signing certificate exists.
-3. **Audit trail at the human boundary** — the manual sign-and-publish
-   procedure in §Manual NuGet sign and publish leaves the maintainer
-   in control of the publish command. This is the audit boundary the
-   threat model relies on.
-4. **No secrets in CI** — there is no `STRONG_NAME_KEY_BASE64`, no
-   `NUGET_API_KEY`, and no certificate in public CI. Adding them
-   would directly conflict with AR-1, AR-2 and AR-4.
+- Generation hooks run after `Build` / before `GenerateNuspec` only when
+  `CycloneDxEnabled=true`, `CI` is not `true`, the project is packable and not a
+  test project, and `TargetFramework` is nonempty. `ContinuousIntegrationBuild`
+  is a separate property; it does not determine this `CI` condition.
+- The command uses the **global** CycloneDX executable, passing the source
+  `.csproj`, `--framework` and `-dpr`. There is no checked-in local tool manifest;
+  the conditional `dotnet tool restore` step does not replace that global-tool
+  prerequisite. SDK-inferred packability can matter outside the library too.
+- Output is intended under `artifacts/sbom/<package-id>/<version>/<tfm>/` and
+  next to build output. Packing attempts to include an existing mirror under
+  `_sbom/cyclonedx/<tfm>/`. Verify actual paths and package contents on the release
+  workstation; generation, copying and packing have different conditions.
+- CI generation is skipped. The pack inclusion target checks for an existing
+  file, so stale local mirrors must not be accepted as fresh evidence. Neither
+  `--no-build` nor a successful pack proves an SBOM was freshly generated/included.
+- This is a **source-project dependency inventory**, not an inventory extracted
+  from the final signed `.nupkg`, an SPDX generator, or a license-completeness
+  check. Validate the generated document's format/version; the sidecar's hard-coded
+  format label is not tool-version or schema verification.
 
-If the publish process is ever changed, it must be re-ratified through
-a new Accepted Risk entry and reflected in THREAT-MODEL.md before
-deployment.
+The reviewed release snapshot contains no attached SBOM assets for v1.0.1 or
+v1.0.2. It does not establish whether a NuGet package embeds one. See
+[THIRD-PARTY-NOTICES.md](THIRD-PARTY-NOTICES.md) for dependency evidence boundaries.
 
-### Render-mode security
+## Security, render modes, performance and publishing checks
 
-Blazor offers three render modes: static SSR, Interactive Server, and
-Interactive WebAssembly. Each has a different security profile:
+Use [SECURITY.md](SECURITY.md) for private vulnerability reporting. The review
+cadence and accepted risks in that policy and [THREAT-MODEL.md](THREAT-MODEL.md)
+are policy/history, not proof that scheduled reviews took place. Record the
+reviewed commit, date, findings, owner and supporting artifacts; do not simply
+advance an attestation date.
 
-- **Static SSR** produces no JS interop and no SignalR circuit; it is
-  equivalent to a server-rendered page. Components run on the server
-  using only server-allowed APIs (`IHttpContextAccessor`,
-  `NavigationManager`, DI services marked `Scoped`). There is no
-  browser-exposed attack surface beyond the HTML payload.
-- **Interactive Server** operates over a SignalR circuit. Components
-  retain access to all server-side APIs; the browser sees only
-  diff-rendered DOM. State is server-resident and never sent to the
-  browser other than through Blazor's diff protocol.
-- **Interactive WebAssembly** runs code on the client. Components
-  in this mode **MUST NOT** call server-only APIs
-  (`HttpContextAccessor`, `IDbContextFactory` without preloading,
-  `SignInManager`, etc.) directly; doing so throws at runtime.
+Render modes have different trust boundaries: static SSR has no interactive
+component circuit but still needs safe HTML and endpoint handling; Interactive
+Server uses SignalR and browser JS; WebAssembly executes in an untrusted client;
+Auto can use both interactive hosting models. Keep secrets/server-only services
+out of client code and enforce authorization on server endpoints. Consult
+[RENDER-MODE-SECURITY.md](RENDER-MODE-SECURITY.md) and verify each component's
+actual mode requirements rather than inferring them from the gallery or one test.
 
-The codebase contains components that work in Interactive Server and
-WebAssembly (e.g. `SfButton`, `SfDialog`, `SfTooltip`) and components
-that are documented as static or server-only. The render mode is
-declared per sample, not per component. The render-mode contract for
-each component is documented in its XML doc-comment `Remarks`
-section. Security implications are summarised in
-[RENDER-MODE-SECURITY.md](RENDER-MODE-SECURITY.md).
+Report performance regressions with component, render mode, dataset size,
+reproduction and measurements. This guide makes no virtualization or benchmark
+claim for `SfChart` and does not imply a Grid or DropDownList component exists.
 
-### Performance notes
-
-The codebase uses a number of standard Blazor performance patterns:
-
-- Virtualization is used in `SfChart` for large data sets.
-- `@key` is supplied on collection items in `SfDropDownList`-style
-  inputs and in the dialog list rendering to keep DIff operations
-  stable across re-renders.
-- `ShouldRender` overrides are used in components where re-rendering
-  is expensive (`SfNumericTextBox`, `SfDatePicker`).
-- JS interop is limited to one well-typed module surface
-  (`Base/SfJsInterop`) to keep marshalling overhead low.
-
-Performance regressions should be tracked with a `perf`-labelled bug.
-
-### Trim and AOT compatibility
-
-`src/Syncfusion.Blazor.Toolkit.csproj` declares
-`<IsTrimmable>true</IsTrimmable>` and `<IsAotCompatible>true</IsAotCompatible>`.
-This means:
-
-- A **publish** of a sample with `-p:PublishTrimmed=true` is run
-  prior to every minor release. Any remaining ILLink warnings are
-  either fixed or annotated in the [Known analyzer / trim / AOT
-  findings](#known-analyzer-trim-aot-findings) section.
-- A **publish** with `-p:PublishAot=true` is run prior to every
-  major release against `samples/Blazor.Toolkit.Samples.Client`
-  (the WebAssembly sample). Any remaining ILCompiler warnings are
-  either fixed or annotated.
-
-### Test matrix
-
-`.github/workflows/ci.yml` runs the bUnit component tests on the full
-.NET matrix (8.0.x, 9.0.x, 10.0.x). Playwright validation runs on the
-same triple. The unpacked WebAssembly sample smoke runs on .NET 10
-only. Documented coverage and gaps are kept up to date in
-[TEST-MATRIX.md](TEST-MATRIX.md).
+The library declares `IsTrimmable`, `IsAotCompatible`, and trim/AOT analyzers.
+Those settings are **not proof of a successful trimmed or AOT deployment**.
+No corresponding publish gate is configured in the current workflows. Browser
+WebAssembly AOT uses `RunAOTCompilation`; it is not interchangeable with Native
+AOT's `PublishAot`. Any deployment claim needs an appropriate supported host,
+SDK/workload details, publish output and runtime checks. See
+[TEST-MATRIX.md](TEST-MATRIX.md) for current evidence and gaps.
 
 ### Known analyzer / trim / AOT findings
 
-The compiler-analyzer configuration promotes only security-relevant
-CA rules to errors (`src/Syncfusion.Blazor.Toolkit.csproj`,
-`<WarningsAsErrors>`). The following pre-existing findings are
-documented and not treated as defects:
+The library project's `WarningsAsErrors` lists security-focused CA rules. Review
+actual configuration and the scoped justifications in
+`src/Properties/GlobalSuppressions.cs`; a suppression is not a finding of safety
+for every caller or input. The historical `docs/BL0007-analysis.md` referenced by
+older notes is absent from this checkout. Recover the original record from its
+owner/history before relying on it; do not invent a replacement approval.
 
-| Finding | Source | Rationale |
-|---|---|---|
-| Finding | Source | Rationale |
-|---|---|---|
-| `CA1014` / `CA1017` (assembly attributes) | applies to all TFM builds | The toolkit is a client-only Blazor component library; COM exposure and CLS-compliance enforcement are not consumer surfaces. Suppressed assembly-wide in `src/Properties/GlobalSuppressions.cs`. |
-| `CA1305` (string IFormat) | applies to error/log message formatting | Error/log message formatting in this codebase never substitutes user-controlled values. Suppressed assembly-wide in `src/Properties/GlobalSuppressions.cs`. |
-| `CA1716` (identifier naming) | applies consistently across contributors | Identifiers in the public Data namespace mirror .NET design-time naming (`Dynamic`, `Value`, etc.) required by the style guide. Suppressed assembly-wide in `src/Properties/GlobalSuppressions.cs`. |
+**Latest retained baseline (2026-10-06):** [R00 evidence](../docs/evidence/2026-10-06-r00-1922761/index.md)
+records SDK 10.0.401 builds on macOS arm64 at commit `1922761`. Default builds
+failed with cascading Razor/compiler diagnostics. Cleaning and serializing builds
+alone did not resolve them; non-incremental Debug library builds across .NET
+8/9/10 passed with **0 warnings/errors** using both `--disable-build-servers`
+and `-p:UseSharedCompilation=false`. The same workaround built the gallery with
+**232 warnings**. This is diagnostic evidence, not a source fix or proof of the
+precise compiler root cause; R02 must investigate default-build reproducibility.
 
-Suppressions are added via `src/Properties/GlobalSuppressions.cs` so
-they are visible to maintainers during code review and re-evaluated at
-each major release. The file's per-rule rationale is duplicated in
-`Justification` comments so each audit can be completed without
-referring back to this table.
+The full net8.0 bUnit suite passed **2,735 cases twice**, with no failures/skips,
+but compilation logged **3,537 warning occurrences**. Four basic Chart browser
+cases passed; the full browser matrix, trim/AOT and package consumers remain
+unverified. [TEST-MATRIX.md](TEST-MATRIX.md) records scope and scan findings.
+No compiler switch, suppression, dependency or build configuration is changed by
+this documentation correction.
+
+**Historical local narrative (2026-10-03):** the following notes report the older
+0-warning library / 2,735-test result. R00 did not locate those original raw run
+artifacts. Preserve the decisions as history, not remote CI or package proof;
+the newer baseline does not retroactively substantiate missing historical logs.
 
 #### Standing IDE compatibility rationale (2026-10-02)
 
@@ -584,11 +431,10 @@ Verification after the approved constraint change:
 - These results apply to the library build and stated checks; existing warnings
   in test/sample projects and editor-only suggestions are not claimed resolved.
 
-### Trim and AOT residual warnings
+### Trim and AOT follow-up evidence
 
-Residual `ILLink` warnings from `-p:PublishTrimmed=true` against
-`samples/Blazor.Toolkit.Samples` and residual `ILCompiler` warnings
-from `-p:PublishAot=true` against
-`samples/Blazor.Toolkit.Samples.Client` are captured under the
-`trim-and-aot` label in the issues queue. Each issue lists the rule
-id, the symbol, and the planned remediation.
+The older guide referred to residual warnings under a `trim-and-aot` issue label,
+but no publish logs or issue-to-warning inventory are established here. For a
+future publish investigation, record the supported host, SDK/workload versions,
+exact publish options, rule IDs, symbols, runtime checks and issue links. The
+local analyzer/build results above do not substitute for that evidence.

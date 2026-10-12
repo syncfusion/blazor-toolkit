@@ -1,7 +1,7 @@
 ﻿## Table of Contents
 
 - [1. Data Binding](#1-data-binding)
-   - [Basic Data Binding with List<T>](#basic-data-binding-with-listt)
+   - [Basic Data Binding with `List<T>`](#basic-data-binding-with-listt)
    - [IEnumerable Data Binding](#ienumerable-data-binding)
    - [Multiple Series with Different Data Sources](#multiple-series-with-different-data-sources)
 - [2. DataManager Integration](#2-datamanager-integration)
@@ -26,7 +26,6 @@
    - [Zero Mode for Empty Points](#zero-mode-for-empty-points)
    - [Drop Mode (Skip Empty Points)](#drop-mode-skip-empty-points)
 - [7. Data Serialization](#7-data-serialization)
-   - [JSON Data Binding](#json-data-binding)
    - [Deserialize from API Response](#deserialize-from-api-response)
    - [Complex JSON Structure](#complex-json-structure)
 - [8. Live/Real-time Data](#8-livereal-time-data)
@@ -42,13 +41,13 @@
 
 # Blazor Chart Data Handling Reference
 
-Complete guide to data handling, binding, manipulation, and optimization patterns for Syncfusion Blazor Charts.
+Toolkit Chart data-handling patterns. Examples are fragments unless all data, services, and handlers are declared; complete host/import setup as described in [getting started](getting-started.md). Use `Syncfusion.Blazor.Toolkit.Data` for data APIs, not the commercial namespace.
 
 ---
 
 ## 1. Data Binding
 
-### Basic Data Binding with List<T>
+### Basic Data Binding with `List<T>`
 
 ```razor
 @using Syncfusion.Blazor.Toolkit.Charts
@@ -149,9 +148,12 @@ Complete guide to data handling, binding, manipulation, and optimization pattern
 
 ### Remote Data Binding
 
+Fragment: replace the placeholder URL with an application endpoint matching
+the chosen adaptor's response contract.
+
 ```razor
 @using Syncfusion.Blazor.Toolkit.Charts
-@using Syncfusion.Blazor.Data
+@using Syncfusion.Blazor.Toolkit.Data
 
 <SfChart>
     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"/>
@@ -164,7 +166,7 @@ Complete guide to data handling, binding, manipulation, and optimization pattern
 ### Local DataManager with Query
 
 ```razor
-@using Syncfusion.Blazor.Data
+@using Syncfusion.Blazor.Toolkit.Data
 
 <SfChart>
         <ChartSeries XName="Category" YName="Amount" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Bar">
@@ -185,22 +187,20 @@ Complete guide to data handling, binding, manipulation, and optimization pattern
 
 ### Custom DataManager with Filtering
 
+`Query` is a `ChartSeries` parameter, not an HTML/nested query block.
+
 ```razor
+@using Syncfusion.Blazor.Toolkit.Data
+
 <SfChart>
-        <ChartSeries XName="Name" YName="Value" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column">
-            <SfDataManager Json="@allData">
-                <Query>
-                    @{
-                        var query = new Syncfusion.Blazor.Data.Query()
-                            .Where("Value", "greaterthan", 50)
-                            .Take(10);
-                    }
-                </Query>
-            </SfDataManager>
-        </ChartSeries>
+    <ChartSeries XName="Name" YName="Value" Query="filteredQuery"
+                 Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column">
+        <SfDataManager Json="@allData" />
+    </ChartSeries>
 </SfChart>
 
 @code {
+    private Query filteredQuery = new Query().Where("Value", "greaterthan", 50).Take(10);
     private List<DataItem> allData = new List<DataItem>();
 
     protected override void OnInitialized()
@@ -365,11 +365,15 @@ Complete guide to data handling, binding, manipulation, and optimization pattern
 
 ### Data Editing with Drag and Drop
 
+Fragment: reuse the `SalesData` class from [basic data binding](#basic-data-binding-with-listt).
+`ChartDataEditSettings` enables Y-value editing without a `Mode` parameter.
+
 ```razor
 <SfChart>
-    <ChartEvents OnPointDragComplete="HandleDragComplete"/>
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"/>
+    <ChartEvents OnDataEditCompleted="HandleDragComplete"/>
         <ChartSeries DataSource="@dragData" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column">
-            <ChartDataEditSettings Enable="true" Mode="EditMode.Y"/>
+            <ChartDataEditSettings Enable="true"/>
         </ChartSeries>
 </SfChart>
 
@@ -384,9 +388,10 @@ Complete guide to data handling, binding, manipulation, and optimization pattern
         new SalesData { Month = "Mar", Sales = 34 }
     };
 
-    private void HandleDragComplete(IDragCompleteEventArgs args)
+    private void HandleDragComplete(DataEditingEventArgs args)
     {
-        lastEditMessage = $"Point {args.X} updated to value {args.Y}";
+        lastEditMessage = $"Point {args.Point.X} updated to value {args.NewValue}";
+        StateHasChanged();
     }
 }
 ```
@@ -397,11 +402,12 @@ Complete guide to data handling, binding, manipulation, and optimization pattern
 
 ### Sort by X-Axis (Ascending)
 
+Sort the bound collection; `ChartSeriesSort` is not a Toolkit component.
+
 ```razor
 <SfChart>
-        <ChartSeries DataSource="@unsortedData" XName="Category" YName="Value" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column">
-            <ChartSeriesSort Enable="true" Direction="SortDirection.Ascending"/>
-        </ChartSeries>
+    <ChartSeries DataSource="@unsortedData.OrderBy(item => item.Category).ToList()"
+                 XName="Category" YName="Value" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column" />
 </SfChart>
 
 @code {
@@ -424,9 +430,8 @@ Complete guide to data handling, binding, manipulation, and optimization pattern
 
 ```razor
 <SfChart>
-        <ChartSeries DataSource="@salesByRegion" XName="Region" YName="Revenue" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Bar">
-            <ChartSeriesSort Enable="true" Direction="SortDirection.Descending"/>
-        </ChartSeries>
+    <ChartSeries DataSource="@salesByRegion.OrderByDescending(item => item.Revenue).ToList()"
+                 XName="Region" YName="Revenue" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Bar" />
 </SfChart>
 
 @code {

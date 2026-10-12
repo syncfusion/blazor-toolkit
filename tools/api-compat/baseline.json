@@ -1,0 +1,10 @@
+{
+  "package": "Syncfusion.Blazor.Toolkit",
+  "version": "1.0.2",
+  "url": "https://api.nuget.org/v3-flatcontainer/syncfusion.blazor.toolkit/1.0.2/syncfusion.blazor.toolkit.1.0.2.nupkg",
+  "sha256": "06934c512f9c42497fb37464f36d1b0cd7b987624bf2dab01c77b8a80865705d",
+  "apiCompatVersion": "10.0.401",
+  "frameworks": ["net8.0", "net9.0", "net10.0"],
+  "candidateVersion": "2.0.0",
+  "approval": "Requesting user, 2026-10-06: exact existing symbol exceptions and getter-only ownership for major 2.0; no future breaks approved. See docs/API-COMPATIBILITY.md."
+}

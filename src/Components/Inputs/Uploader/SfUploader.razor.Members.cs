@@ -56,13 +56,15 @@ namespace Syncfusion.Blazor.Toolkit.Inputs
         internal UploaderAsyncSettings? UploadAsyncSettings { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether to prevent cross-site scripting code in filenames.
+        /// Gets or sets a value indicating whether to validate selected filenames using the HTML sanitizer comparison.
         /// </summary>
         /// <value>
-        /// <c>true</c> if the component prevents cross-site scripting code in filenames; otherwise, <c>false</c>. The default value is <c>true</c>.
+        /// <c>true</c> to flag selected filenames changed by the sanitizer comparison; otherwise, <c>false</c>. The default value is <c>true</c>.
         /// </value>
         /// <remarks>
-        /// The EnableHtmlSanitizer property removes cross-site scripting code or functions from the filename and shows a validation error message to the user.
+        /// Validation preserves the original filename and marks changed comparison results as invalid.
+        /// Default filename, extension, and status rendering uses text regardless of this setting.
+        /// This setting does not sanitize application-provided templates or validate server storage paths.
         /// </remarks>
         /// <example>
         /// <code><![CDATA[

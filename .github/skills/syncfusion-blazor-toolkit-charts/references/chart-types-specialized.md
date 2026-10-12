@@ -1,6 +1,6 @@
 ﻿# Specialized Blazor Chart Types Reference
 
-A comprehensive guide to implementing specialized Syncfusion Blazor chart types including stacked, scatter, and bubble charts. This document is self-contained with complete examples and best practices.
+A guide to supported Toolkit stacked, scatter, and bubble chart types. Examples are configuration fragments unless they declare their data and handlers; use [getting started](getting-started.md) for host setup and imports.
 
 ## Table of Contents
 
@@ -8,6 +8,7 @@ A comprehensive guide to implementing specialized Syncfusion Blazor chart types 
     - [Stacked Area](#stacked-area)
     - [Stacked Column/Bar](#stacked-columnbar)
     - [Stacked Line](#stacked-line)
+    - [Stacked Step Area](#stacked-step-area)
 - [Scatter and Bubble Charts](#scatter-and-bubble-charts)
     - [Scatter Chart](#scatter-chart)
     - [Bubble Chart](#bubble-chart)
@@ -107,6 +108,16 @@ A comprehensive guide to implementing specialized Syncfusion Blazor chart types 
 <ChartSeries Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.StackingLine" Width="2" />
 ```
 
+### Stacked Step Area
+
+Configuration fragment inside `SfChart`; supply the data and `XName` / `YName` mappings for each series:
+
+```razor
+<ChartSeries Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.StackingStepArea" />
+```
+
+`StackingStepArea` is one of the 21 values in the source `ChartSeriesType` enum. There is no `StackingStepArea100` value.
+
 ---
 
 ## Scatter and Bubble Charts
@@ -119,7 +130,7 @@ A comprehensive guide to implementing specialized Syncfusion Blazor chart types 
 <SfChart>
     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
     
-fix th         <ChartSeries DataSource="@ScatterData" 
+        <ChartSeries DataSource="@ScatterData"
                      XName="Country" 
                      YName="GoldMedals" 
                      Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Scatter"
@@ -254,8 +265,9 @@ fix th         <ChartSeries DataSource="@ScatterData"
 
 ### Data Binding:
 - Use `DataSource` property
-- Map fields with `XName`, `YName`, `High`, `Low`, etc.
+- Map fields with `XName` and `YName`; bubbles also use `Size`
 - Supports `SfDataManager` for remote data
+- Financial `High`/`Low` series examples are outside the supported Toolkit types
 
 ---
 

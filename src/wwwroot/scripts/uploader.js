@@ -1496,11 +1496,7 @@ var SfUploader = /** @class */ (function () {
                 var sanitizeFile = sfBlazorToolkit.SanitizeHtmlHelper.beforeSanitize();
                 var sanitizeFileName = sfBlazorToolkit.SanitizeHtmlHelper.serializeValue(sanitizeFile, fileData[i].name);
                 if (sanitizeFileName !== fileData[i].name) {
-                    // eslint-disable-next-line no-useless-escape
-                    var encodedFileName = targetFiles[i].name.replace(/[\u00A0-\u9999<>\&]/g, function (i) {
-                        return '&#' + i.charCodeAt(0) + ';';
-                    });
-                    fileData[i].name = encodedFileName;
+                    // Validation must not rewrite identity; default metadata renderers use text APIs.
                     fileData[i].status = this.localizedTexts('invalidFileName');
                     fileData[i].statusCode = '0';
                 }
@@ -1757,10 +1753,10 @@ var SfUploader = /** @class */ (function () {
         for (var fileIndex = 0, fileDataList = fileData; fileIndex < fileDataList.length; fileIndex++) {
             var listItem = fileDataList[fileIndex];
             var fileNameEle = sfBlazorToolkit.base.createElement('span', { className: FILE_NAME });
-            fileNameEle.innerHTML = this.getFileNameOnly(listItem.name);
+            fileNameEle.textContent = this.getFileNameOnly(listItem.name);
             var fileTypeEle = sfBlazorToolkit.base.createElement('span', { className: FILE_TYPE });
             var fileType = this.getFileType(listItem.name);
-            fileTypeEle.innerHTML = '.' + fileType;
+            fileTypeEle.textContent = '.' + fileType;
             if (!fileType) {
                 fileTypeEle.classList.add('e-hidden');
             }
@@ -1946,10 +1942,10 @@ var SfUploader = /** @class */ (function () {
                     });
                     var textContainer = sfBlazorToolkit.base.createElement('span', { className: TEXT_CONTAINER });
                     var textElement = sfBlazorToolkit.base.createElement('span', { className: FILE_NAME, attrs: { 'title': listItem.name } });
-                    textElement.innerHTML = this.getFileNameOnly(listItem.name);
+                    textElement.textContent = this.getFileNameOnly(listItem.name);
                     var fileExtension = sfBlazorToolkit.base.createElement('span', { className: FILE_TYPE });
                     var fileType = this.getFileType(listItem.name);
-                    fileExtension.innerHTML = '.' + fileType;
+                    fileExtension.textContent = '.' + fileType;
                     if (!fileType) {
                         fileExtension.classList.add('e-hidden');
                     }
@@ -1964,11 +1960,11 @@ var SfUploader = /** @class */ (function () {
                         textContainer.appendChild(rtlContainer);
                     }
                     var fileSize = sfBlazorToolkit.base.createElement('span', { className: FILE_SIZE });
-                    fileSize.innerHTML = this.bytesToSize(listItem.size);
+                    fileSize.textContent = this.bytesToSize(listItem.size);
                     textContainer.appendChild(fileSize);
                     var statusElement = sfBlazorToolkit.base.createElement('span', { className: STATUS });
                     textContainer.appendChild(statusElement);
-                    statusElement.innerHTML = listItem.status;
+                    statusElement.textContent = listItem.status;
                     liElement.appendChild(textContainer);
                     var iconElement = sfBlazorToolkit.base.createElement('span', {
                         className: ' e-toolkit-icons'
@@ -1994,7 +1990,7 @@ var SfUploader = /** @class */ (function () {
                         statusElement.classList.add(VALIDATION_FAILS);
                     }
                     if (this.autoUpload && listItem.statusCode === '1' && this.asyncSettings.saveUrl !== '') {
-                        statusElement.innerHTML = '';
+                        statusElement.textContent = '';
                     }
                     if (!iconElement.classList.contains(DELETE_ICON)) {
                         iconElement.classList.add(REMOVE_ICON);
@@ -2671,7 +2667,7 @@ var SfUploader = /** @class */ (function () {
             return;
         }
         var liElement = this.getLiElement(eventArgs.fileData);
-        liElement.querySelector('.' + STATUS).innerHTML = this.localizedTexts('fileUploadCancel');
+        liElement.querySelector('.' + STATUS).textContent = this.localizedTexts('fileUploadCancel');
         liElement.querySelector('.' + STATUS).classList.add(UPLOAD_FAILED);
         eventArgs.fileData.statusCode = '5';
         eventArgs.fileData.status = this.localizedTexts('fileUploadCancel');

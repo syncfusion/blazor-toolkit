@@ -20,33 +20,36 @@ metadata:
 
 `SfDialog` renders an overlay window that *blocks* the underlying page when
 modal, or floats alongside it when modeless. It supports a header, body,
-buttons, drag, resize, animation, and a service for dynamic creation.
+buttons, drag, resize, and animation. The Toolkit's predefined-dialog service
+is `SfDialogService` with `SfDialogProvider` (`AlertAsync`, `ConfirmAsync`,
+`PromptAsync`); arbitrary dynamic component creation is application-owned.
 
 ## Core Rules
 
 1. **Use `IsModal="true"` for any dialog that requires user input** — the
    framework installs the focus trap and `aria-modal`.
-2. **Bind visibility with `@bind-Visible`, not `Visible=…` alone** — `SfDialog`
-   needs `VisibleChanged` to mirror state.
-3. **`DialogButtons` are declarative; one `OnClick` per `DialogButton`.** Use
-   `OnClick="@(() => dialog.Close())"` to dismiss without inverting the state.
-4. **`AllowPrerender="false"`** whenever the dialog body depends on
-   interactive content (e.g., JS interop inside the dialog, `EditForm`
-   validation, dynamic data). Default rendering in interactive render modes
-   will double-mount the dialog.
-5. **`CloseOnEscape="true"` is the default; re-declaring with the same value
-   is harmless** but pairing with `ShowCloseIcon="true"` is required for
-   mouse-only users to dismiss.
-6. **`OnClose` is cancelable** — set `args.Cancel = true` to prevent close,
-   useful for unsaved-changes warnings. `OnClosed` is non-cancelable and runs
-   after dismissal.
-7. **Programmatic lifecycle**: use a `@ref` (`SfDialog dlg`) and call
-   `dlg.Show()` / `dlg.Hide()` — do not hand-toggle `bool isVisible` if you
-   need to invoke `OnClose` first.
+2. **Use `@bind-Visible` to mirror visibility**, or `Visible` with an
+   explicit `VisibleChanged` callback, never both. Default `Visible` is
+   `true`; bind a false field or set `Visible="false"` to start closed.
+3. **Buttons do not dismiss automatically.** A `DialogButton.OnClick`
+   handler must explicitly update state or await `dialog.HideAsync()`.
+4. **`AllowPrerender` defaults to `false`.** It controls retaining dialog
+   content while closed, not the host's Blazor prerender/interactivity mode.
+   It is not a general solution for JS interop during prerender.
+5. **`CloseOnEscape` defaults to `true`.** Provide a visible dismissal
+   control (`ShowCloseIcon` or a Cancel/Close button) when appropriate.
+6. **`OnOpen` / `OnClose` are cancelable.** After-transition events are
+   `Opened` (`OpenEventArgs`) and `Closed` (`CloseEventArgs`).
+7. **Programmatic lifecycle:** await `ShowAsync(bool? isFullScreen = null)`
+   / `HideAsync()` after the `SfDialog` reference is assigned. The source
+   also has a static-render path detected on .NET 9+; JS-backed operations
+   and callbacks require interactivity.
+
+Examples below are component fragments: supply referenced fields, handlers,
+imports, and host setup unless the snippet declares them.
 
 ```razor
 @using Syncfusion.Blazor.Toolkit.Popups
-@implements IAsyncDisposable
 
 <SfDialog @ref="confirm"
           @bind-Visible="@_showConfirm"
@@ -77,10 +80,10 @@ buttons, drag, resize, animation, and a service for dynamic creation.
 Need a dialog?
 ├─ Single-shot static content?
 │  └─ Inline <SfDialog @bind-Visible="…">
-├─ Triggered by code from many places?
-│  └─ DialogService (see dialog-advanced.md)
-└─ Multi-step wizard?
-   └─ Inline <SfDialog> + your own step state
+├─ Predefined alert/confirm/prompt from many places?
+│  └─ SfDialogService + SfDialogProvider
+└─ Multi-step wizard or arbitrary dynamic content?
+   └─ Inline <SfDialog> + application-owned state/composition
 ```
 
 ## Documentation and Navigation Guide
@@ -98,11 +101,11 @@ For cross-component decision matrix (dialog vs tooltip vs popover), see
 
 | Property | Why it matters |
 |---|---|
-| `@bind-Visible` | Canonical visibility binding (works with `@bind-Visible` + `VisibleChanged`); not `Visible=...` alone |
-| `IsModal` | Installs `aria-modal` + focus trap; required for any user-input dialog |
-| `AllowPrerender` | Set `false` whenever the body depends on interactive content (JS interop, `EditForm`, dynamic data) |
-| `ShowCloseIcon` | Mouse-only users have no other dismiss affordance; pair with `CloseOnEscape="true"` |
-| `DialogAnimationSettings` / `Animation` | `DialogEffect` enum — pick exactly one (`Fade`/`Zoom`/`Slide*`/`None`) |
+| `@bind-Visible` | Synchronizes state; do not also supply `VisibleChanged` |
+| `IsModal` | Modal backdrop and focus behavior |
+| `AllowPrerender` | Retains content while closed when true; defaults false |
+| `ShowCloseIcon` | Optional header dismissal; a Close/Cancel button is another option |
+| `DialogAnimationSettings` | Child component with `Effect` (`DialogEffect`), `Duration`, and `Delay` |
 
 Full property/event/method/animation reference: [references/dialog-properties.md](references/dialog-properties.md).
 
@@ -117,8 +120,12 @@ See the **Core Rules** snippet above for a full modal example.
 ```razor
 @using Syncfusion.Blazor.Toolkit.Popups
 
-<SfDialog @ref="dlg" AllowPrerender="false" />
-<button @onclick="@(() => dlg.Show())">Open programmatically</button>
+<SfDialog @ref="dlg" Visible="false" AllowPrerender="false" />
+<button @onclick="@(() => dlg.ShowAsync())">Open programmatically</button>
+
+@code {
+    private SfDialog dlg = default!;
+}
 ```
 
 ## Don'ts
@@ -126,9 +133,9 @@ See the **Core Rules** snippet above for a full modal example.
 | Anti-pattern | Symptom | Fix |
 |---|---|---|
 | Nested `<SfDialog>` inside another `<SfDialog>` | Render artifacts on overlay click; z-index collisions; nested focus trap locks browser | Use portals/z-index (inner > outer by ≥1000), or replace outer with stacked steps |
-| Toggle `@bind-Visible` *and* call `Hide()` for the same dismissal | Second mechanism undoes the first; visuals flicker | Use only one mechanism: bind the bool, or call `Hide()` programmatically |
+| Redundant state mutations plus `HideAsync()` for one dismissal | Unnecessary lifecycle requests | Await `HideAsync()` and let binding mirror the result, or update the bound state once |
 | `CloseOnEscape` used to cancel close | That flag toggles default behaviour; it doesn't intercept | Use the cancelable `OnClose` event with `args.Cancel = true` |
-| `<SfDialog AllowDragging="true">` with `IsModal="true"` | Conflict — modal sets focus trap; dragging fights focus | Choose: free-form (no focus trap) or modal (no drag); rarely both |
+| Assuming modal dialogs cannot drag | Unnecessary restriction | `AllowDragging` and `IsModal` can be combined; validate focus and keyboard behavior |
 | `<SfDialog>` containing `<form>` directly without binding the dialog lifecycle | Submit button doesn't post to the page EditContext model | Use `<EditForm Model="@X" OnValidSubmit="@Save">` inside `DialogTemplates`, and trigger save via button inside the form |
 | `IsModal="false"` *and* no backdrop for destructive actions | User can click delete triggers elsewhere | `IsModal="true"` plus `ShowCloseIcon="true"` |
 | `Visible="true"` initial in markup | Dialog opens on first paint — usually unintended auto-pop | Use `@bind-Visible` and toggle from a button |
@@ -137,7 +144,7 @@ See the **Core Rules** snippet above for a full modal example.
 
 ## Anti-Pattern Workflows
 
-> **Note:** Snippets below tagged **Bad:** are intentionally minimal — namespace directives (`@using`), DI wiring, and other context are omitted to keep the failure-mode illustration short. The **Correct:** snippets include `@using` directives needed for copy-paste.
+> **Note:** **Bad** snippets illustrate anti-patterns. **Correct** snippets are focused fragments, not a guarantee of standalone executability: provide application state, handlers, required imports, and interactive host setup.
 
 ### Workflow 1 — Agent copies the dead `onConfirmCallback` snippet
 
@@ -188,38 +195,31 @@ the button onclick never invokes it. Pressing "Yes" effectively does nothing.
 }
 ```
 
-Parent wires `@bind-OnDecision` and gets a bool back.
+The parent assigns an `OnDecision` callback and receives the bool; it is not
+an `@bind-OnDecision` pair.
 
-### Workflow 2 — Agent calls `dlg.Show()` from `OnInitialized`
+### Workflow 2 — Calling a dialog before its reference exists
 
-**Bad:**
-```razor
-@code {
-    protected override void OnInitialized() { dialog.Show(); }
-}
-```
+`@ref` is assigned after rendering, not in `OnInitialized`. For an
+interactive component that intentionally opens after its first render:
 
-**Fix:**
 ```razor
 @using Syncfusion.Blazor.Toolkit.Popups
 
-<SfDialog @ref="dialog" AllowPrerender="false" />
-<button @onclick="@(() => dialog.Show())">Open</button>
+<SfDialog @ref="dialog" Visible="false" />
 
 @code {
-    SfDialog? dialog;
+    private SfDialog? dialog;
 
-    protected override async Task OnAfterRenderAsync(bool first)
+    protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (first && dialog is not null) await dialog.Show();
-    }
-
-    public async ValueTask DisposeAsync()
-    {
-        if (dialog is not null) await dialog.DisposeAsync();
+        if (firstRender && dialog is not null)
+            await dialog.ShowAsync();
     }
 }
 ```
+
+Blazor owns child-component disposal; dispose only resources the parent owns.
 
 ### Workflow 3 — Agent tries JS init inside `DialogTemplates` during prerender
 
@@ -290,12 +290,10 @@ Parent wires `@bind-OnDecision` and gets a bool back.
 }
 ```
 
-**Button vs `OnClose` order:** `DialogButton.OnClick` fires *first*, then the
-framework attempts the close (which triggers `OnClose`). If `OnClose` sets
-`args.Cancel = true`, the dialog stays open — but the button's already-run
-handler still executed. If your "Save" button must complete before the close
-is decided, do the work inside the button's `OnClick` and *don't* rely on the
-dialog still being open afterwards.
+**Button vs `OnClose` order:** `DialogButton.OnClick` alone does not close
+the dialog. Await the save in the handler, clear the dirty flag only after
+success, then explicitly request dismissal (for example `HideAsync()`). The
+cancelable `OnClose` handler can block that request.
 
 ## Next Steps
 

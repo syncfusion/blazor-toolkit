@@ -1,9 +1,11 @@
 <Project Sdk="Microsoft.NET.Sdk.Razor">
 
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
 	<AssemblyName>Syncfusion.Blazor.Tests</AssemblyName>
     <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <IsTestProject>true</IsTestProject>
     <IsPackable>false</IsPackable>
   </PropertyGroup>
 
@@ -14,7 +16,6 @@
 		<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		<PrivateAssets>all</PrivateAssets>
 	</PackageReference>
-	<PackageReference Include="Syncfusion.Blazor" Version="*" />
 	<PackageReference Include="bunit" Version="1.10.14" />
 	<PackageReference Include="bunit.web.testcomponents" Version="1.10.14" />
     	<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
@@ -30,10 +31,10 @@
   </ItemGroup>
 
   <ItemGroup>
-    <File Include="..\..\Base\*.cs" />
-    <None Include="..\..\Base\*.cs"  />
-	<Compile Include="..\..\Base\*.cs"  />
-
+    <ProjectReference Include="../../../../src/Syncfusion.Blazor.Toolkit.csproj" />
+    <!-- Keep standalone ButtonGroup coverage focused; the parent project owns the full Base suite. -->
+    <Compile Include="../../Base/BunitTestContext.cs" Link="Base/BunitTestContext.cs" />
+    <Compile Include="../../Base/TestProjectContractTests.cs" Link="Base/TestProjectContractTests.cs" />
   </ItemGroup>
 
 </Project>

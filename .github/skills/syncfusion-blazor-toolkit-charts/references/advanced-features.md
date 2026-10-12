@@ -1,6 +1,6 @@
 ﻿# Advanced Features Reference - Syncfusion Blazor Charts
 
-This comprehensive reference covers advanced features for implementing sophisticated chart visualizations in Blazor applications using Syncfusion Charts.
+This reference covers supported Toolkit Chart features and explicit availability boundaries. Samples are configuration fragments needing imports, data, handlers, and an appropriate host; see [getting started](getting-started.md). Repository source, not the commercial Chart API, is authoritative.
 
 ## Table of Contents
 
@@ -9,69 +9,50 @@ This comprehensive reference covers advanced features for implementing sophistic
    - [Creating Rows (Horizontal Division)](#creating-rows-horizontal-division)
    - [Creating Columns (Vertical Division)](#creating-columns-vertical-division)
    - [Configuration Options](#configuration-options)
-- [Technical Indicators](#technical-indicators)
-   - [When to Use](#when-to-use)
-   - [Moving Average (SMA, EMA, TMA)](#moving-average-sma-ema-tma)
-   - [RSI (Relative Strength Index)](#rsi-relative-strength-index)
-   - [Bollinger Bands](#bollinger-bands)
-   - [MACD (Moving Average Convergence Divergence)](#macd-moving-average-convergence-divergence)
-   - [Available Indicators](#available-indicators)
+- [Technical Indicators — unavailable](#technical-indicators)
 - [Trend Lines](#trend-lines)
-   - [When to Use](#when-to-use)
+   - [When to Use](#when-to-use-1)
    - [Linear Trend Line](#linear-trend-line)
    - [Polynomial Trend Line](#polynomial-trend-line)
    - [Exponential Trend Line](#exponential-trend-line)
    - [Logarithmic Trend Line](#logarithmic-trend-line)
    - [Moving Average Trend Line](#moving-average-trend-line)
    - [Forecasting with Trend Lines](#forecasting-with-trend-lines)
-   - [Configuration Options](#configuration-options)
+   - [Configuration Options](#configuration-options-1)
 - [Strip Lines](#strip-lines)
-   - [When to Use](#when-to-use)
+   - [When to Use](#when-to-use-2)
    - [Horizontal Strip Lines](#horizontal-strip-lines)
    - [Vertical Strip Lines](#vertical-strip-lines)
    - [Segmented Strip Lines](#segmented-strip-lines)
    - [Strip Line with Custom Text](#strip-line-with-custom-text)
    - [Strip Line with Tooltip](#strip-line-with-tooltip)
-   - [Configuration Options](#configuration-options)
+   - [Configuration Options](#configuration-options-2)
 - [Multiple Axes](#multiple-axes)
-   - [When to Use](#when-to-use)
+   - [When to Use](#when-to-use-3)
    - [Dual Y-Axes](#dual-y-axes)
    - [Multiple X and Y Axes](#multiple-x-and-y-axes)
-   - [Configuration Options](#configuration-options)
+   - [Configuration Options](#configuration-options-3)
 - [Data Editing](#data-editing)
-   - [When to Use](#when-to-use)
+   - [When to Use](#when-to-use-4)
    - [Basic Data Editing](#basic-data-editing)
-   - [Configuration Options](#configuration-options)
+   - [Configuration Options](#configuration-options-4)
 - [Empty Points](#empty-points)
-   - [When to Use](#when-to-use)
+   - [When to Use](#when-to-use-5)
    - [Empty Point Modes](#empty-point-modes)
    - [Empty Point Modes Explained](#empty-point-modes-explained)
-- [Chart Export](#chart-export)
-   - [When to Use](#when-to-use)
-   - [Export to Image Formats](#export-to-image-formats)
-   - [Export to PDF](#export-to-pdf)
-   - [Export to Excel (XLSX/CSV)](#export-to-excel-xlsxcsv)
-   - [Export as Base64 String](#export-as-base64-string)
-   - [Customize Export with Events](#customize-export-with-events)
-   - [Export Multiple Charts](#export-multiple-charts)
-   - [Supported Export Formats](#supported-export-formats)
-- [Print](#print)
-   - [When to Use](#when-to-use)
-   - [Basic Printing](#basic-printing)
-   - [Print Multiple Charts](#print-multiple-charts)
+- [Chart Export — unavailable](#chart-export)
+- [Print — browser only](#print)
    - [Print-Specific Styling](#print-specific-styling)
 - [RTL Support](#rtl-support)
-   - [When to Use](#when-to-use)
+   - [When to Use](#when-to-use-6)
    - [Enabling RTL Mode](#enabling-rtl-mode)
    - [RTL with Localization](#rtl-with-localization)
    - [RTL Configuration](#rtl-configuration)
 - [Implementation Patterns](#implementation-patterns)
-   - [Pattern 1: Financial Dashboard](#pattern-1-financial-dashboard)
    - [Pattern 2: Performance Monitoring](#pattern-2-performance-monitoring)
    - [Pattern 3: Comparative Analysis](#pattern-3-comparative-analysis)
 - [Best Practices](#best-practices)
 - [Common Use Cases Summary](#common-use-cases-summary)
-- [Reference Links](#reference-links)
 
 
 ## Multiple Panes
@@ -143,52 +124,9 @@ Multiple panes allow you to divide the chart area into separate plotting regions
 
 ## Technical Indicators
 
-Technical indicators are mathematical calculations based on historical price, volume, or open interest data, used primarily in financial chart analysis.
+**Unavailable in this Toolkit.** The source does not expose `ChartIndicators`, `ChartIndicator`, or `TechnicalIndicators`. Do not copy commercial financial-chart examples into a Toolkit app. An application may calculate its own derived data and bind it to a supported series, but that is not a built-in indicator API.
 
-### When to Use
-- Stock market analysis and trading platforms
-- Financial forecasting applications
-- Technical analysis dashboards
-- Real-time market monitoring
-
-
-
-### Bollinger Bands
-
-```razor
-<ChartIndicators>
-    <ChartIndicator Type="TechnicalIndicators.BollingerBands" 
-                    Field="FinancialDataFields.Close" 
-                    SeriesName="Stock" Period="14" StandardDeviation="2">
-        <ChartIndicatorUpperLine Color="#FF6B6B" Width="2"/>
-        <ChartIndicatorLowerLine Color="#4ECDC4" Width="2"/>
-    </ChartIndicator>
-</ChartIndicators>
-```
-
-### MACD (Moving Average Convergence Divergence)
-
-```razor
-<ChartIndicators>
-    <ChartIndicator Type="TechnicalIndicators.Macd" SeriesName="Stock" 
-                    MacdType="MacdType.Both" FastPeriod="12" SlowPeriod="26" 
-                    Period="9" MacdPositiveColor="#26A69A" MacdNegativeColor="#EF5350">
-        <ChartIndicatorMacdLine Color="#FF6D00" Width="2"/>
-    </ChartIndicator>
-</ChartIndicators>
-```
-
-### Available Indicators
-- **SMA**: Simple Moving Average
-- **EMA**: Exponential Moving Average
-- **TMA**: Triangular Moving Average
-- **RSI**: Relative Strength Index
-- **MACD**: Moving Average Convergence Divergence
-- **Bollinger Bands**: Volatility indicator
-- **ATR**: Average True Range
-- **Stochastic**: Momentum indicator
-- **Momentum**: Rate of price change
-- **Accumulation Distribution**: Volume flow indicator
+The supported `ChartTrendlines` / `ChartTrendline` components below remain available, including the moving-average trendline.
 
 ---
 
@@ -523,191 +461,13 @@ Handle missing or null data points with various rendering modes.
 
 ## Chart Export
 
-Export rendered charts to various formats for reporting and sharing.
-
-### When to Use
-- Generating reports and presentations
-- Saving charts for offline viewing
-- Email attachments and documentation
-- Archiving visualizations
-
-### Export to Image Formats
-
-```razor
-@using Syncfusion.Blazor.Toolkit.Charts
-@using Syncfusion.Blazor.Buttons
-
-<SfChart @ref="ChartRef" Title="Annual Report">
-        <ChartSeries DataSource="@ReportData" XName="Category" YName="Value" 
-                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column"/>
-</SfChart>
-
-<div class="button-group">
-    <SfButton Content="Export PNG" @onclick="ExportPNG" IsPrimary="true"/>
-    <SfButton Content="Export JPEG" @onclick="ExportJPEG"/>
-    <SfButton Content="Export SVG" @onclick="ExportSVG"/>
-</div>
-
-@code {
-    SfChart ChartRef;
-    
-    private async Task ExportPNG() => 
-        await ChartRef.ExportAsync(ExportType.PNG, "chart");
-    
-    private async Task ExportJPEG() => 
-        await ChartRef.ExportAsync(ExportType.JPEG, "chart");
-    
-    private async Task ExportSVG() => 
-        await ChartRef.ExportAsync(ExportType.SVG, "chart");
-}
-```
-
-### Export to PDF
-
-```razor
-<SfButton Content="Export PDF" @onclick="ExportPDF"/>
-
-@code {
-    private async Task ExportPDF()
-    {
-        await ChartRef.ExportAsync(ExportType.PDF, "report", 
-            PdfPageOrientation.Landscape);
-    }
-}
-```
-
-### Export to Excel (XLSX/CSV)
-
-```razor
-<SfButton Content="Export Excel" @onclick="ExportExcel"/>
-<SfButton Content="Export CSV" @onclick="ExportCSV"/>
-
-@code {
-    private async Task ExportExcel() => 
-        await ChartRef.ExportAsync(ExportType.XLSX, "data");
-    
-    private async Task ExportCSV() => 
-        await ChartRef.ExportAsync(ExportType.CSV, "data");
-}
-```
-
-### Export as Base64 String
-
-```razor
-<ChartEvents OnExportComplete="ExportComplete"/>
-
-@code {
-    private async Task ExportBase64()
-    {
-        await ChartRef.ExportAsync(ExportType.PDF, "chart", 
-            PdfPageOrientation.Portrait, allowDownload: false, isBase64: true);
-    }
-    
-    private void ExportComplete(ExportEventArgs args)
-    {
-        string base64String = args.Base64;
-        // Use base64 string for custom operations
-    }
-}
-```
-
-### Customize Export with Events
-
-```razor
-<ChartEvents Exporting="BeforeExport"/>
-
-@code {
-    private void BeforeExport(ChartExportEventArgs args)
-    {
-        // Customize dimensions
-        args.Width = 1200;
-        args.Height = 800;
-        
-        // For Excel exports, customize workbook
-        if (args.Workbook != null)
-        {
-            var sheet = args.Workbook.Worksheets.First();
-            sheet.Rows[0].Cells[0].CellStyle.BackColor = "#4472C4";
-            sheet.Rows[0].Cells[0].CellStyle.Bold = true;
-        }
-    }
-}
-```
-
-### Export Multiple Charts
-
-```razor
-<div @ref="ChartContainer">
-    <SfChart Title="Chart 1">...</SfChart>
-    <SfChart Title="Chart 2">...</SfChart>
-</div>
-
-<SfButton Content="Export All" @onclick="ExportAll"/>
-
-@code {
-    ElementReference ChartContainer;
-    SfChart Chart1;
-    
-    private async Task ExportAll() => 
-        await Chart1.PrintAsync(ChartContainer);
-}
-```
-
-### Supported Export Formats
-- **PNG**: Raster image format
-- **JPEG**: Compressed image format
-- **SVG**: Vector graphics format
-- **PDF**: Portable document format
-- **XLSX**: Excel workbook
-- **CSV**: Comma-separated values
+**Unavailable in this Toolkit.** `SfChart` does not expose `ExportAsync`, an `ExportType` enum, or export completion events. PNG/JPEG/SVG/PDF/XLSX/CSV export and base64 output are not built-in features. Implement reporting or data downloads in application code if required; do not call commercial chart APIs on Toolkit `SfChart`.
 
 ---
 
 ## Print
 
-Print charts directly from the browser with customization options.
-
-### When to Use
-- Creating hard copies for meetings
-- Generating physical reports
-- Archiving visualizations
-- Presentation materials
-
-### Basic Printing
-
-```razor
-<SfChart @ref="ChartRef" Title="Sales Report">
-        <ChartSeries DataSource="@SalesData" XName="Month" YName="Sales"/>
-</SfChart>
-
-<SfButton Content="Print Chart" @onclick="PrintChart" IsPrimary="true"/>
-
-@code {
-    SfChart ChartRef;
-    
-    private async Task PrintChart() => await ChartRef.PrintAsync();
-}
-```
-
-### Print Multiple Charts
-
-```razor
-<div @ref="PrintContainer" class="print-area">
-    <SfChart @ref="Chart1" Title="Revenue">...</SfChart>
-    <SfChart Title="Expenses">...</SfChart>
-    <SfChart Title="Profit">...</SfChart>
-</div>
-
-<SfButton Content="Print Dashboard" @onclick="PrintAll"/>
-
-@code {
-    ElementReference PrintContainer;
-    SfChart Chart1;
-    
-    private async Task PrintAll() => 
-        await Chart1.PrintAsync(PrintContainer);
-}
-```
+**Unavailable as a chart API.** `SfChart` has no `PrintAsync` method or print-completion callback. The browser's print command is separate from the component; an application can provide print CSS without claiming a Toolkit print API.
 
 ### Print-Specific Styling
 
@@ -825,27 +585,26 @@ Right-to-left (RTL) rendering for internationalization in languages like Arabic 
 ## Best Practices
 
 1. **Performance Optimization**
-   - Limit number of technical indicators (use max 3-4)
+   - Bound the number of derived series calculated by the application
    - Use data editing judiciously for large datasets
    - Consider data aggregation for trend lines on large datasets
 
 2. **User Experience**
    - Provide clear labels for multiple axes
    - Use contrasting colors for strip lines
-   - Include legends when using multiple indicators
+   - Include legends when using multiple series
    - Add tooltips for interactive features
 
 3. **Accessibility**
    - Use sufficient color contrast for strip lines
    - Provide text alternatives for visual indicators
-   - Enable keyboard navigation for data editing
+   - Validate keyboard alternatives for data editing
    - Support screen readers with proper ARIA labels
 
-4. **Export Optimization**
-   - Set appropriate dimensions before export
-   - Use vector formats (SVG, PDF) for scalable output
-   - Optimize image quality vs. file size for raster formats
-   - Include chart title and legends in exports
+4. **Reporting Boundary**
+   - Built-in chart export is unavailable
+   - Implement any report generation separately in application code
+   - Preserve titles, legends, and accessible data alternatives in reports
 
 5. **RTL Considerations**
    - Test thoroughly with actual RTL content
@@ -860,14 +619,14 @@ Right-to-left (RTL) rendering for internationalization in languages like Arabic 
 | Feature | Primary Use Case | Best Chart Types |
 |---------|-----------------|------------------|
 | Multiple Panes | Financial analysis, Multi-metric dashboards | Line, Column |
-| Technical Indicators | Stock trading, Market analysis | Line |
+| Technical Indicators | Unavailable in Toolkit | None |
 | Trend Lines | Forecasting, Pattern recognition | Scatter, Line, Area |
 | Strip Lines | Threshold monitoring, Range highlighting | All types |
 | Multiple Axes | Dual-scale comparison | Line, Column, Area |
 | Data Editing | Interactive forecasting, Manual adjustment | Column, Line, Scatter |
 | Empty Points | Incomplete data handling | Line, Area, Spline |
-| Export | Reporting, Documentation | All types |
-| Print | Hard copy generation | All types |
+| Export | Application-owned reporting only | No built-in API |
+| Print | Browser printing only | No built-in API |
 | RTL | International applications | All types |
 
 ---

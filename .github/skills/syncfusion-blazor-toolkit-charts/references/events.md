@@ -524,7 +524,7 @@ Triggers after point, series, or cluster selection is completed.
 **Example**:
 
 ```razor
-<SfChart SelectionMode="Syncfusion.Blazor.Toolkit.Charts.SelectionMode.Point">
+<SfChart SelectionMode="Syncfusion.Blazor.Toolkit.ChartSelectionMode.Point">
     <ChartEvents OnSelectionChanged="OnSelectionChangedHandler"></ChartEvents>
     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
         <ChartSeries DataSource="@SalesData" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column">
@@ -800,78 +800,11 @@ Triggers while scrolling the chart.
 
 ### OnExportComplete
 
-Triggers after chart export is completed.
-
-**EventArgs**: `ExportEventArgs`
-- `DataUrl` - Data URL of the exported file
-
-**Example**:
-
-```razor
-<button @onclick="ExportChart">Export</button>
-<SfChart @ref="chartRef">
-    <ChartEvents OnExportComplete="OnExportCompleteHandler"></ChartEvents>
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
-        <ChartSeries DataSource="@SalesData" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column">
-        </ChartSeries>
-</SfChart>
-
-@code {
-    SfChart chartRef;
-
-    public async Task ExportChart()
-    {
-        await chartRef.ExportAsync(ExportType.PNG, "SalesChart");
-    }
-
-    public void OnExportCompleteHandler(ExportEventArgs args)
-    {
-        Console.WriteLine("Export completed");
-        // Show success message
-    }
-}
-```
-
-**Use Cases**:
-- Show export success notification
-- Log export operations
-- Process exported file data
+**Unavailable in this Toolkit.** `ChartEvents` has no `OnExportComplete` callback, and `SfChart` has no built-in export method. Application-owned export workflows must handle their own completion reporting.
 
 ### OnPrintComplete
 
-Triggers after chart print is completed. This event has no specific arguments.
-
-**Example**:
-
-```razor
-<button @onclick="PrintChart">Print</button>
-<SfChart @ref="chartRef">
-    <ChartEvents OnPrintComplete="OnPrintCompleteHandler"></ChartEvents>
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"></ChartPrimaryXAxis>
-        <ChartSeries DataSource="@SalesData" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Bar">
-        </ChartSeries>
-</SfChart>
-
-@code {
-    SfChart chartRef;
-
-    public async Task PrintChart()
-    {
-        await chartRef.PrintAsync();
-    }
-
-    public void OnPrintCompleteHandler()
-    {
-        Console.WriteLine("Print completed");
-        // Log print operation
-    }
-}
-```
-
-**Use Cases**:
-- Show print confirmation
-- Log print operations
-- Track usage metrics
+**Unavailable in this Toolkit.** `ChartEvents` has no `OnPrintComplete` callback or corresponding chart print method. Browser printing is a separate application/browser concern.
 
 ---
 

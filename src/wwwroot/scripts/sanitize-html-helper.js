@@ -124,7 +124,9 @@ window.sfBlazorToolkit.SanitizeHtmlHelper = (function () {
     SanitizeHtmlHelper.serializeValue = function (item, value) {
         this.removeAttrs = item.selectors.attributes;
         this.removeTags = item.selectors.tags;
-        this.wrapElement = document.createElement('div');
+        // Keep the div parsing context, but use the inert template document so validation
+        // cannot activate registered custom elements or resources. Never adopt these nodes.
+        this.wrapElement = document.createElement('template').content.ownerDocument.createElement('div');
         this.wrapElement.innerHTML = value;
         this.removeXssTags();
         this.removeJsEvents();
@@ -148,7 +150,7 @@ window.sfBlazorToolkit.SanitizeHtmlHelper = (function () {
         var elements = this.wrapElement.querySelectorAll(this.removeTags.join(','));
         if (elements.length > 0) {
             elements.forEach(function (element) {
-                detach(element);
+                element.remove();
             });
         }
         else {

@@ -1,5 +1,7 @@
 'use strict';
 
+import { setMeasurementText } from './measurement-text.js';
+
 const SfChart = (function () {
     function SfChart(dataId, id, element, dotnetRef, isZooming = false, isScrollbar = false, options, selectionHighlightOptions, isStripLineTooltip, isMouseMoveEvent) {
         this.sfBlazor = window.sfBlazor;
@@ -4888,10 +4890,8 @@ export function measureText(text, fontWeight, fontStyle, fontFamily) {
         textObject = sfBlazorToolkit.base.createElement('text', { id: 'sfchartmeasuretext' });
         document.body.appendChild(textObject);
     }
-    if (text === ' ') {
-        text = '&nbsp;';
-    }
-    textObject.innerHTML = text;
+    // Preserve a measurable lone space without interpreting entity-looking data.
+    setMeasurementText(textObject, text === ' ' ? '\u00a0' : text);
     textObject.style.position = 'fixed';
     textObject.style.setProperty('font-size', '100px', 'important');
     textObject.style.fontWeight = fontWeight;

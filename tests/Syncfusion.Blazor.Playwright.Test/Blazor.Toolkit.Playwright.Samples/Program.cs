@@ -30,4 +30,5 @@ app.MapStaticAssets();
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
 
+Blazor.Toolkit.Playwright.Samples.R06LoopbackEndpoint.Map(app);
 app.Run();

@@ -35,11 +35,11 @@ Need to block the user with required input or confirmation?
 | Focus trap | When `IsModal=true` | None |
 | Close-on-Escape ✓ | `CloseOnEscape="true"` | Always (Escape is global) |
 | Render strategy | Inline | Portal-style (renders to body root) |
-| Light dismiss (click outside) | Optional via `CloseOnEscape` only | Auto on blur |
-| `aria-modal` | Auto when `IsModal=true` | `aria-describedby` only |
-| Default ARIA announcement | `role="dialog"` | `aria-describedby` |
-| SSR-safe? | Yes (with `AllowPrerender=false`) | Fake DOM only — does **not** render in Static SSR |
-| Position | Centered (configurable via `X`/`Y`) | 12 positions via `Position` enum |
+| Light dismiss (click outside) | Handle `OnOverlayModalClick` and request close | Depends on trigger and `IsSticky` |
+| `aria-modal` | Auto when `IsModal=true` | Not modal; uses `aria-describedby` |
+| Default ARIA role | `dialog` | `tooltip` |
+| Static rendering vs interaction | Static path detected on .NET 9+; JS lifecycle needs interactivity | Trigger markup can render; tooltip behavior requires interactivity |
+| Position | `DialogPositionData` child with `X` / `Y` | 12 slots via `Position` enum |
 | Animation | Yes (fade, slide, zoom) | Yes (fade, slide, none) |
 | Buttons? | Yes (`DialogButtons`) | No |
 | Form inputs | Yes | No — produces awkward patterns |
@@ -49,54 +49,34 @@ Need to block the user with required input or confirmation?
 
 ## Lifecycle differences
 
-`SfDialog`:
+`SfDialog` defaults to `Visible=true`; bind an initially false field or set
+`Visible="false"` to start closed. Opening invokes cancelable `OnOpen`, then
+`Opened`. Closing invokes cancelable `OnClose`, then `Closed`. Await
+`ShowAsync()` / `HideAsync()` for programmatic control. A `DialogButton` does
+not automatically close the dialog: its handler must request dismissal.
+`AllowPrerender` controls retention of closed content, not host interactivity.
 
-```text
-Visible=false (initial)
-   └─> user clicks "Open" → Visible=true
-       ├─> OnOpen event (cancelable)
-       ├─> OnAfterRender → component added to DOM
-       └─> OnOpened event (no cancel)
-
-visible=true (steady state)
-   ├─> user clicks OK / Cancel / X → Visible=false
-   ├─> CloseOnEscape → Visible=false
-   ├─> OnClose event (cancelable)
-   └─> OnAfterRender → component removed from DOM
-```
-
-`SfTooltip`:
-
-```text
-trigger element rendered
-   └─> pointer enter or focus → tooltip appears
-       └─> pointer leave or blur → tooltip disappears
-
-   Tooltip is NEVER in the DOM when invisible — no "OnOpen"/"OnClose" fires.
-   To intercept use:
-     OnOpen  ← before append (BUT: in default impl, tooltip only opens
-                on user interaction; programmatic Show() is the public API)
-     OnClose ← before remove
-```
-
-**Note:** `SfTooltip` doesn't fire `OnOpen`/`OnClose` for the default hover
-lifecycle. If you need a hook, call `Show()` / `Hide()` explicitly with the
-public methods. Manual control via `@bind-Visible` is also supported.
+`SfTooltip` exposes cancelable `OnOpen` / `OnClose` and after-transition
+`Opened` / `Closed` callbacks for its interaction lifecycle. These are not
+limited to custom/programmatic mode. It has no visibility binding. Await
+`OpenAsync()` / `CloseAsync()` for manual control and `RefreshAsync()` when
+refreshing targets; use `RefreshPositionAsync()` for positioning.
 
 ## Trigger modes (`OpensOn`)
 
+`OpensOn` is a string parameter, not an enum:
+
 | Value | Trigger |
 |---|---|
-| `OpensOn.Auto` | Hover OR focus (default) |
-| `OpensOn.Hover` | Pointer enter only |
-| `OpensOn.Focus` | Focus only (keyboard users) |
-| `OpensOn.Click` | Pointer down only |
-| `OpensOn.Custom` | Manual `Show()` / `Hide()` |
+| `"Auto"` | Hover or focus (default) |
+| `"Hover"` | Pointer interaction |
+| `"Focus"` | Focus interaction |
+| `"Click"` | Click interaction |
+| `"Custom"` | Manual `OpenAsync()` / `CloseAsync()` |
 
-**Best practice:** Default to `Auto` for icon buttons and links. Use
-`Click` for non-interactive triggers (wrapping a static `<p>`). Use
-`Custom` only when you need hooks — premature programmatic control is
-over-engineering.
+Default to `Auto` for focusable controls. Ensure click triggers are
+keyboard-operable. Use `Custom` for application-owned visibility, not merely
+to subscribe to lifecycle events.
 
 ## Position enum (12 slots)
 
@@ -106,22 +86,25 @@ LeftCenter                                    RightCenter
 BottomLeft    BottomCenter    BottomRight
 ```
 
-`SfTooltip`: `Position="TooltipPosition.TopCenter"` (full enum name).
+`SfTooltip`: `Position="Syncfusion.Blazor.Toolkit.Position.TopCenter"`.
+Import `Syncfusion.Blazor.Toolkit.Popups` for the component and
+`Syncfusion.Blazor.Toolkit` for enums. Other slots include `LeftTop`,
+`LeftBottom`, `RightTop`, and `RightBottom`.
 
-`SfDialog`: positions are configured via the `X` / `Y` numeric offsets
-and `IsModal`.
+`SfDialog`: use the `DialogPositionData` child component's `X` / `Y` values.
 
 ## Animation parity
 
-| Animation | `SfDialog` | `SfTooltip` |
+| Animation | `DialogAnimationSettings.Effect` | Tooltip `AnimationModel.Open` / `.Close` effects |
 |---|---|---|
-| `Fade` | `DialogEffect="Fade"` | `TooltipAnimation="{ Effect=Fade }"` |
-| `Slide` (left/right) | `DialogEffect="SlideLeft"` etc. | `SlideTop`, `SlideBottom`, etc. |
-| `Zoom` | `DialogEffect="Zoom"` | `Effect="Zoom"` |
-| `None` | `DialogEffect="None"` | `Effect="None"` |
+| Fade | `DialogEffect.Fade` | `Effect.FadeIn` / `Effect.FadeOut` |
+| Slide | `DialogEffect.SlideLeft` etc. | `Effect.SlideLeftIn` / `Effect.SlideLeftOut` etc. |
+| Zoom | `DialogEffect.Zoom` | `Effect.ZoomIn` / `Effect.ZoomOut` |
+| None | `DialogEffect.None` | `Effect.None` |
 
-The two components expose different enum shapes — code generation must use the
-correct one per component.
+Tooltip open/close settings are `TooltipAnimationSettings`; dialog animation
+is configured using its child component. See the component references for
+configuration fragments.
 
 ## Accessibility matrix
 
@@ -199,9 +182,9 @@ Use `SfDialog`:
     <SfButton Disabled="true">Submit</SfButton>
 </SfTooltip>
 
-<!-- ✅ Wrap with a focus-receiving span -->
-<SfTooltip Content="Can't submit yet" OpensOn="OpensOn.Custom">
-    <span tabindex="0">
+<!-- ✅ Target the focusable wrapper with automatic hover/focus behavior. -->
+<SfTooltip Content="Can't submit yet" OpensOn="Auto" Target="#submitHelp">
+    <span id="submitHelp" tabindex="0">
         <SfButton Disabled="true">Submit</SfButton>
     </span>
 </SfTooltip>

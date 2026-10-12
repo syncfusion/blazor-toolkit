@@ -1,5 +1,7 @@
 # Tooltip Implementation and Styling
 
+Examples are component/configuration fragments: supply host setup, imports (`Syncfusion.Blazor.Toolkit` for enums, `.Popups` for tooltip components/models, `.Buttons` for buttons), state, and handlers. Source authority is `src/Components/Popups/Tooltip/` and `PopupEnumerations.cs`. `OpensOn` takes strings; `Position` uses `Syncfusion.Blazor.Toolkit.Position`. Manual control uses awaited `OpenAsync`, `CloseAsync`, `RefreshAsync`, and `RefreshPositionAsync`; there is no visibility binding. Fragments have not been compile-tested in this documentation sync.
+
 ## Table of Contents
 - [What is SfTooltip?](#what-is-sftooltip)
 - [Basic Tooltip Setup](#basic-tooltip-setup)

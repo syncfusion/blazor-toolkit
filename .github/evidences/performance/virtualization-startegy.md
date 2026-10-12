@@ -1,114 +1,72 @@
-# Virtualization strategy — evidence report
+# Virtualization strategy — source observations and manual plan
+
+**Reviewed:** 2026-10-03, current local source. No benchmark or runtime verification was performed for this documentation synchronization. This is not a conformance pass, approved waiver, or certification. The historical filename `virtualization-startegy.md` is retained for stable links.
 
 ## Summary
 
-| Finding | Detail |
-|---------|--------|
-| `<Virtualize>` in product components | **Not used** under `src/Components` |
-| Compliance path used | **Bounded collections** (fixed or config-capped size) — MS-5.4 “documented N/A path is intentional” |
-| Consumer virtualization API | **Not exposed** as a first-class “wrap content in `<Virtualize>`” pattern for internal lists (lists are owned by the component) |
+| Finding | Source observation / limitation |
+|---------|---------------------------------|
+| `<Virtualize>` / `PageSize` | Neither an implementation nor a paging API was found under `src/Components`; no dropdown component implementation was found there either. Descriptive references to dropdowns are not such an API. |
+| Collection bounds | Calendar has a fixed matrix. Time lists are finite but eager; dialog/file/icon collections scale with supplied data/configuration. Finite does not mean small or measured fast. |
+| Consumer virtualization | App-owned large lists can use Blazor `<Virtualize>`. That does not virtualize toolkit-owned popup lists or chart SVG. |
 
-MS allows either **use `<Virtualize>`** or **document why it is not needed / how consumers virtualize**. This toolkit relies on **small, bounded lists**, not scroll-window virtualization.
-
-| Component | List / surface | Strategy | `<Virtualize>`? |
-|-----------|----------------|----------|-----------------|
-| Calendar / DatePicker grid | Day cells | Fixed ~35–42 cells | No — not required |
-| TimePicker | Popup `ListData` | Full `@for` over list; size driven by interval | No — **measure / confirm bounds** |
-| DateTimePicker | Date grid + time list | Same as calendar + time list | No |
-| Dialog | Footer buttons | Config-sized | No — not required |
-| Uploader | File rows | Bounded by upload limits; `@key` on rows | No — not required |
-| Chart | Series points | SVG/builder + adaptive layers (not a DOM list) | N/A |
-| Button, inputs, Tooltip, Spinner | No large list | N/A | N/A |
+| Component | List / surface | Observed strategy |
+|-----------|----------------|-------------------|
+| Calendar / DatePicker / DateTimePicker date view | Calendar cells | Eager fixed matrix; month uses 42 slots, year/decade 12 |
+| TimePicker | Popup `ListData` | Eager generation and full `@for`; time range and positive minute `Step` determine count |
+| DateTimePicker time view | Popup `ListData` | Eager generation and full `@for` in both popup branches; time/date constraints and `Step` determine count |
+| Dialog | Footer buttons | Full configured `ButtonsValue` loop; no hard small-count cap established |
+| Uploader | File rows | Full `FileData` loop when `ShouldRenderFileList`; no demonstrated aggregate count/byte budget |
+| Chart | Series/markers/labels | SVG components and builders, conditional/adaptive layers; not scroll-window virtualization |
+| TextBox | Added icons | Full `ListOfButtons` loop; supplied collection size matters |
 
 ---
 
 ## Component evidence
 
-### Calendar grid (fixed bound)
+Source paths below are relative to the repository root and describe this working tree, not a released artifact.
 
-**File:** [CalendarBaseRender.razor](https://github.com/syncfusion/blazor-toolkit/blob/readiness-corrections/src/Components/Calendars/Base/Renderer/CalendarBaseRender.razor)
+### Calendar grid (fixed matrix, eager rendering)
 
-- Month view builds a **fixed table** of day cells (typical **35–42** cells), not an unbounded scroll list.
-- `@key` on rows/cells supports reuse; virtualization is unnecessary for this size.
+- `src/Components/Calendars/Base/Renderer/CalendarBaseRender.razor` loops through rows and `CalendarDayCell` components.
+- `CalendarBaseRender.razor.Constant.cs` defines `CELLCOUNT = 42`, `WEEK_NUMBER = 7`, `YEAR_NUMBER = 12`, and `CELL_ROW = 4`; the code-behind selects these for the view.
+- Month rows can be CSS-hidden and maximum-date checks can stop cell emission. Visible cell count is not the same as generated cell count. This is a bounded eager table, not virtualization; `@key` does not change that.
 
-### TimePicker (eager list — main risk)
+### TimePicker / DateTimePicker (finite, eager time lists)
 
-**File:** [SfTimePicker.razor](https://github.com/syncfusion/blazor-toolkit/blob/readiness-corrections/src/Components/Calendars/TimePicker/SfTimePicker.razor)
+- `src/Components/Calendars/TimePicker/SfTimePicker.razor.cs`, `GenerateListAsync`: initializes `ListData`, then appends every time from `Min.TimeOfDay` to `Max.TimeOfDay` inclusive in `Step`-minute increments. `NormalizeStep` preserves positive supported intervals (invalid values fall back/coerce); it does not window the list.
+- `src/Components/Calendars/DateTimePicker/SfDateTimePicker.razor.cs`, `GenerateList`: uses date-dependent start/end times plus `MinTime`/`MaxTime` and a positive `Step`, then appends the full range. Do not assume TimePicker's normalization also applies here.
+- Both Razor files render all generated items when their time-popup branch is mounted. For a valid full-day range, a one-minute step can yield 1,440 entries; this is a source-derived count, **not a measured DOM count or timing result**.
+- No `PageSize`, virtualized dropdown, or viewport-windowing implementation was found in these generation/render paths. The previous MS-5.4 paging assertion is unsupported and is not an accepted N/A disposition.
 
-```razor
-@for (int i = 0; i < ListData.Count; i++)
-{
-    var item = ListData[i];
-    <li @key="@item" ...>@item.ItemData</li>
-}
-```
+### Dialog / Uploader / TextBox (configuration is not a resource budget)
 
-- **No** `<Virtualize>`.
-- Renders **all** `ListData` items when the popup is open.
-- MS-5.4 claims windowing via `PageSize`; that logic is **not** visible in this Razor loop and must be confirmed in list-generation code-behind (**manual**).
+- `src/Components/Popups/Dialog/SfDialog.razor` renders the configured footer buttons. A typically small author-selected list is not an enforced limit.
+- `src/Components/Inputs/Uploader/SfUploader.razor` renders `FileData` eagerly. `MaxFileSize` and `AllowMultiple` in `SfUploader.razor.Members.cs` do not establish an aggregate file-count/retained-byte budget. Both default and template rows need consideration.
+- `src/Components/Inputs/TextBox/SfTextBox.razor` iterates `ListOfButtons` for icons. This is not a general-purpose virtualized list host.
 
-### Dialog (config-bounded)
+### Chart (SVG cost still scales with enabled features)
 
-**File:** [SfDialog.razor](https://github.com/syncfusion/blazor-toolkit/blob/readiness-corrections/src/Components/Popups/Dialog/SfDialog.razor)
-
-- Footer buttons loop over `ButtonsValue` (author-configured, small N).
-- Not a large data list → `<Virtualize>` not required.
-
-### Uploader (limit-bounded)
-
-**File:** [SfUploader.razor](https://github.com/syncfusion/blazor-toolkit/blob/readiness-corrections/src/Components/Inputs/Uploader/SfUploader.razor)
-
-- `@foreach` over `FileData`; list can be omitted via `ShouldRenderFileList`.
-- Practical bound: max files / size rules (see component API); not an infinite scroll surface.
-
-### Chart (not a virtualized DOM list)
-
-**Files:**  
-[ChartRenderer.cs](https://github.com/syncfusion/blazor-toolkit/blob/readiness-corrections/src/Components/Charts/Chart/Renderer/ChartRenderer.cs) · [SfChart.razor.cs](https://github.com/syncfusion/blazor-toolkit/blob/readiness-corrections/src/Components/Charts/Chart/SfChart.razor.cs)
-
-- Points/markers use **SVG / render-tree builders** and adaptive visibility, not a Razor item list.
-- `<Virtualize>` does not apply to this model.
-
-### Simple controls
-
-**Examples:** [SfButton](https://github.com/syncfusion/blazor-toolkit/blob/readiness-corrections/src/Components/Buttons/Button), inputs, [SfTooltip](https://github.com/syncfusion/blazor-toolkit/blob/readiness-corrections/src/Components/Popups/Tooltip/SfTooltip.razor), [SfSpinner](https://github.com/syncfusion/blazor-toolkit/blob/readiness-corrections/src/Components/Spinner/SfSpinner.razor) — no large repeated collections.
+- `src/Components/Charts/Chart/Renderer/SeriesRenderers/MarkerRenders/ChartMarkerRenderer.cs` iterates visible/in-range point symbols.
+- `src/Components/Charts/Common/Renderer/SvgRendering.cs` opens `SvgEllipse`, `SvgPath`, and `SvgImage` components for those symbols. Per-point component/DOM growth is possible; builder use does not eliminate it.
+- `SfChart.razor.cs` has size-dependent adaptive flags, not a general point-count budget or viewport virtualization. See [render-tree observations](./render-tree-efficiency.md).
 
 ---
 
-## MS rule mapping
+## Evidence limits and outstanding decisions
 
-| MS expectation | Toolkit response | Status |
-|----------------|------------------|--------|
-| Use `<Virtualize>` for large lists | Not used in product components | **N/A by design** for fixed/config-bounded UIs |
-| Or document why / how consumers virtualize | MS-5.4: bounded sets; N/A path intentional | **Documented** in attestation |
-| Large or unbounded internal lists | TimePicker `ListData` is the main case to prove stays bounded | **Confirm** `PageSize` / interval caps |
+The prior MS-5.4 mapping is a review topic, not proof of compliance. Source establishes eager/fixed/configured rendering only. Runtime cost, acceptable resource budgets, and any formally reviewed applicability decision remain outstanding. Do not create a waiver or mark a pass from this document.
 
-**Gap to close (if MS challenges):**  
-1) Point to **code** that caps TimePicker/DateTimePicker `ListData` (or add `<Virtualize>` / windowing).  
-2) Optionally add a short **consumer note** in docs: for app-owned large lists, use Blazor `<Virtualize>`; toolkit popups are not general-purpose virtualized list hosts.
+## Manual verification plan — not executed
 
----
+Record commit, SDK/runtime, render mode, browser/hardware, exact configuration, generated and visible counts, timings/heap, traces, and reviewer. Agree budgets from measurements before assigning pass/fail. These rows are investigation plans, not results.
 
-## Conformance
+| ID | Component | Planned check | Evidence to collect | Status |
+|----|-----------|---------------|---------------------|--------|
+| **VIRT-CAL-01** | Calendar | Navigate month/year/decade, date bounds and week-number modes. | Generated vs visible cells/rows; confirm fixed-matrix behavior and correctness. | Not executed |
+| **VIRT-TP-01** | TimePicker | Open full-day lists at default and one-minute `Step`. | Actual item/DOM counts, opening latency, memory and keyboard behavior; no assumed window. | Not executed |
+| **VIRT-TP-02** | TimePicker / DateTimePicker | Exercise date/time boundaries and valid/invalid step settings separately. | Generated range/count, eager popup cost, and product decision on supported budgets; no assumed shared normalization. | Not executed |
+| **VIRT-UP-01** | Uploader | Repeated selections, duplicate names, removal/clear, default and template rows. | Retained file/row/byte growth and any host-enforced limits; establish aggregate budget separately. | Not executed |
+| **VIRT-CH-01** | Chart | Supported large-series workload (e.g. 10k points), markers/labels on/off and adaptive sizes. | SVG/component/DOM counts, latency and heap for each configuration; identify any sampling explicitly. | Not executed |
 
-| Claim | Status |
-|-------|--------|
-| No unbounded calendar grid | **Met** (fixed cell matrix) |
-| Dialog / Uploader lists config- or limit-bounded | **Met** |
-| Chart not a DOM list virtualization scenario | **Met** |
-| `<Virtualize>` used for large product lists | **Not used** — intentional N/A for current surface |
-| TimePicker list always small / windowed | **Attested (MS-5.4); verify in code + runtime** |
-
----
-
-## Manual verification
-
-| ID | Component | What to do | Expected result (Pass) | Result | Owner / date |
-|----|-----------|------------|------------------------|--------|--------------|
-| **VIRT-CAL-01** | Calendar | Open month view; inspect DOM cell count. | About **35–42** day cells (not hundreds). Grid stays bounded when changing months. | ☐ Pass / ☐ Fail / ☐ N/A | |
-| **VIRT-TP-01** | TimePicker | Set 1-minute interval over 24h; open popup; count `<li>` (or profile DOM). | Document actual count. Pass if product defines a **cap/window** and DOM matches it; fail if ~1440 nodes with no documented bound. | ☐ Pass / ☐ Fail / ☐ N/A | |
-| **VIRT-TP-02** | TimePicker | Locate list-build / `PageSize` (or interval) logic in code-behind. | Found and documented path that limits `ListData` **before** render, **or** accepted risk recorded. | ☐ Pass / ☐ Fail / ☐ N/A | |
-| **VIRT-UP-01** | Uploader | Add files up to max-count rule; inspect list. | List length respects max-file rules; no runaway growth. | ☐ Pass / ☐ Fail / ☐ N/A | |
-| **VIRT-CH-01** | Chart | Large series (e.g. 10k points), markers on vs adaptive/small size. | Not a `<Virtualize>` list; markers/layers scale via chart pipeline without a huge DOM node list per point. | ☐ Pass / ☐ Fail / ☐ N/A | |
-
----
+See [enterprise plan R07/R23](../../../docs/ENTERPRISE-READINESS-PLAN.md) for unresolved resource and performance gates.

@@ -1,46 +1,45 @@
-# Screen-reader smoke results
+# Screen-reader smoke — DRAFT validation checklist
 
-This table summarises manual screen-reader smoke tests run against
-the major Syncfusion Blazor Toolkit components. Results are
-re-verified at every minor release.
+**Not Evaluated:** no retained session records establish the former NVDA, JAWS, or Narrator results. VoiceOver results are also unverified. This is a checklist for a future evaluation, not a record that testing occurred. FastPass/Assessment is not a substitute for observing an actual screen reader.
 
-| Component | NVDA 2024.x (Windows 11 / Edge) | JAWS 2025 (Windows 11 / Edge) | Narrator (Windows 11 / Edge) | Notes |
-|---|---|---|---|---|
-| `SfButton` | PASS — name, role, state announced | PASS | PASS | |
-| `SfButtonGroup` | PASS — radiogroup / toolbar role announced | PASS | PASS | |
-| `SfCheckBox` | PASS — checked / indeterminate / disabled all announced | PASS | PASS | |
-| `SfRadioButton` | PASS — radiogroup + arrow-key navigation | PASS | PASS | |
-| `SfSwitch` | PASS — switch role + on/off state | PASS | PASS | |
-| `SfTextBox` | PASS — label announced, aria-invalid on validation error | PASS | PASS | |
-| `SfTextArea` | PASS | PASS | PASS | |
-| `SfNumericTextBox` | PASS — aria-valuenow + aria-valuemin/max on spin | PASS | PASS | |
-| `SfUploader` | PARTIAL — file-input button name not localised automatically; status announcements work | PARTIAL | PASS — file-input is platform default | Tracked under [`accessibility` issues](https://github.com/syncfusion/blazor-toolkit/issues?q=is%3Aopen+is%3Aissue+label%3Aaccessibility) |
-| `SfCalendar` | PARTIAL — arrow-key moves announced; month/year combobox changes not announced | PARTIAL | PASS | Tracked under [`#273`](https://github.com/syncfusion/blazor-toolkit/issues/273) |
-| `SfDatePicker` | PASS | PASS | PASS | |
-| `SfDateTimePicker` | PASS | PASS | PASS | |
-| `SfTimePicker` | PASS | PASS | PASS | |
-| `SfDialog` | PASS — modal role, focus-trap, label/described-by | PASS | PASS | |
-| `SfTooltip` | PARTIAL — long tooltips don't surface as live region | PARTIAL | PASS | Tracked under [`#272`](https://github.com/syncfusion/blazor-toolkit/issues/272) |
-| `SfSpinner` | PASS — `role=status`, `aria-busy=true`, polite live region by default | PASS | PASS | |
-| `SfChart` | PASS — series + data-point descriptions announced | PASS | PASS | |
+## Component scenarios
 
-## Known limitations
+For **every row**, NVDA, JAWS, Narrator, and VoiceOver status is **Not Evaluated**. Select and record actual OS/browser/AT versions and supported pairings when testing; no versions or evaluators are implied by the column scope.
 
-- Edge + NVDA currently announces the navigated date in
-  `SfCalendar` after a brief delay. JAWS / Narrator do not exhibit
-  this behaviour.
-- `SfUploader`'s native `<input type="file">` button is a software-
-  owned name. Welsh/Lithuanian users see "Browse…" — there is no
-  supported override at this release.
+| Component | Scenario to exercise and record |
+|---|---|
+| `SfButton` | Text and icon-only names; Enter/Space; toggle and disabled states. |
+| `SfButtonGroup` | None/single/multiple modes; group/item names; native radio navigation; selected state and visible focus. |
+| `SfCheckBox` | Label, checked/mixed/disabled states; keyboard activation; validation association. |
+| `SfRadioButton` | Shared-name group navigation; selected state and label; validation association. |
+| `SfSwitch` | Accessible name versus visible on/off labels; switch state and keyboard activation. |
+| `SfTextBox` | Visible/programmatic labels, clear button, validation errors and descriptions. |
+| `SfTextArea` | Label, multiline editing, clear button and error association. |
+| `SfNumericTextBox` | Value/range announcements, spin buttons, keyboard changes, invalid input and status-region repetition. |
+| `SfUploader` | Browse/file input, selection/removal, localized instructions, progress/error status, focus after list changes. |
+| `SfCalendar` | Selected/current/disabled dates; month/year changes and keyboard navigation announcements. |
+| `SfDatePicker` | Input name/value, open/close, grid navigation, focus return and selected date. |
+| `SfDateTimePicker` | Switching date/time views; active versus selected options, validation, focus and value announcements. |
+| `SfTimePicker` | Computed name with supplied labels; active/selected list options; open/close and value changes. |
+| `SfDialog` | Name/description, initial focus, modal cycling, dismissal and restoration, nested/dynamic content. |
+| `SfTooltip` | Focus and pointer triggers, description association, dismissal and persistence; long/sticky content. |
+| `SfSpinner` | Busy transitions and status announcement; visible label versus accessible name; repeated updates. |
+| `SfChart` | Summary/data alternatives, series/point names, keyboard traversal, selection/zoom, dynamic updates. |
 
-## How to re-run
+## Required session record
 
-To re-verify on a developer's workstation:
+- Exact package/source revision (and local modifications), tested URL/fixture and component parameters.
+- Date and actual evaluator, OS/browser/AT versions, verbosity/settings, locale, theme, viewport, and render mode/prerender phase.
+- Steps and expected behavior, then verbatim observed announcements and focus behavior, with evidence references where available.
+- Result per scenario: observed success, failure, blocked, or not evaluated. A smoke success is not full criterion conformance.
+- Reproduction and confirmed issue links for failures; no assumed remediation date or approval.
 
-```powershell
-.\samples\Blazor.Toolkit.Samples\bin\Debug\net10.0\Blazor.Toolkit.Samples.exe
-# open Edge, navigate to /accessibility/smoke, run FastPass
-# open the bundled Accessibility Insights, run Assessment
-```
+Run scenarios on real sample routes from the checked-out application. No `/accessibility/smoke` route or bundled Insights installation is established by this document. Use [DEVELOPMENT.md](../DEVELOPMENT.md) for host setup, then record the exact route used. Cover Server, WebAssembly, and both Auto hosts where supported; distinguish static/prerender markup from interactive behavior.
 
-Contact: open an issue labelled `accessibility` for any new finding.
+## Limitations and superseded claims
+
+Source mechanisms and open questions are recorded in [the DRAFT standards register](../../docs/VPAT-2.5-INT.md). Native state semantics can provide announcements without a live region; a missing `aria-live` is not automatically a failure. Conversely, live-region markup does not prove reliable or nonduplicated speech.
+
+Earlier PASS/PARTIAL entries, the claimed September 2026 sessions, release-by-release reverification, Calendar timing differences between screen readers, and Welsh/Lithuanian file-input behavior are **unverified and superseded**. They are not established historical observations. Issue #272/#273 associations likewise need verification before reuse.
+
+Report findings under [ACCESSIBILITY.md](../ACCESSIBILITY.md). Private disclosure remains **security@syncfusion.com** per [SECURITY.md](../SECURITY.md).

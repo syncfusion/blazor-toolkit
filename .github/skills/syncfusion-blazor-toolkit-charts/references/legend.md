@@ -295,10 +295,10 @@ Prevent series toggling when legend is clicked:
 <ChartLegendSettings Visible="true" ToggleVisibility="false"/>
 ```
 
-This is useful when combined with selection modes:
+This is useful when combined with selection modes (fragment; supply the data collections):
 
 ```razor
-<SfChart SelectionMode="Syncfusion.Blazor.Toolkit.Charts.SelectionMode.Series">
+<SfChart SelectionMode="Syncfusion.Blazor.Toolkit.ChartSelectionMode.Series">
         <ChartSeries DataSource="@Data1" Name="Q1" XName="X" YName="Y"/>
         <ChartSeries DataSource="@Data2" Name="Q2" XName="X" YName="Y"/>
         <ChartSeries DataSource="@Data3" Name="Q3" XName="X" YName="Y"/>
@@ -381,34 +381,31 @@ Create fully custom legend items using templates:
 
 **Template with Badges:**
 
+`ChartSeries.LegendItemTemplate` is a non-generic `RenderFragment`; there is
+no implicit `context`. Capture application values explicitly. Fragment
+inside a series, with `seriesColor` and `seriesName` supplied by the owner:
+
 ```razor
 <LegendItemTemplate>
-    <div style="display: flex; align-items: center; gap: 8px; padding: 4px 8px; background: #F5F5F5; border-radius: 4px;">
-        <span style="width: 12px; height: 12px; background: @context.Fill; border-radius: 50%;"></span>
-        <span style="font-weight: 600;">@context.Name</span>
-        <span style="background: #FFC107; color: white; padding: 2px 6px; border-radius: 3px; font-size: 10px;">NEW</span>
+    <div style="display: flex; align-items: center; gap: 8px; padding: 4px 8px;">
+        <span style="width: 12px; height: 12px; background: @seriesColor; border-radius: 50%;"></span>
+        <span>@seriesName</span>
+        <span>NEW</span>
     </div>
 </LegendItemTemplate>
 ```
 
 **Template with Icons and Statistics:**
 
+Calculate `total` and `average` from application data, then capture them in
+the fragment; the template is not passed a `ChartSeries` context.
+
 ```razor
 <LegendItemTemplate>
-    @{
-        var series = context as ChartSeries;
-        var total = CalculateSeriesTotal(series);
-        var avg = CalculateSeriesAverage(series);
-    }
-    <div style="border: 1px solid #E0E0E0; padding: 8px; border-radius: 4px; min-width: 150px;">
-        <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 4px;">
-            <div style="width: 16px; height: 16px; background: @series.Fill; border-radius: 2px;"></div>
-            <span style="font-weight: bold; font-size: 13px;">@series.Name</span>
-        </div>
-        <div style="font-size: 11px; color: #757575;">
-            <div>Total: @total.ToString("N0")</div>
-            <div>Avg: @avg.ToString("N1")</div>
-        </div>
+    <div style="border: 1px solid #E0E0E0; padding: 8px;">
+        <strong>@seriesName</strong>
+        <div>Total: @total.ToString("N0")</div>
+        <div>Avg: @average.ToString("N1")</div>
     </div>
 </LegendItemTemplate>
 ```

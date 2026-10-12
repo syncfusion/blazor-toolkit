@@ -1,0 +1,63 @@
+@page "/chart/text-measurement"
+@using Syncfusion.Blazor.Toolkit
+@using Syncfusion.Blazor.Toolkit.Charts
+
+<h1>Chart text measurement regression</h1>
+<button id="measurement-refresh" @onclick="RefreshData">Refresh labels</button>
+<div id="measurement-generation">@completedGeneration</div>
+<div style="width:800px;height:400px">
+    <SfChart @ref="chart" ID="MeasurementChart" Title="Text measurement" Width="800px" Height="400px">
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
+            <ChartAxisCrosshairTooltip Enable="true" />
+        </ChartPrimaryXAxis>
+        <ChartSeriesCollection>
+            <ChartSeries DataSource="@points" XName="Label" YName="Value" Name="@seriesName"
+                         TooltipMappingName="Details" Type="ChartSeriesType.Column">
+                <ChartSeriesAnimation Enable="false" />
+            </ChartSeries>
+        </ChartSeriesCollection>
+        <ChartTooltipSettings Enable="true" Format="${point.x}<br>${point.tooltip}: ${point.y}" />
+        <ChartCrosshairSettings Enable="true" />
+    </SfChart>
+</div>
+
+@code {
+    SfChart chart = default!;
+    int generation;
+    int completedGeneration;
+    bool refreshPending;
+    string seriesName = "Series<br/><i>series marker</i>";
+    List<MeasurementPoint> points = CreatePoints(0);
+
+    static List<MeasurementPoint> CreatePoints(int value) =>
+    [
+        new() { Label = $"مرحبا{value}<br/><i>category marker</i>", Value = 12,
+                Details = "Details<br><i>tooltip marker</i>" },
+        new() { Label = $"العربية{value}<i>no-break marker</i>", Value = 20, Details = "Plain details" }
+    ];
+
+    void RefreshData()
+    {
+        generation++;
+        points = CreatePoints(generation);
+        refreshPending = true;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (refreshPending)
+        {
+            refreshPending = false;
+            await chart.RefreshAsync(false);
+            completedGeneration = generation;
+            StateHasChanged();
+        }
+    }
+
+    public sealed class MeasurementPoint
+    {
+        public string Label { get; set; } = string.Empty;
+        public double Value { get; set; }
+        public string Details { get; set; } = string.Empty;
+    }
+}

@@ -1,0 +1,51 @@
+@page "/inputs/uploader/transport-matrix/{Scenario}"
+@inject IConfiguration Configuration
+@implements IDisposable
+
+@if (Configuration["R06_CHARACTERIZATION"] != "1")
+{
+    <p>Characterization disabled.</p>
+}
+else
+{
+    <h1>Dummy transport matrix</h1>
+    <TransportProbe @ref="a" ProbeId="ProbeA" Chunked="@Chunked" Defaults="@(Scenario == "config")" Live="@(Scenario == "pause")" Retries="@(Scenario == "retry-exhaust" ? 2 : 0)" Log="Record" />
+    @if (Scenario == "instances")
+    {
+        <TransportProbe @ref="b" ProbeId="ProbeB" Chunked="true" Log="Record" />
+    }
+    <button id="upload-0" @onclick="() => a.Upload(0)">Upload A0</button>
+    <button id="upload-1" @onclick="() => a.Upload(1)">Upload A1</button>
+    <button id="upload-b" @onclick="() => b!.Upload(0)">Upload B0</button>
+    <button id="remove-1" @onclick="() => a.Remove(1)">Remove completed A1</button>
+    <button id="clear" @onclick="() => a.Clear()">Clear queue</button>
+    <button id="mutate" @onclick="() => a.Mutate(false)">Mutate defaults</button>
+    <button id="replace" @onclick="() => a.Mutate(true)">Replace client</button>
+    <button id="sync" @onclick="() => a.Sync()">Parent sync</button>
+    <button id="settings" @onclick='() => a.Child("settings")'>Child settings</button>
+    <button id="buttons" @onclick='() => a.Child("buttons")'>Child buttons</button>
+    <button id="null" @onclick='() => a.HeaderMode = "null"'>Null headers</button>
+    <button id="empty" @onclick='() => a.HeaderMode = "empty"'>Empty headers</button>
+    <button id="true" @onclick="() => a.Credentials = true">Credentials true</button>
+    <button id="false" @onclick="() => a.Credentials = false">Credentials false</button>
+    <button id="hold" @onclick="() => a.HoldBefore = true">Hold callback</button>
+    <button id="release" @onclick="Release">Release callback</button>
+    <button id="retry" @onclick="() => a.Retry(false)">Retry from start</button>
+    <button id="retry-stage" @onclick="() => a.Retry(true)">Retry from stage</button>
+    <button id="pause" @onclick="() => a.Pause()">Pause</button>
+    <button id="resume" @onclick="() => a.Resume()">Resume</button>
+    <button id="snapshot" @onclick="() => a.Snapshot()">Status snapshot</button>
+    <pre id="matrix-ledger">@string.Join("\n", ledger)</pre>
+}
+
+@code {
+    [Parameter] public string Scenario { get; set; } = "config";
+    private bool Chunked => Scenario is "concurrent" or "instances" or "endpoint-chunks" or "retry-chunks" or "retry-exhaust" or "overlap-remove" or "pause";
+    private TransportProbe a = default!;
+    private TransportProbe? b;
+    private readonly List<string> ledger = [];
+    private bool disposed;
+    private void Record(string entry) { if (!disposed) { ledger.Add(entry); StateHasChanged(); } }
+    private void Release() { a?.Release(); b?.Release(); }
+    public void Dispose() { disposed = true; Release(); }
+}

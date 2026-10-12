@@ -1,4 +1,4 @@
-﻿# Syncfusion Blazor Charts - Complete API Reference
+﻿# Syncfusion Blazor Toolkit Charts - API Reference
 
 ## Table of Contents
 
@@ -8,10 +8,10 @@
 - [Enumerations](#enumerations)
    - [ChartSeriesType](#chartseriestype)
    - [ValueType](#valuetype)
-   - [SelectionMode](#selectionmode)
+   - [ChartSelectionMode](#chartselectionmode)
    - [HighlightMode](#highlightmode)
    - [SelectionPattern](#selectionpattern)
-   - [ExportType](#exporttype)
+   - [ExportType — unavailable](#exporttype)
    - [LegendPosition](#legendposition)
    - [EmptyPointMode](#emptypointmode)
    - [LabelPlacement](#labelplacement)
@@ -25,7 +25,7 @@
    - [Theme](#theme)
 - [Key Classes and Components](#key-classes-and-components)
    - [ChartSeries](#chartseries)
-   - [ChartPrimaryXAxis / ChartPrimaryYAxis](#chartprimaryxaxis-chartprimaryyaxis)
+   - [ChartPrimaryXAxis / ChartPrimaryYAxis](#chartprimaryxaxis--chartprimaryyaxis)
    - [ChartTooltipSettings](#charttooltipsettings)
    - [ChartLegendSettings](#chartlegendsettings)
    - [ChartZoomSettings](#chartzoomsettings)
@@ -38,7 +38,7 @@
 
 ## Overview
 
-This document provides the complete and accurate API reference for Syncfusion Blazor Charts based on the official Syncfusion API documentation. Use this as the authoritative source for all enum values, method signatures, and property names.
+This reference describes the repository's Toolkit Chart, not the commercial Blazor Charts product. Source authority: `src/Components/Charts/ChartEnumerations.cs`, `Chart/SfChart.razor.Methods.cs`, and the relevant component declarations. Signatures below are reference extracts; examples are fragments needing host setup, imports, data, and handlers. They have not been compile-tested in this documentation sync.
 
 ---
 
@@ -46,7 +46,14 @@ This document provides the complete and accurate API reference for Syncfusion Bl
 
 ### Public Methods
 
-The `SfChart` component provides the following public methods for programmatic control:
+The `SfChart` component provides the following public methods for programmatic control. Source authority is `Chart/SfChart.razor.Methods.cs`; call instance methods after rendering assigns `@ref`.
+
+| Additional method | Returns | Purpose |
+|---|---|---|
+| `RefreshLiveData()` | `void` | Refresh live series data |
+| `AddSeriesAsync(IList<ChartSeries> seriesCollection)` | `Task` | Add series dynamically |
+| `RemoveSeries(int index)` | `void` | Remove a series |
+| `ClearSeries()` | `void` | Remove all series |
 
 #### RefreshAsync(bool shouldAnimate = true)
 
@@ -79,174 +86,42 @@ public Task RefreshAsync(bool shouldAnimate = true)
 
 ---
 
-#### ExportAsync(ExportType type, string fileName, PdfPageOrientation? orientation = null, bool allowDownload = true, bool isBase64 = false)
+#### Export and print availability
 
-Exports the chart to various formats (PDF, PNG, JPEG, SVG).
-
-```csharp
-public Task ExportAsync(ExportType type, string fileName, PdfPageOrientation? orientation = null, bool allowDownload = true, bool isBase64 = false)
-```
-
-**Parameters:**
-- `type` - The export format (`ExportType` enum)
-- `fileName` - The name of the exported file
-- `orientation` - PDF page orientation (Portrait/Landscape)
-- `allowDownload` - Whether to download the file
-- `isBase64` - Whether to return as base64 string
-
-**Returns:** `Task`
-
-**Example:**
-```razor
-<SfChart @ref="ChartRef">
-    <!-- Chart configuration -->
-</SfChart>
-
-@code {
-    SfChart ChartRef;
-    
-    async Task ExportChart()
-    {
-        await ChartRef.ExportAsync(ExportType.PNG, "SalesChart");
-    }
-}
-```
+**Unavailable in this Toolkit:** `ExportAsync`, `PrintAsync`, and `ExportType` are not source APIs. Browser printing and application-owned data export are separate concerns, not replacements on `SfChart`.
 
 ---
 
-#### PrintAsync(ElementReference elementRef = default)
+#### ShowTooltipAsync(object x, double y, bool isPoint = true)
 
-Prints the chart.
+Displays a tooltip at data values (`isPoint = true`) or chart coordinates (`false`). Enable `ChartTooltipSettings.Enable` first. Returns `Task`.
 
-```csharp
-public Task PrintAsync(ElementReference elementRef = default)
-```
+#### HideTooltipAsync()
 
-**Parameters:**
-- `elementRef` - Optional reference to the chart element
+Hides the displayed tooltip. Returns `Task`.
 
-**Returns:** `Task`
+#### ShowCrosshairAsync(double x, double y)
 
-**Example:**
-```razor
-<SfChart @ref="ChartRef">
-    <!-- Chart configuration -->
-</SfChart>
+Displays the crosshair at chart coordinates. Enable `ChartCrosshairSettings.Enable` first. Returns `Task`.
 
-@code {
-    SfChart ChartRef;
-    
-    async Task PrintChart()
-    {
-        await ChartRef.PrintAsync();
-    }
-}
-```
+#### HideCrosshairAsync()
 
----
+Hides the crosshair. Returns `Task`.
 
-#### ShowTooltip(object x, double y, bool isPoint = true)
+Interactive component fragment; supply series data and call these handlers after the component reference is assigned:
 
-Displays tooltip at specified coordinates or data points.
-
-```csharp
-public void ShowTooltip(object x, double y, bool isPoint = true)
-```
-
-**Parameters:**
-- `x` - X-value of the point or x-coordinate
-- `y` - Y-value of the point or y-coordinate  
-- `isPoint` - Whether x and y are data points (true) or coordinates (false)
-
-**Example:**
 ```razor
 <SfChart @ref="ChartRef">
     <ChartTooltipSettings Enable="true" />
-    <!-- Chart configuration -->
-</SfChart>
-
-@code {
-    SfChart ChartRef;
-    
-    void DisplayTooltip()
-    {
-        ChartRef.ShowTooltip("January", 35);
-    }
-}
-```
-
----
-
-#### HideTooltip()
-
-Hides the currently displayed tooltip.
-
-```csharp
-public void HideTooltip()
-```
-
-**Example:**
-```razor
-@code {
-    SfChart ChartRef;
-    
-    void HideChartTooltip()
-    {
-        ChartRef.HideTooltip();
-    }
-}
-```
-
----
-
-#### ShowCrosshair(double x, double y)
-
-Displays crosshair at specified coordinates.
-
-```csharp
-public void ShowCrosshair(double x, double y)
-```
-
-**Parameters:**
-- `x` - X-coordinate on the chart
-- `y` - Y-coordinate on the chart
-
-**Example:**
-```razor
-<SfChart @ref="ChartRef">
     <ChartCrosshairSettings Enable="true" />
-    <!-- Chart configuration -->
 </SfChart>
 
 @code {
-    SfChart ChartRef;
-    
-    void DisplayCrosshair()
-    {
-        ChartRef.ShowCrosshair(100, 50);
-    }
-}
-```
-
----
-
-#### HideCrosshair()
-
-Hides the currently displayed crosshair.
-
-```csharp
-public void HideCrosshair()
-```
-
-**Example:**
-```razor
-@code {
-    SfChart ChartRef;
-    
-    void HideChartCrosshair()
-    {
-        ChartRef.HideCrosshair();
-    }
+    private SfChart ChartRef = default!;
+    private Task DisplayTooltip() => ChartRef.ShowTooltipAsync("January", 35);
+    private Task HideChartTooltip() => ChartRef.HideTooltipAsync();
+    private Task DisplayCrosshair() => ChartRef.ShowCrosshairAsync(100, 50);
+    private Task HideChartCrosshair() => ChartRef.HideCrosshairAsync();
 }
 ```
 
@@ -262,7 +137,7 @@ public void ClearSelection()
 
 **Example:**
 ```razor
-<SfChart @ref="ChartRef" SelectionMode="SelectionMode.Point">
+<SfChart @ref="ChartRef" SelectionMode="Syncfusion.Blazor.Toolkit.ChartSelectionMode.Point">
     <!-- Chart configuration -->
 </SfChart>
 
@@ -280,29 +155,23 @@ public void ClearSelection()
 
 #### Sort(string propertyName, ListSortDirection direction)
 
-Sorts chart data by property name and direction.
+Sorts chart data by property name and direction. The enum is
+`Syncfusion.Blazor.Toolkit.Data.ListSortDirection`, not the similarly named
+`System.ComponentModel` enum.
 
-```csharp
-public void Sort(string propertyName, ListSortDirection direction)
-```
+Interactive fragment (supply `SalesData` and the series mapping):
 
-**Parameters:**
-- `propertyName` - Property name to sort by
-- `direction` - Sort direction (`Ascending` or `Descending`)
-
-**Example:**
 ```razor
 <SfChart @ref="ChartRef" DataSource="@SalesData">
-    <ChartSorting PropertyName="X" Direction="ListSortDirection.Ascending" />
-    <!-- Chart configuration -->
+    <!-- Supply chart series. -->
 </SfChart>
 
 @code {
-    SfChart ChartRef;
-    
-    void SortByValue()
+    private SfChart ChartRef = default!;
+
+    private void SortByValue()
     {
-        ChartRef.Sort("Y", ListSortDirection.Descending);
+        ChartRef.Sort("Y", Syncfusion.Blazor.Toolkit.Data.ListSortDirection.Descending);
     }
 }
 ```
@@ -362,7 +231,7 @@ public void PreventRender(bool preventRender = true)
 
 ### ChartSeriesType
 
-Specifies the type of chart series.
+The 21 series values, in source declaration order. This is a reference extract, not an enum to redefine in an application.
 
 ```csharp
 public enum ChartSeriesType
@@ -371,20 +240,21 @@ public enum ChartSeriesType
     Column,
     Area,
     Bar,
-    Bubble,
-    Scatter,
-    Spline,
-    SplineArea,
+    StackingColumn,
+    StackingArea,
+    StackingLine,
+    StackingBar,
+    StackingStepArea,
     StepLine,
     StepArea,
-    StackingColumn,
+    SplineArea,
+    Scatter,
+    Spline,
     StackingColumn100,
-    StackingBar,
     StackingBar100,
-    StackingArea,
-    StackingArea100,
-    StackingLine,
     StackingLine100,
+    StackingArea100,
+    Bubble,
     MultiColoredLine,
     MultiColoredArea
 }
@@ -427,20 +297,20 @@ public enum ValueType
 
 ---
 
-### SelectionMode
+### ChartSelectionMode
 
-Specifies the selection mode.
+Specifies the chart selection mode. Set it on the `SfChart.SelectionMode` parameter; the parameter name does not change.
 
 ```csharp
-public enum SelectionMode
+public enum ChartSelectionMode
 {
     None,
     Series,
     Point,
     Cluster,
     DragXY,
-    DragX,
     DragY,
+    DragX,
     Lasso
 }
 ```
@@ -487,11 +357,12 @@ Specifies selection/highlight patterns.
 public enum SelectionPattern
 {
     None,
-    DiagonalForward,
-    DiagonalBackward,
-    Crosshatch,
-    Dots,
     Chessboard,
+    Dots,
+    DiagonalForward,
+    Crosshatch,
+    Pacman,
+    DiagonalBackward,
     Grid,
     Turquoise,
     Star,
@@ -512,23 +383,7 @@ public enum SelectionPattern
 
 ### ExportType
 
-Specifies export types.
-
-```csharp
-public enum ExportType
-{
-    PNG,
-    JPEG,
-    SVG,
-    PDF
-}
-```
-
-**Values:**
-- `PNG` - Export as PNG image
-- `JPEG` - Export as JPEG image
-- `SVG` - Export as SVG vector
-- `PDF` - Export as PDF document
+**Unavailable in this Toolkit.** There is no chart export enum or built-in export method. This heading is retained to make the unsupported commercial API boundary explicit.
 
 ---
 
@@ -653,16 +508,18 @@ Specifies marker shapes.
 ```csharp
 public enum ChartShape
 {
-    Circle,
-    Rectangle,
-    Triangle,
-    Diamond,
-    Pentagon,
-    Cross,
-    HorizontalLine,
-    VerticalLine,
-    InvertedTriangle,
-    Image
+    Circle = 0,
+    Triangle = 1,
+    Diamond = 2,
+    Rectangle = 3,
+    Pentagon = 4,
+    InvertedTriangle = 5,
+    VerticalLine = 6,
+    Cross = 7,
+    Plus = 8,
+    HorizontalLine = 9,
+    Image = 10,
+    Auto = 11
 }
 ```
 
@@ -677,9 +534,9 @@ public enum TrendlineTypes
 {
     Linear,
     Exponential,
-    Logarithmic,
     Polynomial,
     Power,
+    Logarithmic,
     MovingAverage
 }
 ```
@@ -696,34 +553,7 @@ public enum TrendlineTypes
 
 ### TechnicalIndicators
 
-Specifies technical indicator types.
-
-```csharp
-public enum TechnicalIndicators
-{
-    Sma,
-    Ema,
-    Tma,
-    Momentum,
-    Atr,
-    AccumulationDistribution,
-    Bollinger,
-    Macd,
-    Stochastic,
-    Rsi
-}
-```
-
-**Common Values:**
-- `Sma` - Simple Moving Average
-- `Ema` - Exponential Moving Average
-- `Tma` - Triangular Moving Average
-- `Momentum` - Momentum indicator
-- `Rsi` - Relative Strength Index
-- `Macd` - Moving Average Convergence Divergence
-- `Bollinger` - Bollinger Bands
-- `Atr` - Average True Range
-- `Stochastic` - Stochastic oscillator
+**Unavailable in this Toolkit.** No technical-indicator enum or components are exposed. `TrendlineTypes` and `ChartTrendline` above are supported and must not be confused with indicators.
 
 ---
 
@@ -764,40 +594,15 @@ public enum ToolbarItems
 
 ---
 
-### Theme  
+### Theme
 
-Specifies chart themes. Use `Syncfusion.Blazor.Theme` enum for setting the `Theme` property of `SfChart`.
+Use `Syncfusion.Blazor.Toolkit.Theme`, not the commercial theme enum. The source values are `Fluent`, `FluentDark`, `HighContrast`, and `HighContrastLight`.
 
-**IMPORTANT:** The enum name is `Theme`, not `ChartTheme`. Use it as `Theme="Syncfusion.Blazor.Theme.Material"` or `Theme="Theme.Material"` (with proper using directive).
+Configuration fragment:
 
-```csharp
-public enum Theme
-{
-    Material,
-    Fabric,
-    Bootstrap,
-    Bootstrap4,
-    HighContrastLight,
-    MaterialDark,
-    FabricDark,
-    BootstrapDark,
-    Bootstrap4Dark,
-    HighContrast,
-    Tailwind,
-    TailwindDark,
-    Bootstrap5,
-    Bootstrap5Dark,
-    Fluent,
-    FluentDark,
-    Material3,
-    Material3Dark
-}
-```
-
-**Usage Example:**
 ```razor
-<SfChart Title="Sales Chart" Theme="Syncfusion.Blazor.Theme.Bootstrap5">
-    <!-- chart content -->
+<SfChart Title="Sales Chart" Theme="Syncfusion.Blazor.Toolkit.Theme.Fluent">
+    <!-- Supply chart data and series. -->
 </SfChart>
 ```
 
@@ -809,9 +614,9 @@ public enum Theme
 
 Represents a chart series with its data and configuration.
 
-**Key Properties:**
+**Key Properties (signature fragments):**
 ```csharp
-public string DataSource { get; set; }
+public IEnumerable<object> DataSource { get; set; }
 public string XName { get; set; }
 public string YName { get; set; }
 public ChartSeriesType Type { get; set; }
@@ -852,7 +657,7 @@ public bool Enable { get; set; }
 public string Format { get; set; }
 public bool Shared { get; set; }
 public string Fill { get; set; }
-public string TextStyle { get; set; }
+public ChartTooltipTextStyle TextStyle { get; set; }
 public RenderFragment<object> Template { get; set; }
 ```
 
@@ -862,14 +667,16 @@ public RenderFragment<object> Template { get; set; }
 
 Configures legend appearance and behavior.
 
-**Key Properties:**
+**Key Properties (signature fragments):**
 ```csharp
 public bool Visible { get; set; }
 public LegendPosition Position { get; set; }
 public Alignment Alignment { get; set; }
-public LegendShape Shape { get; set; }
-public RenderFragment<object> Template { get; set; }
 ```
+
+Set the legend symbol on `ChartSeries.LegendShape` and custom legend markup
+on `ChartSeries.LegendItemTemplate`. Do not invent a `Shape` parameter or a
+public template parameter on `ChartLegendSettings`.
 
 ---
 
@@ -898,13 +705,15 @@ public ToolbarItems[] ToolbarItems { get; set; }
     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column"  <!-- Also correct -->
    ```
 
-2. **Method Naming**: All public methods use proper C# naming conventions:
-   - `RefreshAsync()` - NOT `Refresh()`
-   - `ExportAsync()` - NOT `Export()`
-   - `ShowTooltip()` - NOT `Show_Tooltip()`
+2. **Method Naming**: Use the source signatures, awaiting async operations:
+   - `RefreshAsync()`
+   - `ShowTooltipAsync()` / `HideTooltipAsync()`
+   - `ShowCrosshairAsync()` / `HideCrosshairAsync()`
+   - Export/print methods are unavailable
 
-3. **Namespace**: Always include the namespace import:
+3. **Namespaces**: Import components and enums:
    ```razor
+    @using Syncfusion.Blazor.Toolkit
     @using Syncfusion.Blazor.Toolkit.Charts
    ```
 
@@ -993,4 +802,4 @@ public ToolbarItems[] ToolbarItems { get; set; }
 
 ---
 
-This API reference document provides accurate information based on the official Syncfusion Blazor Charts API. Always refer to this document when generating code samples or providing API guidance.
+Cross-check any API not listed here against the Toolkit source before generating code. These fragments are not a claim of compatibility with the commercial Charts API or of compile-tested sample coverage.

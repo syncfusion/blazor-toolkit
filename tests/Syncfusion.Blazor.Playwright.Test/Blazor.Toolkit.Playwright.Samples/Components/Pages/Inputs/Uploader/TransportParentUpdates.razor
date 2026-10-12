@@ -1,0 +1,43 @@
+@page "/inputs/uploader/transport-parent"
+@using Syncfusion.Blazor.Toolkit.Inputs
+@inject IConfiguration Configuration
+@implements IDisposable
+
+@if (Configuration["R06_CHARACTERIZATION"] != "1")
+{
+    <p>Characterization disabled.</p>
+}
+else
+{
+    <SfUploader ID="ParentProbe" AutoUpload="false" MaxFileSize="4096" HttpClientInstance="client" CssClass="@css">
+        <UploaderAsyncSettings SaveUrl="/r06-upload/a" RemoveUrl="/r06-upload/remove-a" />
+    </SfUploader>
+    <button id="parent-mutate" @onclick="Mutate">Mutate defaults</button>
+    <button id="parent-replace" @onclick="Replace">Replace client</button>
+    <button id="parent-sync" @onclick="Sync">Update CSS</button>
+    <div id="parent-generation">@generation</div>
+}
+
+@code {
+    private HttpClient client = default!;
+    private readonly List<HttpClient> clients = [];
+    private string css = "initial";
+    private int generation;
+    protected override void OnInitialized() => client = NewClient("DUMMY_INITIAL");
+    private HttpClient NewClient(string value)
+    {
+        var result = new HttpClient(new NoNetwork());
+        result.DefaultRequestHeaders.Add("X-R06-Default", value);
+        clients.Add(result);
+        return result;
+    }
+    private void Mutate() { client.DefaultRequestHeaders.Remove("X-R06-Default"); client.DefaultRequestHeaders.Add("X-R06-Default", "DUMMY_MUTATED"); generation++; }
+    private void Replace() { client = NewClient("DUMMY_REPLACED"); generation++; }
+    private void Sync() { css = "sync-" + ++generation; }
+    public void Dispose() { foreach (var c in clients) c.Dispose(); }
+    private sealed class NoNetwork : HttpMessageHandler
+    {
+        protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken) =>
+            throw new InvalidOperationException("No .NET request allowed in parent-update characterization.");
+    }
+}

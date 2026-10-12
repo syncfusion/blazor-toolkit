@@ -1,3 +1,5 @@
+import { setMeasurementText } from './measurement-text.js';
+
 window.sfBlazorToolkit = window.sfBlazorToolkit || {};
 window.svgbase = (function (exports) {
     'use strict';
@@ -1019,22 +1021,12 @@ window.svgbase = (function (exports) {
      * @returns {Size} measureText
      */
     function measureText(text, font, themeFontStyle, isHeader) {
-        var breakText = text || ''; // For avoid NuLL value
         var htmlObject = document.getElementById('chartmeasuretext');
         if (htmlObject === null) {
             htmlObject = sfBlazorToolkit.base.createElement('text', { id: 'chartmeasuretext' });
             document.body.appendChild(htmlObject);
         }
-        if (typeof (text) === 'string' && (text.indexOf('<') > -1 || text.indexOf('>') > -1)) {
-            var textArray = text.split(' ');
-            for (var i = 0; i < textArray.length; i++) {
-                if (textArray[i].indexOf('<br/>') === -1) {
-                    textArray[i] = textArray[i].replace(/[<>]/g, '&');
-                }
-            }
-            text = textArray.join(' ');
-        }
-        htmlObject.innerHTML = (breakText.indexOf('<br>') > -1 || breakText.indexOf('<br/>') > -1) ? breakText : text;
+        setMeasurementText(htmlObject, text);
         htmlObject.style.position = 'fixed';
         htmlObject.style.fontSize = font.size || (isHeader ? themeFontStyle.headerTextSize : themeFontStyle.size);
         htmlObject.style.fontStyle = font.fontStyle || themeFontStyle.fontStyle;

@@ -1,0 +1,72 @@
+@page "/inputs/uploader/metadata/{Rendering}/{Sanitizer}/{Source}"
+@using Syncfusion.Blazor.Toolkit.Inputs
+@using UploaderFileInfo = Syncfusion.Blazor.Toolkit.Inputs.FileInfo
+
+<h1>Uploader metadata regression</h1>
+<div id="metadata-fixture" style="width:400px">
+    <SfUploader @ref="uploader" ID="MetadataUploader" AutoUpload="false" MaxFileSize="1024"
+                EnableHtmlSanitizer="@(Sanitizer == "on")" FileSelected="Selected">
+        @if (Rendering.Contains("ajax", StringComparison.Ordinal))
+        {
+            <UploaderAsyncSettings SaveUrl="/r05-upload/save" RemoveUrl="/r05-upload/remove" />
+        }
+        @if (Source == "preload")
+        {
+            <UploadedFiles>
+                <UploadedFile Name="@ProbeName" Type="txt" Size="12" />
+                <UploadedFile Name="report &amp; العربية é" Type="@ProbeType" Size="24" />
+            </UploadedFiles>
+        }
+        @if (Rendering.StartsWith("template", StringComparison.Ordinal))
+        {
+            <UploaderTemplates>
+                <Template Context="file">
+                    <strong class="trusted-template">File</strong>
+                    <span class="template-name">@file.Name</span>
+                    <span class="template-type">@file.Type</span>
+                    <span class="template-status">@file.Status</span>
+                </Template>
+            </UploaderTemplates>
+        }
+    </SfUploader>
+</div>
+<button id="metadata-api" @onclick="AddMetadata">Add metadata through public API</button>
+<div id="metadata-selected">@selectedName</div>
+<pre id="metadata-selection">@selectionJson</pre>
+
+@code {
+    [Parameter] public string Rendering { get; set; } = "ajax";
+    [Parameter] public string Sanitizer { get; set; } = "on";
+    [Parameter] public string Source { get; set; } = "selection";
+    private SfUploader uploader = default!;
+    private string selectedName = string.Empty;
+    private string selectionJson = "[]";
+    private const string ProbeName = "report<img src=r05-probe-name onerror=\"self['r05Executed']=true\">";
+    private const string ProbeType = "txt<img src=r05-probe-type onerror=\"self['r05Executed']=true\">";
+    private const string ProbeStatus = "Ready <img src=r05-probe-status onerror=\"self['r05Executed']=true\"> &amp;";
+
+    private async Task AddMetadata()
+    {
+        await uploader.CreateFileListAsync([NewMetadata()]);
+    }
+
+    private static UploaderFileInfo NewMetadata() => new()
+    {
+        Id = "r05-metadata", Name = ProbeName + "." + ProbeType, Type = ProbeType,
+        Status = ProbeStatus, StatusCode = "2", Size = 12,
+    };
+
+    private void Selected(SelectedEventArgs args)
+    {
+        selectedName = args.FilesData[0].Name;
+        selectionJson = System.Text.Json.JsonSerializer.Serialize(args.FilesData.Select(file =>
+            new { file.Name, file.Type, file.Status, file.StatusCode }));
+        if (Source == "modified")
+        {
+            var metadata = NewMetadata();
+            metadata.Id = args.FilesData[0].Id;
+            args.IsModified = true;
+            args.ModifiedFilesData = [metadata];
+        }
+    }
+}

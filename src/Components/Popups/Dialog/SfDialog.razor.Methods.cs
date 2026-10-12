@@ -35,7 +35,7 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         /// <summary>
         /// Returns the complete collection of <see cref="DialogButton"/> instances configured for the <see cref="SfDialog"/> component.
         /// </summary>
-        /// <returns>A <see cref="List{T}"/> of <see cref="DialogButton"/> instances, or <c>null</c> if no buttons are configured.</returns>
+        /// <returns>An <see cref="IList{T}"/> of <see cref="DialogButton"/> instances, or <c>null</c> if no buttons are configured.</returns>
         /// <remarks>
         /// This method provides access to all dialog buttons that have been configured for the dialog component.
         /// The returned collection includes all buttons in their original order as they appear in the dialog.
@@ -44,7 +44,7 @@ namespace Syncfusion.Blazor.Toolkit.Popups
         /// <example>
         /// <code><![CDATA[
         /// // Get all buttons from the dialog
-        /// List<DialogButton> allButtons = dialog.GetButtonItems();
+        /// IList<DialogButton>? allButtons = dialog.GetButtonItems();
         /// if (allButtons is not null)
         /// {
         ///     foreach (var button in allButtons)

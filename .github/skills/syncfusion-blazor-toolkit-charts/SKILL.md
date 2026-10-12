@@ -9,8 +9,14 @@ metadata:
 
 # Implementing Syncfusion Blazor Charts
 
-**NuGet:** `Syncfusion.Blazor.Toolkit` + `Syncfusion.Blazor.Themes`  
-**Namespace:** `Syncfusion.Blazor.Toolkit`
+**NuGet:** `Syncfusion.Blazor.Toolkit`  
+**Namespaces:** `Syncfusion.Blazor.Toolkit` (enums/services), `Syncfusion.Blazor.Toolkit.Charts` (components)
+
+Source authority: `src/Components/Charts/`, especially `ChartEnumerations.cs` and `Chart/SfChart.razor.Methods.cs`; commercial Blazor Charts documentation is not this Toolkit's API contract. This is a Chart-first guide, not a Grid guide.
+
+The library targets .NET 8/9/10; repository development uses SDK 10. Toolkit CSS is bundled and component ES modules load automatically. Chart has a static SSR rendering path detected on .NET 9+; tooltips, selection, zooming, and method-driven UI require interactivity. Do not generalize that detection to .NET 8.
+
+Examples are configuration fragments unless they include their data, handlers, imports, and host setup; they have not been compile-tested as part of this documentation sync.
 
 A comprehensive guide for implementing the Syncfusion Blazor Chart component to create interactive, feature-rich data visualizations in Blazor applications. The Chart component supports core series types (line, area, column/bar, scatter, bubble, spline) and stacking/step/spline variants, multiple axes, interactivity, and customization.
 
@@ -28,14 +34,14 @@ Use this skill when you need to:
 
 The Syncfusion Blazor Chart component is a powerful data visualization tool that provides:
 
-- **33+ Chart Types:** Line, Column, Bar, Area, Spline, Scatter, Bubble, and more
+- **21 Chart Types:** Line, Column, Bar, Area, Spline, Scatter, Bubble, stacking variants including StackingStepArea, and more
 - **Multiple Axes:** Support for category, numeric, datetime, and logarithmic axes
 - **Rich Interactivity:** Zooming, panning, crosshair, trackball, tooltips, selection
 - **Data Binding:** Work with List, DataManager, dynamic updates, and live data
 - **Visual Elements:** Markers, data labels, annotations, legends, gradients
-- **Advanced Features:** Technical indicators, trend lines, strip lines, multiple panes
-- **Accessibility:** Full ARIA support, keyboard navigation, localization, RTL
-- **Customization:** Themes, responsive design, print support, adaptive layout
+- **Advanced Features:** Trendlines, striplines, multiple panes; technical indicators are unavailable
+- **Accessibility:** ARIA support, keyboard navigation, localization, RTL; validate the composed application
+- **Customization:** Toolkit themes, responsive design, adaptive layout; built-in export/print APIs are unavailable
 
 ## Documentation and Navigation Guide
 
@@ -45,18 +51,18 @@ The Syncfusion Blazor Chart component is a powerful data visualization tool that
 
 **CRITICAL: Use this reference FIRST for all API-related questions**
 
-Use this authoritative API reference when:
-- Looking up correct enum values (ChartSeriesType, ValueType, SelectionMode, etc.)
-- Finding public method signatures (RefreshAsync, ExportAsync, ShowTooltip, etc.)
-- Verifying property names and types
-- Generating code samples
+Use this source-aligned API reference when:
+- Looking up enum values (`ChartSeriesType`, `ValueType`, `ChartSelectionMode`, etc.)
+- Finding public methods (`RefreshAsync`, `ShowTooltipAsync`, etc.)
+- Verifying property names and types against repository source
+- Generating code fragments
 - Troubleshooting API-related issues
 
 Topics covered:
-- Complete list of SfChart public methods with signatures
-- All chart enumerations with correct values
+- Source-checked `SfChart` control methods
+- Core chart enum values and unsupported API boundaries
 - Key component classes and their properties
-- Method usage examples
+- Method usage fragments
 - Common patterns and best practices
 
 **Key Points:**
@@ -76,13 +82,13 @@ Use this when:
 - Installing NuGet packages and configuring services
 - Creating your first chart component
 - Understanding basic chart structure and data binding
-- Working with Visual Studio, VS Code, or .NET CLI
+- Working with Code Studio or the .NET CLI
 
 Topics covered:
 - Installation and prerequisites
-- Package setup (Syncfusion.Blazor.Toolkit.Charts)
-- Namespace imports and service registration
-- Script references
+- Package setup (`Syncfusion.Blazor.Toolkit`)
+- Namespace imports and `AddSyncfusionBlazorToolkit` service registration
+- Bundled styles and automatic ES-module loading
 - Basic chart implementation
 - Simple data binding example
 
@@ -121,13 +127,11 @@ Use this for specialized visualization needs:
 - Vertical chart orientation
 
 Topics covered:
-- Financial chart patterns and configurations
-- Statistical analysis chart types
-- Stacking modes (normal vs 100%)
-- Range visualization techniques
-- Circular chart layouts
-- XY scatter relationships
+- Stacking modes (normal vs 100%) and `StackingStepArea`
+- Scatter and bubble relationships
 - Chart orientation options
+
+Financial, statistical, range, and circular series from the commercial chart product are not part of the Toolkit's 21-type enum.
 
 ---
 
@@ -240,7 +244,6 @@ Use this when:
 - Customizing chart appearance and themes
 - Setting chart dimensions and sizing
 - Configuring responsive/adaptive layout
-- Enabling print functionality
 - Styling background, borders, and margins
 
 Topics covered:
@@ -249,21 +252,20 @@ Topics covered:
 - Chart dimensions and sizing
 - Responsive design patterns
 - Adaptive layout for mobile
-- Print support
 - Background and border styling
 - Gradient customization
 
 📄 **Read:** [references/advanced-features.md](references/advanced-features.md)
 
 Use this when:
-- Adding technical indicators (EMA, SMA, RSI, etc.)
 - Implementing trend lines (linear, exponential, polynomial)
 - Creating strip lines (horizontal/vertical bands)
 - Using multiple panes (sub-charts)
 - Handling empty points
+- Checking unavailable features (technical indicators, export, print APIs)
 
 Topics covered:
-- Technical indicators for financial charts
+- Toolkit feature boundaries
 - Trend line types and configuration
 - Strip line patterns
 - Multiple pane layouts
@@ -361,28 +363,20 @@ The `SfChart` component provides several public methods for programmatic control
 @code {
     SfChart ChartRef;
     
-    // Refresh the chart
-    async Task RefreshChart() => await ChartRef.RefreshAsync();
-    
-    // Export the chart
-    async Task ExportChart() => await ChartRef.ExportAsync(ExportType.PNG, "chart.png");
-    
-    // Print the chart
-    async Task PrintChart() => await ChartRef.PrintAsync();
-    
-    // Show/Hide tooltip
-    void ShowChartTooltip() => ChartRef.ShowTooltip("January", 35);
-    void HideChartTooltip() => ChartRef.HideTooltip();
-    
-    // Show/Hide crosshair
-    void ShowChartCrosshair() => ChartRef.ShowCrosshair(100, 50);
-    void HideChartCrosshair() => ChartRef.HideCrosshair();
-    
+    // Interactive fragments: call after @ref is assigned.
+    Task RefreshChart() => ChartRef.RefreshAsync();
+
+    // Enable ChartTooltipSettings / ChartCrosshairSettings before use.
+    Task ShowChartTooltip() => ChartRef.ShowTooltipAsync("January", 35);
+    Task HideChartTooltip() => ChartRef.HideTooltipAsync();
+    Task ShowChartCrosshair() => ChartRef.ShowCrosshairAsync(100, 50);
+    Task HideChartCrosshair() => ChartRef.HideCrosshairAsync();
+
     // Selection control
     void ClearSelections() => ChartRef.ClearSelection();
-    
-    // Sorting
-    void SortData() => ChartRef.Sort("YValue", ListSortDirection.Descending);
+
+    // Sorting uses the Toolkit Data enum, not System.ComponentModel.
+    void SortData() => ChartRef.Sort("YValue", Syncfusion.Blazor.Toolkit.Data.ListSortDirection.Descending);
     void ClearChartSort() => ChartRef.ClearSort();
 }
 ```
@@ -393,24 +387,20 @@ The `SfChart` component provides several public methods for programmatic control
 
 ## ⚠️ CRITICAL: API Usage Guidelines
 
-### 1. Enum Names - MUST Use Full Namespace
+### 1. Enum Names and Namespaces
 
-**Syncfusion Blazor Toolkit Charts requires FULLY QUALIFIED enum names:**
+Enums live in `Syncfusion.Blazor.Toolkit`; components live in `.Charts`.
+Import both, or fully qualify enums. Short names are valid when unambiguous;
+fully qualify `ValueType` to avoid collision with `System.ValueType`.
 
 ```razor
-<!-- ✅ CORRECT - Use full namespace -->
 <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" />
 <ChartSeries Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column" />
-
-<!-- ❌ WRONG - Short form will cause errors -->
-<ChartPrimaryXAxis ValueType="ValueType.Category" />
-<ChartSeries Type="ChartSeriesType.Column" />
+<SfChart SelectionMode="Syncfusion.Blazor.Toolkit.ChartSelectionMode.Point" />
 ```
 
-**Always use `Syncfusion.Blazor.Toolkit.` prefix for:**
-- `ValueType` (Category, Double, DateTime, etc.)
-- `ChartSeriesType` (Column, Line, Area, etc.)
-- `LegendPosition`, `SelectionMode`, `ZoomMode`, `ChartShape`, etc.
+Keep the chart parameter named `SelectionMode`; its type is `ChartSelectionMode`.
+Button-group `SelectionMode` is a different enum.
 
 ### 2. Component Property Restrictions
 
@@ -506,10 +496,11 @@ Here's a minimal example to create a column chart with data:
 ```
 
 **Prerequisites:**
-1. Install `Syncfusion.Blazor.Toolkit.Charts` NuGet package
-2. Add `@using Syncfusion.Blazor.Toolkit.Charts` to `_Imports.razor`
-3. Register service: `builder.Services.AddSyncfusionBlazor();` in `Program.cs`
-4. Add script reference in `App.razor`
+1. Install `Syncfusion.Blazor.Toolkit` NuGet package
+2. Import `Syncfusion.Blazor.Toolkit` and `Syncfusion.Blazor.Toolkit.Charts`
+3. Register `builder.Services.AddSyncfusionBlazorToolkit();` in `Program.cs`
+4. Link `_content/Syncfusion.Blazor.Toolkit/styles/fluent.min.css`; ES modules load automatically
+5. Configure an interactive render mode for the interaction examples
 
 ---
 
@@ -649,7 +640,7 @@ The theme flows into:
   - `EnablePinchZooming` - Enable pinch zoom (touch devices)
   - `EnablePan` - Enable panning
   - `Mode` - Zoom mode (X, Y, XY)
-- `SelectionMode` - Selection behavior (see SelectionMode enum)
+- `SelectionMode` - Selection behavior (`ChartSelectionMode` enum)
 - `ChartCrosshairSettings` - Crosshair configuration
   - `Enable` - Show/hide crosshair
   - `LineType` - Crosshair line type (Vertical, Horizontal, Both)

@@ -1,11 +1,11 @@
 ﻿# Practical Examples for Syncfusion Blazor Charts
 
-Complete, copy-paste-ready real-world examples demonstrating common chart implementation scenarios.
+Example fragments for common Toolkit Chart scenarios. Supply host setup, imports, application data/services, and omitted handlers as needed; these are not independently compile-tested pages. See [getting started](getting-started.md).
 
 ## Table of Contents
 
 - [1. Sales Dashboard](#1-sales-dashboard)
-- [2. Financial Stock Chart](#2-financial-stock-chart)
+- [2. Financial Stock Chart — unavailable](#2-financial-stock-chart-removed)
 - [3. Performance Comparison](#3-performance-comparison)
 - [4. Trend Analysis](#4-trend-analysis)
 - [5. Regional Distribution](#5-regional-distribution)
@@ -126,7 +126,7 @@ Note: Financial chart examples (candlestick, HILO, OHLC) have been removed — t
 <div class="performance-container">
     <h2>Quarterly Performance Comparison</h2>
     <SfChart Title="Team Performance Metrics" Width="100%" Height="450px" 
-             SelectionMode="Syncfusion.Blazor.Toolkit.Charts.SelectionMode.Point">
+             SelectionMode="Syncfusion.Blazor.Toolkit.ChartSelectionMode.Point">
         <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category" 
                            Title="Quarters">
         </ChartPrimaryXAxis>
@@ -423,11 +423,13 @@ Note: Accumulation/Pie/Doughnut charts are not available in this build; regional
 
 ## 7. Interactive Report
 
-**Scenario:** Create interactive chart with drill-down and export capabilities.
+**Scenario:** Create an interactive chart with drill-down.
 
 **When to use:** Business reports, executive dashboards, data exploration.
 
-**Key features:** Drill-down, export to PDF/Excel, print support, point click events.
+**Key features:** Drill-down and point click events. Built-in chart export and printing are unavailable in this Toolkit; any reporting/download actions must be implemented separately by the application.
+
+Example fragment; complete host setup and imports as described in [getting started](getting-started.md).
 
 ```razor
 @page "/interactive-report"
@@ -436,9 +438,6 @@ Note: Accumulation/Pie/Doughnut charts are not available in this build; regional
 <div class="report-container">
     <h2>Interactive Sales Report</h2>
     <div class="toolbar">
-        <button class="btn btn-secondary" @onclick="ExportToPDF">Export PDF</button>
-        <button class="btn btn-secondary" @onclick="ExportToExcel">Export Excel</button>
-        <button class="btn btn-secondary" @onclick="PrintChart">Print</button>
         @if (isDrilledDown)
         {
             <button class="btn btn-primary" @onclick="DrillUp">← Back to Categories</button>
@@ -532,21 +531,6 @@ Note: Accumulation/Pie/Doughnut charts are not available in this build; regional
         isDrilledDown = false;
         selectedCategory = "";
         StateHasChanged();
-    }
-
-    private async Task ExportToPDF()
-    {
-        await reportChart.ExportAsync(ExportType.PDF, "SalesReport");
-    }
-
-    private async Task ExportToExcel()
-    {
-        await reportChart.ExportAsync(ExportType.CSV, "SalesReport");
-    }
-
-    private async Task PrintChart()
-    {
-        await reportChart.PrintAsync();
     }
 }
 ```
@@ -660,11 +644,7 @@ Note: Accumulation/Pie/Doughnut charts are not available in this build; regional
 
 ## Summary
 
-These practical examples demonstrate complete, production-ready implementations of Syncfusion Blazor Charts for common business scenarios. Each example includes:
+These are illustrative Chart scenarios, **not verified production-ready implementations**. Data models and sample data help explain the intended behavior, but completeness, API compatibility and host setup must be checked against the chosen Toolkit version. R01 reviewed assurance wording only; it did not compile or run these examples.
 
-- **Complete razor page code** with all necessary imports
-- **Data model classes** properly structured
-- **Sample data** for immediate testing
-- **Key features** fully configured
-- **Real-world scenarios** for practical application
+Before adoption, validate imports, component parameters, handlers, data binding and render mode; then exercise error states, security boundaries, accessibility and performance in the consuming application. The readiness plan's R20 requires executable onboarding fixtures, and R23 requires measured performance/correctness evidence. Neither gate is satisfied by these examples.
 

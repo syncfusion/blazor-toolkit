@@ -1,62 +1,41 @@
 # Render-mode security
 
-Blazor offers three render modes that map to very different security
-postures. The components in this toolkit are designed to work in one or
-more of them. Below is the contract.
+This describes current source mechanisms and host responsibilities, not a security boundary enforced by the toolkit or a tested compatibility matrix.
 
-## Static Server-Side Rendering (SSR)
+## Hosting boundaries
 
-- Executes on the server during the request.
-- Has access to `IHttpContextAccessor`, `NavigationManager`, scoped DI
-  services, and configuration.
-- No SignalR circuit. No JS interop unless `IJSInteropConnection`
-  is explicitly requested.
-- The browser receives only the rendered HTML payload.
+| Mode | Execution and security responsibility |
+|---|---|
+| Static server-side rendering (SSR) | Component code executes on the server for the request and produces HTML. Blazor does not call `OnAfterRenderAsync` during static rendering or prerendering; DOM-dependent interop is unavailable at that stage. Server access still needs authorization and output must not disclose secrets. Static output is not automatically safe, and it does not provide interactive toolkit behavior. |
+| Interactive Server | Component code executes on the server; browser events, render updates, and interop cross the circuit connection. Treat browser inputs as untrusted. The host controls authentication, authorization, circuit resource limits, and endpoint security. An HTTP context is not a reliable representation of the entire interactive circuit lifetime. |
+| Interactive WebAssembly | Client assemblies and configuration are accessible to the user. Keep secrets and privileged operations on authenticated, authorized server endpoints. Client validation is not access control; network calls may use `HttpClient` or JavaScript depending on the feature. Server-only dependencies must be separated by the application. |
+| Interactive Auto | Interactive Server is used initially while the client bundle is obtained; subsequent visits can use WebAssembly. This is not an in-place migration of an existing server component instance. Configure and secure both execution hosts and any prerender path; do not assume one DI scope or state instance spans them. |
 
-Any component in this mode can call server-only APIs; it is the
-tightest threat surface but also the least interactive.
+## What the toolkit actually does
 
-## Interactive Server
+Source: [`SfBaseComponent.cs`](../src/Base/SfBaseComponent.cs) and [`SyncfusionService.cs`](../src/Base/SyncfusionService.cs).
 
-- A SignalR circuit carries component state between server and
-  browser.
-- Component code still runs on the server; only the DOM diff is
-  shipped to the browser.
-- Server-only APIs remain accessible; the component must not assume
-  a browser-only environment.
+- `AddSyncfusionBlazorToolkit` registers `SyncfusionBlazorToolkitService` as **scoped**, localization services as singletons, and a scoped `HttpClient` if one is not already registered. It does not configure authentication, authorization, safe endpoint allowlists, or credentials.
+- Scoped lifetime depends on the host: request scope for static SSR, circuit scope for Interactive Server, and client application lifetime for typical WebAssembly DI. These are not a cross-host security or synchronization mechanism.
+- On the first interactive `OnAfterRenderAsync`, the base implementation creates a `DotNetObjectReference`, sets `IsRendered`, imports `./_content/Syncfusion.Blazor.Toolkit/scripts/base.js`, then calls `OnAfterScriptRenderedAsync`. Derived components can add imports. Even components with native HTML markup can inherit this base-module lifecycle.
+- `IsJsInProcess` tests for `IJSInProcessRuntime` (with a bUnit exclusion) to select the interop reference type. `ImportModuleAsync` reuses existing references; base disposal contains reference-release and disconnection-handling paths. This is not proof that every derived component releases its listeners, tasks or registrations: [R00](../docs/evidence/2026-10-06-r00-1922761/index.md) leaves lifecycle/isolation findings F05–F07 open. These are mechanisms, not input validation or sandboxing.
+- `IsStaticServerRendering` checks renderer information under `NET9_0_OR_GREATER`; on .NET 8 it returns false. It does not reject a component graph or authorize calls.
 
-## Interactive WebAssembly
+**Legacy enforcement claims superseded:** no implementation of `HttpHandlerRequirements` or the alleged `IJSInteropConnection` opt-in was found in source. The actual [`Data/HttpHandler.cs`](../src/Data/HttpHandler.cs) prepares and sends HTTP requests; it is not a compile-time service-graph checker. There is no toolkit-wide guarantee of a diagnostic naming every server-only API reached from WebAssembly. Framework/runtime errors are not a substitute for host separation and tests.
 
-- Component code is compiled into .NET assemblies loaded by the
-  browser runtime. Anything that hits the server must go through
-  `HttpClient` (`HttpClientInstance` on `SfUploader`).
-- Components in this mode **MUST NOT** directly call
-  `IHttpContextAccessor`, `IDbContextFactory<T>` for shared
-  contexts, `SignInManager<T>`, or any other server-only API.
-- The runtime throws a clear exception if such an API is reached
-  from a WebAssembly component.
+## Sample configuration and integration checks
 
-## How we detect and refuse
+The sample [server Program.cs](../samples/Blazor.Toolkit.Samples/Program.cs) enables both Server and WebAssembly interactive components/endpoints, registers toolkit services, and adds `IHttpContextAccessor`. The [client Program.cs](../samples/Blazor.Toolkit.Samples.Client/Program.cs) separately registers toolkit services and a base-address `HttpClient`. The samples do not establish a single-mode-only contract or production security assurance.
 
-The pattern catalogue is:
+For the actual deployment, validate:
 
-- `Syncfusion.Blazor.Toolkit.Http.HttpHandlerRequirements` is a
-  compile-time enforcer: it inspects the component graph and refuses
-  to render a WebAssembly-interactive page that references
-  server-only service markers.
-- Each sample (`samples/Blazor.Toolkit.Samples/`) declares a single
-  render mode in `Program.cs`; consumers porting the toolkit to a
-  different render mode are expected to configure their
-  `ComponentsWebAssemblyPreserveAssemblyAttributes` and prerender
-  policy accordingly.
-- The runtime fallback when a WebAssembly component tries to use an
-  server-only API is to surface a clear, actionable exception that
-  names the API and explains how to move the call server-side.
+- service availability in each host and prerender path, without putting server secrets in the client;
+- authorization for data and upload endpoints, antiforgery where applicable, upload size/content limits, and safe HTTP destinations;
+- content encoding/sanitization at actual markup sinks and a CSP compatible with the deployed framework and scripts;
+- initialization, navigation, disposal, disconnection, and Auto revisits in each supported configuration.
 
-## Public references
+These are host verification tasks, not checks asserted to have passed by this document. See [SECURITY.md](SECURITY.md) for private disclosure and [THREAT-MODEL.md](THREAT-MODEL.md) for scan scope and unresolved risks.
 
-- Microsoft Blazor render modes:
-  <https://learn.microsoft.com/en-us/aspnet/core/blazor/fundamentals/rendering>
-- WAI-ARIA Authoring Practices (referenced by all components with
-  public APIs):
-  <https://www.w3.org/WAI/ARIA/apg/>
+## Public reference
+
+[Microsoft: ASP.NET Core Blazor render modes](https://learn.microsoft.com/en-us/aspnet/core/blazor/components/render-modes).

@@ -1,144 +1,63 @@
-# Threat Model
+# Threat Model — repository evidence and open risks
 
-## Purpose
+## Status and scope
 
-This document describes the current security posture of the Syncfusion Blazor Toolkit project, the trust boundaries for the package and sample applications, and the primary threats most relevant to a UI component library distributed as a NuGet package.
+This is a source-based security reference for the component library, browser assets, samples, build configuration, and manual release boundary. It is **not an approved security assessment or a clean-scan attestation**. Source observations concern the current checkout, not verified contents of a published NuGet package. Downstream application security must be assessed by the host owner.
 
-## Scope
+## Assets and trust boundaries
 
-This threat model covers:
+| Boundary | Assets and threat | Observed mechanism / remaining responsibility |
+|---|---|---|
+| Contributions, dependencies, and build tools → build output | Source integrity, package identity, executable JavaScript, generated styles; malicious changes or compromised dependencies | Package references, analyzer settings, and workflows are inspectable. Branch protection, actual review records, reproducible builds, and successful runs need separate evidence. Build scripts execute tools; source visibility is not provenance. |
+| Build output → manually published release | Package bytes, assembly identity, repository metadata, SBOM; substitution or incorrect release attribution | CI configures unsigned review packages. Signing/publishing remain manual and outside public CI. Verify the exact published bytes rather than treating configuration or comments as completed signing steps. |
+| Application data/templates/attributes → rendered DOM and interop | Browser execution and user data; injection through reachable markup sinks | Razor string rendering provides encoding in ordinary text positions; templates, attributes, and JavaScript paths require context-specific review. A typed API alone is not sanitization. |
+| Browser → server circuit, API, data or upload endpoint | Authorization, confidential data, server resources; forged inputs, unsafe destinations, excessive requests/files | Host authentication, authorization, validation, rate/resource limits, and upload handling are required. Client checks and interop callbacks are not trust boundaries. |
+| Server/prerender → WebAssembly/Auto client | Secrets, service lifetimes, serialized state; disclosure or inappropriate server dependencies | Scoped toolkit services and JS lifecycle selection exist, not a service-graph security enforcer. See [render-mode security](RENDER-MODE-SECURITY.md). |
 
-- the Blazor component library in the `src/` directory
-- generated static assets under `src/wwwroot/`
-- the sample applications in `samples/`
-- the build and packaging flow used to produce NuGet assets
-- the GitHub repository and CI/CD workflow used for source control and releases
+## Threat review notes
 
-It does not cover downstream application code built on top of the toolkit, which is the responsibility of the consuming application owner.
+- **XSS and dynamic markup:** `src/wwwroot/scripts/chart.js`, `svgbase.js`, and `uploader.js` contain `innerHTML` assignments; `sanitize-html-helper.js` also uses an HTML parsing sink. These are review locations, **not automatically proven exploits**. Trace attacker control, transformations/sanitization, sink context, reachability, and browser behavior before classifying a vulnerability. Conversely, absence of heuristic findings would not prove safety.
+- **HTTP and error disclosure:** `src/Data/HttpHandler.cs` builds requests from supplied URLs and catches failures into a response containing exception and response text. Host code must constrain destinations where untrusted input can influence them, enforce endpoint authorization, and avoid exposing diagnostic content. No SSRF or disclosure exploit is asserted without a reachable application scenario.
+- **Browser interop:** `src/Base/SfBaseComponent.cs` imports `base.js` at first interactive after-render and uses async/in-process references according to runtime. Disposal and disconnection handling are lifecycle controls, not a sandbox or content validation.
+- **Static assets and dependencies:** review generated CSS, product JS, dependencies, and the actual package layout as deliverables. No deterministic-output or comprehensive dependency-inventory result is established here.
 
-## Assets and value
+## Configured checks, not results
 
-The primary assets are:
+| Evidence | Configuration | Limit of the evidence |
+|---|---|---|
+| [`src/Syncfusion.Blazor.Toolkit.csproj`](../src/Syncfusion.Blazor.Toolkit.csproj) | NuGet audit enabled with moderate threshold and all dependency mode; selected security analyzer diagnostics treated as errors | Does not establish a vulnerability-free dependency set or release. |
+| [`workflows/ci.yml`](workflows/ci.yml) | bUnit, Playwright, NuGet vulnerability listing with a text-based finding check, ESLint security, heuristic XSS scan, then unsigned pack | Configuration only; retained successful reports tied to a commit/package are needed. The vulnerability job scans the library project, not every project. |
+| [`eslint.config.mjs`](../eslint.config.mjs) | Security rules for remaining JS/TS files | Explicitly excludes `src/wwwroot/scripts/**`, styles, minified JS, samples, tests, and gulp tooling. It is not product-browser-JS scan coverage. |
+| [`gulpfile.js`](../gulpfile.js), `security-xss-scan` | Pattern scan of `src/Components`, `src/Base`, and `src/Data` | Excludes `wwwroot`; no product `src/wwwroot/scripts` coverage. Heuristic matches need triage and cannot establish exploitability. |
+| [`workflows/codeql.yml`](workflows/codeql.yml) | C#, JavaScript/TypeScript, and Actions analysis on push/PR, weekly schedule, and manual dispatch | JavaScript analysis is configured despite ESLint/XSS exclusions. Actual analyzed-file coverage, findings, and successful runs are not verified here. |
 
-- source code for reusable Blazor components
-- package identity and versioning
-- static CSS/JavaScript assets bundled with the toolkit
-- trusted developer workflows used by contributors and maintainers
-- repository integrity and release provenance
+No current workflow reviewed here signs or publishes packages or emits the previously claimed SLSA release attestation. Workflow comments about manual signing are not evidence that signing happened.
 
-## Trust boundaries
+### Retained local observations — not security clearance
 
-1. Source repository boundary
-   - GitHub is the authoritative source for pull requests, review, and release artifacts.
-   - Untrusted contributors are allowed to submit patches, but changes are reviewed before merge.
-
-2. Build and packaging boundary
-   - NuGet packages and static assets are generated locally and in CI from source.
-   - Dependencies are expected to be reviewed and pinned to explicit versions.
-
-3. Consumer application boundary
-   - The toolkit is loaded into a consuming Blazor app and rendered in a browser context.
-   - The application is expected to enforce its own content security, authentication, and authorization policies.
-
-4. Browser execution boundary
-   - Components execute in the browser and therefore must avoid unsafe HTML rendering, untrusted data execution, or insecure script injection.
-
-## Threats and mitigations
-
-### 1. Supply-chain compromise
-
-Risk:
-- a dependency, build script, or package registry entry is compromised or updated unexpectedly.
-
-Mitigations:
-- use explicit package versions and review dependency updates before release
-- keep the repository and CI workflow under maintainer control
-- validate generated assets before publishing packages
-- avoid executing untrusted scripts during the build pipeline
-- assembly strong-name signing (PI-01), Authenticode signing of inner DLLs (PI-02), and NuGet package signing + publishing are performed **manually** by the release maintainer. No signing key material, code-signing certificate, signing tooling, or publishing credential is ever present in this public repository. CI never imports, references, or attempts to use any of these. See Accepted Risks AR-1, AR-2, AR-4.
-
-### 2. Cross-site scripting (XSS) through user content
-
-Risk:
-- a component could render untrusted markup or script content in a way that executes in the browser.
-
-Mitigations:
-- prefer strongly typed component APIs over raw HTML injection
-- avoid direct `HtmlString` or unsafe markup rendering unless required and explicitly handled
-- ensure any user-driven content is sanitized or encoded before display
-- validate interactions that produce dynamic markup within the component library
-
-### 3. Unsafe JavaScript interop and browser APIs
-
-Risk:
-- excessive or careless interop could expose the app to script injection or unsafe browser actions.
-
-Mitigations:
-- keep interop usage minimal and scoped to required functionality
-- validate arguments passed across boundaries
-- prefer safe patterns and avoid remote script execution from untrusted sources
-
-### 4. Malicious content in static assets or generated styles
-
-Risk:
-- bundled CSS or third-party assets may contain unsafe patterns or unexpected logic.
-
-Mitigations:
-- treat generated styles as part of the deliverable and review changes in PRs
-- keep the asset pipeline deterministic and version-controlled
-- review third-party packages before inclusion in the package output
-
-### 5. Repository and release integrity issues
-
-Risk:
-- branch protection, tagging, or release metadata is bypassed or a release artifact is published from an untrusted source.
-
-Mitigations:
-- use protected branches where possible
-- require review before merge to the main branch
-- validate release artifacts before publishing to NuGet
-- maintain a clear audit trail in the repository history
+[R00 on 2026-10-06, commit `1922761`](../docs/evidence/2026-10-06-r00-1922761/index.md) retained **11 high-severity npm affected-package entries**, a top-level SBOM checksum mismatch, and source-level dispositions for F01–F17. Existing ESLint/XSS checks passed with the exclusions above; the library-only NuGet query reported no advisories from its current feed. These results do not prove safe shipped scripts, establish exploitability of every advisory, or close the independent R19 review. Dependency triage belongs to R12 and artifact reconciliation to R17; no exception is accepted here.
 
 ## Accepted risks
 
-The following risks have been reviewed and accepted by the maintainers. Each entry includes the rationale and the date of acceptance. Accepted risks are re-evaluated at every major release.
+**Legacy IDs retained; approvals unverified.** The heading and IDs preserve cross-references only. **Every entry requires disposition; no approval, waiver, owner acceptance, or acceptance date is verified.** Prior maintainer names and dates are not retained as sign-offs.
 
-| # | Risk | Rationale | Owner | Accepted |
-|---|---|---|---|---|
-| AR-1 | Shipped assemblies are not strong-name signed (`PublicKeyToken=null`); automated strong-name signing is intentionally not implemented in the public repository | **Sole signing control.** The signed `.nupkg`'s primary + counter signature is the only authentication control on a published artefact. Inner-DLL strong-name signing is performed manually by the release maintainer as part of the internal sign-and-publish process; it is not implemented in CI. The public repository contains no strong-name key material, no `SignAssembly=true` directive, and no `AssemblyOriginatorKeyFile` value — by policy. The manual strong-name step is documented in [DEVELOPMENT.md §Manual NuGet sign and publish (PI-01, PI-02)](DEVELOPMENT.md#manual-nuget-sign-and-publish-pi-01-pi-02). | Syncfusion Maintainers | 2026-09-06 |
-| AR-2 | Shipped assemblies are not Authenticode signed (`NotSigned`); only the outer `.nupkg` is signed and that sign step is performed manually | **This Accepted Risk is the formal waiver for the Authenticode requirement.** Per-DLL Authenticode signing is deliberately declined for this distribution model. The gating item is satisfied by the combination of (a) outer `.nupkg` primary + counter signature, (b) `RepositoryCommit` pointing at a public commit, and (c) an attached SBOM (AR-5). The outer `.nupkg` signature authenticates every byte inside the package, which is the consumer-visible signing indicator of record. CI never attempts to sign a `.nupkg`. Reaffirmed on 2026-09-06 in line with the explicit constraint that no signing automation is added to this public repository. | Syncfusion Maintainers | 2026-09-06 |
-| AR-3 | `RepositoryCommit` in the `.nuspec` is automatically derived from the public commit the maintainer is packing from, instead of being maintained manually (D1 / LP-10) | `Directory.Build.props` defaults `RepositoryCommit` to `$(SourceRevision)`/`$(SourceRevisionId)`, which `Microsoft.SourceLink.GitHub` populates from the local `.git/HEAD`. `RepositoryBranch` is resolved from `.git/HEAD` at build time. The maintainer must run `dotnet pack` from a clone whose `HEAD` matches the on-`main` tag candidate (verified by `git cat-file -e <SHA>^{commit}` immediately before pack). Manual override is possible with `-p:SourceRevision=<SHA>`. | Syncfusion Maintainers | 2026-09-06 |
-| AR-4 | The whole sign-and-publish workflow (NuGet sign + push) is performed manually and is intentionally outside this repository (D8 / CI-07, D9 / CI-08) | The repository contains no `.github/workflows/nuget-publish.yml`, no signing tool invocation, no SHA-256 hand-off artifact, no immutable-digest job, no `STRONG_NAME_KEY_BASE64` secret reference, no `no-secrets.yml` sentinel, and no `immutable-artifact.yml`. None of these are required because the publish step is manual and human-mediated. Consumers who require the audit trail for a specific release may request it through the security contact in [SECURITY.md](SECURITY.md). | Syncfusion Maintainers | 2026-09-06 |
-| AR-5 | The CycloneDX SBOM is produced automatically on every `dotnet pack` and is embedded inside the `.nupkg`; the SPDX SBOM is generated from the **signed** `.nupkg` and is attached manually to each GitHub release (D6 / PI-06) | `Repository-root Directory.Build.targets` runs `dotnet CycloneDX` after `Build` and packages the resulting `.cdx.json` at `_sbom/cyclonedx/<tfm>/` inside every `.nupkg`. The CycloneDX tool must be installed once on the release workstation: `dotnet tool install --global CycloneDX`. The SPDX file is generated manually by the maintainer **from the signed `.nupkg`** (qualifying the bytes), uploaded as a release asset alongside the `.cdx.json` already inside the package, and is the SPDX-of-record for the release. | Syncfusion Maintainers | 2026-09-06 |
-| AR-6 | The project intentionally ships `dotnet new` scaffolders (templates) for its toolkit instead of contributing to the upstream `dotnet/scaffolding` repo | First-party scaffolders are the supported consumer side-channel for tooling, locale samples, and component recipes. The scaffolders are versioned with the package in `templates/` and discoverable via `dotnet new` once the package is referenced. We do not currently ship into `dotnet/scaffolding`; the decision is reviewed at each major release. | Syncfusion Maintainers | 2026-09-06 |
+| ID | Risk / evidence status | Disposition evidence needed |
+|---|---|---|
+| AR-1 | Assembly strong-name status of published releases is unknown. No strong-name signing is configured in the reviewed public build/pack flow. Strong names are assembly identity, not publisher trust certification. | Inspect exact released DLLs and record identity/signature results and any authorized policy decision. Do not infer signed or unsigned release DLLs from CI's unsigned policy. |
+| AR-2 | Authenticode and outer NuGet signature status are unknown. The former text simultaneously claimed manual inner-DLL signing and a waiver declining it; neither is substantiated. | Verify the actual DLL/package signatures, certificate chain and timestamps where applicable. A package signature does not prove per-DLL Authenticode signing; no formal waiver is recorded here. |
+| AR-3 | Repository metadata defaults exist in `Directory.Build.props` and SourceLink is referenced by the project. The CI pack command explicitly supplies `RepositoryCommit`. These settings do not prove that a package matches public source, especially with a dirty checkout or overrides. | Compare the emitted `.nuspec` and SourceLink metadata with the public tag/commit and actual build inputs. Record the release package digest. |
+| AR-4 | Signing and publishing remain **manual**, outside public CI. This preserves the release policy, not evidence of completion or an exemption from provenance needs. | Obtain a release-specific build/sign/publish record and package verification evidence. Request available evidence through [security@syncfusion.com](mailto:security@syncfusion.com); no response SLA is implied. |
+| AR-5 | `Directory.Build.targets` configures project-derived CycloneDX generation under conditions, including `CI != true`, with a hardcoded global-tool executable path. Pack item inclusion is configured but actual `.nupkg` contents are unverified. No shipped SPDX SBOM or per-release SBOM attachment is established. | Inspect generated dependency coverage and exact release package contents; reconcile snapshot checksums and tie any SBOM to package bytes. See [SBOM evidence notes](../artifacts/sbom/README.md). |
+| AR-6 | The former claim that `templates/` ships `dotnet new` scaffolders is unsupported: that directory is absent from the reviewed checkout. Referencing a library package alone does not install templates. | Verify an actual template package and installation instructions before claiming availability, or retire the claim through an explicit disposition. |
 
-## Current security posture
+## Release evidence boundary
 
-The project currently emphasizes:
+The supplied GitHub release metadata lists [v1.0.2 (2026-09-01)](https://github.com/syncfusion/blazor-toolkit/releases/tag/v1.0.2) and [v1.0.1 (2026-06-26)](https://github.com/syncfusion/blazor-toolkit/releases/tag/v1.0.1), each with an empty uploaded `assets` array. This does not inspect NuGet, signatures, or embedded package contents. GitHub-generated source archives are not evidence of attached release SBOMs. The local project version `1.0.0` and the committed SBOM snapshot must not be represented as a verified assessment of those releases.
 
-- open-source review and contributor oversight
-- package metadata hygiene and repository linkage
-- restricted use of browser interop and static assets
-- clear reporting paths through the security policy
+`SbomContractTests.ThreatModel_DescribesSbomPolicy` checks only that this document contains **SBOM** and **SPDX**. Passing that text contract would not establish generation, attachment, package inclusion, signature validity, or inventory completeness.
 
-The toolkit is not designed to replace app-level security controls for authentication, authorization, CSP, or runtime isolation. Consumers remain responsible for securing the application hosting the components.
+## Maintenance and superseded claims
 
-## Review and update cadence
+Revisit this reference when interop, content handling, dependencies, packaging, hosting, or a disclosure changes the trust boundaries. This is guidance, not evidence of a fixed review cadence.
 
-This threat model should be reviewed when:
-
-- a new component introduces browser interop or dynamic markup
-- a dependency is added or significantly upgraded
-- package packaging or release flow changes
-- a security incident or vulnerability disclosure occurs
-
-## Self-attestation
-
-This threat model was prepared as a current security reference for the Syncfusion Blazor Toolkit project and reflects the maintainers’ understanding of the project as of 2026-09-06. The project team intends to review and update this document as changes to the component library, assets, or build pipeline occur.
-
-The maintainers attest that the information provided here is a good-faith assessment of the project’s current security risks and mitigations based on the repository structure and package design at the time of publication.
-
-### Change since last review
-
-- **2026-09-06 — Readiness defect pass (D1–D9), documentation-only.** Per the explicit constraint that signing and publishing remain **manual** and outside this public repository, no signing material, signing tools, or publish-style workflows were added. `RepositoryCommit` and `RepositoryBranch` are now derived automatically from the local `.git/HEAD` via `Directory.Build.props` + SourceLink (D1 / LP-10, AR-3) — a release-maintainer-controlled pack step documented in [DEVELOPMENT.md §Repository metadata + SBOM during `dotnet pack`](DEVELOPMENT.md#repository-metadata--sbom-during-dotnet-pack). A new `pack` job was added to `.github/workflows/ci.yml` producing an unsigned `.nupkg` artifact for human review only (D7 / CI-01). Repository-root `Directory.Build.targets` runs `dotnet CycloneDX` on every `dotnet pack` and ships `*.cdx.json` inside the `.nupkg` (D6 / PI-06, AR-5). Style contract published at `src/wwwroot/styles/STYLE-CONTRACT.md` (D5 / BEQ-20). Reflection-based behaviour tests added under `tests/Syncfusion.Blazor.Toolkit.BUnitTest/Base/` for D4 / BEQ-10, D5 / BEQ-20 and D6 / PI-06 narrative cross-checks. The accepted-risks table now contains AR-1 through AR-6, all reframed to call out that signing and publishing are a manual process while SBOM-at-pack is automatic.
-- **2026-08-21 — Hardened CD pipeline for nuget-publish.** Added SLSA build provenance attestation (`actions/attest-build-provenance`), deterministic builds via `ContinuousIntegrationBuild=true`, exit-code-driven vulnerability scan with downloadable `vuln-report` artifact, and concurrency guard for re-tagged same-version pushes. Accepted-risks entries AR-1 and AR-2 were reviewed and remain applicable; no new accepted risk was introduced.
+Earlier self-attestations, dated risk acceptances, the Authenticode waiver, the historical SLSA/publish-pipeline narrative, and claims of SBOM generation on every pack or SPDX attachment to every release are **superseded and unverified**. This update records no historical review session, approval, certification, or completed release validation. Private vulnerability reporting remains [SECURITY.md](SECURITY.md).

@@ -1,0 +1,30 @@
+@using Microsoft.AspNetCore.Components
+@using Microsoft.AspNetCore.Components.Web
+@using Syncfusion.Blazor.Toolkit
+@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit.Charts.Internal
+@using Syncfusion.Blazor.Toolkit.Inputs
+@using Syncfusion.Blazor.Toolkit.Popups
+
+<ChartPrimaryXAxis StripLines="@strips" MultiLevelLabels="@labels" />
+<ChartMultiLevelLabel Categories="@categories" />
+<ChartZoomSettings ToolbarItems="@toolbar" />
+<SelectionStyleComponent GivenPattern="@patterns" />
+<SvgSelectionRectCollection SelectedRectangles="@selections" />
+<SvgPattern ShapeOptions="@shapes" />
+<ChartSeries XName="X" YName="Y" />
+<ChartSorting PropertyName="X" />
+<SfNumericTextBox TValue="decimal?" @bind-Value="value" />
+<SfDialog @bind-Visible="visible" />
+
+@code {
+    readonly IList<ChartStripline> strips = new List<ChartStripline>();
+    readonly IList<ChartMultiLevelLabel> labels = new List<ChartMultiLevelLabel>();
+    readonly IList<ChartCategory> categories = new List<ChartCategory>();
+    readonly IList<ToolbarItems> toolbar = new List<ToolbarItems>();
+    readonly IList<PatternOptions> patterns = new List<PatternOptions>();
+    readonly IList<SelectionOptions> selections = new List<SelectionOptions>();
+    readonly IList<object> shapes = new List<object>();
+    decimal? value = 12m;
+    bool visible;
+}

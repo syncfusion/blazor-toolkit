@@ -97,21 +97,30 @@ Customize tooltip content using the `Format` property:
 
 ### Custom Tooltip Templates
 
-Create fully custom tooltips with Razor templates:
+Create fully custom tooltips with Razor templates. These are child-component
+fragments for an `SfChart` with application-provided series. Import
+`Syncfusion.Blazor.Toolkit.Charts` in the page or `_Imports.razor`.
+
+`ChartTooltipInfo` exposes `SeriesName` and `SeriesIndex`, not a `Series` object.
+Its nullable `object` values `X` and `Y` can contain axis-formatted strings from
+the browser; display them directly rather than calling numeric/date formatting
+methods on `object`. The numeric examples use `LabelFormat="N2"` without a
+currency symbol or unit so the template can add those itself.
 
 ```razor
+<ChartPrimaryYAxis LabelFormat="N2"/>
 <ChartTooltipSettings Enable="true">
     <Template>
-        @{
-            var data = context as ChartTooltipInfo;
+        @if (context is ChartTooltipInfo data)
+        {
             <div style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
                         padding: 10px; 
                         border-radius: 6px; 
                         color: white; 
                         box-shadow: 0 4px 6px rgba(0,0,0,0.3);">
-                <div style="font-weight: bold; margin-bottom: 5px;">@data.Series.Name</div>
+                <div style="font-weight: bold; margin-bottom: 5px;">@data.SeriesName</div>
                 <div>Month: @data.X</div>
-                <div>Revenue: $@($"{data.Y:N2}")M</div>
+                <div>Revenue: $@data.Y M</div>
             </div>
         }
     </Template>
@@ -120,13 +129,24 @@ Create fully custom tooltips with Razor templates:
 
 **Template with Conditional Styling:**
 
+Parse numeric tooltip text using the chart's culture (here `CurrentCulture`).
+Null, nonnumeric, or non-finite values are unavailable, not zero. For axes with
+currency/percent/unit formatting, compare the original bound numeric value via
+`SeriesIndex`/`PointIndex` instead of parsing display text.
+
 ```razor
+@using System.Globalization
+
+<ChartPrimaryYAxis LabelFormat="N2"/>
 <ChartTooltipSettings Enable="true">
     <Template>
-        @{
-            var data = context as ChartTooltipInfo;
-            var bgColor = data.Y > 40 ? "#4CAF50" : "#F44336";
-            var status = data.Y > 40 ? "Above Target" : "Below Target";
+        @if (context is ChartTooltipInfo data)
+        {
+            var hasRevenue = double.TryParse(Convert.ToString(data.Y, CultureInfo.CurrentCulture),
+                NumberStyles.Float | NumberStyles.AllowThousands, CultureInfo.CurrentCulture,
+                out var revenue) && double.IsFinite(revenue);
+            var bgColor = !hasRevenue ? "#616161" : revenue > 40 ? "#4CAF50" : "#F44336";
+            var status = !hasRevenue ? "Unavailable" : revenue > 40 ? "Above Target" : "Below Target";
             
             <div style="background-color: @bgColor; color: white; padding: 8px; border-radius: 4px;">
                 <b>@data.X</b><br/>
@@ -140,26 +160,41 @@ Create fully custom tooltips with Razor templates:
 
 **Multi-Series Tooltip Template:**
 
+Shared templates receive a `List<ChartTooltipInfo>`. This fragment includes an
+application-owned color map keyed by `SeriesIndex` (`double`); use the same
+colors for the corresponding series' `Fill` values. Unknown indices use a
+neutral marker because tooltip data has no `Series.Fill` member.
+
 ```razor
 <ChartTooltipSettings Enable="true" Shared="true">
     <Template>
-        @{
-            var data = context as List<ChartTooltipInfo>;
+        @if (context is List<ChartTooltipInfo> data && data.Count > 0)
+        {
             <div style="background: white; border: 2px solid #2196F3; padding: 10px; border-radius: 4px;">
                 <div style="font-weight: bold; border-bottom: 1px solid #ccc; margin-bottom: 5px;">
                     @data[0].X
                 </div>
                 @foreach (var item in data)
                 {
+                    var markerColor = seriesColors.TryGetValue(item.SeriesIndex, out var color) ? color : "#757575";
                     <div style="margin: 3px 0;">
-                        <span style="color: @item.Series.Fill;">●</span>
-                        <b>@item.Series.Name:</b> @item.Y
+                        <span style="color: @markerColor;">●</span>
+                        <b>@item.SeriesName:</b> @item.Y
                     </div>
                 }
             </div>
         }
     </Template>
 </ChartTooltipSettings>
+
+@code {
+    private readonly Dictionary<double, string> seriesColors = new()
+    {
+        [0] = "#2196F3",
+        [1] = "#FF9800",
+        [2] = "#4CAF50"
+    };
+}
 ```
 
 ### Shared Tooltips
@@ -196,7 +231,7 @@ Display all series data points in a single tooltip:
                       TextStyle="@tooltipStyle"/>
 
 @code {
-    ChartCommonFont tooltipStyle = new ChartCommonFont
+    ChartTooltipTextStyle tooltipStyle = new ChartTooltipTextStyle
     {
         Size = "13px",
         Color = "#FFFFFF",
@@ -268,13 +303,12 @@ Customize crosshair line appearance and behavior:
 
 ### Crosshair Tooltips
 
-Configure axis-specific crosshair tooltips:
+Configure axis-specific crosshair tooltips. Date formatting belongs to the axis;
+`ChartAxisCrosshairTooltip` does not expose a `Format` parameter:
 
 ```razor
-<ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime">
-    <ChartAxisCrosshairTooltip Enable="true" 
-                                Fill="#37474F"
-                                Format="MM/dd/yyyy">
+<ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" LabelFormat="MM/dd/yyyy">
+    <ChartAxisCrosshairTooltip Enable="true" Fill="#37474F">
         <ChartCrosshairTextStyle Color="#FFFFFF" Size="12px"/>
     </ChartAxisCrosshairTooltip>
 </ChartPrimaryXAxis>
@@ -318,9 +352,13 @@ Enable trackball mode by combining crosshair with shared tooltips:
 
 ### Trackball Customization
 
-Customize trackball appearance and behavior:
+Customize trackball appearance and behavior. Fragment: reuse the `seriesColors`
+dictionary from the multi-series tooltip example. Configure axis formatting
+before displaying `X`/`Y`; `X` is not guaranteed to be a `DateTime`.
 
 ```razor
+<ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime" LabelFormat="MMM dd, yyyy"/>
+<ChartPrimaryYAxis LabelFormat="N2"/>
 <ChartCrosshairSettings Enable="true" SnapToData="true" DashArray="3,3">
     <ChartCrosshairLine Width="1" Color="#757575"/>
 </ChartCrosshairSettings>
@@ -331,20 +369,21 @@ Customize trackball appearance and behavior:
                       Fill="#263238"
                       Opacity="0.9">
     <Template>
-        @{
-            var data = context as List<ChartTooltipInfo>;
+        @if (context is List<ChartTooltipInfo> data && data.Count > 0)
+        {
             <div style="padding: 10px; background: #263238; color: white; border-radius: 4px;">
                 <div style="font-weight: bold; margin-bottom: 8px; border-bottom: 1px solid #546E7A; padding-bottom: 4px;">
-                    @data[0].X.ToString("MMM dd, yyyy")
+                    @data[0].X
                 </div>
                 @foreach (var item in data)
                 {
+                    var markerColor = seriesColors.TryGetValue(item.SeriesIndex, out var color) ? color : "#B0BEC5";
                     <div style="margin: 4px 0; display: flex; justify-content: space-between; gap: 15px;">
                         <span>
-                            <span style="color: @item.Series.Fill; font-size: 16px;">●</span>
-                            @item.Series.Name
+                            <span style="color: @markerColor; font-size: 16px;">●</span>
+                            @item.SeriesName
                         </span>
-                        <span style="font-weight: bold;">$@($"{item.Y:N2}")</span>
+                        <span style="font-weight: bold;">$@item.Y</span>
                     </div>
                 }
             </div>
@@ -363,25 +402,17 @@ Allow users to select data points, series, or regions for highlighting or furthe
 
 Select individual data points:
 
-```razor
-<SfChart Title="Product Performance" SelectionMode="Syncfusion.Blazor.Toolkit.Charts.SelectionMode.Point">
-    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"/>
-    
-    <ChartSelectionSettings Enable="true" 
-                             Mode="Syncfusion.Blazor.Toolkit.Charts.SelectionMode.Point"
-                             Type="SelectionType.Highlight"
-                             Pattern="SelectionPattern.Dots"/>
-    
-        <ChartSeries DataSource="@ProductData" 
-                     XName="Product" 
-                     YName="Sales" 
-                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column"
-                     SelectionStyle="@selectionStyle"/>
-</SfChart>
+Configuration fragment; `ProductData` is application-provided. Selection and highlighting are `SfChart` parameters, not a child settings component.
 
-@code {
-    string selectionStyle = "fill: #FF5722; opacity: 1;";
-}
+```razor
+<SfChart Title="Product Performance"
+         SelectionMode="Syncfusion.Blazor.Toolkit.ChartSelectionMode.Point"
+         SelectionPattern="Syncfusion.Blazor.Toolkit.SelectionPattern.Dots"
+         HighlightMode="Syncfusion.Blazor.Toolkit.HighlightMode.Point">
+    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"/>
+    <ChartSeries DataSource="@ProductData" XName="Product" YName="Sales"
+                 Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column"/>
+</SfChart>
 ```
 
 ### Series Selection
@@ -389,7 +420,7 @@ Select individual data points:
 Select entire series:
 
 ```razor
-<SfChart Title="Quarterly Sales" SelectionMode="Syncfusion.Blazor.Toolkit.Charts.SelectionMode.Series">
+<SfChart Title="Quarterly Sales" SelectionMode="Syncfusion.Blazor.Toolkit.ChartSelectionMode.Series">
         <ChartSeries DataSource="@Q1Data" Name="Q1" XName="Month" YName="Revenue" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column"/>
         <ChartSeries DataSource="@Q2Data" Name="Q2" XName="Month" YName="Revenue" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column"/>
         <ChartSeries DataSource="@Q3Data" Name="Q3" XName="Month" YName="Revenue" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column"/>
@@ -401,12 +432,11 @@ Select entire series:
 Select all points at the same index across series:
 
 ```razor
-<SfChart Title="Regional Comparison" SelectionMode="Syncfusion.Blazor.Toolkit.Charts.SelectionMode.Cluster">
+<SfChart Title="Regional Comparison" SelectionMode="Syncfusion.Blazor.Toolkit.ChartSelectionMode.Cluster">
     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category"/>
-    
-        <ChartSeries DataSource="@NorthRegion" Name="North" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column"/>
-        <ChartSeries DataSource="@SouthRegion" Name="South" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column"/>
-        <ChartSeries DataSource="@EastRegion" Name="East" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column"/>
+    <ChartSeries DataSource="@NorthRegion" Name="North" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column"/>
+    <ChartSeries DataSource="@SouthRegion" Name="South" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column"/>
+    <ChartSeries DataSource="@EastRegion" Name="East" XName="Month" YName="Sales" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column"/>
 </SfChart>
 ```
 
@@ -415,15 +445,12 @@ Select all points at the same index across series:
 Enable rectangular drag selection:
 
 ```razor
-<SfChart SelectionMode="Syncfusion.Blazor.Toolkit.Charts.SelectionMode.DragXY">
+<SfChart SelectionMode="Syncfusion.Blazor.Toolkit.ChartSelectionMode.DragXY">
     <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.DateTime"/>
-    
-        <ChartSeries DataSource="@ScatterData" 
-                     XName="Date" 
-                     YName="Value" 
-                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Scatter">
-            <ChartMarker Height="10" Width="10"/>
-        </ChartSeries>
+    <ChartSeries DataSource="@ScatterData" XName="Date" YName="Value"
+                 Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Scatter">
+        <ChartMarker Height="10" Width="10"/>
+    </ChartSeries>
 </SfChart>
 ```
 
@@ -434,49 +461,19 @@ Enable rectangular drag selection:
 
 ### Selection Modes
 
-Configure selection behavior and appearance:
+Set `SelectionPattern` and `AllowMultiSelection` on `SfChart`. The parameter remains named `SelectionMode`; its enum type is `ChartSelectionMode`.
 
 ```razor
-<SfChart SelectionMode="Syncfusion.Blazor.Toolkit.Charts.SelectionMode.Point">
-        <ChartSeries DataSource="@ChartData" 
-                     XName="X" 
-                     YName="Y" 
-                     Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column"
-                     SelectionStyle="fill: #4CAF50; stroke: #2E7D32; stroke-width: 3"/>
+<SfChart Title="Multi-Select Chart"
+         SelectionMode="Syncfusion.Blazor.Toolkit.ChartSelectionMode.Point"
+         SelectionPattern="Syncfusion.Blazor.Toolkit.SelectionPattern.Dots"
+         AllowMultiSelection="true">
+    <ChartSeries DataSource="@Data" XName="X" YName="Y"
+                 Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column"/>
 </SfChart>
 ```
 
-**Multi-Select with Ctrl Key:**
-
-```razor
-<SfChart Title="Multi-Select Chart" 
-         SelectionMode="Syncfusion.Blazor.Toolkit.Charts.SelectionMode.Point" 
-         IsMultiSelect="true">
-        <ChartSeries DataSource="@Data" XName="X" YName="Y" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column"/>
-</SfChart>
-```
-
-**Selection Events:**
-
-```razor
-<SfChart SelectionMode="Syncfusion.Blazor.Toolkit.Charts.SelectionMode.Point" 
-         OnSelectionComplete="HandleSelectionComplete">
-        <ChartSeries DataSource="@ChartData" XName="X" YName="Y" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Column"/>
-</SfChart>
-
-@code {
-    private void HandleSelectionComplete(SelectionCompleteEventArgs args)
-    {
-        var selectedPoints = args.SelectedDataValues;
-        Console.WriteLine($"Selected {selectedPoints.Count} points");
-        
-        foreach (var point in selectedPoints)
-        {
-            Console.WriteLine($"X: {point.X}, Y: {point.Y}");
-        }
-    }
-}
-```
+Selection callbacks belong on `ChartEvents`; see [selection events](events.md#onselectionchanged). These examples are fragments using application-provided data collections.
 
 ---
 
@@ -590,35 +587,11 @@ Enable panning after zooming:
 
 **Programmatic Zoom:**
 
-```razor
-<SfChart @ref="chartObj">
-    <ChartZoomSettings EnableSelectionZooming="true"/>
-        <ChartSeries DataSource="@Data" XName="X" YName="Y" Type="Syncfusion.Blazor.Toolkit.ChartSeriesType.Line"/>
-</SfChart>
-
-<button @onclick="ZoomIn">Zoom In</button>
-<button @onclick="ZoomOut">Zoom Out</button>
-<button @onclick="ResetZoom">Reset</button>
-
-@code {
-    private SfChart chartObj;
-    
-    private void ZoomIn()
-    {
-        chartObj.ZoomByFactor(1.5);
-    }
-    
-    private void ZoomOut()
-    {
-        chartObj.ZoomByFactor(0.5);
-    }
-    
-    private void ResetZoom()
-    {
-        chartObj.ZoomByRange(new DateTime(2020, 1, 1), new DateTime(2024, 12, 31));
-    }
-}
-```
+The current Toolkit `SfChart` has no `ZoomByFactor` or `ZoomByRange` methods.
+Use its configured zoom toolbar and supported interactions, or control the axis
+`ZoomFactor` and `ZoomPosition` parameters from application state. Validate the
+resulting range, reset behavior, and input alternatives in the selected host;
+do not copy commercial chart methods into Toolkit code.
 
 ---
 

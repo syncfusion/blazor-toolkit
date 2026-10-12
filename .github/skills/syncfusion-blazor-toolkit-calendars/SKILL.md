@@ -20,30 +20,30 @@ metadata:
 
 # Syncfusion Blazor Toolkit - Calendar Components
 
-> ⚙️ **Render mode:** `SfCalendar`, `SfDatePicker`, `SfDateTimePicker`, `SfTimePicker` require an **interactive** render mode (Server, WebAssembly, or Auto @ .NET 8+). Read `AGENTS.md` before generating — `EnableUtc` and interactive event delivery require it.
+> ⚙️ **Render mode:** use Server, WebAssembly, or Auto for calendar interaction and event delivery. The shared base has static-render detection on .NET 9+ (not .NET 8); do not equate static markup with interactive calendar behavior. Read `AGENTS.md` for host conventions.
 
 ## Core Rules
 
-The four rules below are the highest-impact; the rest (5–8) live in
-[references/critical-gotchas.md](references/critical-gotchas.md) — read it
-first if you have any time/format/validation question. These top 4 together
-prevent ~95% of calendar bug reports.
+Read [references/critical-gotchas.md](references/critical-gotchas.md) for
+component-specific types, culture, range checks, and event binding. Source
+under `src/Components/Calendars/` is authoritative.
 
-1. **Pick the right `TValue`**: `DateOnly?` for date-only (avoids accidental
-   timezone drift); `DateTime?` for date-time; never use `TimeOnly?` — it is
-   not supported by `SfTimePicker`.
-2. **Always set `EnableUtc="true"`** for Server / Auto render modes that
-   persist dates to a database. Without it the calendar persists the *local*
-   timezone representation, which round-trips incorrectly.
-3. **`Format` is culture-invariant when you supply a literal pattern**
-   (`"dd/MM/yyyy"`); culture-aware when you supply a token (`"d"`, `"D"`).
-   Never mix the two in one form.
-4. **`Min` / `Max` are inclusive and timezone-relative.** Provide them in the
-   calendar's display timezone; UTC only when `EnableUtc="true"`.
+1. **Match `TValue` to the model:** `DateOnly?` for date-only selection,
+   `DateTime?` for date/time, and `TimeOnly?` is supported by `SfTimePicker`.
+   Nullable values are useful for an empty/required field, not mandatory.
+2. **Timezone conversion belongs to the application.** There is no
+   `EnableUtc` parameter. Choose date-only, wall-clock, or instant semantics
+   and explicitly convert at persistence boundaries as needed.
+3. **`Format` uses the component culture.** Standard patterns (`d`, `D`)
+   follow culture; custom patterns can still contain culture-sensitive
+   separators and names. `SfCalendar` itself has no input `Format` parameter.
+4. **`Min` / `Max` are inclusive.** Supply bounds consistent with the value's
+   intended calendar date/time; do not assume automatic timezone conversion.
 
-Rules 5–8 — `DayCellRendering` mutation discipline, `aria-label` opt-in,
-`@bind-Value` + `ValueChanged` double-fire, and midnight re-render — live in
-[references/critical-gotchas.md](references/critical-gotchas.md).
+Rules 5–8 — `DayCellRendering` mutation discipline, accessible labelling,
+`@bind-Value` / `ValueChanged` duplicate parameters, and midnight re-render —
+live in [references/critical-gotchas.md](references/critical-gotchas.md).
+Examples are fragments unless they include all referenced state and helpers.
 
 ## Don'ts
 
@@ -55,51 +55,38 @@ Rules 5–8 — `DayCellRendering` mutation discipline, `aria-label` opt-in,
 
 | Anti-pattern | Symptom | Fix |
 |---|---|---|
-| `TValue="DateTime"` (non-nullable) inside `EditForm` | "Object reference not set" on first render; type-mismatch exception | Use `TValue="DateTime?"` (or `DateOnly?`) |
-| `TValue="TimeOnly?"` on `SfTimePicker` | Empty input; `[Required]` rejects valid user input | `TValue="DateTime? Format="HH:mm"` |
-| `Min`/`Max` in UTC with `EnableUtc="false"` | Off-by-one day selection | Pick one: either `EnableUtc="true"` **and** UTC math, or local timezone end-to-end |
-| `args.IsHighlight = true` in `DayCellRendering` | Throws — property doesn't exist | Use `args.CellClass = "highlight"` and style the class |
-| Subscribe `ValueChanged` *and* `@bind-Value` | Both fire; the second wins; sometimes a render-loop | Pick one. Use `@bind-Value:after` for side effects |
-| One `SfCalendar` driving two date inputs | Renderer mounts a single DOM, second input has no calendar | Per-input `<SfDatePicker>`, share state via `CascadingValue<T>` |
-| `<SfCalendar>` inside a Server-mode page that pre-renders today | Highlight misses today's date because of a half-day clock skew between server UTC and client local | Always set `EnableUtc="true"` for Server / Auto |
-| `Format="d"` mixed with `Format="yyyy-MM-dd"` in one form | Validation messages disagree; tooltip provides two formats | Pick one (invariant vs culture) per form |
-| Reading `args.Date` and assuming it's `DateOnly`-typed | It's `DateTime` (midnight, server-side); comparison may be wrong | Compare against `args.Date.Date` against your `Min` same way |
-| Setting `Min` only — never `Max` | Calendar allows any future date; user picks 2099 | Pair with `Max` whenever `Min` is set |
+| Mismatching `TValue` and bound model type | Binding/conversion errors | Match the model; use nullable types when an empty value is needed |
+| Rejecting `TimeOnly?` on `SfTimePicker` | Unnecessary date-bearing model | `TimeOnly` and `TimeOnly?` are supported |
+| Treating a calendar date as a UTC instant | Off-by-one date after application conversion | Use `DateOnly` or explicitly define timezone conversion at the boundary |
+| `args.IsHighlight` or `args.CellClass` in `DayCellRendering` | Properties do not exist | Append CSS classes to `args.CellData.ClassList` when `CellData` is non-null |
+| Subscribe `ValueChanged` *and* `@bind-Value` | Duplicate generated component parameter | Pick one; use `@bind-Value:after` for side effects |
+| One `SfCalendar` instance reused for two date inputs | A component instance has one rendered location | Use a picker per input and share application state |
+| Assuming server `DateTime.Today` is the user's date | Server and user timezones can differ | Determine the intended date in application code |
+| Assuming a custom format is culture-invariant | Separators/month names may vary | Choose and verify the pattern with the configured culture |
+| Reading `args.Date` as `DateOnly` | It is `DateTime` | Compare the date portion consistently |
+| Omitting a business-required upper bound | Future dates remain selectable | Set `Max` when required by the domain; one-sided ranges are valid |
 
 ## Anti-Pattern Workflows
 
-### Workflow 1 — Agent copies a DateTime example and ignores UTC
+### Workflow 1 — Date-only selection is not an instant
 
-**Bad:**
-```razor
-<SfCalendar TValue="DateTime?" @bind-Value="@today" Min="@new DateTime(2026,1,1)" />
-@code { private DateTime? today = DateTime.UtcNow.Date; }
-```
-
-**Why it fails:** `Min` is provided in UTC, but the calendar's display
-timezone is the user's local. A user in Tokyo at 09:00 (Jan 1 local =
-00:00 UTC) sees "Jan 1 enabled" — correct by accident. A user in New York
-at 19:00 (Jan 1 local = 00:00 UTC) sees "Dec 31 disabled" — wrong.
-
-**Correct:** keep both in the same timezone, and align with the database
-side:
+Do not use `DateTime.UtcNow.Date` as an implicit user's local date or add a
+nonexistent UTC switch. For date-only business values use `DateOnly?` and
+explicit date bounds (`Min` / `Max` remain `DateTime` parameters):
 
 ```razor
 @using Syncfusion.Blazor.Toolkit.Calendars
 
-<SfCalendar TValue="DateTime?"
-            EnableUtc="true"
-            @bind-Value="@today" />
+<SfCalendar TValue="DateOnly?" @bind-Value="selectedDay"
+            Min="@(new DateTime(2026, 1, 1))"
+            Max="@(new DateTime(2026, 12, 31))" />
+
 @code {
-    private DateTime? today;        // stored UTC; ToLocalTime() on display
+    private DateOnly? selectedDay;
 }
 ```
 
-Or — if the calendar must stay in local — pass `Min` in local:
-
-```razor
-Min="@new DateTime(2026,1,1,0,0,0,DateTimeKind.Local)"
-```
+Persist the selected date without applying instant/timezone conversion.
 
 ### Workflow 2 — Agent sets `DayCellRendering` to highlight holidays but `args.IsHighlight` doesn't exist
 
@@ -111,15 +98,17 @@ private void OnCell(RenderDayCellEventArgs args)
 }
 ```
 
-**Fix:** use `CellClass` (you style with CSS):
+**Fix:** mutate `CellData.ClassList`, preserving existing classes. Handler
+fragment for a component with an application-defined `IsHoliday` helper:
 
-```razor
+```csharp
 private void OnCell(RenderDayCellEventArgs args)
 {
     if (IsHoliday(args.Date))
     {
-        args.CellClass = "holiday-cell";
-        args.IsDisabled = true;            // pick one — these aren't mutually exclusive
+        if (args.CellData is not null)
+            args.CellData.ClassList += " holiday-cell";
+        args.IsDisabled = true;
     }
 }
 ```
@@ -137,7 +126,7 @@ private void OnCell(RenderDayCellEventArgs args)
 <SfDatePicker TValue="DateTime?"
               @bind-Value="@_date"
               ValueChanged="OnDate" />
-<!-- fires twice, @bind-Value then ValueChanged -->
+<!-- invalid: @bind-Value already generates ValueChanged -->
 ```
 
 **Correct:** use `@bind-Value:after` (.NET 8+) for post-commit logic:
@@ -183,19 +172,22 @@ move forward — the renderer doesn't re-tick.
 For non-essential UX, prefer a plain "Today" pill button that re-binds the
 date on click instead of keeping a timer running.
 
-### Workflow 5 — Agent wants to persist UTC but render local labels
+### Workflow 5 — Persisting an instant from a selected date/time
 
-**Correct:**
+Bind a picker to a wall-clock value, then convert using an explicitly chosen
+`TimeZoneInfo` in application code. Validate daylight-saving gaps/ambiguities
+before converting to UTC. `DateTime.ToLocalTime()` on a server uses the server's
+timezone, not necessarily the user's. There is no component UTC switch.
+
+Picker fragment; persistence is deliberately application-owned:
+
 ```razor
 @using Syncfusion.Blazor.Toolkit.Calendars
 
-<SfCalendar TValue="DateTime?"
-            EnableUtc="true"
-            @bind-Value="@_utcDate"
-            Format="yyyy-MM-dd" />
+<SfDateTimePicker TValue="DateTime?" @bind-Value="appointmentLocal"
+                  Format="yyyy-MM-dd HH:mm" />
 @code {
-    public DateTime? _utcDate; // stays UTC
-    public string LocalLabel => _utcDate?.ToLocalTime().ToString("yyyy-MM-dd") ?? "";
+    private DateTime? appointmentLocal;
 }
 ```
 

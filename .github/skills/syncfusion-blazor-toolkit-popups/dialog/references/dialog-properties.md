@@ -9,56 +9,58 @@ description: >
 
 # SfDialog Properties & API Reference
 
-The full surface of the `SfDialog` component. Use this when you need
-canonical signatures, default values, or are debugging unexpected behavior.
+Selected APIs checked against `src/Components/Popups/Dialog/`. Source is
+authoritative for the full surface; commercial component docs may differ.
 
 ## Properties
 
 | Property | Type | Default | Purpose |
 |---|---|---|---|
-| `Visible` | `bool` | `false` | Show/hide the dialog |
-| `@bind-Visible` | `bool` | — | Two-way binding for visibility (preferred) |
-| `Header` | `string` | — | Top-bar text |
-| `HeaderTemplate` | `RenderFragment` | — | Top-bar markup (overrides `Header`) |
-| `ContentTemplate` | `RenderFragment` | — | Body markup |
-| `Footer` / `FooterTemplate` | `string` / `RenderFragment` | — | Footer text or markup |
-| `Width` | `string` | `"auto"` | Dialog width (CSS units; e.g. `"420px"`, `"60%"`) |
-| `Height` | `string` | `"auto"` | Dialog height |
-| `IsModal` | `bool` | `false` | Block underlying UI (installs `aria-modal` + focus trap) |
-| `AllowDragging` | `bool` | `false` | Drag header to reposition |
-| `EnableResize` | `bool` | `false` | Resize handle on edges |
-| `AllowPrerender` | `bool` | `true` | Set `false` when dialog body depends on interactive content |
-| `CloseOnEscape` | `bool` | `true` | Escape closes the dialog |
-| `ShowCloseIcon` | `bool` | `false` | `×` icon in the header (required for mouse-only users) |
-| `IsResponsive` | `bool` | `true` | Mobile-friendly reflow |
-| `ZIndex` | `string` | `"1000"` | CSS stacking layer |
-| `DialogAnimationSettings` | `DialogAnimationSettings` | `Fade` | `Effect` + duration (`DialogEffect.Fade`/`Zoom`/`Slide`*) |
-| `CssClass` | `string` | — | Custom CSS classes applied to root element |
+| `Visible` | `bool` | `true` | Set false or bind a false field to start closed |
+| `@bind-Visible` | `bool` | — | Generates `Visible` and `VisibleChanged`; do not duplicate them |
+| `Header` / `Content` | `string` | unset | Header/body text |
+| `FooterTemplate` | `string` | unset | Footer string; for fragments use `DialogTemplates.FooterTemplate` |
+| `DialogTemplates` | child component | — | `Header`, `Content`, `FooterTemplate` are fragment slots |
+| `Width` | `string` | `"100%"` | CSS width |
+| `Height` | `string` | `"auto"` | CSS height |
+| `IsModal` | `bool` | `false` | Modal backdrop and focus behavior |
+| `AllowDragging` | `bool` | `false` | Drag header; may be used with modal dialogs |
+| `EnableResize` | `bool` | `false` | Enable resize handles |
+| `AllowPrerender` | `bool` | `false` | Retain dialog content while closed; not the host render mode |
+| `CloseOnEscape` | `bool` | `true` | Escape dismissal |
+| `ShowCloseIcon` | `bool` | `false` | Header close affordance; a Close/Cancel button is another option |
+| `ZIndex` | `double` | `1000` | CSS stacking layer |
+| `DialogAnimationSettings` | child component | — | `Effect`, `Duration`, `Delay` |
+| `CssClass` | `string` | `""` | Custom root classes |
+
+`IsResponsive`, direct `HeaderTemplate` / `ContentTemplate`, and `Footer`
+are not `SfDialog` parameters. Use the template slots above.
 
 ## Events
 
 | Event | Signature | Cancellable? | Fires |
 |---|---|---|---|
-| `OnOpen` | `EventCallback<BeforeOpenEventArgs>` | yes | Before the dialog renders |
-| `OnOpened` | `EventCallback<object>` | no | After first frame |
-| `OnClose` | `EventCallback<BeforeCloseEventArgs>` | **yes** | Before dismissal (set `args.Cancel = true` to block) |
-| `OnClosed` | `EventCallback<object>` | no | After dismissal |
-| `OnOverlayClick` | `EventCallback<OverlayClickEventArgs>` | no | User clicked the backdrop |
-| `VisibleChanged` | `EventCallback<bool>` | n/a | Two-way binding mirror (wired by `@bind-Visible`) |
+| `OnOpen` | `EventCallback<BeforeOpenEventArgs>` | yes | Before opening |
+| `Opened` | `EventCallback<OpenEventArgs>` | no | After opening |
+| `OnClose` | `EventCallback<BeforeCloseEventArgs>` | yes | Before closing |
+| `Closed` | `EventCallback<CloseEventArgs>` | no | After closing |
+| `OnOverlayModalClick` | `EventCallback<OverlayModalClickEventArgs>` | no | Backdrop click; close explicitly if desired |
+| `VisibleChanged` | `EventCallback<bool>` | n/a | Visibility state synchronization |
 
 ## Methods (via `@ref`)
 
 | Method | Returns | Purpose |
 |---|---|---|
-| `Show()` | `void` | Open programmatically (fires `OnOpen`) |
-| `Hide()` | `void` | Close (fades then fires `OnClose`) |
-| `SetModel(...)` | `void` | Update content from outside the dialog |
-| `Refresh()` | `void` | Force re-render after content change |
-| `DisposeAsync()` | `ValueTask` | Release JS interop references; call in `IAsyncDisposable` |
+| `ShowAsync(bool? isFullScreen = null)` | `Task` | Open programmatically |
+| `HideAsync()` | `Task` | Request close through cancelable lifecycle |
+| `RefreshPositionAsync()` | `Task` | Recalculate position |
+| `GetDimensionAsync()` | `Task<DialogDimension>` | Read dimensions |
+| `GetButton(int index)` | `DialogButton?` | Access a configured button |
+| `GetButtonItems()` | `IList<DialogButton>?` | Access configured buttons |
 
-> **Programmatic control caveat:** `Show()` / `Hide()` and `@bind-Visible`
-> compete — pick one mechanism. Mixing them causes "two-state controllers"
-> fights (see Don'ts).
+Await JS-backed methods after the component is rendered interactively.
+Binding can mirror programmatic changes; avoid redundant state mutations
+for the same action. Component disposal is normally owned by Blazor.
 
 ## Animation
 
@@ -69,21 +71,21 @@ canonical signatures, default values, or are debugging unexpected behavior.
 | `Effect` | `DialogEffect` | `Fade`, `Zoom`, `None`, `SlideLeft`, `SlideRight`, `SlideDown`, `SlideUp` |
 | `Duration` | `int` (ms) | Default 400 |
 
-Pick exactly one `Effect` per dialog. Mixing static `Effect=...` and
-`Animation=...` constructions leads to rendering races (covered in Don'ts).
+Configure one `DialogAnimationSettings` child per dialog. `Effect` and
+`Duration` belong to that child, not to an `Animation` parameter on `SfDialog`.
 
 ## Common Use Cases
 
 | Scenario | Key Properties |
 |---|---|
-| Confirmation modal | `IsModal=true`, `ShowCloseIcon=true`, `CloseOnEscape=true`, `AllowPrerender=false` (for interactive content) |
-| Form-in-modal | `<EditForm>` inside `DialogTemplates.Content`; `AllowPrerender=false` |
-| Alert/info dialog | `IsModal=false`, `ShowCloseIcon=true` |
-| Wizard | Sequential `@bind-Visible` states per step (don't nest `<SfDialog>`) |
-| DialogService-driven dynamic dialog | Use the service-factory pattern (see [references/dialog-advanced.md](references/dialog-advanced.md)) |
+| Confirmation modal | `IsModal=true`, explicit initial visibility, visible dismissal control |
+| Form-in-modal | `<EditForm>` inside `DialogTemplates.Content`; configure an interactive host |
+| Alert/info dialog | Choose `IsModal` according to whether the user must acknowledge it |
+| Wizard | Application-owned step state and `@bind-Visible` |
+| Service-driven dialog | `SfDialogService` with `SfDialogProvider`; see [dialog basics](dialog-basics.md) |
 
 ## See Also
 
-- [references/dialog-basics.md](references/dialog-basics.md) — installation, first modal walk-through
-- [references/dialog-advanced.md](references/dialog-advanced.md) — service pattern, dynamic creator, wizard, cascading
-- [../router/dialog-vs-tooltip-decision-matrix.md](../router/dialog-vs-tooltip-decision-matrix.md) — dialog vs tooltip decision matrix
+- [dialog-basics.md](dialog-basics.md) — installation, first modal walk-through
+- [dialog-advanced.md](dialog-advanced.md) — templates, forms, drag/resize, and composition
+- [Dialog vs tooltip](../../router/dialog-vs-tooltip-decision-matrix.md) — decision matrix

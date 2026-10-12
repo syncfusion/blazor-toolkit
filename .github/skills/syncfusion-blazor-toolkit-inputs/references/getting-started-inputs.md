@@ -25,21 +25,15 @@ dotnet add package Syncfusion.Blazor.Toolkit
 
 ### Step 2: Register Services
 
-In your `Program.cs` (Blazor Server or WebAssembly), register Syncfusion services:
+In `Program.cs`, import the Toolkit namespace and register services. This
+fragment belongs in the generated host; retain its middleware, endpoints,
+render-mode configuration, and `app.Run()` call.
 
 ```csharp
-// Program.cs
-using Syncfusion.Blazor;
+using Syncfusion.Blazor.Toolkit;
 
-var builder = WebApplication.CreateBuilder(args);
-
-builder.Services.AddRazorComponents();
-
-// Register Syncfusion Blazor service
+// After creating the host's builder:
 builder.Services.AddSyncfusionBlazorToolkit();
-
-var app = builder.Build();
-app.Run();
 ```
 
 **For Blazor Server:**
@@ -56,32 +50,22 @@ builder.Services.AddSyncfusionBlazorToolkit();
 
 ### Required CSS Files
 
-Add Syncfusion CSS files to your HTML head. In `_Layout.cshtml` (Blazor Server) or `index.html` (Blazor WebAssembly):
+Add the bundled stylesheet to the host's `<head>` (`App.razor` for a Blazor
+Web App, `index.html` for standalone WebAssembly):
 
 ```html
-<!-- Syncfusion Blazor Fluent Theme CSS -->
-<link id="syncfusion-theme" href="_content/Syncfusion.Blazor.Toolkit/styles/fluent.min.css" rel="stylesheet" />
-
-<!-- Alternative Themes Available -->
-<!-- Bootstrap Theme -->
-<!-- <link id="syncfusion-theme" href="_content/Syncfusion.Blazor.Toolkit/styles/bootstrap5.css" rel="stylesheet"> -->
-
-<!-- Material Theme -->
-<!-- <link id="syncfusion-theme" href="_content/Syncfusion.Blazor.Toolkit/styles/material.css" rel="stylesheet"> -->
-
-<!-- Tailwind Theme -->
-<!-- <link id="syncfusion-theme" href="_content/Syncfusion.Blazor.Toolkit/styles/tailwind.css" rel="stylesheet"> -->
+<link href="_content/Syncfusion.Blazor.Toolkit/styles/fluent.min.css" rel="stylesheet" />
 ```
+
+Toolkit components import their ES modules automatically; do not add a
+commercial global script or Themes package.
 
 ### Available Themes
 
-| Theme | Use Case |
-|-------|----------|
-| **fluent.css** | Modern, minimal design (default) |
-| **bootstrap5.css** | Bootstrap-compatible styling |
-| **material.css** | Material Design principles |
-| **tailwind.css** | Tailwind CSS integration |
-| **highcontrast.css** | Accessibility-focused |
+`src/wwwroot/styles/fluent.min.css` is the bundled aggregate stylesheet.
+Per-component `.min.css` files also exist. The Toolkit does not ship the
+`bootstrap5.css`, `material.css`, `tailwind.css`, or `highcontrast.css` paths
+previously suggested here. Chart's `Theme` enum is separate from input CSS.
 
 ### Custom Theming
 

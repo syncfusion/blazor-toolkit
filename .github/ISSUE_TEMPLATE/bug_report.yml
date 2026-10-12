@@ -1,0 +1,94 @@
+name: 🐛 Bug report
+description: Report something that isn't working as expected.
+title: "[Bug]: "
+labels: ["bug", "needs triage"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for filing a bug! Include a minimal reproduction and the environment below. Triage is best-effort, without a guaranteed response or fix date. Report vulnerabilities privately through our [security policy](https://github.com/syncfusion/blazor-toolkit/security/policy), not this form. Remove credentials and personal data from attachments.
+  - type: checkboxes
+    id: preflight
+    attributes:
+      label: Preflight checklist
+      options:
+        - label: I searched [existing issues](https://github.com/syncfusion/blazor-toolkit/issues) and will link any related reports.
+          required: true
+        - label: I checked the toolkit's target frameworks (.NET 8, 9, and 10) and will provide my actual SDK/runtime details below.
+          required: true
+  - type: input
+    id: component
+    attributes:
+      label: Affected component
+      description: Which toolkit component is involved? For example, SfChart, SfDatePicker or SfTextBox. A Grid is not currently included.
+      placeholder: SfChart
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: Description
+      description: A clear and concise description of the bug.
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Steps to reproduce
+      description: Minimal steps or a code snippet / public repo link that reproduces the issue. Include the render mode and initialization details.
+      placeholder: |
+        1. Add an SfChart with a small dataset and one series.
+        2. Configure the affected axis, tooltip or interaction.
+        3. Describe the action and observed result.
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: Actual behavior
+    validations:
+      required: true
+  - type: dropdown
+    id: dotnet
+    attributes:
+      label: .NET version
+      options:
+        - ".NET 8"
+        - ".NET 9"
+        - ".NET 10"
+    validations:
+      required: true
+  - type: dropdown
+    id: render-mode
+    attributes:
+      label: Blazor render mode
+      options:
+        - Server (Interactive Server)
+        - WebAssembly (Interactive WebAssembly)
+        - Auto
+        - Static SSR
+    validations:
+      required: true
+  - type: input
+    id: package-version
+    attributes:
+      label: Toolkit package version
+      placeholder: "Installed version, for example 1.0.2; include commit SHA for a source build"
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment (SDK/runtime, OS, browser)
+      placeholder: "Actual dotnet --info output, OS and browser versions; include any render-mode or deployment details"
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant logs or screenshots (redact secrets and personal data)
+      render: shell

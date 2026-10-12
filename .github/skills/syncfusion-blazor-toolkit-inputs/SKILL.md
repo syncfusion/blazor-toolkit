@@ -22,7 +22,7 @@ metadata:
 
 # Syncfusion Blazor Toolkit - Input Components
 
-> ⚙️ **Render mode:** `SfTextBox`, `SfTextArea`, `SfNumericTextBox<T>`, `SfCheckBox<T>`, `SfRadioButton<T>`, `SfSwitch<T>` work in all modes. **`SfUploader`** and **`InputFile` are NOT usable in Static SSR** — they require interactive render mode (Server, WebAssembly, or Auto @ .NET 8+). Read `AGENTS.md` before wiring file uploads.
+> ⚙️ **Render mode:** input markup can render statically; client events, JS methods, and `SfUploader` / `InputFile` stream delivery require Server, WebAssembly, or Auto interactivity. Toolkit's explicit static-render detection is compiled on .NET 9+; do not assume the same detection on .NET 8. Read `AGENTS.md` before wiring file uploads. Examples are fragments unless all host setup, imports, state, and handlers are included.
 
 ## Core Rules
 
@@ -31,12 +31,15 @@ metadata:
 2. **`TValue` and `TChecked` generic params must match the bound C# type.**
    `SfNumericTextBox<T>` requires `T : struct, IFormattable` — `T=string`
    compiles and crashes at runtime.
-3. **`SfUploader` and `<InputFile>` are NOT usable in Static SSR** — the
-   file-system path / JavaScript interop is unavailable.
-4. **`SfUploader` requires a `SaveUrl`** (an HTTP endpoint); never point it
-   at a static path on disk.
-5. **`SfUploader` has a SignalR message-size limit (Server mode)** — call
-   `OpenReadStream(maxAllowedSize)` to lift it for large uploads.
+3. **File selection/stream processing requires interactivity** for
+   `SfUploader` and `<InputFile>`; static markup alone cannot deliver files.
+4. **`SaveUrl` is optional.** Choose HTTP uploads via
+   `UploaderAsyncSettings.SaveUrl`, or omit it and handle `OnValueChange`
+   (`UploadChangeEventArgs`) to process the supplied file streams in .NET.
+   A `SaveUrl`, when used, must be an endpoint, never a disk path.
+5. **Enforce upload limits at every layer.** `OpenReadStream(maxAllowedSize)`
+   sets a stream-read limit; it does not raise SignalR message-size limits
+   or HTTP server limits. Use bounded streaming and server-side validation.
 6. **`SfCheckBox<T>`**, **`SfRadioButton<T>`**, and **`SfSwitch<T>` use
    `TChecked` not `T`** in the generic parameter — be careful when
    copy-pasting between CheckBox and Switch.
@@ -58,7 +61,7 @@ metadata:
 | Anti-pattern | Symptom | Fix |
 |---|---|---|
 | `SfCheckBox TChecked="string"` | Compile succeeds; runtime throws "Cannot convert null to bool" on first render | Use `TChecked="bool"` (or `int?` for 3-state) |
-| `SfUploader` `AutoUpload="true"` on a static URL path | 404 / 405 from web server; upload "completes" but file is lost in client browser | Always POST to a controller endpoint that handles `IFormFile` and returns 200 |
+| `UploaderAsyncSettings.SaveUrl` points to a static file/disk path | No upload endpoint handles the request | Use an application HTTP upload endpoint, or omit `SaveUrl` and process `OnValueChange` streams |
 | `<SfUploader>` / `<InputFile>` in a Static SSR page | Component never receives a file (`IBrowserFile` is null); prerender is always empty | Move to a `Server | WebAssembly | Auto` page or `@rendermode InteractiveServer`-only page |
 | `SfNumericTextBox T="decimal" Format="N2"` for currency | Field shows `1,234.56` for en-US but `1.234,56` for de-DE — inconsistent UX | Use `Format="C2"` so the currency formatter takes culture into account; **or lock the format** (`Format="$#,##0.00"`) for culture-stable display |
 | `<SfNumericTextBox @bind-Disabled="…" />` | Compile error or ignored — `Disabled` is a one-way attribute | Use `<SfNumericTextBox Disabled="@_busy" />` and toggle `_busy` manually |
@@ -66,7 +69,7 @@ metadata:
 | Missing `<DataAnnotationsValidator />` in `<EditForm>` | All `[Required]`/`[StringLength]` rules silently ignored; form submits invalid data | Always include `<DataAnnotationsValidator />` as the first child of `<EditForm>` |
 | Stripping `class="e-input"` from the rendered `<input>` | Numeric arrows / clear-button vanish; keyboard users lose step controls | Scope styling to parent (`<div>` / `<label>`) instead of the inner `<input>` |
 | Binding `Value="@_text"` *and* `@bind-Value` | Property is set twice; one wins silently; `StateHasChanged` order is undefined | Pick exactly one |
-| Setting `Min`/`Max` on `SfDatePicker` (not `SfNumericTextBox`) | That property doesn't exist on `SfDatePicker`; silent no-op | Use `Min`/`Max` on `SfDatePicker`, `Min`/`Max`/`Step` on `SfNumericTextBox` |
+| Applying numeric `Step` guidance to date selection | Components have different range semantics | `SfDatePicker` supports `Min` / `Max`; numeric inputs also support numeric `Step` |
 
 ## Anti-Pattern Workflows
 
