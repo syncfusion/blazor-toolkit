@@ -2,7 +2,7 @@
 using System.ComponentModel;
 using System.Runtime.Serialization;
 
-namespace Syncfusion.Blazor.Toolkit.Data
+namespace Syncfusion.Blazor.Toolkit
 {
     /// <summary>
     ///  Specifies the direction of a sort operation.

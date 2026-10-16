@@ -154,7 +154,11 @@ namespace Syncfusion.Blazor.Toolkit
         // component renders in a renderer that has no owner, the payload is injected through
         // document.head, guarded by an id check in JS so it can never duplicate an existing element.
         private static readonly ConditionalWeakTable<IJSRuntime, Task> _fallbackTasks = [];
+#if NET9_0_OR_GREATER
+        private static readonly System.Threading.Lock _fallbackGate = new();
+#else
         private static readonly object _fallbackGate = new();
+#endif
 
         /// <summary>
         /// Injects the theme through JavaScript when - and only when - the renderer of

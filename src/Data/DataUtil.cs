@@ -8,7 +8,7 @@ using Syncfusion.Blazor.Toolkit.Internal;
 using System.Text.Json.Serialization;
 using System.Text.Json;
 
-namespace Syncfusion.Blazor.Toolkit.Data
+namespace Syncfusion.Blazor.Toolkit
 {
     /// <summary>
     /// Provides utility method used by data manager.

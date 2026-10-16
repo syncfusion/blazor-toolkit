@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
-using Syncfusion.Blazor.Toolkit;
 using Syncfusion.Blazor.Toolkit.Internal;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;

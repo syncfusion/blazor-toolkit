@@ -1,0 +1,1526 @@
+@page "/release-notes"
+@page "/release-notes/{version}"
+@using Blazor.Toolkit.Samples.Client.Services
+@inject HttpClient Http
+@inject ILogger<ReleaseNotes> Logger
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JS
+
+<PageTitle>Release Notes @(string.IsNullOrEmpty(DisplayVersion) ? "" : $"- v{DisplayVersion}") | Syncfusion Blazor Toolkit</PageTitle>
+
+@* ===========================================================
+   RELEASE NOTES - Sidebar (versions) + Main panel (notes)
+   Mirrors https://github.com/syncfusion/blazor-toolkit/releases
+   using the GitHub Releases API (/repos/syncfusion/blazor-toolkit/releases),
+   with an in-memory + sessionStorage cache.
+   =========================================================== *@
+<div class="rn-shell">
+    @* ---------------------------------------------------------
+       SIDEBAR: list of all release versions
+       --------------------------------------------------------- *@
+    <aside class="rn-sidebar" aria-label="Release versions">
+        <div class="rn-sidebar-header">
+            <h2 class="rn-sidebar-title">Versions</h2>
+            <span class="rn-sidebar-count" aria-live="polite">@Releases.Count</span>
+        </div>
+
+        @if (IsLoadingReleases && Releases.Count == 0)
+        {
+            <ul class="rn-version-list" aria-busy="true">
+                @for (var i = 0; i < 4; i++)
+                {
+                    <li class="rn-version-item rn-skeleton-row" aria-hidden="true">
+                        <span class="rn-skeleton rn-skeleton-version"></span>
+                        <span class="rn-skeleton rn-skeleton-date"></span>
+                    </li>
+                }
+            </ul>
+        }
+        else if (!string.IsNullOrEmpty(ErrorMessage) && Releases.Count == 0)
+        {
+            <div class="rn-sidebar-error" role="alert">
+                <p>Unable to load releases.</p>
+                <p class="rn-sidebar-error-hint">@ErrorMessage</p>
+            </div>
+        }
+        else
+        {
+            <ul class="rn-version-list" role="listbox" aria-label="Available release versions" aria-orientation="vertical" tabindex="-1">
+                @{
+                    var idx = -1;
+                }
+                @foreach (var release in Releases)
+                {
+                    idx++;
+                    var isSelected = string.Equals(SelectedTag, release.TagName, StringComparison.OrdinalIgnoreCase);
+                    var itemId = $"rn-version-{release.TagName.Replace('.', '-')}";
+                    <li class="rn-version-item" role="presentation">
+                        <button type="button"
+                                id="@itemId"
+                                class="rn-version-button @(isSelected ? "is-selected" : "")"
+                                role="option"
+                                aria-selected="@isSelected.ToString().ToLowerInvariant()"
+                                aria-current="@(isSelected ? "true" : null)"
+                                tabindex="@(isSelected ? 0 : -1)"
+                                @onclick="() => SelectVersionAsync(release.TagName)"
+                                @onclick:preventDefault="true"
+                                @onkeydown="(e) => OnVersionKeyDown(e, idx)">
+                            <span class="rn-version-label">
+                                <span class="rn-version-name">@release.TagName</span>
+                                @if (release.IsLatest)
+                                {
+                                    <span class="rn-latest-pill" aria-label="Latest release">Latest</span>
+                                }
+                            </span>
+                            @if (!string.IsNullOrEmpty(release.PublishedAtDisplay))
+                            {
+                                <span class="rn-version-date">@release.PublishedAtDisplay</span>
+                            }
+                        </button>
+                    </li>
+                }
+            </ul>
+        }
+    </aside>
+
+    @* ---------------------------------------------------------
+       MAIN PANEL: selected release notes
+       --------------------------------------------------------- *@
+    <main class="rn-main" @ref="_mainContentRef" aria-labelledby="rn-main-title">
+        @if (IsLoading && string.IsNullOrEmpty(HtmlContent))
+        {
+            <div class="rn-loading" aria-busy="true" aria-live="polite">
+                <div class="rn-skeleton rn-skeleton-title"></div>
+                <div class="rn-skeleton rn-skeleton-meta"></div>
+                <div class="rn-skeleton rn-skeleton-heading"></div>
+                <div class="rn-skeleton rn-skeleton-text"></div>
+                <div class="rn-skeleton rn-skeleton-text short"></div>
+                <div class="rn-skeleton rn-skeleton-text"></div>
+            </div>
+        }
+        else if (!string.IsNullOrEmpty(ErrorMessage) && string.IsNullOrEmpty(HtmlContent))
+        {
+            <div class="rn-error" role="alert">
+                <div class="rn-error-icon" aria-hidden="true">⚠️</div>
+                <h2>Unable to Load Release Notes</h2>
+                <p>@ErrorMessage</p>
+                <button type="button" class="rn-retry" @onclick="RetryAsync">Retry</button>
+            </div>
+        }
+        else if (SelectedRelease is not null)
+        {
+            <article class="rn-content">
+                <header class="rn-content-header">
+                    <h1 class="rn-release-title" id="rn-main-title">
+                        @(!string.IsNullOrEmpty(SelectedRelease.Name) ? SelectedRelease.Name : SelectedRelease.TagName)
+                    </h1>
+                    <div class="rn-release-meta">
+                        @if (SelectedRelease.IsLatest)
+                        {
+                            <span class="rn-meta-badge rn-meta-latest">Latest</span>
+                        }
+                        <span class="rn-meta-badge rn-meta-version">@SelectedRelease.TagName</span>
+                        @if (!string.IsNullOrEmpty(SelectedRelease.PublishedAtDisplay))
+                        {
+                            <span class="rn-meta-badge rn-meta-date">@SelectedRelease.PublishedAtDisplay</span>
+                        }
+                        @if (!string.IsNullOrEmpty(SelectedRelease.HtmlUrl))
+                        {
+                            <a class="rn-meta-badge rn-meta-link"
+                               href="@SelectedRelease.HtmlUrl"
+                               target="_blank"
+                               rel="noreferrer noopener">
+                                View on GitHub ↗
+                            </a>
+                        }
+                    </div>
+                </header>
+
+                <div class="markdown-content rn-markdown" id="rn-markdown-content">
+                    @if (!string.IsNullOrEmpty(HtmlContent))
+                    {
+                        @((MarkupString)HtmlContent)
+                    }
+                    else
+                    {
+                        <p class="rn-empty-body">No release notes were provided for this version.</p>
+                    }
+                </div>
+            </article>
+        }
+    </main>
+</div>
+
+@code {
+    // ----------------------------------------------------------------
+    //  Routing + state
+    // ----------------------------------------------------------------
+    [Parameter]
+    public string? Version { get; set; }
+
+    private bool IsLoading { get; set; } = true;
+    private bool IsLoadingReleases { get; set; } = true;
+    private string HtmlContent { get; set; } = string.Empty;
+    private string ErrorMessage { get; set; } = string.Empty;
+    private string SelectedTag { get; set; } = string.Empty;
+    private string DisplayVersion { get; set; } = string.Empty;
+
+    private List<GitHubRelease> Releases { get; set; } = new();
+    private GitHubRelease? SelectedRelease => Releases.FirstOrDefault(r =>
+        string.Equals(r.TagName, SelectedTag, StringComparison.OrdinalIgnoreCase));
+
+    private ElementReference _mainContentRef;
+
+    // Endpoint and cache keys
+    private const string GitHubApiUrl = "https://api.github.com/repos/syncfusion/blazor-toolkit/releases?per_page=30";
+    private const string SessionCacheKey = "sf-rn-releases-v1";
+    private const string SessionCacheTsKey = "sf-rn-releases-ts-v1";
+    private static readonly TimeSpan SessionCacheTtl = TimeSpan.FromMinutes(30);
+
+    // In-memory cache shared across navigation within the same SPA session
+    private static List<GitHubRelease>? _memoryCache;
+    private static DateTimeOffset _memoryCacheAt = DateTimeOffset.MinValue;
+    private static readonly object _cacheLock = new();
+
+    // Per-tag body cache to avoid re-fetching the same release on every selection
+    private static readonly Dictionary<string, string> _bodyCache = new(StringComparer.OrdinalIgnoreCase);
+
+    // ----------------------------------------------------------------
+    //  Lifecycle
+    // ----------------------------------------------------------------
+    protected override async Task OnParametersSetAsync()
+    {
+        await LoadReleasesAsync().ConfigureAwait(true);
+        await EnsureSelectedReleaseLoadedAsync().ConfigureAwait(true);
+    }
+
+    // ----------------------------------------------------------------
+    //  Sidebar interaction
+    // ----------------------------------------------------------------
+    private async Task SelectVersionAsync(string tag)
+    {
+        if (string.IsNullOrEmpty(tag) ||
+            string.Equals(tag, SelectedTag, StringComparison.OrdinalIgnoreCase))
+        {
+            return;
+        }
+
+        // Use fragment navigation so the URL updates without forcing a
+        // full page reload - the in-component state change re-renders
+        // the main panel only.
+        var target = $"/release-notes/{tag.TrimStart('v')}";
+        NavigationManager.NavigateTo(target, forceLoad: false);
+        await Task.CompletedTask;
+    }
+
+    private async Task OnVersionKeyDown(KeyboardEventArgs e, int index)
+    {
+        if (Releases.Count == 0)
+        {
+            return;
+        }
+
+        // Roving-tabindex style: ArrowDown / ArrowUp / Home / End move
+        // focus within the version list. Activate with Enter / Space.
+        var nextIndex = index;
+        switch (e.Key)
+        {
+            case "ArrowDown":
+                nextIndex = Math.Min(index + 1, Releases.Count - 1);
+                break;
+            case "ArrowUp":
+                nextIndex = Math.Max(index - 1, 0);
+                break;
+            case "Home":
+                nextIndex = 0;
+                break;
+            case "End":
+                nextIndex = Releases.Count - 1;
+                break;
+            case "Enter":
+            case " ":
+                await SelectVersionAsync(Releases[index].TagName);
+                return;
+            default:
+                return;
+        }
+
+        if (nextIndex == index)
+        {
+            return;
+        }
+
+        var nextTag = Releases[nextIndex].TagName;
+        var id = $"rn-version-{nextTag.Replace('.', '-')}";
+        try
+        {
+            await JS.InvokeVoidAsync(
+                "eval",
+                "const el=document.getElementById(arguments[0]);if(el){el.focus();}",
+                id);
+        }
+        catch
+        {
+            // best-effort focus
+        }
+        await Task.CompletedTask;
+    }
+
+    private async Task RetryAsync()
+    {
+        // Invalidate caches so the retry actually re-fetches.
+        lock (_cacheLock)
+        {
+            _memoryCache = null;
+            _memoryCacheAt = DateTimeOffset.MinValue;
+        }
+        _bodyCache.Clear();
+        ErrorMessage = string.Empty;
+
+        try { await JS.InvokeVoidAsync("sessionStorage.removeItem", SessionCacheKey); } catch { }
+        try { await JS.InvokeVoidAsync("sessionStorage.removeItem", SessionCacheTsKey); } catch { }
+
+        await LoadReleasesAsync().ConfigureAwait(true);
+        await EnsureSelectedReleaseLoadedAsync().ConfigureAwait(true);
+    }
+
+    // ----------------------------------------------------------------
+    //  Release list loading (GitHub Releases API + cache)
+    // ----------------------------------------------------------------
+    private async Task LoadReleasesAsync()
+    {
+        if (Releases.Count > 0)
+        {
+            return;
+        }
+
+        IsLoadingReleases = true;
+        ErrorMessage = string.Empty;
+
+        try
+        {
+            var releases = await GetReleasesAsync().ConfigureAwait(true);
+            Releases = releases;
+            Logger.LogInformation("Loaded {Count} releases: [{List}]",
+                releases.Count, string.Join(", ", releases.Select(r => r.TagName)));
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, "Failed to load releases");
+            ErrorMessage = ex.Message;
+            Releases = new List<GitHubRelease>();
+        }
+        finally
+        {
+            IsLoadingReleases = false;
+        }
+    }
+
+     private async Task<List<GitHubRelease>> GetReleasesAsync()
+    {
+        // 1) In-memory cache
+        lock (_cacheLock)
+        {
+            if (_memoryCache is not null &&
+                DateTimeOffset.UtcNow - _memoryCacheAt < SessionCacheTtl)
+            {
+                return _memoryCache;
+            }
+        }
+
+        // 2) sessionStorage cache (synchronous JS interop in Blazor WASM is fine)
+        try
+        {
+            var cachedJson = await JS.InvokeAsync<string?>("sessionStorage.getItem", SessionCacheKey).ConfigureAwait(true);
+            var cachedTs = await JS.InvokeAsync<string?>("sessionStorage.getItem", SessionCacheTsKey).ConfigureAwait(true);
+            if (!string.IsNullOrEmpty(cachedJson) &&
+                !string.IsNullOrEmpty(cachedTs) &&
+                DateTimeOffset.TryParse(cachedTs, out var ts) &&
+                DateTimeOffset.UtcNow - ts < SessionCacheTtl)
+            {
+                var cached = TryDeserializeReleases(cachedJson);
+                if (cached is { Count: > 0 })
+                {
+                    lock (_cacheLock)
+                    {
+                        _memoryCache = cached;
+                        _memoryCacheAt = DateTimeOffset.UtcNow;
+                    }
+                    return cached;
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.LogWarning(ex, "sessionStorage cache read failed; will try network");
+        }
+
+        // 3) Network: GitHub Releases API
+        try
+        {
+            using var request = new HttpRequestMessage(HttpMethod.Get, GitHubApiUrl);
+            request.Headers.Add("Accept", "application/vnd.github+json");
+            request.Headers.Add("X-GitHub-Api-Version", "2022-11-28");
+            request.Headers.Add("User-Agent", "blazor-toolkit-samples");
+
+            using var response = await Http.SendAsync(request).ConfigureAwait(true);
+            response.EnsureSuccessStatusCode();
+            var json = await response.Content.ReadAsStringAsync().ConfigureAwait(true);
+
+            var releases = TryDeserializeReleases(json) ?? new List<GitHubRelease>();
+            if (releases.Count == 0)
+            {
+                throw new InvalidOperationException("GitHub API returned an empty release list.");
+            }
+
+            // Persist to caches
+            try
+            {
+                await JS.InvokeVoidAsync("sessionStorage.setItem", SessionCacheKey, json).ConfigureAwait(true);
+                await JS.InvokeVoidAsync("sessionStorage.setItem", SessionCacheTsKey, DateTimeOffset.UtcNow.ToString("O")).ConfigureAwait(true);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogWarning(ex, "sessionStorage cache write failed");
+            }
+
+            lock (_cacheLock)
+            {
+                _memoryCache = releases;
+                _memoryCacheAt = DateTimeOffset.UtcNow;
+            }
+            return releases;
+        }
+        catch (Exception ex)
+        {
+            Logger.LogWarning(ex, "GitHub Releases API failed.");
+            throw;
+        }
+    }
+
+    private static List<GitHubRelease>? TryDeserializeReleases(string json)
+    {
+        try
+        {
+            var raw = System.Text.Json.JsonSerializer.Deserialize<List<GitHubReleaseDto>>(
+                json,
+                new System.Text.Json.JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                });
+
+            if (raw is null)
+            {
+                return null;
+            }
+
+            // First release is treated as Latest (GitHub already orders newest-first)
+            var releases = new List<GitHubRelease>(raw.Count);
+            for (var i = 0; i < raw.Count; i++)
+            {
+                var r = raw[i];
+                if (string.IsNullOrEmpty(r.TagName))
+                {
+                    continue;
+                }
+                releases.Add(new GitHubRelease
+                {
+                    TagName = r.TagName!,
+                    Name = r.Name ?? r.TagName!,
+                    Body = r.Body ?? string.Empty,
+                    HtmlUrl = r.HtmlUrl ?? string.Empty,
+                    PublishedAt = r.PublishedAt,
+                    IsLatest = i == 0 || (r.PreRelease == false && i == 0)
+                });
+            }
+            return releases;
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    // ----------------------------------------------------------------
+    //  Selected release content loading
+    // ----------------------------------------------------------------
+    private async Task EnsureSelectedReleaseLoadedAsync()
+    {
+        if (Releases.Count == 0)
+        {
+            IsLoading = true;
+            return;
+        }
+
+        // Resolve which tag to show. URL param wins; otherwise pick the
+        // latest (first) release in the list.
+        var requested = !string.IsNullOrEmpty(Version)
+            ? (Version!.StartsWith("v", StringComparison.OrdinalIgnoreCase) ? Version! : "v" + Version)
+            : Releases[0].TagName;
+
+        // If the requested tag is not in the list, fall back to latest.
+        var resolved = Releases.FirstOrDefault(r =>
+            string.Equals(r.TagName, requested, StringComparison.OrdinalIgnoreCase)) is { } match
+            ? match.TagName
+            : Releases[0].TagName;
+
+        SelectedTag = resolved;
+        DisplayVersion = resolved.TrimStart('v');
+
+        await LoadSelectedReleaseBodyAsync().ConfigureAwait(true);
+    }
+
+    private async Task LoadSelectedReleaseBodyAsync()
+    {
+        var release = SelectedRelease;
+        if (release is null)
+        {
+            return;
+        }
+
+        IsLoading = true;
+        ErrorMessage = string.Empty;
+        HtmlContent = string.Empty;
+
+        try
+        {
+            // Serve from per-tag cache if we already rendered this one.
+            if (_bodyCache.TryGetValue(release.TagName, out var cachedHtml) && !string.IsNullOrEmpty(cachedHtml))
+            {
+                HtmlContent = cachedHtml;
+                return;
+            }
+
+            var markdown = release.Body ?? string.Empty;
+            if (string.IsNullOrWhiteSpace(markdown))
+            {
+                HtmlContent = $"<p class=\"rn-empty-body\">No release notes were provided for {release.TagName}.</p>";
+                return;
+            }
+
+            // Some GitHub release bodies begin with the tag itself ("## v2.0.0").
+            // Strip a single leading H1/H2 that only contains the version so the
+            // custom header at the top of the page is not duplicated.
+            markdown = StripLeadingVersionHeading(markdown, release.TagName);
+
+            var rawHtml = Markdig.Markdown.ToHtml(
+                markdown,
+                Markdig.MarkdownExtensions.UseAdvancedExtensions(new Markdig.MarkdownPipelineBuilder()).Build());
+
+            // Add heading ids for in-page navigation and right-TOC integration.
+            rawHtml = AddHeadingIdsToHtml(rawHtml);
+
+            // Sanitize: GitHub release markdown is authored by trusted maintainers,
+            // but we render it via MarkupString so we still strip anything dangerous.
+            var safe = SanitizeHtml(rawHtml);
+
+            _bodyCache[release.TagName] = safe;
+            HtmlContent = safe;
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, "Failed to render release body for {Tag}", release.TagName);
+            ErrorMessage = $"Could not render release notes for {release.TagName}: {ex.Message}";
+        }
+        finally
+        {
+            IsLoading = false;
+        }
+    }
+
+    // ----------------------------------------------------------------
+    //  Markdown / HTML helpers
+    // ----------------------------------------------------------------
+    private static string StripLeadingVersionHeading(string markdown, string tagName)
+    {
+        // Match a leading "## v1.2.3" or "# v1.2.3" (with optional whitespace),
+        // optionally followed by another blank line, and remove it.
+        var pattern = @"^\s*#{1,3}\s*#?\s*" + System.Text.RegularExpressions.Regex.Escape(tagName) + @"\s*\r?\n+";
+        return System.Text.RegularExpressions.Regex.Replace(markdown, pattern, string.Empty, System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+    }
+
+    private string AddHeadingIdsToHtml(string html)
+    {
+        var regex = new System.Text.RegularExpressions.Regex(@"<(h[1-4])[^>]*>([^<]+)</h[1-4]>", System.Text.RegularExpressions.RegexOptions.IgnoreCase);
+        return regex.Replace(html, match =>
+        {
+            var tag = match.Groups[1].Value;
+            var text = match.Groups[2].Value.Trim();
+            var id = GenerateSlug(text);
+            return $"<{tag} id=\"{id}\">{text}</{tag}>";
+        });
+    }
+
+    private static string GenerateSlug(string text)
+    {
+        var slug = new System.Text.StringBuilder(text.Length);
+        var lastWasDash = false;
+        foreach (var ch in text.ToLowerInvariant())
+        {
+            if (char.IsLetterOrDigit(ch))
+            {
+                slug.Append(ch);
+                lastWasDash = false;
+            }
+            else if (!lastWasDash && slug.Length > 0)
+            {
+                slug.Append('-');
+                lastWasDash = true;
+            }
+        }
+        return slug.ToString().Trim('-');
+    }
+
+    // ----------------------------------------------------------------
+    //  Whitelist-based HTML sanitizer + auto-linkify pass.
+    //
+    //  Allows the elements that GitHub release markdown actually emits
+    //  (headings, paragraphs, lists, links, code, blockquotes, tables,
+    //  images, hr, br, strong/em/del) and strips everything else.
+    //  Also neutralises any inline event handlers and dangerous URL
+    //  schemes.
+    //
+    //  IMPORTANT: text content is passed through unchanged. Markdig
+    //  already encodes `<`, `>`, `&` and `"` in text as the appropriate
+    //  HTML entities; re-encoding them here would double-encode them
+    //  and cause `&lt;T&gt;` to be displayed literally as "&lt;T&gt;".
+    //  Disallowed tags are dropped silently; their inner text is kept
+    //  so nothing legitimate is lost.
+    //
+    //  Before sanitising we run `AutoLinkifyHtml` over the rendered
+    //  HTML. It wraps bare URLs, repository filename references
+    //  (`API-COMPATIBILITY.md`, `ReleaseNotes.razor`), PR/issue
+    //  references (`#86`), and @user mentions in <a> tags - matching
+    //  GitHub's release-notes renderer.
+    // ----------------------------------------------------------------
+    private static readonly HashSet<string> AllowedTags = new(StringComparer.OrdinalIgnoreCase)
+    {
+        "h1","h2","h3","h4","h5","h6",
+        "p","ul","ol","li","blockquote","pre","code",
+        "strong","em","b","i","u","del","s","sub","sup",
+        "a","img","hr","br","table","thead","tbody","tr","th","td",
+        "div","span","details","summary"
+    };
+
+    private static readonly HashSet<string> AllowedAttributesByTag = new(StringComparer.OrdinalIgnoreCase)
+    {
+        "a:href", "a:title", "a:rel", "a:target",
+        "img:src", "img:alt", "img:title", "img:width", "img:height",
+        "th:scope", "th:colspan", "th:rowspan",
+        "td:colspan", "td:rowspan",
+        "code:class", "code:lang",
+        "pre:lang",
+        "*:id"
+    };
+
+    private static readonly HashSet<string> SafeUrlSchemes = new(StringComparer.OrdinalIgnoreCase)
+    {
+        "http", "https", "mailto", "tel"
+    };
+
+    // Base URLs for the auto-linkify pass.
+    private const string RepoBlobBase = "https://github.com/syncfusion/blazor-toolkit/blob/main/";
+    private const string RepoPullBase = "https://github.com/syncfusion/blazor-toolkit/pull/";
+    private const string RepoUserBase = "https://github.com/";
+
+    /// <summary>
+    /// Sanitises the HTML produced by Markdig.
+    /// </summary>
+    private static string SanitizeHtml(string html)
+    {
+        if (string.IsNullOrEmpty(html))
+        {
+            return string.Empty;
+        }
+
+        // Pre-pass: auto-linkify bare URLs, filenames, PR/issue references
+        // and @user mentions that GitHub's renderer would have linked.
+        html = AutoLinkifyHtml(html);
+
+        // Walk every element and re-emit only allowed tags/attributes.
+        // Text content is passed through unchanged.
+        var result = new System.Text.StringBuilder(html.Length);
+        var i = 0;
+        var len = html.Length;
+
+        while (i < len)
+        {
+            var lt = html.IndexOf('<', i);
+            if (lt < 0)
+            {
+                // No more tags - pass the remaining text through unchanged.
+                result.Append(html, i, len - i);
+                break;
+            }
+
+            // Emit the text before the tag verbatim. It has already been
+            // safely encoded by Markdig (or by the auto-linkify pass).
+            if (lt > i)
+            {
+                result.Append(html, i, lt - i);
+            }
+
+            var gt = html.IndexOf('>', lt + 1);
+            if (gt < 0)
+            {
+                // Malformed - pass the rest through and stop.
+                result.Append(html, lt, len - lt);
+                break;
+            }
+
+            var raw = html.Substring(lt + 1, gt - lt - 1).Trim();
+            HandleTag(raw, result);
+            i = gt + 1;
+        }
+
+        return result.ToString();
+    }
+
+    private static void HandleTag(string raw, System.Text.StringBuilder output)
+    {
+        if (raw.Length == 0)
+        {
+            return;
+        }
+
+        // Comment
+        if (raw.StartsWith("!--"))
+        {
+            return; // strip comments entirely
+        }
+
+        var isClosing = raw[0] == '/';
+        var body = isClosing ? raw[1..] : raw;
+
+        // Doctype / CDATA / processing-instructions - drop them
+        if (!isClosing && (body.StartsWith("!") || body.StartsWith("?")))
+        {
+            return;
+        }
+
+        // Self-closing marker
+        var selfClosing = body.EndsWith("/");
+        if (selfClosing)
+        {
+            body = body[..^1].TrimEnd();
+        }
+
+        var spaceIdx = body.IndexOfAny(new[] { ' ', '\t', '\n', '\r' });
+        var tagName = (spaceIdx < 0 ? body : body[..spaceIdx]).Trim().ToLowerInvariant();
+        var attrSource = spaceIdx < 0 ? string.Empty : body[spaceIdx..].Trim();
+
+        if (!AllowedTags.Contains(tagName))
+        {
+            // Drop disallowed element entirely. The text content is
+            // preserved by the surrounding pass (we don't emit the
+            // opening tag, so the inner text flows out unchanged).
+            return;
+        }
+
+        if (isClosing)
+        {
+            output.Append("</").Append(tagName).Append('>');
+            return;
+        }
+
+        output.Append('<').Append(tagName);
+        AppendSafeAttributes(tagName, attrSource, output);
+        if (IsVoidElement(tagName) || selfClosing)
+        {
+            output.Append(" />");
+        }
+        else
+        {
+            output.Append('>');
+        }
+    }
+
+    private static void AppendSafeAttributes(string tagName, string attrSource, System.Text.StringBuilder output)
+    {
+        if (string.IsNullOrEmpty(attrSource))
+        {
+            return;
+        }
+
+        // Parse attributes (very small purpose-built parser, not a full HTML parser).
+        // Track which attribute names we've already emitted so the auto-linkify
+        // pass (or any source that already declared `rel` or `target` on an <a>)
+        // doesn't end up with duplicate attributes after we re-add our own
+        // safe defaults.
+        var i = 0;
+        var len = attrSource.Length;
+        var seen = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+        while (i < len)
+        {
+            while (i < len && (char.IsWhiteSpace(attrSource[i]) || attrSource[i] == '/' )) i++;
+            if (i >= len) break;
+
+            var nameStart = i;
+            while (i < len && attrSource[i] != '=' && !char.IsWhiteSpace(attrSource[i])) i++;
+            var name = attrSource[nameStart..i].Trim().ToLowerInvariant();
+            if (name.Length == 0 || !IsAttributeAllowed(tagName, name))
+            {
+                // Skip to next attribute
+                while (i < len && attrSource[i] != '=' && !char.IsWhiteSpace(attrSource[i])) i++;
+                if (i < len && attrSource[i] == '=')
+                {
+                    i++;
+                    SkipAttributeValue(attrSource, ref i);
+                }
+                continue;
+            }
+
+            // Skip whitespace
+            while (i < len && char.IsWhiteSpace(attrSource[i])) i++;
+            string value = string.Empty;
+            if (i < len && attrSource[i] == '=')
+            {
+                i++;
+                value = ReadAttributeValue(attrSource, ref i);
+            }
+
+            // Force external links to be safe
+            if (tagName == "a" && name == "href")
+            {
+                value = NormalizeUrl(value);
+                if (string.IsNullOrEmpty(value))
+                {
+                    continue;
+                }
+                output.Append(" href=\"").Append(EscapeAttr(value)).Append('"');
+                seen.Add("href");
+                if (!seen.Contains("rel") && !seen.Contains("target") &&
+                    (value.StartsWith("http", StringComparison.OrdinalIgnoreCase) ||
+                     value.StartsWith("mailto", StringComparison.OrdinalIgnoreCase)))
+                {
+                    output.Append(" rel=\"noreferrer noopener\" target=\"_blank\"");
+                    seen.Add("rel");
+                    seen.Add("target");
+                }
+                continue;
+            }
+
+            if (tagName == "img" && name == "src")
+            {
+                value = NormalizeUrl(value);
+                if (string.IsNullOrEmpty(value))
+                {
+                    continue;
+                }
+                output.Append(" src=\"").Append(EscapeAttr(value)).Append('"');
+                seen.Add("src");
+                continue;
+            }
+
+            // Strip inline event handlers even if the allow-list let them through.
+            if (name.StartsWith("on"))
+            {
+                continue;
+            }
+
+            // Don't re-emit attributes we've already added.
+            if (!seen.Add(name))
+            {
+                continue;
+            }
+
+            output.Append(' ').Append(name).Append("=\"").Append(EscapeAttr(value)).Append('"');
+        }
+    }
+
+    private static bool IsAttributeAllowed(string tagName, string attributeName)
+    {
+        if (AllowedAttributesByTag.Contains("*" + attributeName))
+        {
+            return true;
+        }
+        return AllowedAttributesByTag.Contains(tagName + ":" + attributeName);
+    }
+
+    private static void SkipAttributeValue(string s, ref int i)
+    {
+        if (i >= s.Length) return;
+        if (s[i] == '"' || s[i] == '\'')
+        {
+            var quote = s[i++];
+            while (i < s.Length && s[i] != quote) i++;
+            if (i < s.Length) i++;
+        }
+        else
+        {
+            while (i < s.Length && !char.IsWhiteSpace(s[i]) && s[i] != '>') i++;
+        }
+    }
+
+    private static string ReadAttributeValue(string s, ref int i)
+    {
+        if (i >= s.Length) return string.Empty;
+        if (s[i] == '"' || s[i] == '\'')
+        {
+            var quote = s[i++];
+            var start = i;
+            while (i < s.Length && s[i] != quote) i++;
+            var value = s[start..i];
+            if (i < s.Length) i++;
+            return value;
+        }
+        var start2 = i;
+        while (i < s.Length && !char.IsWhiteSpace(s[i]) && s[i] != '>') i++;
+        return s[start2..i];
+    }
+
+    private static string NormalizeUrl(string raw)
+    {
+        if (string.IsNullOrWhiteSpace(raw))
+        {
+            return string.Empty;
+        }
+
+        var trimmed = raw.Trim();
+        // Strip control characters which can be used to confuse URL parsers.
+        trimmed = new string(trimmed.Where(c => !char.IsControl(c)).ToArray());
+
+        // Relative fragment/root references are safe to keep.
+        if (trimmed.StartsWith("#") || trimmed.StartsWith("/"))
+        {
+            return trimmed;
+        }
+
+        if (Uri.TryCreate(trimmed, UriKind.Absolute, out var uri))
+        {
+            return SafeUrlSchemes.Contains(uri.Scheme) ? uri.ToString() : string.Empty;
+        }
+
+        // Reject anything that looks like "javascript:..." or other unrecognised schemes.
+        var colonIdx = trimmed.IndexOf(':');
+        if (colonIdx > 0)
+        {
+            var scheme = trimmed[..colonIdx];
+            if (!SafeUrlSchemes.Contains(scheme))
+            {
+                return string.Empty;
+            }
+        }
+        return trimmed;
+    }
+
+    private static string EscapeAttr(string value) =>
+        // Attribute values are always emitted between double quotes, so we
+        // only need to escape `&` and `"`. This is intentionally narrower
+        // than WebUtility.HtmlEncode to avoid re-encoding characters like
+        // `<` or `>` that the surrounding HTML markup needs to see
+        // unchanged.
+        value.Replace("&", "&amp;").Replace("\"", "&quot;");
+
+    private static bool IsVoidElement(string tagName) =>
+        tagName is "img" or "br" or "hr" or "meta" or "link" or "input";
+
+    // ----------------------------------------------------------------
+    //  Auto-linkify: wraps bare URLs, filename references, #NNN issue/PR
+    //  numbers, and @user mentions in <a> tags - matching the behaviour
+    //  of GitHub's release-notes renderer. Only touches text that lives
+    //  outside <a>, <code>, and <pre> elements; preserves entities
+    //  produced by Markdig (e.g. &lt;, &gt;, &amp;).
+    // ----------------------------------------------------------------
+    private static readonly System.Text.RegularExpressions.Regex BareUrlRegex = new(
+        @"\bhttps?://[A-Za-z0-9._~:/\?#\[\]@!\$&'()*+,;=%-]+",
+        System.Text.RegularExpressions.RegexOptions.Compiled);
+
+    private static readonly System.Text.RegularExpressions.Regex FilenameRegex = new(
+        @"\b[A-Za-z0-9_][A-Za-z0-9_./-]*\.(md|cs|csproj|razor|css|js|ts|json|xml|props|targets)\b",
+        System.Text.RegularExpressions.RegexOptions.Compiled);
+
+    private static readonly System.Text.RegularExpressions.Regex IssueRefRegex = new(
+        @"(?<![\w/])#(\d{1,6})\b",
+        System.Text.RegularExpressions.RegexOptions.Compiled);
+
+    private static readonly System.Text.RegularExpressions.Regex UserMentionRegex = new(
+        @"(?<![\w@])@([A-Za-z0-9][A-Za-z0-9-]{0,38})",
+        System.Text.RegularExpressions.RegexOptions.Compiled);
+
+    private static string AutoLinkifyHtml(string html)
+    {
+        if (string.IsNullOrEmpty(html))
+        {
+            return string.Empty;
+        }
+
+        // Walk the HTML in a single pass, accumulating text outside of
+        // `<a>`, `<code>`, and `<pre>` elements and rewriting bare URLs,
+        // filenames, #NNN issue references, and @user mentions inside
+        // them. Existing tags are emitted verbatim - the sanitizer pass
+        // will whitelist them.
+        var result = new System.Text.StringBuilder(html.Length + 256);
+        var text = new System.Text.StringBuilder();
+        var i = 0;
+        var len = html.Length;
+        var skipDepth = 0;
+        var skipStack = new System.Collections.Generic.Stack<string>();
+
+        while (i < len)
+        {
+            var lt = html.IndexOf('<', i);
+            if (lt < 0)
+            {
+                text.Append(html, i, len - i);
+                break;
+            }
+
+            if (lt > i)
+            {
+                text.Append(html, i, lt - i);
+            }
+
+            var gt = html.IndexOf('>', lt + 1);
+            if (gt < 0)
+            {
+                // Malformed - flush as text and stop.
+                text.Append(html, lt, len - lt);
+                break;
+            }
+
+            // Flush any accumulated text (linkified if outside skip regions).
+            FlushTextSegment(result, text, skipDepth > 0);
+
+            var raw = html.Substring(lt + 1, gt - lt - 1).Trim();
+            var isClosing = raw.Length > 0 && raw[0] == '/';
+            var body = isClosing ? raw[1..] : raw;
+            var spaceIdx = body.IndexOfAny(new[] { ' ', '\t', '\n', '\r' });
+            var tagName = (spaceIdx < 0 ? body : body[..spaceIdx])
+                .Trim()
+                .ToLowerInvariant()
+                .TrimEnd('/');
+
+            if (IsNoLinkifyTag(tagName))
+            {
+                if (isClosing)
+                {
+                    // Pop until we find a matching open tag (or the stack is empty).
+                    if (skipStack.Count > 0)
+                    {
+                        skipStack.Pop();
+                        skipDepth = skipStack.Count;
+                    }
+                }
+                else
+                {
+                    skipStack.Push(tagName);
+                    skipDepth = skipStack.Count;
+                }
+            }
+
+            // Emit the tag verbatim - the sanitizer will whitelist it.
+            result.Append(html, lt, gt - lt + 1);
+            i = gt + 1;
+        }
+
+        // Flush any remaining text.
+        FlushTextSegment(result, text, skipDepth > 0);
+
+        return result.ToString();
+    }
+
+    private static void FlushTextSegment(
+        System.Text.StringBuilder output,
+        System.Text.StringBuilder text,
+        bool skipLinkify)
+    {
+        if (text.Length == 0)
+        {
+            return;
+        }
+
+        var segment = text.ToString();
+        text.Clear();
+
+        output.Append(skipLinkify ? segment : LinkifySegment(segment));
+    }
+
+    private static string LinkifySegment(string text)
+    {
+        if (string.IsNullOrEmpty(text))
+        {
+            return text;
+        }
+
+        // For each position in the text, find the earliest of the four
+        // patterns and rewrite it. Skip patterns whose match overlaps
+        // one we already rewrote.
+        var sb = new System.Text.StringBuilder(text.Length + 64);
+        var i = 0;
+        var len = text.Length;
+        while (i < len)
+        {
+            var urlMatch = BareUrlRegex.Match(text, i, len - i);
+            var fileMatch = FilenameRegex.Match(text, i, len - i);
+            var issueMatch = IssueRefRegex.Match(text, i, len - i);
+            var userMatch = UserMentionRegex.Match(text, i, len - i);
+
+            // Pick the closest match across all four patterns.
+            System.Text.RegularExpressions.Match? best = null;
+            if (urlMatch.Success) best = urlMatch;
+            if (fileMatch.Success && (best is null || fileMatch.Index < best.Index)) best = fileMatch;
+            if (issueMatch.Success && (best is null || issueMatch.Index < best.Index)) best = issueMatch;
+            if (userMatch.Success && (best is null || userMatch.Index < best.Index)) best = userMatch;
+
+            if (best is null || !best.Success)
+            {
+                sb.Append(text, i, len - i);
+                break;
+            }
+
+            if (best.Index > i)
+            {
+                sb.Append(text, i, best.Index - i);
+            }
+
+            // Guard against overlapping pattern matches. The four
+            // patterns are tuned to be largely non-overlapping, but if
+            // a user mention happens to be adjacent to a filename
+            // we'd rather emit the closest match only.
+            if (best == urlMatch)
+            {
+                sb.Append(MakeLink(best.Value, best.Value));
+            }
+            else if (best == fileMatch)
+            {
+                sb.Append(MakeLink(best.Value, RepoBlobBase + best.Value));
+            }
+            else if (best == issueMatch)
+            {
+                var num = best.Groups[1].Value;
+                sb.Append(MakeLink("#" + num, RepoPullBase + num));
+            }
+            else if (best == userMatch)
+            {
+                var username = best.Groups[1].Value;
+                // Avoid auto-linking things that look like email locals or namespaces.
+                var skip = username.EndsWith(".com", StringComparison.OrdinalIgnoreCase)
+                        || username.EndsWith(".io", StringComparison.OrdinalIgnoreCase)
+                        || username.EndsWith(".net", StringComparison.OrdinalIgnoreCase)
+                        || username.Contains('.');
+                if (skip)
+                {
+                    sb.Append(best.Value);
+                }
+                else
+                {
+                    sb.Append(MakeLink("@" + username, RepoUserBase + username));
+                }
+            }
+
+            i = best.Index + best.Length;
+        }
+
+        return sb.ToString();
+    }
+
+    // Emits just the link with the href; the sanitizer will add
+    // rel="noreferrer noopener" target="_blank" automatically for
+    // any external https/http/mailto href.
+    private static string MakeLink(string text, string href) =>
+        $"<a href=\"{EscapeAttr(href)}\">{text}</a>";
+
+    private static bool IsNoLinkifyTag(string tagName) =>
+        tagName is "a" or "code" or "pre";
+
+    // ----------------------------------------------------------------
+    //  DTOs
+    // ----------------------------------------------------------------
+    public sealed class GitHubReleaseDto
+    {
+        [System.Text.Json.Serialization.JsonPropertyName("tag_name")]
+        public string? TagName { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("name")]
+        public string? Name { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("body")]
+        public string? Body { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("html_url")]
+        public string? HtmlUrl { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("published_at")]
+        public DateTimeOffset? PublishedAt { get; set; }
+
+        [System.Text.Json.Serialization.JsonPropertyName("prerelease")]
+        public bool PreRelease { get; set; }
+    }
+
+    public sealed class GitHubRelease
+    {
+        public string TagName { get; set; } = string.Empty;
+        public string Name { get; set; } = string.Empty;
+        public string Body { get; set; } = string.Empty;
+        public string HtmlUrl { get; set; } = string.Empty;
+        public DateTimeOffset? PublishedAt { get; set; }
+        public bool IsLatest { get; set; }
+
+        public string PublishedAtDisplay =>
+            PublishedAt is null
+                ? string.Empty
+                : PublishedAt.Value.ToLocalTime().ToString("MMMM d, yyyy");
+    }
+
+}
+
+<style>
+    /* ============================================================
+       Release Notes shell: sidebar (versions) + main (notes)
+       ============================================================ */
+    .rn-shell {
+        display: grid;
+        grid-template-columns: minmax(220px, 260px) minmax(0, 1fr);
+        gap: 1.5rem;
+        align-items: start;
+        min-height: 60vh;
+        /* The page-content + main-area padding adds ~1.5rem of empty space
+           between the breadcrumb ("Home / Release Notes") and the first
+           row of the version selector. Pull the shell up by ~0.75rem so
+           the gap is reduced to roughly half while still leaving a
+           comfortable (~0.75rem) breath of space. */
+        margin-top: -0.75rem;
+    }
+
+    /* ----------------------------------------------------------
+       Sidebar
+       ---------------------------------------------------------- */
+    .rn-sidebar {
+        position: sticky;
+        top: 50px;
+        align-self: start;
+        max-height: calc(100vh - 94px);
+        overflow: auto;
+        background: var(--panel-bg, #f9fafb);
+        border: 1px solid rgba(0, 0, 0, 0.06);
+        border-radius: 10px;
+        padding: 0.4rem 0.5rem 0.75rem;
+        scrollbar-width: thin;
+    }
+    .rn-sidebar::-webkit-scrollbar { width: 6px; }
+    .rn-sidebar::-webkit-scrollbar-thumb { background: rgba(15,23,42,0.15); border-radius: 6px; }
+
+    .rn-sidebar-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.1rem 0.75rem 0.4rem;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+        margin-bottom: 0.4rem;
+    }
+    .rn-sidebar-title {
+        font-size: 0.95rem;
+        font-weight: 700;
+        margin: 0;
+        color: var(--text-color, #1f2937);
+    }
+    .rn-sidebar-count {
+        background: var(--accent, #2B357C);
+        color: #fff;
+        font-size: 0.7rem;
+        font-weight: 700;
+        border-radius: 999px;
+        padding: 0.1rem 0.5rem;
+        min-width: 1.5rem;
+        text-align: center;
+    }
+
+    .rn-version-list {
+        padding-left: 0 !important;
+        margin: 0;
+    }
+    .rn-version-item { margin: 0; }
+    .rn-version-button {
+        width: 100%;
+        text-align: left;
+        background: transparent;
+        border: 1px solid transparent;
+        border-radius: 8px;
+        padding: 0.55rem 0.75rem;
+        margin: 0.1rem 0;
+        cursor: pointer;
+        display: flex;
+        flex-direction: column;
+        gap: 0.15rem;
+        color: var(--text-color, #1f2937);
+        font-size: 0.875rem;
+        transition: background-color 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+    }
+    .rn-version-button:hover {
+        background: rgba(43, 53, 124, 0.06);
+    }
+    .rn-version-button:focus-visible {
+        outline: 2px solid var(--accent, #2B357C);
+        outline-offset: 2px;
+    }
+    .rn-version-button.is-selected {
+        background: rgba(43, 53, 124, 0.12);
+        border-color: rgba(43, 53, 124, 0.35);
+        color: var(--accent, #2B357C);
+        font-weight: 600;
+    }
+    .rn-version-label {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        width: 100%;
+    }
+    /* The version name is rendered FIRST in every row so the
+       "vX.Y.Z" identifier always sits at exactly the same left indent
+       as the "Versions" header. The "Latest" pill is rendered AFTER
+       the name and pushed to the right with margin-left: auto so the
+       left edge of the row stays stable whether or not the pill is
+       shown. */
+    .rn-version-name {
+        font-weight: 600;
+        flex: 0 0 auto;
+    }
+    .rn-version-date {
+        font-size: 0.75rem;
+        color: var(--text-color-secondary, #6b7280);
+    }
+    .rn-latest-pill {
+        background: linear-gradient(135deg, #16a34a 0%, #22c55e 100%);
+        color: #fff;
+        font-size: 0.65rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        padding: 0.05rem 0.4rem;
+        border-radius: 999px;
+        margin-left: auto;
+        flex: 0 0 auto;
+    }
+    .rn-version-button.is-selected .rn-version-date {
+        color: var(--accent, #2B357C);
+    }
+
+    .rn-sidebar-error {
+        padding: 0.75rem;
+        font-size: 0.8rem;
+        color: var(--text-color-secondary, #6b7280);
+    }
+    .rn-sidebar-error-hint {
+        font-size: 0.7rem;
+        opacity: 0.8;
+        word-break: break-word;
+    }
+
+    /* ----------------------------------------------------------
+       Skeletons (sidebar + main)
+       ---------------------------------------------------------- */
+    .rn-skeleton {
+        display: block;
+        background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+        background-size: 200% 100%;
+        animation: rn-shimmer 1.5s infinite;
+        border-radius: 4px;
+    }
+    .rn-skeleton-row { padding: 0.4rem 0.5rem; }
+    .rn-skeleton-version { height: 0.85rem; width: 50%; margin-bottom: 0.35rem; }
+    .rn-skeleton-date    { height: 0.65rem; width: 70%; }
+    .rn-skeleton-title   { height: 1.75rem; width: 65%; margin-bottom: 1rem; }
+    .rn-skeleton-meta    { height: 1.25rem; width: 40%; margin-bottom: 1.5rem; }
+    .rn-skeleton-heading { height: 1.25rem; width: 45%; margin: 1.5rem 0 0.75rem; }
+    .rn-skeleton-text    { height: 0.85rem; width: 100%; margin-bottom: 0.5rem; }
+    .rn-skeleton-text.short { width: 70%; }
+
+    @@keyframes rn-shimmer {
+        0% { background-position: -200% 0; }
+        100% { background-position: 200% 0; }
+    }
+
+    /* ----------------------------------------------------------
+       Main panel
+       ---------------------------------------------------------- */
+    .rn-main {
+        min-width: 0;
+        padding-top: 10px;
+    }
+    .rn-content {
+        background: transparent;
+    }
+    .rn-content-header {
+        margin-bottom: 1.5rem;
+        padding-bottom: 1.25rem;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    }
+    .rn-release-title {
+        font-size: 1.75rem;
+        font-weight: 700;
+        margin: 0 0 0.75rem;
+        color: var(--text-color, #1f2937);
+        line-height: 1.3;
+    }
+    .rn-release-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+    .rn-meta-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.35rem;
+        padding: 0.35rem 0.75rem;
+        border-radius: 999px;
+        font-size: 0.8rem;
+        font-weight: 600;
+        border: 1px solid rgba(0, 0, 0, 0.06);
+        background: var(--panel-bg, #f9fafb);
+        color: var(--text-color, #1f2937);
+        text-decoration: none;
+    }
+    .rn-meta-latest {
+        background: linear-gradient(135deg, #16a34a 0%, #22c55e 100%);
+        color: #fff;
+        border-color: transparent;
+    }
+    .rn-meta-version {
+        background: var(--accent, #2B357C);
+        color: #fff;
+        border-color: transparent;
+    }
+    .rn-meta-link {
+        background: transparent;
+        color: var(--accent, #2B357C);
+        border-color: rgba(43, 53, 124, 0.35);
+    }
+    .rn-meta-link:hover { text-decoration: underline; }
+
+    .rn-loading {
+        padding: 1rem 0;
+    }
+    .rn-error {
+        text-align: center;
+        padding: 3rem 1rem;
+    }
+    .rn-error-icon { font-size: 2.5rem; margin-bottom: 0.5rem; }
+    .rn-retry {
+        margin-top: 1rem;
+        padding: 0.5rem 1rem;
+        background: var(--accent, #2B357C);
+        color: #fff;
+        border: 0;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: 600;
+    }
+    .rn-retry:focus-visible {
+        outline: 2px solid var(--accent, #2B357C);
+        outline-offset: 2px;
+    }
+    .rn-empty-body {
+        color: var(--text-color-secondary, #6b7280);
+        font-style: italic;
+    }
+
+    /* ----------------------------------------------------------
+       Markdown body - mirrors the existing release notes look
+       ---------------------------------------------------------- */
+    .rn-markdown { line-height: 1.7; color: var(--text-color, #1f2937); }
+    .rn-markdown :global(h1),
+    .rn-markdown :global(h2),
+    .rn-markdown :global(h3),
+    .rn-markdown :global(h4) {
+        scroll-margin-top: 90px;
+    }
+    .rn-markdown :global(h1) { display: none; }
+    .rn-markdown :global(h2) {
+        font-size: 1.375rem;
+        font-weight: 600;
+        margin: 2.25rem 0 0.75rem;
+        padding-bottom: 0.4rem;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+    }
+    .rn-markdown :global(h3) {
+        font-size: 1.125rem;
+        font-weight: 600;
+        margin: 1.5rem 0 0.5rem;
+    }
+    .rn-markdown :global(h4) {
+        font-size: 1rem;
+        font-weight: 600;
+        margin: 1.25rem 0 0.5rem;
+    }
+    .rn-markdown :global(p) { margin: 0.75rem 0; }
+    .rn-markdown :global(ul),
+    .rn-markdown :global(ol) { margin: 0.75rem 0; padding-left: 1.5rem; }
+    .rn-markdown :global(li) { margin: 0.35rem 0; }
+    .rn-markdown :global(strong) { font-weight: 600; }
+    .rn-markdown :global(code) {
+        font-family: "Cascadia Code", "JetBrains Mono", "Fira Code", Consolas, "SFMono-Regular", monospace;
+        font-size: 0.85em;
+        background: rgba(15, 23, 42, 0.06);
+        padding: 0.1rem 0.35rem;
+        border-radius: 4px;
+    }
+    .rn-markdown :global(pre) {
+        background: rgba(15, 23, 42, 0.04);
+        border: 1px solid rgba(0, 0, 0, 0.06);
+        border-radius: 6px;
+        padding: 0.75rem 1rem;
+        overflow: auto;
+    }
+    .rn-markdown :global(pre code) {
+        background: transparent;
+        padding: 0;
+    }
+    .rn-markdown :global(blockquote) {
+        border-left: 3px solid var(--accent, #2B357C);
+        margin: 1rem 0;
+        padding: 0.25rem 1rem;
+        color: var(--text-color-secondary, #6b7280);
+        background: rgba(43, 53, 124, 0.04);
+        border-radius: 0 4px 4px 0;
+    }
+    .rn-markdown :global(hr) {
+        border: 0;
+        border-top: 1px solid rgba(0, 0, 0, 0.06);
+        margin: 1.75rem 0;
+    }
+    .rn-markdown :global(a) {
+        color: var(--accent, #2B357C);
+        text-decoration: none;
+    }
+    .rn-markdown :global(a:hover) { text-decoration: underline; }
+    .rn-markdown :global(table) {
+        border-collapse: collapse;
+        width: 100%;
+        margin: 1rem 0;
+        font-size: 0.9em;
+    }
+    .rn-markdown :global(th),
+    .rn-markdown :global(td) {
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        padding: 0.5rem 0.75rem;
+        text-align: left;
+    }
+    .rn-markdown :global(th) { background: rgba(0, 0, 0, 0.03); }
+
+    /* ----------------------------------------------------------
+       Forced-colors (Windows High Contrast) compatibility
+       ---------------------------------------------------------- */
+    @@media (forced-colors: active) {
+        .rn-sidebar { border-color: ButtonText; background-color: Canvas; }
+        .rn-version-button { color: CanvasText; background-color: transparent; }
+        .rn-version-button:hover { background-color: Highlight; color: HighlightText; }
+        .rn-version-button.is-selected { outline: 2px solid Highlight; }
+        .rn-meta-badge { border-color: ButtonText; color: CanvasText; background-color: Canvas; }
+        .rn-latest-pill, .rn-meta-latest, .rn-meta-version { background-color: Highlight; color: HighlightText; }
+        .rn-retry { background-color: Highlight; color: HighlightText; }
+    }
+
+    /* ----------------------------------------------------------
+       Responsive
+       ---------------------------------------------------------- */
+    @@media (max-width: 900px) {
+        .rn-shell {
+            grid-template-columns: 1fr;
+        }
+        .rn-sidebar {
+            position: static;
+            max-height: none;
+        }
+    }
+</style>

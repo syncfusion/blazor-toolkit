@@ -8,32 +8,23 @@ namespace Syncfusion.Blazor.Toolkit
     public partial class SfDateTimePicker<TValue>
     {
         /// <summary>
-        /// Suffix appended to the component <see cref="CalendarBase{TValue}.ID"/> to form the DOM
-        /// id of the time-list popup rendered by the <see cref="SfDateTimePicker{TValue}"/>.
-        /// Kept in sync with the <c>ID="@(ID + &quot;_timepopup&quot;)"</c> declaration on the
-        /// <c>&lt;SfPopup @ref=&quot;_timePopupRef&quot;&gt;</c> element in
-        /// <c>SfDateTimePicker.razor</c>.
-        /// </summary>
-        private const string TIMEPOPUP_SUFFIX = "_timepopup";
-        private const string POPUPS = "_popups";
-
-        /// <summary>
         /// Returns the DOM element id that the input's <c>aria-owns</c> attribute should point to
-        /// while a popup is open. Overrides the base implementation so the value resolves to the
-        /// popup that is currently in the accessibility tree: the time-list popup
-        /// (<c>ID + &quot;_timepopup&quot;</c>) when <see cref="ShowPopupList"/> is true,
-        /// otherwise the calendar popup (<c>ID + POPUPS</c>).
+        /// while a popup is open. Both the calendar popup and the time-list popup share the same
+        /// DOM id suffix (<c>_popup</c>, matching the <c>id="@(ID)_popup"</c> declarations in
+        /// <c>SfDateTimePicker.razor</c>), so we delegate to the base implementation which returns
+        /// the same <c>ID + "_popup"</c> id.
         /// </summary>
         /// <returns>The element id that <c>aria-owns</c> should reference.</returns>
         /// <remarks>
-        /// Without this override, the inherited <see cref="SfDatePicker{TValue}.GetAriaOwnsTarget"/>
-        /// always returns the calendar popup id; when only the time popup is open
-        /// (e.g. <see cref="ShowTimePopupAsync"/>) that id is not in the accessibility tree and
-        /// axe-core flags the input with <c>aria-valid-attr-value</c> (critical).
+        /// Earlier revisions of this override returned <c>_popups</c> / <c>_timepopup</c>, but the
+        /// rendered DOM uses <c>_popup</c> for both popups, which left <c>aria-owns</c> pointing at
+        /// a non-existent id and triggered axe-core's <c>aria-valid-attr-value</c> (critical) rule.
+        /// Overriding is still useful to lock the behaviour at this level so future drift in the
+        /// base class does not silently change the DateTimePicker's accessibility contract.
         /// </remarks>
         protected override string GetAriaOwnsTarget()
         {
-            return ShowPopupList ? ID + TIMEPOPUP_SUFFIX : ID + POPUPS;
+            return base.GetAriaOwnsTarget();
         }
         /// <summary>
         /// Opens the date picker popup to show the calendar for date selection.

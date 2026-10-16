@@ -8,7 +8,7 @@
 - [Enumerations](#enumerations)
    - [ChartSeriesType](#chartseriestype)
    - [ValueType](#valuetype)
-   - [SelectionMode](#selectionmode)
+   - [ChartSelectionMode](#chartselectionmode)
    - [HighlightMode](#highlightmode)
    - [SelectionPattern](#selectionpattern)
    - [ExportType](#exporttype)
@@ -262,7 +262,7 @@ public void ClearSelection()
 
 **Example:**
 ```razor
-<SfChart @ref="ChartRef" SelectionMode="SelectionMode.Point">
+<SfChart @ref="ChartRef" SelectionMode="ChartSelectionMode.Point">
     <!-- Chart configuration -->
 </SfChart>
 
@@ -427,12 +427,12 @@ public enum ValueType
 
 ---
 
-### SelectionMode
+### ChartSelectionMode
 
 Specifies the selection mode.
 
 ```csharp
-public enum SelectionMode
+public enum ChartSelectionMode
 {
     None,
     Series,
@@ -905,7 +905,7 @@ public ToolbarItems[] ToolbarItems { get; set; }
 
 3. **Namespace**: Always include the namespace import:
    ```razor
-    @using Syncfusion.Blazor.Toolkit.Charts
+    @using Syncfusion.Blazor.Toolkit
    ```
 
 4. **Component Reference**: To call methods, use `@ref`:
@@ -925,7 +925,7 @@ public ToolbarItems[] ToolbarItems { get; set; }
 ### Basic Chart with Data
 
 ```razor
-@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit
 
 <SfChart>
     <ChartPrimaryXAxis ValueType="ValueType.Category" />

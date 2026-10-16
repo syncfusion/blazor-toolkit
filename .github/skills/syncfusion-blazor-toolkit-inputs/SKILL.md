@@ -182,7 +182,7 @@ or hard-code the culture in `Format`:
 ## Minimal Example
 
 ```razor
-@using Syncfusion.Blazor.Toolkit.Inputs
+@using Syncfusion.Blazor.Toolkit
 @using System.ComponentModel.DataAnnotations
 
 <EditForm Model="@formModel" OnValidSubmit="@Save">

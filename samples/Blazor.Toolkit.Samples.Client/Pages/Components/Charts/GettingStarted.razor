@@ -52,17 +52,6 @@
 
 <Description>
     <Header>
-        <h2 id="include-assets">Include Assets</h2>
-    </Header>
-    <Content>
-        <p>Include the Syncfusion theme CSS in your layout file (App.razor or index.html). Add the following link in the <code>&lt;head&gt;</code> section:</p>
-        <CodePreview FileName="HTML" IsCodeAlone="true" CodeSection="@CssAssets"></CodePreview>
-        <p>Choose a theme that suits your application. Available themes include <code>bootstrap5</code>, <code>fluent</code>, <code>material</code>, and more.</p>
-    </Content>
-</Description>
-
-<Description>
-    <Header>
         <h2 id="basic-chart-example">Basic Chart Example</h2>
     </Header>
     <Content>
@@ -119,7 +108,6 @@
         new RightToc.TocItem("prerequisites", "Prerequisites", 4),
         new RightToc.TocItem("install", "Install", 4),
         new RightToc.TocItem("register-services-program-cs", "Register Services (Program.cs)", 4),
-        new RightToc.TocItem("include-assets", "Include Assets", 4),
         new RightToc.TocItem("basic-chart-example", "Basic Chart Example", 4),
         new RightToc.TocItem("adding-chart-title", "Adding Chart Title", 4),
         new RightToc.TocItem("adding-data-labels", "Adding Data Labels", 4),
@@ -137,8 +125,6 @@ builder.Services.AddRazorComponents().AddInteractiveServerComponents();
 // Register Syncfusion Toolkit services
 builder.Services.AddSyncfusionBlazorToolkit();
 var app = builder.Build();";
-
-    private string CssAssets = @"<link id=""syncfusion-theme"" href=""_content/Syncfusion.Blazor.Toolkit/styles/fluent.min.css"" rel=""stylesheet"" />";
 
     private string BasicChartExample = @"@using Syncfusion.Blazor.Toolkit;
 

@@ -43,7 +43,11 @@ namespace Syncfusion.Blazor.Toolkit
         // IJSRuntime but not the renderer Dispatcher) can ask "does this renderer already have an owner?".
         private static readonly ConditionalWeakTable<IJSRuntime, SfThemeScope> _byRuntime = [];
 
+#if NET9_0_OR_GREATER
+        private readonly System.Threading.Lock _gate = new();
+#else
         private readonly object _gate = new();
+#endif
         private readonly List<SfThemeRoot> _members = [];
         private volatile SfThemeRoot? _owner;
 

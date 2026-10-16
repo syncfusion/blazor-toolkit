@@ -5,7 +5,6 @@ using System.Reflection;
 using System.Collections;
 using Microsoft.JSInterop;
 using System.ComponentModel;
-using Syncfusion.Blazor.Toolkit.Data;
 using System.Linq.Expressions;
 using Syncfusion.Blazor.Toolkit.Internal;
 using System.Collections.Specialized;
@@ -14,7 +13,7 @@ using Microsoft.AspNetCore.Components.Forms;
 using System.Globalization;
 using System.Security.Cryptography;
 
-namespace Syncfusion.Blazor.Toolkit.Data
+namespace Syncfusion.Blazor.Toolkit
 {
     /// <summary>
     /// Serves as the base class for Syncfusion Blazor UI components that require data-binding,
@@ -211,7 +210,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         /// querying, grouping, and filtering.
         /// </summary>
         /// <value>
-        /// A <see cref="Data.DataManager"/> instance, or <c>null</c> when no data manager is configured.
+        /// A <see cref="DataManager"/> instance, or <c>null</c> when no data manager is configured.
         /// </value>
         [JsonIgnore]
         public DataManager? DataManager { get; set; }
@@ -1172,7 +1171,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
             Justification = "DataManager is used here as a data-access model rather than a rendered child component. Its Json parameter is populated programmatically to wrap the caller's data source; it is never assigned declaratively in markup for this instance, so the BL0005 constraint does not apply.")]
         protected object GetDataManager(object dataSource, string? key = null)
         {
-            if (dataSource is SfDataManager or Data.DataManager)
+            if (dataSource is SfDataManager or global::Syncfusion.Blazor.Toolkit.DataManager)
             {
                 return dataSource;
             }

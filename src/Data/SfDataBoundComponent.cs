@@ -5,7 +5,7 @@ using Syncfusion.Blazor.Toolkit.Internal;
 using System.Text.Json.Serialization;
 using Microsoft.AspNetCore.Components;
 
-namespace Syncfusion.Blazor.Toolkit.Data
+namespace Syncfusion.Blazor.Toolkit
 {
     /// <summary>
     /// Provides the base class for components that work with data managers.

@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Components;
-using Syncfusion.Blazor.Toolkit;
 
 namespace Syncfusion.Blazor.Toolkit
 {

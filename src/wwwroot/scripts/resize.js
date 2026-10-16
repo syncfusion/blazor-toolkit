@@ -108,7 +108,8 @@ const Resize = (function (exports) {
     function calculateValues() {
         originalWidth = parseFloat(getComputedStyle(targetElement, null).getPropertyValue('width').replace('px', '')) || 0;
         originalHeight = parseFloat(getComputedStyle(targetElement, null).getPropertyValue('height').replace('px', '')) || 0;
-        const r = targetElement.getBoundingClientRect(); originalX = r.left; originalY = r.top;
+        originalX = targetElement.offsetLeft;
+        originalY = targetElement.offsetTop;
     }
 
     function onTouchStart(e) {
@@ -192,17 +193,13 @@ const Resize = (function (exports) {
 
     function resizeNorth(e) {
         const pageY = (getEventType(e.type) === 'mouse') ? e.pageY : e.touches[0].pageY;
-        const rect = getClientRectValues(targetElement);
         const diffY = pageY - originalMouseY;
         const newHeight = originalHeight - diffY;
         const newTop = originalY + diffY;
         if (newHeight < minHeight || newHeight > maxHeight)
             return;
         if (!isNil(containerElement)) {
-            const containerRect = getClientRectValues(containerElement);
-            if (newTop < containerRect.top)
-                return;
-            if (newTop + newHeight > containerRect.bottom)
+            if (newTop < 0 || newTop + newHeight > containerElement.clientHeight)
                 return;
         }
         targetElement.style.height = newHeight + "px";
@@ -211,17 +208,13 @@ const Resize = (function (exports) {
 
     function resizeWest(e) {
         const pageX = (getEventType(e.type) === 'mouse') ? e.pageX : e.touches[0].pageX;
-        const rect = getClientRectValues(targetElement);
         const diffX = pageX - originalMouseX;
         const newWidth = originalWidth - diffX;
         const newLeft = originalX + diffX;
         if (newWidth < minWidth || newWidth > maxWidth)
             return;
         if (!isNil(containerElement)) {
-            const containerRect = getClientRectValues(containerElement);
-            if (newLeft < containerRect.left)
-                return;
-            if (newLeft + newWidth > containerRect.right)
+            if (newLeft < 0 || newLeft + newWidth > containerElement.clientWidth)
                 return;
         }
         targetElement.style.width = newWidth + "px";

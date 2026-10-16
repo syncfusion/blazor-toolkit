@@ -37,6 +37,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <summary>
         /// Creates a new <see cref="PatternOptions"/> with a sanitized Id.
         /// </summary>
+        /// <param name="styleId">Style identifier used as the prefix for the generated element Id.</param>
         /// <param name="color">Color string with characters safe for an element Id (no '#').</param>
         /// <param name="index">Index to ensure uniqueness.</param>
         /// <param name="patternName">Pattern enumeration value.</param>
@@ -53,6 +54,7 @@ namespace Syncfusion.Blazor.Toolkit.Charts.Internal
         /// <summary>
         /// Builds the CSS url() reference for a generated pattern.
         /// </summary>
+        /// <param name="styleId">Style identifier used as the prefix for the generated element Id.</param>
         /// <param name="patternName">Pattern enumeration value.</param>
         /// <param name="color">Color string safe for ids.</param>
         /// <param name="index">Index for uniqueness.</param>

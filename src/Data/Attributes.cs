@@ -7,7 +7,7 @@ using System.Text;
 using System.Dynamic;
 using System.Reflection;
 
-namespace Syncfusion.Blazor.Toolkit.Data
+namespace Syncfusion.Blazor.Toolkit
 {
     /// <summary>
     /// Internal marker type used to identify asynchronous handlers.

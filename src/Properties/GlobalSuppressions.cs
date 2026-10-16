@@ -61,42 +61,42 @@ using System.Diagnostics.CodeAnalysis;
     "CA1002:Do not expose generic lists",
     Justification = "2026-10-01: Parameter is deserialized from JavaScript via [JSInvokable]; System.Text.Json requires a concrete List<T>.",
     Scope = "member",
-    Target = "~M:Syncfusion.Blazor.Toolkit.Charts.SfChart.ChartPanAsync(System.Collections.Generic.List{System.String},System.Collections.Generic.List{System.Double},System.Collections.Generic.List{System.Double})")]
+    Target = "~M:Syncfusion.Blazor.Toolkit.SfChart.ChartPanAsync(System.Collections.Generic.List{System.String},System.Collections.Generic.List{System.Double},System.Collections.Generic.List{System.Double})")]
 
 [assembly: SuppressMessage(
     "Design",
     "CA1002:Do not expose generic lists",
     Justification = "2026-10-01: Parameter is deserialized from JavaScript via [JSInvokable]; System.Text.Json requires a concrete List<T>.",
     Scope = "member",
-    Target = "~M:Syncfusion.Blazor.Toolkit.Charts.SfChart.OnSelectionChange(System.Collections.Generic.List{Syncfusion.Blazor.Toolkit.Charts.PointXY})")]
+    Target = "~M:Syncfusion.Blazor.Toolkit.SfChart.OnSelectionChange(System.Collections.Generic.List{Syncfusion.Blazor.Toolkit.PointXY})")]
 
 [assembly: SuppressMessage(
     "Design",
     "CA1002:Do not expose generic lists",
     Justification = "2026-10-01: Parameter is deserialized from JavaScript via [JSInvokable]; System.Text.Json requires a concrete List<T>.",
     Scope = "member",
-    Target = "~M:Syncfusion.Blazor.Toolkit.Charts.SfChart.SetTooltipTemplateElementSizeAsync(System.Double,System.Double,System.Collections.Generic.List{Syncfusion.Blazor.Toolkit.Charts.Internal.IChartTooltipInfo})")]
+    Target = "~M:Syncfusion.Blazor.Toolkit.SfChart.SetTooltipTemplateElementSizeAsync(System.Double,System.Double,System.Collections.Generic.List{Syncfusion.Blazor.Toolkit.Charts.Internal.IChartTooltipInfo})")]
 
 [assembly: SuppressMessage(
     "Design",
     "CA1002:Do not expose generic lists",
     Justification = "2026-10-01: Parameter is deserialized from JavaScript via [JSInvokable]; System.Text.Json requires a concrete List<T>.",
     Scope = "member",
-    Target = "~M:Syncfusion.Blazor.Toolkit.Inputs.SfUploader.CreateFileListAsync(System.Collections.Generic.List{Syncfusion.Blazor.Toolkit.Inputs.Internal.UploadFileDetails},System.Boolean)")]
+    Target = "~M:Syncfusion.Blazor.Toolkit.SfUploader.CreateFileListAsync(System.Collections.Generic.List{Syncfusion.Blazor.Toolkit.Inputs.Internal.UploadFileDetails},System.Boolean)")]
+
+[assembly: SuppressMessage(
+    "Design",
+    "CA1002:Do not expose generic lists",
+    Justification = "2026-10-01: Parameter is deserialized from JavaScript via [JSInvokable]; System.Text.Json requires a concrete List<T>. Namespace updated to match the post-consolidation namespace Syncfusion.Blazor.Toolkit (was Inputs.FileInfo pre-f498bbc).",
+    Scope = "member",
+    Target = "~M:Syncfusion.Blazor.Toolkit.SfUploader.GetFileDetailsAsync(System.Collections.Generic.List{Syncfusion.Blazor.Toolkit.FileInfo})")]
 
 [assembly: SuppressMessage(
     "Design",
     "CA1002:Do not expose generic lists",
     Justification = "2026-10-01: Parameter is deserialized from JavaScript via [JSInvokable]; System.Text.Json requires a concrete List<T>.",
     Scope = "member",
-    Target = "~M:Syncfusion.Blazor.Toolkit.Inputs.SfUploader.GetFileDetailsAsync(System.Collections.Generic.List{Syncfusion.Blazor.Toolkit.Inputs.FileInfo})")]
-
-[assembly: SuppressMessage(
-    "Design",
-    "CA1002:Do not expose generic lists",
-    Justification = "2026-10-01: Parameter is deserialized from JavaScript via [JSInvokable]; System.Text.Json requires a concrete List<T>.",
-    Scope = "member",
-    Target = "~M:Syncfusion.Blazor.Toolkit.Inputs.SfUploader.UpdateServerFileDataAsync(System.Collections.Generic.List{Syncfusion.Blazor.Toolkit.Inputs.Internal.UploadFileDetails},System.Boolean)")]
+    Target = "~M:Syncfusion.Blazor.Toolkit.SfUploader.UpdateServerFileDataAsync(System.Collections.Generic.List{Syncfusion.Blazor.Toolkit.Inputs.Internal.UploadFileDetails},System.Boolean)")]
 
 
 // -------------------------------------------------------------------------
@@ -113,175 +113,175 @@ using System.Diagnostics.CodeAnalysis;
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Attribute-splat dictionary rendered onto the element; Blazor assigns it through the public setter, so the setter must remain.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Buttons.Button.HtmlAttributes")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.Button.HtmlAttributes")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Attribute-splat dictionary rendered onto the element; Blazor assigns it through the public setter, so the setter must remain.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Buttons.SfButton.HtmlAttributes")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.SfButton.HtmlAttributes")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Attribute-splat dictionary rendered onto the element; Blazor assigns it through the public setter, so the setter must remain.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Buttons.SfButtonGroup.HtmlAttributes")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.SfButtonGroup.HtmlAttributes")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Attribute-splat dictionary rendered onto the element; Blazor assigns it through the public setter, so the setter must remain.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Calendars.CalendarBase`1.KeyConfigs")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.CalendarBase`1.KeyConfigs")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Attribute-splat dictionary rendered onto the element; Blazor assigns it through the public setter, so the setter must remain.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Calendars.DatePickerModel.HtmlAttributes")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.DatePickerModel.HtmlAttributes")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Attribute-splat dictionary rendered onto the element; Blazor assigns it through the public setter, so the setter must remain.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Calendars.DatePickerModel.InputAttributes")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.DatePickerModel.InputAttributes")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Attribute-splat dictionary rendered onto the element; Blazor assigns it through the public setter, so the setter must remain.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Calendars.SfCalendar`1.HtmlAttributes")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.SfCalendar`1.HtmlAttributes")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Attribute-splat dictionary rendered onto the element; Blazor assigns it through the public setter, so the setter must remain.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Calendars.SfDatePicker`1.BaseHtmlAttributes")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.SfDatePicker`1.BaseHtmlAttributes")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Attribute-splat dictionary rendered onto the element; Blazor assigns it through the public setter, so the setter must remain.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Calendars.SfDatePicker`1.BaseInputAttributes")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.SfDatePicker`1.BaseInputAttributes")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Attribute-splat dictionary rendered onto the element; Blazor assigns it through the public setter, so the setter must remain.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Calendars.SfDatePicker`1.HtmlAttributes")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.SfDatePicker`1.HtmlAttributes")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Attribute-splat dictionary rendered onto the element; Blazor assigns it through the public setter, so the setter must remain.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Calendars.SfDatePicker`1.InputAttributes")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.SfDatePicker`1.InputAttributes")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Attribute-splat dictionary rendered onto the element; Blazor assigns it through the public setter, so the setter must remain.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Calendars.SfDatePicker`1.MaskPlaceholderDictionary")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.SfDatePicker`1.MaskPlaceholderDictionary")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Attribute-splat dictionary rendered onto the element; Blazor assigns it through the public setter, so the setter must remain.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Calendars.SfTimePicker`1.BaseHtmlAttributes")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.SfTimePicker`1.BaseHtmlAttributes")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Attribute-splat dictionary rendered onto the element; Blazor assigns it through the public setter, so the setter must remain.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Calendars.SfTimePicker`1.BaseInputAttributes")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.SfTimePicker`1.BaseInputAttributes")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Attribute-splat dictionary rendered onto the element; Blazor assigns it through the public setter, so the setter must remain.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Calendars.SfTimePicker`1.HtmlAttributes")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.SfTimePicker`1.HtmlAttributes")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Attribute-splat dictionary rendered onto the element; Blazor assigns it through the public setter, so the setter must remain.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Calendars.SfTimePicker`1.InputAttributes")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.SfTimePicker`1.InputAttributes")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Attribute-splat dictionary rendered onto the element; Blazor assigns it through the public setter, so the setter must remain.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Calendars.SfTimePicker`1.KeyConfigs")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.SfTimePicker`1.KeyConfigs")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Attribute-splat dictionary rendered onto the element; Blazor assigns it through the public setter, so the setter must remain.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Calendars.SfTimePicker`1.MaskPlaceholderDictionary")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.SfTimePicker`1.MaskPlaceholderDictionary")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Serialization DTO round-tripped through System.Text.Json; deserialization requires a public setter on the collection property.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Charts.ChartAxis.MultiLevelLabels")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.ChartAxis.MultiLevelLabels")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Serialization DTO round-tripped through System.Text.Json; deserialization requires a public setter on the collection property.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Charts.ChartAxis.StripLines")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.ChartAxis.StripLines")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Serialization DTO round-tripped through System.Text.Json; deserialization requires a public setter on the collection property.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Charts.ChartMultiLevelLabel.Categories")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.ChartMultiLevelLabel.Categories")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Serialization DTO round-tripped through System.Text.Json; deserialization requires a public setter on the collection property.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Charts.ChartSeries.Segments")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.ChartSeries.Segments")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Serialization DTO round-tripped through System.Text.Json; deserialization requires a public setter on the collection property.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Charts.ChartSeries.Trendlines")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.ChartSeries.Trendlines")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Serialization DTO round-tripped through System.Text.Json; deserialization requires a public setter on the collection property.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Charts.ChartZoomSettings.ToolbarItems")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.ChartZoomSettings.ToolbarItems")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Serialization DTO round-tripped through System.Text.Json; deserialization requires a public setter on the collection property.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Charts.CrosshairMoveEventArgs.AxisInfo")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.CrosshairMoveEventArgs.AxisInfo")]
 
 [assembly: SuppressMessage(
     "Usage",
@@ -449,441 +449,441 @@ using System.Diagnostics.CodeAnalysis;
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Serialization DTO round-tripped through System.Text.Json; deserialization requires a public setter on the collection property.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Charts.Point.Regions")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.Point.Regions")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Serialization DTO round-tripped through System.Text.Json; deserialization requires a public setter on the collection property.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Charts.Point.SymbolLocations")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.Point.SymbolLocations")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Serialization DTO round-tripped through System.Text.Json; deserialization requires a public setter on the collection property.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Charts.SelectionCompleteEventArgs.SelectedDataValues")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.SelectionCompleteEventArgs.SelectedDataValues")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Serialization DTO round-tripped through System.Text.Json; deserialization requires a public setter on the collection property.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Charts.SelectionStyleComponent.GivenPattern")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.SelectionStyleComponent.GivenPattern")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Serialization DTO round-tripped through System.Text.Json; deserialization requires a public setter on the collection property.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Charts.SharedTooltipRenderEventArgs.Text")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.SharedTooltipRenderEventArgs.Text")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Serialization DTO round-tripped through System.Text.Json; deserialization requires a public setter on the collection property.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Charts.ZoomingEventArgs.AxisCollection")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.ZoomingEventArgs.AxisCollection")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Serialization DTO round-tripped through System.Text.Json; deserialization requires a public setter on the collection property.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Data.BaseComponent.DataContainer")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.BaseComponent.DataContainer")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Serialization DTO round-tripped through System.Text.Json; deserialization requires a public setter on the collection property.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Data.BaseComponent.DataHashTable")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.BaseComponent.DataHashTable")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Serialization DTO round-tripped through System.Text.Json; deserialization requires a public setter on the collection property.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Data.CRUDModel`1.Added")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.CRUDModel`1.Added")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Serialization DTO round-tripped through System.Text.Json; deserialization requires a public setter on the collection property.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Data.CRUDModel`1.Changed")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.CRUDModel`1.Changed")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Serialization DTO round-tripped through System.Text.Json; deserialization requires a public setter on the collection property.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Data.CRUDModel`1.Deleted")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.CRUDModel`1.Deleted")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Blazor [Parameter]/event-args DTO; the value is assigned by the parent component or the runtime, so the public setter must remain.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Data.DataManager.Headers")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.DataManager.Headers")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Serialization DTO round-tripped through System.Text.Json; deserialization requires a public setter on the collection property.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Data.DataManagerRequest.Aggregates")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.DataManagerRequest.Aggregates")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Serialization DTO round-tripped through System.Text.Json; deserialization requires a public setter on the collection property.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Data.DataManagerRequest.Distinct")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.DataManagerRequest.Distinct")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Serialization DTO round-tripped through System.Text.Json; deserialization requires a public setter on the collection property.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Data.DataManagerRequest.Expand")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.DataManagerRequest.Expand")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Serialization DTO round-tripped through System.Text.Json; deserialization requires a public setter on the collection property.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Data.DataManagerRequest.Group")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.DataManagerRequest.Group")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Serialization DTO round-tripped through System.Text.Json; deserialization requires a public setter on the collection property.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Data.DataManagerRequest.GroupByFormatter")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.DataManagerRequest.GroupByFormatter")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Serialization DTO round-tripped through System.Text.Json; deserialization requires a public setter on the collection property.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Data.DataManagerRequest.Params")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.DataManagerRequest.Params")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Serialization DTO round-tripped through System.Text.Json; deserialization requires a public setter on the collection property.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Data.DataManagerRequest.Search")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.DataManagerRequest.Search")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Serialization DTO round-tripped through System.Text.Json; deserialization requires a public setter on the collection property.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Data.DataManagerRequest.Select")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.DataManagerRequest.Select")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Serialization DTO round-tripped through System.Text.Json; deserialization requires a public setter on the collection property.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Data.DataManagerRequest.Sorted")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.DataManagerRequest.Sorted")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Serialization DTO round-tripped through System.Text.Json; deserialization requires a public setter on the collection property.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Data.DataManagerRequest.Where")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.DataManagerRequest.Where")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Result DTO populated by the adaptor pipeline after aggregation; the public setter is required to assign the collection.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Data.DataResult`1.Aggregates")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.DataResult`1.Aggregates")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Serialization DTO round-tripped through System.Text.Json; deserialization requires a public setter on the collection property.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Data.Query.Distincts")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.Query.Distincts")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Serialization DTO round-tripped through System.Text.Json; deserialization requires a public setter on the collection property.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Data.Query.Expands")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.Query.Expands")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Serialization DTO round-tripped through System.Text.Json; deserialization requires a public setter on the collection property.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Data.Query.Params")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.Query.Params")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Serialization DTO round-tripped through System.Text.Json; deserialization requires a public setter on the collection property.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Data.SearchFilter.Fields")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.SearchFilter.Fields")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Serialization DTO round-tripped through System.Text.Json; deserialization requires a public setter on the collection property.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Data.WhereFilter.Predicates")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.WhereFilter.Predicates")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Serialization DTO round-tripped through System.Text.Json; deserialization requires a public setter on the collection property.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Inputs.ActionCompleteEventArgs.FileData")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.ActionCompleteEventArgs.FileData")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Serialization DTO round-tripped through System.Text.Json; deserialization requires a public setter on the collection property.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Inputs.BeforeRemoveEventArgs.FilesData")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.BeforeRemoveEventArgs.FilesData")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Serialization DTO round-tripped through System.Text.Json; deserialization requires a public setter on the collection property.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Inputs.BeforeUploadEventArgs.FilesData")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.BeforeUploadEventArgs.FilesData")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Serialization DTO round-tripped through System.Text.Json; deserialization requires a public setter on the collection property.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Inputs.ClearingEventArgs.FilesData")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.ClearingEventArgs.FilesData")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Attribute-splat dictionary rendered onto the element; Blazor assigns it through the public setter, so the setter must remain.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Inputs.NumericTextBoxModel`1.HtmlAttributes")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.NumericTextBoxModel`1.HtmlAttributes")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Attribute-splat dictionary rendered onto the element; Blazor assigns it through the public setter, so the setter must remain.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Inputs.NumericTextBoxModel`1.InputAttributes")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.NumericTextBoxModel`1.InputAttributes")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Serialization DTO round-tripped through System.Text.Json; deserialization requires a public setter on the collection property.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Inputs.RemovingEventArgs.FilesData")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.RemovingEventArgs.FilesData")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Serialization DTO round-tripped through System.Text.Json; deserialization requires a public setter on the collection property.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Inputs.SelectedEventArgs.FilesData")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.SelectedEventArgs.FilesData")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Serialization DTO round-tripped through System.Text.Json; deserialization requires a public setter on the collection property.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Inputs.SelectedEventArgs.ModifiedFilesData")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.SelectedEventArgs.ModifiedFilesData")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Attribute-splat dictionary rendered onto the element; Blazor assigns it through the public setter, so the setter must remain.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Inputs.SfInputBase`1.BaseHtmlAttributes")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.SfInputBase`1.BaseHtmlAttributes")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Attribute-splat dictionary rendered onto the element; Blazor assigns it through the public setter, so the setter must remain.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Inputs.SfInputBase`1.BaseInputAttributes")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.SfInputBase`1.BaseInputAttributes")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Attribute-splat dictionary rendered onto the element; Blazor assigns it through the public setter, so the setter must remain.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Inputs.SfInputBase`1.ContainerAttributes")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.SfInputBase`1.ContainerAttributes")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Attribute-splat dictionary rendered onto the element; Blazor assigns it through the public setter, so the setter must remain.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Inputs.SfInputBase`1.ContainerHtmlAttributes")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.SfInputBase`1.ContainerHtmlAttributes")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Attribute-splat dictionary rendered onto the element; Blazor assigns it through the public setter, so the setter must remain.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Inputs.SfInputBase`1.InputHtmlAttributes")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.SfInputBase`1.InputHtmlAttributes")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Serialization DTO round-tripped through System.Text.Json; deserialization requires a public setter on the collection property.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Inputs.SfInputBase`1.ListOfButtons")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.SfInputBase`1.ListOfButtons")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Attribute-splat dictionary rendered onto the element; Blazor assigns it through the public setter, so the setter must remain.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Inputs.SfNumericTextBox`1.BaseHtmlAttributes")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.SfNumericTextBox`1.BaseHtmlAttributes")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Attribute-splat dictionary rendered onto the element; Blazor assigns it through the public setter, so the setter must remain.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Inputs.SfNumericTextBox`1.BaseInputAttributes")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.SfNumericTextBox`1.BaseInputAttributes")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Attribute-splat dictionary rendered onto the element; Blazor assigns it through the public setter, so the setter must remain.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Inputs.SfNumericTextBox`1.HtmlAttributes")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.SfNumericTextBox`1.HtmlAttributes")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Attribute-splat dictionary rendered onto the element; Blazor assigns it through the public setter, so the setter must remain.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Inputs.SfNumericTextBox`1.InputAttributes")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.SfNumericTextBox`1.InputAttributes")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Attribute-splat dictionary rendered onto the element; Blazor assigns it through the public setter, so the setter must remain.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Inputs.SfSelectionBase`1.HtmlAttributes")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.SfSelectionBase`1.HtmlAttributes")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Attribute-splat dictionary rendered onto the element; Blazor assigns it through the public setter, so the setter must remain.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Inputs.SfTextArea.BaseHtmlAttributes")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.SfTextArea.BaseHtmlAttributes")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Attribute-splat dictionary rendered onto the element; Blazor assigns it through the public setter, so the setter must remain.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Inputs.SfTextArea.BaseInputAttributes")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.SfTextArea.BaseInputAttributes")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Attribute-splat dictionary rendered onto the element; Blazor assigns it through the public setter, so the setter must remain.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Inputs.SfTextArea.HtmlAttributes")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.SfTextArea.HtmlAttributes")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Attribute-splat dictionary rendered onto the element; Blazor assigns it through the public setter, so the setter must remain.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Inputs.SfTextArea.InputAttributes")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.SfTextArea.InputAttributes")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Attribute-splat dictionary rendered onto the element; Blazor assigns it through the public setter, so the setter must remain.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Inputs.SfTextBox.BaseHtmlAttributes")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.SfTextBox.BaseHtmlAttributes")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Attribute-splat dictionary rendered onto the element; Blazor assigns it through the public setter, so the setter must remain.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Inputs.SfTextBox.BaseInputAttributes")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.SfTextBox.BaseInputAttributes")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Attribute-splat dictionary rendered onto the element; Blazor assigns it through the public setter, so the setter must remain.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Inputs.SfTextBox.HtmlAttributes")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.SfTextBox.HtmlAttributes")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Attribute-splat dictionary rendered onto the element; Blazor assigns it through the public setter, so the setter must remain.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Inputs.SfTextBox.InputAttributes")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.SfTextBox.InputAttributes")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Attribute-splat dictionary rendered onto the element; Blazor assigns it through the public setter, so the setter must remain.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Inputs.SfUploader.HtmlAttributes")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.SfUploader.HtmlAttributes")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Attribute-splat dictionary rendered onto the element; Blazor assigns it through the public setter, so the setter must remain.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Inputs.SfUploader.InputAttributes")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.SfUploader.InputAttributes")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Serialization DTO round-tripped through System.Text.Json; deserialization requires a public setter on the collection property.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Inputs.UploadChangeEventArgs.Files")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.UploadChangeEventArgs.Files")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Serialization DTO round-tripped through System.Text.Json; deserialization requires a public setter on the collection property.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Inputs.UploaderModel.Files")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.UploaderModel.Files")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Attribute-splat dictionary rendered onto the element; Blazor assigns it through the public setter, so the setter must remain.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Popups.DialogButton.HtmlAttributes")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.DialogButton.HtmlAttributes")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Attribute-splat dictionary rendered onto the element; Blazor assigns it through the public setter, so the setter must remain.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Popups.SfDialog.HtmlAttributes")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.SfDialog.HtmlAttributes")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Attribute-splat dictionary rendered onto the element; Blazor assigns it through the public setter, so the setter must remain.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Popups.SfTooltip.HtmlAttributes")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.SfTooltip.HtmlAttributes")]
 
 
 // -------------------------------------------------------------------------
@@ -898,7 +898,7 @@ using System.Diagnostics.CodeAnalysis;
     "CA1711:Identifiers should not have incorrect suffix",
     Justification = "2026-10-01: The 'EventArgs' suffix is the idiomatic Blazor convention for component event payload types.",
     Scope = "type",
-    Target = "~T:Syncfusion.Blazor.Toolkit.Calendars.BlurEventArgs")]
+    Target = "~T:Syncfusion.Blazor.Toolkit.BlurEventArgs")]
 
 [assembly: SuppressMessage(
     "Naming",
@@ -912,119 +912,119 @@ using System.Diagnostics.CodeAnalysis;
     "CA1711:Identifiers should not have incorrect suffix",
     Justification = "2026-10-01: The 'EventArgs' suffix is the idiomatic Blazor convention for component event payload types.",
     Scope = "type",
-    Target = "~T:Syncfusion.Blazor.Toolkit.Calendars.ChangedEventArgs`1")]
+    Target = "~T:Syncfusion.Blazor.Toolkit.ChangedEventArgs`1")]
 
 [assembly: SuppressMessage(
     "Naming",
     "CA1711:Identifiers should not have incorrect suffix",
     Justification = "2026-10-01: The 'EventArgs' suffix is the idiomatic Blazor convention for component event payload types.",
     Scope = "type",
-    Target = "~T:Syncfusion.Blazor.Toolkit.Calendars.ClearedEventArgs")]
+    Target = "~T:Syncfusion.Blazor.Toolkit.ClearedEventArgs")]
 
 [assembly: SuppressMessage(
     "Naming",
     "CA1711:Identifiers should not have incorrect suffix",
     Justification = "2026-10-01: The 'EventArgs' suffix is the idiomatic Blazor convention for component event payload types.",
     Scope = "type",
-    Target = "~T:Syncfusion.Blazor.Toolkit.Calendars.DeSelectedEventArgs`1")]
+    Target = "~T:Syncfusion.Blazor.Toolkit.DeSelectedEventArgs`1")]
 
 [assembly: SuppressMessage(
     "Naming",
     "CA1711:Identifiers should not have incorrect suffix",
     Justification = "2026-10-01: The 'EventArgs' suffix is the idiomatic Blazor convention for component event payload types.",
     Scope = "type",
-    Target = "~T:Syncfusion.Blazor.Toolkit.Calendars.FocusEventArgs")]
+    Target = "~T:Syncfusion.Blazor.Toolkit.FocusEventArgs")]
 
 [assembly: SuppressMessage(
     "Naming",
     "CA1711:Identifiers should not have incorrect suffix",
     Justification = "2026-10-01: The 'EventArgs' suffix is the idiomatic Blazor convention for component event payload types.",
     Scope = "type",
-    Target = "~T:Syncfusion.Blazor.Toolkit.Calendars.ItemEventArgs`1")]
+    Target = "~T:Syncfusion.Blazor.Toolkit.ItemEventArgs`1")]
 
 [assembly: SuppressMessage(
     "Naming",
     "CA1711:Identifiers should not have incorrect suffix",
     Justification = "2026-10-01: The 'EventArgs' suffix is the idiomatic Blazor convention for component event payload types.",
     Scope = "type",
-    Target = "~T:Syncfusion.Blazor.Toolkit.Calendars.NavigatedEventArgs")]
+    Target = "~T:Syncfusion.Blazor.Toolkit.NavigatedEventArgs")]
 
 [assembly: SuppressMessage(
     "Naming",
     "CA1711:Identifiers should not have incorrect suffix",
     Justification = "2026-10-01: The 'EventArgs' suffix is the idiomatic Blazor convention for component event payload types.",
     Scope = "type",
-    Target = "~T:Syncfusion.Blazor.Toolkit.Calendars.PopupEventArgs")]
+    Target = "~T:Syncfusion.Blazor.Toolkit.PopupEventArgs")]
 
 [assembly: SuppressMessage(
     "Naming",
     "CA1711:Identifiers should not have incorrect suffix",
     Justification = "2026-10-01: The 'EventArgs' suffix is the idiomatic Blazor convention for component event payload types.",
     Scope = "type",
-    Target = "~T:Syncfusion.Blazor.Toolkit.Calendars.RenderDayCellEventArgs")]
+    Target = "~T:Syncfusion.Blazor.Toolkit.RenderDayCellEventArgs")]
 
 [assembly: SuppressMessage(
     "Naming",
     "CA1711:Identifiers should not have incorrect suffix",
     Justification = "2026-10-01: The 'EventArgs' suffix is the idiomatic Blazor convention for component event payload types.",
     Scope = "type",
-    Target = "~T:Syncfusion.Blazor.Toolkit.Calendars.SelectedEventArgs`1")]
+    Target = "~T:Syncfusion.Blazor.Toolkit.SelectedEventArgs`1")]
 
 [assembly: SuppressMessage(
     "Naming",
     "CA1711:Identifiers should not have incorrect suffix",
     Justification = "2026-10-01: The 'EventArgs' suffix is the idiomatic Blazor convention for component event payload types.",
     Scope = "type",
-    Target = "~T:Syncfusion.Blazor.Toolkit.Charts.AxisLabelClickEventArgs")]
+    Target = "~T:Syncfusion.Blazor.Toolkit.AxisLabelClickEventArgs")]
 
 [assembly: SuppressMessage(
     "Naming",
     "CA1711:Identifiers should not have incorrect suffix",
     Justification = "2026-10-01: The 'EventArgs' suffix is the idiomatic Blazor convention for component event payload types.",
     Scope = "type",
-    Target = "~T:Syncfusion.Blazor.Toolkit.Charts.AxisLabelRenderEventArgs")]
+    Target = "~T:Syncfusion.Blazor.Toolkit.AxisLabelRenderEventArgs")]
 
 [assembly: SuppressMessage(
     "Naming",
     "CA1711:Identifiers should not have incorrect suffix",
     Justification = "2026-10-01: The 'EventArgs' suffix is the idiomatic Blazor convention for component event payload types.",
     Scope = "type",
-    Target = "~T:Syncfusion.Blazor.Toolkit.Charts.AxisMultiLabelRenderEventArgs")]
+    Target = "~T:Syncfusion.Blazor.Toolkit.AxisMultiLabelRenderEventArgs")]
 
 [assembly: SuppressMessage(
     "Naming",
     "CA1711:Identifiers should not have incorrect suffix",
     Justification = "2026-10-01: The 'EventArgs' suffix is the idiomatic Blazor convention for component event payload types.",
     Scope = "type",
-    Target = "~T:Syncfusion.Blazor.Toolkit.Charts.AxisRangeCalculatedEventArgs")]
+    Target = "~T:Syncfusion.Blazor.Toolkit.AxisRangeCalculatedEventArgs")]
 
 [assembly: SuppressMessage(
     "Naming",
     "CA1711:Identifiers should not have incorrect suffix",
     Justification = "2026-10-01: The 'EventArgs' suffix is the idiomatic Blazor convention for component event payload types.",
     Scope = "type",
-    Target = "~T:Syncfusion.Blazor.Toolkit.Charts.BaseEventArgs")]
+    Target = "~T:Syncfusion.Blazor.Toolkit.BaseEventArgs")]
 
 [assembly: SuppressMessage(
     "Naming",
     "CA1711:Identifiers should not have incorrect suffix",
     Justification = "2026-10-01: The 'EventArgs' suffix is the idiomatic Blazor convention for component event payload types.",
     Scope = "type",
-    Target = "~T:Syncfusion.Blazor.Toolkit.Charts.ChartMouseEventArgs")]
+    Target = "~T:Syncfusion.Blazor.Toolkit.ChartMouseEventArgs")]
 
 [assembly: SuppressMessage(
     "Naming",
     "CA1711:Identifiers should not have incorrect suffix",
     Justification = "2026-10-01: The 'EventArgs' suffix is the idiomatic Blazor convention for component event payload types.",
     Scope = "type",
-    Target = "~T:Syncfusion.Blazor.Toolkit.Charts.CrosshairMoveEventArgs")]
+    Target = "~T:Syncfusion.Blazor.Toolkit.CrosshairMoveEventArgs")]
 
 [assembly: SuppressMessage(
     "Naming",
     "CA1711:Identifiers should not have incorrect suffix",
     Justification = "2026-10-01: The 'EventArgs' suffix is the idiomatic Blazor convention for component event payload types.",
     Scope = "type",
-    Target = "~T:Syncfusion.Blazor.Toolkit.Charts.DataEditingEventArgs")]
+    Target = "~T:Syncfusion.Blazor.Toolkit.DataEditingEventArgs")]
 
 [assembly: SuppressMessage(
     "Naming",
@@ -1059,238 +1059,245 @@ using System.Diagnostics.CodeAnalysis;
     "CA1711:Identifiers should not have incorrect suffix",
     Justification = "2026-10-01: The 'EventArgs' suffix is the idiomatic Blazor convention for component event payload types.",
     Scope = "type",
-    Target = "~T:Syncfusion.Blazor.Toolkit.Charts.LegendClickEventArgs")]
+    Target = "~T:Syncfusion.Blazor.Toolkit.LegendClickEventArgs")]
 
 [assembly: SuppressMessage(
     "Naming",
     "CA1711:Identifiers should not have incorrect suffix",
     Justification = "2026-10-01: The 'EventArgs' suffix is the idiomatic Blazor convention for component event payload types.",
     Scope = "type",
-    Target = "~T:Syncfusion.Blazor.Toolkit.Charts.LegendRenderEventArgs")]
+    Target = "~T:Syncfusion.Blazor.Toolkit.LegendRenderEventArgs")]
 
 [assembly: SuppressMessage(
     "Naming",
     "CA1711:Identifiers should not have incorrect suffix",
     Justification = "2026-10-01: The 'EventArgs' suffix is the idiomatic Blazor convention for component event payload types.",
     Scope = "type",
-    Target = "~T:Syncfusion.Blazor.Toolkit.Charts.LoadedEventArgs")]
+    Target = "~T:Syncfusion.Blazor.Toolkit.LoadedEventArgs")]
 
 [assembly: SuppressMessage(
     "Naming",
     "CA1711:Identifiers should not have incorrect suffix",
     Justification = "2026-10-01: The 'EventArgs' suffix is the idiomatic Blazor convention for component event payload types.",
     Scope = "type",
-    Target = "~T:Syncfusion.Blazor.Toolkit.Charts.MultiLevelLabelClickEventArgs")]
+    Target = "~T:Syncfusion.Blazor.Toolkit.MultiLevelLabelClickEventArgs")]
 
 [assembly: SuppressMessage(
     "Naming",
     "CA1711:Identifiers should not have incorrect suffix",
     Justification = "2026-10-01: The 'EventArgs' suffix is the idiomatic Blazor convention for component event payload types.",
     Scope = "type",
-    Target = "~T:Syncfusion.Blazor.Toolkit.Charts.PointEventArgs")]
+    Target = "~T:Syncfusion.Blazor.Toolkit.PointEventArgs")]
 
 [assembly: SuppressMessage(
     "Naming",
     "CA1711:Identifiers should not have incorrect suffix",
     Justification = "2026-10-01: The 'EventArgs' suffix is the idiomatic Blazor convention for component event payload types.",
     Scope = "type",
-    Target = "~T:Syncfusion.Blazor.Toolkit.Charts.PointRenderEventArgs")]
+    Target = "~T:Syncfusion.Blazor.Toolkit.PointRenderEventArgs")]
 
 [assembly: SuppressMessage(
     "Naming",
     "CA1711:Identifiers should not have incorrect suffix",
     Justification = "2026-10-01: The 'EventArgs' suffix is the idiomatic Blazor convention for component event payload types.",
     Scope = "type",
-    Target = "~T:Syncfusion.Blazor.Toolkit.Charts.ResizeEventArgs")]
+    Target = "~T:Syncfusion.Blazor.Toolkit.ResizeEventArgs")]
 
 [assembly: SuppressMessage(
     "Naming",
     "CA1711:Identifiers should not have incorrect suffix",
     Justification = "2026-10-01: The 'EventArgs' suffix is the idiomatic Blazor convention for component event payload types.",
     Scope = "type",
-    Target = "~T:Syncfusion.Blazor.Toolkit.Charts.ScrollEventArgs")]
+    Target = "~T:Syncfusion.Blazor.Toolkit.ScrollEventArgs")]
 
 [assembly: SuppressMessage(
     "Naming",
     "CA1711:Identifiers should not have incorrect suffix",
     Justification = "2026-10-01: The 'EventArgs' suffix is the idiomatic Blazor convention for component event payload types.",
     Scope = "type",
-    Target = "~T:Syncfusion.Blazor.Toolkit.Charts.SelectionCompleteEventArgs")]
+    Target = "~T:Syncfusion.Blazor.Toolkit.SelectionCompleteEventArgs")]
 
 [assembly: SuppressMessage(
     "Naming",
     "CA1711:Identifiers should not have incorrect suffix",
     Justification = "2026-10-01: The 'EventArgs' suffix is the idiomatic Blazor convention for component event payload types.",
     Scope = "type",
-    Target = "~T:Syncfusion.Blazor.Toolkit.Charts.SeriesRenderEventArgs")]
+    Target = "~T:Syncfusion.Blazor.Toolkit.SeriesRenderEventArgs")]
 
 [assembly: SuppressMessage(
     "Naming",
     "CA1711:Identifiers should not have incorrect suffix",
     Justification = "2026-10-01: The 'EventArgs' suffix is the idiomatic Blazor convention for component event payload types.",
     Scope = "type",
-    Target = "~T:Syncfusion.Blazor.Toolkit.Charts.SharedTooltipRenderEventArgs")]
+    Target = "~T:Syncfusion.Blazor.Toolkit.SharedTooltipRenderEventArgs")]
 
 [assembly: SuppressMessage(
     "Naming",
     "CA1711:Identifiers should not have incorrect suffix",
     Justification = "2026-10-01: The 'EventArgs' suffix is the idiomatic Blazor convention for component event payload types.",
     Scope = "type",
-    Target = "~T:Syncfusion.Blazor.Toolkit.Charts.TextRenderEventArgs")]
+    Target = "~T:Syncfusion.Blazor.Toolkit.TextRenderEventArgs")]
 
 [assembly: SuppressMessage(
     "Naming",
     "CA1711:Identifiers should not have incorrect suffix",
     Justification = "2026-10-01: The 'EventArgs' suffix is the idiomatic Blazor convention for component event payload types.",
     Scope = "type",
-    Target = "~T:Syncfusion.Blazor.Toolkit.Charts.TooltipRenderEventArgs")]
+    Target = "~T:Syncfusion.Blazor.Toolkit.TooltipRenderEventArgs")]
 
 [assembly: SuppressMessage(
     "Naming",
     "CA1711:Identifiers should not have incorrect suffix",
     Justification = "2026-10-01: The 'EventArgs' suffix is the idiomatic Blazor convention for component event payload types.",
     Scope = "type",
-    Target = "~T:Syncfusion.Blazor.Toolkit.Charts.ZoomingEventArgs")]
+    Target = "~T:Syncfusion.Blazor.Toolkit.ZoomingEventArgs")]
 
 [assembly: SuppressMessage(
     "Naming",
     "CA1711:Identifiers should not have incorrect suffix",
     Justification = "2026-10-01: The 'EventArgs' suffix is the idiomatic Blazor convention for component event payload types.",
     Scope = "type",
-    Target = "~T:Syncfusion.Blazor.Toolkit.Inputs.ActionCompleteEventArgs")]
+    Target = "~T:Syncfusion.Blazor.Toolkit.ActionCompleteEventArgs")]
 
 [assembly: SuppressMessage(
     "Naming",
     "CA1711:Identifiers should not have incorrect suffix",
     Justification = "2026-10-01: The 'EventArgs' suffix is the idiomatic Blazor convention for component event payload types.",
     Scope = "type",
-    Target = "~T:Syncfusion.Blazor.Toolkit.Inputs.BeforeRemoveEventArgs")]
+    Target = "~T:Syncfusion.Blazor.Toolkit.BeforeRemoveEventArgs")]
 
 [assembly: SuppressMessage(
     "Naming",
     "CA1711:Identifiers should not have incorrect suffix",
     Justification = "2026-10-01: The 'EventArgs' suffix is the idiomatic Blazor convention for component event payload types.",
     Scope = "type",
-    Target = "~T:Syncfusion.Blazor.Toolkit.Inputs.BeforeUploadEventArgs")]
+    Target = "~T:Syncfusion.Blazor.Toolkit.BeforeUploadEventArgs")]
 
 [assembly: SuppressMessage(
     "Naming",
     "CA1711:Identifiers should not have incorrect suffix",
     Justification = "2026-10-01: The 'EventArgs' suffix is the idiomatic Blazor convention for component event payload types.",
     Scope = "type",
-    Target = "~T:Syncfusion.Blazor.Toolkit.Inputs.CancelEventArgs")]
+    Target = "~T:Syncfusion.Blazor.Toolkit.CancelEventArgs")]
 
 [assembly: SuppressMessage(
     "Naming",
     "CA1711:Identifiers should not have incorrect suffix",
     Justification = "2026-10-01: The 'EventArgs' suffix is the idiomatic Blazor convention for component event payload types.",
     Scope = "type",
-    Target = "~T:Syncfusion.Blazor.Toolkit.Inputs.ChangeEventArgs`1")]
+    Target = "~T:Syncfusion.Blazor.Toolkit.ChangeEventArgs`1")]
 
 [assembly: SuppressMessage(
     "Naming",
     "CA1711:Identifiers should not have incorrect suffix",
     Justification = "2026-10-01: The 'EventArgs' suffix is the idiomatic Blazor convention for component event payload types.",
     Scope = "type",
-    Target = "~T:Syncfusion.Blazor.Toolkit.Inputs.ClearingEventArgs")]
+    Target = "~T:Syncfusion.Blazor.Toolkit.ClearingEventArgs")]
 
 [assembly: SuppressMessage(
     "Naming",
     "CA1711:Identifiers should not have incorrect suffix",
     Justification = "2026-10-01: The 'EventArgs' suffix is the idiomatic Blazor convention for component event payload types.",
     Scope = "type",
-    Target = "~T:Syncfusion.Blazor.Toolkit.Inputs.FailureEventArgs")]
+    Target = "~T:Syncfusion.Blazor.Toolkit.FailureEventArgs")]
 
 [assembly: SuppressMessage(
     "Naming",
     "CA1711:Identifiers should not have incorrect suffix",
     Justification = "2026-10-01: The 'EventArgs' suffix is the idiomatic Blazor convention for component event payload types.",
     Scope = "type",
-    Target = "~T:Syncfusion.Blazor.Toolkit.Inputs.FileListRenderingEventArgs")]
+    Target = "~T:Syncfusion.Blazor.Toolkit.FileListRenderingEventArgs")]
 
 [assembly: SuppressMessage(
     "Naming",
     "CA1711:Identifiers should not have incorrect suffix",
     Justification = "2026-10-01: The 'EventArgs' suffix is the idiomatic Blazor convention for component event payload types.",
     Scope = "type",
-    Target = "~T:Syncfusion.Blazor.Toolkit.Inputs.NumericBlurEventArgs`1")]
+    Target = "~T:Syncfusion.Blazor.Toolkit.NumericBlurEventArgs`1")]
 
 [assembly: SuppressMessage(
     "Naming",
     "CA1711:Identifiers should not have incorrect suffix",
     Justification = "2026-10-01: The 'EventArgs' suffix is the idiomatic Blazor convention for component event payload types.",
     Scope = "type",
-    Target = "~T:Syncfusion.Blazor.Toolkit.Inputs.NumericFocusEventArgs`1")]
+    Target = "~T:Syncfusion.Blazor.Toolkit.NumericFocusEventArgs`1")]
+
+[assembly: SuppressMessage(
+    "Naming",
+    "CA1711:Identifiers should not have incorrect suffix",
+    Justification = "2026-10-01: The 'EventArgs' suffix is the idiomatic Blazor convention for component event payload types; not adding `: System.EventArgs` preserves the existing public inheritance shape.",
+    Scope = "type",
+    Target = "~T:Syncfusion.Blazor.Toolkit.NumericTextBoxChangeEventArgs`1")]
 
 [assembly: SuppressMessage(
     "Naming",
     "CA1711:Identifiers should not have incorrect suffix",
     Justification = "2026-10-01: The 'EventArgs' suffix is the idiomatic Blazor convention for component event payload types.",
     Scope = "type",
-    Target = "~T:Syncfusion.Blazor.Toolkit.Inputs.PauseResumeEventArgs")]
+    Target = "~T:Syncfusion.Blazor.Toolkit.PauseResumeEventArgs")]
 
 [assembly: SuppressMessage(
     "Naming",
     "CA1711:Identifiers should not have incorrect suffix",
     Justification = "2026-10-01: The 'EventArgs' suffix is the idiomatic Blazor convention for component event payload types.",
     Scope = "type",
-    Target = "~T:Syncfusion.Blazor.Toolkit.Inputs.ProgressEventArgs")]
+    Target = "~T:Syncfusion.Blazor.Toolkit.ProgressEventArgs")]
 
 [assembly: SuppressMessage(
     "Naming",
     "CA1711:Identifiers should not have incorrect suffix",
     Justification = "2026-10-01: The 'EventArgs' suffix is the idiomatic Blazor convention for component event payload types.",
     Scope = "type",
-    Target = "~T:Syncfusion.Blazor.Toolkit.Inputs.RemovingEventArgs")]
+    Target = "~T:Syncfusion.Blazor.Toolkit.RemovingEventArgs")]
 
 [assembly: SuppressMessage(
     "Naming",
     "CA1711:Identifiers should not have incorrect suffix",
     Justification = "2026-10-01: The 'EventArgs' suffix is the idiomatic Blazor convention for component event payload types.",
     Scope = "type",
-    Target = "~T:Syncfusion.Blazor.Toolkit.Inputs.ResponseEventArgs")]
+    Target = "~T:Syncfusion.Blazor.Toolkit.ResponseEventArgs")]
 
 [assembly: SuppressMessage(
     "Naming",
     "CA1711:Identifiers should not have incorrect suffix",
     Justification = "2026-10-01: The 'EventArgs' suffix is the idiomatic Blazor convention for component event payload types.",
     Scope = "type",
-    Target = "~T:Syncfusion.Blazor.Toolkit.Inputs.SelectedEventArgs")]
+    Target = "~T:Syncfusion.Blazor.Toolkit.SelectedEventArgs")]
 
 [assembly: SuppressMessage(
     "Naming",
     "CA1711:Identifiers should not have incorrect suffix",
     Justification = "2026-10-01: The 'EventArgs' suffix is the idiomatic Blazor convention for component event payload types.",
     Scope = "type",
-    Target = "~T:Syncfusion.Blazor.Toolkit.Inputs.SuccessEventArgs")]
+    Target = "~T:Syncfusion.Blazor.Toolkit.SuccessEventArgs")]
 
 [assembly: SuppressMessage(
     "Naming",
     "CA1711:Identifiers should not have incorrect suffix",
     Justification = "2026-10-01: The 'EventArgs' suffix is the idiomatic Blazor convention for component event payload types.",
     Scope = "type",
-    Target = "~T:Syncfusion.Blazor.Toolkit.Inputs.UploadChangeEventArgs")]
+    Target = "~T:Syncfusion.Blazor.Toolkit.UploadChangeEventArgs")]
 
 [assembly: SuppressMessage(
     "Naming",
     "CA1711:Identifiers should not have incorrect suffix",
     Justification = "2026-10-01: The 'EventArgs' suffix is the idiomatic Blazor convention for component event payload types.",
     Scope = "type",
-    Target = "~T:Syncfusion.Blazor.Toolkit.Inputs.UploadingEventArgs")]
+    Target = "~T:Syncfusion.Blazor.Toolkit.UploadingEventArgs")]
 
 [assembly: SuppressMessage(
     "Naming",
     "CA1711:Identifiers should not have incorrect suffix",
     Justification = "2026-10-01: The 'EventArgs' suffix is the idiomatic Blazor convention for component event payload types.",
     Scope = "type",
-    Target = "~T:Syncfusion.Blazor.Toolkit.Popups.TooltipEventArgs")]
+    Target = "~T:Syncfusion.Blazor.Toolkit.TooltipEventArgs")]
 
 [assembly: SuppressMessage(
     "Naming",
     "CA1711:Identifiers should not have incorrect suffix",
     Justification = "2026-10-01: The 'EventArgs' suffix is the idiomatic Blazor convention for component event payload types.",
     Scope = "type",
-    Target = "~T:Syncfusion.Blazor.Toolkit.Spinner.SpinnerEventArgs")]
+    Target = "~T:Syncfusion.Blazor.Toolkit.SpinnerEventArgs")]
 
 
 // -------------------------------------------------------------------------
@@ -1306,9 +1313,9 @@ using System.Diagnostics.CodeAnalysis;
 [assembly: SuppressMessage(
     "Performance",
     "CA1822:Mark members as static",
-    Justification = "2026-10-01: [JSInvokable] member dispatched from JavaScript via DotNetObjectReference.invokeMethodAsync; JS interop requires an instance method.",
+    Justification = "2026-10-01: [JSInvokable] member dispatched from JavaScript via DotNetObjectReference.invokeMethodAsync; JS interop requires an instance method. Namespace updated to match the post-consolidation namespace Syncfusion.Blazor.Toolkit (was Charts.SfChart pre-f498bbc).",
     Scope = "member",
-    Target = "~M:Syncfusion.Blazor.Toolkit.Charts.SfChart.OnChartLongPress")]
+    Target = "~M:Syncfusion.Blazor.Toolkit.SfChart.OnChartLongPress")]
 
 
 // -------------------------------------------------------------------------
@@ -1331,98 +1338,98 @@ using System.Diagnostics.CodeAnalysis;
     "CA2213:Disposable fields should be disposed",
     Justification = "2026-10-01: Blazor child component owned by the renderer; disposed via the component tree, not the parent. Field is reset in ComponentDispose.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartDataLabel._border")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartDataLabel._border")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2213:Disposable fields should be disposed",
     Justification = "2026-10-01: Blazor child component owned by the renderer; disposed via the component tree, not the parent. Field is reset in ComponentDispose.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartDataLabel._margin")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartDataLabel._margin")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2213:Disposable fields should be disposed",
     Justification = "2026-10-01: Blazor child component owned by the renderer; disposed via the component tree, not the parent. Field is reset in ComponentDispose.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartDataLabel._font")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartDataLabel._font")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2213:Disposable fields should be disposed",
     Justification = "2026-10-01: Blazor child component owned by the renderer; disposed via the component tree, not the parent.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartEmptyPointSettings._border")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartEmptyPointSettings._border")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2213:Disposable fields should be disposed",
     Justification = "2026-10-01: Blazor child component owned by the renderer; disposed via the component tree, not the parent. Field is reset in ComponentDispose.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartStackLabelSettings._border")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartStackLabelSettings._border")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2213:Disposable fields should be disposed",
     Justification = "2026-10-01: Blazor child component owned by the renderer; registered via Owner._margin = this and disposed via the component tree.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.SfChart._margin")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.SfChart._margin")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2213:Disposable fields should be disposed",
     Justification = "2026-10-01: Blazor child component owned by the renderer; registered via Chart._zoomSettings = this and disposed via the component tree.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.SfChart._zoomSettings")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.SfChart._zoomSettings")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2213:Disposable fields should be disposed",
     Justification = "2026-10-01: Blazor child component owned by the renderer; registered via Chart._annotations = this and disposed via the component tree.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.SfChart._annotations")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.SfChart._annotations")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2213:Disposable fields should be disposed",
     Justification = "2026-10-01: Blazor child component owned by the renderer; registered via Parent._tooltip = this and disposed via the component tree.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.SfChart._tooltip")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.SfChart._tooltip")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2213:Disposable fields should be disposed",
     Justification = "2026-10-01: Blazor child component owned by the renderer; registered via Parent._sorting = this and disposed via the component tree.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.SfChart._sorting")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.SfChart._sorting")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2213:Disposable fields should be disposed",
     Justification = "2026-10-01: Blazor child component owned by the renderer; registered via Chart._crosshair = this and disposed via the component tree.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.SfChart._crosshair")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.SfChart._crosshair")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2213:Disposable fields should be disposed",
     Justification = "2026-10-01: Blazor child component owned by the renderer; disposed via the component tree, not the parent.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.SfChart._annotationsContainer")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.SfChart._annotationsContainer")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2213:Disposable fields should be disposed",
     Justification = "2026-10-01: Blazor child component owned by the renderer; assigned via UpdateChildProperties and disposed via the component tree.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Inputs.SfUploader._asyncSettings")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.SfUploader._asyncSettings")]
 
 [assembly: SuppressMessage(
     "Usage",
     "CA2213:Disposable fields should be disposed",
     Justification = "2026-10-01: Blazor child component owned by the renderer; assigned via UpdateChildProperties and disposed via the component tree.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Inputs.SfUploader._buttons")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.SfUploader._buttons")]
 
 
 // -------------------------------------------------------------------------
@@ -1491,28 +1498,28 @@ using System.Diagnostics.CodeAnalysis;
     "CA2000:Dispose objects before losing scope",
     Justification = "2026-10-01: ChartSelectedDataIndex is a non-rendered model object; CreateSelectedData hands it to SelectionChartAsync which serializes it across JS interop (ownership transferred). It owns no JS/unmanaged resources.",
     Scope = "member",
-    Target = "~M:Syncfusion.Blazor.Toolkit.Charts.Internal.Selection.SelectPointAndAddToValues(Syncfusion.Blazor.Toolkit.Charts.Point,Syncfusion.Blazor.Toolkit.Charts.Internal.ChartSeriesRenderer,System.Collections.Generic.List{Syncfusion.Blazor.Toolkit.Charts.PointXY})")]
+    Target = "~M:Syncfusion.Blazor.Toolkit.Charts.Internal.Selection.SelectPointAndAddToValues(Syncfusion.Blazor.Toolkit.Point,Syncfusion.Blazor.Toolkit.Charts.Internal.ChartSeriesRenderer,System.Collections.Generic.List{Syncfusion.Blazor.Toolkit.PointXY})")]
 
 [assembly: SuppressMessage(
     "Reliability",
     "CA2000:Dispose objects before losing scope",
     Justification = "2026-10-01: ChartAxis / ChartAxisScrollbarSettingsRange models built here are non-rendered and are handed into the user's OnScrollChanged event args (ownership transferred). They own no JS/unmanaged resources.",
     Scope = "member",
-    Target = "~M:Syncfusion.Blazor.Toolkit.Charts.SfChart.TriggerScrollEvents(Syncfusion.Blazor.Toolkit.Charts.Internal.IScrollEventsArgs)")]
+    Target = "~M:Syncfusion.Blazor.Toolkit.SfChart.TriggerScrollEvents(Syncfusion.Blazor.Toolkit.Charts.Internal.IScrollEventsArgs)")]
 
 [assembly: SuppressMessage(
     "Reliability",
     "CA2000:Dispose objects before losing scope",
     Justification = "2026-10-01: ChartAxisScrollbarSettingsRange is a non-rendered model object returned to the caller (ownership transferred); it owns no JS/unmanaged resources so DisposeAsync is a no-op.",
     Scope = "member",
-    Target = "~M:Syncfusion.Blazor.Toolkit.Charts.SfChart.GetStartEnd(System.Object,System.Object,Syncfusion.Blazor.Toolkit.ValueType)")]
+    Target = "~M:Syncfusion.Blazor.Toolkit.SfChart.GetStartEnd(System.Object,System.Object,Syncfusion.Blazor.Toolkit.ValueType)")]
 
 [assembly: SuppressMessage(
     "Reliability",
     "CA2000:Dispose objects before losing scope",
     Justification = "2026-10-01: ChartAxisScrollbarSettingsRange / ChartAxis models built here are non-rendered and are wrapped into the returned ScrollEventArgs (ownership transferred). They own no JS/unmanaged resources.",
     Scope = "member",
-    Target = "~M:Syncfusion.Blazor.Toolkit.Charts.SfChart.GetScrollArguments(System.String,Syncfusion.Blazor.Toolkit.Charts.ChartAxis,Syncfusion.Blazor.Toolkit.Charts.Internal.DoubleRange,System.Double,System.Double,Syncfusion.Blazor.Toolkit.Charts.ChartAxisScrollbarSettingsRange,System.Double)")]
+    Target = "~M:Syncfusion.Blazor.Toolkit.SfChart.GetScrollArguments(System.String,Syncfusion.Blazor.Toolkit.ChartAxis,Syncfusion.Blazor.Toolkit.Charts.Internal.DoubleRange,System.Double,System.Double,Syncfusion.Blazor.Toolkit.ChartAxisScrollbarSettingsRange,System.Double)")]
 
 [assembly: SuppressMessage(
     "Reliability",
@@ -1555,56 +1562,56 @@ using System.Diagnostics.CodeAnalysis;
     "CA1308:Normalize strings to uppercase",
     Justification = "2026-10-01: Produces a lowercase CSS class name (e-icon-left / e-top-icon-btn) emitted into the element class attribute; lowercase is required by CSS convention and the call is already culture-invariant.",
     Scope = "member",
-    Target = "~M:Syncfusion.Blazor.Toolkit.Buttons.SfButton.ApplyIconClasses(System.Text.StringBuilder)")]
+    Target = "~M:Syncfusion.Blazor.Toolkit.SfButton.ApplyIconClasses(System.Text.StringBuilder)")]
 
 [assembly: SuppressMessage(
     "Globalization",
     "CA1308:Normalize strings to uppercase",
     Justification = "2026-10-01: Builds the user-facing aggregate dictionary key ('Field - sum'); the lowercase key is part of the published result contract and the call is already culture-invariant.",
     Scope = "member",
-    Target = "~M:Syncfusion.Blazor.Toolkit.Data.DataUtil.PerformAggregation(System.Collections.IEnumerable,System.Collections.Generic.IList{Syncfusion.Blazor.Toolkit.Data.Aggregate})")]
+    Target = "~M:Syncfusion.Blazor.Toolkit.DataUtil.PerformAggregation(System.Collections.IEnumerable,System.Collections.Generic.IList{Syncfusion.Blazor.Toolkit.Aggregate})")]
 
 [assembly: SuppressMessage(
     "Globalization",
     "CA1308:Normalize strings to uppercase",
     Justification = "2026-10-01: Case-insensitive filter: the constant side is lowered to match the column side lowered by ToLowerMethodCallExpression (string.ToLower). Both sides must share lowercase casing; uppercasing would break the filter. Call is invariant-culture.",
     Scope = "member",
-    Target = "~M:Syncfusion.Blazor.Toolkit.Data.DynamicQueryableExtensions.GetExpression(Syncfusion.Blazor.Toolkit.Data.FilterType,System.Type,System.Object,System.Linq.Expressions.Expression,System.Boolean)")]
+    Target = "~M:Syncfusion.Blazor.Toolkit.DynamicQueryableExtensions.GetExpression(Syncfusion.Blazor.Toolkit.FilterType,System.Type,System.Object,System.Linq.Expressions.Expression,System.Boolean)")]
 
 [assembly: SuppressMessage(
     "Globalization",
     "CA1308:Normalize strings to uppercase",
     Justification = "2026-10-01: Case-insensitive filter: the constant side is lowered to match the column side lowered by ToLowerMethodCallExpression (string.ToLower). Both sides must share lowercase casing; uppercasing would break the filter. Call is invariant-culture.",
     Scope = "member",
-    Target = "~M:Syncfusion.Blazor.Toolkit.Data.DynamicQueryableExtensions.GetPExpression(Syncfusion.Blazor.Toolkit.Data.FilterType,System.Boolean,System.Object,System.Linq.Expressions.Expression,System.Type)")]
+    Target = "~M:Syncfusion.Blazor.Toolkit.DynamicQueryableExtensions.GetPExpression(Syncfusion.Blazor.Toolkit.FilterType,System.Boolean,System.Object,System.Linq.Expressions.Expression,System.Type)")]
 
 [assembly: SuppressMessage(
     "Globalization",
     "CA1308:Normalize strings to uppercase",
     Justification = "2026-10-01: Case-insensitive filter: the constant side is lowered to match the column side lowered by ToLowerMethodCallExpression (string.ToLower). Both sides must share lowercase casing; uppercasing would break the filter. Call is invariant-culture.",
     Scope = "member",
-    Target = "~M:Syncfusion.Blazor.Toolkit.Data.QueryableExtensions.GetPxExpression(Syncfusion.Blazor.Toolkit.Data.FilterType,System.Type,System.Object,System.Boolean,System.Linq.Expressions.Expression,System.Linq.Expressions.Expression,System.Boolean)")]
+    Target = "~M:Syncfusion.Blazor.Toolkit.QueryableExtensions.GetPxExpression(Syncfusion.Blazor.Toolkit.FilterType,System.Type,System.Object,System.Boolean,System.Linq.Expressions.Expression,System.Linq.Expressions.Expression,System.Boolean)")]
 
 [assembly: SuppressMessage(
     "Globalization",
     "CA1308:Normalize strings to uppercase",
     Justification = "2026-10-01: Case-insensitive filter: the constant side is lowered to match the column side lowered by ToLowerMethodCallExpression (string.ToLower). Both sides must share lowercase casing; uppercasing would break the filter. Call is invariant-culture.",
     Scope = "member",
-    Target = "~M:Syncfusion.Blazor.Toolkit.Data.QueryableExtensions.Predicate(System.Linq.IQueryable,System.Linq.Expressions.ParameterExpression,System.String,System.Object,Syncfusion.Blazor.Toolkit.Data.FilterType,Syncfusion.Blazor.Toolkit.Data.FilterBehavior,System.Boolean,System.Type,System.String)")]
+    Target = "~M:Syncfusion.Blazor.Toolkit.QueryableExtensions.Predicate(System.Linq.IQueryable,System.Linq.Expressions.ParameterExpression,System.String,System.Object,Syncfusion.Blazor.Toolkit.FilterType,Syncfusion.Blazor.Toolkit.FilterBehavior,System.Boolean,System.Type,System.String)")]
 
 [assembly: SuppressMessage(
     "Globalization",
     "CA1308:Normalize strings to uppercase",
     Justification = "2026-10-01: Case-insensitive filter: the constant side is lowered to match the column side lowered by ToLowerMethodCallExpression (string.ToLower). Both sides must share lowercase casing; uppercasing would break the filter. Call is invariant-culture.",
     Scope = "member",
-    Target = "~M:Syncfusion.Blazor.Toolkit.Data.QueryableExtensions.GetPExpression(Syncfusion.Blazor.Toolkit.Data.FilterType,System.Type,System.String,System.Linq.Expressions.Expression,System.Object,System.Type,System.Boolean)")]
+    Target = "~M:Syncfusion.Blazor.Toolkit.QueryableExtensions.GetPExpression(Syncfusion.Blazor.Toolkit.FilterType,System.Type,System.String,System.Linq.Expressions.Expression,System.Object,System.Type,System.Boolean)")]
 
 [assembly: SuppressMessage(
     "Globalization",
     "CA1308:Normalize strings to uppercase",
     Justification = "2026-10-01: Case-insensitive filter: the constant side is lowered to match the column side lowered by ToLowerMethodCallExpression (string.ToLower). Both sides must share lowercase casing; uppercasing would break the filter. Call is invariant-culture.",
     Scope = "member",
-    Target = "~M:Syncfusion.Blazor.Toolkit.Data.QueryableExtensions.Where(System.Linq.IQueryable,System.String,System.Object,Syncfusion.Blazor.Toolkit.Data.FilterType,System.Boolean,System.Type)")]
+    Target = "~M:Syncfusion.Blazor.Toolkit.QueryableExtensions.Where(System.Linq.IQueryable,System.String,System.Object,Syncfusion.Blazor.Toolkit.FilterType,System.Boolean,System.Type)")]
 
 // ---------------------------------------------------------------------------
 // CA1031: Do not catch general exception types
@@ -1626,49 +1633,49 @@ using System.Diagnostics.CodeAnalysis;
     "CA1031:Do not catch general exception types",
     Justification = "2026-10-01: Component lifecycle must not re-throw. An exception escaping OnParametersSetAsync propagates to the renderer SynchronizationContext and can terminate the Blazor Server circuit. User parameters/templates may throw arbitrary types, so the catch is intentionally broad; it is logged and the renderer kept alive.",
     Scope = "member",
-    Target = "~M:Syncfusion.Blazor.Toolkit.Inputs.SfNumericTextBox`1.OnParametersSetAsync~System.Threading.Tasks.Task")]
+    Target = "~M:Syncfusion.Blazor.Toolkit.SfNumericTextBox`1.OnParametersSetAsync~System.Threading.Tasks.Task")]
 
 [assembly: SuppressMessage(
     "Design",
     "CA1031:Do not catch general exception types",
     Justification = "2026-10-01: Component lifecycle must not re-throw. An exception escaping OnAfterRenderAsync propagates to the renderer SynchronizationContext and can terminate the Blazor Server circuit. JS interop and user callbacks may throw arbitrary types, so the catch is intentionally broad; it is logged and the renderer kept alive.",
     Scope = "member",
-    Target = "~M:Syncfusion.Blazor.Toolkit.Inputs.SfNumericTextBox`1.OnAfterRenderAsync(System.Boolean)~System.Threading.Tasks.Task")]
+    Target = "~M:Syncfusion.Blazor.Toolkit.SfNumericTextBox`1.OnAfterRenderAsync(System.Boolean)~System.Threading.Tasks.Task")]
 
 [assembly: SuppressMessage(
     "Design",
     "CA1031:Do not catch general exception types",
     Justification = "2026-10-01: Component lifecycle must not re-throw. An exception escaping OnAfterRenderAsync propagates to the renderer SynchronizationContext and can terminate the Blazor Server circuit. JS interop and user callbacks may throw arbitrary types, so the catch is intentionally broad; it is logged and the renderer kept alive.",
     Scope = "member",
-    Target = "~M:Syncfusion.Blazor.Toolkit.Popups.SfDialog.OnAfterRenderAsync(System.Boolean)~System.Threading.Tasks.Task")]
+    Target = "~M:Syncfusion.Blazor.Toolkit.SfDialog.OnAfterRenderAsync(System.Boolean)~System.Threading.Tasks.Task")]
 
 [assembly: SuppressMessage(
     "Design",
     "CA1031:Do not catch general exception types",
     Justification = "2026-10-01: First-render JS bootstrap must not crash the Blazor Server circuit. An exception escaping OnAfterScriptRenderedAsync propagates to the renderer SynchronizationContext. JS interop and the Created callback may throw arbitrary types, so the catch is intentionally broad; it is logged and the component kept usable.",
     Scope = "member",
-    Target = "~M:Syncfusion.Blazor.Toolkit.Popups.SfDialog.OnAfterScriptRenderedAsync~System.Threading.Tasks.Task")]
+    Target = "~M:Syncfusion.Blazor.Toolkit.SfDialog.OnAfterScriptRenderedAsync~System.Threading.Tasks.Task")]
 
 [assembly: SuppressMessage(
     "Design",
     "CA1031:Do not catch general exception types",
     Justification = "2026-10-01: Async disposal must not re-throw. An unhandled exception out of DisposeAsyncCore propagates to the SynchronizationContext and terminates the Blazor Server circuit (or crashes WASM). More specific types are caught first (InvalidOperationException); the general catch is a best-effort fallback that logs and reports via the Destroyed callback.",
     Scope = "member",
-    Target = "~M:Syncfusion.Blazor.Toolkit.Popups.SfTooltip.DisposeAsyncCore~System.Threading.Tasks.ValueTask")]
+    Target = "~M:Syncfusion.Blazor.Toolkit.SfTooltip.DisposeAsyncCore~System.Threading.Tasks.ValueTask")]
 
 [assembly: SuppressMessage(
     "Design",
     "CA1031:Do not catch general exception types",
-    Justification = "2026-10-01: Disposal must not re-throw. The specific types (ObjectDisposedException, InvalidOperationException) are handled first; this general catch is a logged best-effort fallback so a stray exception cannot terminate the Blazor Server circuit during teardown.",
+    Justification = "2026-10-01: Disposal must not re-throw. The specific types (ObjectDisposedException, InvalidOperationException) are handled first; this general catch is a logged best-effort fallback so a stray exception cannot terminate the Blazor Server circuit during teardown. Namespace updated to match the post-consolidation namespace Syncfusion.Blazor.Toolkit (was Spinner.SfSpinner pre-f498bbc).",
     Scope = "member",
-    Target = "~M:Syncfusion.Blazor.Toolkit.Spinner.SfSpinner.DisposeAsyncCore~System.Threading.Tasks.ValueTask")]
+    Target = "~M:Syncfusion.Blazor.Toolkit.SfSpinner.DisposeAsyncCore~System.Threading.Tasks.ValueTask")]
 
 [assembly: SuppressMessage(
     "Design",
     "CA1031:Do not catch general exception types",
     Justification = "2026-10-01: Best-effort per-file caching. If reading a single selected file's stream fails (I/O, browser quirk, size mismatch), the broad catch lets the remaining files continue caching rather than aborting the whole upload. Nothing is re-thrown; the file is simply skipped.",
     Scope = "member",
-    Target = "~M:Syncfusion.Blazor.Toolkit.Inputs.SfUploader.CacheFilesAsync(Microsoft.AspNetCore.Components.Forms.InputFileChangeEventArgs)~System.Threading.Tasks.Task")]
+    Target = "~M:Syncfusion.Blazor.Toolkit.SfUploader.CacheFilesAsync(Microsoft.AspNetCore.Components.Forms.InputFileChangeEventArgs)~System.Threading.Tasks.Task")]
 
 
 // -------------------------------------------------------------------------
@@ -1719,7 +1726,7 @@ using System.Diagnostics.CodeAnalysis;
     "CA1024:Use properties where appropriate",
     Justification = "2026-10-01: Public API. GetButtonItems() is a documented method on SfDialog; converting it to a property is a binary/source breaking change for consumers and departs from the established Get* method convention across the component suite.",
     Scope = "member",
-    Target = "~M:Syncfusion.Blazor.Toolkit.Popups.SfDialog.GetButtonItems~System.Collections.Generic.IList{Syncfusion.Blazor.Toolkit.Popups.DialogButton}")]
+    Target = "~M:Syncfusion.Blazor.Toolkit.SfDialog.GetButtonItems~System.Collections.Generic.IList{Syncfusion.Blazor.Toolkit.DialogButton}")]
 
 
 // -------------------------------------------------------------------------
@@ -1739,7 +1746,7 @@ using System.Diagnostics.CodeAnalysis;
     "CA1003:Use generic event handler instances",
     Justification = "2026-10-01: Internal-wiring event hidden from the public surface ([EditorBrowsable(Never)] + <exclude/>). The multi-parameter Action<...> signature is the established contract between SfDialogService and SfDialogProvider; converting to EventHandler<T> would need a bespoke EventArgs and is a breaking change for no consumer-visible benefit.",
     Scope = "member",
-    Target = "~E:Syncfusion.Blazor.Toolkit.Popups.SfDialogService.OnOpen")]
+    Target = "~E:Syncfusion.Blazor.Toolkit.SfDialogService.OnOpen")]
 
 
 // -------------------------------------------------------------------------
@@ -1761,16 +1768,16 @@ using System.Diagnostics.CodeAnalysis;
 [assembly: SuppressMessage(
     "Naming",
     "CA1721:Property names should not match get methods",
-    Justification = "2026-10-01: Public API. ChartAxis.Name is a [Parameter] bound in chart markup; GetName() is a public virtual method overridden by PrimaryXAxis/PrimaryYAxis to supply their reserved names. The two members are intentionally distinct and renaming either is a binary/source breaking change.",
+    Justification = "2026-10-01: Public API. ChartAxis.Name is a [Parameter] bound in chart markup; GetName() is a public virtual method overridden by PrimaryXAxis/PrimaryYAxis to supply their reserved names. The two members are intentionally distinct and renaming either is a binary/source breaking change. Namespace updated to match the post-consolidation namespace Syncfusion.Blazor.Toolkit (was Charts.ChartAxis pre-f498bbc).",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Charts.ChartAxis.Name")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.ChartAxis.Name")]
 
 [assembly: SuppressMessage(
     "Naming",
     "CA1721:Property names should not match get methods",
     Justification = "2026-10-01: Public API. BaseComponent.DataManager is the public data-manager property; GetDataManager(object, string) is a protected helper that resolves a data manager from a data source. Both belong to the public/protected surface of an abstract base class and renaming either is a binary/source breaking change for derived components.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Data.BaseComponent.DataManager")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.BaseComponent.DataManager")]
 
 
 // -------------------------------------------------------------------------
@@ -1791,21 +1798,21 @@ using System.Diagnostics.CodeAnalysis;
     "CA1707:Identifiers should not contain underscores",
     Justification = "2026-10-01: Protected const on the public type SfDatePicker<TValue> (externally-derivable surface). ARIA_LABELLEDBY is a long-standing ARIA attribute-name constant; renaming is a binary/source breaking change for subclasses.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Calendars.SfDatePicker`1.ARIA_LABELLEDBY")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.SfDatePicker`1.ARIA_LABELLEDBY")]
 
 [assembly: SuppressMessage(
     "Naming",
     "CA1707:Identifiers should not contain underscores",
     Justification = "2026-10-01: Protected const on the public type SfDatePicker<TValue> (externally-derivable surface). ARIA_DESCRIBEDBY is a long-standing ARIA attribute-name constant; renaming is a binary/source breaking change for subclasses.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Calendars.SfDatePicker`1.ARIA_DESCRIBEDBY")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.SfDatePicker`1.ARIA_DESCRIBEDBY")]
 
 [assembly: SuppressMessage(
     "Naming",
     "CA1707:Identifiers should not contain underscores",
     Justification = "2026-10-01: Protected auto-property on the public abstract base class BaseComponent (externally-derivable surface). _uniqueId is consumed by derived data components; renaming is a binary/source breaking change.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Data.BaseComponent._uniqueId")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.BaseComponent._uniqueId")]
 
 
 // -------------------------------------------------------------------------
@@ -1825,7 +1832,7 @@ using System.Diagnostics.CodeAnalysis;
     "CA1055:URI return values should not be strings",
     Justification = "2026-10-01: Public API. DataUtil.GetUrl composes a base URL, a possibly-relative path and an optional query string into a string that is assigned to the string HttpHandler/DataManager Url. The result may be relative, so System.Uri is semantically unsuitable and changing the return type is a binary/source breaking change.",
     Scope = "member",
-    Target = "~M:Syncfusion.Blazor.Toolkit.Data.DataUtil.GetUrl(System.String,System.String,System.String)~System.String")]
+    Target = "~M:Syncfusion.Blazor.Toolkit.DataUtil.GetUrl(System.String,System.String,System.String)~System.String")]
 
 
 // -------------------------------------------------------------------------
@@ -1846,7 +1853,7 @@ using System.Diagnostics.CodeAnalysis;
     "CA1054:URI parameters should not be strings",
     Justification = "2026-10-01: Public API. DataUtil.GetUrl accepts possibly-relative URL fragments (baseUrl, relativeUrl) that originate from the string HttpHandler/DataManager Url and are concatenated with slash normalization. System.Uri cannot represent these relative/partial inputs, so changing the parameter types is both semantically wrong and a binary/source breaking change.",
     Scope = "member",
-    Target = "~M:Syncfusion.Blazor.Toolkit.Data.DataUtil.GetUrl(System.String,System.String,System.String)~System.String")]
+    Target = "~M:Syncfusion.Blazor.Toolkit.DataUtil.GetUrl(System.String,System.String,System.String)~System.String")]
 
 
 // -------------------------------------------------------------------------
@@ -1874,70 +1881,70 @@ using System.Diagnostics.CodeAnalysis;
     "CA1056:URI properties should not be strings",
     Justification = "2026-10-01: Public API. [Parameter] URL property bound from Razor markup as an HTML attribute string; commonly carries a relative URL that System.Uri cannot represent. Changing the type is a binary/source breaking change.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Inputs.UploaderAsyncSettings.RemoveUrl")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.UploaderAsyncSettings.RemoveUrl")]
 
 [assembly: SuppressMessage(
     "Design",
     "CA1056:URI properties should not be strings",
     Justification = "2026-10-01: Public API. [Parameter] URL property bound from Razor markup as an HTML attribute string; commonly carries a relative URL that System.Uri cannot represent. Changing the type is a binary/source breaking change.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Inputs.UploaderAsyncSettings.SaveUrl")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.UploaderAsyncSettings.SaveUrl")]
 
 [assembly: SuppressMessage(
     "Design",
     "CA1056:URI properties should not be strings",
     Justification = "2026-10-01: Public API. JSON-serialized uploader DTO property with a [JsonPropertyName] string contract; carries a possibly-relative URL. Changing the type to System.Uri would alter the wire format and is a binary/source breaking change.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Inputs.AsyncSettingsModel.RemoveUrl")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.AsyncSettingsModel.RemoveUrl")]
 
 [assembly: SuppressMessage(
     "Design",
     "CA1056:URI properties should not be strings",
     Justification = "2026-10-01: Public API. JSON-serialized uploader DTO property with a [JsonPropertyName] string contract; carries a possibly-relative URL. Changing the type to System.Uri would alter the wire format and is a binary/source breaking change.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Inputs.AsyncSettingsModel.SaveUrl")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.AsyncSettingsModel.SaveUrl")]
 
 [assembly: SuppressMessage(
     "Design",
     "CA1056:URI properties should not be strings",
     Justification = "2026-10-01: Public API. Request DTO (Utils) property holding a possibly-relative batch URL that is composed via DataUtil.GetUrl. Changing the type to System.Uri is semantically unsuitable for relative URLs and is a binary/source breaking change.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Data.Utils.Url")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.Utils.Url")]
 
 [assembly: SuppressMessage(
     "Design",
     "CA1056:URI properties should not be strings",
     Justification = "2026-10-01: Public API. Request DTO (RequestOptions) property holding a possibly-relative service URL. Changing the type to System.Uri is semantically unsuitable for relative URLs and is a binary/source breaking change.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Data.RequestOptions.Url")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.RequestOptions.Url")]
 
 [assembly: SuppressMessage(
     "Design",
     "CA1056:URI properties should not be strings",
     Justification = "2026-10-01: Public API. Request DTO (RequestOptions) property holding a possibly-relative application base URL that is composed with service URLs via DataUtil.GetUrl. Changing the type to System.Uri is semantically unsuitable for relative URLs and is a binary/source breaking change.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Data.RequestOptions.BaseUrl")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.RequestOptions.BaseUrl")]
 
 [assembly: SuppressMessage(
     "Design",
     "CA1056:URI properties should not be strings",
     Justification = "2026-10-01: Public API. JSON-serialized adaptor DTO (DefaultAdaptor) property with a [JsonPropertyName] string contract; carries a possibly-relative service URL. Changing the type to System.Uri would alter the wire format and is a binary/source breaking change.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Data.DefaultAdaptor.Url")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.DefaultAdaptor.Url")]
 
 [assembly: SuppressMessage(
     "Design",
     "CA1056:URI properties should not be strings",
     Justification = "2026-10-01: Public API. [Parameter] endpoint URL property bound from Razor markup as an HTML attribute string with a [JsonPropertyName] contract; commonly carries a relative URL that System.Uri cannot represent. Changing the type is a binary/source breaking change.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Data.DataManager.Url")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.DataManager.Url")]
 
 [assembly: SuppressMessage(
     "Design",
     "CA1056:URI properties should not be strings",
     Justification = "2026-10-01: Public API. DataManager.BaseUri holds the application base URL used to resolve the relative Url/InsertUrl/UpdateUrl/RemoveUrl values via DataUtil.GetUrl. It is derived from NavigationManager and may itself be relative, so System.Uri is semantically unsuitable and changing the type is a binary/source breaking change.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Data.DataManager.BaseUri")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.DataManager.BaseUri")]
 
 
 // -------------------------------------------------------------------------
@@ -1969,7 +1976,7 @@ using System.Diagnostics.CodeAnalysis;
     "CA1819:Properties should not return arrays",
     Justification = "2026-10-01: Public API. JSON/JS-interop serialization model; Values maps to a JavaScript array and is part of the event-args wire contract. Changing to a read-only collection is a binary/source breaking change.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Calendars.ChangedEventArgs`1.Values")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.ChangedEventArgs`1.Values")]
 
 [assembly: SuppressMessage(
     "Performance",
@@ -1990,21 +1997,21 @@ using System.Diagnostics.CodeAnalysis;
     "CA1819:Properties should not return arrays",
     Justification = "2026-10-01: Public API. [Parameter] DateTime[] bound via @bind-Values against user-supplied arrays in multi-selection mode (see documented examples). Changing the type is a binary/source breaking change.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Calendars.SfCalendar`1.Values")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.SfCalendar`1.Values")]
 
 [assembly: SuppressMessage(
     "Performance",
     "CA1819:Properties should not return arrays",
     Justification = "2026-10-01: Public API. [Parameter] string[] of input format patterns assigned from user-supplied arrays (see documented examples). Changing the type is a binary/source breaking change.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Calendars.SfDatePicker`1.InputFormats")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.SfDatePicker`1.InputFormats")]
 
 [assembly: SuppressMessage(
     "Performance",
     "CA1819:Properties should not return arrays",
     Justification = "2026-10-01: Public API. [Parameter] string[] of input format patterns assigned from user-supplied arrays (see documented examples). Changing the type is a binary/source breaking change.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Calendars.SfTimePicker`1.InputFormats")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.SfTimePicker`1.InputFormats")]
 
 [assembly: SuppressMessage(
     "Performance",
@@ -2025,7 +2032,7 @@ using System.Diagnostics.CodeAnalysis;
     "CA1819:Properties should not return arrays",
     Justification = "2026-10-01: Public API. [Parameter] string[] color palette assigned from user-supplied arrays (see documented examples). Changing the type is a binary/source breaking change.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Charts.SfChart.Palettes")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.SfChart.Palettes")]
 
 [assembly: SuppressMessage(
     "Performance",
@@ -2053,35 +2060,35 @@ using System.Diagnostics.CodeAnalysis;
     "CA1819:Properties should not return arrays",
     Justification = "2026-10-01: Public API. JSON-serialized uploader event-args; RetryFiles maps to a JavaScript array in the [JsonPropertyName] wire contract. Changing to a read-only collection is a binary/source breaking change.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Inputs.FailureEventArgs.RetryFiles")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.FailureEventArgs.RetryFiles")]
 
 [assembly: SuppressMessage(
     "Performance",
     "CA1819:Properties should not return arrays",
     Justification = "2026-10-01: Public API. [Parameter] ResizeDirection[] assigned from user-supplied arrays (see documented examples). Changing the type is a binary/source breaking change.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Popups.SfDialog.ResizeHandles")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.SfDialog.ResizeHandles")]
 
 [assembly: SuppressMessage(
     "Performance",
     "CA1819:Properties should not return arrays",
     Justification = "2026-10-01: Public API. Query.Lookups is part of the documented fluent query / remote-adaptor contract, populated through object initializers and the chainable query builder. Changing the type is a binary/source breaking change.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Data.Query.Lookups")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.Query.Lookups")]
 
 [assembly: SuppressMessage(
     "Performance",
     "CA1819:Properties should not return arrays",
     Justification = "2026-10-01: Public API. Query.SortedColumns is part of the documented fluent query / remote-adaptor contract, populated through object initializers and the chainable query builder. Changing the type is a binary/source breaking change.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Data.Query.SortedColumns")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.Query.SortedColumns")]
 
 [assembly: SuppressMessage(
     "Performance",
     "CA1819:Properties should not return arrays",
     Justification = "2026-10-01: Public API. Query.GroupedColumns is part of the documented fluent query / remote-adaptor contract, populated through object initializers and the chainable query builder. Changing the type is a binary/source breaking change.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Data.Query.GroupedColumns")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.Query.GroupedColumns")]
 
 
 // -------------------------------------------------------------------------
@@ -2097,28 +2104,28 @@ using System.Diagnostics.CodeAnalysis;
     "IDE0031:Use null propagation",
     Justification = "2026-10-02: Retain the guarded assignment; null-conditional assignment requires C# 14 and cannot compile in shared net8.0/C# 12 or net9.0/C# 13 source.",
     Scope = "member",
-    Target = "~M:Syncfusion.Blazor.Toolkit.Calendars.Internal.CalendarBaseRender`1.CellClickAsync(Syncfusion.Blazor.Toolkit.Calendars.CellDetails)")]
+    Target = "~M:Syncfusion.Blazor.Toolkit.Calendars.Internal.CalendarBaseRender`1.CellClickAsync(Syncfusion.Blazor.Toolkit.CellDetails)")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0031:Use null propagation",
     Justification = "2026-10-02: Retain the guarded assignment; null-conditional assignment requires C# 14 and cannot compile in shared net8.0/C# 12 or net9.0/C# 13 source.",
     Scope = "member",
-    Target = "~M:Syncfusion.Blazor.Toolkit.Calendars.Internal.CalendarBaseRender`1.ClickHandlerAsync(Syncfusion.Blazor.Toolkit.Calendars.CellDetails)")]
+    Target = "~M:Syncfusion.Blazor.Toolkit.Calendars.Internal.CalendarBaseRender`1.ClickHandlerAsync(Syncfusion.Blazor.Toolkit.CellDetails)")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0031:Use null propagation",
     Justification = "2026-10-02: Retain the guarded assignment; null-conditional assignment requires C# 14 and cannot compile in shared net8.0/C# 12 or net9.0/C# 13 source.",
     Scope = "member",
-    Target = "~M:Syncfusion.Blazor.Toolkit.Calendars.Internal.CalendarBaseRender`1.HandleSelectKeyAsync(Syncfusion.Blazor.Toolkit.Calendars.Internal.KeyActions,Syncfusion.Blazor.Toolkit.Calendars.CellDetails,System.Boolean,System.Int32)")]
+    Target = "~M:Syncfusion.Blazor.Toolkit.Calendars.Internal.CalendarBaseRender`1.HandleSelectKeyAsync(Syncfusion.Blazor.Toolkit.Calendars.Internal.KeyActions,Syncfusion.Blazor.Toolkit.CellDetails,System.Boolean,System.Int32)")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0031:Use null propagation",
     Justification = "2026-10-02: Retain the guarded assignment; null-conditional assignment requires C# 14 and cannot compile in shared net8.0/C# 12 or net9.0/C# 13 source.",
     Scope = "member",
-    Target = "~M:Syncfusion.Blazor.Toolkit.Calendars.Internal.CalendarBaseRender`1.HandleYearViewClickAsync(Syncfusion.Blazor.Toolkit.Calendars.CellDetails,System.DateTime,System.Boolean)")]
+    Target = "~M:Syncfusion.Blazor.Toolkit.Calendars.Internal.CalendarBaseRender`1.HandleYearViewClickAsync(Syncfusion.Blazor.Toolkit.CellDetails,System.DateTime,System.Boolean)")]
 
 [assembly: SuppressMessage(
     "Style",
@@ -2132,77 +2139,77 @@ using System.Diagnostics.CodeAnalysis;
     "IDE0031:Use null propagation",
     Justification = "2026-10-02: Retain the guarded assignment; null-conditional assignment requires C# 14 and cannot compile in shared net8.0/C# 12 or net9.0/C# 13 source.",
     Scope = "member",
-    Target = "~M:Syncfusion.Blazor.Toolkit.Calendars.Internal.CalendarBaseRender`1.SelectKeyActionAsync(Syncfusion.Blazor.Toolkit.Calendars.Internal.KeyActions,Syncfusion.Blazor.Toolkit.Calendars.CellDetails,System.Boolean,System.Int32)")]
+    Target = "~M:Syncfusion.Blazor.Toolkit.Calendars.Internal.CalendarBaseRender`1.SelectKeyActionAsync(Syncfusion.Blazor.Toolkit.Calendars.Internal.KeyActions,Syncfusion.Blazor.Toolkit.CellDetails,System.Boolean,System.Int32)")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0031:Use null propagation",
     Justification = "2026-10-02: Retain the guarded assignment; null-conditional assignment requires C# 14 and cannot compile in shared net8.0/C# 12 or net9.0/C# 13 source.",
     Scope = "member",
-    Target = "~M:Syncfusion.Blazor.Toolkit.Calendars.SfDateTimePicker`1.IsValidTimeAsync")]
+    Target = "~M:Syncfusion.Blazor.Toolkit.SfDateTimePicker`1.IsValidTimeAsync")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0031:Use null propagation",
     Justification = "2026-10-02: Retain the guarded assignment; null-conditional assignment requires C# 14 and cannot compile in shared net8.0/C# 12 or net9.0/C# 13 source.",
     Scope = "member",
-    Target = "~M:Syncfusion.Blazor.Toolkit.Charts.ChartMargin.OnInitialized")]
+    Target = "~M:Syncfusion.Blazor.Toolkit.ChartMargin.OnInitialized")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0031:Use null propagation",
     Justification = "2026-10-02: Retain the guarded assignment; null-conditional assignment requires C# 14 and cannot compile in shared net8.0/C# 12 or net9.0/C# 13 source.",
     Scope = "member",
-    Target = "~M:Syncfusion.Blazor.Toolkit.Charts.ChartSeries.DataCollectionChanged(System.Object,System.Collections.Specialized.NotifyCollectionChangedEventArgs)")]
+    Target = "~M:Syncfusion.Blazor.Toolkit.ChartSeries.DataCollectionChanged(System.Object,System.Collections.Specialized.NotifyCollectionChangedEventArgs)")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0031:Use null propagation",
     Justification = "2026-10-02: Retain the guarded assignment; null-conditional assignment requires C# 14 and cannot compile in shared net8.0/C# 12 or net9.0/C# 13 source.",
     Scope = "member",
-    Target = "~M:Syncfusion.Blazor.Toolkit.Charts.ChartSeries.OnAfterRender(System.Boolean)")]
+    Target = "~M:Syncfusion.Blazor.Toolkit.ChartSeries.OnAfterRender(System.Boolean)")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0031:Use null propagation",
     Justification = "2026-10-02: Retain the guarded assignment; null-conditional assignment requires C# 14 and cannot compile in shared net8.0/C# 12 or net9.0/C# 13 source.",
     Scope = "member",
-    Target = "~M:Syncfusion.Blazor.Toolkit.Charts.ChartSeries.PrepareForLegendToggle")]
+    Target = "~M:Syncfusion.Blazor.Toolkit.ChartSeries.PrepareForLegendToggle")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0031:Use null propagation",
     Justification = "2026-10-02: Retain the guarded assignment; null-conditional assignment requires C# 14 and cannot compile in shared net8.0/C# 12 or net9.0/C# 13 source.",
     Scope = "member",
-    Target = "~M:Syncfusion.Blazor.Toolkit.Charts.ChartSeries.RefreshSeriesAsync")]
+    Target = "~M:Syncfusion.Blazor.Toolkit.ChartSeries.RefreshSeriesAsync")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0031:Use null propagation",
     Justification = "2026-10-02: Retain the guarded assignment; null-conditional assignment requires C# 14 and cannot compile in shared net8.0/C# 12 or net9.0/C# 13 source.",
     Scope = "member",
-    Target = "~M:Syncfusion.Blazor.Toolkit.Charts.ChartSeries.UpdateSeriesDataAsync")]
+    Target = "~M:Syncfusion.Blazor.Toolkit.ChartSeries.UpdateSeriesDataAsync")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0031:Use null propagation",
     Justification = "2026-10-02: Retain the guarded assignment; null-conditional assignment requires C# 14 and cannot compile in shared net8.0/C# 12 or net9.0/C# 13 source.",
     Scope = "member",
-    Target = "~M:Syncfusion.Blazor.Toolkit.Charts.ChartStackLabelSettings.OnInitialized")]
+    Target = "~M:Syncfusion.Blazor.Toolkit.ChartStackLabelSettings.OnInitialized")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0031:Use null propagation",
     Justification = "2026-10-02: Retain the guarded assignment; null-conditional assignment requires C# 14 and cannot compile in shared net8.0/C# 12 or net9.0/C# 13 source.",
     Scope = "member",
-    Target = "~M:Syncfusion.Blazor.Toolkit.Charts.Internal.ChartSeriesRendererContainer.CalculateStackingValues(System.Collections.Generic.List{Syncfusion.Blazor.Toolkit.Charts.ChartSeries},System.Boolean)")]
+    Target = "~M:Syncfusion.Blazor.Toolkit.Charts.Internal.ChartSeriesRendererContainer.CalculateStackingValues(System.Collections.Generic.List{Syncfusion.Blazor.Toolkit.ChartSeries},System.Boolean)")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0031:Use null propagation",
     Justification = "2026-10-02: Retain the guarded assignment; null-conditional assignment requires C# 14 and cannot compile in shared net8.0/C# 12 or net9.0/C# 13 source.",
     Scope = "member",
-    Target = "~M:Syncfusion.Blazor.Toolkit.Charts.Internal.ChartSeriesRendererContainer.FindFrequencies(System.Collections.Generic.List{Syncfusion.Blazor.Toolkit.Charts.ChartSeries})")]
+    Target = "~M:Syncfusion.Blazor.Toolkit.Charts.Internal.ChartSeriesRendererContainer.FindFrequencies(System.Collections.Generic.List{Syncfusion.Blazor.Toolkit.ChartSeries})")]
 
 [assembly: SuppressMessage(
     "Style",
@@ -2216,35 +2223,35 @@ using System.Diagnostics.CodeAnalysis;
     "IDE0031:Use null propagation",
     Justification = "2026-10-02: Retain the guarded assignment; null-conditional assignment requires C# 14 and cannot compile in shared net8.0/C# 12 or net9.0/C# 13 source.",
     Scope = "member",
-    Target = "~M:Syncfusion.Blazor.Toolkit.Charts.SfChart.AddSeriesAsync(System.Collections.Generic.IList{Syncfusion.Blazor.Toolkit.Charts.ChartSeries})")]
+    Target = "~M:Syncfusion.Blazor.Toolkit.SfChart.AddSeriesAsync(System.Collections.Generic.IList{Syncfusion.Blazor.Toolkit.ChartSeries})")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0031:Use null propagation",
     Justification = "2026-10-02: Retain both guarded assignments; null-conditional assignment requires C# 14 and cannot compile in shared net8.0/C# 12 or net9.0/C# 13 source.",
     Scope = "member",
-    Target = "~M:Syncfusion.Blazor.Toolkit.Charts.SfChart.OnChartKeyboardNavigationsAsync(System.String,System.String)")]
+    Target = "~M:Syncfusion.Blazor.Toolkit.SfChart.OnChartKeyboardNavigationsAsync(System.String,System.String)")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0031:Use null propagation",
     Justification = "2026-10-02: Retain the guarded assignment; null-conditional assignment requires C# 14 and cannot compile in shared net8.0/C# 12 or net9.0/C# 13 source.",
     Scope = "member",
-    Target = "~M:Syncfusion.Blazor.Toolkit.Charts.SfChart.ZoomToolkitSetDeferredZoom(Syncfusion.Blazor.Toolkit.Charts.ZoomingEventArgs)")]
+    Target = "~M:Syncfusion.Blazor.Toolkit.SfChart.ZoomToolkitSetDeferredZoom(Syncfusion.Blazor.Toolkit.ZoomingEventArgs)")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0031:Use null propagation",
     Justification = "2026-10-02: Retain all three guarded assignments; null-conditional assignment requires C# 14 and cannot compile in shared net8.0/C# 12 or net9.0/C# 13 source.",
     Scope = "member",
-    Target = "~M:Syncfusion.Blazor.Toolkit.Charts.SfChart.ZoomingComplete(Syncfusion.Blazor.Toolkit.Charts.ZoomingEventArgs,Syncfusion.Blazor.Toolkit.Charts.Internal.IZoomingStates)")]
+    Target = "~M:Syncfusion.Blazor.Toolkit.SfChart.ZoomingComplete(Syncfusion.Blazor.Toolkit.ZoomingEventArgs,Syncfusion.Blazor.Toolkit.Charts.Internal.IZoomingStates)")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0031:Use null propagation",
     Justification = "2026-10-02: Retain the guarded Service.OnOpen -= OnOpenAsync event unsubscription; null-conditional assignment requires C# 14, unavailable in shared net8.0/C# 12 and net9.0/C# 13 source.",
     Scope = "member",
-    Target = "~M:Syncfusion.Blazor.Toolkit.Popups.SfDialogProvider.Dispose(System.Boolean)")]
+    Target = "~M:Syncfusion.Blazor.Toolkit.SfDialogProvider.Dispose(System.Boolean)")]
 
 
 // -------------------------------------------------------------------------
@@ -2263,630 +2270,630 @@ using System.Diagnostics.CodeAnalysis;
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain reactive axis accessors and their renderer/layout side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartAxis._crossesAt")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartAxis._crossesAt")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain reactive axis accessors and their renderer/layout side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartAxis._desiredIntervals")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartAxis._desiredIntervals")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain reactive axis accessors and their renderer/layout side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartAxis._edgeLabelPlacement")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartAxis._edgeLabelPlacement")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain reactive axis accessors and their renderer/layout side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartAxis._enableTrim")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartAxis._enableTrim")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain reactive axis accessors and their renderer/layout side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartAxis._format")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartAxis._format")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain reactive axis accessors and their renderer/layout side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartAxis._interval")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartAxis._interval")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain reactive axis accessors and their renderer/layout side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartAxis._intervalType")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartAxis._intervalType")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain reactive axis accessors and their renderer/layout side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartAxis._isIndexed")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartAxis._isIndexed")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain reactive axis accessors and their renderer/layout side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartAxis._labelFormat")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartAxis._labelFormat")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain reactive axis accessors and their renderer/layout side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartAxis._labelIntersectAction")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartAxis._labelIntersectAction")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain reactive axis accessors and their renderer/layout side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartAxis._labelPlacement")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartAxis._labelPlacement")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain reactive axis accessors and their renderer/layout side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartAxis._labelPosition")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartAxis._labelPosition")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain reactive axis accessors and their renderer/layout side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartAxis._labelRotation")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartAxis._labelRotation")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain reactive axis accessors and their renderer/layout side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartAxis._maximum")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartAxis._maximum")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain reactive axis accessors and their renderer/layout side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartAxis._maximumLabelWidth")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartAxis._maximumLabelWidth")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain reactive axis accessors and their renderer/layout side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartAxis._minimum")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartAxis._minimum")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain reactive axis accessors and their renderer/layout side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartAxis._name")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartAxis._name")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain reactive axis accessors and their renderer/layout side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartAxis._opposedPosition")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartAxis._opposedPosition")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain reactive axis accessors and their renderer/layout side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartAxis._placeNextToAxisLine")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartAxis._placeNextToAxisLine")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain reactive axis accessors and their renderer/layout side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartAxis._rangePadding")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartAxis._rangePadding")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain reactive axis accessors and their renderer/layout side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartAxis._startAngle")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartAxis._startAngle")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain reactive axis accessors and their renderer/layout side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartAxis._tickPosition")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartAxis._tickPosition")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain reactive axis accessors and their renderer/layout side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartAxis._title")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartAxis._title")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain reactive axis accessors and their renderer/layout side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartAxis._valueType")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartAxis._valueType")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain custom marker accessors and their guard/update semantics; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartCommonMarker._border")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartCommonMarker._border")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain custom marker accessors and their guard/update semantics; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartCommonMarker._dataLabel")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartCommonMarker._dataLabel")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain custom marker accessors and their guard/update semantics; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartCommonMarker._fill")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartCommonMarker._fill")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain custom marker accessors and their guard/update semantics; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartCommonMarker._height")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartCommonMarker._height")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain custom marker accessors and their guard/update semantics; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartCommonMarker._imageUrl")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartCommonMarker._imageUrl")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain custom marker accessors and their guard/update semantics; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartCommonMarker._offset")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartCommonMarker._offset")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain custom marker accessors and their guard/update semantics; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartCommonMarker._opacity")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartCommonMarker._opacity")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain custom marker accessors and their guard/update semantics; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartCommonMarker._renderer")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartCommonMarker._renderer")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain custom marker accessors and their guard/update semantics; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartCommonMarker._shape")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartCommonMarker._shape")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain custom marker accessors and their guard/update semantics; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartCommonMarker._visible")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartCommonMarker._visible")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain custom marker accessors and their guard/update semantics; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartCommonMarker._widthProperty")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartCommonMarker._widthProperty")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain reactive last-label accessors and their renderer side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartLastDataLabel._background")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartLastDataLabel._background")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain reactive last-label accessors and their renderer side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartLastDataLabel._cornerRadiusX")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartLastDataLabel._cornerRadiusX")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain reactive last-label accessors and their renderer side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartLastDataLabel._cornerRadiusY")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartLastDataLabel._cornerRadiusY")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain reactive last-label accessors and their renderer side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartLastDataLabel._dashArray")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartLastDataLabel._dashArray")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain reactive last-label accessors and their renderer side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartLastDataLabel._lineColor")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartLastDataLabel._lineColor")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain reactive last-label accessors and their renderer side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartLastDataLabel._lineWidth")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartLastDataLabel._lineWidth")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain reactive last-label accessors and their renderer side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartLastDataLabel._renderer")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartLastDataLabel._renderer")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain reactive last-label accessors and their renderer side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartLastDataLabel._showLabel")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartLastDataLabel._showLabel")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain reactive legend accessors and their renderer/layout side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartLegendSettings._accessibilityRole")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartLegendSettings._accessibilityRole")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain reactive legend accessors and their renderer/layout side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartLegendSettings._alignment")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartLegendSettings._alignment")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain reactive legend accessors and their renderer/layout side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartLegendSettings._background")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartLegendSettings._background")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain reactive legend accessors and their renderer/layout side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartLegendSettings._height")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartLegendSettings._height")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain reactive legend accessors and their renderer/layout side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartLegendSettings._isInversed")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartLegendSettings._isInversed")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain reactive legend accessors and their renderer/layout side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartLegendSettings._itemPadding")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartLegendSettings._itemPadding")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain reactive legend accessors and their renderer/layout side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartLegendSettings._maximumLabelWidth")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartLegendSettings._maximumLabelWidth")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain reactive legend accessors and their renderer/layout side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartLegendSettings._opacity")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartLegendSettings._opacity")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain reactive legend accessors and their renderer/layout side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartLegendSettings._padding")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartLegendSettings._padding")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain reactive legend accessors and their renderer/layout side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartLegendSettings._position")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartLegendSettings._position")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain reactive legend accessors and their renderer/layout side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartLegendSettings._reverse")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartLegendSettings._reverse")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain reactive legend accessors and their renderer/layout side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartLegendSettings._shapeHeight")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartLegendSettings._shapeHeight")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain reactive legend accessors and their renderer/layout side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartLegendSettings._shapePadding")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartLegendSettings._shapePadding")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain reactive legend accessors and their renderer/layout side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartLegendSettings._shapeWidth")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartLegendSettings._shapeWidth")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain reactive legend accessors and their renderer/layout side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartLegendSettings._tabIndex")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartLegendSettings._tabIndex")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain reactive legend accessors and their renderer/layout side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartLegendSettings._textWrap")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartLegendSettings._textWrap")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain reactive legend accessors and their renderer/layout side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartLegendSettings._visible")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartLegendSettings._visible")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain reactive legend accessors and their renderer/layout side effects; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartLegendSettings._width")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartLegendSettings._width")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain custom series accessors and their guarded renderer/data updates; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartSeries._accessibilityRole")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartSeries._accessibilityRole")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain custom series accessors and their guarded renderer/data updates; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartSeries._cardinalSplineTension")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartSeries._cardinalSplineTension")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain custom series accessors and their guarded renderer/data updates; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartSeries._columnSpacing")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartSeries._columnSpacing")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain custom series accessors and their guarded renderer/data updates; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartSeries._columnWidth")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartSeries._columnWidth")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain custom series accessors and their guarded renderer/data updates; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartSeries._columnWidthInPixel")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartSeries._columnWidthInPixel")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain custom series accessors and their guarded renderer/data updates; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartSeries._dashArrayProperty")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartSeries._dashArrayProperty")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain custom series accessors and their guarded renderer/data updates; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartSeries._dataSource")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartSeries._dataSource")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain custom series accessors and their guarded renderer/data updates; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartSeries._enableComplexProperty")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartSeries._enableComplexProperty")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain custom series accessors and their guarded renderer/data updates; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartSeries._enableTooltip")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartSeries._enableTooltip")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain custom series accessors and their guarded renderer/data updates; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartSeries._fill")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartSeries._fill")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain custom series accessors and their guarded renderer/data updates; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartSeries._legendShape")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartSeries._legendShape")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain custom series accessors and their guarded renderer/data updates; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartSeries._name")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartSeries._name")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain custom series accessors and their guarded renderer/data updates; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartSeries._opacityProperty")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartSeries._opacityProperty")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain custom series accessors and their guarded renderer/data updates; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartSeries._pointColorMapping")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartSeries._pointColorMapping")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain custom series accessors and their guarded renderer/data updates; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartSeries._query")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartSeries._query")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain custom series accessors and their guarded renderer/data updates; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartSeries._rendererProperty")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartSeries._rendererProperty")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain custom series accessors and their guarded renderer/data updates; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartSeries._showNearestTooltip")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartSeries._showNearestTooltip")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain custom series accessors and their guarded renderer/data updates; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartSeries._splineType")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartSeries._splineType")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain custom series accessors and their guarded renderer/data updates; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartSeries._stepPosition")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartSeries._stepPosition")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain custom series accessors and their guarded renderer/data updates; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartSeries._tooltipFormat")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartSeries._tooltipFormat")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain custom series accessors and their guarded renderer/data updates; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartSeries._type")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartSeries._type")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain custom series accessors and their guarded renderer/data updates; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartSeries._visible")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartSeries._visible")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain custom series accessors and their guarded renderer/data updates; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartSeries._widthProperty")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartSeries._widthProperty")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain reactive stack-label accessors and their guarded renderer updates; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartStackLabelSettings._angle")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartStackLabelSettings._angle")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain reactive stack-label accessors and their guarded renderer updates; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartStackLabelSettings._border")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartStackLabelSettings._border")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain reactive stack-label accessors and their guarded renderer updates; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartStackLabelSettings._fill")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartStackLabelSettings._fill")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain reactive stack-label accessors and their guarded renderer updates; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartStackLabelSettings._format")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartStackLabelSettings._format")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain reactive stack-label accessors and their guarded renderer updates; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartStackLabelSettings._stackLabelCornerRadiusX")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartStackLabelSettings._stackLabelCornerRadiusX")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Retain reactive stack-label accessors and their guarded renderer updates; ordinary auto-properties lose them, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Charts.ChartStackLabelSettings._stackLabelCornerRadiusY")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChartStackLabelSettings._stackLabelCornerRadiusY")]
 
 [assembly: SuppressMessage(
     "Style",
@@ -2900,35 +2907,35 @@ using System.Diagnostics.CodeAnalysis;
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Preserve lazy reflection-method caching; an ordinary auto-property loses lazy initialization, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Data.QueryableExtensions._enumerableaverageMethods")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.QueryableExtensions._enumerableaverageMethods")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Preserve lazy reflection-method caching; an ordinary auto-property loses lazy initialization, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Data.QueryableExtensions._enumerablesummethods")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.QueryableExtensions._enumerablesummethods")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Preserve lazy reflection-method caching; an ordinary auto-property loses lazy initialization, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Data.QueryableExtensions._queryableSumMethod")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.QueryableExtensions._queryableSumMethod")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Preserve lazy reflection-method caching; an ordinary auto-property loses lazy initialization, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Data.QueryableExtensions._queryableaverageMethod")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.QueryableExtensions._queryableaverageMethod")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0032:Use auto property",
     Justification = "2026-10-02: Preserve guarded InputFile event reads and fallback to the latest valid event; an ordinary auto-property loses those semantics, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
-    Target = "~F:Syncfusion.Blazor.Toolkit.Inputs.SfUploader._inputFileChangeEvent")]
+    Target = "~F:Syncfusion.Blazor.Toolkit.SfUploader._inputFileChangeEvent")]
 
 
 // -------------------------------------------------------------------------
@@ -2940,23 +2947,23 @@ using System.Diagnostics.CodeAnalysis;
 [assembly: SuppressMessage(
     "Style",
     "IDE0060:Remove unused parameter",
-    Justification = "2026-10-02: Preserve the protected SelectCalendarAsync(bool isSelection = false) signature for derived components and named-argument callers; removing or renaming the parameter breaks source/binary compatibility.",
+    Justification = "2026-10-02: Preserve the protected SelectCalendarAsync(bool isSelection = false) signature for derived components and named-argument callers; removing or renaming the parameter breaks source/binary compatibility. Namespace updated to match the post-consolidation namespace Syncfusion.Blazor.Toolkit (was Calendars.SfDatePicker pre-f498bbc).",
     Scope = "member",
-    Target = "~M:Syncfusion.Blazor.Toolkit.Calendars.SfDatePicker`1.SelectCalendarAsync(System.Boolean)")]
+    Target = "~M:Syncfusion.Blazor.Toolkit.SfDatePicker`1.SelectCalendarAsync(System.Boolean)")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0060:Remove unused parameter",
     Justification = "2026-10-02: Preserve the public JSInvokable TriggerZoomingEvents signature and isZoomStart parameter name for JavaScript dispatch, binary compatibility and named-argument callers.",
     Scope = "member",
-    Target = "~M:Syncfusion.Blazor.Toolkit.Charts.SfChart.TriggerZoomingEvents(System.String,System.Boolean)")]
+    Target = "~M:Syncfusion.Blazor.Toolkit.SfChart.TriggerZoomingEvents(System.String,System.Boolean)")]
 
 [assembly: SuppressMessage(
     "Style",
     "IDE0060:Remove unused parameter",
     Justification = "2026-10-02: Preserve the public ParseValueWithTypeInformation(string, object, bool) overload and retVal parameter name for binary compatibility and named-argument callers.",
     Scope = "member",
-    Target = "~M:Syncfusion.Blazor.Toolkit.Data.ValueConvert.ParseValueWithTypeInformation(System.String,System.Object,System.Boolean)")]
+    Target = "~M:Syncfusion.Blazor.Toolkit.ValueConvert.ParseValueWithTypeInformation(System.String,System.Object,System.Boolean)")]
 
 
 // -------------------------------------------------------------------------
@@ -2970,7 +2977,7 @@ using System.Diagnostics.CodeAnalysis;
     "IDE0340:Use unbound generic type",
     Justification = "2026-10-02: Retain the four bound Nullable<T> nameof expressions; unbound generic nameof requires C# 14 and cannot compile in shared net8.0/C# 12 or net9.0/C# 13 source.",
     Scope = "member",
-    Target = "~M:Syncfusion.Blazor.Toolkit.Data.QueryableExtensions.Predicate(System.Linq.IQueryable,System.Object,Syncfusion.Blazor.Toolkit.Data.FilterType,Syncfusion.Blazor.Toolkit.Data.FilterBehavior,System.Boolean,System.Type,System.Type,System.Linq.Expressions.Expression,System.Linq.Expressions.ParameterExpression,System.String,System.Boolean,System.Boolean)")]
+    Target = "~M:Syncfusion.Blazor.Toolkit.QueryableExtensions.Predicate(System.Linq.IQueryable,System.Object,Syncfusion.Blazor.Toolkit.FilterType,Syncfusion.Blazor.Toolkit.FilterBehavior,System.Boolean,System.Type,System.Type,System.Linq.Expressions.Expression,System.Linq.Expressions.ParameterExpression,System.String,System.Boolean,System.Boolean)")]
 
 
 // -------------------------------------------------------------------------
@@ -2979,9 +2986,9 @@ using System.Diagnostics.CodeAnalysis;
 [assembly: SuppressMessage(
     "Style",
     "IDE0390:Make method synchronous",
-    Justification = "2026-10-02: Keep this awaited Task-returning renderer helper async even without await; renderer failures are delivered through a faulted Task rather than thrown synchronously, preserving caller error delivery.",
+    Justification = "2026-10-02: Keep this awaited Task-returning renderer helper async even without await; renderer failures are delivered through a faulted Task rather than thrown synchronously, preserving caller error delivery. Namespace updated to match the post-consolidation namespace Syncfusion.Blazor.Toolkit (was Charts.SfChart pre-f498bbc).",
     Scope = "member",
-    Target = "~M:Syncfusion.Blazor.Toolkit.Charts.SfChart.UpdateNeededRenderersAsync")]
+    Target = "~M:Syncfusion.Blazor.Toolkit.SfChart.UpdateNeededRenderersAsync")]
 
 
 // -------------------------------------------------------------------------
@@ -3004,16 +3011,16 @@ using System.Diagnostics.CodeAnalysis;
 [assembly: SuppressMessage(
     "Naming",
     "IDE1006:Naming Styles",
-    Justification = "2026-10-02: Preserve the public JSInvokable HidePopup name used by JavaScript and existing consumers; adding an Async suffix would break dispatch and source/binary compatibility.",
+    Justification = "2026-10-02: Preserve the public JSInvokable HidePopup name used by JavaScript and existing consumers; adding an Async suffix would break dispatch and source/binary compatibility. Namespace updated to match the post-consolidation namespace Syncfusion.Blazor.Toolkit (was Calendars.SfTimePicker pre-f498bbc).",
     Scope = "member",
-    Target = "~M:Syncfusion.Blazor.Toolkit.Calendars.SfTimePicker`1.HidePopup(System.EventArgs)")]
+    Target = "~M:Syncfusion.Blazor.Toolkit.SfTimePicker`1.HidePopup(System.EventArgs)")]
 
 [assembly: SuppressMessage(
     "Naming",
     "IDE1006:Naming Styles",
-    Justification = "2026-10-02: Preserve the public JSInvokable ShowPopup name used by JavaScript and existing consumers; adding an Async suffix would break dispatch and source/binary compatibility.",
+    Justification = "2026-10-02: Preserve the public JSInvokable ShowPopup name used by JavaScript and existing consumers; adding an Async suffix would break dispatch and source/binary compatibility. Namespace updated to match the post-consolidation namespace Syncfusion.Blazor.Toolkit (was Calendars.SfTimePicker pre-f498bbc).",
     Scope = "member",
-    Target = "~M:Syncfusion.Blazor.Toolkit.Calendars.SfTimePicker`1.ShowPopup(System.EventArgs)")]
+    Target = "~M:Syncfusion.Blazor.Toolkit.SfTimePicker`1.ShowPopup(System.EventArgs)")]
 
 [assembly: SuppressMessage(
     "Naming",
@@ -3034,46 +3041,46 @@ using System.Diagnostics.CodeAnalysis;
     "IDE1006:Naming Styles",
     Justification = "2026-10-02: Preserve the public Refresh method name for existing consumers; adding an Async suffix would break source/binary compatibility.",
     Scope = "member",
-    Target = "~M:Syncfusion.Blazor.Toolkit.Data.BaseComponent.Refresh")]
+    Target = "~M:Syncfusion.Blazor.Toolkit.BaseComponent.Refresh")]
 
 [assembly: SuppressMessage(
     "Naming",
     "IDE1006:Naming Styles",
     Justification = "2026-10-02: Preserve the public virtual JSInvokable Trigger name for JavaScript dispatch, overrides and existing consumers; an Async suffix would break those contracts.",
     Scope = "member",
-    Target = "~M:Syncfusion.Blazor.Toolkit.Data.BaseComponent.Trigger(System.String,System.String)")]
+    Target = "~M:Syncfusion.Blazor.Toolkit.BaseComponent.Trigger(System.String,System.String)")]
 
 [assembly: SuppressMessage(
     "Naming",
     "IDE1006:Naming Styles",
     Justification = "2026-10-02: Preserve the public JSInvokable UpdateModel name for JavaScript dispatch and source/binary compatibility; an Async suffix would break those contracts.",
     Scope = "member",
-    Target = "~M:Syncfusion.Blazor.Toolkit.Data.BaseComponent.UpdateModel(System.Collections.Generic.Dictionary{System.String,System.Object})")]
+    Target = "~M:Syncfusion.Blazor.Toolkit.BaseComponent.UpdateModel(System.Collections.Generic.Dictionary{System.String,System.Object})")]
 
 [assembly: SuppressMessage(
     "Naming",
     "IDE1006:Naming Styles",
     Justification = "2026-10-02: _uniqueId is a protected property on the public abstract BaseComponent; renaming it would break source/binary compatibility for derived components.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Data.BaseComponent._uniqueId")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.BaseComponent._uniqueId")]
 
 [assembly: SuppressMessage(
     "Naming",
     "IDE1006:Naming Styles",
     Justification = "2026-10-02: Preserve the public generic ExecuteQuery<T>(DataManagerRequest) overload name; adding an Async suffix would break source/binary compatibility for consumers.",
     Scope = "member",
-    Target = "~M:Syncfusion.Blazor.Toolkit.Data.DataManager.ExecuteQuery``1(Syncfusion.Blazor.Toolkit.Data.DataManagerRequest)")]
+    Target = "~M:Syncfusion.Blazor.Toolkit.DataManager.ExecuteQuery``1(Syncfusion.Blazor.Toolkit.DataManagerRequest)")]
 
 [assembly: SuppressMessage(
     "Naming",
     "IDE1006:Naming Styles",
     Justification = "2026-10-02: Preserve the public generic ExecuteQuery<T>(Query) overload name; adding an Async suffix would break source/binary compatibility for consumers.",
     Scope = "member",
-    Target = "~M:Syncfusion.Blazor.Toolkit.Data.DataManager.ExecuteQuery``1(Syncfusion.Blazor.Toolkit.Data.Query)")]
+    Target = "~M:Syncfusion.Blazor.Toolkit.DataManager.ExecuteQuery``1(Syncfusion.Blazor.Toolkit.Query)")]
 
 [assembly: SuppressMessage(
     "Naming",
     "IDE1006:Naming Styles",
     Justification = "2026-10-02: Preserve the public lowercase value property and its value JSON contract; a CLR rename would break source/binary compatibility even if JsonPropertyName kept the wire spelling.",
     Scope = "member",
-    Target = "~P:Syncfusion.Blazor.Toolkit.Data.WhereFilter.value")]
+    Target = "~P:Syncfusion.Blazor.Toolkit.WhereFilter.value")]

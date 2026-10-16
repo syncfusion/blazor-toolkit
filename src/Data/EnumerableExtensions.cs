@@ -2,9 +2,8 @@
 using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 using System.Reflection;
-using Syncfusion.Blazor.Toolkit.Data;
 
-namespace Syncfusion.Blazor.Toolkit.Data
+namespace Syncfusion.Blazor.Toolkit
 {
     /// <summary>
     /// Provides extension methods for enumerable collections to support parallel invocation and data operations.

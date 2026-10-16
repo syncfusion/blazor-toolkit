@@ -1,4 +1,4 @@
-﻿namespace Syncfusion.Blazor.Toolkit.Data
+namespace Syncfusion.Blazor.Toolkit
 {
     /// <summary>
     /// Defines the direction and the property name to be used as the criteria for sorting a collection.

@@ -1,3 +1,5 @@
+@using Syncfusion.Blazor.Toolkit
+
 <SfChart @key="@_currentTheme" Height="300px" Theme="@_currentTheme">
     <ChartZoomSettings EnableSelectionZooming="true" EnablePan="true" Mode="ZoomMode.X" />
 
@@ -24,32 +26,43 @@
 </SfChart>
 
 <div class="Chart-button-container">
-    <button class="e-btn @(ActiveDayButton == "friday" ? "active" : "")"
-            @onclick="@(() => UpdateDayChart("friday", 0, 0.175))">
+    <SfButton CssClass="@(ActiveDayButton == "friday" ? "active" : null)"
+              OnClick="@(() => UpdateDayChart("friday", 0, 0.175))">
         Friday <br />
         @DayButtonTemperatures?[0]
-    </button>
-    <button class="e-btn @(ActiveDayButton == "saturday" ? "active" : "")"
-            @onclick="@(() => UpdateDayChart("saturday", 0.206, 0.175))">
+    </SfButton>
+
+    <SfButton CssClass="@(ActiveDayButton == "saturday" ? "active" : null)"
+              OnClick="@(() => UpdateDayChart("saturday", 0.206, 0.175))">
         Saturday <br />
         @DayButtonTemperatures?[1]
-    </button>
-    <button class="e-btn @(ActiveDayButton == "sunday" ? "active" : "")"
-            @onclick="@(() => UpdateDayChart("sunday", 0.413, 0.175))">
+    </SfButton>
+
+    <SfButton CssClass="@(ActiveDayButton == "sunday" ? "active" : null)"
+              OnClick="@(() => UpdateDayChart("sunday", 0.413, 0.175))">
         Sunday <br />
         @DayButtonTemperatures?[2]
-    </button>
-    <button class="e-btn @(ActiveDayButton == "monday" ? "active" : "")"
-            @onclick="@(() => UpdateDayChart(" monday", 0.620, 0.175))">
+    </SfButton>
+
+    <SfButton CssClass="@(ActiveDayButton == "monday" ? "active" : null)"
+              OnClick="@(() => UpdateDayChart("monday", 0.620, 0.175))">
         Monday <br />
         @DayButtonTemperatures?[3]
-    </button>
-    <button class="e-btn @(ActiveDayButton == "tuesday" ? "active" : "")"
-            @onclick="@(() => UpdateDayChart(" tuesday", 0.827, 0.175))">
+    </SfButton>
+
+    <SfButton CssClass="@(ActiveDayButton == "tuesday" ? "active" : null)"
+              OnClick="@(() => UpdateDayChart("tuesday", 0.827, 0.175))">
         Tuesday <br />
         @DayButtonTemperatures?[4]
-    </button>
+    </SfButton>
 </div>
+
+<style>
+    .Chart-button-container {
+        padding-top: 5px;
+    }
+    
+</style>
 
 @code {
     [CascadingParameter]

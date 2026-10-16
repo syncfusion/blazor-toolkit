@@ -238,6 +238,43 @@
                     </a>
                 </li>
 
+                @* ============================================================
+                MORE (expandable group label)
+                ============================================================ *@
+                <li class="sf-sidebar-group-wrapper">
+                    <button type="button"
+                            class="sf-sidebar-group-summary"
+                            aria-expanded="@_moreExpanded.ToString().ToLowerInvariant()"
+                            @onclick="ToggleMore">
+                        <span class="sf-sidebar-group-label-text">More</span>
+                        <span class="sf-caret @(_moreExpanded ? "is-open" : string.Empty)" aria-hidden="true"></span>
+                    </button>
+                </li>
+
+                @if (_moreExpanded)
+                {
+                    <li class="sf-nav-item sf-nav-item-tight @(IsActive("release-notes") || IsActive("release-notes/2.0.0") || _relativeUri.StartsWith("release-notes/", StringComparison.OrdinalIgnoreCase) ? "is-active" : "")">
+                        <NavLink class="sf-nav-link" href="release-notes" Match="NavLinkMatch.All">
+                            <span class="e-toolkit-icons e-release-notes sf-menu-icon" aria-hidden="true"></span>
+                            <span>Release Notes</span>
+                        </NavLink>
+                    </li>
+
+                    <li class="sf-nav-item sf-nav-item-tight @(IsActive("contribution-guide") ? "is-active" : "")">
+                        <NavLink class="sf-nav-link" href="contribution-guide" Match="NavLinkMatch.All">
+                            <span class="e-toolkit-icons e-contribute sf-menu-icon" aria-hidden="true"></span>
+                            <span>Contribution Guide</span>
+                        </NavLink>
+                    </li>
+
+                    <li class="sf-nav-item sf-nav-item-tight @(IsActive("contributors") ? "is-active" : "")">
+                        <NavLink class="sf-nav-link" href="contributors" Match="NavLinkMatch.All">
+                            <span class="e-toolkit-icons e-contributors sf-menu-icon" aria-hidden="true"></span>
+                            <span>Contributors</span>
+                        </NavLink>
+                    </li>
+                }
+
             }
             else if (_singleCategory == "charts")
             {
@@ -256,7 +293,7 @@
 
                 <li class="sf-nav-item @(IsActive("charts/getting-started") ? "is-active" : "")">
                     <NavLink class="sf-nav-link" href="charts/getting-started">
-                        <span class="sb-icons e-home sf-menu-icon" aria-hidden="true"></span>
+                        <span class="sb-icons e-page-setup sf-menu-icon" aria-hidden="true"></span>
                         <span>Getting Started</span>
                     </NavLink>
                 </li>
@@ -540,24 +577,6 @@
             }
         </ul>
 
-        @* ============================================================
-           PLAYGROUND CARD
-           ============================================================ *@
-        <div class="sf-sidebar-footer">
-            <div class="sf-playground-card" role="region" aria-label="Try toolkit components">
-                <div class="sf-playground-glow" aria-hidden="true"></div>
-                <div class="sf-playground-title">Try Toolkit Components Instantly</div>
-                <div class="sf-playground-sub">Experiment in Playground</div>
-                <a class="sf-playground-btn" href="https://blazorplayground.syncfusion.com/" target="_blank" rel="noreferrer noopener">
-                    <span>Open Playground</span>
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-                        <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
-                        <polyline points="15 3 21 3 21 9"></polyline>
-                        <line x1="10" y1="14" x2="21" y2="3"></line>
-                    </svg>
-                </a>
-            </div>
-        </div>
     </nav>
 </div>
 
@@ -569,6 +588,7 @@
     private string _singleCategory = string.Empty;
 
     private bool _componentsExpanded = false;
+    private bool _moreExpanded = false;
 
     protected override void OnInitialized()
     {
@@ -590,6 +610,9 @@
 
         // Auto-expand the Components group when a route inside it is active
         _componentsExpanded = IsComponentsRoute(_relativeUri) || _componentsExpanded;
+
+        // Auto-expand the More group when a route inside it is active
+        _moreExpanded = IsMoreRoute(_relativeUri) || _moreExpanded;
 
         NavigationManager.LocationChanged += OnLocationChanged;
     }
@@ -638,6 +661,12 @@
         if (IsComponentsRoute(_relativeUri))
         {
             _componentsExpanded = true;
+        }
+
+        // Keep the More group expanded when a route inside it is active
+        if (IsMoreRoute(_relativeUri))
+        {
+            _moreExpanded = true;
         }
 
         InvokeAsync(StateHasChanged);
@@ -692,6 +721,15 @@
         _componentsExpanded = !_componentsExpanded;
     }
 
+    // Toggles the expand/collapse state of the "More" group in the
+    // sidebar. Mirrors ToggleComponents so the chevron, animation,
+    // and aria semantics all stay consistent with the Components
+    // group.
+    private void ToggleMore()
+    {
+        _moreExpanded = !_moreExpanded;
+    }
+
     private string GetChartsLinkClass()
     {
         return string.Equals(_singleCategory, "charts",
@@ -736,6 +774,23 @@
             || relativeUri.StartsWith("inputs/", StringComparison.OrdinalIgnoreCase)
             || relativeUri.Equals("popups", StringComparison.OrdinalIgnoreCase)
             || relativeUri.StartsWith("popups/", StringComparison.OrdinalIgnoreCase);
+    }
+
+    // Returns true when the current route is one of the entries shown
+    // inside the "More" group. Used to auto-expand the group when a
+    // deep link lands on a child page (Release Notes / Contribution
+    // Guide / Contributors).
+    private static bool IsMoreRoute(string relativeUri)
+    {
+        if (string.IsNullOrWhiteSpace(relativeUri))
+        {
+            return false;
+        }
+
+        return relativeUri.Equals("release-notes", StringComparison.OrdinalIgnoreCase)
+            || relativeUri.StartsWith("release-notes/", StringComparison.OrdinalIgnoreCase)
+            || relativeUri.Equals("contribution-guide", StringComparison.OrdinalIgnoreCase)
+            || relativeUri.Equals("contributors", StringComparison.OrdinalIgnoreCase);
     }
 
     private bool IsAnyGroupOpen(params string[] prefixes)

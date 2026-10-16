@@ -1,0 +1,233 @@
+name: Publish to GitHub Packages (Signed)
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write          # upload release assets
+  packages: write          # push to GitHub Packages
+  id-token: write          # SLSA provenance
+  attestations: write      # SLSA provenance
+  security-events: write
+
+concurrency:
+  group: nuget-publish-${{ github.event.release.tag_name }}
+  cancel-in-progress: false
+
+env:
+  DOTNET_NOLOGO: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+  NUGET_PACKAGES_DIR: ${{ github.workspace }}/nupkgs
+  SBOM_DIR: ${{ github.workspace }}/sbom
+
+jobs:
+  publish:
+    name: Pack → Scan → Sign → SBOM → Attest → Publish
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+
+    steps:
+      # -------------------------------------------------
+      # 1. Checkout (full history for SourceLink)
+      # -------------------------------------------------
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # -------------------------------------------------
+      # 2. Setup .NET
+      # -------------------------------------------------
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: |
+            8.0.x
+            9.0.x
+            10.0.x
+
+      # -------------------------------------------------
+      # 3. Restore
+      # -------------------------------------------------
+      - name: Restore
+        run: dotnet restore ./src/Syncfusion.Blazor.Toolkit.slnx
+
+      # -------------------------------------------------
+      # 4. Vulnerability scan (fail on High / Critical)
+      # -------------------------------------------------
+      - name: Vulnerability scan
+        run: |
+          set -euo pipefail
+          echo "## NuGet Vulnerability Report" > vuln-report.md
+          echo "" >> vuln-report.md
+
+          dotnet list ./src/Syncfusion.Blazor.Toolkit.csproj package --vulnerable --include-transitive > vuln-raw.txt 2>&1 || true
+          cat vuln-raw.txt >> vuln-report.md
+
+          if grep -qiE 'Severity\s*:\s*(High|Critical)' vuln-raw.txt; then
+            echo "::error::High or Critical vulnerabilities detected"
+            cat vuln-report.md
+            exit 1
+          fi
+
+          echo "No High/Critical vulnerabilities found."
+
+      - name: Upload vulnerability report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: vulnerability-report
+          path: vuln-report.md
+          retention-days: 90
+
+      # -------------------------------------------------
+      # 5. Pack (deterministic + SourceLink)
+      #    CycloneDX is automatically embedded by Directory.Build.targets
+      # -------------------------------------------------
+      - name: Pack
+        run: |
+          mkdir -p "${{ env.NUGET_PACKAGES_DIR }}" "${{ env.SBOM_DIR }}"
+          dotnet pack ./src/Syncfusion.Blazor.Toolkit.csproj \
+            -c Release \
+            -p:ContinuousIntegrationBuild=true \
+            -p:EmbedUntrackedSources=true \
+            -o "${{ env.NUGET_PACKAGES_DIR }}"
+
+      # -------------------------------------------------
+      # 6. Extract embedded CycloneDX SBOM from the package
+      # -------------------------------------------------
+      - name: Extract CycloneDX SBOM from package
+        run: |
+          set -euo pipefail
+          for pkg in "${{ env.NUGET_PACKAGES_DIR }}"/*.nupkg; do
+            unzip -o "$pkg" "_sbom/*" -d extracted-sbom 2>/dev/null || true
+          done
+
+          find extracted-sbom -name "*.cdx.json" -exec cp {} "${{ env.SBOM_DIR }}/" \; 2>/dev/null || true
+
+          # Fallback: generate CycloneDX if nothing was embedded
+          if [ -z "$(ls -A ${{ env.SBOM_DIR }}/*.cdx.json 2>/dev/null)" ]; then
+            echo "No embedded CycloneDX found – generating one"
+            dotnet tool install --global CycloneDX || true
+            export PATH="$PATH:$HOME/.dotnet/tools"
+            dotnet-CycloneDX ./src/Syncfusion.Blazor.Toolkit.csproj \
+            --output "${{ env.SBOM_DIR }}" \
+            --filename bom.json
+          fi
+
+          echo "CycloneDX files:"
+          ls -la "${{ env.SBOM_DIR }}"/*.cdx.json || true
+
+      # -------------------------------------------------
+      # 7. Generate SPDX SBOM (release asset only)
+      # -------------------------------------------------
+      - name: Generate SPDX SBOM
+        run: |
+          set -euo pipefail
+
+          # Install the correct .NET tool
+          dotnet tool install --global Microsoft.Sbom.DotNetTool || true
+          export PATH="$PATH:$HOME/.dotnet/tools"
+
+          # Generate SPDX SBOM
+          sbom-tool generate \
+            -b "${{ env.NUGET_PACKAGES_DIR }}" \
+            -bc ./src \
+            -pn "Syncfusion.Blazor.Toolkit" \
+            -pv "${{ github.event.release.tag_name }}" \
+            -ps "Syncfusion Inc." \
+            -nsb "https://github.com/syncfusion/blazor-toolkit" \
+            -V Verbose
+
+          # Move generated SPDX files into the SBOM directory
+          find . -name "_manifest" -type d | while read dir; do
+            find "$dir" -name "*.spdx.json" -exec cp {} "${{ env.SBOM_DIR }}/" \;
+          done
+
+          echo "SPDX files:"
+          ls -la "${{ env.SBOM_DIR }}"/*.spdx.json || true
+
+      # -------------------------------------------------
+      # 8. Signing is REQUIRED – fail if secrets are missing
+      # -------------------------------------------------
+      - name: Verify signing secrets exist
+        run: |
+          if [ -z "${{ secrets.NUGET_SIGNING_CERT_BASE64 }}" ] || [ -z "${{ secrets.NUGET_SIGNING_CERT_PASSWORD }}" ]; then
+            echo "::error::Signing secrets missing. Set NUGET_SIGNING_CERT_BASE64 and NUGET_SIGNING_CERT_PASSWORD."
+            exit 1
+          fi
+
+      - name: Sign NuGet package
+        env:
+          CERT_BASE64: ${{ secrets.NUGET_SIGNING_CERT_BASE64 }}
+          CERT_PASSWORD: ${{ secrets.NUGET_SIGNING_CERT_PASSWORD }}
+        run: |
+          set -euo pipefail
+          echo "$CERT_BASE64" | base64 -d > signing-cert.pfx
+
+          for pkg in "${{ env.NUGET_PACKAGES_DIR }}"/*.nupkg; do
+            echo "Signing $pkg ..."
+            dotnet nuget sign "$pkg" \
+              --certificate-path signing-cert.pfx \
+              --certificate-password "$CERT_PASSWORD" \
+              --timestamper http://timestamp.digicert.com \
+              --overwrite
+          done
+
+          # Destroy the certificate immediately
+          shred -u signing-cert.pfx 2>/dev/null || rm -f signing-cert.pfx
+
+      # -------------------------------------------------
+      # 9. Verify the package is signed
+      # -------------------------------------------------
+      - name: Verify package signature
+        run: |
+          set -euo pipefail
+          for pkg in "${{ env.NUGET_PACKAGES_DIR }}"/*.nupkg; do
+            echo "Verifying signature of $pkg ..."
+            dotnet nuget verify "$pkg" --all
+          done
+          echo "All packages are correctly signed."
+
+      # -------------------------------------------------
+      # 10. SLSA Build Provenance attestation
+      # -------------------------------------------------
+      - name: Generate SLSA provenance
+        uses: actions/attest-build-provenance@v2
+        with:
+          subject-path: ${{ env.NUGET_PACKAGES_DIR }}/*.nupkg
+
+      # -------------------------------------------------
+      # 11. Publish signed package to GitHub Packages
+      # -------------------------------------------------
+      - name: Add GitHub Packages source
+        run: |
+          dotnet nuget add source \
+            --username ${{ github.actor }} \
+            --password ${{ secrets.GITHUB_TOKEN }} \
+            --store-password-in-clear-text \
+            --name github \
+            "https://nuget.pkg.github.com/${{ github.repository_owner }}/index.json"
+
+      - name: Push to GitHub Packages
+        run: |
+          dotnet nuget push "${{ env.NUGET_PACKAGES_DIR }}/*.nupkg" \
+            --source "github" \
+            --api-key ${{ secrets.GITHUB_TOKEN }} \
+            --skip-duplicate
+
+      # -------------------------------------------------
+      # 12. Upload signed package + both SBOMs to the Release
+      # -------------------------------------------------
+      - name: Upload assets to GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            ${{ env.NUGET_PACKAGES_DIR }}/*.nupkg
+            ${{ env.SBOM_DIR }}/*.cdx.json
+            ${{ env.SBOM_DIR }}/*.spdx.json
+          fail_on_unmatched_files: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

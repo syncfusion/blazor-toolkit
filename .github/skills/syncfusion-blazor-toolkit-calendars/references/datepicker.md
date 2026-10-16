@@ -143,7 +143,7 @@ Selected date: @selectedDate?.ToString("MMM dd, yyyy")
 The calendar supports disabling specific dates via the `DayCellRendering` event:
 
 ```razor
-@using Syncfusion.Blazor.Toolkit.Calendars
+@using Syncfusion.Blazor.Toolkit
 
 <SfDatePicker TValue="DateTime?"
     DayCellRendering="@OnDayCellRendering">
@@ -262,7 +262,7 @@ The calendar supports disabling specific dates via the `DayCellRendering` event:
 
     private void OnFocusHandler(FocusEventArgs args)
     {
-        Console.WriteLine("Focused"); // use Syncfusion.Blazor.Toolkit.Calendars.FocusEventArgs if you face ambiguous reference error
+        Console.WriteLine("Focused"); // use Syncfusion.Blazor.Toolkit.FocusEventArgs if you face ambiguous reference error
     }
 
     private void OnBlurHandler(BlurEventArgs args)
@@ -347,7 +347,7 @@ The calendar supports disabling specific dates via the `DayCellRendering` event:
 ### With EditForm
 
 ```razor
-@using Syncfusion.Blazor.Toolkit.Calendars
+@using Syncfusion.Blazor.Toolkit
 @using System.ComponentModel.DataAnnotations
 
 <EditForm Model="@model" OnValidSubmit="@HandleSubmit">

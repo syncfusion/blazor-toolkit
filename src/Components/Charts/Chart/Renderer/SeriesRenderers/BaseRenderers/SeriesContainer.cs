@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNetCore.Components.Rendering;
+using Microsoft.AspNetCore.Components.Rendering;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
-using Syncfusion.Blazor.Toolkit.Data;
 using System.Text.RegularExpressions;
 
 namespace Syncfusion.Blazor.Toolkit.Charts.Internal

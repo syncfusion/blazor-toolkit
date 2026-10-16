@@ -280,7 +280,7 @@ namespace Syncfusion.Blazor.Toolkit
             }
 
             string? active = isChecked ? OnLabel : OffLabel;
-            return string.IsNullOrWhiteSpace(active) ? string.Empty : active;
+            return string.IsNullOrWhiteSpace(active) ? "Switch" : active;
         }
 
         /// <summary>

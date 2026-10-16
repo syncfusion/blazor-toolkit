@@ -56,23 +56,7 @@ services.AddSyncfusionBlazorToolkit();
 builder.Services.AddSyncfusionBlazorToolkit();
 ```
 
-### Step 3: Add Theme CSS
-
-Add the Syncfusion theme CSS to your HTML head. In `_Host.cshtml` (Blazor Server) or `index.html` (Blazor WebAssembly):
-
-```html
-<!-- Syncfusion Blazor Fluent Theme CSS -->
-<link id="syncfusion-theme" href="_content/Syncfusion.Blazor.Toolkit/styles/fluent.min.css" rel="stylesheet" />
-
-<!-- Alternative Themes Available -->
-<!-- Bootstrap Theme -->
-<!-- <link id="syncfusion-theme" href="_content/Syncfusion.Blazor.Toolkit/styles/bootstrap5.min.css" rel="stylesheet"> -->
-
-<!-- Material Theme -->
-<!-- <link id="syncfusion-theme" href="_content/Syncfusion.Blazor.Toolkit/styles/material.min.css" rel="stylesheet"> -->
-```
-
-### Step 4: Add Global Imports
+### Step 3: Add Global Imports
 
 Add the Syncfusion namespace to your `_Imports.razor`:
 
@@ -83,10 +67,12 @@ Add the Syncfusion namespace to your `_Imports.razor`:
 For Spinner-specific types in your Razor pages, add individual namespaces:
 
 ```razor
-@using Syncfusion.Blazor.Toolkit.Spinner
+@using Syncfusion.Blazor.Toolkit
 ```
 
-### Step 5: Basic Spinner Component
+> **Note** — Separate CSS links are no longer required. The necessary styles are automatically included through the NuGet package.
+
+### Step 4: Basic Spinner Component
 
 The simplest spinner shows the loading indicator with default styling:
 
@@ -710,18 +696,7 @@ The Spinner inherits colors from the current Syncfusion theme:
 ```
 
 ### Theme Variations
-Different themes available through CSS:
-
-```html
-<!-- Bootstrap theme -->
-<link href="_content/Syncfusion.Blazor.Toolkit/styles/bootstrap.min.css" rel="stylesheet" />
-
-<!-- Fluent theme -->
-<link href="_content/Syncfusion.Blazor.Toolkit/styles/fluent.min.css" rel="stylesheet" />
-
-<!-- Material theme -->
-<link href="_content/Syncfusion.Blazor.Toolkit/styles/material.min.css" rel="stylesheet" />
-```
+Color overrides can be applied through the `--sf-*` CSS custom properties on `:root` in your app stylesheet.
 
 ---
 

@@ -1,13 +1,12 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
 using System.Reflection;
-using Syncfusion.Blazor.Toolkit.Data;
 using Syncfusion.Blazor.Toolkit.Internal;
 using System.ComponentModel;
 using System.Dynamic;
 using System.Collections;
 
-namespace Syncfusion.Blazor.Toolkit.Data
+namespace Syncfusion.Blazor.Toolkit
 {
     /// <summary>
     /// DataOperation class that performs data operation in IQueryable type data sources.

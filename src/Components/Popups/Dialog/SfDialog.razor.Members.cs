@@ -327,7 +327,7 @@ namespace Syncfusion.Blazor.Toolkit
         /// </value>
         /// <remarks>
         /// This property is optional and is typically used to add custom buttons or other content to the footer.
-        /// If a <see cref="FooterTemplate"/> is specified, the default action buttons defined via the <see cref="Buttons"/> property will be ignored.
+        /// If a <see cref="FooterTemplate"/> is specified, the default action buttons defined via the <see cref="DialogButtons"/> property will be ignored.
         /// For more complex content, consider using the <c>DialogTemplates.Footer</c> render fragment.
         /// </remarks>
         /// <example>

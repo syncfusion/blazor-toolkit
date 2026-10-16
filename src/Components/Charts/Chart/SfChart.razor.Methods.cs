@@ -303,7 +303,7 @@ namespace Syncfusion.Blazor.Toolkit
         /// </example> 
         [RequiresUnreferencedCode(ChartSeriesRenderer.DataBindingTrimWarning)]
         [RequiresDynamicCode(ChartSeriesRenderer.DataBindingAotWarning)]
-        public void Sort(string propertyName, Data.ListSortDirection direction)
+        public void Sort(string propertyName, ListSortDirection direction)
         {
             _sorting.SetSortKeyAndDirection(propertyName, direction);
             _ = RefreshChartAsync();

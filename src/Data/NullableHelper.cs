@@ -5,7 +5,7 @@ using System.Globalization;
 using System.Collections;
 using Hashtable = System.Collections.Generic.Dictionary<object, object>;
 
-namespace Syncfusion.Blazor.Toolkit.Data
+namespace Syncfusion.Blazor.Toolkit
 {
     /// <summary>
     /// A framework independent utility class for the new Nullable type in .NET Framework 2.0.

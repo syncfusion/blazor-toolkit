@@ -534,7 +534,7 @@ Export rendered charts to various formats for reporting and sharing.
 ### Export to Image Formats
 
 ```razor
-@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit
 @using Syncfusion.Blazor.Buttons
 
 <SfChart @ref="ChartRef" Title="Annual Report">

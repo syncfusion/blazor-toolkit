@@ -1947,18 +1947,15 @@
     forced-color-adjust: none;
   }
 
-  .e-upload ::deep .e-upload-browse-btn:hover,
-  .e-upload ::deep .e-file-clear-btn:hover,
-  .e-upload ::deep .e-file-upload-btn:hover,
-  .e-upload .e-file-select-wrap .e-btn:hover,
-  .e-upload .e-upload-actions .e-btn:hover,
-  .e-upload-browse-btn:hover,
-  .e-file-clear-btn:hover,
-  .e-file-upload-btn:hover {
+  .e-upload ::deep :is(.e-upload-browse-btn, .e-file-clear-btn, .e-file-upload-btn):is(:hover, :active),
+  .e-upload .e-file-select-wrap .e-btn:is(:hover, :active),
+  .e-upload .e-upload-actions .e-btn:is(:hover, :active),
+  :is(.e-upload-browse-btn, .e-file-clear-btn, .e-file-upload-btn):is(:hover, :active) {
     color: Highlight !important;
     border-color: Highlight !important;
+    background-color: HighlightText !important;
   }
-
+  
   .e-upload ::deep .e-upload-browse-btn:focus-visible,
   .e-upload ::deep .e-file-clear-btn:focus-visible,
   .e-upload ::deep .e-file-upload-btn:focus-visible,
@@ -1967,8 +1964,25 @@
   .e-upload-browse-btn:focus-visible,
   .e-file-clear-btn:focus-visible,
   .e-file-upload-btn:focus-visible {
+    border-color: ButtonText !important;
+    color: ButtonText !important;
+    outline: 2px solid CanvasText !important;
+    outline-offset: 2px !important;
+    box-shadow: 0 0 0 1px ButtonText !important;
+    -webkit-text-fill-color: ButtonText;
+    forced-color-adjust: none;
+    z-index: 1;
+  }
+
+  .e-upload ::deep :is(.e-upload-browse-btn, .e-file-clear-btn, .e-file-upload-btn):focus-visible:hover,
+  .e-upload .e-file-select-wrap .e-btn:focus-visible:hover,
+  .e-upload .e-upload-actions .e-btn:focus-visible:hover,
+  :is(.e-upload-browse-btn, .e-file-clear-btn, .e-file-upload-btn):focus-visible:hover {
     color: Highlight !important;
     border-color: Highlight !important;
+    background-color: HighlightText !important;
+    box-shadow: 0 0 0 1px Highlight !important;
+    -webkit-text-fill-color: Highlight;
   }
 
   .e-upload.e-disabled ::deep .e-upload-browse-btn,

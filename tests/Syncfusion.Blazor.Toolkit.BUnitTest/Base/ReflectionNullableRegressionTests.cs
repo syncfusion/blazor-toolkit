@@ -3,7 +3,7 @@
 
 using System.Collections;
 using System.Reflection;
-using Syncfusion.Blazor.Toolkit.Data;
+using Syncfusion.Blazor.Toolkit;
 using Xunit;
 
 namespace Syncfusion.Blazor.Toolkit.BUnitTest.Base;

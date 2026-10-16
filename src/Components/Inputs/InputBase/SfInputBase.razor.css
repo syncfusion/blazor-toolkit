@@ -506,7 +506,7 @@
   line-height: 1;
   min-height: 18px;
   min-width: 20px;
-  padding: 5px 8px 5px 4px;
+  padding: 5px 5px 5px 5px;
   text-align: center;
   border-radius: calc(var(--e-radius) * 1);
 }
@@ -1562,6 +1562,16 @@
 .e-input-base-wrapper .e-float-input.e-control-wrapper:hover:not(.e-input-group):not(.e-disabled):not(.e-success):not(.e-warning):not(.e-error) textarea:not([disabled]) {
   border-bottom-width: 1px;
   border-color: var(--color-sf-border-dark);
+}
+.e-input-base-wrapper .e-outline.e-input-group.e-input-focus:hover:not(.e-disabled):not(.e-success):not(.e-warning):not(.e-error):not(.e-float-icon-left),
+.e-input-base-wrapper .e-outline.e-input-group.e-control-wrapper.e-input-focus:hover:not(.e-disabled):not(.e-success):not(.e-warning):not(.e-error):not(.e-float-icon-left),
+.e-input-base-wrapper .e-outline.e-float-input.e-input-focus:hover:not(.e-disabled):not(.e-success):not(.e-warning):not(.e-error):not(.e-float-icon-left),
+.e-input-base-wrapper .e-outline.e-float-input.e-control-wrapper.e-input-focus:hover:not(.e-disabled):not(.e-success):not(.e-warning):not(.e-error):not(.e-float-icon-left),
+.e-input-base-wrapper .e-outline.e-float-input.e-input-focus:hover:not(.e-input-group):not(.e-disabled):not(.e-success):not(.e-warning):not(.e-error) input:not([disabled]),
+.e-input-base-wrapper .e-outline.e-float-input.e-input-focus:hover:not(.e-input-group):not(.e-disabled):not(.e-success):not(.e-warning):not(.e-error) textarea:not([disabled]),
+.e-input-base-wrapper .e-outline.e-float-input.e-control-wrapper.e-input-focus:hover:not(.e-input-group):not(.e-disabled):not(.e-success):not(.e-warning):not(.e-error) input:not([disabled]),
+.e-input-base-wrapper .e-outline.e-float-input.e-control-wrapper.e-input-focus:hover:not(.e-input-group):not(.e-disabled):not(.e-success):not(.e-warning):not(.e-error) textarea:not([disabled]) {
+  border-bottom-color: var(--color-sf-primary);
 }
 .e-input-base-wrapper .e-input-group:hover:not(.e-disabled),
 .e-input-base-wrapper .e-input-group.e-control-wrapper:hover:not(.e-disabled),
@@ -2905,21 +2915,6 @@
 .e-input-base-wrapper .e-float-input:not(.e-error).e-input-focus input ~ label.e-float-text,
 .e-input-base-wrapper .e-float-input.e-control-wrapper:not(.e-error).e-input-focus input ~ label.e-float-text {
   color: rgba(var(--color-sf-primary));
-}
-.e-input-base-wrapper .e-input-group:hover:not(.e-success):not(.e-warning):not(.e-error):not(.e-disabled):not(.e-float-icon-left),
-.e-input-base-wrapper .e-input-group.e-control-wrapper:hover:not(.e-success):not(.e-warning):not(.e-error):not(.e-disabled):not(.e-float-icon-left),
-.e-input-base-wrapper .e-float-input.e-control-wrapper:hover:not(.e-success):not(.e-warning):not(.e-error):not(.e-disabled):not(.e-float-icon-left),
-.e-input-base-wrapper .e-float-input:hover:not(.e-success):not(.e-warning):not(.e-error):not(.e-disabled):not(.e-float-icon-left),
-.e-input-base-wrapper .e-input-group.e-float-icon-left:not(.e-success):not(.e-warning):not(.e-error):not(.e-disabled) .e-input-in-wrap:hover,
-.e-input-base-wrapper .e-input-group.e-control-wrapper.e-float-icon-left:not(.e-success):not(.e-warning):not(.e-error):not(.e-disabled) .e-input-in-wrap:hover,
-.e-input-base-wrapper .e-float-input.e-float-icon-left:not(.e-success):not(.e-warning):not(.e-error):not(.e-disabled) .e-input-in-wrap:hover,
-.e-input-base-wrapper .e-float-input.e-control-wrapper.e-float-icon-left:not(.e-success):not(.e-warning):not(.e-error):not(.e-disabled) .e-input-in-wrap:hover,
-.e-input-base-wrapper .e-float-input:hover:not(.e-input-group):not(.e-success):not(.e-warning):not(.e-error):not(.e-disabled) input:not([disabled]),
-.e-input-base-wrapper .e-float-input:hover:not(.e-input-group):not(.e-success):not(.e-warning):not(.e-error):not(.e-disabled) textarea:not([disabled]),
-.e-input-base-wrapper .e-float-input.e-control-wrapper:hover:not(.e-input-group):not(.e-success):not(.e-warning):not(.e-error):not(.e-disabled) input:not([disabled]),
-.e-input-base-wrapper .e-float-input.e-control-wrapper:hover:not(.e-input-group):not(.e-success):not(.e-warning):not(.e-error):not(.e-disabled) textarea:not([disabled]),
-.e-input-base-wrapper .e-float-input.e-control-wrapper.e-float-icon-left:not(.e-success):not(.e-warning):not(.e-error):not(.e-disabled) .e-input-in-wrap:hover {
-  border-bottom-color: var(--color-sf-border-alt);
 }
 .e-input-base-wrapper .e-underline.e-input-group:hover:not(.e-input-focus):not(.e-success):not(.e-warning):not(.e-error):not(.e-disabled),
 .e-input-base-wrapper .e-underline.e-input-group.e-control-wrapper:hover:not(.e-input-focus):not(.e-success):not(.e-warning):not(.e-error):not(.e-disabled),

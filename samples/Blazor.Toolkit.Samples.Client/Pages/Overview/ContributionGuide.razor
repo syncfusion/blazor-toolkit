@@ -1,0 +1,546 @@
+@page "/contribution-guide"
+@inherits TocPublishingComponentBase
+
+<PageTitle>Contribution Guide | Syncfusion Blazor Toolkit</PageTitle>
+
+<HeadContent>
+    <meta name="description" content="How to contribute to the Syncfusion Blazor Toolkit - setup, branching, coding style, tests, and pull request workflow for humans and AI agents." />
+</HeadContent>
+
+<style>
+    .page-content code,
+    .page-content pre {
+        font-family: "Cascadia Code", "JetBrains Mono", "Fira Code", Consolas, "SFMono-Regular", monospace;
+        font-size: 0.875em;
+    }
+    .page-content pre.cg-codeblock {
+        background: var(--sf-surface-2, #F6F8FB);
+        border: 1px solid var(--sf-border, #E5E7EB);
+        border-radius: 8px;
+        padding: 14px 16px;
+        overflow-x: auto;
+        line-height: 1.55;
+        font-size: 0.85em;
+        color: var(--sf-text, #111827);
+        margin: 0 0 16px 0;
+    }
+    .dark .page-content pre.cg-codeblock {
+        background: var(--sf-surface-2, #0F172A);
+        border-color: var(--sf-border, #1F2937);
+    }
+    .page-content pre.cg-codeblock code {
+        background: transparent;
+        padding: 0;
+        color: inherit;
+        font-size: 1em;
+    }
+    .cg-callout {
+        border: 1px solid var(--sf-border, #E5E7EB);
+        border-left: 4px solid var(--sf-link, #2B357C);
+        background: var(--sf-surface-2, #F6F8FB);
+        border-radius: 6px;
+        padding: 12px 16px;
+        margin: 12px 0 20px 0;
+        color: var(--sf-text-2, #4B5563);
+    }
+    .cg-callout strong { color: var(--sf-text, #111827); }
+    .cg-tag {
+        display: inline-block;
+        font-size: 0.72em;
+        font-weight: 600;
+        letter-spacing: 0.04em;
+        text-transform: uppercase;
+        padding: 2px 8px;
+        border-radius: 999px;
+        background: var(--sf-purple-50, #ECEEF7);
+        color: var(--sf-purple-700, #3B4693);
+        margin-right: 6px;
+        vertical-align: middle;
+    }
+    .dark .cg-callout {
+        border-color: var(--sf-border, #1F2937);
+        background: var(--sf-surface-2, #0F172A);
+    }
+    .dark .cg-tag {
+        background: rgba(138, 147, 196, 0.20);
+        color: #C4CCEC;
+    }
+    .cg-toc-anchor { scroll-margin-top: 90px; }
+    .page-content table.cg-table {
+        border-collapse: collapse;
+        width: 100%;
+        margin: 8px 0 16px 0;
+        font-size: 0.92em;
+        table-layout: auto;
+    }
+    .page-content table.cg-table th,
+    .page-content table.cg-table td {
+        border: 1px solid var(--sf-border, #E5E7EB);
+        padding: 8px 12px;
+        text-align: left;
+        vertical-align: top;
+    }
+    .page-content table.cg-table th {
+        background: var(--sf-surface-2, #F6F8FB);
+        font-weight: 600;
+    }
+    .dark .page-content table.cg-table th,
+    .dark .page-content table.cg-table td {
+        border-color: var(--sf-border, #1F2937);
+    }
+    .dark .page-content table.cg-table th {
+        background: var(--sf-surface-2, #0F172A);
+    }
+    .page-content table.cg-table th:first-child,
+    .page-content table.cg-table td:first-child {
+        white-space: nowrap;
+        width: 1%;
+        min-width: 7.5rem;
+    }
+
+    .page-content table.cg-table td:first-child code {
+        white-space: nowrap;
+    }
+</style>
+
+<Description>
+    <Header>
+        <h1 id="contribution-guide" class="cg-toc-anchor">Contribution Guide</h1>
+    </Header>
+    <Content>
+        <p>Thank you for your interest in contributing to the <strong>Syncfusion<sup style="font-size:70%">&reg;</sup> Toolkit for Blazor</strong>. This guide is for both <strong>human contributors</strong> and <strong>AI coding agents</strong>: every step is described concretely enough that you can follow it end-to-end without additional research or guesswork.</p>
+        <p>If you are planning a bigger change &mdash; a new component, a breaking API change, a large refactor &mdash; please open an issue or talk to a core team member first. We will help you confirm the change is in scope, that it can be reviewed promptly, and that you do not invest time in something we cannot accept.</p>
+    </Content>
+</Description>
+
+<Description>
+    <Header>
+        <h2 id="code-of-conduct" class="cg-toc-anchor">Code of Conduct</h2>
+    </Header>
+    <Content>
+        <p>By participating in this project you agree to follow the <a href="https://github.com/syncfusion/blazor-toolkit/blob/main/.github/CODE_OF_CONDUCT.md" target="_blank" rel="noreferrer noopener">Syncfusion Code of Conduct and Corporate Ethics Policy</a>. It aligns with the community standards of open-source initiatives maintained by Syncfusion, including the Syncfusion Blazor Toolkit.</p>
+    </Content>
+</Description>
+
+<Description>
+    <Header>
+        <h2 id="ways-to-contribute" class="cg-toc-anchor">Ways to contribute</h2>
+    </Header>
+    <Content>
+        <p>You do not have to write C# to help. Some of the most valuable contributions are smaller than a full PR:</p>
+        <ul>
+            <li><strong>Bug fixes</strong> &mdash; anything tagged <a href="https://github.com/syncfusion/blazor-toolkit/issues?q=is%3Aopen+is%3Aissue+label%3A%22t%2Fbug%22" target="_blank" rel="noreferrer noopener"><code>t/bug</code></a> in the issue tracker.</li>
+            <li><strong>Documentation</strong> &mdash; typo fixes, new examples, missing API descriptions, accessibility notes. The samples browser source lives under <a href="https://github.com/syncfusion/blazor-toolkit/tree/main/samples/Blazor.Toolkit.Samples.Client" target="_blank" rel="noreferrer noopener"><code>samples/Blazor.Toolkit.Samples.Client</code></a>.</li>
+            <li><strong>Tests</strong> &mdash; <a href="https://github.com/syncfusion/blazor-toolkit/tree/main/tests/Syncfusion.Blazor.Toolkit.BUnitTest" target="_blank" rel="noreferrer noopener">bUnit</a> and <a href="https://github.com/syncfusion/blazor-toolkit/tree/main/tests/Syncfusion.Blazor.Playwright.Test" target="_blank" rel="noreferrer noopener">Playwright</a> regression tests. <span class="cg-tag">Especially welcome</span></li>
+            <li><strong>Accessibility</strong> &mdash; keyboard navigation, ARIA, focus management, contrast. See <a href="https://github.com/syncfusion/blazor-toolkit/tree/main/.github/accessibility" target="_blank" rel="noreferrer noopener"><code>.github/accessibility/</code></a>.</li>
+            <li><strong>Performance</strong> &mdash; render-path profiling, allocation reductions. The <a href="https://github.com/syncfusion/blazor-toolkit/tree/main/.github/evidences/performance" target="_blank" rel="noreferrer noopener">performance evidence</a> under <code>.github/evidences/performance/</code> captures the latest profiling notes.</li>
+            <li><strong>Feature proposals</strong> &mdash; new components, new parameters on existing components, new CSS hooks. See <a href="#proposing-larger-features">Proposing larger features</a> below.</li>
+            <li><strong>Issue triage</strong> &mdash; reproduction, labelling, and confirming duplicate reports.</li>
+        </ul>
+    </Content>
+</Description>
+
+<Description>
+    <Header>
+        <h2 id="finding-something-to-work-on" class="cg-toc-anchor">Finding something to work on</h2>
+    </Header>
+    <Content>
+        <p>Good starting points, in order of recommendation for first-time contributors:</p>
+        <ol>
+            <li><a href="https://github.com/syncfusion/blazor-toolkit/issues?q=is%3Aopen+is%3Aissue+label%3A%22good+first+issue%22" target="_blank" rel="noreferrer noopener">Issues labelled <code>good first issue</code></a> &mdash; small, well-scoped, and explicitly tagged as friendly to first-timers.</li>
+            <li><a href="https://github.com/syncfusion/blazor-toolkit/issues?q=is%3Aopen+is%3Aissue+label%3A%22help+wanted%22" target="_blank" rel="noreferrer noopener">Issues labelled <code>help wanted</code></a> &mdash; community contributions are particularly welcome.</li>
+            <li>The <a href="https://github.com/syncfusion/blazor-toolkit/issues?q=is%3Aopen+is%3Aissue+milestone%3ABacklog" target="_blank" rel="noreferrer noopener">Backlog milestone</a> &mdash; any unassigned item is up for grabs. Open the issue, leave a comment saying you would like to take it, and start work.</li>
+        </ol>
+        <div class="cg-callout">
+            <strong>Before you start:</strong> open or claim an issue so the team knows you are working on it. Two people picking up the same issue wastes effort.
+        </div>
+    </Content>
+</Description>
+
+<Description>
+    <Header>
+        <h2 id="prerequisites" class="cg-toc-anchor">Prerequisites &amp; development environment</h2>
+    </Header>
+    <Content>
+        <p>The toolkit builds and runs on <strong>Windows</strong>, <strong>Linux</strong>, and <strong>macOS</strong>. Either an IDE or the <code>dotnet</code> CLI works.</p>
+
+        <h3>Tools you need</h3>
+        <table class="cg-table">
+            <thead>
+                <tr>
+                    <th>Tool</th>
+                    <th>Version</th>
+                    <th>Notes</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td><a href="https://dotnet.microsoft.com/en-us/download/dotnet" target="_blank" rel="noreferrer noopener">.NET SDK</a></td>
+                    <td>8.0, 9.0, or 10.0</td>
+                    <td>CI builds and tests all three; pick the highest available.</td>
+                </tr>
+                <tr>
+                    <td><a href="https://visualstudio.microsoft.com/downloads/" target="_blank" rel="noreferrer noopener">Visual Studio 2022</a> (Windows) <em>or</em> <a href="https://code.visualstudio.com/download" target="_blank" rel="noreferrer noopener">VS Code</a> (cross-platform) <em>or</em> <a href="https://www.jetbrains.com/rider/" target="_blank" rel="noreferrer noopener">JetBrains Rider</a></td>
+                    <td>Latest stable</td>
+                    <td>Any modern C# IDE works. VS Code needs the C# Dev Kit extension.</td>
+                </tr>
+                <tr>
+                    <td>Node.js (LTS) + npm</td>
+                    <td>Node 22 (CI uses 22)</td>
+                    <td>CI runs the ESLint security scan (<code>npm run lint:security</code>) and the XSS / unsafe markup scan (<code>npx gulp security-xss-scan</code>). Install dependencies with <code>npm ci</code> before opening a PR.</td>
+                </tr>
+                <tr>
+                    <td>Git</td>
+                    <td>2.30+</td>
+                    <td>For working with branches and PRs.</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>Clone the repository</h3>
+        <pre class="cg-codeblock"><code>git clone https://github.com/syncfusion/blazor-toolkit.git
+cd blazor-toolkit</code></pre>
+
+        <h3>Restore, build, and run the samples</h3>
+        <p>From the repository root:</p>
+        <pre class="cg-codeblock"><code># Restore + build the library (matches the CI commands exactly)
+dotnet restore src/Syncfusion.Blazor.Toolkit.csproj
+dotnet build  src/Syncfusion.Blazor.Toolkit.csproj -c Release --no-restore
+
+# Run the interactive samples browser
+dotnet run --project samples/Blazor.Toolkit.Samples.Client</code></pre>
+
+        <p>To open the samples in Visual Studio instead, double-click <code>samples/Blazor.Toolkit.Samples.slnx</code> and press F5.</p>
+
+        <h3>Verify your local SDK</h3>
+        <pre class="cg-codeblock"><code>dotnet --list-sdks</code></pre>
+        <p>Make sure one of the listed SDKs matches a <code>&lt;TargetFramework&gt;</code> in the project you are editing. The library targets <code>net8.0</code>, <code>net9.0</code>, and <code>net10.0</code>.</p>
+
+        <div class="cg-callout">
+            <strong>CI parity tip:</strong> before opening a PR, run the full solution build with the same properties CI uses:
+            <pre class="cg-codeblock" style="margin-top:8px"><code>dotnet build -c Release -p:ContinuousIntegrationBuild=true</code></pre>
+            This exercises the same SourceLink, pack, and analyzer rules the PR pipeline runs.
+        </div>
+    </Content>
+</Description>
+
+<Description>
+    <Header>
+        <h2 id="repository-structure" class="cg-toc-anchor">Repository structure</h2>
+    </Header>
+    <Content>
+        <p>A high-level map of the repository. Every path below is relative to the repo root unless otherwise noted.</p>
+        <table class="cg-table">
+            <thead>
+                <tr><th>Path</th><th>Purpose</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><code>src/</code></td><td>The toolkit library. The main project is <code>Syncfusion.Blazor.Toolkit.csproj</code>; components live under <code>src/Components/&lt;ComponentName&gt;</code> (Buttons, Calendars, Charts, Inputs, Popups, Spinner).</td></tr>
+                <tr><td><code>tests/</code></td><td>Test projects. <code>tests/Syncfusion.Blazor.Toolkit.BUnitTest</code> is the bUnit unit / component test suite. <code>tests/Syncfusion.Blazor.Playwright.Test</code> contains the Playwright end-to-end test suite (<code>Blazor.Toolkit.playwright.Test/</code>) and the sample app the tests run against (<code>Blazor.Toolkit.Playwright.Samples/</code>).</td></tr>
+                <tr><td><code>samples/</code></td><td>The interactive samples browser that ships as the public documentation site. The Blazor WebAssembly project is <code>samples/Blazor.Toolkit.Samples.Client</code>; the whole browser is in <code>samples/Blazor.Toolkit.Samples.slnx</code>.</td></tr>
+                <tr><td><code>docs/</code></td><td>Public project documents that live alongside the source: <code>docs/API-BREAK-INVENTORY.md</code>, <code>docs/API-COMPATIBILITY.md</code>, and the VPAT accessibility conformance report (<code>docs/VPAT-2.5-INT.md</code>).</td></tr>
+                <tr><td><code>artifacts/</code></td><td>Generated artefacts published from the build pipeline &mdash; currently the SBOM (<code>artifacts/sbom/sbom.cdx.json</code>).</td></tr>
+                <tr><td><code>.github/</code></td><td>GitHub configuration and maintainer docs: <code>CONTRIBUTING.md</code>, <code>DEVELOPMENT.md</code>, <code>CODE_OF_CONDUCT.md</code>, <code>PULL_REQUEST_TEMPLATE.md</code>, <code>SECURITY.md</code>, <code>SUPPORT.md</code>, <code>TEST-MATRIX.md</code>, <code>THREAT-MODEL.md</code>, the <code>workflows/</code> pipelines, the <code>accessibility/</code> insights, the <code>skills/</code> descriptors, the <code>evidences/</code> archive, and <code>dependabot.yml</code>.</td></tr>
+            </tbody>
+        </table>
+    </Content>
+</Description>
+
+<Description>
+    <Header>
+        <h2 id="important-folders" class="cg-toc-anchor">Important folders &amp; resources</h2>
+    </Header>
+    <Content>
+        <p>Some folders and resources live outside the obvious <code>src/</code>, <code>tests/</code>, and <code>samples/</code> paths and are easy to miss on a first scan. They are critical to how this project is built, tested, reviewed, and shipped &mdash; please read the ones relevant to your change before opening a PR.</p>
+
+        <h3>Accessibility evidence &mdash; <code>.github/accessibility/</code></h3>
+        <p><a href="https://github.com/syncfusion/blazor-toolkit/tree/main/.github/accessibility" target="_blank" rel="noreferrer noopener"><code>.github/accessibility/</code></a> is the home of the per-component accessibility evidence: a rolled-up Accessibility Insights summary and a per-component screen-reader smoke matrix (NVDA, JAWS, Narrator) that is re-verified at every release.</p>
+        <ul>
+            <li><a href="https://github.com/syncfusion/blazor-toolkit/blob/main/.github/accessibility/insights-summary.md" target="_blank" rel="noreferrer noopener"><code>.github/accessibility/insights-summary.md</code></a> &mdash; rolled-up Accessibility Insights / FastPass / Assessment results.</li>
+            <li><a href="https://github.com/syncfusion/blazor-toolkit/blob/main/.github/accessibility/screen-reader-smoke.md" target="_blank" rel="noreferrer noopener"><code>.github/accessibility/screen-reader-smoke.md</code></a> &mdash; manual screen-reader smoke matrix per major component.</li>
+        </ul>
+        <p>For the formal accessibility conformance report, see <a href="https://github.com/syncfusion/blazor-toolkit/blob/main/docs/VPAT-2.5-INT.md" target="_blank" rel="noreferrer noopener"><code>docs/VPAT-2.5-INT.md</code></a>.</p>
+
+        <h3>Performance evidence &mdash; <code>.github/evidences/performance/</code></h3>
+        <p><a href="https://github.com/syncfusion/blazor-toolkit/tree/main/.github/evidences/performance" target="_blank" rel="noreferrer noopener"><code>.github/evidences/performance/</code></a> captures profiling notes and render-path optimisations that back the perf claims in PRs and release notes.</p>
+        <ul>
+            <li><a href="https://github.com/syncfusion/blazor-toolkit/blob/main/.github/evidences/performance/key-usage.md" target="_blank" rel="noreferrer noopener"><code>key-usage.md</code></a> &mdash; key-usage measurements on the major components.</li>
+            <li><a href="https://github.com/syncfusion/blazor-toolkit/blob/main/.github/evidences/performance/render-tree-efficiency.md" target="_blank" rel="noreferrer noopener"><code>render-tree-efficiency.md</code></a> &mdash; render-tree efficiency analysis.</li>
+            <li><a href="https://github.com/syncfusion/blazor-toolkit/blob/main/.github/evidences/performance/shouldRender-optimization.md" target="_blank" rel="noreferrer noopener"><code>shouldRender-optimization.md</code></a> &mdash; <code>ShouldRender</code> optimisation write-up.</li>
+            <li><a href="https://github.com/syncfusion/blazor-toolkit/blob/main/.github/evidences/performance/virtualization-strategy.md" target="_blank" rel="noreferrer noopener"><code>virtualization-strategy.md</code></a> &mdash; virtualisation strategy notes.</li>
+        </ul>
+
+        <h3>Other <code>.github/</code> and root-level resources</h3>
+        <ul>
+            <li><a href="https://github.com/syncfusion/blazor-toolkit/blob/main/.github/CONTRIBUTING.md" target="_blank" rel="noreferrer noopener"><code>.github/CONTRIBUTING.md</code></a> &mdash; the canonical version of this guide. The on-site page stays in sync with it.</li>
+            <li><a href="https://github.com/syncfusion/blazor-toolkit/blob/main/.github/DEVELOPMENT.md" target="_blank" rel="noreferrer noopener"><code>.github/DEVELOPMENT.md</code></a> &mdash; build, release, and NuGet sign-and-publish procedure.</li>
+            <li><a href="https://github.com/syncfusion/blazor-toolkit/blob/main/.github/PULL_REQUEST_TEMPLATE.md" target="_blank" rel="noreferrer noopener"><code>.github/PULL_REQUEST_TEMPLATE.md</code></a> &mdash; the PR body template the PR UI pre-fills for you.</li>
+            <li><a href="https://github.com/syncfusion/blazor-toolkit/blob/main/.github/SECURITY.md" target="_blank" rel="noreferrer noopener"><code>.github/SECURITY.md</code></a> &mdash; the private reporting channel for security issues.</li>
+            <li><a href="https://github.com/syncfusion/blazor-toolkit/blob/main/.github/SUPPORT.md" target="_blank" rel="noreferrer noopener"><code>.github/SUPPORT.md</code></a> &mdash; how to get help and where to file issues.</li>
+            <li><a href="https://github.com/syncfusion/blazor-toolkit/blob/main/.github/THREAT-MODEL.md" target="_blank" rel="noreferrer noopener"><code>.github/THREAT-MODEL.md</code></a> &mdash; the threat model that drives the release / signing posture.</li>
+            <li><a href="https://github.com/syncfusion/blazor-toolkit/blob/main/.github/Index.md" target="_blank" rel="noreferrer noopener"><code>.github/Index.md</code></a> &mdash; the index of every document under <code>.github/</code>.</li>
+            <li><a href="https://github.com/syncfusion/blazor-toolkit/tree/main/.github/skills" target="_blank" rel="noreferrer noopener"><code>.github/skills/</code></a> &mdash; skill descriptors for AI agents (component-specific: <code>syncfusion-blazor-toolkit-buttons</code>, <code>...-calendars</code>, <code>...-charts</code>, <code>...-inputs</code>, <code>...-notifications</code>, <code>...-popups</code>). Load the matching skill before working on that area.</li>
+            <li><a href="https://github.com/syncfusion/blazor-toolkit/tree/main/.github/workflows" target="_blank" rel="noreferrer noopener"><code>.github/workflows/</code></a> &mdash; the CI pipelines: <code>ci.yml</code> (build, test, lint, pack) and <code>codeql.yml</code> (CodeQL security analysis).</li>
+            <li><a href="https://github.com/syncfusion/blazor-toolkit/blob/main/.github/dependabot.yml" target="_blank" rel="noreferrer noopener"><code>.github/dependabot.yml</code></a> &mdash; Dependabot configuration that drives the dependency update PRs.</li>
+            <li><a href="https://github.com/syncfusion/blazor-toolkit/blob/main/CHANGELOG.md" target="_blank" rel="noreferrer noopener"><code>CHANGELOG.md</code></a> &mdash; the user-facing changelog. Add an entry under the next unreleased heading if your change is user-visible.</li>
+            <li><a href="https://github.com/syncfusion/blazor-toolkit/blob/main/README.md" target="_blank" rel="noreferrer noopener"><code>README.md</code></a> &mdash; top-level project overview, getting-started snippet, and badges.</li>
+            <li><a href="https://github.com/syncfusion/blazor-toolkit/blob/main/Directory.Build.props" target="_blank" rel="noreferrer noopener"><code>Directory.Build.props</code></a> &mdash; solution-wide MSBuild properties shared by every project.</li>
+            <li><a href="https://github.com/syncfusion/blazor-toolkit/blob/main/Directory.Build.targets" target="_blank" rel="noreferrer noopener"><code>Directory.Build.targets</code></a> &mdash; solution-wide MSBuild targets.</li>
+            <li><a href="https://github.com/syncfusion/blazor-toolkit/tree/main/artifacts/sbom" target="_blank" rel="noreferrer noopener"><code>artifacts/sbom/</code></a> &mdash; SBOM artefacts produced by the pipeline (CycloneDX JSON + SHA-256).</li>
+        </ul>
+    </Content>
+</Description>
+
+<Description>
+    <Header>
+        <h2 id="coding-style" class="cg-toc-anchor">Coding style &amp; conventions</h2>
+    </Header>
+    <Content>
+        <p>Follow the <a href="https://github.com/dotnet/runtime/blob/master/docs/coding-guidelines/coding-style.md" target="_blank" rel="noreferrer noopener">.NET Foundation coding style</a> with <strong>two project-specific exceptions</strong>:</p>
+        <ol>
+            <li><strong>No <code>private</code> keyword.</strong> <code>private</code> is the default accessibility in C#, so we omit it. <code>internal</code>, <code>protected</code>, and <code>public</code> are still written explicitly.</li>
+            <li><strong>Hard tabs, not spaces.</strong> The repository is tab-indented; please preserve it.</li>
+        </ol>
+        <p>Other things to keep in mind:</p>
+        <ul>
+            <li>XML doc comments are required on every public <code>Sf*</code> type and public member. If the docs say a parameter is required, the property must also be marked <code>[EditorRequired]</code>; the <code>EditorRequiredAttributeTests</code> in the bUnit test suite enforces this.</li>
+            <li>Match the file layout of neighbouring components: <code>SfFoo.razor</code>, <code>SfFoo.razor.css</code>, <code>SfFoo.razor.cs</code>, <code>Base/SfFooBase.cs</code> if applicable.</li>
+            <li>Global JavaScript for the toolkit is shipped from <code>src/wwwroot/scripts/</code>. The SCSS themes that feed into the same assets are built by the <code>blazor-toolkit-themes</code> gulp task (see <a href="https://github.com/syncfusion/blazor-toolkit/blob/main/gulpfile.js" target="_blank" rel="noreferrer noopener"><code>gulpfile.js</code></a>). Do not introduce unscoped global identifiers that could collide with the toolkit&rsquo;s public surface.</li>
+            <li>Avoid new top-level NuGet dependencies. If you need one, justify it in the PR description.</li>
+        </ul>
+    </Content>
+</Description>
+
+<Description>
+    <Header>
+        <h2 id="making-changes" class="cg-toc-anchor">Making changes &amp; branching strategy</h2>
+    </Header>
+    <Content>
+        <ol>
+            <li>Fork the repository (or create a branch if you have write access).</li>
+            <li>Create a branch from <code>main</code> with a descriptive name. Suggested prefixes: <code>fix/&hellip;</code>, <code>feat/&hellip;</code>, <code>docs/&hellip;</code>, <code>test/&hellip;</code>, <code>chore/&hellip;</code>.</li>
+            <li>Make your changes in small, logically grouped commits. Avoid mixing unrelated changes (e.g. a typo fix plus a new feature) in the same PR.</li>
+            <li>Build and test locally before pushing.</li>
+            <li>Open a pull request targeting <strong><code>main</code></strong>. All PRs target <code>main</code> unless explicitly noted otherwise by a maintainer.</li>
+        </ol>
+        <p>Branches that have been merged are deleted automatically. There is no long-lived release branch; versioning is driven by tags on <code>main</code> (see <a href="https://github.com/syncfusion/blazor-toolkit/blob/main/.github/DEVELOPMENT.md" target="_blank" rel="noreferrer noopener"><code>.github/DEVELOPMENT.md</code></a> for the full release process).</p>
+    </Content>
+</Description>
+
+<Description>
+    <Header>
+        <h2 id="writing-tests" class="cg-toc-anchor">Writing tests</h2>
+    </Header>
+    <Content>
+        <p>Bug fixes should add a regression test, and new behaviour should add coverage for the happy path and at least one failure case.</p>
+        <ul>
+            <li><strong>Unit / component tests</strong> use <a href="https://bunit.dev/" target="_blank" rel="noreferrer noopener">bUnit</a> and live in <code>tests/Syncfusion.Blazor.Toolkit.BUnitTest</code>. The test project mirrors the <code>src/Components/&lt;Name&gt;</code> folder structure.</li>
+            <li><strong>End-to-end browser tests</strong> use <a href="https://playwright.dev/" target="_blank" rel="noreferrer noopener">Playwright</a> and live in <code>tests/Syncfusion.Blazor.Playwright.Test/Blazor.Toolkit.playwright.Test</code>. The companion sample app that the specs run against lives in <code>tests/Syncfusion.Blazor.Playwright.Test/Blazor.Toolkit.Playwright.Samples</code>.</li>
+            <li>Accessibility evidence (the per-component screen-reader matrix and Accessibility Insights summary) is updated in <a href="https://github.com/syncfusion/blazor-toolkit/tree/main/.github/accessibility" target="_blank" rel="noreferrer noopener"><code>.github/accessibility/</code></a>; individual <code>.spec.ts</code> files under <code>Blazor.Toolkit.playwright.Test</code> include axe-core checks as part of the Playwright suite.</li>
+        </ul>
+
+        <h3>Running the bUnit test suite</h3>
+        <p>This is the exact command CI runs in the <em>bUnit</em> job:</p>
+        <pre class="cg-codeblock"><code>dotnet test tests/Syncfusion.Blazor.Toolkit.BUnitTest/ -c Release \
+  --logger "trx;LogFileName=bunit.trx" \
+  --results-directory TestResults \
+  --collect:"XPlat Code Coverage"</code></pre>
+
+        <h3>Running a single test class</h3>
+        <pre class="cg-codeblock"><code>dotnet test tests/Syncfusion.Blazor.Toolkit.BUnitTest/ -c Release \
+  --no-build --filter "FullyQualifiedName~SfButtonTests"</code></pre>
+
+        <h3>Running the Playwright suite</h3>
+        <p>This is the exact command CI runs in the <em>Playwright</em> job:</p>
+        <pre class="cg-codeblock"><code>npx playwright test --reporter=line</code></pre>
+        <p>The Playwright config (<a href="https://github.com/syncfusion/blazor-toolkit/blob/main/playwright.config.ts" target="_blank" rel="noreferrer noopener"><code>playwright.config.ts</code></a>) starts the sample app, runs the specs, and tears the app down &mdash; there is no separate <code>dotnet test</code> step to invoke. To debug a single spec interactively, use <code>npx playwright test --ui</code>.</p>
+    </Content>
+</Description>
+
+<Description>
+    <Header>
+        <h2 id="submitting-a-pr" class="cg-toc-anchor">Submitting a pull request</h2>
+    </Header>
+    <Content>
+        <p>Pull requests are created through the standard GitHub flow. Please read the <a href="https://github.com/syncfusion/blazor-toolkit/blob/main/.github/PULL_REQUEST_TEMPLATE.md" target="_blank" rel="noreferrer noopener">pull request template</a> in full &mdash; it is short and points out the most common reasons PRs bounce.</p>
+
+        <h3>Checklist before you open the PR</h3>
+        <ul>
+            <li>The PR targets <code>main</code>.</li>
+            <li>All commits reference the issue they fix (e.g. <code>Fixes #1234</code>). The PR body includes <code>Fixes #&hellip;</code> on its own line so GitHub auto-links the issue.</li>
+            <li>You have run <code>dotnet build src/Syncfusion.Blazor.Toolkit.csproj -c Release</code> locally and it succeeds.</li>
+            <li>You have added or updated tests, and the bUnit + Playwright suites are green.</li>
+            <li><code>Before:</code> / <code>After:</code> screenshots are attached for any visible UI change.</li>
+            <li>You have ticked the <strong>&ldquo;Allow edits from maintainers&rdquo;</strong> checkbox. This lets us fix small things and resolve merge conflicts without a round-trip.</li>
+        </ul>
+
+        <h3>PR title format</h3>
+        <p>Use a Conventional Commits style prefix so the changelog stays consistent:</p>
+        <pre class="cg-codeblock"><code>feat(SfButton): add new IconCss parameter
+fix(SfDialog): prevent focus loss when closing
+docs(contribution): clarify PR review process
+test(SfTextBox): cover EditForm validation</code></pre>
+
+        <h3>What happens next</h3>
+        <ol>
+            <li>CI runs the <em>bUnit</em> matrix (.NET 8 / 9 / 10), <em>Playwright</em>, the <em>NuGet vulnerability scan</em>, <em>ESLint security</em>, the <em>XSS / unsafe markup scan</em>, and a <em>Pack</em> smoke build (unsigned <code>.nupkg</code> per TFM). The unsigned artefact is uploaded for human review only; it is not the published package.</li>
+            <li>Two reviewers are assigned automatically. They will respond as quickly as their queue allows.</li>
+            <li>If you cannot make the requested changes yourself, say so &mdash; another contributor may pick it up, and you will still be credited.</li>
+        </ol>
+    </Content>
+</Description>
+
+<Description>
+    <Header>
+        <h2 id="review-merge" class="cg-toc-anchor">Review &amp; merge process</h2>
+    </Header>
+    <Content>
+        <p>Every pull request is reviewed and tested by at least two members of the Blazor Toolkit team. The team will:</p>
+        <ul>
+            <li>Review for correctness, performance, accessibility, and adherence to the style guide.</li>
+            <li>Run the CI pipeline. PRs cannot be merged until CI is green on all three target frameworks.</li>
+            <li>Verify the <a href="https://github.com/syncfusion/blazor-toolkit/blob/main/.github/PULL_REQUEST_TEMPLATE.md" target="_blank" rel="noreferrer noopener">PR template</a> sections are complete and the issue is linked.</li>
+        </ul>
+        <p>Once approved and CI is green, a maintainer will squash-merge the PR. The merge commit appears on <code>main</code>, and the changeset is attributed to your GitHub account on the <a href="/contributors">Contributors</a> page.</p>
+        <p>NuGet publishing and package signing are <strong>manual</strong> operations performed by the release maintainer; no part of that workflow runs in public CI. See <a href="https://github.com/syncfusion/blazor-toolkit/blob/main/.github/DEVELOPMENT.md" target="_blank" rel="noreferrer noopener"><code>.github/DEVELOPMENT.md</code></a> for the full manual sign-and-publish procedure.</p>
+    </Content>
+</Description>
+
+<Description>
+    <Header>
+        <h2 id="proposing-larger-features" class="cg-toc-anchor">Proposing larger features / enhancements</h2>
+    </Header>
+    <Content>
+        <p>For anything beyond a small change &mdash; a new component, a new parameter that affects the public API surface, a breaking change &mdash; open an issue first.</p>
+        <ol>
+            <li>Open a <a href="https://github.com/syncfusion/blazor-toolkit/issues/new?assignees=&amp;labels=proposal-open%2C+t%2Fenhancement+%E2%9E%95&amp;template=feature_request.yml&amp;title=%5BEnhancement%5D+YOUR+IDEA!" target="_blank" rel="noreferrer noopener">Feature Request</a> if you have a problem to solve and want feedback before designing an API.</li>
+            <li>Open a <a href="https://github.com/syncfusion/blazor-toolkit/issues/new?assignees=&amp;labels=proposal-open%2C+t%2Fenhancement+%E2%9E%95&amp;template=spec.md&amp;title=[Spec]+" target="_blank" rel="noreferrer noopener">Spec</a> if you already have a concrete API shape in mind.</li>
+        </ol>
+        <p>Browse the existing issues first &mdash; someone may have already proposed something close, and you can build on their work instead of starting from scratch.</p>
+    </Content>
+</Description>
+
+<Description>
+    <Header>
+        <h2 id="tips-for-ai-agents" class="cg-toc-anchor">Tips for AI coding agents / automated contributors</h2>
+    </Header>
+    <Content>
+        <p>This section is written for AI agents (Claude, GPT, Gemini, custom agents) so that your contributions match what a human reviewer expects on the first pass.</p>
+
+        <h3>Project facts the agent must know up front</h3>
+        <ul>
+            <li><strong>Repo:</strong> <code>https://github.com/syncfusion/blazor-toolkit</code> (always operate on the public repo unless the user explicitly says otherwise).</li>
+            <li><strong>Base branch:</strong> <code>main</code>. Every PR must target <code>main</code>.</li>
+            <li><strong>Target frameworks:</strong> <code>net8.0</code>, <code>net9.0</code>, <code>net10.0</code>. The CI matrix builds all three. Code that does not compile on all three is not accepted.</li>
+            <li><strong>Style:</strong> <a href="https://github.com/dotnet/runtime/blob/master/docs/coding-guidelines/coding-style.md" target="_blank" rel="noreferrer noopener">.NET Foundation coding style</a> + two project exceptions: <strong>no <code>private</code> keyword</strong>; <strong>hard tabs</strong>.</li>
+            <li><strong>PR template:</strong> <a href="https://github.com/syncfusion/blazor-toolkit/blob/main/.github/PULL_REQUEST_TEMPLATE.md" target="_blank" rel="noreferrer noopener"><code>.github/PULL_REQUEST_TEMPLATE.md</code></a> &mdash; include <code>Fixes #&lt;issue&gt;</code> in the body so the issue auto-closes on merge.</li>
+            <li><strong>CI gates (defined in <a href="https://github.com/syncfusion/blazor-toolkit/blob/main/.github/workflows/ci.yml" target="_blank" rel="noreferrer noopener"><code>.github/workflows/ci.yml</code></a>):</strong> <em>bUnit</em> (.NET 8 / 9 / 10), <em>Playwright</em> (<code>npx playwright test</code>), <em>NuGet vulnerability scan</em> (<code>dotnet list package --vulnerable --include-transitive</code>), <em>ESLint security</em> (<code>npm run lint:security</code>), <em>XSS / unsafe markup scan</em> (<code>npx gulp security-xss-scan</code>), and <em>Pack</em> (unsigned <code>.nupkg</code> per TFM). PRs must pass every gate on all three target frameworks before merge.</li>
+            <li><strong>Allowed secrets:</strong> none in public CI. Do not invent, paste, or reference any GitHub token, NuGet API key, signing key, or environment-specific value in code, comments, or PR descriptions.</li>
+        </ul>
+
+        <h3>Mandatory pre-flight checklist</h3>
+        <ol>
+            <li>Read <a href="https://github.com/syncfusion/blazor-toolkit/blob/main/.github/CONTRIBUTING.md" target="_blank" rel="noreferrer noopener"><code>CONTRIBUTING.md</code></a>, <a href="https://github.com/syncfusion/blazor-toolkit/blob/main/.github/DEVELOPMENT.md" target="_blank" rel="noreferrer noopener"><code>DEVELOPMENT.md</code></a>, and the issue you are addressing (or the spec you are implementing).</li>
+            <li>Confirm the change is in scope and not blocked by an open discussion. If unsure, open or comment on the issue and stop until a maintainer responds.</li>
+            <li>Branch from <code>main</code> with a <code>fix/&hellip;</code> or <code>feat/&hellip;</code> prefix.</li>
+            <li>For any non-trivial change, also create a worktree-isolated branch and run the build before writing code, so you have a clean baseline.</li>
+        </ol>
+
+        <h3>Expected commands (copy-paste ready)</h3>
+        <p>These are the exact commands the CI pipeline (<a href="https://github.com/syncfusion/blazor-toolkit/blob/main/.github/workflows/ci.yml" target="_blank" rel="noreferrer noopener"><code>.github/workflows/ci.yml</code></a>) runs. Use the same to reproduce a CI failure locally.</p>
+        <pre class="cg-codeblock"><code># 1. Clone and create a branch
+git clone https://github.com/syncfusion/blazor-toolkit.git
+cd blazor-toolkit
+git checkout -b fix/&lt;short-description&gt; main
+
+# 2. Install npm dependencies (CI runs `npm ci`)
+npm ci
+
+# 3. Restore + build (the project, not the slnx, to match CI)
+dotnet restore src/Syncfusion.Blazor.Toolkit.csproj
+dotnet build   src/Syncfusion.Blazor.Toolkit.csproj -c Release --no-restore
+
+# 4. Run the bUnit tests
+dotnet test tests/Syncfusion.Blazor.Toolkit.BUnitTest/ -c Release --no-build \
+  --logger "trx;LogFileName=bunit.trx"
+
+# 5. Run the Playwright tests (uses the headless config in playwright.config.ts)
+npx playwright test --reporter=line
+
+# 6. Run the same security / lint scans CI runs
+npm run lint:security
+npx gulp security-xss-scan
+
+# 7. Sanity-check the pack step (unsigned .nupkg, like CI)
+dotnet pack src/Syncfusion.Blazor.Toolkit.csproj -c Release --no-build \
+  -o ./unsigned-pkg -p:ContinuousIntegrationBuild=true
+
+# 8. Commit, push, and open the PR targeting main
+git add -A
+git commit -m "fix(SfButton): describe the change"
+git push origin fix/&lt;short-description&gt;
+gh pr create --base main --fill</code></pre>
+
+        <h3>Files the agent will most often need to read or edit</h3>
+        <ul>
+            <li><a href="https://github.com/syncfusion/blazor-toolkit/blob/main/.github/CONTRIBUTING.md" target="_blank" rel="noreferrer noopener"><code>.github/CONTRIBUTING.md</code></a> &mdash; this document&rsquo;s source of truth.</li>
+            <li><a href="https://github.com/syncfusion/blazor-toolkit/blob/main/.github/DEVELOPMENT.md" target="_blank" rel="noreferrer noopener"><code>.github/DEVELOPMENT.md</code></a> &mdash; build, test, and release procedures.</li>
+            <li><a href="https://github.com/syncfusion/blazor-toolkit/blob/main/.github/PULL_REQUEST_TEMPLATE.md" target="_blank" rel="noreferrer noopener"><code>.github/PULL_REQUEST_TEMPLATE.md</code></a> &mdash; the PR body fields you must fill in.</li>
+            <li><a href="https://github.com/syncfusion/blazor-toolkit/blob/main/.github/workflows/ci.yml" target="_blank" rel="noreferrer noopener"><code>.github/workflows/ci.yml</code></a> &mdash; the CI definition; reproduce failing jobs locally with the commands under <em>Expected commands</em> above.</li>
+            <li><a href="https://github.com/syncfusion/blazor-toolkit/blob/main/.github/CODE_OF_CONDUCT.md" target="_blank" rel="noreferrer noopener"><code>.github/CODE_OF_CONDUCT.md</code></a> &mdash; the community standards you agree to.</li>
+            <li><a href="https://github.com/syncfusion/blazor-toolkit/blob/main/.github/SECURITY.md" target="_blank" rel="noreferrer noopener"><code>.github/SECURITY.md</code></a> &mdash; how to report a security issue privately.</li>
+            <li><a href="https://github.com/syncfusion/blazor-toolkit/tree/main/src/Components" target="_blank" rel="noreferrer noopener"><code>src/Components/&lt;Name&gt;</code></a> &mdash; the component you are changing. Always read the existing <code>.razor</code>, <code>.razor.cs</code>, and <code>.razor.css</code> in full before editing.</li>
+            <li><a href="https://github.com/syncfusion/blazor-toolkit/tree/main/src/wwwroot/scripts" target="_blank" rel="noreferrer noopener"><code>src/wwwroot/scripts/</code></a> &mdash; the JavaScript files consumed by the components. Mirror the existing module pattern when adding new scripts.</li>
+            <li><a href="https://github.com/syncfusion/blazor-toolkit/tree/main/tests/Syncfusion.Blazor.Toolkit.BUnitTest" target="_blank" rel="noreferrer noopener"><code>tests/Syncfusion.Blazor.Toolkit.BUnitTest</code></a> &mdash; mirror the source folder structure when adding bUnit tests.</li>
+            <li><a href="https://github.com/syncfusion/blazor-toolkit/tree/main/tests/Syncfusion.Blazor.Playwright.Test" target="_blank" rel="noreferrer noopener"><code>tests/Syncfusion.Blazor.Playwright.Test</code></a> &mdash; the Playwright test project; the <code>Blazor.Toolkit.playwright.Test/</code> folder holds the specs and the <code>Blazor.Toolkit.Playwright.Samples/</code> folder holds the app the specs run against.</li>
+            <li><a href="https://github.com/syncfusion/blazor-toolkit/blob/main/gulpfile.js" target="_blank" rel="noreferrer noopener"><code>gulpfile.js</code></a> &mdash; the gulp tasks referenced by the CI XSS scan (<code>security-xss-scan</code>) and the SCSS theme build (<code>blazor-toolkit-themes</code>).</li>
+        </ul>
+
+        <h3>Non-negotiable rules for automated contributors</h3>
+        <ul>
+            <li><strong>Never</strong> open a PR that targets a branch other than <code>main</code> unless a maintainer explicitly instructs you to.</li>
+            <li><strong>Never</strong> disable, skip, or <code>[Ignore]</code> a CI gate (build warning, analyzer rule, test) to make a build pass. Fix the underlying problem instead.</li>
+            <li><strong>Never</strong> invent a public API. If a method or property does not exist, do not pretend it does; either add it to the existing public surface or use what is already there.</li>
+            <li><strong>Never</strong> commit generated output, build artefacts, secrets, signing keys, <code>obj/</code>, <code>bin/</code>, <code>node_modules/</code>, or <code>.vs/</code> directories. The repo&rsquo;s <code>.gitignore</code> covers most of them; do not override it.</li>
+            <li><strong>Never</strong> widen the public API surface without an issue. <em>Renaming</em>, <em>removing</em>, or <em>changing the signature of</em> a public type or member is a breaking change and is reserved for major versions.</li>
+            <li>If the task is ambiguous, prefer the smallest change that resolves the issue and is consistent with existing patterns in the codebase.</li>
+        </ul>
+    </Content>
+</Description>
+
+<Description>
+    <Header>
+        <h2 id="getting-help" class="cg-toc-anchor">Getting help</h2>
+    </Header>
+    <Content>
+        <p>Stuck? Use whichever channel fits the question.</p>
+        <ul>
+            <li><a href="https://github.com/syncfusion/blazor-toolkit/discussions" target="_blank" rel="noreferrer noopener">GitHub Discussions</a> &mdash; design questions, "how do I&hellip;", proposals before you file an issue.</li>
+            <li><a href="https://github.com/syncfusion/blazor-toolkit/issues" target="_blank" rel="noreferrer noopener">GitHub Issues</a> &mdash; bug reports, feature requests, spec submissions.</li>
+            <li>For security issues, follow the process in <a href="https://github.com/syncfusion/blazor-toolkit/blob/main/.github/SECURITY.md" target="_blank" rel="noreferrer noopener"><code>SECURITY.md</code></a> &mdash; do not file a public issue.</li>
+        </ul>
+        <p>Thanks again for helping make the Syncfusion Blazor Toolkit better. Every issue triage, doc fix, and PR helps.</p>
+    </Content>
+</Description>
+
+@code {
+    private static readonly IReadOnlyList<RightToc.TocItem> TocItemsList = new RightToc.TocItem[]
+    {
+        new("code-of-conduct", "Code of Conduct"),
+        new("ways-to-contribute", "Ways to contribute"),
+        new("finding-something-to-work-on", "Finding something to work on"),
+        new("prerequisites", "Prerequisites & development environment"),
+        new("repository-structure", "Repository structure"),
+        new("important-folders", "Important folders & resources"),
+        new("coding-style", "Coding style & conventions"),
+        new("making-changes", "Making changes & branching strategy"),
+        new("writing-tests", "Writing tests"),
+        new("submitting-a-pr", "Submitting a pull request"),
+        new("review-merge", "Review & merge process"),
+        new("proposing-larger-features", "Proposing larger features / enhancements"),
+        new("tips-for-ai-agents", "Tips for AI coding agents / automated contributors"),
+        new("getting-help", "Getting help"),
+    };
+
+    protected override IReadOnlyList<RightToc.TocItem> TocItems => TocItemsList;
+}

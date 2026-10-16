@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Dynamic;
 using System.Linq.Expressions;
-using Syncfusion.Blazor.Toolkit.Data;
+using Syncfusion.Blazor.Toolkit;
 using Xunit;
 
 namespace Syncfusion.Blazor.Toolkit.Tests.Data

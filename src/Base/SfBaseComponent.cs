@@ -124,22 +124,6 @@ namespace Syncfusion.Blazor.Toolkit
         internal Dictionary<string, object>? PropertyChanges { get; set; }
 
         /// <summary>
-        /// Tracks whether the shared theme-root styles have been injected for the
-        /// current IJSRuntime context. This flag is reset to <c>false</c> when a
-        /// context change is detected (e.g., Server → WebAssembly upgrade in
-        /// Auto mode), allowing the styles to be re-injected for the new context.
-        /// </summary>
-        /// <remarks>
-        /// This flag is necessary because in WebAssembly mode, the IJSRuntime
-        /// is not available during the prerender or static render phase. The
-        /// style injection must therefore be deferred until JSRuntime becomes
-        /// available, which may happen on a render where <c>firstRender</c> is
-        /// <c>false</c>. Without this flag, styles would either be skipped
-        /// (in WASM mode) or injected multiple times (if checked on every render).
-        /// </remarks>
-        private bool _stylesInjected = false;
-
-        /// <summary>
         /// A bridge reference passed to JavaScript so the client can invoke .NET instance methods on this component.
         /// </summary>
         /// <remarks>

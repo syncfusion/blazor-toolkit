@@ -6,7 +6,7 @@ using Syncfusion.Blazor.Toolkit.Internal;
 using System.ComponentModel;
 using System.Dynamic;
 
-namespace Syncfusion.Blazor.Toolkit.Data
+namespace Syncfusion.Blazor.Toolkit
 {
     /// <summary>
     /// Provides enumerable-based data operation implementations such as filtering, sorting, searching, grouping, and pagination for in-memory collections.

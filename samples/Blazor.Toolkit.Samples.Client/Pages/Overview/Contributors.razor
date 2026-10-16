@@ -1,0 +1,771 @@
+@page "/contributors"
+@inherits TocPublishingComponentBase
+
+@using Blazor.Toolkit.Samples.Client.Services
+@using System.Text.Json
+@using System.Text.Json.Serialization
+
+@inject HttpClient Http
+@inject IJSRuntime JS
+@inject ILogger<Contributors> Logger
+
+<PageTitle>Contributors | Syncfusion Blazor Toolkit</PageTitle>
+
+<HeadContent>
+    <meta name="description" content="The people (and bots) who have contributed commits to the Syncfusion Blazor Toolkit repository." />
+</HeadContent>
+
+<style>
+    .page-content {
+        font-family: "Segoe UI Variable", "Segoe UI", "Inter", system-ui, -apple-system, sans-serif;
+    }
+    .page-content code,
+    .page-content pre {
+        font-family: "Cascadia Code", "JetBrains Mono", "Fira Code", Consolas, "SFMono-Regular", monospace;
+        font-size: 0.875em;
+    }
+    .cg-intro {
+        margin: 4px 0 24px 0;
+        color: var(--text-color, #1f2937);
+        font-size: 16px;
+        line-height: 1.65;
+    }
+    .cg-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 16px;
+        margin: 16px 0 24px 0;
+    }
+    .cg-card {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 14px 16px;
+        background: var(--panel-bg, #ffffff);
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        border-radius: 10px;
+        color: var(--text-color, #1f2937);
+        text-decoration: none;
+        transition: transform .12s ease, border-color .12s ease, box-shadow .12s ease;
+    }
+    .dark .cg-card {
+        background: var(--panel-bg, #111827);
+        border-color: rgba(255, 255, 255, 0.10);
+    }
+    .cg-card:hover,
+    .cg-card:focus-visible {
+        transform: translateY(-1px);
+        border-color: var(--accent, #2B357C);
+        box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06);
+        text-decoration: none;
+    }
+    .cg-card:focus-visible {
+        outline: 2px solid var(--accent, #2B357C);
+        outline-offset: 2px;
+    }
+    .cg-avatar {
+        flex: 0 0 auto;
+        width: 48px;
+        height: 48px;
+        border-radius: 50%;
+        background-color: var(--panel-bg, #f9fafb);
+        background-size: cover;
+        background-position: center;
+        background-repeat: no-repeat;
+        overflow: hidden;
+    }
+    .cg-meta {
+        flex: 1 1 auto;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 1px;
+    }
+    .cg-name {
+        font-weight: 600;
+        color: var(--text-color, #1f2937);
+        font-size: 0.95rem;
+        line-height: 1.3;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        text-decoration: none;
+    }
+    .cg-handle {
+        font-size: 0.8rem;
+        color: var(--text-color-secondary, #6b7280);
+        line-height: 1.3;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        text-decoration: none;
+    }
+    .cg-count {
+        font-size: 0.78rem;
+        color: var(--text-color-secondary, #6b7280);
+        margin-top: 2px;
+        text-decoration: none;
+    }
+    .cg-tag {
+        display: inline-block;
+        font-size: 0.65em;
+        font-weight: 700;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        padding: 1px 6px;
+        border-radius: 999px;
+        background: rgba(138, 147, 196, 0.18);
+        color: #2B357C;
+        margin-left: 6px;
+        vertical-align: middle;
+    }
+    .dark .cg-tag {
+        background: rgba(138, 147, 196, 0.25);
+        color: #C4CCEC;
+    }
+    .cg-section-title {
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: var(--text-color, #1f2937);
+        margin: 24px 0 8px 0;
+    }
+    .cg-empty,
+    .cg-error {
+        border: 1px solid rgba(0, 0, 0, 0.08);
+        border-radius: 10px;
+        padding: 16px 20px;
+        background: var(--panel-bg, #f9fafb);
+        color: var(--text-color, #1f2937);
+    }
+    .cg-error { border-left: 4px solid #c0392b; }
+    .dark .cg-empty,
+    .dark .cg-error {
+        background: var(--panel-bg, #111827);
+        border-color: rgba(255, 255, 255, 0.10);
+    }
+    .cg-error p { margin: 0 0 8px 0; }
+    .cg-error p:last-child { margin-bottom: 0; }
+    .cg-error button {
+        margin-top: 8px;
+        padding: 6px 12px;
+        border: 1px solid var(--accent, #2B357C);
+        background: var(--accent, #2B357C);
+        color: #fff;
+        border-radius: 6px;
+        cursor: pointer;
+        font: inherit;
+    }
+    .cg-error button:hover { filter: brightness(1.05); }
+    .cg-skeleton-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 16px;
+    }
+    .cg-skeleton-card {
+        height: 78px;
+        border-radius: 10px;
+        background: linear-gradient(90deg, rgba(0,0,0,0.04) 25%, rgba(0,0,0,0.08) 50%, rgba(0,0,0,0.04) 75%);
+        background-size: 200% 100%;
+        animation: cg-shimmer 1.4s infinite;
+    }
+    .dark .cg-skeleton-card {
+        background: linear-gradient(90deg, rgba(255,255,255,0.04) 25%, rgba(255,255,255,0.10) 50%, rgba(255,255,255,0.04) 75%);
+        background-size: 200% 100%;
+    }
+    @@keyframes cg-shimmer {
+        0% { background-position: -200% 0; }
+        100% { background-position: 200% 0; }
+    }
+    .cg-source-note {
+        margin-top: 16px;
+        font-size: 0.85rem;
+        color: var(--text-color-secondary, #6b7280);
+    }
+</style>
+
+<Description>
+    <Header>
+        <h1 id="contributors" class="cg-toc-anchor">Contributors</h1>
+    </Header>
+    <Content>
+        <p class="cg-intro">The Syncfusion Blazor Toolkit is built by Syncfusion engineers and the wider open-source community. This page lists every GitHub account that has contributed commits to the <a href="https://github.com/syncfusion/blazor-toolkit" target="_blank" rel="noreferrer noopener">syncfusion/blazor-toolkit</a> repository, sorted by number of contributions.</p>
+        <p class="cg-intro">Automated accounts such as <strong>dependabot[bot]</strong> are included because they ship real, valuable work &mdash; dependency updates, security fixes, and policy-driven maintenance. They are clearly labelled so the list is honest at a glance.</p>
+    </Content>
+</Description>
+
+@if (IsLoading && ContributorsList.Count == 0)
+{
+    <div class="cg-skeleton-grid" aria-busy="true" aria-live="polite">
+        @for (var i = 0; i < 6; i++)
+        {
+            <div class="cg-skeleton-card" aria-hidden="true"></div>
+        }
+    </div>
+}
+else if (!string.IsNullOrEmpty(ErrorMessage) && ContributorsList.Count == 0)
+{
+    <div class="cg-error" role="alert">
+        <p><strong>Could not load the live contributors list.</strong></p>
+        <p>@ErrorMessage</p>
+        <p>
+            <a href="https://github.com/syncfusion/blazor-toolkit/graphs/contributors"
+               target="_blank" rel="noreferrer noopener">View on GitHub</a>
+        </p>
+        <button type="button" @onclick="RetryAsync">Retry</button>
+    </div>
+}
+else if (ContributorsList.Count == 0)
+{
+    <div class="cg-empty" role="status">
+        No contributors found.
+    </div>
+}
+
+@if (HumanContributors.Count > 0)
+{
+    <h2 id="human-contributors" class="cg-section-title">Contributors</h2>
+    <div class="cg-grid" role="list">
+        @foreach (var c in HumanContributors)
+        {
+            <a class="cg-card" role="listitem"
+                href="@c.HtmlUrl" target="_blank" rel="noreferrer noopener"
+                aria-label="@c.Login (@c.Contributions contributions)"
+                @key="c.Login">
+                    <span class="cg-avatar" aria-hidden="true"
+                        style="@(string.IsNullOrEmpty(c.AvatarUrl) ? null : $"background-image: url('{c.AvatarUrl}')")">
+                    </span>
+                    <span class="cg-meta">
+                        <span class="cg-name">@DisplayName(c)</span>
+                        <span class="cg-handle">@@@c.Login</span>
+                        <span class="cg-count">@c.Contributions @(c.Contributions == 1 ? "contribution" : "contributions")</span>
+                    </span>
+            </a>
+        }
+    </div>
+}
+
+@if (BotContributors.Count > 0)
+{
+    <h2 id="automated-contributors" class="cg-section-title">Automated contributors</h2>
+    <div class="cg-grid" role="list">
+        @foreach (var c in BotContributors)
+        {
+            <a class="cg-card" role="listitem"
+               href="@c.HtmlUrl" target="_blank" rel="noreferrer noopener"
+               aria-label="@c.Login (@c.Contributions contributions)"
+               @key="c.Login">
+                <span class="cg-avatar" aria-hidden="true"
+                    style="@(string.IsNullOrEmpty(c.AvatarUrl) ? null : $"background-image: url('{c.AvatarUrl}')")">
+                </span>
+                <span class="cg-meta">
+                    <span class="cg-name">@DisplayName(c)<span class="cg-tag">Bot</span></span>
+                    <span class="cg-handle">@@@c.Login</span>
+                    <span class="cg-count">@c.Contributions @(c.Contributions == 1 ? "contribution" : "contributions")</span>
+                </span>
+            </a>
+        }
+    </div>
+}
+
+<p class="cg-source-note">
+    Data: <a href="https://github.com/syncfusion/blazor-toolkit/graphs/contributors" target="_blank" rel="noreferrer noopener">GitHub Contributors graph</a>.
+    The page fetches live data from the GitHub API on first load and caches it in
+    <code>sessionStorage</code> for the rest of the session.
+</p>
+
+@code {
+    // ----------------------------------------------------------------
+    //  Constants
+    // ----------------------------------------------------------------
+    private const string GitHubApiUrl =
+        "https://api.github.com/repos/syncfusion/blazor-toolkit/contributors?per_page=100";
+
+    private const string SessionCacheKey = "btk-contributors:list:v1";
+    private const string SessionCacheTsKey = "btk-contributors:list:v1:ts";
+    private static readonly TimeSpan SessionCacheTtl = TimeSpan.FromHours(1);
+
+    private static readonly JsonSerializerOptions JsonOpts = new()
+    {
+        PropertyNameCaseInsensitive = true,
+    };
+
+    // ----------------------------------------------------------------
+    //  Alias map
+    //
+    //  Multiple GitHub logins that should be displayed as a single
+    //  contributor. Each entry maps an alias login to a canonical
+    //  primary login. After the API response is deserialised, we walk
+    //  the list and merge every alias into its primary. The merge rules
+    //  are:
+    //
+    //    - login     -> primary login from the map
+    //    - html_url  -> "https://github.com/" + primary login
+    //    - avatar_url-> from the primary entry if present, else from
+    //                  the alias entry
+    //    - id        -> from the primary entry if present, else from
+    //                  the alias entry
+    //    - type      -> "User" (aliasing only applies to humans)
+    //    - contributions -> SUM of every merged entry
+    //
+    //  To merge another pair, add one entry per alias. The keys must
+    //  match GitHub logins exactly (case-sensitive).
+    // ----------------------------------------------------------------
+    private static readonly IReadOnlyDictionary<string, string> ContributorAliases =
+        new Dictionary<string, string>(StringComparer.Ordinal)
+        {
+            ["YokeshSF4393"] = "Yokesh-SF4393",
+        };
+
+    /// <summary>
+    /// Merges every alias login into its primary login. The merge is
+    /// case-sensitive and only touches logins present in
+    /// <see cref="ContributorAliases"/>. After the merge the list is
+    /// re-sorted by contribution count (descending) and the original
+    /// input order is otherwise preserved.
+    /// </summary>
+    private static List<ContributorEntry> MergeAliases(IEnumerable<ContributorEntry> entries)
+    {
+        if (entries is null)
+        {
+            return new List<ContributorEntry>();
+        }
+
+        var buckets = new Dictionary<string, ContributorEntry>(StringComparer.Ordinal);
+        var order = new List<string>();
+
+        foreach (var entry in entries)
+        {
+            if (entry is null || string.IsNullOrEmpty(entry.Login))
+            {
+                continue;
+            }
+
+            var primaryLogin = ContributorAliases.TryGetValue(entry.Login, out var p)
+                ? p
+                : entry.Login;
+
+            if (!buckets.TryGetValue(primaryLogin, out var merged))
+            {
+                merged = new ContributorEntry
+                {
+                    Login = primaryLogin,
+                    Id = entry.Id,
+                    AvatarUrl = entry.AvatarUrl,
+                    HtmlUrl = $"https://github.com/{primaryLogin}",
+                    Type = entry.Type,
+                    Contributions = 0,
+                };
+
+                if (string.Equals(entry.Login, primaryLogin, StringComparison.Ordinal))
+                {
+                    merged.Id = entry.Id;
+                    merged.AvatarUrl = entry.AvatarUrl;
+                }
+
+                buckets[primaryLogin] = merged;
+                order.Add(primaryLogin);
+            }
+
+            merged.Contributions += entry.Contributions;
+
+            if (string.Equals(entry.Login, primaryLogin, StringComparison.Ordinal))
+            {
+                merged.Id = entry.Id;
+                if (!string.IsNullOrEmpty(entry.AvatarUrl))
+                {
+                    merged.AvatarUrl = entry.AvatarUrl;
+                }
+            }
+            else if (string.IsNullOrEmpty(merged.AvatarUrl) &&
+                     !string.IsNullOrEmpty(entry.AvatarUrl))
+            {
+                merged.AvatarUrl = entry.AvatarUrl;
+            }
+        }
+
+        var result = new List<ContributorEntry>(order.Count);
+        foreach (var key in order)
+        {
+            result.Add(buckets[key]);
+        }
+        result.Sort((a, b) => b.Contributions.CompareTo(a.Contributions));
+        return result;
+    }
+
+    // ----------------------------------------------------------------
+    //  Component state
+    // ----------------------------------------------------------------
+    private readonly object _cacheLock = new();
+    private List<ContributorEntry>? _memoryCache;
+    private DateTimeOffset _memoryCacheAt = DateTimeOffset.MinValue;
+
+    private readonly List<ContributorEntry> _contributors = new();
+    private bool _initialLoadStarted;
+
+    public List<ContributorEntry> ContributorsList => _contributors;
+    public bool IsLoading { get; private set; }
+    public string ErrorMessage { get; private set; } = string.Empty;
+
+    private List<ContributorEntry> HumanContributors =>
+        _contributors.Where(c => !string.Equals(c.Type, "Bot", StringComparison.OrdinalIgnoreCase))
+                     .ToList();
+
+    private List<ContributorEntry> BotContributors =>
+        _contributors.Where(c => string.Equals(c.Type, "Bot", StringComparison.OrdinalIgnoreCase))
+                     .ToList();
+
+    // ----------------------------------------------------------------
+    //  Lifecycle
+    // ----------------------------------------------------------------
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender && !_initialLoadStarted)
+        {
+            _initialLoadStarted = true;
+            _ = LoadAsync();
+        }
+    }
+
+    // ----------------------------------------------------------------
+    //  Loading
+    // ----------------------------------------------------------------
+    private async Task LoadAsync()
+    {
+        if (_contributors.Count > 0)
+        {
+            return;
+        }
+
+        IsLoading = true;
+        ErrorMessage = string.Empty;
+        StateHasChanged();
+
+        try
+        {
+            var list = await GetContributorsAsync();
+            _contributors.Clear();
+            _contributors.AddRange(list);
+            Logger.LogInformation("Loaded {Count} contributors", list.Count);
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, "Failed to load contributors");
+            ErrorMessage = ex.Message;
+            _contributors.Clear();
+        }
+        finally
+        {
+            IsLoading = false;
+            StateHasChanged();
+        }
+    }
+
+    public async Task RetryAsync()
+    {
+        lock (_cacheLock)
+        {
+            _memoryCache = null;
+            _memoryCacheAt = DateTimeOffset.MinValue;
+        }
+
+        try { await JS.InvokeVoidAsync("sessionStorage.removeItem", SessionCacheKey); } catch { }
+        try { await JS.InvokeVoidAsync("sessionStorage.removeItem", SessionCacheTsKey); } catch { }
+
+        ErrorMessage = string.Empty;
+        _contributors.Clear();
+        IsLoading = true;
+        StateHasChanged();
+
+        try
+        {
+            var list = await GetContributorsAsync();
+            _contributors.AddRange(list);
+        }
+        catch (Exception ex)
+        {
+            ErrorMessage = ex.Message;
+        }
+        finally
+        {
+            IsLoading = false;
+            StateHasChanged();
+        }
+    }
+
+    // ----------------------------------------------------------------
+    //  Caching & GitHub API
+    // ----------------------------------------------------------------
+    private async Task<List<ContributorEntry>> GetContributorsAsync()
+    {
+        // 1) In-memory cache
+        lock (_cacheLock)
+        {
+            if (_memoryCache is { Count: > 0 } &&
+                DateTimeOffset.UtcNow - _memoryCacheAt < SessionCacheTtl)
+            {
+                return _memoryCache;
+            }
+        }
+
+        // 2) sessionStorage cache (ContributorEntry / PascalCase shape)
+        try
+        {
+            var cachedJson = await JS.InvokeAsync<string?>("sessionStorage.getItem", SessionCacheKey);
+            var cachedTs = await JS.InvokeAsync<string?>("sessionStorage.getItem", SessionCacheTsKey);
+            if (!string.IsNullOrEmpty(cachedJson) &&
+                !string.IsNullOrEmpty(cachedTs) &&
+                DateTimeOffset.TryParse(cachedTs, out var ts) &&
+                DateTimeOffset.UtcNow - ts < SessionCacheTtl)
+            {
+                var cached = TryDeserializeCached(cachedJson);
+                if (cached is { Count: > 0 })
+                {
+                    lock (_cacheLock)
+                    {
+                        _memoryCache = cached;
+                        _memoryCacheAt = DateTimeOffset.UtcNow;
+                    }
+                    return cached;
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            Logger.LogWarning(ex, "sessionStorage cache read failed; will try network");
+        }
+
+        // 3) Network: GitHub Contributors API (paginated)
+        try
+        {
+            var list = await FetchAllContributorsPagesAsync().ConfigureAwait(true);
+            if (list.Count == 0)
+            {
+                throw new InvalidOperationException("GitHub API returned an empty contributors list.");
+            }
+
+            try
+            {
+                var mergedJson = JsonSerializer.Serialize(list, JsonOpts);
+                await JS.InvokeVoidAsync("sessionStorage.setItem", SessionCacheKey, mergedJson).ConfigureAwait(true);
+                await JS.InvokeVoidAsync("sessionStorage.setItem", SessionCacheTsKey, DateTimeOffset.UtcNow.ToString("O")).ConfigureAwait(true);
+            }
+            catch (Exception ex)
+            {
+                Logger.LogWarning(ex, "sessionStorage cache write failed");
+            }
+
+            lock (_cacheLock)
+            {
+                _memoryCache = list;
+                _memoryCacheAt = DateTimeOffset.UtcNow;
+            }
+            return list;
+        }
+        catch (Exception ex)
+        {
+            Logger.LogWarning(ex, "GitHub Contributors API failed.");
+            throw;
+        }
+    }
+
+    private const int MaxPaginationPages = 100;
+
+    private async Task<List<ContributorEntry>> FetchAllContributorsPagesAsync()
+    {
+        var all = new List<ContributorEntry>();
+        string? nextUrl = GitHubApiUrl;
+
+        for (var page = 0; page < MaxPaginationPages && !string.IsNullOrEmpty(nextUrl); page++)
+        {
+            using var request = new HttpRequestMessage(HttpMethod.Get, nextUrl);
+            request.Headers.Add("Accept", "application/vnd.github+json");
+            request.Headers.Add("X-GitHub-Api-Version", "2022-11-28");
+            request.Headers.Add("User-Agent", "blazor-toolkit-samples");
+
+            using var response = await Http.SendAsync(request).ConfigureAwait(true);
+            response.EnsureSuccessStatusCode();
+
+            var json = await response.Content.ReadAsStringAsync().ConfigureAwait(true);
+
+            var pageList = TryDeserializeApi(json) ?? new List<ContributorEntry>();
+            if (pageList.Count == 0)
+            {
+                break;
+            }
+
+            all.AddRange(pageList);
+            nextUrl = ExtractNextPageUrl(response);
+        }
+
+        return MergeAliases(all);
+    }
+
+    private static string? ExtractNextPageUrl(HttpResponseMessage response)
+    {
+        if (!response.Headers.TryGetValues("Link", out var values))
+        {
+            return null;
+        }
+
+        foreach (var header in values)
+        {
+            var parts = SplitLinkHeader(header);
+            foreach (var part in parts)
+            {
+                var segment = part.Trim();
+                var angleStart = segment.IndexOf('<');
+                var angleEnd = segment.IndexOf('>', angleStart + 1);
+                if (angleStart < 0 || angleEnd < 0)
+                {
+                    continue;
+                }
+                var url = segment.Substring(angleStart + 1, angleEnd - angleStart - 1);
+                if (segment.IndexOf("rel=\"next\"", StringComparison.OrdinalIgnoreCase) >= 0)
+                {
+                    return url;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    private static IEnumerable<string> SplitLinkHeader(string header)
+    {
+        var depth = 0;
+        var start = 0;
+        for (var i = 0; i < header.Length; i++)
+        {
+            var c = header[i];
+            if (c == '<')
+            {
+                depth++;
+            }
+            else if (c == '>')
+            {
+                depth--;
+            }
+            else if (c == ',' && depth == 0)
+            {
+                yield return header.Substring(start, i - start);
+                start = i + 1;
+            }
+        }
+        if (start < header.Length)
+        {
+            yield return header.Substring(start);
+        }
+    }
+
+    /// <summary>
+    /// Deserializes the sessionStorage payload written as
+    /// <see cref="ContributorEntry"/> (PascalCase property names).
+    /// Do not use the GitHub API DTO path here — that would drop
+    /// AvatarUrl / HtmlUrl because of snake_case JsonPropertyName.
+    /// </summary>
+    private static List<ContributorEntry>? TryDeserializeCached(string json)
+    {
+        try
+        {
+            var list = JsonSerializer.Deserialize<List<ContributorEntry>>(json, JsonOpts);
+            if (list is null || list.Count == 0)
+            {
+                return null;
+            }
+
+            list.RemoveAll(c => c is null || string.IsNullOrWhiteSpace(c.Login));
+            return list.Count == 0 ? null : MergeAliases(list);
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    /// <summary>
+    /// Deserializes a raw GitHub Contributors API page (snake_case).
+    /// </summary>
+    private static List<ContributorEntry>? TryDeserializeApi(string json)
+    {
+        try
+        {
+            var raw = JsonSerializer.Deserialize<List<ContributorDto>>(json, JsonOpts);
+            if (raw is null)
+            {
+                return null;
+            }
+
+            var list = new List<ContributorEntry>(raw.Count);
+            foreach (var r in raw)
+            {
+                if (string.IsNullOrWhiteSpace(r.Login))
+                {
+                    continue;
+                }
+                list.Add(new ContributorEntry
+                {
+                    Login = r.Login!,
+                    Id = r.Id ?? 0,
+                    AvatarUrl = r.AvatarUrl ?? string.Empty,
+                    HtmlUrl = r.HtmlUrl ?? string.Empty,
+                    Type = r.Type ?? "User",
+                    Contributions = r.Contributions ?? 0,
+                });
+            }
+            return MergeAliases(list);
+        }
+        catch
+        {
+            return null;
+        }
+    }
+
+    private static string DisplayName(ContributorEntry c) =>
+        string.IsNullOrEmpty(c.Login) ? "Unknown" : c.Login;
+
+    // ----------------------------------------------------------------
+    //  Models
+    // ----------------------------------------------------------------
+    public sealed class ContributorEntry
+    {
+        public string Login { get; set; } = string.Empty;
+        public long Id { get; set; }
+        public string AvatarUrl { get; set; } = string.Empty;
+        public string HtmlUrl { get; set; } = string.Empty;
+        public string Type { get; set; } = "User";
+        public int Contributions { get; set; }
+    }
+
+    private sealed class ContributorDto
+    {
+        [JsonPropertyName("login")]
+        public string? Login { get; set; }
+
+        [JsonPropertyName("id")]
+        public long? Id { get; set; }
+
+        [JsonPropertyName("avatar_url")]
+        public string? AvatarUrl { get; set; }
+
+        [JsonPropertyName("html_url")]
+        public string? HtmlUrl { get; set; }
+
+        [JsonPropertyName("type")]
+        public string? Type { get; set; }
+
+        [JsonPropertyName("contributions")]
+        public int? Contributions { get; set; }
+    }
+
+    // ----------------------------------------------------------------
+    //  TOC (right sidebar)
+    // ----------------------------------------------------------------
+    private static readonly IReadOnlyList<RightToc.TocItem> TocItemsList = new RightToc.TocItem[]
+    {
+        new("contributors", "Contributors"),
+        new("human-contributors", "Contributors"),
+        new("automated-contributors", "Automated contributors"),
+    };
+
+    protected override IReadOnlyList<RightToc.TocItem> TocItems => TocItemsList;
+}

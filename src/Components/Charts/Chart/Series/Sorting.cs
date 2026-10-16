@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Components;
 using System.Diagnostics.CodeAnalysis;
-using Syncfusion.Blazor.Toolkit.Data;
 
 namespace Syncfusion.Blazor.Toolkit
 {

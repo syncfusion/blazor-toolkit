@@ -1,4 +1,4 @@
-﻿## Table of Contents
+## Table of Contents
 
 - [Overview](#overview)
 - [Prerequisites](#prerequisites)
@@ -75,7 +75,7 @@ cd BlazorChartApp
 
 #### Step 2: Install NuGet Package
 ```bash
-dotnet add package Syncfusion.Blazor.Toolkit.Charts
+dotnet add package Syncfusion.Blazor.Toolkit
 dotnet restore
 ```
 
@@ -94,7 +94,7 @@ cd BlazorChartApp
 
 #### Step 3: Install Package
 ```bash
-dotnet add package Syncfusion.Blazor.Toolkit.Charts
+dotnet add package Syncfusion.Blazor.Toolkit
 dotnet restore
 ```
 
@@ -105,16 +105,15 @@ dotnet restore
 Open `_Imports.razor` and add:
 
 ```razor
-@using Syncfusion.Blazor
-@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit
 ```
 
 ### Step 2: Register Syncfusion Services
 
-In `Program.cs`, add the Syncfusion Blazor service:
+In `Program.cs`, add the Syncfusion Blazor Toolkit service:
 
 ```csharp
-using Syncfusion.Blazor;
+using Syncfusion.Blazor.Toolkit;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -122,27 +121,22 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
-// Register Syncfusion Blazor Service
-builder.Services.AddSyncfusionBlazor();
+// Register Syncfusion Blazor Toolkit Service
+builder.Services.AddSyncfusionBlazorToolkit();
 
 var app = builder.Build();
 ```
 
 ### Step 3: Add Script Reference
 
-In `App.razor` (or `_Layout.cshtml` for older templates), add the script reference before the closing `</body>` tag:
+In `App.razor` (or `_Layout.cshtml` / `index.html`), scripts are served from the toolkit bundle:
 
 ```html
 <body>
     <!-- Other content -->
     
-    <script src="_content/Syncfusion.Blazor.Core/scripts/syncfusion-blazor.min.js" type="text/javascript"></script>
+    <script src="_content/Syncfusion.Blazor.Toolkit/scripts/chart.js" type="text/javascript"></script>
 </body>
-```
-
-**Note:** The Chart component script is included in `syncfusion-blazor.min.js`. For individual component scripts:
-```html
-<script src="_content/Syncfusion.Blazor.Toolkit.Charts/scripts/sf-chart.min.js" type="text/javascript"></script>
 ```
 
 ## Creating Your First Chart
@@ -153,7 +147,7 @@ Create a new Razor page (e.g., `ChartDemo.razor`) and add:
 
 ```razor
 @page "/chart-demo"
-@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit
 
 <SfChart>
 </SfChart>
@@ -296,7 +290,7 @@ Here's a complete working example combining all elements:
 
 ```razor
 @page "/chart-demo"
-@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit
 
 <h3>Monthly Sales Analysis</h3>
 
@@ -414,7 +408,7 @@ To compare multiple datasets:
 **Cause:** Missing service registration or script reference
 
 **Solution:** 
-1. Verify `AddSyncfusionBlazor()` in `Program.cs`
+1. Verify `AddSyncfusionBlazorToolkit()` in `Program.cs`
 2. Check script reference in `App.razor`
 3. Ensure namespaces in `_Imports.razor`
 

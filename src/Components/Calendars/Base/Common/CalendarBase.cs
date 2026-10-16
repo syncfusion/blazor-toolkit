@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Web;
-using Syncfusion.Blazor.Toolkit;
 using Syncfusion.Blazor.Toolkit.Internal;
 using System.ComponentModel;
 using System.Globalization;

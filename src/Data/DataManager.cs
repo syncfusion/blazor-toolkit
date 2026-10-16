@@ -9,7 +9,7 @@ using System.Collections;
 using System.Security.Cryptography;
 using System.Collections.Concurrent;
 
-namespace Syncfusion.Blazor.Toolkit.Data
+namespace Syncfusion.Blazor.Toolkit
 {
     /// <summary>
     /// The DataManager is a data management component used for performing data operations in applications.
@@ -1108,7 +1108,7 @@ namespace Syncfusion.Blazor.Toolkit.Data
         }
     }
 }
-namespace Syncfusion.Blazor.Toolkit.Data
+namespace Syncfusion.Blazor.Toolkit
 {
     /// <summary>
     /// Defines the sort descriptor.

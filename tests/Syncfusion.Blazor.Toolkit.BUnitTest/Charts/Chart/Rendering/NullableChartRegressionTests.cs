@@ -5,7 +5,6 @@ using Bunit;
 using Microsoft.AspNetCore.Components;
 using Syncfusion.Blazor.Toolkit;
 using Syncfusion.Blazor.Toolkit.Charts.Internal;
-using Syncfusion.Blazor.Toolkit.Data;
 using Xunit;
 using ChartValueType = Syncfusion.Blazor.Toolkit.ValueType;
 

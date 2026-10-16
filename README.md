@@ -43,7 +43,7 @@ cd blazor-toolkit
 Run these commands to build the solution:
 ```bash
 dotnet restore
-dotnet build ./Syncfusion.Blazor.Toolkit.slnx
+dotnet build ./src/Syncfusion.Blazor.Toolkit.slnx
 ```
 To run the samples,
 - Open the `samples/Blazor.Toolkit.Samples.slnx` file in Visual Studio.
@@ -155,7 +155,7 @@ There are two ways to get started with the Syncfusion Blazor Toolkit. Pick the o
 | Option | When to use it | Get started |
 |--------|----------------|-------------|
 | 🚀 **[Using Templates](#using-templates-recommended)** | Starting a new Blazor project. Pre-configured with the toolkit, theming, and project structure so you can build immediately. | [Install templates →](#using-templates-recommended) |
-| 🔧 **[Manual Integration](#manual-integration)** | Adding the toolkit to an existing Blazor application. Five steps: install the package, register services, add the namespace import, link the theme CSS, and try a usage example. | [Manual setup →](#manual-integration) |
+| 🔧 **[Manual Integration](#manual-integration)** | Adding the toolkit to an existing Blazor application. Four steps: install the package, register services, add the namespace import, and try a usage example. | [Manual setup →](#manual-integration) |
 
 **Prerequisites**
 
@@ -190,7 +190,9 @@ For a full list of template options (interactive render mode, global interactivi
 
 ### Manual Integration
 
-Use this option when you want to add the Syncfusion Blazor Toolkit to an existing Blazor application. The setup has five steps: install the NuGet package, register the toolkit services, add the namespace import, link the theme CSS, and try a usage example.
+Use this option when you want to add the Syncfusion Blazor Toolkit to an existing Blazor application. The setup has four steps: install the NuGet package, register the toolkit services, add the namespace import, and try a usage example.
+
+> **Note** — Separate CSS links are no longer required. The necessary styles are automatically included through the NuGet package.
 
 #### 1. Install the package
 
@@ -203,7 +205,7 @@ dotnet add package Syncfusion.Blazor.Toolkit
 Alternatively, add it directly in your `.csproj` file:
 
 ```xml
-<PackageReference Include="Syncfusion.Blazor.Toolkit" Version="x.x.x" />
+<PackageReference Include="Syncfusion.Blazor.Toolkit" Version="2.0.1" />
 ```
 
 #### 2. Register services in `Program.cs`
@@ -236,16 +238,7 @@ Add the following imports to your `_Imports.razor` file:
 @using Syncfusion.Blazor.Toolkit
 ```
 
-#### 4. Add CSS to your `App.razor`
-
-Add the Syncfusion Blazor Toolkit styles to the `<head>` section of your `App.razor` file:
-
-```html
-@* Add syncfusion blazor toolkit style reference *@
-<link id="syncfusion-theme" href="_content/Syncfusion.Blazor.Toolkit/styles/fluent.min.css" rel="stylesheet" />
-```
-
-#### 5. Try a usage example
+#### 4. Try a usage example
 
 Here's a quick example to get you started with one of the controls, such as the Chart:
 
@@ -255,7 +248,7 @@ The following Razor code demonstrates how to set up a basic `SfChart` using the 
 
 ```razor
 @page "/chart-example"
-@using Syncfusion.Blazor.Toolkit.Charts
+@using Syncfusion.Blazor.Toolkit
 
 <h3>Online vs Retails</h3>
 
@@ -375,4 +368,4 @@ Founded in 2001 and headquartered in Research Triangle Park, N.C., Syncfusion® 
 Today, we provide 1800+ components and frameworks for web ([Blazor](https://www.syncfusion.com/blazor-components?utm_source=nuget&utm_medium=listing&utm_campaign=blazor-toolkit-nuget), [ASP.NET Core](https://www.syncfusion.com/aspnet-core-ui-controls?utm_source=nuget&utm_medium=listing&utm_campaign=blazor-toolkit-nuget), [ASP.NET MVC](https://www.syncfusion.com/aspnet-mvc-ui-controls?utm_source=nuget&utm_medium=listing&utm_campaign=blazor-toolkit-nuget), [JavaScript](https://www.syncfusion.com/javascript-ui-controls?utm_source=nuget&utm_medium=listing&utm_campaign=blazor-toolkit-nuget), [Angular](https://www.syncfusion.com/angular-ui-components?utm_source=nuget&utm_medium=listing&utm_campaign=blazor-toolkit-nuget), [React](https://www.syncfusion.com/react-ui-components?utm_source=nuget&utm_medium=listing&utm_campaign=blazor-toolkit-nuget), [Vue](https://www.syncfusion.com/vue-ui-components?utm_source=nuget&utm_medium=listing&utm_campaign=blazor-toolkit-nuget), and [Flutter](https://www.syncfusion.com/flutter-widgets?utm_source=nuget&utm_medium=listing&utm_campaign=blazor-toolkit-nuget)), mobile ([.NET MAUI](https://www.syncfusion.com/maui-controls?utm_source=nuget&utm_medium=listing&utm_campaign=blazor-toolkit-nuget), [Xamarin](https://www.syncfusion.com/xamarin-ui-controls?utm_source=nuget&utm_medium=listing&utm_campaign=blazor-toolkit-nuget), [Flutter](https://www.syncfusion.com/flutter-widgets?utm_source=nuget&utm_medium=listing&utm_campaign=blazor-toolkit-nuget), [UWP](https://www.syncfusion.com/uwp-ui-controls?utm_source=nuget&utm_medium=listing&utm_campaign=blazor-toolkit-nuget), and [JavaScript](https://www.syncfusion.com/javascript-ui-controls?utm_source=nuget&utm_medium=listing&utm_campaign=blazor-toolkit-nuget)), and desktop development ([WinForms](https://www.syncfusion.com/winforms-ui-controls?utm_source=nuget&utm_medium=listing&utm_campaign=blazor-toolkit-nuget), [WPF](https://www.syncfusion.com/wpf-ui-controls?utm_source=nuget&utm_medium=listing&utm_campaign=blazor-toolkit-nuget), [WinUI](https://www.syncfusion.com/winui-controls?utm_source=nuget&utm_medium=listing&utm_campaign=blazor-toolkit-nuget), [Flutter](https://www.syncfusion.com/flutter-widgets?utm_source=nuget&utm_medium=listing&utm_campaign=blazor-toolkit-nuget) and [UWP](https://www.syncfusion.com/uwp-ui-controls?utm_source=nuget&utm_medium=listing&utm_campaign=blazor-toolkit-nuget)).
 ___
 
-[sales@syncfusion.com](mailto:sales@syncfusion.com?Subject=Syncfusion%20Maui%toolkit%20-%20NuGet) | [www.syncfusion.com](https://www.syncfusion.com?utm_source=nuget&utm_medium=listing&utm_campaign=blazor-toolkit-nuget) | Toll Free: 1-888-9 DOTNET
+[sales@syncfusion.com](mailto:sales@syncfusion.com?Subject=Syncfusion%20Blazor%20Toolkit%20-%20NuGet) | [www.syncfusion.com](https://www.syncfusion.com?utm_source=nuget&utm_medium=listing&utm_campaign=blazor-toolkit-nuget) | Toll Free: 1-888-9 DOTNET

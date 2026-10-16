@@ -77,7 +77,7 @@ Re-rendering also fights the awaited continuations.
 
 **Correct:**
 ```razor
-@using Syncfusion.Blazor.Toolkit.Buttons
+@using Syncfusion.Blazor.Toolkit
 
 <SfButton OnClick="@SaveAsync">Save</SfButton>
 @code {
@@ -107,7 +107,7 @@ won't catch "user selected nothing" unless you write a custom validator.
 
 **Correct:**
 ```razor
-@using Syncfusion.Blazor.Toolkit.Buttons
+@using Syncfusion.Blazor.Toolkit
 @using System.ComponentModel.DataAnnotations
 
 <EditForm Model="editor">
@@ -121,7 +121,7 @@ won't catch "user selected nothing" unless you write a custom validator.
 </EditForm>
 
 @code {
-    private void SelectionChanged(Syncfusion.Blazor.Toolkit.Buttons.SelectedItemsChangedEventArgs e)
+    private void SelectionChanged(Syncfusion.Blazor.Toolkit.SelectedItemsChangedEventArgs e)
     {
         editor.Selection = e.SelectedIndexes; // not empty after a click
     }
@@ -143,7 +143,7 @@ fires two navigations. ARIA reports two controls on one element.
 
 **Correct:**
 ```razor
-@using Syncfusion.Blazor.Toolkit.Buttons
+@using Syncfusion.Blazor.Toolkit
 
 <a href="/detail/42" role="link">
     <SfButton Content="Open"
@@ -171,7 +171,7 @@ flag itself.
 
 **Correct:**
 ```razor
-@using Syncfusion.Blazor.Toolkit.Buttons
+@using Syncfusion.Blazor.Toolkit
 
 <SfButton Disabled="@_isProcessing" OnClick="SubmitAsync">Submit</SfButton>
 @code {
@@ -193,7 +193,7 @@ a wrapping `<SfSpinner>` overlay (see
 ## Minimal Example
 
 ```razor
-@using Syncfusion.Blazor.Toolkit.Buttons
+@using Syncfusion.Blazor.Toolkit
 
 <SfButton Content="Save"
           IsPrimary="true"

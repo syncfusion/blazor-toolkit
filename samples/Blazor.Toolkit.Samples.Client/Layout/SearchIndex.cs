@@ -8,6 +8,9 @@
 
             new("System Requirements", "system-requirements"),
             new("Browser Support", "browser-support"),
+            new("Release Notes", "release-notes"),
+            new("Contribution Guide", "contribution-guide"),
+            new("Contributors", "contributors"),
             new("Blazor Web App", "blazor-web-app"),
             new("Blazor WebAssembly App", "blazor-webassembly-app"),
             new("Right-to-Left", "common/right-to-left"),

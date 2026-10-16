@@ -26,10 +26,10 @@
 .e-css.e-switch-wrapper {
   cursor: pointer;
   display: inline-block;
-  height: 20px;
+  height: 24px;
   position: relative;
   user-select: none;
-  width: 40px;
+  width: 44px;
   margin: 8px;
 }
 .e-switch-wrapper:focus, .e-switch-wrapper.e-focus,
@@ -42,10 +42,13 @@
 .e-css.e-switch-wrapper .e-switch {
   appearance: none;
   -moz-appearance: none;
-  height: 1px;
+  height: 100%;
+  inset: 0;
+  margin: 0;
   opacity: 0;
   position: absolute;
-  width: 1px;
+  width: 100%;
+  z-index: 1;
 }
 
 .e-switch-wrapper .e-switch-inner,

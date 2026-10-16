@@ -25,7 +25,7 @@
 
 All exact target rows link to the frozen inventory, not an invented historical “39 removals” list. The user cited the source-warning cleanup as motivation; **zero warnings does not prove compatibility** and did not remove the need for these explicit major-version decisions.
 
-The fresh build also exposed an **unapproved** namespace difference for `SfDataManager`. Explicit `@namespace Syncfusion.Blazor.Toolkit.Data` now preserves its released identity; no new exception was added. The remaining production method edit corrects the `GetButtonItems` XML example to IList without altering its approved signature.
+The fresh build also exposed an **unapproved** namespace difference for `SfDataManager`. The 2.0 now intentionally moves `SfDataManager` (and every other public Data type) to `@namespace Syncfusion.Blazor.Toolkit` so consumers resolve it with only `@using Syncfusion.Blazor.Toolkit`. This is an **approved intentional breaking change** for the 2.0 series: the fully-qualified name of every public Data symbol changes from `Syncfusion.Blazor.Toolkit.Data.X` to `Syncfusion.Blazor.Toolkit.X`. The remaining production method edit corrects the `GetButtonItems` XML example to IList without altering its approved signature.
 
 ## Razor and wire contract scope
 

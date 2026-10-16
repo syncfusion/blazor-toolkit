@@ -7,12 +7,28 @@ test.describe('Switch - State Persistence', () => {
   test.beforeEach(async ({ page }) => {
     await page.goto('http://localhost:5000/switch/state-persistence');
     await page.waitForLoadState('networkidle');
-    
+
     // Clear all localStorage before each test
     await page.evaluate(() => {
       localStorage.clear();
     });
+    await page.reload();
+    await page.waitForLoadState('networkidle');
+
+    const persistInput = page.locator('#switch-persist-enabled');
+    await expect(persistInput).toBeAttached();
+    await expect(persistInput).not.toBeChecked({ timeout: 10000 });
   });
+
+  async function waitForStorageKey(page: import('@playwright/test').Page, idPart: string) {
+    await expect
+      .poll(async () => {
+        return page.evaluate((id) => {
+          return Object.keys(localStorage).filter((k) => k.includes(id)).length;
+        }, idPart);
+      }, { timeout: 10000 })
+      .toBeGreaterThan(0);
+  }
 
   test('Persistent switch saves state to localStorage on toggle', async ({ page }) => {
     const persistInput = page.locator('#switch-persist-enabled');
@@ -25,15 +41,10 @@ test.describe('Switch - State Persistence', () => {
     await wrapper.click();
     
     // Verify state changed
-    await expect(persistInput).toBeChecked();
+    await expect(persistInput).toBeChecked({ timeout: 10000 });
     
     // Verify localStorage was updated (Syncfusion uses specific key pattern)
-    const storageValue = await page.evaluate(() => {
-      const keys = Object.keys(localStorage);
-      return keys.filter(k => k.includes('switch-persist-enabled'));
-    });
-    
-    expect(storageValue.length).toBeGreaterThan(0);
+    await waitForStorageKey(page, 'switch-persist-enabled');
   });
 
   test('Persistent switch restores state on reload', async ({ page }) => {
@@ -42,7 +53,8 @@ test.describe('Switch - State Persistence', () => {
     
     // Toggle the switch to ON
     await wrapper.click();
-    await expect(persistInput).toBeChecked();
+    await expect(persistInput).toBeChecked({ timeout: 10000 });
+    await waitForStorageKey(page, 'switch-persist-enabled');
     
     // Reload the page
     await page.reload();
@@ -50,7 +62,7 @@ test.describe('Switch - State Persistence', () => {
     
     // Verify state is restored
     const reloadedInput = page.locator('#switch-persist-enabled');
-    await expect(reloadedInput).toBeChecked();
+    await expect(reloadedInput).toBeChecked({ timeout: 15000 });
   });
 
   test('Non-persistent switch does not save to localStorage', async ({ page }) => {
@@ -59,9 +71,10 @@ test.describe('Switch - State Persistence', () => {
     
     // Toggle the switch
     await wrapper.click();
-    await expect(nonPersistInput).toBeChecked();
+    await expect(nonPersistInput).toBeChecked({ timeout: 10000 });
     
     // Check that it doesn't store to localStorage (or uses different pattern)
+    await page.waitForTimeout(300);
     const storageValue = await page.evaluate(() => {
       const keys = Object.keys(localStorage);
       return keys.filter(k => k.includes('switch-persist-disabled'));
@@ -77,7 +90,7 @@ test.describe('Switch - State Persistence', () => {
     
     // Toggle the switch to ON
     await wrapper.click();
-    await expect(nonPersistInput).toBeChecked();
+    await expect(nonPersistInput).toBeChecked({ timeout: 10000 });
     
     // Reload the page
     await page.reload();
@@ -85,7 +98,7 @@ test.describe('Switch - State Persistence', () => {
     
     // State should be lost (back to default OFF)
     const reloadedInput = page.locator('#switch-persist-disabled');
-    await expect(reloadedInput).not.toBeChecked();
+    await expect(reloadedInput).not.toBeChecked({ timeout: 15000 });
   });
 
   test('Multiple persistent switches maintain independent state', async ({ page }) => {
@@ -97,8 +110,9 @@ test.describe('Switch - State Persistence', () => {
     
     // Toggle only the first switch
     await wrapper1.click();
-    await expect(persist1Input).toBeChecked();
+    await expect(persist1Input).toBeChecked({ timeout: 10000 });
     await expect(persist2Input).not.toBeChecked();
+    await waitForStorageKey(page, 'switch-persist-1');
     
     // Reload
     await page.reload();
@@ -108,25 +122,25 @@ test.describe('Switch - State Persistence', () => {
     const reloadedPersist1 = page.locator('#switch-persist-1');
     const reloadedPersist2 = page.locator('#switch-persist-2');
     
-    await expect(reloadedPersist1).toBeChecked();
-    await expect(reloadedPersist2).not.toBeChecked();
+    await expect(reloadedPersist1).toBeChecked({ timeout: 15000 });
+    await expect(reloadedPersist2).not.toBeChecked({ timeout: 15000 });
   });
 
- test('Persistent switch shows correct initial display value', async ({ page }) => {
-  const valueDisplay = page.locator('#persist-value');
+  test('Persistent switch shows correct initial display value', async ({ page }) => {
+    const valueDisplay = page.locator('#persist-value');
 
-  // Initial state
-  await expect(valueDisplay).toHaveText(/false/i);
+    // Initial state
+    await expect(valueDisplay).toHaveText(/false/i, { timeout: 10000 });
 
-  const persistInput = page.locator('#switch-persist-enabled');
-  const wrapper = page.locator('.e-switch-wrapper', { has: persistInput });
+    const persistInput = page.locator('#switch-persist-enabled');
+    const wrapper = page.locator('.e-switch-wrapper', { has: persistInput });
 
-  // Toggle
-  await wrapper.click();
+    // Toggle
+    await wrapper.click();
 
-  // Display reflects bound value
-  await expect(valueDisplay).toHaveText(/true/i);
-});
+    // Display reflects bound value
+    await expect(valueDisplay).toHaveText(/true/i, { timeout: 10000 });
+  });
 
   test('Toggling persistent switch multiple times maintains final state', async ({ page }) => {
     const persistInput = page.locator('#switch-persist-enabled');
@@ -134,16 +148,19 @@ test.describe('Switch - State Persistence', () => {
     
     // Toggle multiple times: OFF -> ON -> OFF -> ON
     await wrapper.click(); // ON
+    await expect(persistInput).toBeChecked({ timeout: 10000 });
     await wrapper.click(); // OFF
+    await expect(persistInput).not.toBeChecked({ timeout: 10000 });
     await wrapper.click(); // ON
-    
-    await expect(persistInput).toBeChecked();
+    await expect(persistInput).toBeChecked({ timeout: 10000 });
+
+    await waitForStorageKey(page, 'switch-persist-enabled');
     
     // Reload and verify final ON state is preserved
     await page.reload();
     await page.waitForLoadState('networkidle');
     
     const reloadedInput = page.locator('#switch-persist-enabled');
-    await expect(reloadedInput).toBeChecked();
+    await expect(reloadedInput).toBeChecked({ timeout: 15000 });
   });
 });

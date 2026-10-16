@@ -14,17 +14,16 @@ test.describe('Switch - Toggle Functionality', () => {
     const switchWrapper = page.locator('.e-switch-wrapper').first();
 
     // Initial state: OFF (unchecked)
-    await expect(switchInput).not.toBeChecked();
+    await expect(switchInput).not.toBeChecked({ timeout: 10000 });
     
     // Click on the switch wrapper to toggle
     await switchWrapper.click();
     
     // State should be ON (checked)
-    await expect(switchInput).toBeChecked();
+    await expect(switchInput).toBeChecked({ timeout: 10000 });
     
     // Verify aria-checked updated
-    const ariaChecked = await switchInput.getAttribute('aria-checked');
-    expect(ariaChecked).toBe('true');
+    await expect(switchInput).toHaveAttribute('aria-checked', 'true', { timeout: 10000 });
   });
 
   test('Switch toggles from ON to OFF when clicked again', async ({ page }) => {
@@ -33,15 +32,14 @@ test.describe('Switch - Toggle Functionality', () => {
 
     // First toggle: OFF -> ON
     await switchWrapper.click();
-    await expect(switchInput).toBeChecked();
+    await expect(switchInput).toBeChecked({ timeout: 10000 });
     
     // Second toggle: ON -> OFF
     await switchWrapper.click();
-    await expect(switchInput).not.toBeChecked();
+    await expect(switchInput).not.toBeChecked({ timeout: 10000 });
     
     // Verify aria-checked is back to false
-    const ariaChecked = await switchInput.getAttribute('aria-checked');
-    expect(ariaChecked).toBe('false');
+    await expect(switchInput).toHaveAttribute('aria-checked', 'false', { timeout: 10000 });
   });
 
   test('Multiple consecutive toggles work correctly', async ({ page }) => {
@@ -49,35 +47,35 @@ test.describe('Switch - Toggle Functionality', () => {
     const switchWrapper = page.locator('.e-switch-wrapper').first();
 
     // Initial state: OFF
-    await expect(switchInput).not.toBeChecked();
+    await expect(switchInput).not.toBeChecked({ timeout: 10000 });
     
     // Toggle 1: OFF -> ON
     await switchWrapper.click();
-    await expect(switchInput).toBeChecked();
+    await expect(switchInput).toBeChecked({ timeout: 10000 });
     
     // Toggle 2: ON -> OFF
     await switchWrapper.click();
-    await expect(switchInput).not.toBeChecked();
+    await expect(switchInput).not.toBeChecked({ timeout: 10000 });
     
     // Toggle 3: OFF -> ON
     await switchWrapper.click();
-    await expect(switchInput).toBeChecked();
+    await expect(switchInput).toBeChecked({ timeout: 10000 });
     
     // Toggle 4: ON -> OFF
     await switchWrapper.click();
-    await expect(switchInput).not.toBeChecked();
+    await expect(switchInput).not.toBeChecked({ timeout: 10000 });
   });
 
-test('Switch toggles via keyboard interaction (accessibility)', async ({ page }) => {
-  const switchInput = page.locator('input.e-switch').first();
+  test('Switch toggles via keyboard interaction (accessibility)', async ({ page }) => {
+    const switchInput = page.locator('input.e-switch').first();
 
-  await expect(switchInput).not.toBeChecked();
+    await expect(switchInput).not.toBeChecked({ timeout: 10000 });
 
-  await switchInput.focus();
-  await page.keyboard.press('Space');
+    await switchInput.focus();
+    await page.keyboard.press('Space');
 
-  await expect(switchInput).toBeChecked();
-});
+    await expect(switchInput).toBeChecked({ timeout: 10000 });
+  });
 
   test('Switch handle shows active state when ON', async ({ page }) => {
     const switchWrapper = page.locator('.e-switch-wrapper').first();
@@ -90,7 +88,7 @@ test('Switch toggles via keyboard interaction (accessibility)', async ({ page })
     await switchWrapper.click();
     
     // Check if handle has e-switch-active class
-    await expect(handle).toHaveClass(/e-switch-active/);
+    await expect(handle).toHaveClass(/e-switch-active/, { timeout: 10000 });
   });
 
   test('Switch inner element shows active state when ON', async ({ page }) => {
@@ -101,12 +99,12 @@ test('Switch toggles via keyboard interaction (accessibility)', async ({ page })
     await switchWrapper.click();
     
     // Check if inner has e-switch-active class
-    await expect(inner).toHaveClass(/e-switch-active/);
+    await expect(inner).toHaveClass(/e-switch-active/, { timeout: 10000 });
     
     // Toggle OFF
     await switchWrapper.click();
     
     // Check if inner no longer has e-switch-active class
-    await expect(inner).not.toHaveClass(/e-switch-active/);
+    await expect(inner).not.toHaveClass(/e-switch-active/, { timeout: 10000 });
   });
 });

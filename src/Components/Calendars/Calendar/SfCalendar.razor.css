@@ -1355,12 +1355,12 @@ ejs-calendar {
 }
 .e-calendar ::deep .e-content table {
   border-collapse: separate;
-  border-spacing: 0;
+  border-spacing: 2px;
   border-width: 0;
   float: left;
   margin: 0;
   outline: 0;
-  padding: 0 8px 8px 8px;
+  padding: 0 6px 8px;
   table-layout: fixed;
   width: 100%;
 }
@@ -1397,7 +1397,7 @@ ejs-calendar {
   font-size: 14px;
   font-weight: 500;
   text-align: left;
-  padding: 0 5px;
+  padding: 6px 8px;
   border: none;
   border-radius: calc(var(--e-radius) * 0.125);
 }
@@ -1456,7 +1456,7 @@ ejs-calendar {
   text-indent: 4px;
 }
 .e-calendar ::deep .e-header {
-  height: 24px;
+  min-height: 24px;
 }
 .e-calendar ::deep .e-header.e-month {
   padding: 8px 12px 6px 14px;
@@ -1508,8 +1508,10 @@ ejs-calendar {
   width: 40px;
 }
 .e-calendar ::deep .e-header .e-icon-container .e-prev,  .e-calendar ::deep .e-header .e-icon-container .e-next {
-  height: 28px;
-  width: 28px;
+  height: 32px;
+  width: 32px;
+  box-sizing: border-box;
+  padding: 2px;
 }
 .e-calendar ::deep .e-footer-container {
   background: var(--color-sf-content-bg-color-alt1);

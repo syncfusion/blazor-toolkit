@@ -337,21 +337,12 @@
     }
 
     @@media (forced-colors: active) {
-        .e-input-base-wrapper .e-custom.e-input-group.e-input-focus::before,
-        .e-input-base-wrapper .e-custom.e-input-group.e-input-focus::after {
-            width: 0 !important;
-        }
-
-        .e-custom input.e-input:focus {
-            border-bottom-width: 0 !important;
-            border-color: ButtonText !important;
-        }
-
-        .e-custom.e-input-group.e-input-focus {
-            outline: 2px solid ButtonText;
-            outline-offset: 2px;
-            box-shadow: none !important;
-        }
+      .e-input-group.e-custom,
+      .e-float-input.e-input-group.e-custom,
+      .e-input-group.e-control-wrapper.e-custom,
+      .e-float-input.e-input-group.e-control-wrapper.e-custom {
+        border-color: ButtonText !important;
+      }
     }
 
     .e-custom.e-input-group::before,

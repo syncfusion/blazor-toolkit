@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.JSInterop;
 using Syncfusion.Blazor.Toolkit.Interfaces;
 using Syncfusion.Blazor.Toolkit.Calendars.Internal;
-using Syncfusion.Blazor.Toolkit;
 using Syncfusion.Blazor.Toolkit.Internal;
 using System.Globalization;
 using System.Text.RegularExpressions;
@@ -2297,12 +2296,12 @@ namespace Syncfusion.Blazor.Toolkit
                 // Blazor's framework-level ChangeEventArgs (Microsoft.AspNetCore.Components.ChangeEventArgs)
                 // carries a string Value; the toolkit's OnInput callback is typed over TValue, so we adapt
                 // by projecting into the toolkit's generic ChangeEventArgs<TValue>.
-                var toolkitArgs = new ChangeEventArgs<TValue>
+                ChangeEventArgs<TValue> toolkitArgs = new()
                 {
-                    Event = args?.Value,
+                    Event = args?.Value!,
                     IsInteracted = true,
                     Text = args?.Value?.ToString() ?? string.Empty,
-                    Value = default
+                    Value = default!
                 };
                 await OnInput.InvokeAsync(toolkitArgs).ConfigureAwait(true);
             }

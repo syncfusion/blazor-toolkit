@@ -48,7 +48,7 @@ The documents referenced below contain project information related to licensing,
 
 ## Performance Documentation
 
-- [evidences/performance/virtualization-strategy.md](./evidences/performance/virtualization-startegy.md)
+- [evidences/performance/virtualization-strategy.md](./evidences/performance/virtualization-strategy.md)
   - Virtualization approach and rationale.
 
 - [evidences/performance/render-tree-efficiency.md](./evidences/performance/render-tree-efficiency.md)

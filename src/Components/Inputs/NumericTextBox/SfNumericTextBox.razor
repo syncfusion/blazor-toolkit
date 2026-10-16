@@ -11,7 +11,7 @@
         @if (this.FloatLabelType == FloatLabelType.Auto || this.FloatLabelType == FloatLabelType.Always)
         {
             <div @ref="@ContainerElement" class="@ContainerClass?.Trim()" @attributes="ContainerHtmlAttributes">
-                <input @ref="@InputElement" id="@ID" @attributes="InputHtmlAttributes"
+                <input @ref="@InputElement" id="@ID" @attributes="InputHtmlAttributes" aria-label="@(string.IsNullOrWhiteSpace(Placeholder) ? "Numeric TextBox" : Placeholder)"
                        value="@(string.IsNullOrEmpty(MinMaxValue) ? FormatValueAsString(InputTextValue!) : MinMaxValue)"
                        @onchange="@OnChangeHandlerAsync" @onfocus="@OnFocusHandlerAsync" @onwheel="OnMouseWheelAsync" @onwheel:preventDefault @onblur="@OnBlurHandlerAsync" />
                 <span class="e-float-line"></span>
@@ -41,7 +41,7 @@
         else
         {
             <span @ref="@ContainerElement" class="@ContainerClass?.Trim()" @attributes="ContainerHtmlAttributes">
-                <input @ref="@InputElement" id="@ID" @attributes="InputHtmlAttributes"
+                <input @ref="@InputElement" id="@ID" @attributes="InputHtmlAttributes" aria-label="@(string.IsNullOrWhiteSpace(Placeholder) ? "Numeric TextBox" : Placeholder)"
                        value="@(string.IsNullOrEmpty(MinMaxValue) ? FormatValueAsString(InputTextValue) : MinMaxValue)"
                        @onchange="@OnChangeHandlerAsync" @onfocus="@OnFocusHandlerAsync" @onwheel="OnMouseWheelAsync" @onwheel:preventDefault @onblur="@OnBlurHandlerAsync" />
                 @if (this.ShowClearButton)

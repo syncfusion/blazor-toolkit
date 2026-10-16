@@ -22,7 +22,7 @@
            role="switch"
            aria-checked="@GetAriaPressed()"
            aria-disabled="@Disabled.ToString().ToLower()"
-           aria-label="@GetAccessibleName()"
+           aria-label="@(string.IsNullOrWhiteSpace(GetAccessibleName()) ? null : GetAccessibleName())"
            name="@Name"
            value="@Value"
            checked="@Checked"

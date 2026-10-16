@@ -5,7 +5,7 @@ using System.Collections;
 using System.Diagnostics.CodeAnalysis;
 using System.Globalization;
 
-namespace Syncfusion.Blazor.Toolkit.Data
+namespace Syncfusion.Blazor.Toolkit
 {
     /// <summary>
     /// Interface for http handler used by data manager.

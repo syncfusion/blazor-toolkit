@@ -115,10 +115,10 @@ Renders: Icon below text
 ## Syncfusion Icon Library
 
 ### Icon Library Integration
-The Syncfusion icon library is included with theme CSS. To use icons:
+The Syncfusion icon library is included through the NuGet package. To use icons:
 
-1. Ensure theme CSS is imported (contains icon font)
-2. Use `e-icons` class with specific icon class
+1. Install the toolkit NuGet package (the icon font is included automatically)
+2. Use the appropriate icon class on the component
 3. Icons render as font-based glyphs (scalable)
 
 ### Complete Icon Examples
@@ -355,16 +355,7 @@ Always include `title` attribute for accessibility with icon-only buttons.
 <SfButton IconCss="e-icons e-plus" />
 ```
 
-### Gotcha 2: Icon Library Must Be Loaded
-```razor
-<!-- Won't work: Icon library CSS not included -->
-<SfButton IconCss="e-icons e-plus" />
-
-<!-- Solution: Ensure theme CSS in _Host.cshtml -->
-<!-- <link id="syncfusion-theme" href="_content/Syncfusion.Blazor.Toolkit/styles/fluent.min.css" rel="stylesheet" /> -->
-```
-
-### Gotcha 3: ChildContent Replaces Content
+### Gotcha 2: ChildContent Replaces Content
 ```razor
 <!-- Icon position doesn't apply with ChildContent -->
 <SfButton IconCss="e-icons e-edit" 

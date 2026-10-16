@@ -346,10 +346,29 @@
             <div class="sf-banner-body">
                 <div class="sf-banner-title">Package installed successfully</div>
                 <div class="sf-banner-sub">
-                    <code>Syncfusion.Blazor.Toolkit</code> &middot; v2.0.0 added to your project.
+                    <code>Syncfusion.Blazor.Toolkit</code> &middot; v2.0.1 added to your project.
                 </div>
             </div>
         </div>
+    
+        @if (_activeHost != "wasm")
+        {
+            <div class="sf-tip" role="note">
+                <span class="sf-tip-icon" aria-hidden="true">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="16" x2="12" y2="12"></line>
+                        <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                    </svg>
+                </span>
+                <div>
+                    <div class="sf-tip-title">Note</div>
+                    <div class="sf-tip-body">
+                        When using WebAssembly or Auto render modes, install the NuGet package in the client project since the components run interactively on the client side.
+                    </div>
+                </div>
+            </div>
+        }
     </section>
 
     @* ============================================================
@@ -389,33 +408,32 @@
                          IsCodeAlone="true"
                          SourceFile="@_programSourceFile" />
         </div>
+        @if (_activeHost != "wasm")
+        {
+            <div class="sf-tip" role="note">
+                <span class="sf-tip-icon" aria-hidden="true">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="16" x2="12" y2="12"></line>
+                        <line x1="12" y1="8" x2="12.01" y2="8"></line>
+                    </svg>
+                </span>
+                <div>
+                    <div class="sf-tip-title">Note</div>
+                    <div class="sf-tip-body">
+                        When using WebAssembly or Auto render modes, register the <code>AddSyncfusionBlazorToolkit()</code> service in both the server and client <code>Program.cs</code> files to ensure the toolkit functions correctly during server-side prerendering and client-side interactivity.
+                    </div>
+                </div>
+            </div>
+        }
     </section>
 
     @* ============================================================
-       SECTION 6: Add Stylesheet (host-specific file)
-       ============================================================ *@
-    <section class="sf-section" id="add-stylesheet-reference" aria-labelledby="styles-heading">
-        <div class="sf-step-head">
-            <span class="sf-step-num">6</span>
-            <h2 id="styles-heading">Add Stylesheet Reference</h2>
-        </div>
-        <p class="sf-section-lede">
-            Add the Syncfusion Blazor Toolkit theme stylesheet to
-            @_stylesheetTarget.
-        </p>
-        <div class="sf-code-card">
-            <CodePreview FileName="@_stylesheetFileName"
-                         IsCodeAlone="true"
-                         SourceFile="@_stylesheetSourceFile" />
-        </div>
-    </section>
-
-    @* ============================================================
-       SECTION 7: Add Component (host-specific render mode)
+       SECTION 6: Add Component (host-specific render mode)
        ============================================================ *@
     <section class="sf-section" id="add-syncfusion-blazor-component" aria-labelledby="add-heading">
         <div class="sf-step-head">
-            <span class="sf-step-num">7</span>
+            <span class="sf-step-num">6</span>
             <h2 id="add-heading">Add a Syncfusion Component</h2>
         </div>
         <p class="sf-section-lede">
@@ -429,11 +447,11 @@
     </section>
 
     @* ============================================================
-       SECTION 8: Run Application (host-specific)
+       SECTION 7: Run Application (host-specific)
        ============================================================ *@
     <section class="sf-section" id="run-the-application" aria-labelledby="run-heading">
         <div class="sf-step-head">
-            <span class="sf-step-num">8</span>
+            <span class="sf-step-num">7</span>
             <h2 id="run-heading">Run the Application</h2>
         </div>
         <p class="sf-section-lede">
@@ -1626,7 +1644,6 @@
         new("install-syncfusion-blazor-toolkit-package", "Install Syncfusion Blazor Toolkit Package"),
         new("add-import-namespaces", "Add Import Namespaces"),
         new("register-syncfusion-blazor-toolkit-service", "Register Syncfusion Blazor Toolkit Service"),
-        new("add-stylesheet-reference", "Add Stylesheet Reference"),
         new("add-syncfusion-blazor-component", "Add Syncfusion Component"),
         new("run-the-application", "Run the Application"),
         new("next-steps", "Next Steps"),
@@ -1688,19 +1705,6 @@
     private string _programSourceFile => _activeHost == "wasm"
         ? "/Pages/Demos/GettingStarted/BlazorWebAssemblyApp/ProgramCs.razor"
         : "/Pages/Demos/GettingStarted/BlazorWebApp/ProgramCs.razor";
-
-    // ----- Stylesheet per host model -----
-    private string _stylesheetTarget => _activeHost switch
-    {
-        "wasm" => "the <head> of your <code>index.html</code> file",
-        _ => "the <code>Head</code> section of your <code>App.razor</code> file",
-    };
-
-    private string _stylesheetFileName => _activeHost == "wasm" ? "index.html" : "App.razor";
-
-    private string _stylesheetSourceFile => _activeHost == "wasm"
-        ? "/Pages/Demos/GettingStarted/BlazorWebAssemblyApp/IndexHeadCommon.razor"
-        : "/Pages/Demos/GettingStarted/BlazorWebApp/AppHeadCommon.razor";
 
     // ----- Add component: Home.razor render mode + usage -----
     private string _homeRenderModeSourceFile => _activeHost == "wasm"

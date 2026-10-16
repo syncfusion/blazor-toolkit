@@ -1,11 +1,10 @@
 ﻿using System.Collections;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq.Expressions;
-using Syncfusion.Blazor.Toolkit.Data;
 using System.Dynamic;
 using System.Reflection;
 
-namespace Syncfusion.Blazor.Toolkit.Data
+namespace Syncfusion.Blazor.Toolkit
 {
     /// <summary>
     /// DataOperation class that performs data operation in DynamicObject type data sources.

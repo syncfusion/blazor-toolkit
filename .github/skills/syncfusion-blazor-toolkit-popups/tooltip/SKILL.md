@@ -52,7 +52,7 @@ page.
 
 ```razor
 @using Syncfusion.Blazor.Toolkit
-@using Syncfusion.Blazor.Toolkit.Popups
+@using Syncfusion.Blazor.Toolkit
 
 <SfTooltip Target="#saveBtn" Content="Save (Ctrl+S)"
            Position="TooltipPosition.TopCenter"
@@ -82,7 +82,7 @@ If you're unsure, read the cross-skill decision matrix first:
 
 ```razor
 @using Syncfusion.Blazor.Toolkit
-@using Syncfusion.Blazor.Toolkit.Popups
+@using Syncfusion.Blazor.Toolkit
 
 <SfTooltip Target="#saveBtn" Content="Save (Ctrl+S)">
     <SfButton id="saveBtn">Save</SfButton>
@@ -93,7 +93,7 @@ If you're unsure, read the cross-skill decision matrix first:
 
 ```razor
 @using Syncfusion.Blazor.Toolkit
-@using Syncfusion.Blazor.Toolkit.Popups
+@using Syncfusion.Blazor.Toolkit
 
 <SfTooltip Position="TooltipPosition.BottomCenter"
             Target="#btn"
@@ -115,7 +115,7 @@ If you're unsure, read the cross-skill decision matrix first:
 
 ```razor
 @using Syncfusion.Blazor.Toolkit
-@using Syncfusion.Blazor.Toolkit.Popups
+@using Syncfusion.Blazor.Toolkit
 
 <SfTooltip Target="#submitDisabledWrap" Content="Form is not valid">
     <span id="submitDisabledWrap" tabindex="0">
@@ -128,7 +128,7 @@ If you're unsure, read the cross-skill decision matrix first:
 
 ```razor
 @using Syncfusion.Blazor.Toolkit
-@using Syncfusion.Blazor.Toolkit.Popups
+@using Syncfusion.Blazor.Toolkit
 
 <SfTooltip @ref="tt" Content="Manually controlled" OpensOn="OpensOn.Custom">
     <SfButton @onclick="@(() => tt.Show())">Show tooltip</SfButton>
@@ -195,7 +195,7 @@ Need hover help?
 **Anti-pattern:**
 ```razor
 @using Syncfusion.Blazor.Toolkit
-@using Syncfusion.Blazor.Toolkit.Popups
+@using Syncfusion.Blazor.Toolkit
 
 <SfTooltip Content="Please fill the form">
     <SfButton Disabled="true">Save</SfButton>
@@ -205,7 +205,7 @@ Need hover help?
 **Fix:**
 ```razor
 @using Syncfusion.Blazor.Toolkit
-@using Syncfusion.Blazor.Toolkit.Popups
+@using Syncfusion.Blazor.Toolkit
 
 <!-- Wrap disabled button in tab-able span; tooltip finds the wrapper -->
 <SfTooltip Content="Please fill the form" OpensOn="OpensOn.Auto">
@@ -229,7 +229,7 @@ to `SfDialog` with `IsModal="false"`:
 
 ```razor
 @using Syncfusion.Blazor.Toolkit
-@using Syncfusion.Blazor.Toolkit.Popups
+@using Syncfusion.Blazor.Toolkit
 
 <!-- ❌ Tooltip overflow -->
 <SfTooltip Content="Click to start the workflow, then select the customer, then…">
@@ -246,7 +246,7 @@ to `SfDialog` with `IsModal="false"`:
 **Bad:**
 ```razor
 @using Syncfusion.Blazor.Toolkit
-@using Syncfusion.Blazor.Toolkit.Popups
+@using Syncfusion.Blazor.Toolkit
 
 <SfTooltip Content="…" Animation="new TooltipAnimation { Effect = AnimationEffect.Fade, … }" />
 <SfTooltip Content="…" Animation="@(new TooltipAnimation { Effect = AnimationEffect.Slide, … })" />
@@ -257,7 +257,7 @@ to `SfDialog` with `IsModal="false"`:
 
 ```razor
 @using Syncfusion.Blazor.Toolkit
-@using Syncfusion.Blazor.Toolkit.Popups
+@using Syncfusion.Blazor.Toolkit
 
 <SfTooltip Content="…"
            Animation="@(new TooltipAnimation { Effect = AnimationEffect.Fade, Duration = 200 })">
@@ -270,7 +270,7 @@ to `SfDialog` with `IsModal="false"`:
 **Bad:**
 ```razor
 @using Syncfusion.Blazor.Toolkit
-@using Syncfusion.Blazor.Toolkit.Popups
+@using Syncfusion.Blazor.Toolkit
 
 <SfTooltip Content="Delete this" OpensOn="OpensOn.Hover">
     <SfButton OnClick="Delete">Delete</SfButton>
@@ -288,7 +288,7 @@ add a static `:focus` CSS style and roll your own focus announcement.
 **Bad:**
 ```razor
 @using Syncfusion.Blazor.Toolkit
-@using Syncfusion.Blazor.Toolkit.Popups
+@using Syncfusion.Blazor.Toolkit
 
 <SfTooltip Target="@TargetId" Content="…">
     <SfButton>@currentLabel</SfButton>
@@ -302,7 +302,7 @@ the arrow to point at the old location.
 **Fix:**
 ```razor
 @using Syncfusion.Blazor.Toolkit
-@using Syncfusion.Blazor.Toolkit.Popups
+@using Syncfusion.Blazor.Toolkit
 
 <SfTooltip @ref="tt" Target="@TargetId" Content="…">
     <SfButton>@currentLabel</SfButton>

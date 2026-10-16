@@ -17,7 +17,7 @@ The Syncfusion Blazor Toolkit button components are part of the main toolkit pac
 - **.NET SDK:** .NET 8 or later
 - **Blazor Project:** WebAssembly or Server-side
 - **NuGet Package:** `Syncfusion.Blazor.Toolkit` latest version
-- **CSS Files:** Theme CSS imported in your layout
+- **Theming:** Separate CSS links are no longer required; the necessary styles are automatically included through the NuGet package.
 
 ## Adding to Your Project
 
@@ -36,13 +36,8 @@ Or for Blazor WebAssembly:
 builder.Services.AddSyncfusionBlazorToolkit();
 ```
 
-### 3. Add Theme CSS in Layout
-In `_Host.cshtml` or `index.html`, add the theme stylesheet:
-```html
-<link id="syncfusion-theme" href="_content/Syncfusion.Blazor.Toolkit/styles/fluent.min.css" rel="stylesheet" />
-```
+### 3. Add Global Imports
 
-### 4. Add Global Imports
 In `_Imports.razor`, add:
 ```razor
 @using Syncfusion.Blazor.Toolkit
@@ -50,7 +45,7 @@ In `_Imports.razor`, add:
 
 For button components with icons or enum values like `IconPosition`, add the buttons namespace to your page or component:
 ```razor
-@using Syncfusion.Blazor.Toolkit.Buttons
+@using Syncfusion.Blazor.Toolkit
 ```
 
 ## First Button Component
@@ -225,16 +220,14 @@ The application starts at `https://localhost:7145` (or similar port).
 ### Issue 1: Button Not Rendering
 **Symptom:** No button appears on page
 **Solution:** 
-- Verify `@using` statement includes `Syncfusion.Blazor.Toolkit.Buttons`
+- Verify `@using` statement includes `Syncfusion.Blazor.Toolkit`
 - Check that services are registered in `Program.cs`
-- Ensure CSS file is imported in layout
 
 ### Issue 2: Styling Looks Wrong
 **Symptom:** Button appears unstyled or broken
 **Solution:**
-- Verify theme CSS is loaded: Check browser DevTools Network tab
-- Confirm correct theme CSS path: `<link id="syncfusion-theme" href="_content/Syncfusion.Blazor.Toolkit/styles/fluent.min.css" rel="stylesheet" />` Replace fluent.min.css with the relevant stylesheet (bootstrap.min.css, material.min.css, tailwind.min.css, etc.) depending on the theme you’re using.
-- Ensure theme matches your layout expectations
+- Verify the toolkit's bundled styles are loaded (they are automatically included through the NuGet package)
+- Inspect your app stylesheet for selectors that may be overriding the toolkit's styles
 
 ### Issue 3: Click Handler Not Firing
 **Symptom:** Button clicks don't trigger handler

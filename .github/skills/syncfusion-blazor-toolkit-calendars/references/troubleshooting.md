@@ -125,7 +125,7 @@ class BookingModel
 Ensure the following namespaces are included at the top of the Razor page:
 
 ```razor
-@using Syncfusion.Blazor.Toolkit.Calendars
+@using Syncfusion.Blazor.Toolkit
 @using System.ComponentModel.DataAnnotations
 ```
 
@@ -176,7 +176,7 @@ Ensure the following namespaces are included at the top of the Razor page:
 1. **Use DayCellRendering event for custom disabling:**
 ```razor
 <!-- Use DayCellRendering to disable specific dates -->
-@using Syncfusion.Blazor.Toolkit.Calendars
+@using Syncfusion.Blazor.Toolkit
 
 <SfCalendar TValue="DateTime"
     DayCellRendering="@DisableWeekends">
@@ -460,7 +460,7 @@ Open DevTools (F12) on mobile or use remote debugging to check for JavaScript er
 1. **Use Min/Max to restrict range:**
 ```razor
 <!-- Large ranges can slow rendering -->
-@using Syncfusion.Blazor.Toolkit.Calendars
+@using Syncfusion.Blazor.Toolkit
 
 <SfCalendar TValue="DateTime"
     Min="@minDate"

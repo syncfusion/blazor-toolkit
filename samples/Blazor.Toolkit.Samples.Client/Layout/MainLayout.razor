@@ -235,6 +235,9 @@
     // Wide Layout: Track pages that should use full-width layout without the right TOC (e.g. Explore, Release Notes)
     private bool IsWideLayoutPage =>
         Nav.Uri.Contains("/explore", StringComparison.OrdinalIgnoreCase) ||
+        Nav.Uri.Contains("/release-notes", StringComparison.OrdinalIgnoreCase) ||
+        Nav.Uri.Contains("/contribution-guide", StringComparison.OrdinalIgnoreCase) ||
+        Nav.Uri.Contains("/contributors", StringComparison.OrdinalIgnoreCase) ||
         Nav.Uri.Contains("/charts/overview", StringComparison.OrdinalIgnoreCase) ||
         Nav.Uri.EndsWith("/", StringComparison.OrdinalIgnoreCase);
 
@@ -258,7 +261,10 @@
         new("Blazor WebAssembly App", "blazor-webassembly-app"),
         new("Button", "buttons/button"),
         new("Calendar", "calendars/calendar"),
-        new("Charts", "charts/overview")
+        new("Charts", "charts/overview"),
+        new("Release Notes", "release-notes"),
+        new("Contribution Guide", "contribution-guide"),
+        new("Contributors", "contributors")
     };
 
     public List<SearchItem> FilteredPages { get; set; } = new();

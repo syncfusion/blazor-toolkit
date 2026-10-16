@@ -6,7 +6,7 @@ using System.Dynamic;
 using Syncfusion.Blazor.Toolkit.Internal;
 using System.Text.RegularExpressions;
 
-namespace Syncfusion.Blazor.Toolkit.Data
+namespace Syncfusion.Blazor.Toolkit
 {
     /// <summary>
     /// Provides extension methods for building dynamic LINQ queries against <see cref="IQueryable{T}"/> sources,

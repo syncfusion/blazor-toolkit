@@ -3,7 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using System.Dynamic;
 using Syncfusion.Blazor.Toolkit.Internal;
 
-namespace Syncfusion.Blazor.Toolkit.Data
+namespace Syncfusion.Blazor.Toolkit
 {
     /// <summary>
     /// Handles data operation in IEnumerable data source.
