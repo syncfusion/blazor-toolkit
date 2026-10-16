@@ -4,6 +4,38 @@ Notable changes to the **Syncfusion® Toolkit for Blazor**, with historical summ
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Historical version labels are preserved as published; see the [development guide](.github/DEVELOPMENT.md#versioning-and-evidence-status) for versioning and compatibility guidance.
 
+## [2.0.1] - 2026-10-16
+
+### Added
+
+- **Release infrastructure ([#102](https://github.com/syncfusion/blazor-toolkit/pull/102))**
+  - Added release workflow configuration to support automated package generation and release processes.
+  - Improved repository release readiness for future Toolkit distributions.
+  - Established foundational release automation assets for package publishing workflows.
+
+- **Documentation improvements ([#104](https://github.com/syncfusion/blazor-toolkit/pull/104))**
+  - Expanded component usage guidance and getting started documentation.
+  - Improved discoverability of Toolkit features through enhanced documentation structure.
+  - Added supporting samples and reference pages to improve the onboarding experience.
+
+### Changed
+
+- **Namespace unification ([#103](https://github.com/syncfusion/blazor-toolkit/pull/103))**
+  - Continued the namespace standardization effort across the Toolkit source code.
+  - Updated Data namespace and supporting files to align with the single `@using Syncfusion.Blazor.Toolkit` namespace structure.
+  - Improved consistency and maintainability across Toolkit APIs and internal implementation.
+
+- **Post-release refinements ([#101](https://github.com/syncfusion/blazor-toolkit/pull/101))**
+  - Added follow-up improvements based on feedback from the recent NuGet package release.
+  - Updated assets and supporting resources associated with package distribution.
+  - Improved release-related project configuration and sample alignment.
+
+### Fixed
+  - Fixed styling inconsistencies in Dark Theme across Toolkit samples and components.
+  - Improved visual appearance and theme compatibility for Toolkit demonstrations.
+  - Fixed High Contrast theme rendering issues.
+  - Improved accessibility and visual consistency for users relying on High Contrast modes.([#104](https://github.com/syncfusion/blazor-toolkit/pull/104)).
+
 ## [2.0.0] - 2026-10-09
 
 ### Breaking Changes
@@ -154,6 +186,7 @@ Initial public release of the open-source, MIT-licensed toolkit.
 - Support for **.NET 8, .NET 9, and .NET 10** across Blazor Server, WebAssembly, and Auto render modes.
 - `Syncfusion.Blazor.Toolkit.Templates` project templates (`blazortoolkitweb`, `blazortoolkitwasm`).
 
+[2.0.1]: https://github.com/syncfusion/blazor-toolkit/compare/v2.0.0...v2.0.1
 [2.0.0]: https://github.com/syncfusion/blazor-toolkit/compare/v1.0.2...v2.0.0
 [1.0.2]: https://github.com/syncfusion/blazor-toolkit/releases/tag/v1.0.2
 [1.0.1]: https://github.com/syncfusion/blazor-toolkit/releases/tag/v1.0.1
