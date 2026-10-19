@@ -26,6 +26,6 @@
     "gulp-sass": "6.0.1",
     "sass": "1.105.1",
     "shelljs": "^0.10.0",
-    "typescript-eslint": "^8.71.1"
+    "typescript-eslint": "^8.71.2"
   }
 }
