@@ -1,0 +1,163 @@
+@page "/common/accessibility"
+
+<PageTitle>Accessibility | Syncfusion Blazor Toolkit</PageTitle>
+
+<div class="accessibility-page" aria-labelledby="accessibility-title">
+    <nav class="accessibility-breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a><span aria-hidden="true">/</span>
+        <span>Common</span><span aria-hidden="true">/</span>
+        <span aria-current="page">Accessibility</span>
+    </nav>
+
+    <div class="accessibility-layout">
+        <div class="accessibility-main">
+            <header class="accessibility-hero" id="overview">
+                <div class="hero-copy">
+                    <h1 id="accessibility-title">Accessibility</h1>
+                    <p class="hero-subtitle">Build inclusive, standards-compliant Blazor applications with confidence.</p>
+                    <div class="feature-badges" role="group" aria-label="Accessibility highlights">
+                        <div class="feature-badge badge-green">
+                            <span class="badge-symbol" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="m9.2 16.2-4-4 1.7-1.7 2.3 2.3 7-7 1.7 1.7z"/><path d="M12 2 3.5 5.5v6.1c0 5.1 3.6 8.7 8.5 10.4 4.9-1.7 8.5-5.3 8.5-10.4V5.5z"/></svg></span>
+                            <span><strong>WCAG 2.2 AA</strong><small>Standards compliant</small></span>
+                        </div>
+                        <div class="feature-badge badge-blue">
+                            <span class="badge-symbol" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 5h2v3H3zm4 0h2v3H7zm4 0h2v3h-2zm4 0h2v3h-2zm4 0h2v3h-2zM3 10h3v3H3zm5 0h3v3H8zm5 0h3v3h-3zm5 0h3v3h-3zM4 16h16v3H4z"/></svg></span>
+                            <span><strong>Keyboard Accessible</strong><small>Full navigation support</small></span>
+                        </div>
+                        <div class="feature-badge badge-purple">
+                            <span class="badge-symbol" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m-5 4v1.8h3l-1 2.2v4h2v-3l1-2 1 2v3h2v-4l-1-2.2h3v-1.8z"/></svg></span>
+                            <span><strong>Screen Reader Ready</strong><small>Validated with leading tools</small></span>
+                        </div>
+                        <div class="feature-badge badge-amber">
+                            <span class="badge-symbol sun-symbol" aria-hidden="true">☀</span>
+                            <span><strong>High Contrast Support</strong><small>Works in all contrast modes</small></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero-art" role="img" aria-label="Illustration of an accessible application window with accessibility controls">
+                    <div class="hero-orbit orbit-one"></div><div class="hero-orbit orbit-two"></div>
+                    <div class="hero-window">
+                        <div class="window-bar"><i></i><i></i><i></i></div>
+                        <div class="accessibility-mark"><svg viewBox="0 0 64 64" aria-hidden="true"><circle cx="32" cy="32" r="30"/><circle class="person" cx="32" cy="17" r="4"/><path class="person" d="M18 25h28v4H35l-2 9 7 13h-5l-5-9-5 9h-5l7-14-2-8H18z"/></svg></div>
+                    </div>
+                    <div class="hero-leaf leaf-a"></div><div class="hero-leaf leaf-b"></div><div class="hero-leaf leaf-c"></div>
+                    <div class="hero-caption"><span aria-hidden="true">♥</span><span><strong>Accessible.</strong><small>For Everyone.</small></span></div>
+                </div>
+            </header>
+
+            <section class="why-section" aria-labelledby="why-accessibility">
+                <h2 id="why-accessibility">Why Accessibility Matters</h2>
+                <p class="section-intro">We are committed to making the web more inclusive. Syncfusion Blazor Toolkit follows modern accessibility standards to ensure our components can be used by everyone, everywhere.</p>
+                <div class="feature-grid" aria-label="Accessibility features">
+                    @foreach (var feature in Features)
+                    {
+                        <article class="feature-card">
+                            <span class="feature-icon @feature.IconClass" aria-hidden="true">@((MarkupString)feature.Icon)</span>
+                            <div><h3>@feature.Title</h3><p>@feature.Description</p></div>
+                        </article>
+                    }
+                </div>
+            </section>
+
+            <div class="detail-grid">
+                <section class="detail-card standards-card" id="standards" aria-labelledby="standards-title">
+                    <h2 id="standards-title"><span class="detail-icon" aria-hidden="true">✓</span>Standards Compliance</h2>
+                    <ul class="standards-list">
+                        <li><span class="success-check" aria-hidden="true">✓</span><span>WCAG 2.2</span><span class="standard-status">Level AA</span></li>
+                        <li><span class="success-check" aria-hidden="true">✓</span><span>ADA</span><span class="standard-status">Supported</span></li>
+                        <li><span class="success-check" aria-hidden="true">✓</span><span>Section 508</span><span class="standard-status">Supported</span></li>
+                        <li><span class="success-check" aria-hidden="true">✓</span><span>EN 301 549</span><span class="standard-status">Supported</span></li>
+                        <li><span class="success-check" aria-hidden="true">✓</span><span>WAI-ARIA</span><span class="standard-status">Supported</span></li>
+                    </ul>
+                </section>
+
+                <section class="detail-card screen-reader-card" id="screen-readers" aria-labelledby="screen-reader-title">
+                    <h2 id="screen-reader-title"><span class="detail-icon" aria-hidden="true">◖</span>Screen Reader Compatibility</h2>
+                    <div class="reader-list">
+                        <div class="reader-tile"><span class="windows-icon" aria-hidden="true">▦</span><strong>NVDA</strong></div>
+                        <div class="reader-tile"><span class="narrator-icon" aria-hidden="true">◀</span><strong>Narrator</strong></div>
+                    </div>
+                    <p class="reader-note">Validated with supported screen readers.</p>
+                </section>
+
+                <section class="detail-card shortcuts-card" id="keyboard-shortcuts" aria-labelledby="shortcuts-title">
+                    <h2 id="shortcuts-title"><span class="detail-icon keyboard-icon" aria-hidden="true">⌨</span>Keyboard Shortcuts</h2>
+                    <p class="keyboard-note">Keyboard interactions vary across components. The shortcuts below represent commonly used navigation patterns. Refer to each component’s accessibility documentation for detailed keyboard support.</p>
+                    <dl class="shortcut-list">
+                        <div><dt><kbd>Tab</kbd></dt><dd>Move to next element</dd></div>
+                        <div><dt><kbd>Shift + Tab</kbd></dt><dd>Move to previous element</dd></div>
+                        <div><dt><kbd>Enter</kbd></dt><dd>Activate focused item</dd></div>
+                        <div><dt><kbd>Space</kbd></dt><dd>Trigger action</dd></div>
+                        <div><dt><kbd>Esc</kbd></dt><dd>Close popup, dialog or menu</dd></div>
+                    </dl>
+                </section>
+            </div>
+
+            <section class="theme-showcase" id="theme-preview" aria-labelledby="theme-title">
+                <div class="theme-heading">
+                    <span class="theme-heading-icon" aria-hidden="true">◉</span>
+                    <div><h2 id="theme-title">Theme Preview</h2><p>Experience accessible UI in different themes.</p>
+                        <div class="theme-chips" role="group" aria-label="Select a theme preview">
+                            <button type="button" class="@(SelectedTheme == "Light" ? "is-selected" : null)" aria-pressed="@(SelectedTheme == "Light")" @onclick='() => SelectTheme("Light")'>Light</button>
+                            <button type="button" class="@(SelectedTheme == "Dark" ? "is-selected" : null)" aria-pressed="@(SelectedTheme == "Dark")" @onclick='() => SelectTheme("Dark")'>Dark</button>
+                            <button type="button" class="@(SelectedTheme == "High Contrast" ? "is-selected" : null)" aria-pressed="@(SelectedTheme == "High Contrast")" @onclick='() => SelectTheme("High Contrast")'>High Contrast</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="theme-previews" aria-live="polite">
+                    @if (SelectedTheme == "Light")
+                    {
+                        <div class="theme-preview preview-light" aria-label="Light theme preview">
+                            <div class="preview-window"><div class="preview-window-heading"><span class="preview-window-mark" aria-hidden="true">S</span><span><strong>Welcome back</strong><small>Your workspace is ready.</small></span></div><div class="preview-controls"><label class="visually-hidden" for="light-preview-input">Light theme sample text field</label><input id="light-preview-input" type="text" value="Search settings" readonly /><button type="button">Continue</button></div></div>
+                        </div>
+                    }
+                    else if (SelectedTheme == "Dark")
+                    {
+                        <div class="theme-preview preview-dark" aria-label="Dark theme preview">
+                            <div class="preview-window"><div class="preview-window-heading"><span class="preview-window-mark" aria-hidden="true">S</span><span><strong>Welcome back</strong><small>Your workspace is ready.</small></span></div><div class="preview-controls"><label class="visually-hidden" for="dark-preview-input">Dark theme sample text field</label><input id="dark-preview-input" type="text" value="Search settings" readonly /><button type="button">Continue</button></div></div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="theme-preview preview-contrast" aria-label="High contrast theme preview">
+                            <div class="preview-window"><div class="preview-window-heading"><span class="preview-window-mark" aria-hidden="true">S</span><span><strong>Welcome back</strong><small>Your workspace is ready.</small></span></div><div class="preview-controls"><label class="visually-hidden" for="contrast-preview-input">High contrast theme sample text field</label><input id="contrast-preview-input" type="text" value="Search settings" readonly /><button type="button">Continue</button></div></div>
+                        </div>
+                    }
+                </div>
+            </section>
+        </div>
+
+        <aside class="verified-panel" aria-labelledby="verified-title">
+            <h2 id="verified-title">Accessibility Verified</h2>
+            <div class="progress-ring" role="img" aria-label="100 percent accessibility verified"><span>100%</span></div>
+            <p class="verified-summary">All key accessibility criteria are supported in Syncfusion Blazor Toolkit.</p>
+            <ul class="verified-list">
+                @foreach (var item in VerifiedItems)
+                {
+                    <li><span aria-hidden="true">✓</span>@item</li>
+                }
+            </ul>
+            <strong class="verified-label">100% Accessibility Verified</strong>
+        </aside>
+    </div>
+</div>
+
+@code {
+    private static readonly FeatureItem[] Features =
+    [
+        new("Keyboard Navigation", "Navigate all components using keyboard with a logical tab order.", "icon-keyboard", "<svg viewBox='0 0 24 24'><path d='M3 5h2v3H3zm4 0h2v3H7zm4 0h2v3h-2zm4 0h2v3h-2zm4 0h2v3h-2zM3 10h3v3H3zm5 0h3v3H8zm5 0h3v3h-3zm5 0h3v3h-3zM4 16h16v3H4z'/></svg>"),
+        new("Screen Reader Support", "Works with NVDA and Narrator.", "icon-speaker", "<svg viewBox='0 0 24 24'><path d='M3 9v6h4l5 4V5L7 9zm13.5 3a4.5 4.5 0 0 0-2.5-4v8a4.5 4.5 0 0 0 2.5-4m-2.5-9v2.1a7 7 0 0 1 0 13.8V21a9 9 0 0 0 0-18'/></svg>"),
+        new("High Contrast Theme", "Optimized for Windows high contrast modes.", "icon-contrast", "<svg viewBox='0 0 24 24'><path d='M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20m0 18V4a8 8 0 0 1 0 16'/></svg>"),
+        new("Semantic ARIA", "Implements ARIA roles, states and properties.", "icon-document", "<svg viewBox='0 0 24 24'><path d='M6 2h9l5 5v15H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2m8 2v5h5M8 12h9v2H8zm0 4h9v2H8z'/></svg>"),
+        new("400% Zoom Support", "Maintains usability up to 400% zoom level.", "icon-zoom", "<svg viewBox='0 0 24 24'><path d='M10 2a8 8 0 1 0 5.3 14l5 5 1.4-1.4-5-5A8 8 0 0 0 10 2m0 2a6 6 0 1 1 0 12 6 6 0 0 1 0-12m-1 2v3H6v2h3v3h2v-3h3V9h-3V6z'/></svg>"),
+        new("Focus Management", "Visible focus indicators and accessible interaction patterns.", "icon-focus", "<svg viewBox='0 0 24 24'><path d='M8 2H4a2 2 0 0 0-2 2v4h2V4h4zm8 0h4a2 2 0 0 1 2 2v4h-2V4h-4zM2 16v4a2 2 0 0 0 2 2h4v-2H4v-4zm20 0v4a2 2 0 0 1-2 2h-4v-2h4v-4zM12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10m0 3a2 2 0 1 1 0 4 2 2 0 0 1 0-4'/></svg>")
+    ];
+
+    private static readonly string[] VerifiedItems = ["WCAG 2.2", "ARIA Support", "Keyboard Navigation", "Screen Readers", "High Contrast", "Focus Management"];
+
+    private string SelectedTheme { get; set; } = "Light";
+
+    private void SelectTheme(string theme) => SelectedTheme = theme;
+
+    private sealed record FeatureItem(string Title, string Description, string IconClass, string Icon);
+}

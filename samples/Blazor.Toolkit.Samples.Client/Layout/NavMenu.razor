@@ -45,6 +45,12 @@
                 ============================================================ *@
                 <li class="sf-sidebar-group-label" aria-hidden="true">Common</li>
 
+                <li class="sf-nav-item sf-sub-item @(IsActive("common/accessibility") ? "is-active" : "")">
+                    <NavLink class="sf-nav-link" href="common/accessibility" Match="NavLinkMatch.All">
+                        <span class="sf-menu-icon" aria-hidden="true"><svg class="accessibility-menu-icon" viewBox="0 0 24 24" focusable="false"><circle cx="12" cy="4" r="2" fill="currentColor"/><path d="M5 8.5A1.5 1.5 0 0 1 6.5 7h11a1.5 1.5 0 0 1 0 3h-3l1.2 4.2 2.2 4a1.5 1.5 0 0 1-2.6 1.5L12 15.5l-3.3 4.2a1.5 1.5 0 1 1-2.4-1.8l3.1-4L10.5 10h-4A1.5 1.5 0 0 1 5 8.5Z" fill="currentColor"/></svg></span>
+                        <span>Accessibility</span>
+                    </NavLink>
+                </li>
                 <li class="sf-nav-item sf-sub-item @(IsActive("common/right-to-left") ? "is-active" : "")">
                     <NavLink class="sf-nav-link" href="common/right-to-left" Match="NavLinkMatch.All">
                         <span class="e-toolkit-icons e-right-left sf-menu-icon" aria-hidden="true"></span>

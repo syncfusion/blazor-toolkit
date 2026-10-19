@@ -153,13 +153,16 @@
         }
 
         @* Wide Layout: Apply full-width layout class for pages that opt out of the right TOC. *@
-        <main class="main-area @(IsWideLayoutPage ? "main-area-full-width" : "")">
+        <main class="main-area @(IsWideLayoutPage || IsAccessibilityPage ? "main-area-full-width" : "")">
             <article class="page-content">
                 <CascadingValue Value="CurrentChartTheme">
                     @* Cascade the TOC holder to @Body so the rendered page can publish its section list
                        into the same instance the right sidebar reads from. *@
                     <CascadingValue Value="@_tocHolder">
-                        <SfBreadcrumb />
+                        @if (!IsAccessibilityPage)
+                        {
+                            <SfBreadcrumb />
+                        }
                         @Body
                         <PageFooter />
                     </CascadingValue>
@@ -171,7 +174,7 @@
            RightToc pulls the holder via [CascadingParameter] and subscribes to its Changed event directly,
            so no wrapper component is needed. The same holder instance is shared with @Body above. *@
         @* Wide Layout: Right panel is visible only on desktop and tablet, and hidden on wide-layout pages. *@
-        @if (!IsMobile && !IsTablet && !IsWideLayoutPage)
+        @if (!IsMobile && !IsTablet && !IsWideLayoutPage && !IsAccessibilityPage)
         {
             <CascadingValue Value="@_tocHolder">
                 <aside class="right-panel">
@@ -233,6 +236,9 @@
     private DotNetObjectReference<MainLayout>? _dotNetRef;
 
     // Wide Layout: Track pages that should use full-width layout without the right TOC (e.g. Explore, Release Notes)
+    private bool IsAccessibilityPage =>
+        Nav.Uri.Contains("/common/accessibility", StringComparison.OrdinalIgnoreCase);
+
     private bool IsWideLayoutPage =>
         Nav.Uri.Contains("/explore", StringComparison.OrdinalIgnoreCase) ||
         Nav.Uri.Contains("/release-notes", StringComparison.OrdinalIgnoreCase) ||

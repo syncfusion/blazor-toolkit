@@ -278,6 +278,7 @@
 /* ====================================================================
    ROW ICONS (col 2)
    ==================================================================== */
+.accessibility-menu-icon { display: block; width: 18px; height: 18px; }
 .sf-menu-icon {
     grid-column: 2;
     width: var(--sf-sidebar-icon-w);
