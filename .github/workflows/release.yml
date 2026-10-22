@@ -222,7 +222,7 @@ jobs:
       # 12. Upload signed package + both SBOMs to the Release
       # -------------------------------------------------
       - name: Upload assets to GitHub Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           files: |
             ${{ env.NUGET_PACKAGES_DIR }}/*.nupkg
