@@ -195,7 +195,7 @@ jobs:
       # 10. SLSA Build Provenance attestation
       # -------------------------------------------------
       - name: Generate SLSA provenance
-        uses: actions/attest-build-provenance@v2
+        uses: actions/attest-build-provenance@v4
         with:
           subject-path: ${{ env.NUGET_PACKAGES_DIR }}/*.nupkg
 
