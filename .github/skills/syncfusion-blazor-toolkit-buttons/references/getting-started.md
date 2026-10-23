@@ -181,7 +181,9 @@ cd samples/Blazor.Toolkit.Samples
 dotnet watch run
 ```
 
-The application starts at `https://localhost:7145` (or similar port).
+The application listens on the URL from the active launch profile
+(`Properties/launchSettings.json`) or the URL printed by
+`dotnet watch run` / `dotnet run` in the console—not a fixed port.
 
 ### Adding a Test Page
 1. Create `Pages/ButtonTest.razor`

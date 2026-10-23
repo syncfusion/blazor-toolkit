@@ -1,5 +1,7 @@
 # ShouldRender optimization — evidence report
 
+> As of package **2.0.1**. Spot-check against current `src/Components` after major rendering or theme changes.
+
 ## Summary
 
 Formal `ShouldRender` overrides are used where render cost is highest (chart renderer stack). Other components use default `ShouldRender` or equivalent gates (conditional markup / adaptive flags / change tracking).

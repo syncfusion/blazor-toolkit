@@ -2,6 +2,8 @@
 
 The Syncfusion Blazor Toolkit **aims to conform** to **WCAG 2.2 Level AA**.
 
+> Evidence and commitments last reviewed for package **2.0.1** (includes `SfThemeRoot` theme delivery and component CSS isolation). Re-validate after major theme or styling changes.
+
 ## What this means
 
 - Every interactive component in the toolkit exposes accessible
@@ -32,6 +34,7 @@ that is not yet satisfied, and the planned remediation.
   [`.github/accessibility/screen-reader-smoke.md`](accessibility/screen-reader-smoke.md).
 - Conformance claims are regenerated before each major release and
   filed in the release ticket.
+- Formal VPAT: [`docs/VPAT-2.5-INT.md`](../docs/VPAT-2.5-INT.md).
 
 ## Reporting issues
 

@@ -3,14 +3,32 @@
 This page contains the steps to build and run the Syncfusion Toolkit for Blazor repository from source. If you are looking to build apps with the Syncfusion Toolkit for Blazor, please head over to the links in the [README](https://github.com/syncfusion/blazor-toolkit/blob/main/README.md) to get started.
 
 ## Initial setup
-   ### Windows
-   - Install Visual Studio 2022 (v17.10 or newer) with ASP.NET and web development workload.
-   - Install [.NET 8 SDK](https://dotnet.microsoft.com/download/dotnet/8.0).
-   - Clone the repository:
-     ```shell
-     git clone https://github.com/syncfusion/blazor-toolkit.git
-     cd blazor-toolkit
-     ```
+
+### Prerequisites (all platforms)
+
+- **.NET SDKs** for all supported target frameworks:
+  [.NET 8](https://dotnet.microsoft.com/download/dotnet/8.0),
+  [.NET 9](https://dotnet.microsoft.com/download/dotnet/9.0), and
+  [.NET 10](https://dotnet.microsoft.com/download/dotnet/10.0)
+  (or an install that provides SDKs for 8, 9, and 10).
+- **Node.js (LTS)** on `PATH` if project targets require it during pack/build.
+- Clone the repository:
+  ```shell
+  git clone https://github.com/syncfusion/blazor-toolkit.git
+  cd blazor-toolkit
+
+### Windows (primary)
+
+- Install Visual Studio 2022 (v17.10 or newer) with the ASP.NET and web development workload, or use the `dotnet` CLI alone.
+- Build: `dotnet build ./src/Syncfusion.Blazor.Toolkit.slnx`
+- Samples: open `samples/Blazor.Toolkit.Samples.slnx` in Visual Studio and set the desired startup project.
+
+### macOS / Linux
+- Use the `dotnet` CLI with the SDKs above.
+- Optional: VS Code or JetBrains Rider.
+- Build: `dotnet restore` then `dotnet build ./src/Syncfusion.Blazor.Toolkit.slnx`.
+- Samples: open `samples/Blazor.Toolkit.Samples.slnx` in a supported IDE, or run the host project with `dotnet run` from the samples folder.
+
 
 ## Building the Solution
 
@@ -24,7 +42,7 @@ This page contains the steps to build and run the Syncfusion Toolkit for Blazor 
 
 ### Release sanity check (local)
 
-If you want to mimic what `.github/workflows/nuget-publish.yml` does on a release runner, pass `-p:ContinuousIntegrationBuild=true` so SourceLink and the package hash match what CI produces:
+To produce a local pack that matches CI **unsigned** pack properties (SourceLink / package metadata), pass `-p:ContinuousIntegrationBuild=true`:
 
 ```dotnetcli
 dotnet restore src/Syncfusion.Blazor.Toolkit.csproj -p:ContinuousIntegrationBuild=true
@@ -71,9 +89,11 @@ The outcome of each structured review is recorded by updating the "Security Self
 ## Versioning and API stability
 
 The project follows [Semantic Versioning 2.0.0](https://semver.org/spec/v2.0.0.html).
-Release history lives on the GitHub release page:
 
-> **Release history:** <https://github.com/syncfusion/blazor-toolkit/releases>
+Release history:
+
+- **GitHub Releases:** <https://github.com/syncfusion/blazor-toolkit/releases>
+- **In-repo changelog:** [CHANGELOG.md](../CHANGELOG.md)
 
 Every published tag has a release page on that URL that enumerates
 the added, changed, deprecated, and removed APIs for that version.
@@ -88,10 +108,14 @@ The short version of the policy is:
 - **Minor (`x.y.0`)** — backwards-compatible additions only.
 - **Patch (`x.y.z`)** — backwards-compatible bug fixes only.
 
-Until the project ships a `1.0.0` release, the minor digit may
-include breaking changes per SemVer §4. The current source declares
-`2.0.1` in `src/Syncfusion.Blazor.Toolkit.csproj`; the most recent
-published release on the GitHub releases page is `v1.0.2`.
+The package version is declared in `src/Syncfusion.Blazor.Toolkit.csproj`
+(currently `2.0.1`). The latest published GitHub release is `v2.0.1`.
+
+The pre-1.0 SemVer exception no longer applies. On **2.x**, breaking changes
+require a new major version. **2.0.0** was a breaking re-baseline; see
+[CHANGELOG.md](../CHANGELOG.md),
+[docs/API-COMPATIBILITY.md](../docs/API-COMPATIBILITY.md), and
+[docs/API-BREAK-INVENTORY.md](../docs/API-BREAK-INVENTORY.md).
 
 APIs marked `[Obsolete]` are retained for at least **two minor
 releases** before removal. APIs marked `[Experimental]` are not
@@ -213,16 +237,29 @@ bUnit test enforces this by reflection over every public `[Parameter]`
 in `src/Components/` and asserts `EditorRequiredAttribute` presence
 when the docs mark the parameter as required.
 
-### D5 / BEQ-20 — `e-*` style contract
+### D5 / BEQ-20 — Style and theme delivery (2.0)
 
-Global styles for the toolkit are namespaced under `e-*`. They are
-shipped from `src/wwwroot/styles/` and consumed via the
-`_content/Syncfusion.Blazor.Toolkit/styles` static asset path. The
-contract, including stable selectors and renaming policy, is defined
-in [`src/wwwroot/styles/STYLE-CONTRACT.md`](../src/wwwroot/styles/STYLE-CONTRACT.md).
-A subset of components uses Blazor CSS isolation for self-contained
-styling (`Border.razor.css` under `Spinner`, `SfNumericTextBox.razor.css`);
-those files are colocated with the component.
+As of **2.0.0**, toolkit styling is delivered in two layers:
+
+1. **Component styles** — Colocated Blazor CSS isolation (`.razor.css` next to
+   each component). Edit component appearance in those source files. The build
+   produces the scoped CSS bundle.
+
+2. **Shared theme layer** — `:root` tokens, base/utility styles, icon font,
+   keyframes, and dark / high-contrast / forced-colors rules are emitted at
+   render time by **`SfThemeRoot`** (`src/Base/SfThemeRoot.cs`,
+   `SfThemeRoot.Payload.cs`), with ownership coordinated by **`SfThemeScope`**.
+   Root toolkit components render `<SfThemeRoot />` as the previous sibling of
+   their root element. For the common case, consumers do **not** need separate
+   toolkit theme `<link>` tags.
+
+Class names may still use the `e-*` prefix where applicable. Prefer matching
+existing isolated selectors and the theme payload rather than a permanent
+checked-in `src/wwwroot/styles/` tree. `src/wwwroot/` primarily holds
+JavaScript interop scripts.
+
+See [CHANGELOG.md](../CHANGELOG.md) section `[2.0.0]` (theme delivery model and
+CSS isolation) for migration details.
 
 ### D6 / PI-06 — SBOM (manual)
 

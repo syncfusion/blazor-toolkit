@@ -3,7 +3,7 @@ name: syncfusion-blazor-toolkit-charts
 description: Implement Syncfusion Blazor Chart (SfChart) component for core data visualizations. Use this when creating line, area, column/bar, scatter, bubble, spline and stacking chart variants in Blazor applications.
 metadata:
   author: "Syncfusion Inc"
-  version: "1.0.0"
+  version: "1.0.0"   # skill document revision only — not the NuGet package version (package is 2.x)
   category: "Data Visualization"
 ---
 

@@ -58,4 +58,5 @@ On a **monthly cadence** (targeting the second Wednesday of each month), the mai
 
 This project maintains a current security reference in the repository's [THREAT-MODEL.md](THREAT-MODEL.md) document (sibling to this file in `.github/`). The project team has reviewed the current architecture, package surface, and release flow and has documented the principal risks and mitigations in good faith.
 
-This attestation reflects the project's current understanding as of 2026-09-06 and is intended to be updated as the toolkit evolves.
+This attestation reflects the project's current understanding as of 2026-10-19
+(after 2.0.0 / 2.0.1) and is intended to be updated as the toolkit evolves.

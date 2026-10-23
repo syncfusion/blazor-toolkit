@@ -10,9 +10,20 @@ Please see our [Code of Conduct](CODE_OF_CONDUCT.md).
 
 ## Contributing Code
 
-Currently, we are in the beginning phases of building up the Syncfusion Toolkit for Blazor. Yet, we are still very excited for you to join us during this exciting time!
+The Syncfusion Toolkit for Blazor is an open-source, MIT-licensed package
+on a **2.x** release line. We welcome contributions of all sizes—bug fixes,
+tests, docs, accessibility, and new capabilities that fit the [roadmap](../ROADMAP.md).
 
 Have a look at our [Development Guide](DEVELOPMENT.md) to learn about setting up your development environment.
+
+### Repo map (quick)
+
+- Samples: open `samples/Blazor.Toolkit.Samples.slnx`
+  (`Blazor.Toolkit.Samples` host, `Blazor.Toolkit.Samples.Client` WASM).
+- Unit tests: `tests/Syncfusion.Blazor.Toolkit.BUnitTest/`
+- Browser tests: `tests/Syncfusion.Blazor.Playwright.Test/`
+- Prefer paths in [DEVELOPMENT.md](DEVELOPMENT.md) and the root
+  [README.md](../README.md) over short/legacy folder names.
 
 ### What to Work On
 

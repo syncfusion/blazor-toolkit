@@ -18,6 +18,8 @@ is updated here at every major release.
 | Total FastPass findings | 0 critical; 0 serious; 3 moderate (filed as issues labelled `accessibility`); 0 minor |
 | Total Assessment findings | 0 serious; 5 moderate (filed as issues labelled `accessibility`); 12 minor (filed) |
 
+> Snapshot below is from **2026-09-06** (pre–2.0 theme/isolation). Treat as historical until re-run against **2.0.1**.
+
 ### Findings by component
 
 | Component | FastPass | Assessment | Severity | Issue |

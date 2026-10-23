@@ -14,12 +14,12 @@ description: >
 compatibility: ".NET 8+, render-modes: Static SSR, Server, WebAssembly, Auto"
 metadata:
   author: "Syncfusion Inc"
-  version: "1.0.0"
+  version: "1.0.0"   # skill document revision only — not the NuGet package version (package is 2.x)
 ---
 
 # Syncfusion Blazor Toolkit Buttons
 
-> ✅ **Render mode:** Works in **all** render modes — `SfButton` is usable in Static SSR; only event handlers (`OnClick`) require interactivity. Read `AGENTS.md` to determine the project's interactivity mode before wiring event handlers.
+> ✅ **Render mode:** Works in **all** render modes — `SfButton` is usable in Static SSR; only event handlers (`OnClick`) require interactivity. Confirm the app’s interactive render mode (Server, WebAssembly, or Auto) in the host project (`Program.cs` / launch profile) before wiring event handlers. See [DEVELOPMENT.md](../../DEVELOPMENT.md) and [RENDER-MODE-SECURITY.md](../../RENDER-MODE-SECURITY.md) for repo guidance.
 
 ## Core Rules
 

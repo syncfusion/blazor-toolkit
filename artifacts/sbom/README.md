@@ -34,15 +34,17 @@ and matches the value in `sbom.cdx.json.sha256`.
 
 ## Cross-reference
 
-`THIRD-PARTY-NOTICES.md` at the repo root is the human-readable
-counterpart of this SBOM. Tooling (CycloneDX CLI, in-toto-golang,
-`dotnet list package --vulnerable`) consumes this directory's
-contents.
+[`.github/THIRD-PARTY-NOTICES.md`](../../.github/THIRD-PARTY-NOTICES.md)
+is the human-readable counterpart of this SBOM. Tooling (CycloneDX CLI,
+in-toto-golang, `dotnet list package --vulnerable`) consumes this
+directory's contents.
 
 ## Last updated
 
-- 2026-09-06 — initial emission for the v1.0.0 release preview; pinned
+- 2026-06-22 — initial emission for the v1.0.0 release preview; pinned
   here as part of MS-2.5 partner attestation.
-- 2026-10-09 — recorded as the last-updated stamp; a 2.0.0 SBOM must
-  be regenerated against the signed `.nupkg` before the candidate
-  SHA is frozen (CHANGELOG.md `[2.0.0]`).
+- 2026-10-09 — 2.0.0 line; SBOM regenerated against the signed `.nupkg`
+  for that release (CHANGELOG.md `[2.0.0]`).
+- 2026-10-19 — align with package **2.0.1** / GitHub release `v2.0.1`.
+  Regenerate the SBOM from the **signed** `.nupkg` on **every** release
+  before freezing the candidate SHA (see DEVELOPMENT.md manual sign-and-publish).

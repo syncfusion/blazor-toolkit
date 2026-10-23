@@ -46,6 +46,22 @@ The documents referenced below contain project information related to licensing,
 
 ---
 
+## Getting started and changelog
+
+- [README.md](../README.md) — Product overview and getting started.
+- [CHANGELOG.md](../CHANGELOG.md) — In-repo release history.
+- [ROADMAP.md](../ROADMAP.md) — Chart-first priorities, exploratory component direction, and evidence gaps. Not a delivery commitment.
+
+---
+
+## API and compliance (`docs/`)
+
+- [API-COMPATIBILITY.md](../docs/API-COMPATIBILITY.md) — 2.0 compatibility contract (upgraders from 1.0.2).
+- [API-BREAK-INVENTORY.md](../docs/API-BREAK-INVENTORY.md) — Inventory of accepted 2.0 API breaks.
+- [VPAT-2.5-INT.md](../docs/VPAT-2.5-INT.md) — Formal VPAT 2.5 report.
+
+---
+
 ## Performance Documentation
 
 - [evidences/performance/virtualization-strategy.md](./evidences/performance/virtualization-strategy.md)
@@ -76,15 +92,45 @@ The documents referenced below contain project information related to licensing,
 
 ---
 
-## Samples and Documentation
+## Samples and external links
 
 - [samples/](../samples/)
-  - Component samples and usage examples.
+  - In-repo sample browser (host and client projects).
 
-- https://blazor.syncfusion.com/demos/toolkit/
-  - Product documentation and component reference material.
+- **Demos:** https://blazor.syncfusion.com/demos/toolkit/
+  - Interactive toolkit demos.
+
+- **Documentation:** https://blazor.syncfusion.com/documentation/toolkit/overview
+  - Product documentation and component reference.
 
 ---
+
+## Getting started and changelog
+
+- [README.md](../README.md)
+  - Product overview, repository structure, and consumer getting started.
+- [CHANGELOG.md](../CHANGELOG.md)
+  - In-repo release history and migration notes.
+- [ROADMAP.md](../ROADMAP.md)
+  - Chart-first priorities and exploratory direction. Not a delivery commitment.
+
+## API and compliance (`docs/`)
+
+- [API-COMPATIBILITY.md](../docs/API-COMPATIBILITY.md)
+  - 2.0 compatibility and migration contract.
+- [API-BREAK-INVENTORY.md](../docs/API-BREAK-INVENTORY.md)
+  - Inventory of accepted 2.0 API breaks.
+- [VPAT-2.5-INT.md](../docs/VPAT-2.5-INT.md)
+  - Accessibility VPAT.
+
+## Contributing and tests
+
+- [CONTRIBUTING.md](./CONTRIBUTING.md)
+  - Contribution process and PR expectations.
+- [TEST-MATRIX.md](./TEST-MATRIX.md)
+  - Test coverage matrix and gaps.
+- [skills/](./skills/)
+  - Component skill guidance (`SKILL.md` per area).
 
 ## Purpose
 

@@ -4,6 +4,8 @@ This table summarises manual screen-reader smoke tests run against
 the major Syncfusion Blazor Toolkit components. Results are
 re-verified at every minor release.
 
+> Matrix last fully re-verified before **2.0.0**. Re-run against **2.0.1** after CSS isolation / `SfThemeRoot` before treating as current release evidence.
+
 | Component | NVDA 2024.x (Windows 11 / Edge) | JAWS 2025 (Windows 11 / Edge) | Narrator (Windows 11 / Edge) | Notes |
 |---|---|---|---|---|
 | `SfButton` | PASS — name, role, state announced | PASS | PASS | |

@@ -15,7 +15,7 @@ description: >
 compatibility: ".NET 8+, render-modes: Server, WebAssembly, Auto"
 metadata:
   author: "Syncfusion Inc"
-  version: "1.0.0"
+  version: "1.0.0"   # skill document revision only — not the NuGet package version (package is 2.x)
 ---
 
 # Syncfusion Blazor Toolkit - Calendar Components

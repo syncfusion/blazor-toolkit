@@ -1,5 +1,7 @@
 # `@key` usage — evidence report  
 
+> As of package **2.0.1**. Spot-check against current `src/Components` after major rendering or theme changes.
+
 ## Summary
 
 Every toolkit-owned Razor collection that emits repeated elements uses `@key`. Single-instance controls correctly omit it. Chart points are not Razor-looped (SVG builder model).

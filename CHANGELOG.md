@@ -4,7 +4,7 @@ Notable changes to the **Syncfusion® Toolkit for Blazor**, with historical summ
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Historical version labels are preserved as published; see the [development guide](.github/DEVELOPMENT.md#versioning-and-evidence-status) for versioning and compatibility guidance.
 
-## [2.0.1] - 2026-10-16
+## [2.0.1] - 2026-10-19
 
 ### Added
 
@@ -49,7 +49,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
     or the equivalent in `_Imports.razor` / C# files. Update any fully qualified type names accordingly.
 
-- **API surface (approved 2.0 contract)** — Compared to NuGet 1.0.2, 194 named compatibility diagnostics are accepted for this major version (type visibility, collection signatures, getter-only ownership, parent metadata types, static helper construction, and `DataAdaptor<T> where T : notnull`). Full list and migration guidance: [API-COMPATIBILITY.md](API-COMPATIBILITY.md) and [API-BREAK-INVENTORY.md](API-BREAK-INVENTORY.md).
+- **API surface (approved 2.0 contract)** — Compared to NuGet 1.0.2, 194 named compatibility diagnostics are accepted for this major version (type visibility, collection signatures, getter-only ownership, parent metadata types, static helper construction, and `DataAdaptor<T> where T : notnull`). Full list and migration guidance: [API-COMPATIBILITY.md](docs/API-COMPATIBILITY.md) and [API-BREAK-INVENTORY.md](docs/API-BREAK-INVENTORY.md).
   - Chart: many formerly public renderer/internal types are now internal — use public components, settings, events, and templates; do not subclass or construct internal renderers.
   - Collections: several `List<T>` public members are now `IList<T>` / interface contracts — do not cast results to `List<T>`.
   - `UploadedFiles.Files` and protected `ChartData.CurrentPoints` are getter-only for ownership; mutate via Clear/Add, do not replace the list.
@@ -167,11 +167,11 @@ Scoped summary of the [upstream v1.0.2 release notes](https://github.com/syncfus
 
 - Uploader file-list rendering/updates and Spinner overlay rendering.
 
-## [1.0.1] - 2026-06-26
+## [1.0.1] - 2026-06-27
 
 The [upstream v1.0.1 release notes](https://github.com/syncfusion/blazor-toolkit/releases/tag/v1.0.1) describe the component offering across buttons and selection controls, calendars, text/numeric inputs, uploads, popups, Spinner and Chart. Chart highlights include core and stacking series, annotations/data labels, axes, legends, tooltips, selection, zooming and panning. This is a scoped historical summary, not an endorsement of every capability or readiness claim in those notes; use the [current component guidance](README.md#components) for source-supported APIs.
 
-## [1.0.0] - 2026-10-01
+## [1.0.0] - 2026-06-22
 
 Initial public release of the open-source, MIT-licensed toolkit.
 

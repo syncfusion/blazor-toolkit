@@ -1,5 +1,7 @@
 # Render tree efficiency — evidence report
 
+> As of package **2.0.1**. Spot-check against current `src/Components` after major rendering or theme changes.
+
 ## Summary
 
 | Technique | Where applied |
