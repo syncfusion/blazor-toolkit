@@ -16,7 +16,7 @@
   "devDependencies": {
     "@eslint/js": "^10.0.1",
     "@playwright/test": "^1.64.1",
-    "eslint": "^10.12.0",
+    "eslint": "^10.13.0",
     "eslint-plugin-security": "^4.2.0",
     "glob": "^13.0.6",
     "globals": "^17.13.0",
@@ -26,6 +26,6 @@
     "gulp-sass": "6.0.1",
     "sass": "1.105.2",
     "shelljs": "^0.10.0",
-    "typescript-eslint": "^8.71.2"
+    "typescript-eslint": "^8.72.0"
   }
 }
