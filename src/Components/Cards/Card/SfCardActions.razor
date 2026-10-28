@@ -1,0 +1,19 @@
+@namespace Syncfusion.Blazor.Toolkit
+@inherits SfBaseComponent
+
+@if (_isolate)
+{
+    @* Under a clickable card: stop click/key bubbling so a nested control never activates the card. *@
+    <div @attributes="_attributes" class="@_class" style="@_style" data-testid="card-actions" inert="@_inert"
+         @onclick="_isolateClick" @onclick:stopPropagation="true"
+         @onkeydown="_isolateKey" @onkeydown:stopPropagation="true"
+         @onkeyup="_isolateKey" @onkeyup:stopPropagation="true">
+        @ChildContent
+    </div>
+}
+else
+{
+    <div @attributes="_attributes" class="@_class" style="@_style" data-testid="card-actions" inert="@_inert">
+        @ChildContent
+    </div>
+}

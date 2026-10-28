@@ -184,6 +184,11 @@
             new("Dialog",  "popups/dialog",  "ci-dialog",  "e-popups"),
             new("Tooltip", "popups/tooltip", "ci-tooltip", "e-popups"),
         }),
+
+        new("Cards",      "Content surfaces",                     "e-box",                       "e-popups",      new List<ComponentItem>
+        {
+            new("Card", "cards/card", "ci-card", "e-box"),
+        }),
     };
 
     private static readonly Dictionary<string, string> IconSvgFiles = new(StringComparer.OrdinalIgnoreCase)
@@ -204,7 +209,8 @@
         ["ci-radio"] = "Radio Button.svg",
         ["ci-switch"] = "Switch.svg",
         ["ci-dialog"] = "Dialog.svg",
-        ["ci-tooltip"] = "Tooltip.svg"
+        ["ci-tooltip"] = "Tooltip.svg",
+        ["ci-card"] = "Dialog.svg"
     };
 
     private int TotalComponents => Categories.Sum(c => c.Components.Count(x => x.Available));

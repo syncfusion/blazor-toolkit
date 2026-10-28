@@ -1,0 +1,144 @@
+@page "/card/visual"
+@using Microsoft.AspNetCore.Components.Web
+@inject SyncfusionBlazorToolkitService ToolkitService
+
+@layout MainLayout
+
+<span id="visual-ready" data-ready="@(_interactiveReady ? "true" : "false")" hidden></span>
+
+<h1>Card - Visual baselines</h1>
+
+<div class="visual-stage">
+    <section id="card-basic" data-baseline="card-basic">
+        <SfCard Id="card-basic-root" Width="280px">
+            <SfCardHeader>
+                <SfCardTitle>Trail Runner</SfCardTitle>
+                <SfCardSubTitle>Outdoor</SfCardSubTitle>
+            </SfCardHeader>
+            <SfCardContent>Lightweight daily trainer for mixed surfaces.</SfCardContent>
+            <SfCardFooter>In stock</SfCardFooter>
+        </SfCard>
+    </section>
+
+    <section id="card-media-actions" data-baseline="card-media-actions">
+        <SfCard Id="card-media-actions-root" Width="280px">
+            <SfCardMedia ImageUrl="/images/chart/canada.png" Alt="Canada map" Height="120px" />
+            <SfCardHeader>
+                <SfCardTitle>North route</SfCardTitle>
+            </SfCardHeader>
+            <SfCardContent>Mapped trail with elevation notes.</SfCardContent>
+            <SfCardSeparator />
+            <SfCardActions>
+                <button id="visual-action-btn" type="button">Details</button>
+            </SfCardActions>
+        </SfCard>
+    </section>
+
+    <section id="card-outlined" data-baseline="card-outlined">
+        <SfCard Id="card-outlined-root" Variant="CardVariant.Outlined" Square="true" Width="280px">
+            <SfCardHeader>
+                <SfCardTitle>Outlined</SfCardTitle>
+            </SfCardHeader>
+            <SfCardContent>Border emphasis, square corners.</SfCardContent>
+        </SfCard>
+    </section>
+
+    <section id="card-horizontal" data-baseline="card-horizontal">
+        <SfCard Id="card-horizontal-root" Orientation="CardOrientation.Horizontal" Width="420px">
+            <SfCardMedia Height="120px" CssClass="visual-swatch" />
+            <SfCardContent>Horizontal body sits beside the media.</SfCardContent>
+        </SfCard>
+    </section>
+
+    <section id="card-loading" data-baseline="card-loading">
+        <SfCard Id="card-loading-root" IsLoading="true" Width="280px">
+            <SfCardHeader>
+                <SfCardTitle>Loading</SfCardTitle>
+            </SfCardHeader>
+            <SfCardContent>Fetching product details.</SfCardContent>
+            <SfCardActions>
+                <button type="button">Retry</button>
+            </SfCardActions>
+        </SfCard>
+    </section>
+
+    <section id="card-rtl" data-baseline="card-rtl" dir="rtl" style="direction:rtl">
+        <SfCard Id="card-rtl-root" Orientation="CardOrientation.Horizontal" Width="420px">
+            <SfCardMedia Height="120px" CssClass="visual-swatch" />
+            <SfCardContent>RTL media starts on the right.</SfCardContent>
+        </SfCard>
+    </section>
+
+    <section id="card-flat" data-baseline="card-flat">
+        <SfCard Id="card-flat-root" Variant="CardVariant.Flat" Elevation="0" Width="280px">
+            <SfCardHeader>
+                <SfCardTitle>Flat</SfCardTitle>
+            </SfCardHeader>
+            <SfCardContent>No shadow and no border emphasis.</SfCardContent>
+        </SfCard>
+    </section>
+
+    <section id="card-mobile" data-baseline="card-mobile">
+        <SfCard Id="card-mobile-root" Width="100%">
+            <SfCardHeader>
+                <SfCardTitle>Mobile</SfCardTitle>
+            </SfCardHeader>
+            <SfCardContent>The card stays inside a narrow viewport.</SfCardContent>
+        </SfCard>
+    </section>
+
+    <section id="card-variants" data-baseline="card-variants">
+        <SfCard Id="card-filled-root" Variant="CardVariant.Filled" Width="180px">
+            <SfCardContent>Filled</SfCardContent>
+        </SfCard>
+        <SfCard Id="card-elevated-root" Variant="CardVariant.Elevated" Elevation="3" Width="180px">
+            <SfCardContent>Elevated</SfCardContent>
+        </SfCard>
+        <SfCard Id="card-hoverable-root" Hoverable="true" Width="180px">
+            <SfCardContent>Hoverable</SfCardContent>
+        </SfCard>
+    </section>
+</div>
+
+<style>
+    .visual-stage {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        padding: 16px;
+        background: #f4f5f7;
+    }
+
+    .visual-stage section {
+        width: fit-content;
+        max-width: 100%;
+    }
+
+    .visual-swatch {
+        background: #5b7c99;
+        min-width: 120px;
+    }
+</style>
+
+@code {
+    [SupplyParameterFromQuery(Name = "rtl")]
+    public bool Rtl { get; set; }
+
+    private bool _interactiveReady;
+
+    protected override void OnInitialized()
+    {
+        ToolkitService.EnableRtl(Rtl);
+    }
+
+    protected override Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _interactiveReady = true;
+            StateHasChanged();
+        }
+
+        return Task.CompletedTask;
+    }
+}

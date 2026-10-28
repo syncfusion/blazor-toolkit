@@ -1,0 +1,20 @@
+<div class="card-demo-row">
+    <SfCard IsClickable="true"
+            AriaLabel="Open Trail Runner details"
+            Variant="CardVariant.Outlined"
+            Width="280px"
+            Hoverable="true"
+            OnClick="OnOpen">
+        <SfCardHeader>
+            <SfCardTitle>Trail Runner</SfCardTitle>
+            <SfCardSubTitle>Click or press Enter</SfCardSubTitle>
+        </SfCardHeader>
+        <SfCardContent>Opened @_opens time@(_opens == 1 ? "" : "s").</SfCardContent>
+    </SfCard>
+</div>
+
+@code {
+    private int _opens;
+
+    private void OnOpen(Microsoft.AspNetCore.Components.Web.MouseEventArgs args) => _opens++;
+}

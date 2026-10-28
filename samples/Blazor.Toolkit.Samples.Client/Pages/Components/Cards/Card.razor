@@ -1,0 +1,124 @@
+@page "/cards/card"
+@inherits TocPublishingComponentBase
+@using Blazor.Toolkit.Samples.Client.Pages.Demos.Cards.Card
+
+<PageTitle>Blazor Card Demo | Syncfusion Toolkit</PageTitle>
+
+<Description>
+    <Header>
+        <h1 id="blazor-toolkit-card-component">Blazor Toolkit Card Component</h1>
+    </Header>
+    <Content>
+        The Card is a composition surface. Place header, title, subtitle, media, content, actions, footer, and separator blocks inside <code>SfCard</code>. It is not a data-bound list.
+    </Content>
+</Description>
+
+<CodePreview PreviewComponent="typeof(DefaultDemo)" SourceFile="/Pages/Demos/Cards/Card/DefaultDemo.razor" />
+
+<Description>
+    <Header>
+        <h2 id="variants">Variants</h2>
+    </Header>
+    <Content>
+        <code>Variant</code> selects Filled, Outlined, Elevated, or Flat. <code>Elevation</code> sets the shadow depth, and <code>Square</code> removes the border radius.
+    </Content>
+</Description>
+
+<CodePreview PreviewComponent="typeof(VariantsDemo)" SourceFile="/Pages/Demos/Cards/Card/VariantsDemo.razor" />
+
+<Description>
+    <Header>
+        <h2 id="media">Media</h2>
+    </Header>
+    <Content>
+        <code>SfCardMedia</code> renders an image or custom content. Set <code>Alt</code> when the image conveys information. Leave it empty when the image is decorative.
+    </Content>
+</Description>
+
+<CodePreview PreviewComponent="typeof(MediaDemo)" SourceFile="/Pages/Demos/Cards/Card/MediaDemo.razor" />
+
+<Description>
+    <Header>
+        <h2 id="actions">Actions</h2>
+    </Header>
+    <Content>
+        Put buttons in <code>SfCardActions</code>. Nested controls keep their own tab stop and do not activate a clickable card.
+    </Content>
+</Description>
+
+<CodePreview PreviewComponent="typeof(ActionsDemo)" SourceFile="/Pages/Demos/Cards/Card/ActionsDemo.razor" />
+
+<Description>
+    <Header>
+        <h2 id="clickable">Clickable card</h2>
+    </Header>
+    <Content>
+        Set <code>IsClickable</code> and an <code>AriaLabel</code> when the whole card is one action. The root becomes a button, is keyboard operable, and raises <code>OnClick</code> once per activation.
+    </Content>
+</Description>
+
+<CodePreview PreviewComponent="typeof(ClickableDemo)" SourceFile="/Pages/Demos/Cards/Card/ClickableDemo.razor" />
+
+<Description>
+    <Header>
+        <h2 id="loading">Loading</h2>
+    </Header>
+    <Content>
+        <code>IsLoading</code> marks the card busy, blocks activation, and makes actions unreachable until loading ends.
+    </Content>
+</Description>
+
+<CodePreview PreviewComponent="typeof(LoadingDemo)" SourceFile="/Pages/Demos/Cards/Card/LoadingDemo.razor" />
+
+<Description>
+    <Header>
+        <h2 id="orientation">Orientation</h2>
+    </Header>
+    <Content>
+        <code>Orientation</code> is Vertical by default. Horizontal places the media beside the content and flips in right-to-left layouts.
+    </Content>
+</Description>
+
+<CodePreview PreviewComponent="typeof(HorizontalDemo)" SourceFile="/Pages/Demos/Cards/Card/HorizontalDemo.razor" />
+
+@code {
+    private static readonly IReadOnlyList<RightToc.TocItem> TocItemsList = new RightToc.TocItem[]
+    {
+        new("variants", "Variants"),
+        new("media", "Media"),
+        new("actions", "Actions"),
+        new("clickable", "Clickable card"),
+        new("loading", "Loading"),
+        new("orientation", "Orientation"),
+    };
+
+    protected override IReadOnlyList<RightToc.TocItem> TocItems => TocItemsList;
+}
+
+<style>
+    .card-demo-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 16px;
+        align-items: flex-start;
+    }
+
+    .card-demo-horizontal {
+        max-width: 520px;
+    }
+
+    .card-demo-media-fill {
+        background: #5b7c99;
+        height: 100%;
+        min-height: 120px;
+    }
+
+    .card-demo-horizontal-content {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        justify-content: center;
+        gap: 8px;
+        padding: 16px;
+    }
+</style>
