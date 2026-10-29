@@ -7,7 +7,21 @@
 | **Catalog route** | `/cards/card` |
 | **Demo namespace** | `Blazor.Toolkit.Samples.Client.Pages.Demos.Cards.Card` |
 
-This file is the sample contract for Card. It lists the pages that exist, what each page demonstrates, and where it is registered. It does not change component source.
+This file is the sample contract for Card.
+
+**Scope Rule (Strict)**  
+Only the following files may be modified:
+- `samples/Blazor.Toolkit.Samples.Client/Pages/Components/Cards/Card.razor` (catalog page)
+- `samples/Blazor.Toolkit.Samples.Client/Pages/Demos/Cards/Card/*.razor` (the 7 existing demos + new MetricCardDemo.razor)
+
+Do **not** modify:
+- Card component source
+- Chart component source
+- Any bUnit, Playwright, or accessibility test files
+- Any other non-demo files
+
+**Goal**  
+Update the existing 7 demos with professional real-world use cases and add one new demo (`MetricCardDemo`) that shows a Chart inside a Card. All demos must have correct alignment, good visual appearance, and proper interaction behavior.
 
 ---
 
@@ -16,67 +30,68 @@ This file is the sample contract for Card. It lists the pages that exist, what e
 | Item | Path |
 |------|------|
 | Page | `samples/Blazor.Toolkit.Samples.Client/Pages/Components/Cards/Card.razor` |
-| Demos | `samples/Blazor.Toolkit.Samples.Client/Pages/Demos/Cards/Card/` |
+| Demos folder | `samples/Blazor.Toolkit.Samples.Client/Pages/Demos/Cards/Card/` |
 | Route | `@page "/cards/card"` |
-| Base | `TocPublishingComponentBase` |
-| Preview | `CodePreview` with `PreviewComponent` and `SourceFile` |
 
-Each section is a `Description` heading plus one `CodePreview`. Heading ids match the right-hand TOC.
-
-| TOC id | Heading | Demo | SourceFile |
-|--------|---------|------|------------|
-| — | Blazor Toolkit Card Component | `DefaultDemo` | `/Pages/Demos/Cards/Card/DefaultDemo.razor` |
-| `variants` | Variants | `VariantsDemo` | `/Pages/Demos/Cards/Card/VariantsDemo.razor` |
-| `media` | Media | `MediaDemo` | `/Pages/Demos/Cards/Card/MediaDemo.razor` |
-| `actions` | Actions | `ActionsDemo` | `/Pages/Demos/Cards/Card/ActionsDemo.razor` |
-| `clickable` | Clickable card | `ClickableDemo` | `/Pages/Demos/Cards/Card/ClickableDemo.razor` |
-| `loading` | Loading | `LoadingDemo` | `/Pages/Demos/Cards/Card/LoadingDemo.razor` |
-| `orientation` | Orientation | `HorizontalDemo` | `/Pages/Demos/Cards/Card/HorizontalDemo.razor` |
+| TOC id        | Heading                  | Demo                  | SourceFile                                            |
+|---------------|--------------------------|-----------------------|-------------------------------------------------------|
+| —             | Blazor Toolkit Card Component | `DefaultDemo`     | `/Pages/Demos/Cards/Card/DefaultDemo.razor`           |
+| `variants`    | Variants                 | `VariantsDemo`        | `/Pages/Demos/Cards/Card/VariantsDemo.razor`          |
+| `media`       | Media                    | `MediaDemo`           | `/Pages/Demos/Cards/Card/MediaDemo.razor`             |
+| `actions`     | Actions                  | `ActionsDemo`         | `/Pages/Demos/Cards/Card/ActionsDemo.razor`           |
+| `clickable`   | Clickable card           | `ClickableDemo`       | `/Pages/Demos/Cards/Card/ClickableDemo.razor`         |
+| `loading`     | Loading                  | `LoadingDemo`         | `/Pages/Demos/Cards/Card/LoadingDemo.razor`           |
+| `orientation` | Orientation              | `HorizontalDemo`      | `/Pages/Demos/Cards/Card/HorizontalDemo.razor`        |
+| `metric`      | Metric Card              | `MetricCardDemo`      | `/Pages/Demos/Cards/Card/MetricCardDemo.razor`        |
 
 ---
 
-## 2. What each demo shows
+## 2. Demo Specifications (Final)
 
-| Demo | Parameters and blocks | Expected |
-|------|------------------------|----------|
-| `DefaultDemo` | Header, title, subtitle, content. Width `280px`. | Static card. No role, no tabindex. |
-| `VariantsDemo` | `Filled`, `Outlined`, `Elevated`, `Flat`. | One card per variant. |
-| `MediaDemo` | `SfCardMedia` with `ImageUrl` and `Alt`. | Informative image keeps its alt text. |
-| `ActionsDemo` | `SfCardActions` with Buy and Details buttons. | Nested buttons keep their own tab stop and do not activate the card. |
-| `ClickableDemo` | `IsClickable`, `AriaLabel`, `Hoverable`, `OnClick`. | Root is one action and counts activations. |
-| `LoadingDemo` | `IsLoading` bound to a toggle. | Busy card blocks activation until loading ends. |
-| `HorizontalDemo` | `Orientation="CardOrientation.Horizontal"`. | Media sits beside the content. |
-
----
-
-## 3. Registration
-
-| Surface | Change |
-|---------|--------|
-| `Layout/NavMenu.razor` | Cards group, link `cards/card`. `IsComponentsRoute` includes `cards` and `cards/`. |
-| `Layout/SearchIndex.cs` | Card, Card Variants, Card Media, Card Actions, Clickable Card, Card Loading, Card Orientation. |
-| `Pages/Overview/Explore.razor` | Cards category with one Card item. Icon class `ci-card` maps to an existing catalog SVG. |
+| Demo File             | Real-world Use Case                          | What must be shown                                                                 | Main API(s)                          | Interaction |
+|-----------------------|----------------------------------------------|------------------------------------------------------------------------------------|--------------------------------------|-----------|
+| `DefaultDemo.razor`   | Project / Task Cards                         | Responsive grid of 3–4 vertical cards (title, subtitle, description, button)      | Basic composition                    | Static |
+| `VariantsDemo.razor`  | Same Project Card in 4 styles                | Four identical cards using Filled, Outlined, Elevated, Flat                        | `Variant`                            | Static |
+| `MediaDemo.razor`     | Team Member Profile Cards                    | Profile cards with photo, name, role, bio and button (use `https://i.pravatar.cc`) | `SfCardMedia`                        | Static |
+| `ActionsDemo.razor`   | Product Card with Reveal                     | Product card. One button switches between Summary view and Detailed view (Reveal) | `SfCardActions` + Reveal logic       | Reveal |
+| `ClickableDemo.razor` | Selectable Plan / Category Cards             | Cards that can be selected by clicking anywhere on the card                        | `IsClickable`, `OnClick`, `AriaLabel`, `Hoverable` | Whole card clickable |
+| `LoadingDemo.razor`   | Loading State Card                           | Card + “Simulate Loading” button. Shows real dimming behavior of `IsLoading`      | `IsLoading`                          | Loading toggle |
+| `HorizontalDemo.razor`| Horizontal Card + Dynamic Content            | Horizontal card + checkboxes to show/hide Media, Content and Footer                | `Orientation` + Dynamic composition  | Dynamic show/hide |
+| `MetricCardDemo.razor`| KPI / Metric Card                            | Metric card with title, large number, percentage change and a simple Chart         | Composition + Chart                  | Chart interaction |
 
 ---
 
-## 4. Accessibility routes
+## 3. Rules
 
-These routes are the L4 axe contract in `TEST-MATRIX.md` and `accessibility/config.json`. They are separate from the catalog page.
-
-| ID | Route | State |
-|----|-------|-------|
-| P-AXE-CARD-001 | `/card/static` | Static |
-| P-AXE-CARD-002 | `/card/clickable` | Clickable, named |
-| P-AXE-CARD-003 | `/card/loading` | Loading |
-| P-AXE-CARD-004 | `/card/media` | Media with alt |
-| P-AXE-CARD-005 | `/card/horizontal` | Horizontal |
+- Use only Toolkit components (`SfCard*` family, `SfButton`, `SfChart`, `SfCheckBox`).
+- Clickable cards must have a proper `AriaLabel`.
+- Buttons must be placed inside `SfCardActions` or `SfCardFooter`.
+- All demos must have correct alignment, spacing, and responsive behavior.
+- All interactions must work smoothly without visual glitches.
+- You are allowed to add additional CSS styles when required.
+  - Shared styles → inside the <style> block of Card.razor (catalog page)
+  - Demo-specific styles → inside the individual demo .razor file
+- Images:  
+  - Profile photos → `https://i.pravatar.cc/300`  
+  - Product images → `https://picsum.photos/`
 
 ---
 
-## 5. Rules
+## 4. New Demo – MetricCardDemo
 
-- Use only public `SfCard` parameters from `API.md`.
-- A clickable card always has `AriaLabel`.
-- Do not put interactive controls in the card body. Put them in `SfCardActions`.
-- Decorative media uses an empty `Alt`. Informative media uses a real `Alt`.
-- Do not add a data-bound card list. Card is a composition surface.
+- **File**: `MetricCardDemo.razor`
+- **TOC id**: `metric`
+- **Heading**: Metric Card
+- **Purpose**: Show a professional KPI/metric card that contains a simple Chart.
+
+**Description text to use:**
+```razor
+<Description>
+    <Header>
+        <h2 id="metric">Metric Card</h2>
+    </Header>
+    <Content>
+        This sample demonstrates a professional metric card that hosts a Chart component.
+        Ideal for KPI widgets, sales overviews, and analytics summaries.
+    </Content>
+</Description>
