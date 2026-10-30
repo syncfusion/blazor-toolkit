@@ -6,7 +6,7 @@ description: >
   buttons, drag, resize, focus trap, ARIA semantics, and animation.
   USE FOR: confirmation modals, form-in-modal, full-screen dialogs, alert
   dialogs, settings panels, modals that block the underlying UI, and
-  DialogService-driven dynamic creation.
+  SfDialogService-driven alert / confirm / prompt dialogs.
   DO NOT USE FOR: brief informational text on hover (use the
   syncfusion-blazor-toolkit-tooltip skill), non-blocking progress overlays
   (use syncfusion-blazor-toolkit-notifications / SfSpinner), or as a navigation
@@ -29,7 +29,7 @@ buttons, drag, resize, animation, and a service for dynamic creation.
 2. **Bind visibility with `@bind-Visible`, not `Visible=…` alone** — `SfDialog`
    needs `VisibleChanged` to mirror state.
 3. **`DialogButtons` are declarative; one `OnClick` per `DialogButton`.** Use
-   `OnClick="@(() => dialog.Close())"` to dismiss without inverting the state.
+   `OnClick="@(() => dialog.HideAsync())"` to dismiss without inverting the state.
 4. **`AllowPrerender="false"`** whenever the dialog body depends on
    interactive content (e.g., JS interop inside the dialog, `EditForm`
    validation, dynamic data). Default rendering in interactive render modes
@@ -38,11 +38,12 @@ buttons, drag, resize, animation, and a service for dynamic creation.
    is harmless** but pairing with `ShowCloseIcon="true"` is required for
    mouse-only users to dismiss.
 6. **`OnClose` is cancelable** — set `args.Cancel = true` to prevent close,
-   useful for unsaved-changes warnings. `OnClosed` is non-cancelable and runs
-   after dismissal.
+   useful for unsaved-changes warnings. `Closed` fires after dismissal. The
+   matching open events are `OnOpen` (before, cancelable) and `Opened` (after).
 7. **Programmatic lifecycle**: use a `@ref` (`SfDialog dlg`) and call
-   `dlg.Show()` / `dlg.Hide()` — do not hand-toggle `bool isVisible` if you
-   need to invoke `OnClose` first.
+   `await dlg.ShowAsync()` / `await dlg.HideAsync()` — do not hand-toggle
+   `bool isVisible` if you need to invoke `OnClose` first. The shipped API has
+   no `Show()` / `Hide()` / `Close()` methods.
 
 ```razor
 @using Syncfusion.Blazor.Toolkit
@@ -77,8 +78,8 @@ buttons, drag, resize, animation, and a service for dynamic creation.
 Need a dialog?
 ├─ Single-shot static content?
 │  └─ Inline <SfDialog @bind-Visible="…">
-├─ Triggered by code from many places?
-│  └─ DialogService (see dialog-advanced.md)
+├─ Triggered by code from many places (alert / confirm / prompt)?
+│  └─ Inject SfDialogService and render <SfDialogProvider /> once at the app root
 └─ Multi-step wizard?
    └─ Inline <SfDialog> + your own step state
 ```
@@ -102,7 +103,7 @@ For cross-component decision matrix (dialog vs tooltip vs popover), see
 | `IsModal` | Installs `aria-modal` + focus trap; required for any user-input dialog |
 | `AllowPrerender` | Set `false` whenever the body depends on interactive content (JS interop, `EditForm`, dynamic data) |
 | `ShowCloseIcon` | Mouse-only users have no other dismiss affordance; pair with `CloseOnEscape="true"` |
-| `DialogAnimationSettings` / `Animation` | `DialogEffect` enum — pick exactly one (`Fade`/`Zoom`/`Slide*`/`None`) |
+| `DialogAnimationSettings` | `DialogEffect` enum — pick exactly one (`Fade`/`Zoom`/`Slide*`/`None`) |
 
 Full property/event/method/animation reference: [references/dialog-properties.md](https://github.com/syncfusion/blazor-toolkit/blob/main/.github/skills/syncfusion-blazor-toolkit-popups/dialog/references/dialog-properties.md).
 
@@ -117,21 +118,61 @@ See the **Core Rules** snippet above for a full modal example.
 ```razor
 @using Syncfusion.Blazor.Toolkit
 
-<SfDialog @ref="dlg" AllowPrerender="false" />
-<button @onclick="@(() => dlg.Show())">Open programmatically</button>
+<SfDialog @ref="dlg" AllowPrerender="false" Visible="false" Header="Programmatic" />
+<button @onclick="OpenAsync">Open programmatically</button>
+
+@code {
+    private SfDialog? dlg;
+
+    private Task OpenAsync() => dlg is null ? Task.CompletedTask : dlg.ShowAsync();
+}
 ```
+
+### Pattern 3 — Built-in alert / confirm / prompt with `SfDialogService`
+
+Register the service in `Program.cs`, render the provider once (for example in
+`MainLayout.razor`), then inject the service wherever it is needed:
+
+```csharp
+builder.Services.AddSyncfusionBlazorToolkit();
+builder.Services.AddScoped<SfDialogService>();
+```
+
+```razor
+@* MainLayout.razor *@
+<SfDialogProvider />
+```
+
+```razor
+@using Syncfusion.Blazor.Toolkit
+@inject SfDialogService DialogService
+
+<button @onclick="DeleteAsync">Delete</button>
+
+@code {
+    private async Task DeleteAsync()
+    {
+        bool ok = await DialogService.ConfirmAsync("Delete this item permanently?", "Confirm delete");
+        if (ok) { /* delete */ }
+    }
+}
+```
+
+`SfDialogService` exposes `AlertAsync`, `ConfirmAsync` (returns `bool`) and
+`PromptAsync` (returns `string?`), each taking `content`, an optional `title`,
+and optional `DialogOptions`.
 
 ## Don'ts
 
 | Anti-pattern | Symptom | Fix |
 |---|---|---|
 | Nested `<SfDialog>` inside another `<SfDialog>` | Render artifacts on overlay click; z-index collisions; nested focus trap locks browser | Use portals/z-index (inner > outer by ≥1000), or replace outer with stacked steps |
-| Toggle `@bind-Visible` *and* call `Hide()` for the same dismissal | Second mechanism undoes the first; visuals flicker | Use only one mechanism: bind the bool, or call `Hide()` programmatically |
+| Toggle `@bind-Visible` *and* call `HideAsync()` for the same dismissal | Second mechanism undoes the first; visuals flicker | Use only one mechanism: bind the bool, or call `HideAsync()` programmatically |
 | `CloseOnEscape` used to cancel close | That flag toggles default behaviour; it doesn't intercept | Use the cancelable `OnClose` event with `args.Cancel = true` |
 | `<SfDialog AllowDragging="true">` with `IsModal="true"` | Conflict — modal sets focus trap; dragging fights focus | Choose: free-form (no focus trap) or modal (no drag); rarely both |
 | `<SfDialog>` containing `<form>` directly without binding the dialog lifecycle | Submit button doesn't post to the page EditContext model | Use `<EditForm Model="@X" OnValidSubmit="@Save">` inside `DialogTemplates`, and trigger save via button inside the form |
 | `IsModal="false"` *and* no backdrop for destructive actions | User can click delete triggers elsewhere | `IsModal="true"` plus `ShowCloseIcon="true"` |
-| `Visible="true"` initial in markup | Dialog opens on first paint — usually unintended auto-pop | Use `@bind-Visible` and toggle from a button |
+| Relying on the default `Visible` (it defaults to `true`) | Dialog opens on first paint — usually unintended auto-pop | Bind `@bind-Visible` to a `bool` that starts `false` (or set `Visible="false"`) and toggle from a button |
 
 > Don'ts covered by Anti-Pattern Workflows (double-binding, JS in `OnInitialized`, JS in `DialogTemplates`/`OnAfterRenderAsync`, no `DisposeAsync`) are not duplicated here — see the workflows below.
 
@@ -190,12 +231,12 @@ the button onclick never invokes it. Pressing "Yes" effectively does nothing.
 
 Parent wires `@bind-OnDecision` and gets a bool back.
 
-### Workflow 2 — Agent calls `dlg.Show()` from `OnInitialized`
+### Workflow 2 — Agent calls `dlg.Show()` / `ShowAsync()` from `OnInitialized`
 
 **Bad:**
 ```razor
 @code {
-    protected override void OnInitialized() { dialog.Show(); }
+    protected override void OnInitialized() { dialog.Show(); } // ❌ Show() does not exist; @ref is still null here
 }
 ```
 
@@ -203,20 +244,17 @@ Parent wires `@bind-OnDecision` and gets a bool back.
 ```razor
 @using Syncfusion.Blazor.Toolkit
 
-<SfDialog @ref="dialog" AllowPrerender="false" />
-<button @onclick="@(() => dialog.Show())">Open</button>
+<SfDialog @ref="dialog" AllowPrerender="false" Visible="false" Header="Hello" />
+<button @onclick="OpenAsync">Open</button>
 
 @code {
     SfDialog? dialog;
 
+    private Task OpenAsync() => dialog is null ? Task.CompletedTask : dialog.ShowAsync();
+
     protected override async Task OnAfterRenderAsync(bool first)
     {
-        if (first && dialog is not null) await dialog.Show();
-    }
-
-    public async ValueTask DisposeAsync()
-    {
-        if (dialog is not null) await dialog.DisposeAsync();
+        if (first && dialog is not null) await dialog.ShowAsync();
     }
 }
 ```
