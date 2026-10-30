@@ -3,17 +3,17 @@
 | Field | Value |
 |-------|--------|
 | Component | `SfCard` family |
-| Specs compared | `Spec.md` 1.0, `API.md` 1.0.0-proposed, `PRD.md` 1.0, `TEST-MATRIX.md` 1.0, `API-xml.md` |
+| Specs compared | `Spec.md` 1.0, `API.md` 1.0.0-proposed, `PRD.md` 1.0, `TEST-MATRIX.md` (expanded B/P/A/V matrix), `API-xml.md` |
 | Implementation branch | `bc/379d77ed-develop-card` |
 | Source | `src/Components/Cards/Card/` |
-| Method | Source comparison plus runtime runs in this environment: bUnit on net8.0, Playwright Chromium against the sample host, and a Release library build with SBOM generation disabled. |
-| Date | 2026-09-12 |
+| Method | Source comparison plus runtime runs in this environment: bUnit on net8.0, Playwright Chromium, axe, visual baselines, and a Release library build with SBOM generation disabled. |
+| Date | 2026-10-28 |
 
 ## Verdict
 
 The implementation matches the Card spec for public API, regions, variants, orientation, elevation, loading, media, click and keyboard behavior, RTL, CSS isolation, and the required accessibility sample routes.
 
-Runtime results are recorded separately. They are not marked passed unless a run in this environment produced that result.
+Runtime results are in section 4.
 
 ## 1. Spec behavior
 
@@ -52,57 +52,43 @@ Runtime results are recorded separately. They are not marked passed unless a run
 
 ## 3. TEST-MATRIX cases
 
-| ID | Expected | Implementation evidence | Result |
-|----|----------|-------------------------|--------|
-| U-CARD-001 | `e-card` present | `DefaultCard_RendersPlainRoot` | Implemented |
-| U-CARD-002 | All regions | `AllRegions_RenderInOrder` | Implemented |
-| U-CARD-003 | `e-card-outlined` | `Variant_AddsClass` | Implemented |
-| U-CARD-004 | `e-card-flat` | `Variant_AddsClass` | Implemented |
-| U-CARD-005 | `e-card-elevated` | `Variant_AddsClass` | Implemented |
-| U-CARD-006 | `e-card-horizontal` | `Horizontal_AddsClass` | Implemented |
-| U-CARD-007 | `e-card-square` | `Square_AddsClass` | Implemented |
-| U-CARD-008 | `e-card-hoverable` | `Hoverable_AddsClass` | Implemented |
-| U-CARD-009 | loading class and `aria-busy` | `Loading_SetsBusyState` | Implemented |
-| U-CARD-010 | width and height styles | `WidthAndHeight_AreApplied` | Implemented |
-| U-CARD-011 | elevation 0 has no shadow level | `Elevation_IsClamped` plus CSS level 0 | Implemented |
-| U-CARD-012 | padding off | `ContentPaddingFalse_IsReflected` | Implemented |
-| U-CARD-013 | image alt | `Media_RendersImageWithAlt` | Implemented |
-| U-CARD-014 | click callback | `Clickable_ExposesSemanticsAndRaisesOnClick` | Implemented |
-| U-CARD-015 | nested action does not activate the card | `ClickInsideActions_DoesNotActivateCard` | Implemented |
-| U-CARD-016 | CssClass and HtmlAttributes | `CssClassAndHtmlAttributes_AreApplied` | Implemented |
-| U-CARD-017 | title and subtitle text | covered by `AllRegions_RenderInOrder` | Implemented |
-| U-CARD-018 | separator | covered by `AllRegions_RenderInOrder` | Implemented |
-| U-CARD-019 | filled default classes | `FilledVariant_AddsNoVariantClass` | Implemented |
-| U-CARD-020 | custom media content | `Media_CustomChildContent_Renders` | Implemented |
-| I-CARD-001 | multiple cards | `MultipleCards_HaveUniqueIds` | Implemented |
-| I-CARD-002 | null content is safe | `NullContent_IsSafe` | Implemented |
-| I-CARD-003 | parameter churn | `ParameterChurn_LeavesNoStaleClasses` | Implemented |
-| I-CARD-004 | loading toggle | `LoadingToggle_UpdatesBusyState` | Implemented |
-| P-AXE-CARD-001 | `/card/static` | `Static.razor`, `Card_static` | Deliverable present |
-| P-AXE-CARD-002 | `/card/clickable` | `Clickable.razor`, `Card_clickable` | Deliverable present |
-| P-AXE-CARD-003 | `/card/loading` | `Loading.razor`, `Card_loading` | Deliverable present |
-| P-AXE-CARD-004 | `/card/media` | `Media.razor`, `Card_media` | Deliverable present |
-| P-AXE-CARD-005 | `/card/horizontal` | `Horizontal.razor`, `Card_horizontal` | Deliverable present |
+Matrix source: `.github/specs/Cards/TEST-MATRIX.md` (bUnit `B-CARD-*`, Playwright `P-CARD-*`, axe `A-CARD-*`, visual `V-CARD-*`). `SfCardTest.cs` keeps its earlier `U-CARD` and `I-CARD` tests for the v1 matrix.
 
-`accessibility/config.json` has a `control: "Card"` entry for all five routes.
+### 3.1 bUnit (`B-CARD-*`)
 
-L3 scenarios P-CARD-001 through P-CARD-008 are covered by `interactions.spec.ts` and `visual.spec.ts`. L5 baselines (`card-basic`, `card-media-actions`, `card-outlined`, `card-horizontal`, `card-loading`, `card-rtl`, `card-flat`, `card-mobile`) are stored under `Cards/Card/visual.spec.ts-snapshots/` and matched in the Chromium run recorded below.
+`tests/Syncfusion.Blazor.Toolkit.BUnitTest/Cards/SfCardMatrixTest.cs` carries the matrix id in each test name.
+
+### 3.2 Playwright (`P-CARD-*`)
+
+`scenarios.spec.ts` (page `/card/scenarios`) covers the core, keyboard, responsive, theme, RTL, high-contrast, and end-to-end ids. `interactions.spec.ts` keeps the original interaction checks. `matrix-visual.spec.ts` covers the visual ids.
+
+### 3.3 axe (`A-CARD-*`)
+
+Routes are registered under the `control: "Card"` entry in `accessibility/config.json`. `CardTests.cs` has one `[Test]` per route plus the colour-contrast and media-decorative extras.
+
+### 3.4 Visual (`V-CARD-*`)
+
+Baselines live in `visual.spec.ts-snapshots/` (original eight) and `matrix-visual.spec.ts-snapshots/` (24 added in this branch).
 
 ## 4. Runtime record
 
+Run on 2026-10-28 in this environment. The sample hosts ran in Development and the SBOM target was off (`-p:CycloneDxEnabled=false`).
+
 | Suite | What was checked | Result |
 |-------|------------------|--------|
-| bUnit `Cards.SfCardTest` | Re-run on net8.0. The old Enter/Tab assertion was replaced by `Enter activates once and Tab is not prevented`, which allows key-specific `preventDefault` for Enter and Space only. | Passed. 47 passed, 0 failed, 47 total. |
-| Playwright L3 | Chromium against `http://localhost:5000` in Development. `interactions.spec.ts` and `visual.spec.ts` cover P-CARD-001 through P-CARD-008. | Passed. 34 passed (5.2s). |
-| axe L4 | `CardTests.cs` and the `control: "Card"` entry cover `/card/static`, `/card/clickable`, `/card/loading`, `/card/media`, and `/card/horizontal`. | Not run in this session. Deliverables are present. |
-| L5 visual | Eight baselines in `visual.spec.ts-snapshots/`: `card-basic`, `card-media-actions`, `card-outlined`, `card-horizontal`, `card-loading`, `card-rtl`, `card-flat`, `card-mobile`. | Passed on Chromium. Included in the 34 Playwright results above. |
-| L6 warnings | `dotnet build src/Syncfusion.Blazor.Toolkit.csproj -c Release -p:CycloneDxEnabled=false`. SBOM generation is opt-out only; `Directory.Build.props` still defaults `CycloneDxEnabled` to true. | Build succeeded. 0 warnings and 0 CS1591 under `Components/Cards/`. Remaining warnings are outside Card. |
+| bUnit | `FullyQualifiedName~Syncfusion.Blazor.Toolkit.Tests.Cards`, net8.0 (run with `DOTNET_ROLL_FORWARD=Major` because only the .NET 10 runtime is installed). | Passed. 174 passed, 0 failed, 0 skipped. |
+| Playwright (Chromium) | All specs under `Cards/Card`: `interactions`, `visual`, `scenarios`, `matrix-visual`. `scenarios.spec.ts` was also run three times in a row to check for flakiness. | Passed. 113 passed, 0 skipped, 0 failed. |
+| axe | `FullyQualifiedName~CardTests`, 17 tests. | Passed. 17 passed, 0 failed. |
+| Visual regression | 34 baselines compared on Chromium, repeated three times with no diff. | Passed |
+| Build | `dotnet build src/Syncfusion.Blazor.Toolkit.csproj -c Release -p:CycloneDxEnabled=false`. | Build succeeded. 0 warnings and 0 CS1591 under `Components/Cards/`. |
 
-The earlier bUnit failure is closed. `onkeydown:preventDefault` is still emitted, but only for Enter and Space. Tab is not in that predicate, and the current test asserts that.
+`color-contrast` and `color-contrast-enhanced` are disabled in `CardAxeOptions()` for the page-level runs, so a green run does not by itself prove WCAG 1.4.3. `Card_color_contrast` runs those rules explicitly.
 
 ## 5. Notes that do not fail the spec
 
 - A clickable card prevents the browser default for Enter and Space only. Tab is not included in that predicate.
 - Loading a clickable card also sets `aria-disabled="true"` and `e-disabled`.
 - `CardTests` disables the `color-contrast` and `color-contrast-enhanced` axe rules, so a green axe run does not by itself prove WCAG 1.4.3.
+- Spec section 9 lists `docs/card/`. The signed specs used for this comparison live in `.github/specs/Cards/`.
+
 - Spec section 9 lists `docs/card/`. The signed specs used for this comparison live in `.github/specs/Cards/`.

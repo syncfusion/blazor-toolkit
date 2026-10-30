@@ -1,0 +1,179 @@
+@page "/card/scenarios"
+@using Microsoft.AspNetCore.Components.Web
+@inject SyncfusionBlazorToolkitService ToolkitService
+
+@layout MainLayout
+
+<span id="scenarios-ready" data-ready="@(_interactiveReady ? "true" : "false")" hidden></span>
+
+<h1>Card - Matrix scenarios</h1>
+
+<div class="scenario-stage" id="scenario-stage" data-theme="@(_dark ? "dark" : "light")" style="@(_dark ? "background:#1b1b1b;padding:16px" : "padding:16px")">
+    <section id="scn-header-only">
+        <SfCard Id="header-only-card" Width="280px">
+            <SfCardHeader>
+                <SfCardTitle>Header only</SfCardTitle>
+            </SfCardHeader>
+        </SfCard>
+    </section>
+
+    <section id="scn-media">
+        <SfCard Id="media-card" Width="280px">
+            <SfCardMedia ImageUrl="/images/chart/canada.png" Alt="Canada map" Height="100px" />
+            <SfCardContent>Media card</SfCardContent>
+        </SfCard>
+    </section>
+
+    <section id="scn-actions">
+        <SfCard Id="actions-card" Width="280px">
+            <SfCardContent>Actions card</SfCardContent>
+            <SfCardActions>
+                <button id="actions-first" type="button">First</button>
+                <button id="actions-second" type="button">Second</button>
+            </SfCardActions>
+        </SfCard>
+    </section>
+
+    <section id="scn-collection">
+        @foreach (int index in Enumerable.Range(1, 3))
+        {
+            <SfCard Id="@($"collection-card-{index}")" IsClickable="true" AriaLabel="@($"Card {index}")" Width="200px" OnClick="() => _collectionClicks[index - 1]++">
+                <SfCardContent>Card @index</SfCardContent>
+            </SfCard>
+        }
+        <p id="collection-counts">@string.Join(",", _collectionClicks)</p>
+    </section>
+
+    <section id="scn-dynamic">
+        <SfCard Id="dynamic-card" Variant="@_dynamicVariant" Orientation="@_dynamicOrientation" Width="320px">
+            <SfCardContent>@_dynamicText</SfCardContent>
+        </SfCard>
+        <button id="dynamic-update" type="button" @onclick="UpdateDynamic">Update</button>
+    </section>
+
+    <section id="scn-nested">
+        <SfCard Id="nested-card" IsClickable="true" AriaLabel="Outer card" Width="320px" OnClick="() => _nestedOuter++">
+            <SfCardContent>
+                <input id="nested-input" type="text" />
+            </SfCardContent>
+            <SfCardActions>
+                <button id="nested-button" type="button" @onclick="() => _nestedInner++">Inner</button>
+            </SfCardActions>
+        </SfCard>
+        <p id="nested-counts">outer:@_nestedOuter inner:@_nestedInner</p>
+    </section>
+
+    <section id="scn-theme">
+        <SfCard Id="theme-card" Variant="CardVariant.Outlined" Width="280px">
+            <SfCardHeader>
+                <SfCardTitle>Theme card</SfCardTitle>
+            </SfCardHeader>
+            <SfCardContent>Spacing is the same in every theme.</SfCardContent>
+        </SfCard>
+        <button id="theme-toggle" type="button" @onclick="() => _dark = !_dark">Toggle theme</button>
+    </section>
+
+    <section id="scn-overflow">
+        <SfCard Id="overflow-card" Width="160px">
+            <SfCardContent>WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW a very long sentence that has to wrap inside the card body</SfCardContent>
+        </SfCard>
+    </section>
+
+    <section id="scn-media-responsive">
+        <SfCard Id="responsive-media-card" Width="100%">
+            <SfCardMedia ImageUrl="/images/chart/canada.png" Alt="Canada map" Height="140px" />
+        </SfCard>
+    </section>
+
+    <section id="scn-focus-order">
+        <button id="order-before" type="button">Before</button>
+        <SfCard Id="order-card" IsClickable="true" AriaLabel="Order card" Width="280px">
+            <SfCardContent>Order card</SfCardContent>
+        </SfCard>
+        <button id="order-after" type="button">After</button>
+    </section>
+
+    <section id="scn-rtl" dir="rtl" style="direction:rtl">
+        <SfCard Id="rtl-card" Orientation="CardOrientation.Horizontal" Width="420px">
+            <SfCardMedia Id="rtl-media" Height="100px">
+                <div style="background:#888;height:100%"></div>
+            </SfCardMedia>
+            <SfCardContent>RTL body</SfCardContent>
+            <SfCardActions>
+                <button id="rtl-first" type="button">One</button>
+                <button id="rtl-second" type="button">Two</button>
+            </SfCardActions>
+        </SfCard>
+        <SfCard Id="rtl-clickable" IsClickable="true" AriaLabel="RTL clickable" Width="280px">
+            <SfCardContent>RTL clickable</SfCardContent>
+        </SfCard>
+    </section>
+
+    <section id="scn-hc">
+        <SfCard Id="hc-card" IsClickable="true" AriaLabel="High contrast card" Variant="CardVariant.Outlined" Width="280px">
+            <SfCardContent>High contrast</SfCardContent>
+        </SfCard>
+    </section>
+
+    <section id="scn-pointer">
+        <SfCard Id="pointer-card" IsClickable="true" AriaLabel="Pointer card" Width="280px" OnClick="() => _pointerClicks++">
+            <SfCardContent>Pointer</SfCardContent>
+        </SfCard>
+        <p id="pointer-count">Pointer clicks: @_pointerClicks</p>
+    </section>
+
+    <section id="scn-multi">
+        <SfCard Id="multi-a" IsClickable="true" AriaLabel="Multi A" Width="200px" OnClick="() => _multiA++"><SfCardContent>A</SfCardContent></SfCard>
+        <SfCard Id="multi-b" IsClickable="true" AriaLabel="Multi B" Width="200px" OnClick="() => _multiB++"><SfCardContent>B</SfCardContent></SfCard>
+        <p id="multi-counts">A:@_multiA B:@_multiB</p>
+    </section>
+
+    <section id="scn-static-lookalike">
+        <SfCard Id="static-card" Width="280px">
+            <SfCardContent>Static, not focusable</SfCardContent>
+        </SfCard>
+    </section>
+</div>
+
+<style>
+    .scenario-stage section {
+        margin-bottom: 20px;
+    }
+</style>
+
+@code {
+    private bool _interactiveReady;
+    private bool _dark;
+    private int[] _collectionClicks = new int[3];
+    private int _nestedOuter;
+    private int _nestedInner;
+    private int _pointerClicks;
+    private int _multiA;
+    private int _multiB;
+    private string _dynamicText = "Original";
+    private CardVariant _dynamicVariant = CardVariant.Filled;
+    private CardOrientation _dynamicOrientation = CardOrientation.Vertical;
+
+    protected override void OnInitialized()
+    {
+        ToolkitService.EnableRtl(false);
+    }
+
+    protected override Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _interactiveReady = true;
+            StateHasChanged();
+        }
+
+        return Task.CompletedTask;
+    }
+
+    private void UpdateDynamic()
+    {
+        _dynamicText = "Updated";
+        _dynamicVariant = CardVariant.Outlined;
+        _dynamicOrientation = CardOrientation.Horizontal;
+    }
+}
