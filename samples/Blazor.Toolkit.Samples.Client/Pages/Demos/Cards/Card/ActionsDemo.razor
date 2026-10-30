@@ -1,0 +1,37 @@
+<div class="card-demo-center">
+    <SfCard Variant="CardVariant.Outlined" IsLoading="@_loading" Width="340px">
+        <SfCardMedia ImageUrl="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?auto=format&fit=crop&w=600&h=400&q=80"
+                     Alt="Black studio headphones on a wooden surface"
+                     ObjectFit="CardMediaFit.Cover"
+                     Height="200px" />
+        <SfCardHeader>
+            <SfCardTitle>Studio headphones</SfCardTitle>
+            <SfCardSubTitle>Audio · $249</SfCardSubTitle>
+        </SfCardHeader>
+        <SfCardContent>
+            <p class="card-demo-status">@(_completed ? "Added to your cart." : "Closed-back headphones with 40 mm drivers and a replaceable cable.")</p>
+        </SfCardContent>
+        <SfCardActions>
+            <SfButton Content="Add to cart" IsPrimary="true" Disabled="@_loading" OnClick="AddToCart" />
+        </SfCardActions>
+    </SfCard>
+</div>
+
+@code {
+    private bool _loading;
+    private bool _completed;
+
+    private async Task AddToCart()
+    {
+        if (_loading)
+        {
+            return;
+        }
+
+        _loading = true;
+        _completed = false;
+        await Task.Delay(1800);
+        _loading = false;
+        _completed = true;
+    }
+}

@@ -1,0 +1,42 @@
+<div class="card-demo-center">
+    <SfCard Variant="CardVariant.Outlined"
+            IsClickable="true"
+            Hoverable="true"
+            AriaLabel="@(_expanded ? "Collapse the Kyoto city guide" : "Expand the Kyoto city guide")"
+            OnClick="Toggle"
+            Width="340px">
+        <div class="card-demo-header-row">
+            <SfCardHeader>
+                <SfCardTitle>Kyoto</SfCardTitle>
+                <SfCardSubTitle>Japan · City guide</SfCardSubTitle>
+            </SfCardHeader>
+            <button type="button"
+                    class="card-demo-chevron"
+                    aria-expanded="@_expanded"
+                    aria-label="@(_expanded ? "Collapse details" : "Expand details")"
+                    @onclick="Toggle"
+                    @onclick:stopPropagation="true">
+                @(_expanded ? "▴" : "▾")
+            </button>
+        </div>
+        <div class="@(_expanded ? "card-demo-panel card-demo-panel-open" : "card-demo-panel")">
+            <div class="card-demo-panel-inner">
+                <SfCardMedia ImageUrl="https://picsum.photos/id/1016/600/400"
+                             Alt="Mountain ridge above a forest valley"
+                             ObjectFit="CardMediaFit.Cover"
+                             Height="180px" />
+                <SfCardContent>Walk the eastern lanes at sunrise, then reserve a kaiseki counter at least two weeks ahead. Leave the third day for the bamboo groves.</SfCardContent>
+                <SfCardActions>
+                    <SfButton Content="Plan trip" IsPrimary="true" />
+                    <SfButton Content="Download guide" />
+                </SfCardActions>
+            </div>
+        </div>
+    </SfCard>
+</div>
+
+@code {
+    private bool _expanded;
+
+    private void Toggle() => _expanded = !_expanded;
+}

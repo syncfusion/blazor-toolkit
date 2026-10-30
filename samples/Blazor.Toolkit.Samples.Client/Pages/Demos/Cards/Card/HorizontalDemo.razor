@@ -1,0 +1,42 @@
+<div class="card-demo-toggles">
+    <SfCheckBox TChecked="bool" @bind-Checked="_showHeader" Label="Header" />
+    <SfCheckBox TChecked="bool" @bind-Checked="_showMedia" Label="Media" />
+    <SfCheckBox TChecked="bool" @bind-Checked="_showContent" Label="Content" />
+    <SfCheckBox TChecked="bool" @bind-Checked="_showFooter" Label="Footer" />
+</div>
+
+<div class="card-demo-row">
+    <SfCard Orientation="CardOrientation.Horizontal" Variant="CardVariant.Outlined" Width="100%" CssClass="card-demo-horizontal">
+        @if (_showMedia)
+        {
+            <SfCardMedia ImageUrl="https://picsum.photos/id/42/600/400"
+                         Alt="Desk workspace beside a window"
+                         ObjectFit="CardMediaFit.Cover"
+                         Height="200px" />
+        }
+        <div class="card-demo-horizontal-content">
+            @if (_showHeader)
+            {
+                <SfCardHeader>
+                    <SfCardTitle>Harbor desk</SfCardTitle>
+                    <SfCardSubTitle>Workspace · Horizontal</SfCardSubTitle>
+                </SfCardHeader>
+            }
+            @if (_showContent)
+            {
+                <SfCardContent>A compact desk with a monitor arm, a task lamp, and managed cables. Ships in two days.</SfCardContent>
+            }
+            @if (_showFooter)
+            {
+                <SfCardFooter>In stock · 4 units</SfCardFooter>
+            }
+        </div>
+    </SfCard>
+</div>
+
+@code {
+    private bool _showHeader = true;
+    private bool _showMedia = true;
+    private bool _showContent = true;
+    private bool _showFooter = true;
+}

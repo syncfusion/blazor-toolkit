@@ -1,0 +1,67 @@
+<div class="card-demo-row">
+    <SfCard Variant="CardVariant.Outlined" CssClass="card-demo-kpi" Width="100%">
+        <div class="card-demo-kpi-body">
+            <div>
+                <SfCardHeader>
+                    <SfCardTitle>Monthly revenue</SfCardTitle>
+                    <SfCardSubTitle>Last 7 months</SfCardSubTitle>
+                </SfCardHeader>
+                <div style="padding: 0 16px 16px 16px;">
+                    <div class="card-demo-kpi-value">$248k</div>
+                    <div class="card-demo-kpi-change">+12.4% vs last month</div>
+                    <div class="card-demo-kpi-meta">
+                        <span>Forecast $262k</span>
+                        <span>Confidence 88%</span>
+                    </div>
+                </div>
+            </div>
+            <div class="card-demo-chart">
+                <SfChart @key="@_currentTheme" Theme="@_currentTheme" Background="transparent" Height="180px">
+                    <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Toolkit.ValueType.Category">
+                        <ChartAxisMajorGridLines Width="0" />
+                        <ChartAxisMajorTickLines Width="0" />
+                    </ChartPrimaryXAxis>
+                    <ChartPrimaryYAxis>
+                        <ChartAxisMajorGridLines Width="0" />
+                        <ChartAxisLineStyle Width="0" />
+                        <ChartAxisMajorTickLines Width="0" />
+                        <ChartAxisLabelStyle Color="transparent" />
+                    </ChartPrimaryYAxis>
+                    <ChartLegendSettings Visible="false" />
+                    <ChartTooltipSettings Enable="true" />
+                    <ChartSeries DataSource="@_points"
+                                 XName="Month"
+                                 YName="Revenue"
+                                 Type="ChartSeriesType.SplineArea"
+                                 Fill="#4f46e5" />
+                </SfChart>
+            </div>
+        </div>
+    </SfCard>
+</div>
+
+@code {
+    [CascadingParameter]
+    private Theme CurrentTheme { get; set; } = Theme.Fluent;
+
+    private Theme _currentTheme = Theme.Fluent;
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        _currentTheme = CurrentTheme;
+    }
+
+    private readonly List<RevenuePoint> _points =
+    [
+        new("Jan", 180),
+        new("Feb", 195),
+        new("Mar", 210),
+        new("Apr", 205),
+        new("May", 220),
+        new("Jun", 235),
+        new("Jul", 248),
+    ];
+
+    private sealed record RevenuePoint(string Month, double Revenue);
+}

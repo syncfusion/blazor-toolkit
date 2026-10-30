@@ -1,0 +1,109 @@
+@page "/cards/card"
+@inherits TocPublishingComponentBase
+@using Blazor.Toolkit.Samples.Client.Pages.Demos.Cards.Card
+
+<PageTitle>Blazor Card Demo | Syncfusion Toolkit</PageTitle>
+
+<Description>
+    <Header>
+        <h1 id="blazor-toolkit-card-component">Blazor Toolkit Card Component</h1>
+    </Header>
+    <Content>
+        The Card is a composition surface. Place header, title, subtitle, media, content, actions, footer, and separator blocks inside <code>SfCard</code>. It is not a data-bound list.
+    </Content>
+</Description>
+
+<CodePreview PreviewComponent="typeof(DefaultDemo)" SourceFile="/Pages/Demos/Cards/Card/DefaultDemo.razor" />
+
+<Description>
+    <Header>
+        <h2 id="positions">Positions</h2>
+    </Header>
+    <Content>
+        The card renders its regions in the order you add them. Place <code>SfCardMedia</code> before or after the header to control media position.
+    </Content>
+</Description>
+
+<CodePreview PreviewComponent="typeof(PositionsDemo)" SourceFile="/Pages/Demos/Cards/Card/PositionsDemo.razor" />
+
+<Description>
+    <Header>
+        <h2 id="media">Media</h2>
+    </Header>
+    <Content>
+        <code>SfCardMedia</code> renders an image or custom content. Set <code>Alt</code> when the image conveys information. Leave it empty when the image is decorative.
+    </Content>
+</Description>
+
+<CodePreview PreviewComponent="typeof(MediaDemo)" SourceFile="/Pages/Demos/Cards/Card/MediaDemo.razor" />
+
+<Description>
+    <Header>
+        <h2 id="actions">Actions</h2>
+    </Header>
+    <Content>
+        Put buttons in <code>SfCardActions</code>. Nested controls keep their own tab stop and do not activate a clickable card. Use <code>IsLoading</code> to show a busy state during the action.
+    </Content>
+</Description>
+
+<CodePreview PreviewComponent="typeof(ActionsDemo)" SourceFile="/Pages/Demos/Cards/Card/ActionsDemo.razor" />
+
+<Description>
+    <Header>
+        <h2 id="expandable">Expandable</h2>
+    </Header>
+    <Content>
+        Use controlled content (or <code>IsClickable</code> with an <code>AriaLabel</code>) to create an expandable card that reveals additional media and details on demand.
+    </Content>
+</Description>
+
+<CodePreview PreviewComponent="typeof(ExpandableDemo)" SourceFile="/Pages/Demos/Cards/Card/ExpandableDemo.razor" />
+
+<Description>
+    <Header>
+        <h2 id="loading">Loading</h2>
+    </Header>
+    <Content>
+        <code>IsLoading</code> marks the card busy, dims the surface, blocks activation, and makes actions unreachable until loading ends.
+    </Content>
+</Description>
+
+<CodePreview PreviewComponent="typeof(LoadingDemo)" SourceFile="/Pages/Demos/Cards/Card/LoadingDemo.razor" />
+
+<Description>
+    <Header>
+        <h2 id="orientation">Orientation</h2>
+    </Header>
+    <Content>
+        <code>Orientation</code> is Vertical by default. Horizontal places the media beside the content and flips in right-to-left layouts. Use the checkboxes to show or hide regions without changing orientation.
+    </Content>
+</Description>
+
+<CodePreview PreviewComponent="typeof(HorizontalDemo)" SourceFile="/Pages/Demos/Cards/Card/HorizontalDemo.razor" />
+
+<Description>
+    <Header>
+        <h2 id="analytics">Analytics Card</h2>
+    </Header>
+    <Content>
+        A professional analytics card that hosts a simple Chart. Ideal for KPI widgets, sales overviews, and dashboard summaries.
+    </Content>
+</Description>
+
+<CodePreview PreviewComponent="typeof(AnalyticsCardDemo)" SourceFile="/Pages/Demos/Cards/Card/AnalyticsCardDemo.razor" />
+
+@code {
+    private static readonly IReadOnlyList<RightToc.TocItem> TocItemsList = new RightToc.TocItem[]
+    {
+        new("positions", "Positions"),
+        new("media", "Media"),
+        new("actions", "Actions"),
+        new("expandable", "Expandable"),
+        new("loading", "Loading"),
+        new("orientation", "Orientation"),
+        new("analytics", "Analytics Card"),
+    };
+
+    protected override IReadOnlyList<RightToc.TocItem> TocItems => TocItemsList;
+}
+

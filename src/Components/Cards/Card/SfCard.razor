@@ -1,0 +1,21 @@
+@namespace Syncfusion.Blazor.Toolkit
+@inherits SfBaseComponent
+
+@* Shared theme emitter: render-time sibling placed BEFORE the root element (never inside it). *@
+<SfThemeRoot />
+<div id="@_resolvedId"
+     class="@_rootClass"
+     style="@_rootStyle"
+     role="@_role"
+     tabindex="@_tabIndex"
+     aria-label="@AriaLabel"
+     aria-busy="@_ariaBusy"
+     aria-disabled="@_ariaDisabled"
+     data-testid="card-root"
+     data-elevation="@_elevationLevel"
+     data-content-padding="@_contentPadding"
+     @attributes="_attributes">
+    <CascadingValue Value="this">
+        @ChildContent
+    </CascadingValue>
+</div>

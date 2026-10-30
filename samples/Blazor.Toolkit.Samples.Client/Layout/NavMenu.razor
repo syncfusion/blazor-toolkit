@@ -168,6 +168,23 @@
                 </li>
 
                 <li class="sf-nav-item sf-nav-item-tight">
+                    <details class="sf-menu-group" open='@IsGroupOpen("cards")'>
+                        <summary class="sf-menu-summary">
+                            <span class="e-toolkit-icons e-box sf-menu-icon" aria-hidden="true"></span>
+                            <span class="sf-menu-summary-label">Cards</span>
+                            <span class="sf-caret" aria-hidden="true"></span>
+                        </summary>
+                        <ul class="sf-sub-list">
+                            <li class="sf-nav-item sf-sub-item @(IsActive("cards/card") ? "is-active" : "")">
+                                <NavLink class="sf-nav-link" href="cards/card" Match="NavLinkMatch.All">
+                                    <span>Card</span>
+                                </NavLink>
+                            </li>
+                        </ul>
+                    </details>
+                </li>
+
+                <li class="sf-nav-item sf-nav-item-tight">
                     <details class="sf-menu-group" open='@IsGroupOpen("inputs")'>
                         <summary class="sf-menu-summary">
                             <span class="e-toolkit-icons e-input sf-menu-icon" aria-hidden="true"></span>
