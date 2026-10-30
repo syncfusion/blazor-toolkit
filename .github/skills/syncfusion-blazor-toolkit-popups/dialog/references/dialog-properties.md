@@ -16,13 +16,13 @@ canonical signatures, default values, or are debugging unexpected behavior.
 
 | Property | Type | Default | Purpose |
 |---|---|---|---|
-| `Visible` | `bool` | `false` | Show/hide the dialog |
+| `Visible` | `bool` | `true` | Show/hide the dialog (set `false` or bind a `false` field to start closed) |
 | `@bind-Visible` | `bool` | — | Two-way binding for visibility (preferred) |
 | `Header` | `string` | — | Top-bar text |
-| `HeaderTemplate` | `RenderFragment` | — | Top-bar markup (overrides `Header`) |
-| `ContentTemplate` | `RenderFragment` | — | Body markup |
-| `Footer` / `FooterTemplate` | `string` / `RenderFragment` | — | Footer text or markup |
-| `Width` | `string` | `"auto"` | Dialog width (CSS units; e.g. `"420px"`, `"60%"`) |
+| `Content` | `string` | — | Body text |
+| `DialogTemplates` (`Header`, `Content`, `FooterTemplate`) | child component with `RenderFragment`s | — | Header / body / footer markup |
+| `DialogButtons` | child component containing `DialogButton` items | — | Declarative footer buttons |
+| `Width` | `string` | `"100%"` | Dialog width (CSS units; e.g. `"420px"`, `"60%"`) |
 | `Height` | `string` | `"auto"` | Dialog height |
 | `IsModal` | `bool` | `false` | Block underlying UI (installs `aria-modal` + focus trap) |
 | `AllowDragging` | `bool` | `false` | Drag header to reposition |
@@ -30,33 +30,36 @@ canonical signatures, default values, or are debugging unexpected behavior.
 | `AllowPrerender` | `bool` | `true` | Set `false` when dialog body depends on interactive content |
 | `CloseOnEscape` | `bool` | `true` | Escape closes the dialog |
 | `ShowCloseIcon` | `bool` | `false` | `×` icon in the header (required for mouse-only users) |
-| `IsResponsive` | `bool` | `true` | Mobile-friendly reflow |
-| `ZIndex` | `string` | `"1000"` | CSS stacking layer |
-| `DialogAnimationSettings` | `DialogAnimationSettings` | `Fade` | `Effect` + duration (`DialogEffect.Fade`/`Zoom`/`Slide`*) |
+| `ZIndex` | `double` | `1000` | CSS stacking layer |
+| `Target` | `string` | — | CSS selector of the container the dialog is rendered in |
+| `DialogAnimationSettings` | child component | — | `Effect` (`DialogEffect`), `Duration`, `Delay` |
+| `DialogPositionData` | child component | — | `X` / `Y` position strings |
 | `CssClass` | `string` | — | Custom CSS classes applied to root element |
 
 ## Events
 
 | Event | Signature | Cancellable? | Fires |
 |---|---|---|---|
-| `OnOpen` | `EventCallback<BeforeOpenEventArgs>` | yes | Before the dialog renders |
-| `OnOpened` | `EventCallback<object>` | no | After first frame |
+| `OnOpen` | `EventCallback<BeforeOpenEventArgs>` | yes | Before the dialog opens |
+| `Opened` | `EventCallback<OpenEventArgs>` | no | After the dialog opened |
 | `OnClose` | `EventCallback<BeforeCloseEventArgs>` | **yes** | Before dismissal (set `args.Cancel = true` to block) |
-| `OnClosed` | `EventCallback<object>` | no | After dismissal |
-| `OnOverlayClick` | `EventCallback<OverlayClickEventArgs>` | no | User clicked the backdrop |
+| `Closed` | `EventCallback<CloseEventArgs>` | no | After dismissal |
+| `OnOverlayModalClick` | `EventCallback<OverlayModalClickEventArgs>` | no | User clicked the modal backdrop (`IsModal="true"` only) |
+| `OnDragStart` / `OnDrag` / `OnDragStop` | `EventCallback<DragStartEventArgs>` / `DragEventArgs` / `DragStopEventArgs` | no | Dragging lifecycle |
+| `OnResizeStart` / `Resizing` / `OnResizeStop` | `EventCallback<MouseEventArgs>` | no | Resize lifecycle |
+| `Created` / `Destroyed` | `EventCallback<object>` | no | Component lifecycle |
 | `VisibleChanged` | `EventCallback<bool>` | n/a | Two-way binding mirror (wired by `@bind-Visible`) |
 
 ## Methods (via `@ref`)
 
 | Method | Returns | Purpose |
 |---|---|---|
-| `Show()` | `void` | Open programmatically (fires `OnOpen`) |
-| `Hide()` | `void` | Close (fades then fires `OnClose`) |
-| `SetModel(...)` | `void` | Update content from outside the dialog |
-| `Refresh()` | `void` | Force re-render after content change |
-| `DisposeAsync()` | `ValueTask` | Release JS interop references; call in `IAsyncDisposable` |
+| `ShowAsync(bool? isFullScreen = null)` | `Task` | Open programmatically (fires `OnOpen`) |
+| `HideAsync()` / `HideAsync(string)` / `HideAsync(MouseEventArgs)` / `HideAsync(KeyboardEventArgs)` | `Task` | Close (fires `OnClose`, then `Closed`) |
+| `RefreshPositionAsync()` | `Task` | Re-centre / re-position after a size or content change |
+| `GetDimensionAsync()` | `Task<DialogDimension>` | Read current width / height |
 
-> **Programmatic control caveat:** `Show()` / `Hide()` and `@bind-Visible`
+> **Programmatic control caveat:** `ShowAsync()` / `HideAsync()` and `@bind-Visible`
 > compete — pick one mechanism. Mixing them causes "two-state controllers"
 > fights (see Don'ts).
 
@@ -66,11 +69,11 @@ canonical signatures, default values, or are debugging unexpected behavior.
 
 | Field | Type | Notes |
 |---|---|---|
-| `Effect` | `DialogEffect` | `Fade`, `Zoom`, `None`, `SlideLeft`, `SlideRight`, `SlideDown`, `SlideUp` |
-| `Duration` | `int` (ms) | Default 400 |
+| `Effect` | `DialogEffect` | `Fade`, `FadeZoom`, `Zoom`, `None`, `SlideLeft`, `SlideRight`, `SlideTop`, `SlideBottom`, `Flip*` |
+| `Delay` | `double` (ms) | Default 0 |
+| `Duration` | `double` (ms) | Default 400 |
 
-Pick exactly one `Effect` per dialog. Mixing static `Effect=...` and
-`Animation=...` constructions leads to rendering races (covered in Don'ts).
+Pick exactly one `Effect` per dialog.
 
 ## Common Use Cases
 
@@ -80,7 +83,7 @@ Pick exactly one `Effect` per dialog. Mixing static `Effect=...` and
 | Form-in-modal | `<EditForm>` inside `DialogTemplates.Content`; `AllowPrerender=false` |
 | Alert/info dialog | `IsModal=false`, `ShowCloseIcon=true` |
 | Wizard | Sequential `@bind-Visible` states per step (don't nest `<SfDialog>`) |
-| DialogService-driven dynamic dialog | Use the service-factory pattern (see [references/dialog-advanced.md](references/dialog-advanced.md)) |
+| Alert / confirm / prompt from code | Inject `SfDialogService` (`AlertAsync` / `ConfirmAsync` / `PromptAsync`) and render `<SfDialogProvider />` once at the app root (see [../SKILL.md](../SKILL.md), Pattern 3) |
 
 ## See Also
 

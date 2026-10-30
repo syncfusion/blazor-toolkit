@@ -46,5 +46,5 @@ directory's contents.
 - 2026-10-09 — 2.0.0 line; SBOM regenerated against the signed `.nupkg`
   for that release (CHANGELOG.md `[2.0.0]`).
 - 2026-10-19 — align with package **2.0.1** / GitHub release `v2.0.1`.
-  Regenerate the SBOM from the **signed** `.nupkg` on **every** release
-  before freezing the candidate SHA (see DEVELOPMENT.md manual sign-and-publish).
+  The SPDX SBOM is generated from the **signed** `.nupkg` by `release.yml` on
+  **every** release (see DEVELOPMENT.md "Release, signing and publication").
