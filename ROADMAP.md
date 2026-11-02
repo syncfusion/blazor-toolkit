@@ -61,7 +61,7 @@ Our focus is to expand application-building capabilities while keeping the Toolk
 |---------|---------|---------|
 | Phase 1 | Core Application Foundation | November 2026 |
 | Phase 2 | Application Experience Components | December 2026|
-| Phase 3 | Advanced Interaction Components | December 2026 |
+| Phase 3 | Advanced Interaction Components | January 2027 |
 
 ---
 
