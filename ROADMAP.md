@@ -20,22 +20,18 @@ Our focus is to expand application-building capabilities while keeping the Toolk
 - Toolbar
 - Sidebar
 - AppBar
-- Breadcrumb
 - Menu
+- Popup
 - Accordion
 - Card
 - Tabs
 - ListView
 - AutoComplete
 - ComboBox
-- MultiSelect
 - Chips
-- DateRangePicker
-- ColorPicker
 - DropDown Button
 - Split Button
 - Floating Action Button
-- Toggle Switch Button
 
 ## Phase 2
 - Toast
@@ -48,6 +44,10 @@ Our focus is to expand application-building capabilities while keeping the Toolk
 - Rating
 - Range Slider
 - Speed Dial
+- DateRangePicker
+- MultiSelect
+- Breadcrumb
+- ColorPicker
 
 ## Phase 3
 - Carousel
