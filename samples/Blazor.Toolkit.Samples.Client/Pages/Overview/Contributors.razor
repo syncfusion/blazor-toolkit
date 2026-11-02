@@ -310,6 +310,11 @@ else if (ContributorsList.Count == 0)
     //  To merge another pair, add one entry per alias. The keys must
     //  match GitHub logins exactly (case-sensitive).
     // ----------------------------------------------------------------
+    // Build-automation service accounts that GitHub reports as type "User".
+    // Exact (trimmed, case-insensitive) login match only.
+    private static readonly HashSet<string> ExcludedAutomationLogins =
+        new(StringComparer.OrdinalIgnoreCase) { "SyncfusionBuild" };
+
     private static readonly IReadOnlyDictionary<string, string> ContributorAliases =
         new Dictionary<string, string>(StringComparer.Ordinal)
         {
@@ -335,7 +340,8 @@ else if (ContributorsList.Count == 0)
 
         foreach (var entry in entries)
         {
-            if (entry is null || string.IsNullOrEmpty(entry.Login))
+            if (entry is null || string.IsNullOrEmpty(entry.Login) ||
+                ExcludedAutomationLogins.Contains(entry.Login.Trim()))
             {
                 continue;
             }
