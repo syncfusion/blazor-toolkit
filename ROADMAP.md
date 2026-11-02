@@ -100,7 +100,7 @@ The Toolkit complements the commercial Syncfusion suite and provides a natural u
 
 # Success Metrics
 
-By early 2028, the Toolkit aims to:
+By early 2027, the Toolkit aims to:
 
 - Deliver comprehensive coverage across forms, navigation, feedback, layout, and visualization scenarios.
 - Become a strong open-source choice for Blazor developers.
