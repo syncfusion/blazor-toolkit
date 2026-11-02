@@ -80,8 +80,8 @@
                                                 <span class="sb-icons e-file-format"></span>@item.Title
                                             </div>
                                         }
-                                    } 
-                                    else
+                                    }
+                                    else if (FilteredPages.Count > 0)
                                     {
                                         @foreach (var item in FilteredPages)
                                         {
@@ -89,6 +89,12 @@
                                                 <span class="sb-icons e-file-format"></span>@item.Title
                                             </div>
                                         }
+                                    }
+                                    else
+                                    {
+                                        <div class="search-empty-state" role="status" aria-live="polite">
+                                            There are no items matching the search term.
+                                        </div>
                                     }
                                 </div>
                             </div>
@@ -1019,5 +1025,11 @@
     .search.icon-button .e-search,
     .icon-button.hamburger-button .e-menu {
         font-size: 20px;
+    }
+    .search-empty-state {
+        padding: 16px 8px;
+        color: var(--text-color-secondary);
+        font-size: 14px;
+        text-align: center;
     }
 </style>

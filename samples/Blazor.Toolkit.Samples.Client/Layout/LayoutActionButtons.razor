@@ -5,6 +5,9 @@
 
 
 @code {
+    // Injected services
+    [Inject] IJSRuntime JS { get; set; } = default!;
+
     /// <summary>
     /// URL the GitHub-style icon button navigates to. Pass the public
     /// GitHub mirror or the internal Gitea URL depending on context.
@@ -75,8 +78,7 @@
         // we still want a new browser tab. The anchor with target="_blank"
         // approach is not available on SfButton, so we round-trip
         // through JS interop.
-        await Task.CompletedTask;
-        Nav.NavigateTo(SourceUrl, forceLoad: true);
+        await JS.InvokeVoidAsync("open", SourceUrl, "_blank", "noopener,noreferrer");
     }
 }
 
