@@ -3,6 +3,7 @@ using Microsoft.JSInterop;
 using Syncfusion.Blazor.Toolkit.Internal;
 using System.Globalization;
 using System.Text.RegularExpressions;
+using Microsoft.AspNetCore.Components.Web;
 
 namespace Syncfusion.Blazor.Toolkit
 {
@@ -81,6 +82,40 @@ namespace Syncfusion.Blazor.Toolkit
         private Dictionary<string, object> ContainerAttribute { get; set; } = [];
         private IJSObjectReference? _textAreaJsModule;
         private IJSInProcessObjectReference? _textAreaJsInProcessModule;
+
+        private bool IsClearKey { get; set; }
+
+        /// <summary>
+        /// True while the clear button has a value and should accept keyboard focus.
+        /// Do not key this off <c>e-clear-icon-hide</c>: shared blur adds that class
+        /// before the browser finishes moving focus.
+        /// </summary>
+        private bool IsClearButtonTabbable =>
+            ShowClearButton &&
+            !ReadOnly &&
+            !Disabled &&
+            !string.IsNullOrEmpty(FormatValueAsString(InputTextValue));
+
+        private void KeepClearButtonVisibleWhileTabbable()
+        {
+            if (!IsClearButtonTabbable || string.IsNullOrEmpty(ClearIconClass))
+            {
+                return;
+            }
+
+            ClearIconClass = ClearIconClass.Replace(CLEARICONHIDE, string.Empty, StringComparison.Ordinal).Trim();
+        }
+
+        /// <summary>
+        /// Clear-icon class with <c>e-clear-icon-hide</c> removed while the button is a tab stop.
+        /// That class is <c>display: none</c>, which removes the button from sequential focus
+        /// even when <c>tabindex</c> is 0. Later shared rules re-apply the hide class on blur
+        /// and outrank a textarea override, so the rendered class must not include it.
+        /// </summary>
+        private string TextAreaClearIconClass =>
+            IsClearButtonTabbable && !string.IsNullOrEmpty(ClearIconClass)
+                ? ClearIconClass.Replace(CLEARICONHIDE, string.Empty, StringComparison.Ordinal).Trim()
+                : ClearIconClass;
 
         #endregion
 
@@ -557,6 +592,22 @@ namespace Syncfusion.Blazor.Toolkit
         /// </remarks>
         internal async Task BindClearBtnTouchEventsAsync()
         {
+            await InvokeClearBtnEventAsync().ConfigureAwait(true);
+        }
+
+        /// <summary>
+        /// Keyboard activation uses the same clear path as pointer activation.
+        /// Space and Enter are prevented so the key does not also click the button
+        /// (which would clear twice) or submit a surrounding form.
+        /// </summary>
+        internal async Task OnClearButtonKeyDownAsync(KeyboardEventArgs args)
+        {
+            IsClearKey = args.Key is " " or "Enter" && !args.Repeat;
+            if (!IsClearKey)
+            {
+                return;
+            }
+
             await InvokeClearBtnEventAsync().ConfigureAwait(true);
         }
 
