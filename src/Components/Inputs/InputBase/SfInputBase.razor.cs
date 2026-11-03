@@ -834,6 +834,7 @@ namespace Syncfusion.Blazor.Toolkit
             string? inputVal = args is not null ? args.Value as string : null;
             CheckInputValue(BaseFloatLabelType, inputVal);
             UpdateIconState(inputVal);
+            StateHasChanged(); // tabindex follows ClearIconClass, which updates before the bound value on input.
             if (ValidateOnInput && InputEditContext is not null)
             {
                 InputTextValue = FormatValue(inputVal);

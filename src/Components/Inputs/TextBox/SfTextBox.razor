@@ -20,8 +20,10 @@
 					<label class="@FloatLabel?.Trim()" id="label_@(ID)" for="@(ID)">@this.Placeholder</label>
 					@if (this.ShowClearButton)
 					{
-						<button type="button" class="@(ClearIconClass)" aria-label="@Localizer["Clear"]"
+						<button type="button" class="@(TextBoxClearIconClass)" aria-label="@Localizer["Clear"]" tabindex="@(IsClearButtonTabbable ? 0 : -1)"
 								@onclick="@WireClearBtnEventsAsync"
+								@onkeydown="@OnClearButtonKeyDownAsync"
+								@onkeydown:preventDefault="@IsClearKey"
 								@onmousedown="@BindClearBtnEventsAsync" @ontouchstart="@BindClearBtnTouchEventsAsync"
 								@onmousedown:preventDefault="@ClickStopPropagation"
 								@ontouchstart:preventDefault="@ClickStopPropagation"></button>
@@ -39,8 +41,10 @@
 				<label class="@FloatLabel?.Trim()" id="label_@(ID)" for="@(ID)">@this.Placeholder</label>
 				@if (this.ShowClearButton)
 				{
-					<button type="button" class="@(ClearIconClass)" aria-label="@Localizer["Clear"]"
+					<button type="button" class="@(TextBoxClearIconClass)" aria-label="@Localizer["Clear"]" tabindex="@(IsClearButtonTabbable ? 0 : -1)"
 							@onclick="@WireClearBtnEventsAsync"
+							@onkeydown="@OnClearButtonKeyDownAsync"
+							@onkeydown:preventDefault="@IsClearKey"
 							@onmousedown="@BindClearBtnEventsAsync" @ontouchstart="@BindClearBtnTouchEventsAsync"
 							@onmousedown:preventDefault="@ClickStopPropagation"
 							@ontouchstart:preventDefault="@ClickStopPropagation"></button>
@@ -57,8 +61,10 @@
 					value="@(FormatValueAsString(InputTextValue))" @onchange="@OnChangeHandlerAsync" @onfocus="@OnFocusHandlerAsync" @onblur="OnBlurHandlerAsync" @oninput="@OnInputHandlerAsync" />
 			@if (this.ShowClearButton)
 			{
-				<button type="button" class="@(ClearIconClass)" aria-label="@Localizer["Clear"]"
+				<button type="button" class="@(TextBoxClearIconClass)" aria-label="@Localizer["Clear"]" tabindex="@(IsClearButtonTabbable ? 0 : -1)"
 						@onclick="@WireClearBtnEventsAsync"
+						@onkeydown="@OnClearButtonKeyDownAsync"
+						@onkeydown:preventDefault="@IsClearKey"
 						@onmousedown="@BindClearBtnEventsAsync" @ontouchstart="@BindClearBtnTouchEventsAsync"
 						@onmousedown:preventDefault="@ClickStopPropagation"
 						@ontouchstart:preventDefault="@ClickStopPropagation"></button>

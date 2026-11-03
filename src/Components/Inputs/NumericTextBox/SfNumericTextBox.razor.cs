@@ -102,11 +102,42 @@ namespace Syncfusion.Blazor.Toolkit
         /// the input before Blazor can repaint a focus-only tabindex, so the button
         /// would stay at -1 and Tab would skip it.
         /// </summary>
+        private bool IsClearKey { get; set; }
+
         private bool IsClearButtonTabbable =>
             ShowClearButton &&
             !Readonly &&
             !Disabled &&
             !string.IsNullOrEmpty(FormatValueAsString(InputTextValue));
+
+        /// <summary>
+        /// Keeps the clear icon visible whenever it is a tab stop.
+        /// <see cref="SfInputBase{TValue}.OnBlurHandlerAsync"/> adds
+        /// <c>e-clear-icon-hide</c> (<c>display: none</c>) as soon as the input blurs.
+        /// That render lands before the browser finishes moving focus, so Tab skips
+        /// the now-hidden button and lands on <c>document.body</c>. Pointer activation
+        /// still works because mousedown prevents that blur.
+        /// </summary>
+        /// <summary>
+        /// Clear-icon class with <c>e-clear-icon-hide</c> removed while the button is a tab stop.
+        /// That class is <c>display: none</c>, which removes the button from sequential focus
+        /// even when <c>tabindex</c> is 0. Later shared rules re-apply the hide class on blur
+        /// and outrank a numeric override, so the rendered class must not include it.
+        /// </summary>
+        private string NumericClearIconClass =>
+            IsClearButtonTabbable && !string.IsNullOrEmpty(ClearIconClass)
+                ? ClearIconClass.Replace(CLEARICONHIDE, string.Empty, StringComparison.Ordinal).Trim()
+                : ClearIconClass;
+
+        private void KeepClearButtonVisibleWhileTabbable()
+        {
+            if (!IsClearButtonTabbable || string.IsNullOrEmpty(ClearIconClass))
+            {
+                return;
+            }
+
+            ClearIconClass = ClearIconClass.Replace(CLEARICONHIDE, string.Empty, StringComparison.Ordinal).Trim();
+        }
 
         private bool IsNumberCulture { get; set; }
 
@@ -672,9 +703,12 @@ namespace Syncfusion.Blazor.Toolkit
         /// </remarks>
         private async Task ModifyTextAsync()
         {
-            if (Value is not null)
+            // After a clear, Value can still hold the previous number while
+            // InputTextValue is the value just stepped. Refresh from that.
+            TValue? displayValue = IsClearButtonClicked ? InputTextValue : Value ?? InputTextValue;
+            if (displayValue is not null)
             {
-                string? elemValue = FormatValueAsString(Value);
+                string? elemValue = FormatValueAsString(displayValue);
                 await SetValueAsync(elemValue, FloatLabelType, ShowClearButton).ConfigureAwait(true);
             }
             else
@@ -1046,9 +1080,28 @@ namespace Syncfusion.Blazor.Toolkit
                     IsFocus = false;
                     _lastAnnouncedFormattedValue = null;
                     string? inputValue = FocusInputValue;
-                    if (string.IsNullOrEmpty(inputValue))
+                    // An explicit clear must survive blur. FocusInputValue is a focus-time
+                    // snapshot and still holds the previous text, so formatting it would
+                    // put the cleared value back.
+                    if (IsClearButtonClicked)
+                    {
+                        inputValue = null;
+                        InputTextValue = default;
+                        FocusInputValue = null;
+                        // The flag only protects this blur. A later spin, wheel, or
+                        // arrow step must not be wiped by the next focus-out.
+                        IsClearButtonClicked = false;
+                    }
+                    // FocusInputValue is filled by the focus path. A blur that never
+                    // focused (Tab moving past a still-valued input) must not treat
+                    // the missing snapshot as an empty edit and clear the value.
+                    else if (string.IsNullOrEmpty(inputValue) && IsFocus)
                     {
                         InputTextValue = default;
+                    }
+                    else if (string.IsNullOrEmpty(inputValue))
+                    {
+                        inputValue = FormatValueAsString(InputTextValue);
                     }
                     if (IsNumberCulture)
                     {
@@ -1081,6 +1134,10 @@ namespace Syncfusion.Blazor.Toolkit
                 await InvokeVoidAsync(_numericTextBoxJsModule, _numericTextBoxJsInProcessModule, "updateFloatLabelSize", [DataId]).ConfigureAwait(true);
 
             }
+
+            // Base blur hides the clear icon with display:none. Restore it when the
+            // value is still clearable so the button stays in the tab order.
+            KeepClearButtonVisibleWhileTabbable();
         }
 
         /// <summary>
@@ -1951,6 +2008,22 @@ namespace Syncfusion.Blazor.Toolkit
         }
 
         /// <summary>
+        /// Keyboard activation uses the same clear path as pointer activation.
+        /// Space and Enter are prevented so the key does not also click the button
+        /// (which would clear twice) or submit a surrounding form.
+        /// </summary>
+        internal async Task OnClearButtonKeyDownAsync(KeyboardEventArgs args)
+        {
+            IsClearKey = args.Key is " " or "Enter" && !args.Repeat;
+            if (!IsClearKey)
+            {
+                return;
+            }
+
+            await InvokeClearBtnEventAsync(args).ConfigureAwait(true);
+        }
+
+        /// <summary>
         /// Handles the core logic for clear button events, clearing the input value and updating the component state.
         /// </summary>
         /// <param name="args">The event arguments associated with the clear button interaction.</param>
@@ -1969,7 +2042,13 @@ namespace Syncfusion.Blazor.Toolkit
         {
             IsClearIconClick = true;
             IsClearButtonClicked = true;
+            FocusInputValue = null;
             await SetValueAsync(null, FloatLabelType, ShowClearButton).ConfigureAwait(true);
+            // SetValueAsync(null) updates the displayed text but leaves the Value
+            // parameter at the previous number. Spin, wheel, and arrow actions read
+            // Value when the input is not focused, so both must be null.
+            InputTextValue = default;
+            Value = default;
             await RaiseChangeEventAsync(args).ConfigureAwait(true);
             ClearBtnStopPropagation = true;
             await FocusAsync().ConfigureAwait(true);
