@@ -278,6 +278,7 @@
 /* ====================================================================
    ROW ICONS (col 2)
    ==================================================================== */
+.accessibility-menu-icon { display: block; width: 18px; height: 18px; }
 .sf-menu-icon {
     grid-column: 2;
     width: var(--sf-sidebar-icon-w);
@@ -564,6 +565,9 @@ span.me-2.e-toolkit-icons.e-chevron-left {
 .e-toolkit-icons.e-popups::before            { content: "\e722"; }
 .e-toolkit-icons.e-api-reference::before     { content: "\e72c"; }
 .e-toolkit-icons.e-release-notes::before     { content: "\e72b"; }
+.e-toolkit-icons.e-accessibility::before      { content: "\e72f"; }
+.e-toolkit-icons.e-contribution-guide::before { content: "\e730"; }
+.e-toolkit-icons.e-security::before           { content: "\e731"; }
 .e-toolkit-icons.e-chevron-left::before      { content: "\e702"; }
 
 /* ---------- Sidebar icons delivered as inline SVGs via mask-image.
@@ -788,6 +792,17 @@ span.me-2.e-toolkit-icons.e-chevron-left {
     -webkit-text-fill-color: var(--sf-contrast-hover-fg) !important;
     background-color: transparent !important;
     fill: var(--sf-contrast-hover-fg) !important;
+}
+
+/* Mask-based icons (e-contribute / e-contributors) draw their glyph with
+   background-color. The generic hover/active/focus rules above reset
+   background-color to transparent on .sf-menu-icon with equal specificity
+   and later source order, which blanks sub-item mask icons (Security).
+   Re-assert currentColor for the mask glyph in those states. */
+.sf-sidebar li.sf-nav-item.sf-sub-item:hover .e-toolkit-icons.e-contribute.sf-menu-icon,
+.sf-sidebar li.sf-nav-item.sf-sub-item.is-active .e-toolkit-icons.e-contribute.sf-menu-icon,
+.sf-sidebar li.sf-nav-item.sf-sub-item:focus-within .e-toolkit-icons.e-contribute.sf-menu-icon {
+    background-color: currentColor !important;
 }
 
 /* ---------- 5. Focus ring (sidebar links only - playground excluded) ---------- */

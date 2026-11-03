@@ -1,0 +1,92 @@
+@page "/common/accessibility"
+
+<PageTitle>Accessibility | Syncfusion Blazor Toolkit</PageTitle>
+
+<div class="accessibility-page">
+    <nav class="accessibility-breadcrumb" aria-label="Breadcrumb">
+        <a href="/">Home</a><span aria-hidden="true">/</span>
+        <span>Common</span><span aria-hidden="true">/</span>
+        <span aria-current="page">Accessibility</span>
+    </nav>
+
+    <Description>
+        <Header>
+            <h1 id="accessibility">Accessibility</h1>
+        </Header>
+        <Content>
+            <p>This page describes which accessibility features the Toolkit provides and which checks remain your responsibility when you build an application with it.</p>
+        </Content>
+    </Description>
+
+    <Description>
+        <Header>
+            <h2 id="what-the-toolkit-provides">What the Toolkit provides</h2>
+        </Header>
+        <Content>
+            <p>Toolkit components include the following accessibility support. Your application is still responsible for labels, content, the contrast of custom styles, and testing with assistive technology.</p>
+            <ul>
+                <li><strong>High Contrast theme</strong> — optimized for Windows high contrast modes.</li>
+                <li><strong>Semantic ARIA</strong> — components implement ARIA roles, states, and properties.</li>
+                <li><strong>Focus management</strong> — visible focus indicators and accessible interaction patterns.</li>
+                <li><strong>Zoom and reflow</strong> — design your own layout so it reflows at high zoom levels.</li>
+            </ul>
+        </Content>
+    </Description>
+
+    <Description>
+        <Header>
+            <h2 id="keyboard-shortcuts">Keyboard navigation</h2>
+        </Header>
+        <Content>
+            <p>Keyboard interactions vary across components. The shortcuts below are commonly used navigation patterns.</p>
+            <div class="accessibility-table-scroll">
+                <table class="accessibility-table">
+                    <thead><tr><th scope="col">Key</th><th scope="col">Action</th></tr></thead>
+                    <tbody>
+                        <tr><td><kbd>Tab</kbd></td><td>Move to the next element</td></tr>
+                        <tr><td><kbd>Shift + Tab</kbd></td><td>Move to the previous element</td></tr>
+                        <tr><td><kbd>Enter</kbd></td><td>Activate the focused item</td></tr>
+                        <tr><td><kbd>Space</kbd></td><td>Trigger an action</td></tr>
+                        <tr><td><kbd>Esc</kbd></td><td>Close a popup, dialog, or menu</td></tr>
+                        <tr><td><kbd>↑</kbd></td><td>Move to the previous item</td></tr>
+                        <tr><td><kbd>↓</kbd></td><td>Move to the next item</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </Content>
+    </Description>
+
+    <Description>
+        <Header>
+            <h2 id="screen-readers">Screen reader compatibility</h2>
+        </Header>
+        <Content>
+            <p>The Toolkit is smoke-tested with the following screen readers. See the <a href="https://github.com/syncfusion/blazor-toolkit/blob/main/.github/accessibility/screen-reader-smoke.md" target="_blank" rel="noopener noreferrer">repository</a> for the screen-reader smoke-test procedure.</p>
+            <ul>
+                <li>NVDA</li>
+                <li>Narrator</li>
+                <li>JAWS</li>
+            </ul>
+        </Content>
+    </Description>
+
+    <Description>
+        <Header>
+            <h2 id="standards">Standards Compliance</h2>
+        </Header>
+        <Content>
+            <div class="accessibility-table-scroll">
+                <table class="accessibility-table">
+                    <thead><tr><th scope="col">Standard</th><th scope="col">Level / Status</th></tr></thead>
+                    <tbody>
+                        <tr><th scope="row">WCAG 2.2</th><td>Level AA</td></tr>
+                        <tr><th scope="row">ADA</th><td>Supported</td></tr>
+                        <tr><th scope="row">Section 508</th><td>Supported</td></tr>
+                        <tr><th scope="row">EN 301 549</th><td>Supported</td></tr>
+                        <tr><th scope="row">WAI-ARIA</th><td>Supported</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </Content>
+    </Description>
+</div>

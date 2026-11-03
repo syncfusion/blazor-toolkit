@@ -1,0 +1,36 @@
+.accessibility-page {
+    position: relative;
+    min-width: 0;
+    color: var(--text-color);
+}
+
+.accessibility-breadcrumb {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    margin: 4px 10px 8px;
+    color: var(--text-color-secondary);
+    font-size: .875rem;
+}
+
+.accessibility-breadcrumb a { color: var(--text-color-secondary); text-decoration: none; }
+.accessibility-breadcrumb a:hover { text-decoration: underline; }
+.accessibility-breadcrumb [aria-current="page"] { color: var(--text-color); font-weight: 600; }
+
+.accessibility-table-scroll { max-width: 100%; overflow-x: auto; }
+.accessibility-table { border-collapse: collapse; min-width: 18rem; }
+.accessibility-table th,
+.accessibility-table td { padding: 6px 16px 6px 0; border-bottom: 1px solid currentColor; text-align: start; overflow-wrap: anywhere; }
+.accessibility-table th { font-weight: 600; }
+.accessibility-table caption.accessibility-sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.accessibility-table kbd { font: inherit; font-weight: 600; }
+
+.accessibility-page a { text-decoration: underline; color: var(--accent); }
+.accessibility-page a:hover { color: var(--accent-hover); }
+.accessibility-page :focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+
+@media (forced-colors: active) {
+    .accessibility-page :focus-visible { outline-color: Highlight; }
+    .accessibility-page a { color: LinkText; }
+}

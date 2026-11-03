@@ -208,7 +208,7 @@
         // Use fragment navigation so the URL updates without forcing a
         // full page reload - the in-component state change re-renders
         // the main panel only.
-        var target = $"/release-notes/{tag.TrimStart('v')}";
+        var target = $"release-notes/{Uri.EscapeDataString(tag.Trim().TrimStart('v'))}";
         NavigationManager.NavigateTo(target, forceLoad: false);
         await Task.CompletedTask;
     }
