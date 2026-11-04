@@ -3084,3 +3084,75 @@ using System.Diagnostics.CodeAnalysis;
     Justification = "2026-10-02: Preserve the public lowercase value property and its value JSON contract; a CLR rename would break source/binary compatibility even if JsonPropertyName kept the wire spelling.",
     Scope = "member",
     Target = "~P:Syncfusion.Blazor.Toolkit.WhereFilter.value")]
+// -------------------------------------------------------------------------
+// Card family: attribute-splat dictionaries and the image URL parameter.
+// -------------------------------------------------------------------------
+[assembly: SuppressMessage(
+    "Usage",
+    "CA2227:Collection properties should be read only",
+    Justification = "2026-10-23: Attribute-splat dictionary captured through [Parameter(CaptureUnmatchedValues = true)]; Blazor assigns it through the public setter, so the setter must remain.",
+    Scope = "member",
+    Target = "~P:Syncfusion.Blazor.Toolkit.SfCard.HtmlAttributes")]
+
+[assembly: SuppressMessage(
+    "Usage",
+    "CA2227:Collection properties should be read only",
+    Justification = "2026-10-23: Attribute-splat dictionary captured through [Parameter(CaptureUnmatchedValues = true)]; Blazor assigns it through the public setter, so the setter must remain.",
+    Scope = "member",
+    Target = "~P:Syncfusion.Blazor.Toolkit.SfCardHeader.HtmlAttributes")]
+
+[assembly: SuppressMessage(
+    "Usage",
+    "CA2227:Collection properties should be read only",
+    Justification = "2026-10-23: Attribute-splat dictionary captured through [Parameter(CaptureUnmatchedValues = true)]; Blazor assigns it through the public setter, so the setter must remain.",
+    Scope = "member",
+    Target = "~P:Syncfusion.Blazor.Toolkit.SfCardTitle.HtmlAttributes")]
+
+[assembly: SuppressMessage(
+    "Usage",
+    "CA2227:Collection properties should be read only",
+    Justification = "2026-10-23: Attribute-splat dictionary captured through [Parameter(CaptureUnmatchedValues = true)]; Blazor assigns it through the public setter, so the setter must remain.",
+    Scope = "member",
+    Target = "~P:Syncfusion.Blazor.Toolkit.SfCardSubTitle.HtmlAttributes")]
+
+[assembly: SuppressMessage(
+    "Usage",
+    "CA2227:Collection properties should be read only",
+    Justification = "2026-10-23: Attribute-splat dictionary captured through [Parameter(CaptureUnmatchedValues = true)]; Blazor assigns it through the public setter, so the setter must remain.",
+    Scope = "member",
+    Target = "~P:Syncfusion.Blazor.Toolkit.SfCardMedia.HtmlAttributes")]
+
+[assembly: SuppressMessage(
+    "Usage",
+    "CA2227:Collection properties should be read only",
+    Justification = "2026-10-23: Attribute-splat dictionary captured through [Parameter(CaptureUnmatchedValues = true)]; Blazor assigns it through the public setter, so the setter must remain.",
+    Scope = "member",
+    Target = "~P:Syncfusion.Blazor.Toolkit.SfCardContent.HtmlAttributes")]
+
+[assembly: SuppressMessage(
+    "Usage",
+    "CA2227:Collection properties should be read only",
+    Justification = "2026-10-23: Attribute-splat dictionary captured through [Parameter(CaptureUnmatchedValues = true)]; Blazor assigns it through the public setter, so the setter must remain.",
+    Scope = "member",
+    Target = "~P:Syncfusion.Blazor.Toolkit.SfCardActions.HtmlAttributes")]
+
+[assembly: SuppressMessage(
+    "Usage",
+    "CA2227:Collection properties should be read only",
+    Justification = "2026-10-23: Attribute-splat dictionary captured through [Parameter(CaptureUnmatchedValues = true)]; Blazor assigns it through the public setter, so the setter must remain.",
+    Scope = "member",
+    Target = "~P:Syncfusion.Blazor.Toolkit.SfCardFooter.HtmlAttributes")]
+
+[assembly: SuppressMessage(
+    "Usage",
+    "CA2227:Collection properties should be read only",
+    Justification = "2026-10-23: Attribute-splat dictionary captured through [Parameter(CaptureUnmatchedValues = true)]; Blazor assigns it through the public setter, so the setter must remain.",
+    Scope = "member",
+    Target = "~P:Syncfusion.Blazor.Toolkit.SfCardSeparator.HtmlAttributes")]
+
+[assembly: SuppressMessage(
+    "Design",
+    "CA1056:URI properties should not be strings",
+    Justification = "2026-10-23: Public API. [Parameter] image URL bound from Razor markup as an HTML attribute string; commonly carries a relative URL that System.Uri cannot represent.",
+    Scope = "member",
+    Target = "~P:Syncfusion.Blazor.Toolkit.SfCardMedia.ImageUrl")]

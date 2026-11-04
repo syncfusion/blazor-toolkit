@@ -1,0 +1,234 @@
+/*
+ * SfCard styles.
+ *
+ * Blazor CSS isolation scopes a selector to the markup of the component that owns this file. The card regions
+ * (header, media, content, actions, ...) are separate components, so every selector that targets them goes through
+ * ::deep. Without it the rules never match and the regions render unstyled.
+ *
+ * Colours come from the shared theme tokens emitted by <SfThemeRoot />. Shadows are built from --color-sf-shadow-color,
+ * so they follow the active theme (including dark and high contrast).
+ */
+
+.e-card {
+    --e-card-shadow-0: none;
+    --e-card-shadow-1: 0 1px 2px color-mix(in srgb, var(--color-sf-shadow-color, #000) 14%, transparent), 0 0 2px color-mix(in srgb, var(--color-sf-shadow-color, #000) 12%, transparent);
+    --e-card-shadow-2: 0 2px 4px color-mix(in srgb, var(--color-sf-shadow-color, #000) 14%, transparent), 0 0 2px color-mix(in srgb, var(--color-sf-shadow-color, #000) 12%, transparent);
+    --e-card-shadow-3: 0 4px 8px color-mix(in srgb, var(--color-sf-shadow-color, #000) 14%, transparent), 0 0 2px color-mix(in srgb, var(--color-sf-shadow-color, #000) 12%, transparent);
+    --e-card-shadow-4: 0 8px 16px color-mix(in srgb, var(--color-sf-shadow-color, #000) 14%, transparent), 0 0 2px color-mix(in srgb, var(--color-sf-shadow-color, #000) 12%, transparent);
+    --e-card-shadow-5: 0 16px 32px color-mix(in srgb, var(--color-sf-shadow-color, #000) 14%, transparent), 0 0 2px color-mix(in srgb, var(--color-sf-shadow-color, #000) 12%, transparent);
+    --e-card-radius: 8px;
+    --e-card-padding: 16px;
+    --e-card-shadow: var(--e-card-shadow-1);
+
+    background: var(--color-sf-content-bg-color-alt1);
+    border: 1px solid var(--color-sf-border);
+    border-radius: var(--e-card-radius);
+    box-shadow: var(--e-card-shadow);
+    box-sizing: border-box;
+    color: var(--color-sf-content-text-color);
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    overflow: hidden;
+    position: relative;
+    transition: box-shadow 200ms ease, border-color 200ms ease, transform 200ms ease, background-color 200ms ease;
+}
+
+.e-card[data-elevation="0"] { --e-card-shadow: var(--e-card-shadow-0); }
+.e-card[data-elevation="1"] { --e-card-shadow: var(--e-card-shadow-1); }
+.e-card[data-elevation="2"] { --e-card-shadow: var(--e-card-shadow-2); }
+.e-card[data-elevation="3"] { --e-card-shadow: var(--e-card-shadow-3); }
+.e-card[data-elevation="4"] { --e-card-shadow: var(--e-card-shadow-4); }
+.e-card[data-elevation="5"] { --e-card-shadow: var(--e-card-shadow-5); }
+
+.e-card.e-card-horizontal {
+    flex-direction: row;
+}
+
+.e-card.e-card-outlined {
+    background: var(--color-sf-content-bg-color-alt1);
+}
+
+.e-card.e-card-flat {
+    background: var(--color-sf-content-bg-color);
+    border-color: transparent;
+}
+
+.e-card.e-card-square {
+    border-radius: 0;
+}
+
+/* Interaction ---------------------------------------------------------- */
+
+.e-card.e-card-hoverable,
+.e-card.e-card-clickable {
+    cursor: pointer;
+}
+
+.e-card.e-card-hoverable:hover,
+.e-card.e-card-hoverable:focus-within,
+.e-card.e-card-clickable:hover {
+    border-color: var(--color-sf-border-hover);
+    box-shadow: var(--e-card-shadow-3);
+    transform: translateY(-1px);
+}
+
+.e-card.e-card-clickable:focus-visible {
+    outline: 2px solid var(--color-sf-primary);
+    outline-offset: 2px;
+}
+
+/* Loading: the overlay blocks the pointer; the actions row is made inert by the component. */
+.e-card.e-card-loading {
+    cursor: progress;
+}
+
+.e-card.e-card-loading::after {
+    background: color-mix(in srgb, var(--color-sf-content-bg-color-alt1) 55%, transparent);
+    content: "";
+    inset: 0;
+    position: absolute;
+}
+
+.e-card.e-disabled {
+    opacity: 0.72;
+}
+
+.e-card.e-card-loading:hover,
+.e-card.e-card-loading:focus-within {
+    box-shadow: var(--e-card-shadow);
+    transform: none;
+}
+
+/* Regions -------------------------------------------------------------- */
+
+.e-card ::deep .e-card-header,
+.e-card ::deep .e-card-content,
+.e-card ::deep .e-card-actions,
+.e-card ::deep .e-card-footer {
+    min-width: 0;
+}
+
+.e-card[data-content-padding="true"] > ::deep .e-card-header,
+.e-card[data-content-padding="true"] > ::deep .e-card-content,
+.e-card[data-content-padding="true"] > ::deep .e-card-actions {
+    padding: var(--e-card-padding);
+}
+
+.e-card[data-content-padding="true"] > ::deep .e-card-header + .e-card-content,
+.e-card[data-content-padding="true"] > ::deep .e-card-media + .e-card-content,
+.e-card[data-content-padding="true"] > ::deep .e-card-content + .e-card-actions {
+    padding-top: 0;
+}
+
+.e-card ::deep .e-card-header {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.e-card ::deep .e-card-title {
+    color: inherit;
+    display: block;
+    font-size: 1rem;
+    font-weight: 600;
+    line-height: 1.4;
+}
+
+.e-card ::deep .e-card-subtitle {
+    color: var(--color-sf-content-text-color-alt2);
+    display: block;
+    font-size: 0.875rem;
+    line-height: 1.4;
+}
+
+.e-card ::deep .e-card-media {
+    background: var(--color-sf-content-bg-color-alt2);
+    display: block;
+    flex-shrink: 0;
+    overflow: hidden;
+    position: relative;
+}
+
+.e-card.e-card-horizontal > ::deep .e-card-media {
+    height: auto !important;
+    width: min(40%, 320px);
+}
+
+.e-card ::deep .e-card-media img {
+    display: block;
+    height: 100%;
+    width: 100%;
+}
+
+.e-card ::deep .e-card-content {
+    flex: 1 1 auto;
+}
+
+.e-card ::deep .e-card-actions {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+}
+
+.e-card ::deep .e-card-footer {
+    border-top: 1px solid var(--color-sf-border);
+}
+
+.e-card ::deep .e-card-separator {
+    background: var(--color-sf-border);
+    display: block;
+    flex-shrink: 0;
+    height: 1px;
+    width: 100%;
+}
+
+.e-card.e-card-horizontal > ::deep .e-card-separator {
+    align-self: stretch;
+    height: auto;
+    width: 1px;
+}
+
+/* RTL: direction flips the inline axis, so a row needs no row-reverse (that would flip it back). */
+.e-card.e-rtl {
+    direction: rtl;
+}
+
+/* Accessibility -------------------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+    .e-card {
+        transition: none;
+    }
+
+    .e-card.e-card-hoverable:hover,
+    .e-card.e-card-hoverable:focus-within,
+    .e-card.e-card-clickable:hover {
+        transform: none;
+    }
+}
+
+@media (forced-colors: active) {
+    .e-card {
+        border-color: CanvasText;
+        box-shadow: none;
+        forced-color-adjust: auto;
+    }
+
+    .e-card.e-card-clickable:focus-visible {
+        outline-color: Highlight;
+    }
+
+    .e-card.e-card-loading::after {
+        background: transparent;
+    }
+
+    .e-card ::deep .e-card-separator {
+        background: CanvasText;
+    }
+
+    .e-card ::deep .e-card-footer {
+        border-color: CanvasText;
+    }
+}

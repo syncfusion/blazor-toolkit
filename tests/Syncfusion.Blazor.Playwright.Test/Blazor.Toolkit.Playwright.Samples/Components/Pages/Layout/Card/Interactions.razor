@@ -1,0 +1,103 @@
+@page "/card/interactions"
+@using Microsoft.AspNetCore.Components.Web
+@inject SyncfusionBlazorToolkitService ToolkitService
+
+@layout MainLayout
+
+<span id="interactive-ready" data-ready="@(_interactiveReady ? "true" : "false")" hidden></span>
+
+<h1>Card - Interactions</h1>
+
+<div class="test-container">
+    <h2>Clickable card</h2>
+    <button id="before-card" type="button">Before</button>
+    <SfCard Id="card-clickable" IsClickable="true" AriaLabel="Open Trail Runner" Width="280px" Hoverable="true" OnClick="OnCardClick">
+        <SfCardHeader>
+            <SfCardTitle>Trail Runner</SfCardTitle>
+            <SfCardSubTitle>Outdoor</SfCardSubTitle>
+        </SfCardHeader>
+        <SfCardContent>Lightweight daily trainer.</SfCardContent>
+    </SfCard>
+    <button id="after-card" type="button">After</button>
+    <p id="card-click-count">Card clicks: @_cardClicks</p>
+
+    <h2>Card with nested action</h2>
+    <SfCard Id="card-actions-host" IsClickable="true" AriaLabel="Product" Width="280px" OnClick="OnHostClick">
+        <SfCardContent>Product</SfCardContent>
+        <SfCardActions>
+            <button id="card-action-btn" data-testid="card-action-btn" type="button" @onclick="OnActionClick">Buy</button>
+        </SfCardActions>
+    </SfCard>
+    <p id="host-click-count">Host clicks: @_hostClicks</p>
+    <p id="action-click-count">Action clicks: @_actionClicks</p>
+
+    <h2>Loading card</h2>
+    <SfCard Id="card-loading" IsClickable="true" IsLoading="@_loading" AriaLabel="Loading product" Width="280px" OnClick="OnLoadingClick">
+        <SfCardContent>Loading product</SfCardContent>
+        <SfCardActions>
+            <button id="loading-action-btn" type="button">Retry</button>
+        </SfCardActions>
+    </SfCard>
+    <p id="loading-click-count">Loading card clicks: @_loadingClicks</p>
+    <button id="toggle-loading" type="button" @onclick="ToggleLoading">Toggle loading</button>
+
+    <h2>Static card</h2>
+    <SfCard Id="card-static" Variant="CardVariant.Outlined" Width="280px">
+        <SfCardMedia ImageUrl="/images/chart/canada.png" Alt="Canada map" />
+        <SfCardContent>Static</SfCardContent>
+    </SfCard>
+
+    <h2>Horizontal card</h2>
+    <div id="card-horizontal-host" dir="@(Rtl ? "rtl" : "ltr")">
+    <SfCard Id="card-horizontal" Orientation="CardOrientation.Horizontal" Width="100%" style="max-width:480px">
+        <SfCardMedia Id="card-horizontal-media" Height="120px">
+            <div style="background:#888;height:100%"></div>
+        </SfCardMedia>
+        <SfCardContent>Horizontal body</SfCardContent>
+    </SfCard>
+    </div>
+
+    <h2>Elevation levels</h2>
+    <div style="display:flex;gap:16px">
+        <SfCard Id="card-elev-0" Elevation="0" Width="120px"><SfCardContent>0</SfCardContent></SfCard>
+        <SfCard Id="card-elev-5" Elevation="5" Width="120px"><SfCardContent>5</SfCardContent></SfCard>
+    </div>
+</div>
+
+@code { 
+    [SupplyParameterFromQuery(Name = "rtl")]
+    public bool Rtl { get; set; }
+
+    private int _cardClicks;
+    private int _hostClicks;
+    private int _actionClicks;
+    private int _loadingClicks;
+    private bool _loading = true;
+    private bool _interactiveReady;
+
+    protected override void OnInitialized()
+    {
+        ToolkitService.EnableRtl(Rtl);
+    }
+
+    protected override Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _interactiveReady = true;
+            StateHasChanged();
+        }
+
+        return Task.CompletedTask;
+    }
+
+    private void OnCardClick(MouseEventArgs args) => _cardClicks++;
+
+    private void OnHostClick(MouseEventArgs args) => _hostClicks++;
+
+    private void OnActionClick(MouseEventArgs args) => _actionClicks++;
+
+    private void OnLoadingClick(MouseEventArgs args) => _loadingClicks++;
+
+    private void ToggleLoading() => _loading = !_loading;
+}

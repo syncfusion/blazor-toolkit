@@ -112,6 +112,14 @@
             new("Spinner Overlay", "spinner#overlay"),
             new("Spinner Custom Template", "spinner#custom-template"),
 
+            new("Card", "layout/card"),
+            new("Card Variants", "layout/card#variants"),
+            new("Card Media", "layout/card#media"),
+            new("Card Actions", "layout/card#actions"),
+            new("Clickable Card", "layout/card#clickable"),
+            new("Card Loading", "layout/card#loading"),
+            new("Card Orientation", "layout/card#orientation"),
+
             new("File Uploader", "inputs/uploader"),
             new("Basic Uploader", "inputs/uploader#basic"),
             new("Preloaded files", "inputs/uploader#preloaded-files"),
