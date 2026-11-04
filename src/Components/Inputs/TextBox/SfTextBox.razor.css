@@ -1215,15 +1215,6 @@
 .e-input-base-wrapper .e-input-group.e-control-wrapper.e-static-clear .e-close.e-clear-icon-hide {
   cursor: pointer;
 }
-.e-input-base-wrapper .e-input-group .e-close:focus-visible {
-    outline: 2px solid var(--color-sf-primary, Highlight);
-    outline-offset: 1px;
-}
-@media (forced-colors: active) {
-    .e-input-base-wrapper .e-input-group .e-close:focus-visible {
-        outline: 2px solid Highlight;
-    }
-}
 .e-input-base-wrapper .e-float-input.e-control-wrapper input[readonly]:first-child ~ .e-close,
 .e-input-base-wrapper .e-float-input.e-control-wrapper.e-input-group input[readonly]:first-child ~ .e-close,
 .e-input-base-wrapper .e-float-input input[readonly]:first-child ~ .e-close,
