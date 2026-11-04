@@ -10,6 +10,9 @@ const INTERACTIONS = 'http://localhost:5000/card/interactions';
 async function openScenarios(page: Page, url = SCENARIOS) {
   await page.goto(url, { waitUntil: 'commit' });
   await expect(page.locator('#scenarios-ready')).toHaveAttribute('data-ready', 'true', { timeout: 15000 });
+  // Keyboard activation is attached by card.js after the first interactive render.
+  await page.waitForFunction(() => ['#pointer-card', '#nested-card', '#content-toggle-card']
+    .every((s) => Boolean((document.querySelector(s) as { _blazorCardInstance?: unknown } | null)?._blazorCardInstance)));
 }
 
 async function openInteractions(page: Page, url = INTERACTIONS) {
@@ -55,6 +58,29 @@ test.describe('Card core interactions @card', () => {
     await expect(page.locator('#nested-input')).toHaveValue('hello');
     await page.locator('#nested-button').click();
     await expect(page.locator('#nested-counts')).toHaveText('outer:0 inner:1');
+  });
+
+  test('V-CARD-005 typing Space and Enter in a nested input does not activate the card', async ({ page }) => {
+    const input = page.locator('#nested-input');
+    await input.focus();
+    await page.keyboard.type('a b');
+    await page.keyboard.press(' ');
+    await page.keyboard.press('Enter');
+    // The keys keep their own behaviour: the spaces reach the input and the card is not activated.
+    await expect(input).toHaveValue('a b ');
+    // Events reach the server in order, so once this click is counted any activation from the keys would be too.
+    // Asserting "outer:0" on its own would pass before the key events had been processed.
+    await page.locator('#nested-button').click();
+    await expect(page.locator('#nested-counts')).toHaveText('outer:0 inner:1');
+  });
+
+  test('V-CARD-005 Enter and Space on a button in the content region toggle once, not twice', async ({ page }) => {
+    const button = page.locator('#content-toggle');
+    await button.focus();
+    await page.keyboard.press('Enter');
+    await expect(page.locator('#content-toggle-counts')).toHaveText('card:0 button:1');
+    await page.keyboard.press(' ');
+    await expect(page.locator('#content-toggle-counts')).toHaveText('card:0 button:2');
   });
 
   test('P-CARD-008 actions isolation: clicking an action button does not activate the card', async ({ page }) => {

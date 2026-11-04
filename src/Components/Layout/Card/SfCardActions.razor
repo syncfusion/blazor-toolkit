@@ -3,11 +3,10 @@
 
 @if (_isolate)
 {
-    @* Under a clickable card: stop click/key bubbling so a nested control never activates the card. *@
+    @* Under a clickable card: stop click bubbling so a nested control never activates the card.
+       Keys need no isolation: card.js only acts on keys pressed on the card element itself. *@
     <div @attributes="_attributes" class="@_class" style="@_style" data-testid="card-actions" inert="@_inert"
-         @onclick="_isolateClick" @onclick:stopPropagation="true"
-         @onkeydown="_isolateKey" @onkeydown:stopPropagation="true"
-         @onkeyup="_isolateKey" @onkeyup:stopPropagation="true">
+         @onclick="_isolateClick" @onclick:stopPropagation="true">
         @ChildContent
     </div>
 }

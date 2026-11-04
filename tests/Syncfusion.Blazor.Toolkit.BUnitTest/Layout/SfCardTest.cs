@@ -1,4 +1,3 @@
-using System.Reflection;
 using AngleSharp.Dom;
 using Bunit;
 using Microsoft.AspNetCore.Components;
@@ -43,15 +42,14 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Layout
             return RenderComponent<SfCard>(configure ?? (_ => { }));
         }
 
-        private static Func<KeyboardEventArgs, bool> GetPreventDefaultPredicate(SfCard component, string attributeName)
-        {
-            // bUnit serializes these callbacks as markers, so invoke the registered predicate to verify key-specific behavior.
-            FieldInfo? attributesField = typeof(SfCard).GetField("_attributes", BindingFlags.Instance | BindingFlags.NonPublic);
-            Assert.NotNull(attributesField);
+        private const string CardScript = "./_content/Syncfusion.Blazor.Toolkit/scripts/card.js";
 
-            Dictionary<string, object> attributes = Assert.IsType<Dictionary<string, object>>(attributesField.GetValue(component));
-            Assert.True(attributes.TryGetValue(attributeName, out object? predicate), $"The '{attributeName}' prevent-default predicate was not rendered.");
-            return Assert.IsType<Func<KeyboardEventArgs, bool>>(predicate);
+        private BunitJSModuleInterop SetupCardModule()
+        {
+            BunitJSModuleInterop module = JSInterop.SetupModule(CardScript);
+            module.SetupVoid("initialize", _ => true);
+            module.SetupVoid("destroy", _ => true);
+            return module;
         }
 
         // ---------------------------------------------------------------- U-CARD-001 / 019 default render
@@ -211,6 +209,19 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Layout
 
         // ---------------------------------------------------------------- U-CARD-010..012 geometry
 
+        [Fact(DisplayName = "Width and Height values that would inject CSS are dropped, not rendered")]
+        public void WidthAndHeight_InjectionIsDropped()
+        {
+            IElement card = RenderCard(p => p
+                .Add(c => c.Width, "10px;background:url(https://example.com/x.png)")
+                .Add(c => c.Height, "200px")).Find(Root);
+            IElement media = RenderComponent<SfCardMedia>(p => p
+                .Add(c => c.Height, "10px;position:fixed")).Find("[data-testid='card-media']");
+
+            Assert.Equal("height:200px;", card.GetAttribute("style"));
+            Assert.Null(media.GetAttribute("style"));
+        }
+
         [Fact(DisplayName = "U-CARD-010 Width and Height are applied; bare numbers become pixels")]
         public void WidthAndHeight_AreApplied()
         {
@@ -327,58 +338,68 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Layout
             Assert.Equal(1, count);
         }
 
-        [Fact(DisplayName = "Enter activates once and Tab is not prevented")]
-        public void Enter_ActivatesOnce_TabIsNotPrevented()
+        // Enter and Space are handled by card.js (it needs the event target and a conditional preventDefault, which Blazor
+        // event handlers cannot provide) and forwarded as a native click. Their behaviour is covered in
+        // Layout/Card/interactions.spec.ts; here only the .NET side of that contract is verified.
+
+        [Fact(DisplayName = "Clickable card binds only a click handler; no .NET key handler or fake preventDefault")]
+        public void Clickable_BindsOnlyClickHandler()
         {
-            int count = 0;
-            IRenderedComponent<SfCard> cut = RenderCard(p => p
-                .Add(c => c.IsClickable, true)
-                .Add(c => c.OnClick, EventCallback.Factory.Create<MouseEventArgs>(this, () => count++)));
-            IElement card = cut.Find(Root);
+            IRenderedComponent<SfCard> cut = RenderCard(p => p.Add(c => c.IsClickable, true));
 
-            card.KeyDown(new KeyboardEventArgs { Key = "Enter" });
-            Assert.Equal(1, count);
-
-            card.KeyDown(new KeyboardEventArgs { Key = "Enter", Repeat = true });
-            card.KeyDown(new KeyboardEventArgs { Key = "Tab" });
-            card.KeyDown(new KeyboardEventArgs { Key = "a" });
-            Assert.Equal(1, count);
-
-            Assert.Contains("blazor:onkeydown:preventDefault", cut.Markup, StringComparison.Ordinal);
-            Assert.Contains("blazor:onkeyup:preventDefault", cut.Markup, StringComparison.Ordinal);
-
-            Func<KeyboardEventArgs, bool> keyDownPreventDefault = GetPreventDefaultPredicate(cut.Instance, "onkeydown:preventDefault");
-            Assert.True(keyDownPreventDefault(new KeyboardEventArgs { Key = "Enter" }));
-            Assert.True(keyDownPreventDefault(new KeyboardEventArgs { Key = " ", Code = "Space" }));
-            Assert.False(keyDownPreventDefault(new KeyboardEventArgs { Key = "Tab" }));
-            Assert.False(keyDownPreventDefault(new KeyboardEventArgs { Key = "a" }));
-
-            Func<KeyboardEventArgs, bool> keyUpPreventDefault = GetPreventDefaultPredicate(cut.Instance, "onkeyup:preventDefault");
-            Assert.True(keyUpPreventDefault(new KeyboardEventArgs { Key = " ", Code = "Space" }));
-            Assert.False(keyUpPreventDefault(new KeyboardEventArgs { Key = "Enter" }));
-            Assert.False(keyUpPreventDefault(new KeyboardEventArgs { Key = "Tab" }));
+            Assert.Contains("blazor:onclick", cut.Markup, StringComparison.Ordinal);
+            Assert.DoesNotContain("onkeydown", cut.Markup, StringComparison.Ordinal);
+            Assert.DoesNotContain("onkeyup", cut.Markup, StringComparison.Ordinal);
+            Assert.DoesNotContain("preventDefault", cut.Markup, StringComparison.Ordinal);
         }
 
-        [Fact(DisplayName = "Space activates on key up only after a matching key down")]
-        public void Space_ActivatesOnKeyUp()
+        [Fact(DisplayName = "Clickable card loads card.js and initializes keyboard activation on its root element")]
+        public void Clickable_InitializesCardScript()
         {
-            int count = 0;
-            IRenderedComponent<SfCard> cut = RenderCard(p => p
-                .Add(c => c.IsClickable, true)
-                .Add(c => c.OnClick, EventCallback.Factory.Create<MouseEventArgs>(this, () => count++)));
-            IElement card = cut.Find(Root);
+            BunitJSModuleInterop module = SetupCardModule();
 
-            card.KeyUp(new KeyboardEventArgs { Key = " ", Code = "Space" });
-            Assert.Equal(0, count);
+            IRenderedComponent<SfCard> cut = RenderCard(p => p.Add(c => c.IsClickable, true));
 
-            card.KeyDown(new KeyboardEventArgs { Key = " ", Code = "Space" });
-            Assert.Equal(0, count);
-
-            card.KeyUp(new KeyboardEventArgs { Key = " ", Code = "Space" });
-            Assert.Equal(1, count);
+            JSRuntimeInvocation invocation = module.VerifyInvoke("initialize");
+            ElementReference element = Assert.IsType<ElementReference>(invocation.Arguments[0]);
+            Assert.False(string.IsNullOrEmpty(element.Id));
+            Assert.Equal(element.Id, cut.Find(Root).GetAttribute("blazor:elementReference"));
         }
 
-        [Fact(DisplayName = "Loading card ignores click, Enter and Space")]
+        [Fact(DisplayName = "Static card never loads card.js")]
+        public void Static_DoesNotLoadCardScript()
+        {
+            RenderCard();
+
+            Assert.DoesNotContain(JSInterop.Invocations, i => i.Arguments.Contains(CardScript));
+        }
+
+        [Fact(DisplayName = "card.js is initialized once, when the card first becomes clickable")]
+        public void CardScript_InitializedOnceWhenBecomingClickable()
+        {
+            BunitJSModuleInterop module = SetupCardModule();
+            IRenderedComponent<SfCard> cut = RenderCard();
+            Assert.Empty(module.Invocations);
+
+            cut.SetParametersAndRender(p => p.Add(c => c.IsClickable, true));
+            cut.SetParametersAndRender(p => p.Add(c => c.IsClickable, false));
+            cut.SetParametersAndRender(p => p.Add(c => c.IsClickable, true));
+
+            Assert.Single(module.Invocations, i => i.Identifier == "initialize");
+        }
+
+        [Fact(DisplayName = "Disposing a clickable card destroys the card.js listeners")]
+        public void Dispose_DestroysCardScript()
+        {
+            BunitJSModuleInterop module = SetupCardModule();
+            RenderCard(p => p.Add(c => c.IsClickable, true));
+
+            DisposeComponents();
+
+            module.VerifyInvoke("destroy");
+        }
+
+        [Fact(DisplayName = "Loading card ignores click")]
         public void Loading_SuppressesActivation()
         {
             int count = 0;
@@ -386,12 +407,8 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Layout
                 .Add(c => c.IsClickable, true)
                 .Add(c => c.IsLoading, true)
                 .Add(c => c.OnClick, EventCallback.Factory.Create<MouseEventArgs>(this, () => count++)));
-            IElement card = cut.Find(Root);
 
-            card.Click();
-            card.KeyDown(new KeyboardEventArgs { Key = "Enter" });
-            card.KeyDown(new KeyboardEventArgs { Key = " ", Code = "Space" });
-            card.KeyUp(new KeyboardEventArgs { Key = " ", Code = "Space" });
+            cut.Find(Root).Click();
 
             Assert.Equal(0, count);
         }

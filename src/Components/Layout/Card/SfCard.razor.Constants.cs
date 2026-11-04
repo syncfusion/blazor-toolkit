@@ -47,28 +47,10 @@ namespace Syncfusion.Blazor.Toolkit
         private const string FalseValue = "false";
 
         /// <exclude />
-        private const string EnterKey = "Enter";
-
-        /// <exclude />
-        private const string SpaceKey = " ";
-
-        /// <exclude />
-        private const string SpaceCode = "Space";
-
-        /// <exclude />
         private const string ClickEvent = "onclick";
 
         /// <exclude />
-        private const string KeyDownEvent = "onkeydown";
-
-        /// <exclude />
-        private const string KeyUpEvent = "onkeyup";
-
-        /// <exclude />
-        private const string KeyDownPreventDefault = "onkeydown:preventDefault";
-
-        /// <exclude />
-        private const string KeyUpPreventDefault = "onkeyup:preventDefault";
+        private const string ScriptPath = "./_content/Syncfusion.Blazor.Toolkit/scripts/card.js";
 
         /// <exclude />
         private const string IdPrefix = "sf-card-";

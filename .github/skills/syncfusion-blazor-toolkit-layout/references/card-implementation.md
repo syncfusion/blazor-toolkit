@@ -24,14 +24,18 @@ When `IsClickable` is true and `IsLoading` is false, the root handles:
 - Enter activation on key down; and
 - Space activation on key up.
 
-Keyboard activation creates `MouseEventArgs` with `Detail == 0`.
-Repeated key combinations and loading states are prevented from raising
-`OnClick`.
+Keys are handled by the `scripts/card.js` module, which the Card loads only
+after it first renders as clickable. The module reacts only to keys pressed
+while the Card element itself has focus, cancels the default action of Enter
+and Space (so Space does not scroll the page), and activates the Card with a
+native `click()`. Keys pressed in a nested input, link, or button are left
+alone. Keyboard activation therefore arrives as `MouseEventArgs` with
+`Detail == 0`. Repeated keys and loading states do not raise `OnClick`.
 
 ## Region isolation
 
-`SfCardActions` is a cascading child of `SfCard`. It adds no-op mouse and
-keyboard isolation handlers only when the parent is clickable, preventing
+`SfCardActions` is a cascading child of `SfCard`. It adds a no-op mouse
+isolation handler only when the parent is clickable, preventing
 activation of the parent Card while a nested action is used. When the parent is
 loading, it also renders `inert`, removing controls from interaction and
 assistive-technology traversal.

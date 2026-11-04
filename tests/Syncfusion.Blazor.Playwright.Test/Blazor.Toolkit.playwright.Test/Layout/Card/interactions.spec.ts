@@ -9,6 +9,17 @@ async function openCardInteractions(page: Page, url = URL) {
   await page.goto(url, { waitUntil: 'commit' });
   await expect(page.locator('#interactive-ready')).toHaveAttribute('data-ready', 'true', { timeout: 15000 });
   await expect(page.locator('#card-clickable')).toBeVisible();
+  // Keyboard activation is attached by card.js after the first interactive render.
+  await page.waitForFunction(() => Boolean((document.querySelector('#card-clickable') as { _blazorCardInstance?: unknown } | null)?._blazorCardInstance));
+}
+
+// Dispatches a cancelable key event on the element and reports whether a handler canceled it.
+function keyPrevented(page: Page, selector: string, type: 'keydown' | 'keyup', init: KeyboardEventInit) {
+  return page.locator(selector).evaluate((el, [eventType, eventInit]) => {
+    const event = new KeyboardEvent(eventType as string, { ...(eventInit as KeyboardEventInit), bubbles: true, cancelable: true });
+    el.dispatchEvent(event);
+    return event.defaultPrevented;
+  }, [type, init] as const);
 }
 
 test.describe('Card interactions @card', () => {
@@ -46,6 +57,48 @@ test.describe('Card interactions @card', () => {
       return event.defaultPrevented;
     });
     expect(prevented).toBe(false);
+  });
+
+  test('P-CARD-003 Enter and Space key events on a clickable card are canceled', async ({ page }) => {
+    // Without this, Space scrolls the page and Enter can submit an enclosing form.
+    expect(await keyPrevented(page, '#card-clickable', 'keydown', { key: 'Enter', code: 'Enter' })).toBe(true);
+    expect(await keyPrevented(page, '#card-clickable', 'keydown', { key: ' ', code: 'Space' })).toBe(true);
+    expect(await keyPrevented(page, '#card-clickable', 'keyup', { key: ' ', code: 'Space' })).toBe(true);
+    expect(await keyPrevented(page, '#card-clickable', 'keydown', { key: 'a', code: 'KeyA' })).toBe(false);
+    expect(await keyPrevented(page, '#card-clickable', 'keydown', { key: 'ArrowDown', code: 'ArrowDown' })).toBe(false);
+  });
+
+  test('B-CARD-111 repeated Enter and Space key downs do not activate the card', async ({ page }) => {
+    expect(await keyPrevented(page, '#card-clickable', 'keydown', { key: 'Enter', code: 'Enter', repeat: true })).toBe(true);
+    // A repeated Space key down still cancels the scroll but does not arm activation.
+    expect(await keyPrevented(page, '#card-clickable', 'keydown', { key: ' ', code: 'Space', repeat: true })).toBe(true);
+    await keyPrevented(page, '#card-clickable', 'keyup', { key: ' ', code: 'Space' });
+    // Events reach the server in order: once this click is counted, any activation from the keys would be too.
+    await page.locator('#card-clickable').click();
+    await expect(page.locator('#card-click-count')).toHaveText('Card clicks: 1');
+  });
+
+  test('B-CARD-109 / 110 Enter key up and an unmatched Space key up do not activate again', async ({ page }) => {
+    const card = page.locator('#card-clickable');
+    await card.focus();
+    await page.keyboard.down('Enter');
+    await expect(page.locator('#card-click-count')).toHaveText('Card clicks: 1');
+    await page.keyboard.up('Enter');
+    await page.keyboard.up(' ');
+    await card.click();
+    await expect(page.locator('#card-click-count')).toHaveText('Card clicks: 2');
+  });
+
+  test('a loading card cancels the key but does not activate', async ({ page }) => {
+    // Keyboard activation goes through the same click path, so the loading guard applies to it too.
+    const card = page.locator('#card-loading');
+    await card.focus();
+    await page.keyboard.press('Enter');
+    await page.keyboard.press(' ');
+    // Ending loading is processed after the keys, so the count below already reflects them.
+    await page.locator('#toggle-loading').click();
+    await expect(card).not.toHaveAttribute('aria-busy', 'true');
+    await expect(page.locator('#loading-click-count')).toHaveText('Loading card clicks: 0');
   });
 
   test('Tab moves focus into and out of the card (no keyboard trap)', async ({ page }) => {
@@ -162,11 +215,15 @@ test.describe('Card interactions @card', () => {
   });
 
   test('P-CARD-003 keyboard activation does not scroll the page', async ({ page }) => {
+    // Space scrolls down, so the page must have room below the card or the check cannot fail.
+    await page.setViewportSize({ width: 1280, height: 400 });
     const card = page.locator('#card-clickable');
     await card.focus();
     await expect(card).toBeFocused();
-    await page.evaluate(() => window.scrollTo(0, document.body.scrollHeight));
+    await page.evaluate(() => window.scrollTo(0, 0));
     const before = await page.evaluate(() => window.scrollY);
+    const roomBelow = await page.evaluate(() => document.documentElement.scrollHeight - window.innerHeight - window.scrollY);
+    expect(roomBelow).toBeGreaterThan(100);
     await page.keyboard.press('Enter');
     await expect(page.locator('#card-click-count')).toHaveText('Card clicks: 1');
     const after = await page.evaluate(() => window.scrollY);

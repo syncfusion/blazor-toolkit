@@ -90,7 +90,9 @@ namespace Syncfusion.Blazor.Toolkit
         {
             await base.OnParametersSetAsync().ConfigureAwait(true);
             _class = CardAttributes.MergeClass(RegionClass, CssClass, HtmlAttributes);
-            string? height = string.IsNullOrWhiteSpace(Height) ? null : "height:" + SfBaseUtils.FormatUnit(Height.Trim()) + ";";
+            // FormatUnit returns an empty string for a value that could inject CSS; then no height is written.
+            string size = string.IsNullOrWhiteSpace(Height) ? string.Empty : SfBaseUtils.FormatUnit(Height);
+            string? height = size.Length == 0 ? null : "height:" + size + ";";
             _style = CardAttributes.MergeStyle(height, HtmlAttributes);
             _attributes = CardAttributes.Filter(HtmlAttributes);
             _imageStyle = ObjectFit switch

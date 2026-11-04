@@ -1006,43 +1006,22 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Layout
             int count = 0;
             IElement card = ClickableCard(_ => count++, p => p.Add(c => c.IsLoading, true)).Find(Root);
 
+            // Keyboard activation reaches .NET as this same click (card.js calls element.click()), so this covers Enter and Space too.
             card.Click();
-            card.KeyDown(new KeyboardEventArgs { Key = "Enter" });
 
             Assert.Equal(0, count);
         }
 
-        [Fact(DisplayName = "B-CARD-069 Enter activates clickable card")]
-        public void B075_EnterActivates()
-        {
-            int count = 0;
-            ClickableCard(_ => count++).Find(Root).KeyDown(new KeyboardEventArgs { Key = "Enter" });
+        // B-CARD-069, 070, 109, 110 and 111 (Enter, Space, key down/up timing, repeats) run in card.js, so they are
+        // covered in Layout/Card/interactions.spec.ts. bUnit cannot dispatch real key events or observe preventDefault.
 
-            Assert.Equal(1, count);
-        }
-
-        [Fact(DisplayName = "B-CARD-070 Space activates clickable card")]
-        public void B076_SpaceActivates()
-        {
-            int count = 0;
-            IElement card = ClickableCard(_ => count++).Find(Root);
-
-            card.KeyDown(new KeyboardEventArgs { Key = " ", Code = "Space" });
-            card.KeyUp(new KeyboardEventArgs { Key = " ", Code = "Space" });
-
-            Assert.Equal(1, count);
-        }
-
-        [Fact(DisplayName = "B-CARD-071 Tab navigation preserved")]
+        [Fact(DisplayName = "B-CARD-071 Tab navigation preserved: the card binds no .NET key handler that could cancel it")]
         public void B077_TabPreserved()
         {
-            int count = 0;
-            IRenderedComponent<SfCard> cut = ClickableCard(_ => count++);
+            IRenderedComponent<SfCard> cut = ClickableCard(_ => { });
 
-            cut.Find(Root).KeyDown(new KeyboardEventArgs { Key = "Tab" });
-            cut.Find(Root).KeyUp(new KeyboardEventArgs { Key = "Tab" });
-
-            Assert.Equal(0, count);
+            Assert.DoesNotContain("onkeydown", cut.Markup, StringComparison.Ordinal);
+            Assert.DoesNotContain("onkeyup", cut.Markup, StringComparison.Ordinal);
             Assert.Equal("0", cut.Find(Root).GetAttribute("tabindex"));
         }
 
@@ -1057,61 +1036,15 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Layout
             Assert.Equal(12, received.ClientX);
             Assert.Equal(34, received.ClientY);
 
+            // Keyboard activation is a native element.click() from card.js, which arrives here with Detail 0.
             MouseEventArgs? keyboardArgs = null;
-            ClickableCard(args => keyboardArgs = args).Find(Root).KeyDown(new KeyboardEventArgs { Key = "Enter" });
+            ClickableCard(args => keyboardArgs = args).Find(Root).Click(new MouseEventArgs { Detail = 0 });
 
             Assert.NotNull(keyboardArgs);
             Assert.Equal(0, keyboardArgs!.Detail);
         }
 
-        [Fact(DisplayName = "B-CARD-109 Enter activates on keydown")]
-        public void B116_EnterOnKeyDown()
-        {
-            int count = 0;
-            IElement card = ClickableCard(_ => count++).Find(Root);
-
-            card.KeyDown(new KeyboardEventArgs { Key = "Enter" });
-            Assert.Equal(1, count);
-
-            // Enter on key up must not fire a second activation.
-            card.KeyUp(new KeyboardEventArgs { Key = "Enter" });
-            Assert.Equal(1, count);
-        }
-
-        [Fact(DisplayName = "B-CARD-110 Space activates on keyup only after matching keydown")]
-        public void B117_SpaceKeyUpAfterKeyDown()
-        {
-            int count = 0;
-            IElement card = ClickableCard(_ => count++).Find(Root);
-
-            card.KeyUp(new KeyboardEventArgs { Key = " ", Code = "Space" });
-            Assert.Equal(0, count);
-
-            card.KeyDown(new KeyboardEventArgs { Key = " ", Code = "Space" });
-            Assert.Equal(0, count);
-
-            card.KeyUp(new KeyboardEventArgs { Key = " ", Code = "Space" });
-            Assert.Equal(1, count);
-
-            card.KeyUp(new KeyboardEventArgs { Key = " ", Code = "Space" });
-            Assert.Equal(1, count);
-        }
-
-        [Fact(DisplayName = "B-CARD-111 Repeat keys are ignored")]
-        public void B118_RepeatIgnored()
-        {
-            int count = 0;
-            IElement card = ClickableCard(_ => count++).Find(Root);
-
-            card.KeyDown(new KeyboardEventArgs { Key = "Enter", Repeat = true });
-            Assert.Equal(0, count);
-
-            card.KeyDown(new KeyboardEventArgs { Key = " ", Code = "Space", Repeat = true });
-            card.KeyUp(new KeyboardEventArgs { Key = " ", Code = "Space" });
-            Assert.Equal(0, count);
-        }
-
-        [Fact(DisplayName = "B-CARD-112 Click or keyboard activation inside SfCardActions does not raise card OnClick")]
+        [Fact(DisplayName = "B-CARD-112 A click inside SfCardActions does not raise card OnClick")]
         public void B119_ActionsIsolation()
         {
             int cardClicks = 0;
@@ -1132,10 +1065,9 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Layout
             IRenderedComponent<SfCard> cut = ClickableCard(_ => cardClicks++, p => p.Add(c => c.ChildContent, actions));
             IElement button = cut.Find("#act");
 
+            // Enter and Space on the button are ignored by card.js because the button, not the card, is the key target;
+            // that is covered in Playwright. Here only the click bubbling is isolated by SfCardActions.
             button.Click();
-            button.KeyDown(new KeyboardEventArgs { Key = "Enter" });
-            button.KeyDown(new KeyboardEventArgs { Key = " ", Code = "Space" });
-            button.KeyUp(new KeyboardEventArgs { Key = " ", Code = "Space" });
 
             Assert.Equal(1, buttonClicks);
             Assert.Equal(0, cardClicks);
@@ -1217,17 +1149,15 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Layout
         [Fact(DisplayName = "B-CARD-081 Keyboard activation semantics")]
         public void B088_KeyboardActivationSemantics()
         {
-            int count = 0;
-            IElement card = ClickableCard(_ => count++, p => p.Add(c => c.AriaLabel, "Open")).Find(Root);
+            BunitJSModuleInterop module = JSInterop.SetupModule("./_content/Syncfusion.Blazor.Toolkit/scripts/card.js");
+            module.SetupVoid("initialize", _ => true);
+            IElement card = ClickableCard(_ => { }, p => p.Add(c => c.AriaLabel, "Open")).Find(Root);
 
             Assert.Equal("button", card.GetAttribute("role"));
             Assert.Equal("Open", card.GetAttribute("aria-label"));
 
-            card.KeyDown(new KeyboardEventArgs { Key = "Enter" });
-            card.KeyDown(new KeyboardEventArgs { Key = " ", Code = "Space" });
-            card.KeyUp(new KeyboardEventArgs { Key = " ", Code = "Space" });
-
-            Assert.Equal(2, count);
+            // Enter and Space activation is wired by card.js on the root element.
+            module.VerifyInvoke("initialize");
         }
 
         [Fact(DisplayName = "B-CARD-082 Screen-reader attributes preserved")]

@@ -2,6 +2,7 @@ using System.Globalization;
 using System.Text;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.JSInterop;
 using Syncfusion.Blazor.Toolkit.Internal;
 
 namespace Syncfusion.Blazor.Toolkit
@@ -72,7 +73,16 @@ namespace Syncfusion.Blazor.Toolkit
         private Dictionary<string, object> _attributes = [];
 
         /// <exclude />
-        private bool _spaceArmed;
+        private ElementReference _element;
+
+        /// <exclude />
+        private IJSObjectReference? _cardJsModule;
+
+        /// <exclude />
+        private IJSInProcessObjectReference? _cardInProcessModule;
+
+        /// <exclude />
+        private bool _keyboardAttached;
 
         /// <exclude />
         /// <summary>
@@ -101,14 +111,11 @@ namespace Syncfusion.Blazor.Toolkit
             _contentPadding = ContentPadding ? TrueValue : FalseValue;
             _attributes = CardAttributes.Filter(HtmlAttributes);
 
-            // Handlers are attached only on a clickable card, so a static card costs no SignalR round trip per event.
+            // The handler is attached only on a clickable card, so a static card costs no SignalR round trip per event.
+            // Enter and Space are handled by card.js, which forwards them here as a native click.
             if (IsClickable)
             {
                 _attributes[ClickEvent] = EventCallback.Factory.Create<MouseEventArgs>(this, HandleClickAsync);
-                _attributes[KeyDownEvent] = EventCallback.Factory.Create<KeyboardEventArgs>(this, HandleKeyDownAsync);
-                _attributes[KeyUpEvent] = EventCallback.Factory.Create<KeyboardEventArgs>(this, HandleKeyUpAsync);
-                _attributes[KeyDownPreventDefault] = (Func<KeyboardEventArgs, bool>)IsSpaceOrEnter;
-                _attributes[KeyUpPreventDefault] = (Func<KeyboardEventArgs, bool>)IsSpaceKey;
             }
         }
 
@@ -197,43 +204,28 @@ namespace Syncfusion.Blazor.Toolkit
         private string? BuildComputedStyle()
         {
             StringBuilder builder = new();
-
-            if (!string.IsNullOrWhiteSpace(Width))
-            {
-                _ = builder.Append("width:").Append(SfBaseUtils.FormatUnit(Width.Trim())).Append(';');
-            }
-
-            if (!string.IsNullOrWhiteSpace(Height))
-            {
-                _ = builder.Append("height:").Append(SfBaseUtils.FormatUnit(Height.Trim())).Append(';');
-            }
-
+            AppendSize(builder, "width:", Width);
+            AppendSize(builder, "height:", Height);
             return builder.Length == 0 ? null : builder.ToString();
+        }
+
+        /// <exclude />
+        /// <summary>
+        /// Appends a size declaration, skipping it when the value is blank or rejected by <see cref="SfBaseUtils.FormatUnit"/>.
+        /// </summary>
+        private static void AppendSize(StringBuilder builder, string property, string? value)
+        {
+            string size = string.IsNullOrWhiteSpace(value) ? string.Empty : SfBaseUtils.FormatUnit(value);
+            if (size.Length > 0)
+            {
+                _ = builder.Append(property).Append(size).Append(';');
+            }
         }
 
         /// <exclude />
         private static void AppendClass(StringBuilder builder, string className)
         {
             _ = builder.Append(' ').Append(className);
-        }
-
-        /// <exclude />
-        private static bool IsSpaceOrEnter(KeyboardEventArgs args)
-        {
-            return string.Equals(args.Key, EnterKey, StringComparison.Ordinal) || IsSpace(args);
-        }
-
-        /// <exclude />
-        private static bool IsSpaceKey(KeyboardEventArgs args)
-        {
-            return IsSpace(args);
-        }
-
-        /// <exclude />
-        private static bool IsSpace(KeyboardEventArgs args)
-        {
-            return string.Equals(args.Key, SpaceKey, StringComparison.Ordinal) ||
-                   string.Equals(args.Code, SpaceCode, StringComparison.Ordinal);
         }
 
         /// <exclude />
@@ -249,39 +241,21 @@ namespace Syncfusion.Blazor.Toolkit
 
         /// <exclude />
         /// <summary>
-        /// Enter activates on key down; Space is armed here and activates on key up, as a native button does.
-        /// Tab and every other key are left untouched so focus is never trapped.
+        /// Loads card.js and attaches keyboard activation the first time the card renders as clickable.
+        /// The listeners stay attached afterwards and check the clickable class, so turning <see cref="IsClickable"/> off and on again needs no further interop.
         /// </summary>
-        private async Task HandleKeyDownAsync(KeyboardEventArgs args)
+        private async Task AttachKeyboardAsync()
         {
-            if (!CanActivate || args.Repeat)
+            if (_keyboardAttached || !IsClickable || IsDisposed)
             {
                 return;
             }
 
-            if (string.Equals(args.Key, EnterKey, StringComparison.Ordinal))
-            {
-                await OnClick.InvokeAsync(new MouseEventArgs { Detail = 0, Type = args.Type }).ConfigureAwait(true);
-            }
-            else if (IsSpace(args))
-            {
-                _spaceArmed = true;
-            }
-        }
-
-        /// <exclude />
-        private async Task HandleKeyUpAsync(KeyboardEventArgs args)
-        {
-            if (!IsSpace(args) || !_spaceArmed)
-            {
-                return;
-            }
-
-            _spaceArmed = false;
-            if (CanActivate)
-            {
-                await OnClick.InvokeAsync(new MouseEventArgs { Detail = 0, Type = args.Type }).ConfigureAwait(true);
-            }
+            _keyboardAttached = true;
+            JsModuleReference module = await ImportModuleAsync(ScriptPath, _cardJsModule, _cardInProcessModule).ConfigureAwait(true);
+            _cardJsModule = module.AsyncRef;
+            _cardInProcessModule = module.InProcessRef;
+            await InvokeVoidAsync(_cardJsModule, _cardInProcessModule, "initialize", _element).ConfigureAwait(true);
         }
 
         #endregion

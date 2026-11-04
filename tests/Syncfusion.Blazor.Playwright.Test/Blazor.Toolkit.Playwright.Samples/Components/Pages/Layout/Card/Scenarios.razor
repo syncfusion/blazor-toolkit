@@ -61,6 +61,15 @@
             </SfCardActions>
         </SfCard>
         <p id="nested-counts">outer:@_nestedOuter inner:@_nestedInner</p>
+
+        @* A toggle button in the content region (not SfCardActions), as in the Expandable sample. Its keys must not
+           also activate the card, or Enter and Space would toggle twice. *@
+        <SfCard Id="content-toggle-card" IsClickable="true" AriaLabel="Toggle card" Width="320px" OnClick="() => _toggleCard++">
+            <SfCardContent>
+                <button id="content-toggle" type="button" @onclick="() => _toggleButton++" @onclick:stopPropagation="true">Toggle</button>
+            </SfCardContent>
+        </SfCard>
+        <p id="content-toggle-counts">card:@_toggleCard button:@_toggleButton</p>
     </section>
 
     <section id="scn-theme">
@@ -147,6 +156,8 @@
     private int[] _collectionClicks = new int[3];
     private int _nestedOuter;
     private int _nestedInner;
+    private int _toggleCard;
+    private int _toggleButton;
     private int _pointerClicks;
     private int _multiA;
     private int _multiB;

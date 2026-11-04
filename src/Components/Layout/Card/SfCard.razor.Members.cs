@@ -145,6 +145,7 @@ namespace Syncfusion.Blazor.Toolkit
         /// <value><see langword="true"/> to expose the root as a keyboard-focusable button; otherwise, <see langword="false"/>. The default value is <see langword="false"/>.</value>
         /// <remarks>
         /// A clickable card requires an interactive render mode to invoke <see cref="OnClick"/>. Enter activates on key down and Space on key up, as a native button does.
+        /// Only keys pressed while the card itself has focus activate it; a key pressed in a nested input, link, or button keeps its own behavior.
         /// </remarks>
         [Parameter]
         public bool IsClickable { get; set; }

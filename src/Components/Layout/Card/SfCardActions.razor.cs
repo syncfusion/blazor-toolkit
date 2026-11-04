@@ -49,8 +49,6 @@ namespace Syncfusion.Blazor.Toolkit
         /// <exclude />
         private EventCallback<MouseEventArgs> _isolateClick;
 
-        /// <exclude />
-        private EventCallback<KeyboardEventArgs> _isolateKey;
 
         /// <exclude />
         [CascadingParameter]
@@ -90,7 +88,6 @@ namespace Syncfusion.Blazor.Toolkit
             // so a static card costs no SignalR round trip per event.
             _isolate = Card?.IsClickable ?? false;
             _isolateClick = EventCallback.Factory.Create<MouseEventArgs>(_noRenderReceiver, static () => { });
-            _isolateKey = EventCallback.Factory.Create<KeyboardEventArgs>(_noRenderReceiver, static () => { });
         }
     }
 }

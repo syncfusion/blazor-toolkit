@@ -3,7 +3,8 @@
 
 @* Shared theme emitter: render-time sibling placed BEFORE the root element (never inside it). *@
 <SfThemeRoot />
-<div id="@_resolvedId"
+<div @ref="_element"
+     id="@_resolvedId"
      class="@_rootClass"
      style="@_rootStyle"
      role="@_role"
