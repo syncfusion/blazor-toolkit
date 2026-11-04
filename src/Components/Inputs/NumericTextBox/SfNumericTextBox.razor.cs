@@ -1060,11 +1060,14 @@ namespace Syncfusion.Blazor.Toolkit
                     // put the cleared value back.
                     if (IsClearButtonClicked)
                     {
-                        inputValue = null;
-                        InputTextValue = default;
-                        FocusInputValue = null;
-                        // The flag only protects this blur. A later spin, wheel, or
-                        // arrow step must not be wiped by the next focus-out.
+                        // Protect only an empty post-clear state. If spin/wheel/arrow
+                        // already wrote InputTextValue after clear, keep that value.
+                        if (InputTextValue is null || EqualityComparer<TValue>.Default.Equals(InputTextValue, default))
+                        {
+                            inputValue = null;
+                            InputTextValue = default;
+                            FocusInputValue = null;
+                        }
                         IsClearButtonClicked = false;
                     }
                     // FocusInputValue is filled by the focus path. A blur that never
@@ -1580,6 +1583,7 @@ namespace Syncfusion.Blazor.Toolkit
             }
 
             await ChangeValueAsync(PerformAction(value, Step, action)).ConfigureAwait(true);
+            IsClearButtonClicked = false;
             await RaiseChangeEventAsync(args).ConfigureAwait(true);
             UpdateValidateClass();
         }
