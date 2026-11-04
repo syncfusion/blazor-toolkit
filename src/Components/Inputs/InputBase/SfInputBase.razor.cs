@@ -174,18 +174,10 @@ namespace Syncfusion.Blazor.Toolkit
         /// Clear-icon class without e-clear-icon-hide while tabbable.
         /// That class is display:none and removes the control from sequential focus.
         /// </summary>
-        protected string ClearIconClassForRender
-        {
-            get
-            {
-                if (IsClearButtonTabbableBase && !string.IsNullOrEmpty(ClearIconClass))
-                {
-                    return ClearIconClass.Replace(CLEARICONHIDE, string.Empty, StringComparison.Ordinal).Trim();
-                }
-
-                return ClearIconClass ?? string.Empty;
-            }
-        }
+        protected string ClearIconClassForRender =>
+           IsClearButtonTabbableBase && !string.IsNullOrEmpty(ClearIconClass)
+               ? ClearIconClass.Replace(CLEARICONHIDE, string.Empty, StringComparison.Ordinal).Trim()
+               : ClearIconClass ?? string.Empty;
 
         /// <summary>
         /// Ensures the clear icon stays visible while it is a tab stop.
