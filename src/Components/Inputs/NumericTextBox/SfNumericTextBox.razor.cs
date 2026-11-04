@@ -96,6 +96,8 @@ namespace Syncfusion.Blazor.Toolkit
 
         private bool IsSpinButtonChanged { get; set; }
 
+        private bool IsClearKey { get; set; }
+
         /// <summary>
         /// Uses live HasClearableContent so Tab reaches clear after typing into empty field.
         /// </summary>

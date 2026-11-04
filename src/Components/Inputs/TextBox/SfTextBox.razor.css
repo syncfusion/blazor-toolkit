@@ -972,6 +972,9 @@
 .e-input-base-wrapper .e-input-group.e-control-wrapper.e-hidden {
   display: none;
 }
+.e-input-base-wrapper .e-input-group .e-close.e-clear-icon-hide:not([tabindex="-1"]) {
+  display: flex;
+}
 .e-input-base-wrapper input.e-input[type=search]::-webkit-search-decoration,
 .e-input-base-wrapper input.e-input[type=search]::-webkit-search-cancel-button,
 .e-input-base-wrapper input.e-input[type=search]::-webkit-search-results-button,
