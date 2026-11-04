@@ -97,46 +97,19 @@ namespace Syncfusion.Blazor.Toolkit
         private bool IsSpinButtonChanged { get; set; }
 
         /// <summary>
-        /// True while the clear button has a value and should accept keyboard focus.
-        /// Do not also require <see cref="SfInputBase{TValue}.IsFocused"/>: Tab blurs
-        /// the input before Blazor can repaint a focus-only tabindex, so the button
-        /// would stay at -1 and Tab would skip it.
+        /// Uses live HasClearableContent so Tab reaches clear after typing into empty field.
         /// </summary>
-        private bool IsClearKey { get; set; }
-
         private bool IsClearButtonTabbable =>
             ShowClearButton &&
             !Readonly &&
             !Disabled &&
-            !string.IsNullOrEmpty(FormatValueAsString(InputTextValue));
+            HasClearableContent;
 
-        /// <summary>
-        /// Keeps the clear icon visible whenever it is a tab stop.
-        /// <see cref="SfInputBase{TValue}.OnBlurHandlerAsync"/> adds
-        /// <c>e-clear-icon-hide</c> (<c>display: none</c>) as soon as the input blurs.
-        /// That render lands before the browser finishes moving focus, so Tab skips
-        /// the now-hidden button and lands on <c>document.body</c>. Pointer activation
-        /// still works because mousedown prevents that blur.
-        /// </summary>
-        /// <summary>
-        /// Clear-icon class with <c>e-clear-icon-hide</c> removed while the button is a tab stop.
-        /// That class is <c>display: none</c>, which removes the button from sequential focus
-        /// even when <c>tabindex</c> is 0. Later shared rules re-apply the hide class on blur
-        /// and outrank a numeric override, so the rendered class must not include it.
-        /// </summary>
-        private string NumericClearIconClass =>
-            IsClearButtonTabbable && !string.IsNullOrEmpty(ClearIconClass)
-                ? ClearIconClass.Replace(CLEARICONHIDE, string.Empty, StringComparison.Ordinal).Trim()
-                : ClearIconClass;
+        private string NumericClearIconClass => ClearIconClassForRender;
 
         private void KeepClearButtonVisibleWhileTabbable()
         {
-            if (!IsClearButtonTabbable || string.IsNullOrEmpty(ClearIconClass))
-            {
-                return;
-            }
-
-            ClearIconClass = ClearIconClass.Replace(CLEARICONHIDE, string.Empty, StringComparison.Ordinal).Trim();
+            KeepClearButtonVisibleWhileTabbableBase();
         }
 
         private bool IsNumberCulture { get; set; }
@@ -2053,6 +2026,7 @@ namespace Syncfusion.Blazor.Toolkit
             ClearBtnStopPropagation = true;
             await FocusAsync().ConfigureAwait(true);
             IsClearIconClick = false;
+            HasClearableContent = false;
         }
 
         // LoggerMessage-backed delegates to avoid allocations (CA1848)
