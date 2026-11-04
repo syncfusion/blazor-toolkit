@@ -86,20 +86,36 @@ namespace Syncfusion.Blazor.Toolkit
         private bool IsClearKey { get; set; }
 
         /// <summary>
-        /// Uses live HasClearableContent so Tab reaches clear after typing into empty field.
+        /// True while the clear button has a value and should accept keyboard focus.
+        /// Do not key this off <c>e-clear-icon-hide</c>: shared blur adds that class
+        /// before the browser finishes moving focus.
         /// </summary>
         private bool IsClearButtonTabbable =>
             ShowClearButton &&
             !ReadOnly &&
             !Disabled &&
-            HasClearableContent;
+            !string.IsNullOrEmpty(FormatValueAsString(InputTextValue));
 
         private void KeepClearButtonVisibleWhileTabbable()
         {
-            KeepClearButtonVisibleWhileTabbableBase();
+            if (!IsClearButtonTabbable || string.IsNullOrEmpty(ClearIconClass))
+            {
+                return;
+            }
+
+            ClearIconClass = ClearIconClass.Replace(CLEARICONHIDE, string.Empty, StringComparison.Ordinal).Trim();
         }
 
-        private string TextAreaClearIconClass => ClearIconClassForRender;
+        /// <summary>
+        /// Clear-icon class with <c>e-clear-icon-hide</c> removed while the button is a tab stop.
+        /// That class is <c>display: none</c>, which removes the button from sequential focus
+        /// even when <c>tabindex</c> is 0. Later shared rules re-apply the hide class on blur
+        /// and outrank a textarea override, so the rendered class must not include it.
+        /// </summary>
+        private string TextAreaClearIconClass =>
+            IsClearButtonTabbable && !string.IsNullOrEmpty(ClearIconClass)
+                ? ClearIconClass.Replace(CLEARICONHIDE, string.Empty, StringComparison.Ordinal).Trim()
+                : ClearIconClass;
 
         #endregion
 
