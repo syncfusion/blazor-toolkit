@@ -1,0 +1,192 @@
+.card-demo-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    align-items: flex-start;
+}
+
+.card-demo-row-equal {
+    display: flex;
+    align-items: stretch;
+}
+
+.card-demo-row-equal > .e-card {
+    height: auto;
+    align-self: stretch;
+}
+
+.card-demo-center {
+    display: flex;
+    justify-content: center;
+}
+
+.card-demo-spotlight {
+    width: 340px;
+    max-width: 100%;
+}
+
+.card-demo-horizontal {
+    max-width: 560px;
+}
+
+.card-demo-horizontal-content {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    justify-content: center;
+    gap: 8px;
+    padding: 16px;
+    min-width: 0;
+}
+
+.card-demo-toggles {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 12px;
+}
+
+.card-demo-stats {
+    display: flex;
+    gap: 24px;
+    margin: 0 16px 8px;
+    padding-top: 12px;
+    border-top: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.card-demo-stats div {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.card-demo-stats span:first-child {
+    font-size: 0.75rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    opacity: 0.7;
+}
+
+.card-demo-stats span:last-child {
+    font-size: 1.05rem;
+    font-weight: 600;
+}
+
+.card-demo-status {
+    margin: 0;
+    min-height: 1.4em;
+}
+
+.card-demo-panel {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 240ms ease;
+}
+
+.card-demo-panel-open {
+    grid-template-rows: 1fr;
+}
+
+.card-demo-panel-inner {
+    overflow: hidden;
+    min-height: 0;
+}
+
+/* Regions nested in the expand panel are not direct card children, so the
+   component's content padding never reaches them. Inset the revealed panel
+   on all four sides and keep the photo aligned with that inset. */
+.card-demo-panel-inner > .e-card-media,
+.card-demo-panel-inner > .e-card-content,
+.card-demo-panel-inner > .e-card-actions {
+    margin-inline: 16px;
+}
+
+.card-demo-panel-inner > .e-card-media {
+    margin-top: 4px;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.card-demo-panel-inner > .e-card-content {
+    margin-top: 12px;
+    padding: 0;
+}
+
+.card-demo-panel-inner > .e-card-actions {
+    margin-top: 8px;
+    margin-bottom: 16px;
+    padding: 0;
+}
+
+.card-demo-chevron {
+    margin-inline-start: auto;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    line-height: 1;
+    padding: 4px 8px;
+    cursor: pointer;
+}
+
+.card-demo-header-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    /* Same reason as the expand panel: the header is not a direct card child. */
+    padding: 16px 8px 4px 16px;
+}
+
+.card-demo-header-row .e-card-header {
+    flex: 1;
+    min-width: 0;
+}
+
+.card-demo-kpi {
+    width: 580px;
+    max-width: 100%;
+}
+
+.card-demo-kpi-body {
+    display: grid;
+    grid-template-columns: minmax(180px, 220px) minmax(0, 1fr);
+    align-items: center;
+    width: 100%;
+}
+
+.card-demo-kpi-value {
+    font-size: 2rem;
+    font-weight: 700;
+    line-height: 1.1;
+}
+
+.card-demo-kpi-change {
+    margin-top: 4px;
+    font-weight: 600;
+    color: #15803d;
+}
+
+.card-demo-kpi-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    margin-top: 8px;
+    font-size: 0.85rem;
+    opacity: 0.8;
+}
+
+.card-demo-chart {
+    min-width: 0;
+    padding: 8px 16px 8px 8px;
+}
+
+/* The KPI header is nested, so card content padding does not reach it. */
+.card-demo-kpi .e-card-header {
+    padding: 16px 16px 8px;
+}
+
+@media (max-width: 640px) {
+    .card-demo-kpi-body {
+        grid-template-columns: 1fr;
+    }
+}

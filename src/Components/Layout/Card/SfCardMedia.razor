@@ -1,0 +1,13 @@
+@namespace Syncfusion.Blazor.Toolkit
+@inherits SfBaseComponent
+
+<div @attributes="_attributes" class="@_class" style="@_style" data-testid="card-media">
+    @if (!string.IsNullOrWhiteSpace(ImageUrl))
+    {
+        <img src="@ImageUrl" alt="@(Alt ?? string.Empty)" style="@_imageStyle" />
+    }
+    else
+    {
+        @ChildContent
+    }
+</div>
