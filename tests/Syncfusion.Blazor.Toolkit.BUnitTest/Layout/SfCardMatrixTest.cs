@@ -7,7 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Syncfusion.Blazor.Toolkit;
 using Xunit;
 
-namespace Syncfusion.Blazor.Toolkit.Tests.Cards
+namespace Syncfusion.Blazor.Toolkit.Tests.Layout
 {
     /// <summary>
     /// bUnit coverage mapped one-to-one to the B-CARD ids in .github/specs/Cards/TEST-MATRIX.md.

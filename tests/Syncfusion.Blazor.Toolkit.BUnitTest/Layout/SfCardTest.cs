@@ -8,7 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Syncfusion.Blazor.Toolkit;
 using Xunit;
 
-namespace Syncfusion.Blazor.Toolkit.Tests.Cards
+namespace Syncfusion.Blazor.Toolkit.Tests.Layout
 {
     /// <summary>
     /// bUnit coverage for the SfCard family. Test names carry the TEST-MATRIX id (U-CARD-xxx, I-CARD-xxx).

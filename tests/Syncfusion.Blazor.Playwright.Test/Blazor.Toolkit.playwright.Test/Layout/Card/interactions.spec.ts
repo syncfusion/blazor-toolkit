@@ -1,5 +1,5 @@
 // Card interaction tests for SfCard.
-// Drives the REAL component from the Blazor sample host (Pages/Cards/Card/Interactions.razor).
+// Drives the real component from the Blazor sample host.
 
 import { test, expect, type Page } from '@playwright/test';
 
