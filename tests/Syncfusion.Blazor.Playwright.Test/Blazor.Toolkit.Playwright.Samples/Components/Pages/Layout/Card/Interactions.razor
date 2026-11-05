@@ -21,6 +21,14 @@
     <button id="after-card" type="button">After</button>
     <p id="card-click-count">Card clicks: @_cardClicks</p>
 
+    <h2>Card with nested input</h2>
+    <SfCard Id="card-nested-input" IsClickable="true" AriaLabel="Search card" Width="280px" OnClick="OnNestedClick">
+        <SfCardContent>
+            <input id="nested-input" type="text" aria-label="Search" />
+        </SfCardContent>
+    </SfCard>
+    <p id="nested-click-count">Nested card clicks: @_nestedClicks</p>
+
     <h2>Card with nested action</h2>
     <SfCard Id="card-actions-host" IsClickable="true" AriaLabel="Product" Width="280px" OnClick="OnHostClick">
         <SfCardContent>Product</SfCardContent>
@@ -72,6 +80,7 @@
     private int _hostClicks;
     private int _actionClicks;
     private int _loadingClicks;
+    private int _nestedClicks;
     private bool _loading = true;
     private bool _interactiveReady;
 
@@ -98,6 +107,8 @@
     private void OnActionClick(MouseEventArgs args) => _actionClicks++;
 
     private void OnLoadingClick(MouseEventArgs args) => _loadingClicks++;
+
+    private void OnNestedClick(MouseEventArgs args) => _nestedClicks++;
 
     private void ToggleLoading() => _loading = !_loading;
 }

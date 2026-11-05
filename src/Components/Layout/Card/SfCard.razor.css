@@ -109,9 +109,14 @@
     min-width: 0;
 }
 
+/* Direct regions, and regions wrapped by sample or app markup. The wrapper must not be a card, so a
+   nested card keeps only the padding from its own rule. */
 .e-card[data-content-padding="true"] > ::deep .e-card-header,
 .e-card[data-content-padding="true"] > ::deep .e-card-content,
-.e-card[data-content-padding="true"] > ::deep .e-card-actions {
+.e-card[data-content-padding="true"] > ::deep .e-card-actions,
+.e-card[data-content-padding="true"] > ::deep :not(.e-card) .e-card-header,
+.e-card[data-content-padding="true"] > ::deep :not(.e-card) .e-card-content,
+.e-card[data-content-padding="true"] > ::deep :not(.e-card) .e-card-actions {
     padding: var(--e-card-padding);
 }
 
@@ -159,6 +164,14 @@
     display: block;
     height: 100%;
     width: 100%;
+}
+
+/* None means intrinsic sizing. The 100% rule above would stretch the image the same way Fill does. */
+.e-card ::deep .e-card-media img.e-card-media-fit-none {
+    height: auto;
+    max-width: 100%;
+    object-fit: none;
+    width: auto;
 }
 
 .e-card ::deep .e-card-content {

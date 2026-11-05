@@ -113,9 +113,10 @@
                 <button id="rtl-second" type="button">Two</button>
             </SfCardActions>
         </SfCard>
-        <SfCard Id="rtl-clickable" IsClickable="true" AriaLabel="RTL clickable" Width="280px">
+        <SfCard Id="rtl-clickable" IsClickable="true" AriaLabel="RTL clickable" Width="280px" OnClick="OnRtlClick">
             <SfCardContent>RTL clickable</SfCardContent>
         </SfCard>
+        <p id="rtl-click-count">RTL clicks: @_rtlClicks</p>
     </section>
 
     <section id="scn-hc">
@@ -159,6 +160,7 @@
     private int _toggleCard;
     private int _toggleButton;
     private int _pointerClicks;
+    private int _rtlClicks;
     private int _multiA;
     private int _multiB;
     private string _dynamicText = "Original";
@@ -180,6 +182,8 @@
 
         return Task.CompletedTask;
     }
+
+    private void OnRtlClick(MouseEventArgs args) => _rtlClicks++;
 
     private void UpdateDynamic()
     {

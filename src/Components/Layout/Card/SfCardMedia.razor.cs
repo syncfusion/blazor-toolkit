@@ -31,6 +31,9 @@ namespace Syncfusion.Blazor.Toolkit
         private string? _style;
 
         /// <exclude />
+        private string? _imageClass;
+
+        /// <exclude />
         private string? _imageStyle;
 
         /// <exclude />
@@ -95,11 +98,12 @@ namespace Syncfusion.Blazor.Toolkit
             string? height = size.Length == 0 ? null : "height:" + size + ";";
             _style = CardAttributes.MergeStyle(height, HtmlAttributes);
             _attributes = CardAttributes.Filter(HtmlAttributes);
+            _imageClass = ObjectFit == CardMediaFit.None ? "e-card-media-fit-none" : null;
             _imageStyle = ObjectFit switch
             {
                 CardMediaFit.Contain => "object-fit:contain;",
                 CardMediaFit.Fill => "object-fit:fill;",
-                CardMediaFit.None => null,
+                CardMediaFit.None => "object-fit:none;",
                 CardMediaFit.Cover => "object-fit:cover;",
                 _ => "object-fit:cover;"
             };

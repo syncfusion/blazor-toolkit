@@ -32,9 +32,6 @@ namespace Syncfusion.Blazor.Toolkit
         private const string ClickableClass = "e-card-clickable";
 
         /// <exclude />
-        private const string DisabledClass = "e-disabled";
-
-        /// <exclude />
         private const string RtlClass = "e-rtl";
 
         /// <exclude />

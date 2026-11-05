@@ -183,8 +183,8 @@ namespace Syncfusion.Blazor.Toolkit
 
             if (IsLoading)
             {
+                // The loading overlay is the only dim. e-disabled would stack a second 0.72 opacity on top of it.
                 AppendClass(builder, LoadingClass);
-                AppendClass(builder, DisabledClass);
             }
 
             if (IsClickable)

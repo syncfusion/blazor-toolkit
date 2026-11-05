@@ -164,7 +164,8 @@ test.describe('Card interactions @card', () => {
     await expect(card).not.toHaveAttribute('aria-busy', 'true');
     await expect(page.locator('#card-loading [data-testid="card-actions"]')).not.toHaveAttribute('inert', '');
 
-    await card.click();
+    // Click the body. The actions row stops the pointer so a nested control never activates the card.
+    await page.locator('#card-loading [data-testid="card-content"]').click();
     await expect(page.locator('#loading-click-count')).toHaveText('Loading card clicks: 1');
   });
 
@@ -212,6 +213,21 @@ test.describe('Card interactions @card', () => {
     await expect(page.locator('#card-click-count')).toHaveText('Card clicks: 0');
     await page.keyboard.up(' ');
     await expect(page.locator('#card-click-count')).toHaveText('Card clicks: 1');
+  });
+
+  test('P-CARD-009 Space and Enter on a nested input do not activate the card', async ({ page }) => {
+    const input = page.locator('#nested-input');
+    await input.click();
+    await expect(input).toBeFocused();
+    // Focusing the input is a pointer click on the card. The keys that follow must not add another activation.
+    const clicksAfterFocus = await page.locator('#nested-click-count').innerText();
+    await page.keyboard.type('hello');
+    await page.keyboard.press(' ');
+    await page.keyboard.press('Enter');
+    await expect(input).toHaveValue('hello ');
+    await expect(page.locator('#nested-click-count')).toHaveText(clicksAfterFocus);
+    expect(await keyPrevented(page, '#nested-input', 'keydown', { key: ' ', code: 'Space' })).toBe(false);
+    expect(await keyPrevented(page, '#nested-input', 'keydown', { key: 'Enter', code: 'Enter' })).toBe(false);
   });
 
   test('P-CARD-003 keyboard activation does not scroll the page', async ({ page }) => {

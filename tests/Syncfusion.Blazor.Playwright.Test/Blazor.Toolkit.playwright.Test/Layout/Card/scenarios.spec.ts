@@ -11,7 +11,7 @@ async function openScenarios(page: Page, url = SCENARIOS) {
   await page.goto(url, { waitUntil: 'commit' });
   await expect(page.locator('#scenarios-ready')).toHaveAttribute('data-ready', 'true', { timeout: 15000 });
   // Keyboard activation is attached by card.js after the first interactive render.
-  await page.waitForFunction(() => ['#pointer-card', '#nested-card', '#content-toggle-card']
+  await page.waitForFunction(() => ['#pointer-card', '#nested-card', '#content-toggle-card', '#rtl-clickable']
     .every((s) => Boolean((document.querySelector(s) as { _blazorCardInstance?: unknown } | null)?._blazorCardInstance)));
 }
 
@@ -32,10 +32,14 @@ test.describe('Card core interactions @card', () => {
 
   test('V-CARD-002 a non-clickable card ignores clicks and keys (no Disabled parameter exists)', async ({ page }) => {
     const card = page.locator('#static-card');
+    const before = await page.evaluate(() => document.activeElement?.id ?? '');
     await card.click();
     await page.keyboard.press('Enter');
+    await page.keyboard.press(' ');
     await expect(card).not.toHaveAttribute('role', /.+/);
     await expect(card).not.toHaveAttribute('tabindex', /.+/);
+    await expect(card).not.toHaveAttribute('aria-pressed', /.+/);
+    expect(await page.evaluate(() => document.activeElement?.id ?? '')).toBe(before);
   });
 
   test('V-CARD-003 loading card interaction suppression', async ({ page }) => {
@@ -310,15 +314,27 @@ test.describe('Card RTL @card', () => {
     expect(first!.x).toBeGreaterThan(second!.x);
   });
 
-  test('V-CARD-031 RTL keyboard navigation', async ({ page }) => {
-    await page.locator('#rtl-clickable').focus();
+  test('V-CARD-031 RTL keyboard navigation activates once per key and keeps focus', async ({ page }) => {
+    const card = page.locator('#rtl-clickable');
+    await page.locator('#rtl-second').focus();
+    await page.keyboard.press('Tab');
+    await expect(card).toBeFocused();
     await page.keyboard.press('Enter');
-    await expect(page.locator('#rtl-clickable')).toBeFocused();
+    await page.keyboard.press(' ');
+    await expect(card).toBeFocused();
+    await expect(page.locator('#rtl-click-count')).toHaveText('RTL clicks: 2');
+    const outline = await card.evaluate((el) => getComputedStyle(el).outlineStyle);
+    expect(outline).not.toBe('none');
   });
 
-  test('V-CARD-032 RTL focus handling', async ({ page }) => {
-    await page.locator('#rtl-clickable').focus();
-    await expect(page.locator('#rtl-clickable')).toBeFocused();
+  test('V-CARD-032 RTL focus handling does not trap Tab', async ({ page }) => {
+    const card = page.locator('#rtl-clickable');
+    await card.focus();
+    await expect(card).toBeFocused();
+    await page.keyboard.press('Tab');
+    await expect(card).not.toBeFocused();
+    await page.keyboard.press('Shift+Tab');
+    await expect(card).toBeFocused();
   });
 });
 

@@ -197,6 +197,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Layout
         {
             IElement staticCard = RenderCard(p => p.Add(c => c.IsLoading, true)).Find(Root);
             Assert.Contains("e-card-loading", staticCard.ClassList);
+            Assert.DoesNotContain("e-disabled", staticCard.ClassList);
             Assert.Equal("true", staticCard.GetAttribute("aria-busy"));
             Assert.Null(staticCard.GetAttribute("aria-disabled"));
 
@@ -205,6 +206,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Layout
                 .Add(c => c.IsClickable, true)).Find(Root);
             Assert.Equal("true", clickable.GetAttribute("aria-disabled"));
             Assert.Equal("0", clickable.GetAttribute("tabindex"));
+            Assert.DoesNotContain("e-disabled", clickable.ClassList);
         }
 
         // ---------------------------------------------------------------- U-CARD-010..012 geometry
@@ -298,14 +300,15 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Layout
             Assert.Equal(expected, image.GetAttribute("style"));
         }
 
-        [Fact(DisplayName = "Media with CardMediaFit.None emits no object-fit")]
-        public void Media_FitNone_EmitsNoObjectFit()
+        [Fact(DisplayName = "Media with CardMediaFit.None opts out of the stretch rule")]
+        public void Media_FitNone_OptsOutOfStretch()
         {
             IElement image = RenderComponent<SfCardMedia>(p => p
                 .Add(c => c.ImageUrl, "x.png")
                 .Add(c => c.ObjectFit, CardMediaFit.None)).Find("img");
 
-            Assert.Null(image.GetAttribute("style"));
+            Assert.Contains("e-card-media-fit-none", image.ClassList);
+            Assert.Equal("object-fit:none;", image.GetAttribute("style"));
         }
 
         [Fact(DisplayName = "U-CARD-020 Media renders custom ChildContent when no ImageUrl is given")]
@@ -422,7 +425,18 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Layout
 
             Assert.DoesNotContain("blazor:onclick", cut.Markup, StringComparison.Ordinal);
             Assert.DoesNotContain("blazor:onkeydown", cut.Markup, StringComparison.Ordinal);
+            Assert.DoesNotContain("onkeydown:preventDefault", cut.Markup, StringComparison.Ordinal);
             Assert.Equal(0, count);
+        }
+
+        [Fact(DisplayName = "U-CARD-021 A clickable card does not render a Blazor preventDefault key handler")]
+        public void Clickable_DoesNotRenderPreventDefaultHandler()
+        {
+            IRenderedComponent<SfCard> cut = RenderCard(p => p.Add(c => c.IsClickable, true));
+
+            Assert.Contains("e-card-clickable", cut.Find(Root).ClassList);
+            Assert.DoesNotContain("onkeydown:preventDefault", cut.Markup, StringComparison.Ordinal);
+            Assert.DoesNotContain("blazor:onkeydown", cut.Markup, StringComparison.Ordinal);
         }
 
         [Fact(DisplayName = "U-CARD-015 A click inside SfCardActions does not activate a clickable card")]

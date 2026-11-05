@@ -10,8 +10,9 @@ using Xunit;
 namespace Syncfusion.Blazor.Toolkit.Tests.Layout
 {
     /// <summary>
-    /// bUnit coverage mapped one-to-one to the B-CARD ids in .github/specs/Cards/TEST-MATRIX.md.
-    /// The Card has no Disabled or Selected parameter, so P-CARD-018, 057, 062, 063, 073 and 086 are not applicable.
+    /// bUnit coverage for the Card matrix. Ids are unique inside this file. The cited
+    /// .github/specs/Cards/TEST-MATRIX.md is not in this repository; do not treat a missing file as coverage.
+    /// The Card has no Disabled or Selected parameter, so those matrix rows are not applicable.
     /// </summary>
     public class SfCardMatrixTest : BunitTestContext
     {
@@ -339,41 +340,65 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Layout
             Assert.Equal(1, clicks);
         }
 
-        [Fact(DisplayName = "V-CARD-023 Nested inputs")]
+        [Fact(DisplayName = "V-CARD-023 A nested input keeps its value and does not receive the card click handler")]
         public void B024_NestedInputs()
         {
-            IElement body = BodyElement(b =>
+            RenderFragment content = b =>
             {
-                b.OpenElement(0, "input");
-                b.AddAttribute(1, "type", "text");
-                b.AddAttribute(2, "value", "abc");
-                b.CloseElement();
-            });
+                b.OpenComponent<SfCardContent>(0);
+                b.AddAttribute(1, "ChildContent", (RenderFragment)(inner =>
+                {
+                    inner.OpenElement(0, "input");
+                    inner.AddAttribute(1, "type", "text");
+                    inner.AddAttribute(2, "value", "abc");
+                    inner.CloseElement();
+                }));
+                b.CloseComponent();
+            };
+            IRenderedComponent<SfCard> cut = RenderCard(p => p
+                .Add(c => c.IsClickable, true)
+                .Add(c => c.ChildContent, content));
 
-            Assert.Equal("abc", body.QuerySelector("input")!.GetAttribute("value"));
+            IElement input = cut.Find("[data-testid='card-content'] input");
+            Assert.Equal("abc", input.GetAttribute("value"));
+            Assert.DoesNotContain("blazor:onclick", input.OuterHtml, StringComparison.Ordinal);
+            Assert.DoesNotContain("blazor:onkeydown", input.OuterHtml, StringComparison.Ordinal);
+            Assert.Null(input.GetAttribute("role"));
         }
 
-        [Fact(DisplayName = "V-CARD-024 Nested forms")]
+        [Fact(DisplayName = "V-CARD-024 A nested form is not given card button semantics")]
         public void B025_NestedForms()
         {
-            IElement body = BodyElement(b =>
+            RenderFragment content = b =>
             {
-                b.OpenElement(0, "form");
-                b.OpenElement(1, "input");
-                b.AddAttribute(2, "name", "q");
-                b.CloseElement();
-                b.OpenElement(3, "button");
-                b.AddAttribute(4, "type", "submit");
-                b.AddContent(5, "Send");
-                b.CloseElement();
-                b.CloseElement();
-            });
+                b.OpenComponent<SfCardContent>(0);
+                b.AddAttribute(1, "ChildContent", (RenderFragment)(inner =>
+                {
+                    inner.OpenElement(0, "form");
+                    inner.AddAttribute(1, "data-testid", "nested-form");
+                    inner.OpenElement(2, "input");
+                    inner.AddAttribute(3, "name", "q");
+                    inner.CloseElement();
+                    inner.OpenElement(4, "button");
+                    inner.AddAttribute(5, "type", "submit");
+                    inner.AddContent(6, "Send");
+                    inner.CloseElement();
+                    inner.CloseElement();
+                }));
+                b.CloseComponent();
+            };
+            IRenderedComponent<SfCard> cut = RenderCard(p => p
+                .Add(c => c.IsClickable, true)
+                .Add(c => c.ChildContent, content));
 
-            Assert.NotNull(body.QuerySelector("form input[name='q']"));
-            Assert.NotNull(body.QuerySelector("form button[type='submit']"));
+            IElement form = cut.Find("[data-testid='nested-form']");
+            Assert.Null(form.GetAttribute("role"));
+            Assert.NotNull(form.QuerySelector("input[name='q']"));
+            Assert.NotNull(form.QuerySelector("button[type='submit']"));
+            Assert.DoesNotContain("blazor:onkeydown", form.OuterHtml, StringComparison.Ordinal);
         }
 
-        [Fact(DisplayName = "V-CARD-025 Nested charts")]
+        [Fact(DisplayName = "V-CARD-025 Nested chart renders its chart root inside the card body")]
         public void B026_NestedCharts()
         {
             IElement body = BodyElement(b =>
@@ -382,7 +407,9 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Layout
                 b.CloseComponent();
             });
 
-            Assert.NotNull(body.QuerySelector(".e-chart, [id*='chart'], div"));
+            IElement chart = body.QuerySelector(".e-chart")!;
+            Assert.NotNull(chart);
+            Assert.Contains("e-chart", chart.ClassList);
         }
 
         [Fact(DisplayName = "V-CARD-026 Dynamic content updates")]
@@ -770,10 +797,13 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Layout
             Assert.Equal("object-fit:fill;", RenderMedia(this, p => p.Add(c => c.ImageUrl, "/a.png").Add(c => c.ObjectFit, CardMediaFit.Fill)).Find("img").GetAttribute("style"));
         }
 
-        [Fact(DisplayName = "B-CARD-104 CardMediaFit.None emits no object-fit")]
+        [Fact(DisplayName = "B-CARD-104 CardMediaFit.None opts out of the stretch rule")]
         public void B111_FitNone()
         {
-            Assert.Null(RenderMedia(this, p => p.Add(c => c.ImageUrl, "/a.png").Add(c => c.ObjectFit, CardMediaFit.None)).Find("img").GetAttribute("style"));
+            IElement image = RenderMedia(this, p => p.Add(c => c.ImageUrl, "/a.png").Add(c => c.ObjectFit, CardMediaFit.None)).Find("img");
+
+            Assert.Contains("e-card-media-fit-none", image.ClassList);
+            Assert.Equal("object-fit:none;", image.GetAttribute("style"));
         }
 
         [Fact(DisplayName = "B-CARD-105 Custom media Height")]
@@ -822,6 +852,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Layout
             IElement card = RenderCard(p => p.Add(c => c.IsLoading, true)).Find(Root);
 
             Assert.Contains("e-card-loading", card.ClassList);
+            Assert.DoesNotContain("e-disabled", card.ClassList);
             Assert.Equal("true", card.GetAttribute("aria-busy"));
         }
 
@@ -831,7 +862,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Layout
             Assert.Contains("e-card-hoverable", RenderCard(p => p.Add(c => c.Hoverable, true)).Find(Root).ClassList);
         }
 
-        [Fact(DisplayName = "B-CARD-056 Focus-visible state rendering")]
+        [Fact(DisplayName = "B-CARD-108 Focus-visible state rendering")]
         public void B059_FocusVisibleRendering()
         {
             // The outline is CSS (:focus-visible, asserted in Playwright). The card must be focusable for it to apply.
@@ -848,7 +879,8 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Layout
 
             Assert.Equal("true", card.GetAttribute("aria-disabled"));
             Assert.Equal("true", card.GetAttribute("aria-busy"));
-            Assert.Contains("e-disabled", card.ClassList);
+            Assert.Contains("e-card-loading", card.ClassList);
+            Assert.DoesNotContain("e-disabled", card.ClassList);
         }
 
         // ------------------------------------------------------------------ State transitions
@@ -935,7 +967,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Layout
             Assert.Equal("Cancel", cut.Find("[data-testid='card-actions']").TextContent);
         }
 
-        [Fact(DisplayName = "B-CARD-108 Runtime Elevation / Square / Hoverable / ContentPadding updates")]
+        [Fact(DisplayName = "B-CARD-116 Runtime Elevation / Square / Hoverable / ContentPadding updates")]
         public void B115_RuntimeLayoutParameters()
         {
             IRenderedComponent<SfCard> cut = RenderCard();

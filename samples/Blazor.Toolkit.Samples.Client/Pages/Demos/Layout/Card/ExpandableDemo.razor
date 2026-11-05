@@ -10,16 +10,9 @@
                 <SfCardTitle>Kyoto</SfCardTitle>
                 <SfCardSubTitle>Japan · City guide</SfCardSubTitle>
             </SfCardHeader>
-            <button type="button"
-                    class="card-demo-chevron"
-                    aria-expanded="@_expanded"
-                    aria-label="@(_expanded ? "Collapse details" : "Expand details")"
-                    @onclick="Toggle"
-                    @onclick:stopPropagation="true">
-                @(_expanded ? "▴" : "▾")
-            </button>
+            <span class="card-demo-chevron" aria-hidden="true">@(_expanded ? "▴" : "▾")</span>
         </div>
-        <div class="@(_expanded ? "card-demo-panel card-demo-panel-open" : "card-demo-panel")">
+        <div class="@(_expanded ? "card-demo-panel card-demo-panel-open" : "card-demo-panel")" inert="@(_inert)">
             <div class="card-demo-panel-inner">
                 <SfCardMedia ImageUrl="https://picsum.photos/id/1016/600/400"
                              Alt="Mountain ridge above a forest valley"
@@ -37,6 +30,11 @@
 
 @code {
     private bool _expanded;
+    private bool? _inert = true;
 
-    private void Toggle() => _expanded = !_expanded;
+    private void Toggle()
+    {
+        _expanded = !_expanded;
+        _inert = _expanded ? null : true;
+    }
 }
