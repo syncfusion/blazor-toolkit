@@ -66,9 +66,15 @@ namespace Syncfusion.Blazor.Toolkit
         public int Elevation { get; set; } = 1;
 
         /// <summary>
-        /// Gets or sets whether the card uses square corners (no border radius).
+        /// Gets or sets a value indicating whether the card uses square corners.
         /// </summary>
-        /// <value><see langword="true"/> to disable rounded corners; otherwise, <see langword="false"/>. The default value is <see langword="false"/>.</value>
+        /// <value>
+        /// <see langword="true"/> if the card corner radius is removed; otherwise, <see langword="false"/>.
+        /// The default value is <see langword="false"/>.
+        /// </value>
+        /// <remarks>
+        /// Square corners apply to the card border only. Elevation, padding, and the shape of content inside the card are unchanged.
+        /// </remarks>
         [Parameter]
         public bool Square { get; set; }
 
