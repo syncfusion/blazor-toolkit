@@ -3,6 +3,7 @@ using Microsoft.JSInterop;
 using Syncfusion.Blazor.Toolkit.Internal;
 using System.Globalization;
 using System.Text.RegularExpressions;
+using Microsoft.AspNetCore.Components.Web;
 
 namespace Syncfusion.Blazor.Toolkit
 {
@@ -81,6 +82,24 @@ namespace Syncfusion.Blazor.Toolkit
         private Dictionary<string, object> ContainerAttribute { get; set; } = [];
         private IJSObjectReference? _textAreaJsModule;
         private IJSInProcessObjectReference? _textAreaJsInProcessModule;
+
+        private bool IsClearKey { get; set; }
+
+        /// <summary>
+        /// Uses live HasClearableContent so Tab reaches clear after typing into empty field.
+        /// </summary>
+        private bool IsClearButtonTabbable =>
+            ShowClearButton &&
+            !ReadOnly &&
+            !Disabled &&
+            HasClearableContent;
+
+        private void KeepClearButtonVisibleWhileTabbable()
+        {
+            KeepClearButtonVisibleWhileTabbableBase();
+        }
+
+        private string TextAreaClearIconClass => ClearIconClassForRender;
 
         #endregion
 
@@ -557,6 +576,22 @@ namespace Syncfusion.Blazor.Toolkit
         /// </remarks>
         internal async Task BindClearBtnTouchEventsAsync()
         {
+            await InvokeClearBtnEventAsync().ConfigureAwait(true);
+        }
+
+        /// <summary>
+        /// Keyboard activation uses the same clear path as pointer activation.
+        /// Space and Enter are prevented so the key does not also click the button
+        /// (which would clear twice) or submit a surrounding form.
+        /// </summary>
+        internal async Task OnClearButtonKeyDownAsync(KeyboardEventArgs args)
+        {
+            IsClearKey = args.Key is " " or "Enter" && !args.Repeat;
+            if (!IsClearKey)
+            {
+                return;
+            }
+
             await InvokeClearBtnEventAsync().ConfigureAwait(true);
         }
 

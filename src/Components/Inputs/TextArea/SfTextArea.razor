@@ -18,8 +18,10 @@
 
 		@if (this.ShowClearButton)
 		{
-			<button type="button" class="@(ClearIconClass)" aria-label="@Localizer["Clear"]"
+			<button type="button" class="@(TextAreaClearIconClass)" aria-label="@Localizer["Clear"]" tabindex="@(IsClearButtonTabbable ? 0 : -1)"
 					@onclick="@WireClearBtnEventsAsync"
+					@onkeydown="@OnClearButtonKeyDownAsync"
+					@onkeydown:preventDefault="@IsClearKey"
 					@onmousedown="@BindClearBtnEventsAsync" @ontouchstart="@BindClearBtnTouchEventsAsync"
 					@onmousedown:preventDefault="@ClickStopPropagation"
 					@ontouchstart:preventDefault="@ClickStopPropagation"></button>

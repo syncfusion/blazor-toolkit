@@ -153,6 +153,45 @@ namespace Syncfusion.Blazor.Toolkit
         protected virtual bool BaseShowClearButton { get; set; }
 
         /// <summary>
+        /// Live clearable content for clear-button tabindex.
+        /// Updated from the same string as <see cref="UpdateIconState"/> so Tab works
+        /// after typing into an empty field before <see cref="InputTextValue"/> is committed.
+        /// </summary>
+        protected bool HasClearableContent { get; set; }
+
+        /// <summary>
+        /// Clear button is in the tab order when shown, enabled, and has clearable content.
+        /// Not tied to focus (Tab would skip a focus-only stop).
+        /// </summary>
+        protected bool IsClearButtonTabbableBase =>
+            BaseShowClearButton &&
+            !BaseReadOnly &&
+            !BaseIsReadOnlyInput &&
+            !Disabled &&
+            HasClearableContent;
+
+        /// <summary>
+        /// Clear-icon class without e-clear-icon-hide while tabbable.
+        /// That class is display:none and removes the control from sequential focus.
+        /// </summary>
+        protected string ClearIconClassForRender =>
+           IsClearButtonTabbableBase && !string.IsNullOrEmpty(ClearIconClass)
+               ? ClearIconClass.Replace(CLEARICONHIDE, string.Empty, StringComparison.Ordinal).Trim()
+               : ClearIconClass ?? string.Empty;
+
+        /// <summary>
+        /// Ensures the clear icon stays visible while it is a tab stop.
+        /// </summary>
+        protected void KeepClearButtonVisibleWhileTabbableBase()
+        {
+            if (!IsClearButtonTabbableBase || string.IsNullOrEmpty(ClearIconClass))
+            {
+                return;
+            }
+
+            ClearIconClass = ClearIconClass.Replace(CLEARICONHIDE, string.Empty, StringComparison.Ordinal).Trim();
+        }
+        /// <summary>
         /// Gets or sets the width of the input component.
         /// </summary>
         /// <value>
@@ -834,6 +873,7 @@ namespace Syncfusion.Blazor.Toolkit
             string? inputVal = args is not null ? args.Value as string : null;
             CheckInputValue(BaseFloatLabelType, inputVal);
             UpdateIconState(inputVal);
+            StateHasChanged(); // tabindex follows ClearIconClass, which updates before the bound value on input.
             if (ValidateOnInput && InputEditContext is not null)
             {
                 InputTextValue = FormatValue(inputVal);
@@ -914,6 +954,7 @@ namespace Syncfusion.Blazor.Toolkit
             {
                 IsClearButtonClicked = true;
                 InputTextValue = default;
+                HasClearableContent = false;
                 ClearIconClass = SfBaseUtils.AddClass(ClearIconClass, CLEARICONHIDE);
             }
 
@@ -1050,7 +1091,17 @@ namespace Syncfusion.Blazor.Toolkit
 
             IsFocused = false;
             args ??= new Microsoft.AspNetCore.Components.Web.FocusEventArgs();
-            ClearIconClass = BaseShowClearButton ? SfBaseUtils.AddClass(ClearIconClass, CLEARICONHIDE) : ClearIconClass;
+            if (BaseShowClearButton)
+            {
+                if (IsClearButtonTabbableBase)
+                {
+                    KeepClearButtonVisibleWhileTabbableBase();
+                }
+                else
+                {
+                    ClearIconClass = SfBaseUtils.AddClass(ClearIconClass, CLEARICONHIDE);
+                }
+            }
             if (!Disabled)
             {
                 await FocusOutHandlerAsync(args).ConfigureAwait(true);
@@ -1081,7 +1132,8 @@ namespace Syncfusion.Blazor.Toolkit
 
             if (clearButton)
             {
-                ClearIconClass = !string.IsNullOrEmpty(value) && (IsFocused || ContainerClass.Contains(INPUTFOCUS, StringComparison.Ordinal))
+                HasClearableContent = !string.IsNullOrEmpty(value);
+                ClearIconClass = HasClearableContent && (IsFocused || ContainerClass.Contains(INPUTFOCUS, StringComparison.Ordinal))
                     ? ClearIconClass.Replace(CLEARICONHIDE, string.Empty, StringComparison.Ordinal)
                     : SfBaseUtils.AddClass(ClearIconClass, CLEARICONHIDE);
             }
@@ -1463,7 +1515,8 @@ namespace Syncfusion.Blazor.Toolkit
         /// <param name="value">The input value to evaluate for icon visibility.</param>
         private void UpdateIconState(string? value)
         {
-            ClearIconClass = !string.IsNullOrEmpty(value)
+            HasClearableContent = !string.IsNullOrEmpty(value);
+            ClearIconClass = HasClearableContent
                 ? ClearIconClass.Replace(CLEARICONHIDE, string.Empty, StringComparison.Ordinal)
                 : SfBaseUtils.AddClass(ClearIconClass, CLEARICONHIDE);
         }
