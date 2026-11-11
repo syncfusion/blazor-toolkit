@@ -72,7 +72,7 @@ namespace Syncfusion.Blazor.Toolkit
 
         private string? _validClass;
 
-        private bool _isClearIconClick;
+        private bool _suppressFocusCallbacksForClearButton;
 
         private bool IsClearKey { get; set; }
 
@@ -95,6 +95,9 @@ namespace Syncfusion.Blazor.Toolkit
         /// Clear-icon class with e-clear-icon-hide removed while the button is a tab stop.
         /// </summary>
         private string TextBoxClearIconClass => ClearIconClassForRender;
+
+        private bool IsClearButtonHidden =>
+            TextBoxClearIconClass.Contains(CLEARICONHIDE, StringComparison.Ordinal);
 
         [GeneratedRegex(@"\s+")]
         private static partial Regex WhitespaceRegex();
@@ -351,7 +354,7 @@ namespace Syncfusion.Blazor.Toolkit
         /// </remarks>
         private async Task InvokeClearBtnEventAsync(EventArgs args)
         {
-            _isClearIconClick = true;
+            _suppressFocusCallbacksForClearButton = true;
             CurrentValueAsString = null;
             await Task.Delay(100).ConfigureAwait(true);
             await SetValueAsync(null, FloatLabelType, ShowClearButton).ConfigureAwait(true);
@@ -368,7 +371,7 @@ namespace Syncfusion.Blazor.Toolkit
             await RaiseChangeEventAsync(args, true).ConfigureAwait(true);
             _previousValue = InputTextValue;
             await FocusAsync().ConfigureAwait(true);
-            _isClearIconClick = false;
+            _suppressFocusCallbacksForClearButton = false;
         }
 
         /// <summary>
@@ -546,7 +549,7 @@ namespace Syncfusion.Blazor.Toolkit
         /// <exclude/>
         protected override async Task FocusHandlerAsync(Microsoft.AspNetCore.Components.Web.FocusEventArgs args)
         {
-            if (OnFocus.HasDelegate && !_isClearIconClick)
+            if (OnFocus.HasDelegate && !_suppressFocusCallbacksForClearButton)
             {
                 FocusInEventArgs eventArgs = new()
                 {
@@ -592,7 +595,7 @@ namespace Syncfusion.Blazor.Toolkit
                 await RaiseChangeEventAsync(args, true).ConfigureAwait(true);
             }
 
-            if (OnBlur.HasDelegate && !_isClearIconClick)
+            if (OnBlur.HasDelegate && !_suppressFocusCallbacksForClearButton)
             {
                 FocusOutEventArgs eventArgs = new()
                 {

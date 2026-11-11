@@ -168,7 +168,8 @@ namespace Syncfusion.Blazor.Toolkit
             !BaseReadOnly &&
             !BaseIsReadOnlyInput &&
             !Disabled &&
-            HasClearableContent;
+            HasClearableContent &&
+            (IsFocused || ContainerClass.Contains(INPUTFOCUS, StringComparison.Ordinal));
 
         /// <summary>
         /// Clear-icon class without e-clear-icon-hide while tabbable.
@@ -269,17 +270,33 @@ namespace Syncfusion.Blazor.Toolkit
         protected bool IsValueTemplate { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether click event propagation should be prevented for certain elements.
+        /// Gets or sets the legacy prevent-default switch used by clear-button pointer events.
         /// </summary>
         /// <value>
-        /// A <see cref="bool"/> indicating whether click propagation should be stopped. The default value is <see langword="false"/>.
+        /// A <see cref="bool"/> indicating whether the browser's default pointer-down behavior should be prevented. The default value is <see langword="false"/>.
         /// </value>
         /// <remarks>
-        /// This property is used internally to control event bubbling behavior, particularly for preventing unwanted click events
-        /// from propagating to parent elements during specific interactions.
+        /// The historical name is retained for derived-component compatibility. Despite that name,
+        /// this switch controls <c>preventDefault</c>, not event propagation.
         /// </remarks>
         /// <exclude/> 
         protected bool ClickStopPropagation { get; set; }
+
+        /// <summary>
+        /// Gets or sets whether clear-button pointer-down should prevent the browser's default focus behavior.
+        /// </summary>
+        /// <value>
+        /// A <see cref="bool"/> indicating whether default pointer-down behavior should be prevented.
+        /// </value>
+        /// <remarks>
+        /// This accurately named alias preserves the behavior of the legacy <see cref="ClickStopPropagation"/> property.
+        /// </remarks>
+        /// <exclude/>
+        protected bool PreventClearButtonFocusLoss
+        {
+            get => ClickStopPropagation;
+            set => ClickStopPropagation = value;
+        }
 
         /// <summary>
         /// Gets or sets a value indicating whether mouse down events on spinner elements should be prevented.
@@ -561,7 +578,7 @@ namespace Syncfusion.Blazor.Toolkit
         /// The CSS class name applied to the clear button icon when it is hidden, used to control visibility through CSS.
         /// </summary>
         /// <exclude/>
-        protected const string CLEARICON = "e-toolkit-icons e-close e-clear-icon-hide";
+        protected const string CLEARICON = "e-clear-icon e-input-group-icon e-toolkit-icons e-close e-clear-icon-hide";
 
         /// <summary>
         /// The CSS class name applied to the input group icon elements, used to control styling and layout of icons within the input group.
@@ -1041,10 +1058,11 @@ namespace Syncfusion.Blazor.Toolkit
         /// <item><description>Controls clear button visibility for non-readonly inputs</description></item>
         /// <item><description>Calls virtual <see cref="FocusHandlerAsync"/> and triggers <c>OnFocus</c> event</description></item>
         /// </list>
+        /// <para>The focus state and visual state are updated before <see cref="FocusHandlerAsync"/> runs, so focus callbacks observe the updated component state.</para>
         /// </remarks>
         internal async Task OnFocusHandlerAsync(Microsoft.AspNetCore.Components.Web.FocusEventArgs args)
         {
-            if (!Disabled)
+            if (!Disabled && !IsFocused)
             {
                 if (ContainerClass.Contains(INPUTGROUP, StringComparison.Ordinal) || ContainerClass.Contains(OUTLINE, StringComparison.Ordinal) || ContainerClass.Contains(FILLED, StringComparison.Ordinal))
                 {
@@ -1163,10 +1181,7 @@ namespace Syncfusion.Blazor.Toolkit
                 _events = events
             });
             ContainerClass = position == APPEND ? SfBaseUtils.AddClass(ContainerClass, APPENDICON) : SfBaseUtils.AddClass(ContainerClass, PREPENDICON);
-#if NET10_0
-            StateHasChanged();
-#endif            
-            await Task.CompletedTask.ConfigureAwait(true);
+            await InvokeAsync(StateHasChanged).ConfigureAwait(true);
         }
 
         /// <summary>

@@ -36,6 +36,7 @@ namespace Syncfusion.Blazor.Toolkit
         /// </example>
         public async Task FocusAsync()
         {
+            // Resume on the renderer context so subsequent component work stays in Blazor's synchronization context.
             await InputElement.FocusAsync().ConfigureAwait(true);
         }
 

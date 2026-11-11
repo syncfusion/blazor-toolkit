@@ -101,6 +101,9 @@ namespace Syncfusion.Blazor.Toolkit
 
         private string TextAreaClearIconClass => ClearIconClassForRender;
 
+        private bool IsClearButtonHidden =>
+            TextAreaClearIconClass.Contains(CLEARICONHIDE, StringComparison.Ordinal);
+
         #endregion
 
         #region Private Methods

@@ -32,6 +32,7 @@ namespace Syncfusion.Blazor.Toolkit
         {
             await ChangeValueAsync(PerformAction(Value, step, "decrement")).ConfigureAwait(true);
             IsClearButtonClicked = false;
+            _isUserCleared = false;
             await RaiseChangeEventAsync().ConfigureAwait(true);
         }
 
@@ -167,6 +168,7 @@ namespace Syncfusion.Blazor.Toolkit
         {
             await ChangeValueAsync(PerformAction(Value, step, "increment")).ConfigureAwait(true);
             IsClearButtonClicked = false;
+            _isUserCleared = false;
             await RaiseChangeEventAsync().ConfigureAwait(true);
         }
 
