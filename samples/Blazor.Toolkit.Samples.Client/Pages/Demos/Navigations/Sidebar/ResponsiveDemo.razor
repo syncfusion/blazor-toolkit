@@ -1,0 +1,155 @@
+@inject NavigationManager Navigation
+@inject IJSRuntime JS
+
+<div class="sbd-controls">
+    <SfCheckBox TChecked="bool" Label="Responsive" @bind-Checked="_responsive" @bind-Checked:after="RefreshViewportAsync" />
+    <span class="sbd-control-label" id="sbd-responsive-bp-label">Breakpoint</span>
+    <div class="d-flex flex-wrap gap-3" role="radiogroup" aria-labelledby="sbd-responsive-bp-label">
+        <SfRadioButton Name="sbd-responsive-bp" Label="None" Value="None" @bind-Checked="_breakpoint" @bind-Checked:after="RefreshViewportAsync" />
+        <SfRadioButton Name="sbd-responsive-bp" Label="Sm" Value="Sm" @bind-Checked="_breakpoint" @bind-Checked:after="RefreshViewportAsync" />
+        <SfRadioButton Name="sbd-responsive-bp" Label="Md" Value="Md" @bind-Checked="_breakpoint" @bind-Checked:after="RefreshViewportAsync" />
+        <SfRadioButton Name="sbd-responsive-bp" Label="Lg" Value="Lg" @bind-Checked="_breakpoint" @bind-Checked:after="RefreshViewportAsync" />
+        <SfRadioButton Name="sbd-responsive-bp" Label="Xl" Value="Xl" @bind-Checked="_breakpoint" @bind-Checked:after="RefreshViewportAsync" />
+        <SfRadioButton Name="sbd-responsive-bp" Label="Always" Value="Always" @bind-Checked="_breakpoint" @bind-Checked:after="RefreshViewportAsync" />
+    </div>
+</div>
+
+<p class="sbd-note">
+    Resize the browser (or use device mode) to cross the selected breakpoint.
+    Below the breakpoint the sidebar switches to Overlay and closes. Returning to a larger viewport never auto-opens it.
+</p>
+
+<dl class="sbd-status" aria-live="polite">
+    <dt>Breakpoint</dt>
+    <dd>@(_responsive ? $"{_breakpoint} ({Threshold})" : "Responsive is off")</dd>
+    <dt>Viewport</dt>
+    <dd>@ViewportText</dd>
+    <dt>Effective mode</dt>
+    <dd>@(IsBelow ? "Overlay" : "Push")</dd>
+    <dt>Open state</dt>
+    <dd>@(_isOpen ? "Open" : "Closed")</dd>
+    <dt>Last OnBreakpointChanged</dt>
+    <dd>@(_lastChange ?? "none yet")</dd>
+</dl>
+
+<div class="sbd-stage-toggle d-flex flex-wrap gap-2 mt-3">
+    <SfButton CssClass="e-primary"
+              IconCss="sb-icons e-menu"
+              aria-controls="sbd-responsive"
+              aria-expanded="@(_isOpen ? "true" : "false")"
+              OnClick="Toggle">Menu</SfButton>
+    <SfButton CssClass="e-outline" OnClick="NavigateAway">Navigate away</SfButton>
+</div>
+
+<div class="sbd-stage mt-3">
+    <SfSidebar Id="sbd-responsive"
+               @bind-IsOpen="_isOpen"
+               Mode="SidebarMode.Push"
+               Responsive="_responsive"
+               Breakpoint="CurrentBreakpoint"
+               OnBreakpointChanged="HandleBreakpointChanged"
+               Fixed="false"
+               Width="230px"
+               AriaLabel="Responsive navigation">
+        <HeaderTemplate>
+            <h3 class="h6 m-0">Navigation</h3>
+        </HeaderTemplate>
+        <ChildContent>
+            <ul class="sbd-nav">
+                <li>Dashboard</li>
+                <li>Reports</li>
+                <li>Settings</li>
+            </ul>
+        </ChildContent>
+        <TargetContent>
+            <div class="sbd-content sbd-responsive-content">
+                <p>A bound sidebar closes when the location changes (<code>CloseOnNavigate</code>, on by default). Open it, then choose Navigate away.</p>
+            </div>
+        </TargetContent>
+    </SfSidebar>
+</div>
+
+@code {
+    private bool _responsive = true;
+    private string _breakpoint = "Md";
+    private bool _isOpen = true;
+    private bool? _isBelow;
+    private string? _lastChange;
+
+    private SidebarBreakpoint CurrentBreakpoint => Enum.Parse<SidebarBreakpoint>(_breakpoint);
+
+    private string Threshold => _breakpoint switch
+    {
+        "Sm" => "576px",
+        "Md" => "768px",
+        "Lg" => "992px",
+        "Xl" => "1200px",
+        "Always" => "never below",
+        _ => "off",
+    };
+
+    private bool IsTracked => _responsive && _breakpoint is not ("None" or "Always");
+
+    private bool IsBelow => IsTracked && _isBelow == true;
+
+    private string ViewportText => !IsTracked
+        ? "Not tracked"
+        : _isBelow switch
+        {
+            true => "Below the breakpoint",
+            false => "At or above the breakpoint",
+            _ => "Resize to cross the breakpoint",
+        };
+
+    private int ThresholdPx => _breakpoint switch
+    {
+        "Sm" => 576,
+        "Md" => 768,
+        "Lg" => 992,
+        "Xl" => 1200,
+        _ => 0,
+    };
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await RefreshViewportAsync();
+        }
+    }
+
+    // OnBreakpointChanged reports crossings only. Changing Breakpoint or Responsive at a fixed width is not a crossing,
+    // so the status reads the current width once here and relies on the event for every later resize.
+    private async Task RefreshViewportAsync()
+    {
+        if (!IsTracked)
+        {
+            _isBelow = null;
+            return;
+        }
+
+        int width = await JS.GetValueAsync<int>("innerWidth");
+        _isBelow = width < ThresholdPx;
+        StateHasChanged();
+    }
+
+    private void Toggle() => _isOpen = !_isOpen;
+
+    private void HandleBreakpointChanged(bool isBelow)
+    {
+        _isBelow = isBelow;
+        _lastChange = isBelow ? "true (below the breakpoint)" : "false (at or above the breakpoint)";
+    }
+
+    // A hash-only change never raises LocationChanged. Move to a clean path so CloseOnNavigate closes the panel, then return to this sample.
+    private void NavigateAway()
+    {
+        Navigation.NavigateTo("navigations/sidebar");
+    }
+}
+
+<style>
+    .sbd-responsive-content {
+        background: color-mix(in srgb, #cff4fc 22%, var(--color-sf-content-bg-color, #fff));
+    }
+</style>

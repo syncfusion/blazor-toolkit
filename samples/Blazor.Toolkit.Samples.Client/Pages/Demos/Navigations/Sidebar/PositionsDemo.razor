@@ -1,0 +1,78 @@
+@* Shrink keeps the sidebar open without a backdrop and keeps all content, including the toggle button, visible. *@
+<div class="sbd-controls">
+    <span class="sbd-control-label" id="sbd-positions-label">Position</span>
+    <div class="d-flex flex-wrap gap-3" role="radiogroup" aria-labelledby="sbd-positions-label">
+        <SfRadioButton Name="sbd-positions" Label="Left" Value="Left" @bind-Checked="_position" />
+        <SfRadioButton Name="sbd-positions" Label="Right" Value="Right" @bind-Checked="_position" />
+        <SfRadioButton Name="sbd-positions" Label="Start" Value="Start" @bind-Checked="_position" />
+        <SfRadioButton Name="sbd-positions" Label="End" Value="End" @bind-Checked="_position" />
+    </div>
+</div>
+
+@if (_position is "Start" or "End")
+{
+    <p class="sbd-note">Logical positions follow reading direction (including RTL).</p>
+}
+
+<div class="sbd-stage">
+    <SfSidebar Id="sbd-positions"
+               @bind-IsOpen="_isOpen"
+               Mode="SidebarMode.Shrink"
+               Position="CurrentPosition"
+               Responsive="false"
+               Fixed="false"
+               Width="220px"
+               Role="complementary"
+               AriaLabel="Filters">
+        <HeaderTemplate>
+            <div class="d-flex align-items-center justify-content-between gap-2">
+                <h3 class="h6 m-0">Filters</h3>
+                <SfButton CssClass="e-flat" IconCss="sb-icons e-close" aria-label="Close filters" OnClick="Close" />
+            </div>
+        </HeaderTemplate>
+        <ChildContent>
+            <ul class="sbd-nav">
+                <li>Status</li>
+                <li>Owner</li>
+                <li>Due date</li>
+            </ul>
+        </ChildContent>
+        <TargetContent>
+            <div class="sbd-content sbd-positions-content">
+                <div>
+                    <SfButton CssClass="e-primary"
+                              IconCss="sb-icons e-filter"
+                              aria-controls="sbd-positions"
+                              aria-expanded="@(_isOpen ? "true" : "false")"
+                              OnClick="Toggle">@(_isOpen ? "Hide filters" : "Show filters")</SfButton>
+                </div>
+                <p><code>Left</code> and <code>Right</code> are physical edges: the panel stays on that side whatever the reading direction.</p>
+                <p><code>Start</code> and <code>End</code> are logical edges: <code>Start</code> is the left edge in left-to-right layouts and the right edge in right-to-left layouts.</p>
+                <p><strong>Position:</strong> @_position</p>
+            </div>
+        </TargetContent>
+    </SfSidebar>
+</div>
+
+@code {
+    private string _position = "Start";
+    private bool _isOpen = true;
+
+    private SidebarPosition CurrentPosition => _position switch
+    {
+        "Left" => SidebarPosition.Left,
+        "Right" => SidebarPosition.Right,
+        "End" => SidebarPosition.End,
+        _ => SidebarPosition.Start,
+    };
+
+    private void Toggle() => _isOpen = !_isOpen;
+
+    private void Close() => _isOpen = false;
+}
+
+<style>
+    .sbd-positions-content {
+        background: color-mix(in srgb, #fff3cd 22%, var(--color-sf-content-bg-color, #fff));
+    }
+</style>

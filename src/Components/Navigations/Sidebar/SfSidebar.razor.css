@@ -1,0 +1,183 @@
+.e-sidebar-container {
+  position: relative;
+  display: flex;
+  width: 100%;
+  min-height: 100%;
+  overflow: hidden;
+  touch-action: pan-y;
+}
+
+.e-sidebar {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  width: var(--e-sidebar-width);
+  max-width: 100%;
+  overflow: hidden;
+  background: var(--color-sf-content-bg-color, #fff);
+  color: var(--color-sf-content-text-color, inherit);
+  will-change: transform;
+  transition: transform var(--e-sidebar-duration, 300ms) ease, visibility 0s linear var(--e-sidebar-duration, 300ms);
+}
+
+.e-sidebar-container.e-sidebar-container-fixed .e-sidebar,
+.e-sidebar-container.e-sidebar-container-fixed .e-sidebar-backdrop {
+  position: fixed;
+}
+
+.e-sidebar:focus {
+  outline: none;
+}
+
+.e-sidebar:focus-visible {
+  outline: 2px solid var(--color-sf-primary, currentColor);
+  outline-offset: -2px;
+}
+
+.e-sidebar.e-sidebar-left {
+  left: 0;
+  border-right: 1px solid var(--color-sf-border, #dee2e6);
+}
+
+.e-sidebar.e-sidebar-right {
+  right: 0;
+  border-left: 1px solid var(--color-sf-border, #dee2e6);
+}
+
+.e-sidebar.e-sidebar-open {
+  transform: translateX(0);
+  visibility: visible;
+  transition: transform var(--e-sidebar-duration, 300ms) ease, visibility 0s;
+}
+
+.e-sidebar.e-sidebar-left:not(.e-sidebar-open) {
+  transform: translateX(-100%);
+}
+
+.e-sidebar.e-sidebar-right:not(.e-sidebar-open) {
+  transform: translateX(100%);
+}
+
+.e-sidebar.e-sidebar-left.e-sidebar-mini:not(.e-sidebar-open) {
+  transform: translateX(calc(-100% + var(--e-sidebar-mini-width)));
+}
+
+.e-sidebar.e-sidebar-right.e-sidebar-mini:not(.e-sidebar-open) {
+  transform: translateX(calc(100% - var(--e-sidebar-mini-width)));
+}
+
+.e-sidebar.e-sidebar-mini.e-sidebar-hover:not(.e-sidebar-open) {
+  transform: translateX(0);
+}
+
+.e-sidebar:not(.e-sidebar-open):not(.e-sidebar-mini) {
+  visibility: hidden;
+}
+
+.e-sidebar-header,
+.e-sidebar-footer {
+  padding: 1rem;
+  background: var(--color-sf-content-bg-color-alt1, #f8f9fa);
+}
+
+.e-sidebar-body {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow: auto;
+  padding: 1rem;
+}
+
+.e-sidebar.e-sidebar-mini .e-sidebar-body {
+  padding-inline: .75rem;
+}
+
+.e-sidebar-target {
+  flex: 1 1 auto;
+  min-width: 0;
+  min-height: 100%;
+  transition: margin var(--e-sidebar-duration, 300ms) ease, transform var(--e-sidebar-duration, 300ms) ease;
+}
+
+.e-sidebar-container-push .e-sidebar-target {
+  flex: none;
+  width: 100%;
+}
+
+.e-sidebar-container-push.e-sidebar-container-left .e-sidebar-target {
+  transform: translateX(var(--e-sidebar-occupied-width));
+}
+
+.e-sidebar-container-push.e-sidebar-container-right .e-sidebar-target {
+  transform: translateX(calc(-1 * var(--e-sidebar-occupied-width)));
+}
+
+.e-sidebar-container-shrink.e-sidebar-container-left .e-sidebar-target {
+  margin-left: var(--e-sidebar-occupied-width);
+}
+
+.e-sidebar-container-shrink.e-sidebar-container-right .e-sidebar-target {
+  margin-right: var(--e-sidebar-occupied-width);
+}
+
+/* A fixed panel is positioned against the viewport and takes no space in the container, so Push and Shrink must not move the content. */
+.e-sidebar-container-fixed.e-sidebar-container-push .e-sidebar-target {
+  transform: none;
+}
+
+.e-sidebar-container-fixed.e-sidebar-container-shrink .e-sidebar-target {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.e-sidebar-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 999;
+  background: var(--color-sf-overlay-bg-color, rgba(0, 0, 0, .4));
+}
+
+.e-sidebar-notes,
+.e-sidebar-live {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+
+.e-sidebar-container.e-sidebar-no-animation .e-sidebar,
+.e-sidebar-container.e-sidebar-no-animation .e-sidebar-target {
+  transition: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .e-sidebar,
+  .e-sidebar-target {
+    transition: none !important;
+  }
+}
+
+@media (forced-colors: active) {
+  .e-sidebar {
+    border-color: CanvasText;
+  }
+
+  .e-sidebar:focus-visible,
+  .e-sidebar ::deep :focus-visible {
+    outline: 2px solid Highlight;
+    outline-offset: 2px;
+  }
+
+  .e-sidebar-backdrop {
+    background: Canvas;
+    opacity: .5;
+  }
+}

@@ -58,7 +58,7 @@ namespace Syncfusion.Blazor.Toolkit
     }
 
     /// <summary>
-    /// Provides global runtime state and configuration for Syncfusion Blazor Toolkit components,
+    /// Provides scoped runtime state and configuration for Syncfusion Blazor Toolkit components,
     /// including RTL settings, animation preferences, and device-mode detection caching.
     /// </summary>
     /// <remarks>
@@ -70,7 +70,18 @@ namespace Syncfusion.Blazor.Toolkit
     public class SyncfusionBlazorToolkitService(IOptions<GlobalOptions>? configure)
     {
         /// <exclude />
-        internal readonly GlobalOptions _options = configure?.Value ?? new GlobalOptions();
+        internal readonly GlobalOptions _options = CloneOptions(configure?.Value);
+
+        private static GlobalOptions CloneOptions(GlobalOptions? source)
+        {
+            return source is null
+                ? new GlobalOptions()
+                : new GlobalOptions
+                {
+                    EnableRtl = source.EnableRtl,
+                    Animation = source.Animation,
+                };
+        }
 
         /// <summary>
         /// Gets or sets a value indicating whether the initialization JavaScript interop script
@@ -150,27 +161,26 @@ namespace Syncfusion.Blazor.Toolkit
         internal bool IsJsInProcess { get; set; }
 
         /// <summary>
-        /// Enables or disables right-to-left (RTL) text direction for all supported Syncfusion
-        /// Blazor Toolkit components in this application scope.
+        /// Enables or disables right-to-left (RTL) text direction for supported components using
+        /// this scoped service instance.
         /// </summary>
         /// <param name="enable">
         /// <see langword="true"/> to enable RTL layout; <see langword="false"/> to disable it.
         /// The default is <see langword="true"/>.
         /// </param>
         /// <remarks>
-        /// This method modifies the global options instance. It is equivalent to setting
-        /// <see cref="GlobalOptions.EnableRtl"/> directly. The change takes effect for components
-        /// rendered after the call.
+        /// This method modifies the runtime options copy owned by this service scope. The change
+        /// takes effect for components in the same scope that render after the call.
         /// </remarks>
-        /// <returns>None. This method modifies global state directly without returning a value.</returns>
+        /// <returns>None. This method modifies scoped runtime state.</returns>
         public void EnableRtl(bool enable = true)
         {
             _options.EnableRtl = enable;
         }
 
         /// <summary>
-        /// Determines whether component animations are enabled globally based on the current
-        /// <see cref="GlobalOptions.Animation"/> setting.
+        /// Determines whether component animations are enabled based on the
+        /// <see cref="GlobalOptions.Animation"/> setting for this service scope.
         /// </summary>
         /// <returns>
         /// <see langword="true"/> if animation is enabled (either <see cref="GlobalAnimationMode.Default"/> or
@@ -178,7 +188,8 @@ namespace Syncfusion.Blazor.Toolkit
         /// </returns>
         /// <remarks>
         /// Individual components reference this method before running animation transitions so that
-        /// a single global switch can turn animations on or off everywhere.
+        /// the animation setting can be applied consistently to components using this service
+        /// instance. Changes made to another service scope do not affect this instance.
         /// </remarks>
         /// <example>
         /// <code><![CDATA[
@@ -192,6 +203,15 @@ namespace Syncfusion.Blazor.Toolkit
         {
             return _options.Animation is GlobalAnimationMode.Default or GlobalAnimationMode.Enable;
         }
+
+        /// <summary>
+        /// Sets the animation mode for the current service scope. Components in other scopes are unaffected.
+        /// </summary>
+        /// <param name="mode">The animation mode to apply.</param>
+        public void SetAnimation(GlobalAnimationMode mode)
+        {
+            _options.Animation = mode;
+        }
     }
 
     /// <summary>
@@ -199,10 +219,9 @@ namespace Syncfusion.Blazor.Toolkit
     /// including RTL support and animation behavior.
     /// </summary>
     /// <remarks>
-    /// These options are configured once at application startup via the
+    /// These options are configured at application startup via the
     /// <see cref="SyncfusionBlazorToolkit.AddSyncfusionBlazorToolkit(IServiceCollection, Action{GlobalOptions}?)"/>
-    /// extension method and then surfaced read-only to components through
-    /// <see cref="SyncfusionBlazorToolkitService"/>.
+    /// extension method and copied into the scoped runtime state used by components.
     /// </remarks>
     /// <exclude />
     public class GlobalOptions

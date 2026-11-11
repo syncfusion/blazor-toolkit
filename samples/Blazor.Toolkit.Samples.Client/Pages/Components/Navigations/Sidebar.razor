@@ -1,0 +1,232 @@
+@page "/navigations/sidebar"
+@inherits TocPublishingComponentBase
+@inject NavigationManager Navigation
+@using Blazor.Toolkit.Samples.Client.Pages.Demos.Navigations.Sidebar
+
+<PageTitle>Blazor Sidebar Demo | Syncfusion Toolkit</PageTitle>
+
+<Description>
+    <Header>
+        <h1 id="blazor-toolkit-sidebar-component">Blazor Toolkit Sidebar Component</h1>
+    </Header>
+    <Content>
+        The <code>SfSidebar</code> is a collapsible side panel for navigation or secondary tools.
+        The default mode is <code>SidebarMode.Overlay</code>: the panel floats above content and can show a backdrop.
+    </Content>
+</Description>
+
+<CodePreview PreviewComponent="typeof(DefaultDemo)" SourceFile="Pages/Demos/Navigations/Sidebar/DefaultDemo.razor" />
+
+<Description>
+    <Header>
+        <h2 id="modes">Modes</h2>
+    </Header>
+    <Content>
+        Switch between <code>Overlay</code>, <code>Push</code>, and <code>Shrink</code> at runtime.
+        Overlay covers content, Push shifts it, and Shrink reduces the available width of the target area.
+        Use the Fixed toggle to compare viewport-fixed positioning with container-contained positioning.
+    </Content>
+</Description>
+
+<CodePreview PreviewComponent="typeof(ModesDemo)" SourceFile="Pages/Demos/Navigations/Sidebar/ModesDemo.razor" />
+
+<Description>
+    <Header>
+        <h2 id="mini-rail">Mini Rail</h2>
+    </Header>
+    <Content>
+        Enable <code>EnableMini</code> to keep a compact icon rail visible when the sidebar is closed.
+        Optionally turn on <code>OpenMiniOnHover</code> for desktop pointer expansion.
+    </Content>
+</Description>
+
+<CodePreview PreviewComponent="typeof(MiniRailDemo)" SourceFile="Pages/Demos/Navigations/Sidebar/MiniRailDemo.razor" />
+
+<Description>
+    <Header>
+        <h2 id="positions">Positions</h2>
+    </Header>
+    <Content>
+        Choose <code>Left</code> or <code>Right</code> for fixed physical edges, or <code>Start</code> / <code>End</code> for logical edges that follow the reading direction (including RTL).
+    </Content>
+</Description>
+
+<CodePreview PreviewComponent="typeof(PositionsDemo)" SourceFile="Pages/Demos/Navigations/Sidebar/PositionsDemo.razor" />
+
+<Description>
+    <Header>
+        <h2 id="dual-sidebars">Dual Sidebars</h2>
+    </Header>
+    <Content>
+        Place one sidebar on the start edge and another on the end edge.
+        Each instance keeps its own open state and can be toggled independently.
+    </Content>
+</Description>
+
+<CodePreview PreviewComponent="typeof(DualSidebarsDemo)" SourceFile="Pages/Demos/Navigations/Sidebar/DualSidebarsDemo.razor" />
+
+<Description>
+    <Header>
+        <h2 id="responsive">Responsive</h2>
+    </Header>
+    <Content>
+        Enable <code>Responsive</code> and choose a <code>Breakpoint</code>.
+        Below the threshold the sidebar switches to overlay behaviour and starts closed.
+        <code>OnBreakpointChanged</code> reports the transition. Resize the browser to see the change.
+    </Content>
+</Description>
+
+<CodePreview PreviewComponent="typeof(ResponsiveDemo)" SourceFile="Pages/Demos/Navigations/Sidebar/ResponsiveDemo.razor" />
+
+<Description>
+    <Header>
+        <h2 id="interaction">Interaction Controls</h2>
+    </Header>
+    <Content>
+        Control overlay dismissal with <code>ShowBackdrop</code>, <code>CloseOnOverlayClick</code>, and <code>CloseOnEscape</code>.
+        Toggle the options at runtime and test the behaviour with the keyboard and pointer.
+    </Content>
+</Description>
+
+<CodePreview PreviewComponent="typeof(InteractionControlsDemo)" SourceFile="Pages/Demos/Navigations/Sidebar/InteractionControlsDemo.razor" />
+
+<Description>
+    <Header>
+        <h2 id="api">Sidebar API</h2>
+    </Header>
+    <Content>
+        Obtain a component reference and call <code>OpenAsync</code>, <code>CloseAsync</code>, <code>ToggleAsync</code>, and <code>FocusAsync</code>.
+        Observe <code>IsOpenChanged</code>, <code>OnOpened</code>, and <code>OnClosed</code> after the state changes.
+    </Content>
+</Description>
+
+<CodePreview PreviewComponent="typeof(ApiDemo)" SourceFile="Pages/Demos/Navigations/Sidebar/ApiDemo.razor" />
+
+<style>
+    .sbd-stage {
+        position: relative;
+        overflow: hidden;
+        border: 1px solid var(--color-sf-border, var(--bs-border-color, #dee2e6));
+        border-radius: .5rem;
+        color: var(--color-sf-content-text-color, inherit);
+    }
+
+    .sbd-content {
+        min-height: 340px;
+        padding: 1.5rem;
+        display: grid;
+        align-content: start;
+        gap: 1rem;
+        background: var(--color-sf-content-bg-color, var(--bs-body-bg, #fff));
+        color: var(--color-sf-content-text-color, inherit);
+    }
+
+    .sbd-content p {
+        margin: 0;
+    }
+
+    .sbd-controls {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: .5rem 1.25rem;
+        margin-bottom: 1rem;
+    }
+
+    .sbd-control-label {
+        font-weight: 600;
+    }
+
+    /* Scoped under .sbd-stage so it outranks the host's `.page-content ul` spacing. */
+    .sbd-stage .sbd-nav {
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        display: grid;
+        gap: .5rem;
+    }
+
+    .sbd-stage .sbd-nav li {
+        display: flex;
+        align-items: center;
+        gap: .75rem;
+    }
+
+    .sbd-note {
+        padding: .5rem .75rem;
+        border-inline-start: 3px solid var(--color-sf-primary, var(--bs-primary, #0d6efd));
+        background: var(--color-sf-content-bg-color-alt1, var(--bs-tertiary-bg, #f8f9fa));
+        color: var(--color-sf-content-text-color, inherit);
+        font-size: .875rem;
+    }
+
+    .sbd-status {
+        display: grid;
+        grid-template-columns: max-content 1fr;
+        gap: .25rem 1rem;
+        margin: 1rem 0;
+        padding: .75rem 1rem;
+        border: 1px solid var(--color-sf-border, var(--bs-border-color, #dee2e6));
+        border-radius: .5rem;
+        background: var(--color-sf-content-bg-color-alt1, var(--bs-tertiary-bg, #f8f9fa));
+        color: var(--color-sf-content-text-color, inherit);
+    }
+
+    .sbd-status dt {
+        font-weight: 600;
+    }
+
+    .sbd-status dd {
+        margin: 0;
+    }
+
+    .sbd-rail-item.e-btn {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        gap: .75rem;
+        width: 100%;
+        white-space: nowrap;
+    }
+
+    .sbd-stage-toggle {
+        display: flex;
+        flex-wrap: wrap;
+        gap: .5rem;
+        margin-bottom: .75rem;
+    }
+
+    /* Larger, vertically centred icon used by the Mini Rail and Dual Sidebars demos. */
+    .sbd-rail-item.sbd-rail-lg.e-btn .e-btn-icon {
+        flex: none;
+        width: 24px;
+        height: 24px;
+        margin: 0;
+        font-size: 18px;
+        line-height: 24px;
+        text-align: center;
+    }
+</style>
+
+@code {
+    protected override void OnInitialized()
+    {
+        if (Navigation.Uri.Contains("/close-on-navigate", StringComparison.Ordinal))
+        {
+            Navigation.NavigateTo("navigations/sidebar#responsive", replace: true);
+        }
+    }
+
+    private static readonly IReadOnlyList<RightToc.TocItem> TocItemsList = new RightToc.TocItem[]
+    {
+        new("modes", "Modes"),
+        new("mini-rail", "Mini Rail"),
+        new("positions", "Positions"),
+        new("dual-sidebars", "Dual Sidebars"),
+        new("responsive", "Responsive"),
+        new("interaction", "Interaction Controls"),
+        new("api", "Sidebar API"),
+    };
+
+    protected override IReadOnlyList<RightToc.TocItem> TocItems => TocItemsList;
+}

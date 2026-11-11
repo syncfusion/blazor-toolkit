@@ -1,0 +1,21 @@
+@page "/sidebar/dual"
+@using Syncfusion.Blazor.Toolkit
+
+<PageTitle>Sidebar dual</PageTitle>
+
+<SidebarReady />
+<h1>Sidebar dual</h1>
+<div id="dual-host" class="pair-host">
+    <SfSidebar Id="dual-start" Mode="SidebarMode.Push" Position="SidebarPosition.Start" IsOpen="true" Responsive="false" EnableAnimation="false" Width="200px" AriaLabel="Start navigation" Fixed="false">
+        <ChildContent><SfButton CssClass="e-outline">Start action</SfButton></ChildContent>
+        <TargetContent><main><SfButton data-testid="main-focusable">Main action</SfButton></main></TargetContent>
+    </SfSidebar>
+    <SfSidebar Id="dual-end" Mode="SidebarMode.Push" Position="SidebarPosition.End" IsOpen="true" Responsive="false" EnableAnimation="false" Width="200px" AriaLabel="End tools" Fixed="false">
+        <ChildContent><SfButton CssClass="e-outline">End action</SfButton></ChildContent>
+    </SfSidebar>
+</div>
+
+<style>
+    .pair-host { display: grid; min-height: 420px; }
+    .pair-host > .e-sidebar-container { grid-area: 1 / 1; }
+</style>
