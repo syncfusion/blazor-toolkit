@@ -1,0 +1,110 @@
+@namespace Syncfusion.Blazor.Toolkit
+@using Microsoft.AspNetCore.Components.Web
+@using Syncfusion.Blazor.Toolkit.Internal
+@inherits SfBaseComponent
+
+<SfThemeRoot />
+@if (!_removed)
+{
+    @if (RootTag == ButtonTag)
+    {
+        <button @key="RootTag" @ref="_rootReference" @attributes="RootAttributes()" @onclick="OnClickAsync" @onclick:stopPropagation="true" @onkeydown="OnKeyDownAsync">
+            @Inner
+        </button>
+    }
+    else if (RootTag == AnchorTag)
+    {
+        <a @key="RootTag" @ref="_rootReference" @attributes="RootAttributes()" @onclick="OnClickAsync" @onkeydown="OnKeyDownAsync">
+            @Inner
+        </a>
+    }
+    else
+    {
+        <span @key="RootTag" @ref="_rootReference" @attributes="RootAttributes()" @onclick="OnClickAsync" @onkeydown="OnKeyDownAsync">
+            @Inner
+        </span>
+    }
+}
+
+@code {
+    private RenderFragment Inner => builder =>
+    {
+        int seq = 0;
+        if (ShowLeading)
+        {
+            builder.OpenElement(seq++, "span");
+            builder.AddAttribute(seq++, "class", "e-chip-leading");
+            builder.AddAttribute(seq++, "aria-hidden", "true");
+            if (LeadingTemplate is not null)
+            {
+                builder.AddContent(seq++, LeadingTemplate);
+            }
+            else if (!string.IsNullOrEmpty(ImageUrl))
+            {
+                builder.OpenElement(seq++, "img");
+                builder.AddAttribute(seq++, "src", ImageUrl);
+                builder.AddAttribute(seq++, "alt", ImageAlt ?? string.Empty);
+                builder.CloseElement();
+            }
+            else if (!string.IsNullOrEmpty(IconCss))
+            {
+                builder.OpenElement(seq++, "span");
+                builder.AddAttribute(seq++, "class", IconCss);
+                builder.CloseElement();
+            }
+            else if (ShowSelectionCheck)
+            {
+                builder.OpenElement(seq++, "span");
+                builder.AddAttribute(seq++, "class", "e-toolkit-icons e-check");
+                builder.AddAttribute(seq++, "aria-hidden", "true");
+                builder.CloseElement();
+            }
+            builder.CloseElement();
+        }
+
+        builder.OpenElement(seq++, "span");
+        builder.AddAttribute(seq++, "class", "e-chip-text");
+        if (ChildContent is not null)
+        {
+            builder.AddContent(seq++, ChildContent);
+        }
+        else
+        {
+            builder.AddContent(seq++, Text);
+        }
+        builder.CloseElement();
+
+        if (TrailingTemplate is not null)
+        {
+            builder.OpenElement(seq++, "span");
+            builder.AddAttribute(seq++, "class", "e-chip-trailing");
+            builder.AddContent(seq++, TrailingTemplate);
+            builder.CloseElement();
+        }
+
+        if (ShowRemove)
+        {
+            builder.OpenElement(seq++, "button");
+            builder.AddAttribute(seq++, "type", "button");
+            builder.AddAttribute(seq++, "class", "e-chip-remove");
+            builder.AddAttribute(seq++, "data-testid", "chip-remove");
+            builder.AddAttribute(seq++, "aria-label", RemoveLabel);
+            builder.AddAttribute(seq++, "disabled", RemoveDisabled);
+            builder.AddAttribute(seq++, "onclick", EventCallback.Factory.Create<MouseEventArgs>(this, OnRemoveClickAsync));
+            builder.AddEventStopPropagationAttribute(seq++, "onclick", true);
+            builder.AddElementReferenceCapture(seq++, reference => _removeReference = reference);
+            if (RemoveTemplate is not null)
+            {
+                builder.AddContent(seq++, RemoveTemplate);
+            }
+            else
+            {
+                builder.OpenElement(seq++, "span");
+                builder.AddAttribute(seq++, "class", "e-toolkit-icons e-close");
+                builder.AddAttribute(seq++, "aria-hidden", "true");
+                builder.CloseElement();
+            }
+            builder.CloseElement();
+        }
+    };
+}

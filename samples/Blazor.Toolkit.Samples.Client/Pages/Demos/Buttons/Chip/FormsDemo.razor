@@ -1,0 +1,61 @@
+@using System.ComponentModel.DataAnnotations
+@using Microsoft.AspNetCore.Components.Forms
+@using Syncfusion.Blazor.Toolkit
+
+<div class="chip-demo-shell">
+    <EditForm EditContext="@editContext" OnValidSubmit="Submit" class="chip-demo-form">
+        <DataAnnotationsValidator />
+        <div class="chip-demo-form-selection">
+            <SfChipSet TItem="string"
+                       DataSource="@options"
+                       ItemKey="x => x"
+                       CssClassSelector="InfoClass"
+                       ChipType="ChipType.Filter"
+                       SelectionMode="ChipSelectionMode.Multiple"
+                       Variant="ChipVariant.Outlined"
+                       SelectedValues="model.Selected"
+                       SelectedValuesChanged="OnSelectedValuesChanged"
+                       AriaLabel="Interests" />
+        </div>
+        <ValidationMessage For="() => model.Selected" />
+        <div class="chip-demo-row chip-demo-form-actions">
+            <SfButton CssClass="e-primary" Type="ButtonType.Submit">Submit</SfButton>
+        </div>
+        @if (successMessage is not null)
+        {
+            <p class="chip-demo-form-feedback chip-demo-success" role="status" aria-live="polite">@successMessage</p>
+        }
+    </EditForm>
+</div>
+
+@code {
+    private sealed class InterestModel
+    {
+        [MinLength(1, ErrorMessage = "Pick at least one")]
+        public object?[] Selected { get; set; } = [];
+    }
+
+    private readonly InterestModel model = new();
+    private EditContext editContext = default!;
+    private string? successMessage;
+    private readonly List<string> options = ["Blazor", "UI", "A11y", "Forms"];
+
+    protected override void OnInitialized()
+    {
+        editContext = new EditContext(model);
+    }
+
+    private void OnSelectedValuesChanged(IEnumerable<object?> selectedValues)
+    {
+        model.Selected = selectedValues.ToArray();
+        successMessage = null;
+        editContext.NotifyFieldChanged(FieldIdentifier.Create(() => model.Selected));
+    }
+
+    private void Submit()
+    {
+        successMessage = "Form was submitted";
+    }
+
+    private static string InfoClass(string item) => "e-info";
+}

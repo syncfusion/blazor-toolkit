@@ -1,0 +1,51 @@
+@namespace Syncfusion.Blazor.Toolkit
+@typeparam TItem
+@using Microsoft.AspNetCore.Components.Web
+@using Syncfusion.Blazor.Toolkit.Internal
+@inherits SfBaseComponent
+
+<SfThemeRoot />
+<div @ref="_rootReference" @attributes="RootAttributes()" @onkeydown="OnKeyDownAsync">
+    @if (HasError && ErrorTemplate is not null)
+    {
+        @ErrorTemplate
+    }
+    else if (IsLoading && LoadingTemplate is not null)
+    {
+        @LoadingTemplate
+    }
+    else if (!HasItems && EmptyTemplate is not null)
+    {
+        @EmptyTemplate
+    }
+    else if (ChildContent is not null && DataSource is null)
+    {
+        <CascadingValue Value="this" IsFixed="false">
+            @ChildContent
+        </CascadingValue>
+    }
+    else
+    {
+        @foreach (ProjectedChip chip in VisibleChips)
+        {
+            <div class="e-chip-item @(chip.Collapsed ? "e-chip-collapsed" : null)" data-testid="chip-item" data-key="@chip.Model.Key" @key="chip.Model.Key">
+                @RenderProjected(chip)
+            </div>
+        }
+        @if (OverflowMode == ChipOverflowMode.Collapse && _hiddenCount > 0)
+        {
+            <button type="button" class="e-chipset-overflow" data-testid="chip-overflow" aria-expanded="@(_overflowExpanded ? TrueValue : FalseValue)" @onclick="ToggleOverflowAsync">
+                @if (OverflowExpandTemplate is not null && !_overflowExpanded)
+                {
+                    @OverflowExpandTemplate(_hiddenCount)
+                }
+                else
+                {
+                    @(_overflowExpanded
+                        ? ChipResources.Format(Localizer, ChipResources.ShowLessKey, "Show less")
+                        : ChipResources.Format(Localizer, ChipResources.ShowMoreKey, "Show {0} more", _hiddenCount))
+                }
+            </button>
+        }
+    }
+</div>

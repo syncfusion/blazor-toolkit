@@ -1,0 +1,243 @@
+@page "/buttons/chip"
+@inherits TocPublishingComponentBase
+@using Blazor.Toolkit.Samples.Client.Pages.Demos.Buttons.Chip
+
+<PageTitle>Blazor Chips Demo | Syncfusion Toolkit</PageTitle>
+
+<Description>
+    <Header>
+        <h1 id="blazor-toolkit-chips-component">Blazor Toolkit Chips Component</h1>
+    </Header>
+    <Content>
+        Chips are compact tokens for filters, actions, choices, status, and tags.
+        Informational chips display labels or status and are not interactive controls.
+        This default sample shows color classes, soft and outlined variants, and icon and avatar content.
+        Use an Action, Filter, Choice, or Navigation chip when interaction is needed.
+    </Content>
+</Description>
+
+<CodePreview PreviewComponent="typeof(DefaultDemo)" SourceFile="/Pages/Demos/Buttons/Chip/DefaultDemo.razor" />
+
+<Description>
+    <Header>
+        <h2 id="actions-navigation">Actions &amp; Navigation</h2>
+    </Header>
+    <Content>
+        Action chips run an operation and report its result; the action is disabled while it is running.
+        Navigation chips are links that open a real destination in a new tab.
+    </Content>
+</Description>
+
+<CodePreview PreviewComponent="typeof(ActionsDemo)" SourceFile="/Pages/Demos/Buttons/Chip/ActionsDemo.razor" />
+
+<Description>
+    <Header>
+        <h2 id="filters">Filters</h2>
+    </Header>
+    <Content>
+        Select multiple Filter chips to update the selected count and removable chips below the set.
+        Removing a selected chip or clearing the set updates the same selection; disabled items remain visible but cannot be selected.
+    </Content>
+</Description>
+
+<CodePreview PreviewComponent="typeof(FiltersDemo)" SourceFile="/Pages/Demos/Buttons/Chip/FiltersDemo.razor" />
+
+<Description>
+    <Header>
+        <h2 id="removable-tags">Removable Tags</h2>
+    </Header>
+    <Content>
+        Add tags with the adjacent text field and Enter or Add; the Input chip’s remove button removes a tag.
+        The chip body itself is not an activation button.
+    </Content>
+</Description>
+
+<CodePreview PreviewComponent="typeof(TokensDemo)" SourceFile="/Pages/Demos/Buttons/Chip/TokensDemo.razor" />
+
+<Description>
+    <Header>
+        <h2 id="responsive">Responsive Filters</h2>
+    </Header>
+    <Content>
+        Select from twelve Filter chips in Wrap, Scroll, or Collapse mode.
+        Collapse initially shows four chips and provides a show-more/show-less control.
+    </Content>
+</Description>
+
+<CodePreview PreviewComponent="typeof(ResponsiveDemo)" SourceFile="/Pages/Demos/Buttons/Chip/ResponsiveDemo.razor" />
+
+<Description>
+    <Header>
+        <h2 id="forms">Forms</h2>
+    </Header>
+    <Content>
+        Filter chips bind to an <code>EditForm</code> selection that requires at least one choice.
+        A valid submission displays a confirmation naming the selected labels.
+    </Content>
+</Description>
+
+<CodePreview PreviewComponent="typeof(FormsDemo)" SourceFile="/Pages/Demos/Buttons/Chip/FormsDemo.razor" />
+
+@code {
+    private static readonly IReadOnlyList<RightToc.TocItem> TocItemsList =
+    [
+        new("actions-navigation", "Actions & Navigation"),
+        new("filters", "Filters"),
+        new("removable-tags", "Removable Tags"),
+        new("responsive", "Responsive Filters"),
+        new("forms", "Forms"),
+    ];
+
+    protected override IReadOnlyList<RightToc.TocItem> TocItems => TocItemsList;
+}
+
+<style>
+    .chip-demo-shell {
+        align-items: center;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        justify-content: center;
+        max-width: 720px;
+        width: 100%;
+    }
+
+    .chip-demo-shell .row,
+    .chip-demo-row {
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    margin: 0;
+    width: 100%;
+}
+
+.chip-demo-default {
+    flex-direction: column;
+    gap: 20px;
+}
+
+.chip-demo-shell .row > *,
+.chip-demo-row > * {
+    flex: 0 0 auto;
+    max-width: 100%;
+    padding: 0;
+    width: auto;
+}
+
+.chip-avatar {
+    --chip-avatar-bg: 224, 224, 224; 
+    --chip-avatar-fg: 33, 33, 33;
+    background: rgb(var(--chip-avatar-bg));
+    color: rgb(var(--chip-avatar-fg));
+    border-radius: 50%;
+    display: inline-grid;
+    font-size: 0.75rem;
+    font-weight: 500;
+    height: 1.5rem;
+    place-items: center;
+    width: 1.5rem;
+}
+
+body.e-dark-mode .chip-avatar {
+    --chip-avatar-bg: 66, 66, 66;
+    --chip-avatar-fg: 245, 245, 245;
+}
+
+.chip-demo-narrow {
+    border: 1px dashed var(--color-sf-border, #ccc);
+    max-width: 520px;
+    margin-inline: auto;
+    padding: 8px;
+    width: 100%;
+}
+
+.chip-demo-token-row {
+    align-items: center;
+    display: flex;
+    gap: 8px;
+    justify-content: center;
+    width: 100%;
+}
+
+.chip-demo-token-input {
+    flex: 0 1 24rem;
+    min-width: 0;
+    width: 100%;
+}
+
+.chip-demo-token-results {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+}
+
+.chip-demo-token-form {
+    margin-inline: auto;
+    max-width: 42rem;
+    width: 100%;
+}
+
+.chip-demo-token-status,
+.chip-demo-selection-status {
+    margin-inline: auto;
+    max-width: 20rem;
+}
+
+.chip-demo-form {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    width: 100%;
+}
+
+.chip-demo-form-selection {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.chip-demo-form-actions {
+    justify-content: center;
+}
+
+.chip-demo-form-feedback {
+    margin: 0;
+    text-align: center;
+}
+
+.chip-demo-success {
+    background: var(--sf-success-bg, #ecfdf3);
+    border: 1px solid var(--sf-success-border, #abefc6);
+    border-radius: 4px;
+    color: var(--sf-success-text, #067647);
+    padding: 12px 16px;
+    width: 100%;
+}
+
+body.e-dark-mode .chip-demo-success {
+    background: #123b2a;
+    border-color: #32d583;
+    color: #d1fadf;
+}
+
+@@media (max-width: 720px) {
+    .chip-demo-narrow {
+        max-width: 100%;
+    }
+
+    .chip-demo-token-row {
+        flex-wrap: wrap;
+    }
+
+    .chip-demo-token-input {
+        flex-basis: 100%;
+        max-width: none;
+    }
+}
+</style>

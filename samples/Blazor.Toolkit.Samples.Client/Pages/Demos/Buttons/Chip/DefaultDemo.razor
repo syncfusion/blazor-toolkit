@@ -1,0 +1,31 @@
+@using Syncfusion.Blazor.Toolkit
+
+<div class="chip-demo-shell chip-demo-default" role="group" aria-label="Informational chip examples">
+    <div class="chip-demo-row">
+        <SfChip Text="Default" ChipType="ChipType.Informational" />
+        <SfChip Text="Primary" ChipType="ChipType.Informational" CssClass="e-primary" />
+        <SfChip Text="Info" ChipType="ChipType.Informational" CssClass="e-info" />
+        <SfChip Text="Success" ChipType="ChipType.Informational" CssClass="e-success" />
+        <SfChip Text="Warning" ChipType="ChipType.Informational" CssClass="e-warning" />
+        <SfChip Text="Danger" ChipType="ChipType.Informational" CssClass="e-danger" />
+    </div>
+
+    <div class="chip-demo-row">
+        <SfChip Text="Soft primary" ChipType="ChipType.Informational" CssClass="e-chip-soft e-primary" />
+        <SfChip Text="Soft info" ChipType="ChipType.Informational" CssClass="e-chip-soft e-info" />
+        <SfChip Text="Soft success" ChipType="ChipType.Informational" CssClass="e-chip-soft e-success" />
+        <SfChip Text="Outlined primary" ChipType="ChipType.Informational" CssClass="e-primary" Variant="ChipVariant.Outlined" />
+        <SfChip Text="Outlined info" ChipType="ChipType.Informational" CssClass="e-info" Variant="ChipVariant.Outlined" />
+        <SfChip Text="Outlined warning" ChipType="ChipType.Informational" CssClass="e-warning" Variant="ChipVariant.Outlined" />
+    </div>
+
+    <div class="chip-demo-row">
+        <SfChip Text="Add" ChipType="ChipType.Informational" CssClass="e-primary" IconCss="sb-icons e-plus" />
+        <SfChip Text="Travel" ChipType="ChipType.Informational" CssClass="e-info" IconCss="sb-icons e-travel-and-places" />
+        <SfChip Text="Alex Kim" ChipType="ChipType.Informational">
+            <LeadingTemplate>
+                <span class="chip-avatar" aria-hidden="true">AK</span>
+            </LeadingTemplate>
+        </SfChip>
+    </div>
+</div>
