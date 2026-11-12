@@ -1,0 +1,37 @@
+@using Syncfusion.Blazor.Toolkit
+
+<div class="chip-demo-shell">
+    <div class="chip-demo-row chip-demo-responsive-modes" role="group" aria-label="Chip layout mode">
+        <SfButton CssClass="@(mode == ChipOverflowMode.Wrap ? "e-primary" : "e-outline")"
+                  aria-pressed="@(mode == ChipOverflowMode.Wrap)"
+                  OnClick="() => mode = ChipOverflowMode.Wrap">Wrap</SfButton>
+        <SfButton CssClass="@(mode == ChipOverflowMode.Scroll ? "e-primary" : "e-outline")"
+                  aria-pressed="@(mode == ChipOverflowMode.Scroll)"
+                  OnClick="() => mode = ChipOverflowMode.Scroll">Scroll</SfButton>
+        <SfButton CssClass="@(mode == ChipOverflowMode.Collapse ? "e-primary" : "e-outline")"
+                  aria-pressed="@(mode == ChipOverflowMode.Collapse)"
+                  OnClick="() => mode = ChipOverflowMode.Collapse">Collapse</SfButton>
+    </div>
+    <p class="chip-demo-form-feedback chip-demo-success chip-demo-selection-status"
+       role="status"
+       aria-live="polite">@SelectedCount categories selected</p>
+    <div class="chip-demo-narrow">
+        <SfChipSet TItem="string"
+                   DataSource="@items"
+                   ItemKey="x => x"
+                   OverflowMode="@mode"
+                   CollapsedVisibleCount="4"
+                   AriaLabel="Categories"
+                   ChipType="ChipType.Filter"
+                   SelectionMode="ChipSelectionMode.Multiple"
+                   @bind-SelectedValues="selected" />
+    </div>
+</div>
+
+@code {
+    private ChipOverflowMode mode = ChipOverflowMode.Collapse;
+    private readonly List<string> items = Enumerable.Range(1, 12).Select(i => $"Category {i}").ToList();
+    private IEnumerable<object?> selected = Array.Empty<object?>();
+
+    private int SelectedCount => selected.Count();
+}

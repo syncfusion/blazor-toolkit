@@ -1,0 +1,39 @@
+@page "/chips/visual"
+@rendermode InteractiveServer
+@layout MainLayout
+
+<span id="visual-ready" data-ready="true" hidden></span>
+
+<h1>Chips - visual baselines</h1>
+
+<section id="chip-filter-selected">
+    <SfChip ChipType="ChipType.Filter" Selected="true" Text="Sale" />
+</section>
+
+<section id="chip-choice-selected">
+    <SfChip ChipType="ChipType.Choice" Selected="true" Text="One" />
+</section>
+
+<section id="chip-filter-clear">
+    <SfChip ChipType="ChipType.Filter" Text="Clear" />
+</section>
+
+<section id="chip-remove-filled">
+    <SfChip Text="Filled" Removable="true" CssClass="e-primary" />
+</section>
+
+<section id="chip-remove-soft">
+    <SfChip Text="Soft" Removable="true" CssClass="e-chip-soft e-primary" />
+</section>
+
+<section id="chip-remove-outlined">
+    <SfChip Text="Outlined" Removable="true" Variant="ChipVariant.Outlined" CssClass="e-primary" />
+</section>
+
+<section id="chip-filter-selected-remove">
+    <SfChip ChipType="ChipType.Filter" Selected="true" Removable="true" Variant="ChipVariant.Outlined" Text="Keep" />
+</section>
+
+<section id="chip-filter-rtl" dir="rtl">
+    <SfChip ChipType="ChipType.Filter" Selected="true" Removable="true" EnableRtl="true" Text="Right" />
+</section>
