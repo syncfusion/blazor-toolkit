@@ -22,7 +22,6 @@ namespace Syncfusion.Blazor.Toolkit
                 DataId = ID;
                 RootClass = ROOT_CLASS;
                 ContainerClass = CONTAINER_CLASS;
-                IsTriggerFocusHandler = true;
                 await base.OnInitializedAsync().ConfigureAwait(true);
                 IsNumberCulture = CultureInfo.CurrentCulture.Name.StartsWith(ARABIC, StringComparison.Ordinal) ||
                     CultureInfo.CurrentCulture.Name.StartsWith(THAILAND, StringComparison.Ordinal) ||
@@ -135,7 +134,6 @@ namespace Syncfusion.Blazor.Toolkit
                     }
 
                     PrevValue = Value;
-                    IsTriggerFocusHandler = false;
                     if (Created.HasDelegate)
                     {
                         await Created.InvokeAsync(null).ConfigureAwait(true);

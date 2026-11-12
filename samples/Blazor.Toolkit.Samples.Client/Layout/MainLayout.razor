@@ -7,7 +7,7 @@
 @inject Syncfusion.Blazor.Toolkit.SyncfusionBlazorToolkitService SyncfusionService
 @inject NavigationManager Urihelper
 
-<div class="page">
+<div class="page @(IsRtl ? "rtl page-rtl" : null)" dir="@(IsRtl ? "rtl" : "ltr")">
     <header class="top-layout-custom">
         @if (IsMobile)
         {
@@ -110,10 +110,17 @@
                                         <div class="preferences-label">Mode Selection</div>
                                         <div class="btn-group mode-toggle-group">
                                             <SfButtonGroup Mode="SelectionMode.Single">
-                                                <Button IconCss="sb-icons e-align-left" Selected="@(!IsRtl)" @onclick="@(() => SetRTL(false))">LTR</Button>
-                                                <Button IconCss="sb-icons e-align-right" Selected="@(IsRtl)" @onclick="@(() => SetRTL(true))">RTL</Button>
-                                            </SfButtonGroup>
-                                        </div>
+                                                <Button IconCss="sb-icons e-align-left"
+                                                        Selected="@(!IsRtl)"
+                                                        SelectedChanged="@(v => OnRtlButtonChanged(v, rtl: false))">
+                                                    LTR
+                                                </Button>
+                                                <Button IconCss="sb-icons e-align-right"
+                                                        Selected="@(IsRtl)"
+                                                        SelectedChanged="@(v => OnRtlButtonChanged(v, rtl: true))">
+                                                    RTL</Button>
+                                                </SfButtonGroup>
+                                            </div>
                                     </div>
                                 </div>
                                 <div class="render-mode-section">
@@ -491,24 +498,43 @@
         PreferencesPopupOpen = false;
     }
 
-    private async Task SetRTL(bool rtl)
+    /// <summary>
+    /// ButtonGroup selection uses SelectedChanged, not @onclick.
+    /// Only react when this button becomes selected (Single mode).
+    /// </summary>
+    private async Task OnRtlButtonChanged ( bool selected, bool rtl )
     {
+        if (!selected)
+        {
+            return;
+        }
+
+        if (IsRtl == rtl)
+        {
+            return;
+        }
+
+        await SetRTL(rtl);
+    }
+
+    private async Task SetRTL ( bool rtl )
+    {
+        if (IsRtl == rtl)
+        {
+            return;
+        }
+
         IsRtl = rtl;
         PreferencesPopupOpen = false;
-        // Update Syncfusion RTL mode immediately so components will be configured
+
+        // Toolkit components (new / re-rendered)
         SyncfusionService.EnableRtl(IsRtl);
+
+        // Document dir + localStorage (no full page reload)
         var dir = IsRtl ? "rtl" : "ltr";
-        try
-        {
-            await JS.InvokeVoidAsync("mainLayout.setDir", dir);
-        }
-        catch { }
+        await JS.InvokeVoidAsync("mainLayout.setDir", dir);
+
         await InvokeAsync(StateHasChanged);
-        try
-        {
-            Nav.NavigateTo(Urihelper.BaseUri, forceLoad: true);
-        }
-        catch { }
     }
 
     // Toggle dark/light theme: update localStorage, document class and Syncfusion theme link.
