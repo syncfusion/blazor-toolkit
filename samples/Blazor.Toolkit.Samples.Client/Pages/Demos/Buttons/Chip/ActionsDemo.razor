@@ -1,0 +1,33 @@
+@using Syncfusion.Blazor.Toolkit
+
+<div class="chip-demo-row">
+    <SfChip Text="Run report" ChipType="ChipType.Action" CssClass="e-primary" OnClick="Run" Disabled="@busy" />
+    <SfChip Text="Documentation"
+            ChipType="ChipType.Navigation"
+            CssClass="e-info"
+            Variant="ChipVariant.Filled"
+            Href="https://blazor.syncfusion.com/demos/toolkit/explore"
+            Target="_blank"
+            Rel="noopener noreferrer" />
+</div>
+
+@if (busy || actionResult is not null)
+{
+    <p class="chip-demo-form-feedback" role="status" aria-live="polite">
+        @(busy ? "Running the report…" : actionResult)
+    </p>
+}
+
+@code {
+    private bool busy;
+    private string? actionResult;
+
+    private async Task Run()
+    {
+        busy = true;
+        actionResult = null;
+        await Task.Delay(800);
+        busy = false;
+        actionResult = "The report is ready.";
+    }
+}

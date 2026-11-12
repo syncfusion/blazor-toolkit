@@ -125,6 +125,7 @@ For full details on commit style, PR requirements, and review criteria, see the 
 | Charts | Chart | Versatile charting component for rendering interactive data visualizations like line, bar, pie, and more with zooming, tooltips, and legends. |
 | Buttons | Button | Customizable button with support for icons, predefined styles (primary, success, etc.), sizes, and states like disabled or loading. |
 | Buttons | ButtonGroup | Groups multiple buttons together for unified styling and actions, ideal for toolbars or segmented controls. |
+| Buttons | Chip | Standalone `SfChip` and data-bound or declarative `SfChipSet<TItem>` for compact labels, selection, removals. |
 | Calendars | Calendar | Interactive monthly calendar view for date selection with navigation, multi-select, and range highlighting. |
 | Calendars | DatePicker | Popup calendar input for selecting single dates with formatting, validation, and culture support. |
 | Calendars | DateTime Picker | Combined date and time selector with calendar popup and time spinner for precise datetime input. |
@@ -159,6 +160,7 @@ To run the demos locally, open `samples/Blazor.Toolkit.Samples.slnx` in Visual S
 The repository includes specialized skill files that document component usage patterns and implementation guidance for the major toolkit areas:
 
 - [Buttons skill](https://github.com/syncfusion/blazor-toolkit/blob/main/.github/skills/syncfusion-blazor-toolkit-buttons/SKILL.md)
+- [Chip skill](https://github.com/syncfusion/blazor-toolkit/blob/main/.github/skills/syncfusion-blazor-toolkit-buttons/references/chips.md)
 - [Calendars skill](https://github.com/syncfusion/blazor-toolkit/blob/main/.github/skills/syncfusion-blazor-toolkit-calendars/SKILL.md)
 - [Charts skill](https://github.com/syncfusion/blazor-toolkit/blob/main/.github/skills/syncfusion-blazor-toolkit-charts/SKILL.md)
 - [Inputs skill](https://github.com/syncfusion/blazor-toolkit/blob/main/.github/skills/syncfusion-blazor-toolkit-inputs/SKILL.md)

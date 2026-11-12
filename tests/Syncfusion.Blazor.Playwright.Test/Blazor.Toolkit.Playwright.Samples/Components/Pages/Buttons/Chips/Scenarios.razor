@@ -1,0 +1,30 @@
+@page "/chips/scenarios"
+@layout MainLayout
+
+<span id="scenarios-ready" data-ready="true" hidden></span>
+
+<h1>Chips - layout scenarios</h1>
+
+<section id="scn-wrap">
+    <SfChipSet TItem="string" DataSource="@_items" OverflowMode="ChipOverflowMode.Wrap" Id="chipset-wrap" />
+</section>
+
+<section id="scn-scroll">
+    <SfChipSet TItem="string" DataSource="@_items" OverflowMode="ChipOverflowMode.Scroll" Id="chipset-scroll" Style="max-width:160px" />
+</section>
+
+<section id="scn-collapse">
+    <SfChipSet TItem="string" DataSource="@_items" OverflowMode="ChipOverflowMode.Collapse" Id="chipset-collapse" />
+</section>
+
+<section id="scn-narrow" style="width:320px">
+    <SfChipSet TItem="string" DataSource="@_items" OverflowMode="ChipOverflowMode.Wrap" Id="chipset-narrow" />
+</section>
+
+<section id="scn-removable">
+    <SfChip Text="Alpha" Removable="true" Id="chip-removable" />
+</section>
+
+@code {
+    private readonly string[] _items = ["Alpha", "Beta", "Gamma", "Delta", "Epsilon"];
+}

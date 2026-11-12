@@ -1,0 +1,53 @@
+@using Syncfusion.Blazor.Toolkit
+
+<div class="chip-demo-shell">
+    <p role="status" aria-live="polite">@SelectedCount selected</p>
+    <SfChipSet TItem="FilterItem"
+               DataSource="@filters"
+               ItemKey="f => f.Id"
+               TextSelector="f => f.Label"
+               ValueSelector="f => f.Id"
+               DisabledSelector="f => f.Disabled"
+               IconCssSelector="f => f.Icon"
+               CssClassSelector="f => f.CssClass"
+               ChipType="ChipType.Filter"
+               SelectionMode="ChipSelectionMode.Multiple"
+               @bind-SelectedValues="selected"
+               AriaLabel="Product filters"
+               Variant="ChipVariant.Outlined" />
+    <div class="chip-demo-row chip-demo-selected-row" role="group" aria-label="Selected filters">
+        @foreach (FilterItem item in SelectedItems)
+        {
+            <SfChip @key="item.Id"
+                    Text="@item.Label"
+                    CssClass="@item.CssClass"
+                    Removable="true"
+                    Removed="() => Remove(item.Id)" />
+        }
+    </div>
+    <SfButton CssClass="e-outline" OnClick="Clear" Disabled="@(!selected?.Any() ?? true)">Clear</SfButton>
+</div>
+
+@code {
+    private sealed record FilterItem(string Id, string Label, string? Icon, string? CssClass, bool Disabled = false);
+
+    private readonly List<FilterItem> filters =
+    [
+        new("sale", "On sale", "sb-icons e-check", "e-primary"),
+        new("ship", "Free shipping", "sb-icons e-travel-and-places", "e-info"),
+        new("eco", "Eco", "sb-icons e-nature", "e-success"),
+        new("old", "Legacy", null, "e-warning", true)
+    ];
+
+    private IEnumerable<object?>? selected = new object[] { "sale" };
+
+    private int SelectedCount => selected?.Count() ?? 0;
+
+    private IEnumerable<FilterItem> SelectedItems =>
+        filters.Where(item => selected?.Any(value => Equals(value, item.Id)) == true);
+
+    private void Clear() => selected = Array.Empty<object?>();
+
+    private void Remove(string id) =>
+        selected = selected?.Where(value => !Equals(value, id)).ToArray() ?? Array.Empty<object?>();
+}

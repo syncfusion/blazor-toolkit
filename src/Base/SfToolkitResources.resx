@@ -303,4 +303,13 @@
   <data name="PromptInput" xml:space="preserve">
     <value>Prompt input</value>
   </data>
+  <data name="Chip_Remove" xml:space="preserve">
+    <value>Remove {0}</value>
+  </data>
+  <data name="Chip_ShowMore" xml:space="preserve">
+    <value>Show {0} more</value>
+  </data>
+  <data name="Chip_ShowLess" xml:space="preserve">
+    <value>Show less</value>
+  </data>
 </root>

@@ -3,10 +3,13 @@ license: MIT
 name: syncfusion-blazor-toolkit-buttons
 description: >
   Implement Syncfusion Blazor Toolkit button components — SfButton,
-  SfButtonGroup, and inner Button.
+  SfButtonGroup, inner Button, and chip components — SfChip and
+  SfChipSet<TItem>.
   USE FOR: primary/secondary clickable buttons, icon-only buttons, toggle
-  buttons, button groups (single/multi selection), event handlers, and
-  accessibility (keyboard, ARIA, focus).
+  buttons, button groups (single/multi selection), action/status/filter/
+  choice/input/suggestion/navigation chips, data-bound or declarative chip
+  sets, chip selection and removal, event handlers, and accessibility
+  (keyboard, ARIA, focus).
   DO NOT USE FOR: form input fields (use syncfusion-blazor-toolkit-inputs),
   navigation menu UI (use SfMenu / SfToolbar — not in this skill),
   icon-only controls that should suppress focus (use a styled
@@ -218,6 +221,7 @@ a wrapping `<SfSpinner>` overlay (see
 | Icons, `Content` vs `ChildContent` | [references/icons-and-content.md](https://github.com/syncfusion/blazor-toolkit/blob/main/.github/skills/syncfusion-blazor-toolkit-buttons/references/icons-and-content.md) |
 | Events, `EventCallback`, async patterns | [references/events-and-callbacks.md](https://github.com/syncfusion/blazor-toolkit/blob/main/.github/skills/syncfusion-blazor-toolkit-buttons/references/events-and-callbacks.md) |
 | `SfButtonGroup`, selection modes | [references/button-group.md](https://github.com/syncfusion/blazor-toolkit/blob/main/.github/skills/syncfusion-blazor-toolkit-buttons/references/button-group.md) |
+| `SfChip`, `SfChipSet<TItem>`, selection, removal, and overflow | [references/chips.md](references/chips.md) |
 
 > Full property reference for `SfButton`, `SfButtonGroup`, and inner `Button` lives in `references/button-fundamentals.md` and `references/button-group.md`.
 
@@ -229,5 +233,6 @@ a wrapping `<SfSpinner>` overlay (see
 2. **Style and Configure:** Explore [references/button-fundamentals.md](https://github.com/syncfusion/blazor-toolkit/blob/main/.github/skills/syncfusion-blazor-toolkit-buttons/references/button-fundamentals.md)
 3. **Add Interactivity:** Learn [references/events-and-callbacks.md](https://github.com/syncfusion/blazor-toolkit/blob/main/.github/skills/syncfusion-blazor-toolkit-buttons/references/events-and-callbacks.md)
 4. **Expand:** Grouping in [references/button-group.md](https://github.com/syncfusion/blazor-toolkit/blob/main/.github/skills/syncfusion-blazor-toolkit-buttons/references/button-group.md)
+5. **Use Chips:** Choose a chip type, data model, and overflow layout in [references/chips.md](references/chips.md)
 
 **Demo:** https://blazor.syncfusion.com/demos/toolkit/buttons/button
