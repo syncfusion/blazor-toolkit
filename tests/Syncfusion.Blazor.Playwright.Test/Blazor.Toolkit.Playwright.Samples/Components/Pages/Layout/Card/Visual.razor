@@ -1,0 +1,273 @@
+@page "/card/visual"
+@using Microsoft.AspNetCore.Components.Web
+@inject SyncfusionBlazorToolkitService ToolkitService
+
+@layout MainLayout
+
+<span id="visual-ready" data-ready="@(_interactiveReady ? "true" : "false")" hidden></span>
+
+<h1>Card - Visual baselines</h1>
+
+<div class="visual-stage">
+    <section id="card-basic" data-baseline="card-basic">
+        <SfCard Id="card-basic-root" Width="280px">
+            <SfCardHeader>
+                <SfCardTitle>Trail Runner</SfCardTitle>
+                <SfCardSubTitle>Outdoor</SfCardSubTitle>
+            </SfCardHeader>
+            <SfCardContent>Lightweight daily trainer for mixed surfaces.</SfCardContent>
+            <SfCardFooter>In stock</SfCardFooter>
+        </SfCard>
+    </section>
+
+    <section id="card-media-actions" data-baseline="card-media-actions">
+        <SfCard Id="card-media-actions-root" Width="280px">
+            <SfCardMedia ImageUrl="/images/chart/canada.png" Alt="Canada map" Height="120px" />
+            <SfCardHeader>
+                <SfCardTitle>North route</SfCardTitle>
+            </SfCardHeader>
+            <SfCardContent>Mapped trail with elevation notes.</SfCardContent>
+            <SfCardSeparator />
+            <SfCardActions>
+                <button id="visual-action-btn" type="button">Details</button>
+            </SfCardActions>
+        </SfCard>
+    </section>
+
+    <section id="card-outlined" data-baseline="card-outlined">
+        <SfCard Id="card-outlined-root" Variant="CardVariant.Outlined" Square="true" Width="280px">
+            <SfCardHeader>
+                <SfCardTitle>Outlined</SfCardTitle>
+            </SfCardHeader>
+            <SfCardContent>Border emphasis, square corners.</SfCardContent>
+        </SfCard>
+    </section>
+
+    <section id="card-horizontal" data-baseline="card-horizontal">
+        <SfCard Id="card-horizontal-root" Orientation="CardOrientation.Horizontal" Width="420px">
+            <SfCardMedia Height="120px" CssClass="visual-swatch" />
+            <SfCardContent>Horizontal body sits beside the media.</SfCardContent>
+        </SfCard>
+    </section>
+
+    <section id="card-loading" data-baseline="card-loading">
+        <SfCard Id="card-loading-root" IsLoading="true" Width="280px">
+            <SfCardHeader>
+                <SfCardTitle>Loading</SfCardTitle>
+            </SfCardHeader>
+            <SfCardContent>Fetching product details.</SfCardContent>
+            <SfCardActions>
+                <button type="button">Retry</button>
+            </SfCardActions>
+        </SfCard>
+    </section>
+
+    <section id="card-rtl" data-baseline="card-rtl" dir="rtl" style="direction:rtl">
+        <SfCard Id="card-rtl-root" Orientation="CardOrientation.Horizontal" Width="420px">
+            <SfCardMedia Height="120px" CssClass="visual-swatch" />
+            <SfCardContent>RTL media starts on the right.</SfCardContent>
+        </SfCard>
+    </section>
+
+    <section id="card-flat" data-baseline="card-flat">
+        <SfCard Id="card-flat-root" Variant="CardVariant.Flat" Elevation="0" Width="280px">
+            <SfCardHeader>
+                <SfCardTitle>Flat</SfCardTitle>
+            </SfCardHeader>
+            <SfCardContent>No shadow and no border emphasis.</SfCardContent>
+        </SfCard>
+    </section>
+
+    <section id="card-mobile" data-baseline="card-mobile">
+        <SfCard Id="card-mobile-root" Width="100%">
+            <SfCardHeader>
+                <SfCardTitle>Mobile</SfCardTitle>
+            </SfCardHeader>
+            <SfCardContent>The card stays inside a narrow viewport.</SfCardContent>
+        </SfCard>
+    </section>
+
+    <section id="v-header-only" data-baseline="v-header-only">
+        <SfCard Id="v-header-only-root" Width="280px">
+            <SfCardHeader>
+                <SfCardTitle>Header only</SfCardTitle>
+                <SfCardSubTitle>No other region</SfCardSubTitle>
+            </SfCardHeader>
+        </SfCard>
+    </section>
+
+    <section id="v-body-only" data-baseline="v-body-only">
+        <SfCard Id="v-body-only-root" Width="280px">
+            <SfCardContent>Body only</SfCardContent>
+        </SfCard>
+    </section>
+
+    <section id="v-footer-only" data-baseline="v-footer-only">
+        <SfCard Id="v-footer-only-root" Width="280px">
+            <SfCardFooter>Footer only</SfCardFooter>
+        </SfCard>
+    </section>
+
+    <section id="v-media-only" data-baseline="v-media-only">
+        <SfCard Id="v-media-only-root" Width="280px">
+            <SfCardMedia Height="100px" CssClass="visual-swatch" />
+        </SfCard>
+    </section>
+
+    <section id="v-actions-only" data-baseline="v-actions-only">
+        <SfCard Id="v-actions-only-root" Width="280px">
+            <SfCardActions>
+                <button type="button">One</button>
+                <button type="button">Two</button>
+            </SfCardActions>
+        </SfCard>
+    </section>
+
+    <section id="v-clickable" data-baseline="v-clickable">
+        <SfCard Id="v-clickable-root" IsClickable="true" AriaLabel="Clickable" Width="280px">
+            <SfCardContent>Clickable</SfCardContent>
+        </SfCard>
+    </section>
+
+    <section id="v-vertical" data-baseline="v-vertical">
+        <SfCard Id="v-vertical-root" Orientation="CardOrientation.Vertical" Width="280px">
+            <SfCardHeader><SfCardTitle>Vertical</SfCardTitle></SfCardHeader>
+            <SfCardContent>Stacked regions.</SfCardContent>
+        </SfCard>
+    </section>
+
+    <section id="v-long-content" data-baseline="v-long-content">
+        <SfCard Id="v-long-content-root" Width="280px">
+            <SfCardContent>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</SfCardContent>
+        </SfCard>
+    </section>
+
+    <section id="v-overflow" data-baseline="v-overflow">
+        <SfCard Id="v-overflow-root" Width="160px">
+            <SfCardContent>WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW wraps inside</SfCardContent>
+        </SfCard>
+    </section>
+
+    <section id="v-dark" data-baseline="v-dark" style="background:#1b1b1b;padding:12px" data-theme="dark">
+        <SfCard Id="v-dark-root" Variant="CardVariant.Outlined" Width="280px">
+            <SfCardHeader><SfCardTitle>Dark</SfCardTitle></SfCardHeader>
+            <SfCardContent>Dark surface.</SfCardContent>
+        </SfCard>
+    </section>
+
+    <section id="v-high-contrast" data-baseline="v-high-contrast">
+        <SfCard Id="v-high-contrast-root" IsClickable="true" AriaLabel="High contrast" Variant="CardVariant.Outlined" Width="280px">
+            <SfCardContent>High contrast</SfCardContent>
+        </SfCard>
+    </section>
+
+    <section id="v-nested" data-baseline="v-nested">
+        <SfCard Id="v-nested-root" Width="320px">
+            <SfCardContent>
+                <input type="text" value="Nested input" />
+            </SfCardContent>
+            <SfCardActions>
+                <button type="button">Nested</button>
+            </SfCardActions>
+        </SfCard>
+    </section>
+
+    <section id="v-multiple" data-baseline="v-multiple" style="display:flex;gap:12px">
+        <SfCard Id="v-multiple-a" Width="130px"><SfCardContent>A</SfCardContent></SfCard>
+        <SfCard Id="v-multiple-b" Width="130px"><SfCardContent>B</SfCardContent></SfCard>
+        <SfCard Id="v-multiple-c" Width="130px"><SfCardContent>C</SfCardContent></SfCard>
+    </section>
+
+    <section id="v-square" data-baseline="v-square">
+        <SfCard Id="v-square-root" Square="true" Variant="CardVariant.Outlined" Width="280px">
+            <SfCardContent>Square corners</SfCardContent>
+        </SfCard>
+    </section>
+
+    <section id="v-hoverable" data-baseline="v-hoverable">
+        <SfCard Id="v-hoverable-root" Hoverable="true" Width="280px">
+            <SfCardContent>Hoverable</SfCardContent>
+        </SfCard>
+    </section>
+
+    <section id="v-padding-off" data-baseline="v-padding-off">
+        <SfCard Id="v-padding-off-root" ContentPadding="false" Width="280px">
+            <SfCardContent>No content padding</SfCardContent>
+            <SfCardFooter>Footer</SfCardFooter>
+        </SfCard>
+    </section>
+
+    <section id="v-object-fit" data-baseline="v-object-fit" style="display:flex;gap:12px">
+        <SfCard Id="v-fit-cover" Width="130px"><SfCardMedia ImageUrl="/images/chart/canada.png" Alt="Cover" Height="80px" ObjectFit="CardMediaFit.Cover" /></SfCard>
+        <SfCard Id="v-fit-contain" Width="130px"><SfCardMedia ImageUrl="/images/chart/canada.png" Alt="Contain" Height="80px" ObjectFit="CardMediaFit.Contain" /></SfCard>
+        <SfCard Id="v-fit-fill" Width="130px"><SfCardMedia ImageUrl="/images/chart/canada.png" Alt="Fill" Height="80px" ObjectFit="CardMediaFit.Fill" /></SfCard>
+    </section>
+
+    <section id="v-separator" data-baseline="v-separator" style="display:flex;gap:12px;flex-wrap:wrap">
+        <SfCard Id="v-sep-h" Width="200px">
+            <SfCardContent>Above</SfCardContent>
+            <SfCardSeparator />
+            <SfCardContent>Below</SfCardContent>
+        </SfCard>
+        <SfCard Id="v-sep-v" Orientation="CardOrientation.Horizontal" Width="260px">
+            <SfCardContent>Left</SfCardContent>
+            <SfCardSeparator />
+            <SfCardContent>Right</SfCardContent>
+        </SfCard>
+    </section>
+
+    <section id="card-variants" data-baseline="card-variants">
+        <SfCard Id="card-filled-root" Variant="CardVariant.Filled" Width="180px">
+            <SfCardContent>Filled</SfCardContent>
+        </SfCard>
+        <SfCard Id="card-elevated-root" Variant="CardVariant.Elevated" Elevation="3" Width="180px">
+            <SfCardContent>Elevated</SfCardContent>
+        </SfCard>
+        <SfCard Id="card-hoverable-root" Hoverable="true" Width="180px">
+            <SfCardContent>Hoverable</SfCardContent>
+        </SfCard>
+    </section>
+</div>
+
+<style>
+    .visual-stage {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        padding: 16px;
+        background: #f4f5f7;
+    }
+
+    .visual-stage section {
+        width: fit-content;
+        max-width: 100%;
+    }
+
+    .visual-swatch {
+        background: #5b7c99;
+        min-width: 120px;
+    }
+</style>
+
+@code {
+    [SupplyParameterFromQuery(Name = "rtl")]
+    public bool Rtl { get; set; }
+
+    private bool _interactiveReady;
+
+    protected override void OnInitialized()
+    {
+        ToolkitService.EnableRtl(Rtl);
+    }
+
+    protected override Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _interactiveReady = true;
+            StateHasChanged();
+        }
+
+        return Task.CompletedTask;
+    }
+}

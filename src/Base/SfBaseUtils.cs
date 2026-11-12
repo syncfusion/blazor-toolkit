@@ -15,7 +15,7 @@ namespace Syncfusion.Blazor.Toolkit.Internal
     /// covering dictionary updates, equality comparison, CSS formatting, event invocation,
     /// type conversion, class manipulation, unique ID generation, and two-way binding helpers.
     /// </summary>
-    internal class SfBaseUtils
+    internal partial class SfBaseUtils
     {
         /// <summary>
         /// Hash set containing names of multidimensional array types used to identify multidimensional arrays during serialization comparison.
@@ -84,12 +84,20 @@ namespace Syncfusion.Blazor.Toolkit.Internal
         }
 
         /// <summary>
-        /// Normalizes a CSS dimension string by appending <c>px</c> when no valid unit is present.
+        /// Normalizes a CSS dimension string: a bare number gets <c>px</c>, a safe CSS value is kept, and anything that
+        /// could carry extra declarations is dropped.
         /// </summary>
-        /// <param name="propertyValue">A raw dimension string such as <c>"100"</c>, <c>"100px"</c>, or <c>"50%"</c>.</param>
-        /// <returns>The input value if it already contains a recognized CSS unit; otherwise the value with <c>px</c> appended.</returns>
+        /// <param name="propertyValue">A raw dimension string such as <c>"100"</c>, <c>"100px"</c>, <c>"50%"</c>, <c>"auto"</c>, or <c>"calc(100% - 2rem)"</c>.</param>
+        /// <returns>
+        /// The trimmed value with <c>px</c> appended when it is a bare number; the trimmed value unchanged when it uses only
+        /// characters a CSS length, keyword, or math function needs; otherwise <see cref="string.Empty"/>. A null or
+        /// whitespace input is returned as is.
+        /// </returns>
         /// <remarks>
-        /// Recognized units include: <c>auto</c>, <c>%</c>, <c>px</c>, <c>vh</c>, <c>em</c>, <c>vw</c>, <c>rem</c>, <c>in</c>, <c>cm</c>, <c>fr</c>, <c>mm</c>, <c>pt</c>, <c>pc</c>, <c>ch</c>, <c>ex</c>, <c>ms</c>, <c>deg</c>, <c>s</c>, <c>rad</c>, <c>grad</c>, <c>vmin</c>, and <c>vmax</c>.
+        /// The result is written into inline <c>style</c> strings and passed to scripts that set element styles, so a
+        /// value such as <c>"10px;background:url(...)"</c> must never pass through. Values containing <c>;</c>, braces,
+        /// quotes, angle brackets, backslash escapes, <c>url(</c>, or <c>expression(</c> are rejected. Safe but invalid
+        /// CSS (for example <c>"abc"</c>) is kept and simply ignored by the browser.
         /// </remarks>
         internal static string FormatUnit(string propertyValue)
         {
@@ -98,10 +106,24 @@ namespace Syncfusion.Blazor.Toolkit.Internal
                 return propertyValue;
             }
 
-            string regexPattern = "auto|%|px|vh|em|vw|rem|in|cm|fr|mm|pt|pc|ch|ex|ms|deg|s|rad|grad|vmin|vmax";
-
-            return Regex.IsMatch(propertyValue, regexPattern) ? propertyValue : propertyValue + "px";
+            string value = propertyValue.Trim();
+            return BareNumberRegex().IsMatch(value)
+                ? value + "px"
+                : SafeCssValueRegex().IsMatch(value) && !UnsafeCssFunctionRegex().IsMatch(value) ? value : string.Empty;
         }
+
+        // A number with no unit, such as "300", "-4", "1.5", ".5", or "1e3".
+        [GeneratedRegex(@"^[+-]?(\d+\.?\d*|\.\d+)([eE][+-]?\d+)?$", RegexOptions.CultureInvariant)]
+        private static partial Regex BareNumberRegex();
+
+        // Lengths, percentages, keywords, and calc()/min()/max()/clamp()/var() need only these characters.
+        // Excluded on purpose: ; { } quotes < > \ and line breaks, which could end the declaration or escape it.
+        [GeneratedRegex(@"^[A-Za-z0-9 .%+\-*/(),_]+$", RegexOptions.CultureInvariant)]
+        private static partial Regex SafeCssValueRegex();
+
+        // Functions that load resources or run script, blocked even when spelled with safe characters.
+        [GeneratedRegex(@"\b(url|expression)\s*\(", RegexOptions.CultureInvariant | RegexOptions.IgnoreCase)]
+        private static partial Regex UnsafeCssFunctionRegex();
 
         /// <summary>
         /// Invokes the provided <see cref="EventCallback{T}"/> delegate if it has a subscriber.

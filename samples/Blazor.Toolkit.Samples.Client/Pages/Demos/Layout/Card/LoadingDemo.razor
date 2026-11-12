@@ -1,0 +1,32 @@
+<div class="card-demo-row">
+    <SfCard Variant="CardVariant.Outlined" IsLoading="@_loading" Width="340px">
+        <SfCardMedia ImageUrl="https://picsum.photos/id/1015/600/400"
+                     Alt="River winding through a mountain valley"
+                     ObjectFit="CardMediaFit.Cover"
+                     Height="200px" />
+        <SfCardHeader>
+            <SfCardTitle>Featured destination</SfCardTitle>
+            <SfCardSubTitle>Travel · Updated weekly</SfCardSubTitle>
+        </SfCardHeader>
+        <SfCardContent>Highlights, typical costs, and the best travel months refresh every Monday morning.</SfCardContent>
+        <SfCardActions>
+            <SfButton Content="@(_loading ? "Refreshing" : "Refresh")" Disabled="@_loading" OnClick="Refresh" IsPrimary="true" />
+        </SfCardActions>
+    </SfCard>
+</div>
+
+@code {
+    private bool _loading;
+
+    private async Task Refresh()
+    {
+        if (_loading)
+        {
+            return;
+        }
+
+        _loading = true;
+        await Task.Delay(1800);
+        _loading = false;
+    }
+}
