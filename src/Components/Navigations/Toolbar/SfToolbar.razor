@@ -1,0 +1,109 @@
+@namespace Syncfusion.Blazor.Toolkit
+@inherits SfBaseComponent
+
+@* Shared theme emitter: render-time sibling placed BEFORE the root element (never inside it). Only one instance per renderer emits. *@
+<SfThemeRoot />
+<div class="@_rootClass"
+     role="toolbar"
+     aria-orientation="@_ariaOrientation"
+     aria-label="@AriaLabel"
+     dir="@_direction"
+     data-testid="toolbar-root"
+     data-overflow-mode="@OverflowMode"
+     @attributes="_attributes">
+    @if (HasRadioGroup)
+    {
+        <span hidden data-testid="toolbar-radio-group"></span>
+    }
+    @if (HasCheckGroup)
+    {
+        <span hidden data-testid="toolbar-check-group"></span>
+    }
+    @* Scroll-to-start chevron must be the first flex child (logical start). *@
+    @if (ShowScrollButtons)
+    {
+        <div class="e-toolbar-scroll-controls e-toolbar-scroll-controls-start" data-testid="toolbar-scroll-controls-start">
+            <SfButton CssClass="e-tbar-btn e-toolbar-scroll-btn e-toolbar-scroll-start-btn"
+                      IconCss="@ScrollStartIcon"
+                      Disabled="@ScrollStartDisabled"
+                      OnClick="@(() => ScrollPageAsync(-1))"
+                      HtmlAttributes="@ScrollStartAttributes" />
+        </div>
+    }
+    <CascadingValue Value="Self" IsFixed="true">
+        <div class="e-toolbar-content" data-testid="toolbar-content" @ref="_contentElement">
+            @ChildContent
+            @if (Items is not null)
+            {
+                @foreach (ToolbarItemModel model in Items)
+                {
+                    <ToolbarItem @key="@(model.Id ?? model.Text)"
+                                 Id="@model.Id"
+                                 Text="@model.Text"
+                                 IconCss="@model.IconCss"
+                                 Type="@model.Type"
+                                 Enabled="@model.Enabled"
+                                 Visible="@model.Visible"
+                                 Selected="@model.Selected"
+                                 SelectedChanged="@(EventCallback.Factory.Create<bool>(this, value => OnBoundSelectedChanged(model, value)))"
+                                 Overflow="@model.Overflow"
+                                 Priority="@model.Priority"
+                                 Tooltip="@model.Tooltip"
+                                 Badge="@model.Badge"
+                                 GroupName="@model.GroupName"
+                                 DisplayMode="@model.DisplayMode"
+                                 BoundModel="@model"
+                                 Template="@(ItemTemplate is null ? null : (RenderFragment<ToolbarTemplateContext>)(ctx => ItemTemplate(ctx)))" />
+                }
+            }
+        </div>
+    </CascadingValue>
+    @* Scroll-to-end chevron stays after the content (logical end). *@
+    @if (ShowScrollButtons)
+    {
+        <div class="e-toolbar-scroll-controls e-toolbar-scroll-controls-end" data-testid="toolbar-scroll-controls-end">
+            <SfButton CssClass="e-tbar-btn e-toolbar-scroll-btn e-toolbar-scroll-end-btn"
+                      IconCss="@ScrollEndIcon"
+                      Disabled="@ScrollEndDisabled"
+                      OnClick="@(() => ScrollPageAsync(1))"
+                      HtmlAttributes="@ScrollEndAttributes" />
+        </div>
+    }
+    @if (ShowOverflowButton)
+    {
+        <div class="e-toolbar-overflow" data-testid="toolbar-overflow" @ref="_overflowContainer" @onfocusin="HandleOverflowFocusInAsync">
+            <SfButton @ref="_overflowButton"
+                      CssClass="e-tbar-btn e-toolbar-overflow-btn"
+                      IconCss="@OverflowIconCss"
+                      OnClick="@_overflowToggleCallback"
+                      HtmlAttributes="@OverflowButtonAttributes" />
+        </div>
+    }
+    @* Fixed layer, last child of the toolbar root. position:fixed escapes overflow:auto and overflow:hidden
+       ancestors. Blazor renders and removes it; script only writes coordinates. See ADR-006. *@
+    @if (ShowOverflowPopup)
+    {
+    <div class="@(_popupPositioned ? "e-toolbar-overflow-layer e-toolbar-overflow-layer-positioned" : "e-toolbar-overflow-layer")" data-testid="toolbar-overflow-layer" data-toolbar-popup-host="@_popupId" @onkeydown="HandlePopupKeyDownAsync">
+        <div class="e-toolbar-overflow-backdrop" data-testid="toolbar-overflow-backdrop" @onclick="ClosePopupFromBackdropAsync"></div>
+        <div id="@_popupId"
+             class="@PopupClass"
+             role="menu"
+             aria-orientation="vertical"
+             aria-label="@OverflowLabel"
+             data-testid="toolbar-overflow-popup"
+             @ref="_popupElement">
+            @foreach (OverflowEntry entry in _entries)
+            {
+                <SfButton @key="entry.Id"
+                          @ref="entry.Button"
+                          Content="@entry.Text"
+                          IconCss="@entry.IconCss"
+                          Disabled="@(!entry.Enabled)"
+                          CssClass="e-tbar-btn e-toolbar-overflow-entry"
+                          OnClick="@entry.Click"
+                          HtmlAttributes="@entry.Attributes" />
+            }
+        </div>
+    </div>
+    }
+</div>

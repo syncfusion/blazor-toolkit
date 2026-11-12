@@ -1,0 +1,215 @@
+@page "/toolbar/visual"
+@layout MainLayout
+
+<span id="interactive-ready" data-ready="@(_interactiveReady ? "true" : "false")" hidden></span>
+
+<h1>Toolbar - Visual</h1>
+
+<div class="visual-page">
+    <section id="shot-basic" class="shot">
+        <SfToolbar Id="toolbar-visual-basic" AriaLabel="Document commands" Align="ToolbarAlignment.Justify">
+            <ToolbarGroup Label="Document">
+                <ToolbarItem Id="v-new" Text="New" IconCss="e-icons e-file-new" />
+                <ToolbarItem Id="v-open" Text="Open" IconCss="e-icons e-folder-open" />
+                <ToolbarItem Id="v-save" Text="Save" IconCss="e-icons e-save" />
+            </ToolbarGroup>
+            <ToolbarSeparator />
+            <ToolbarItem Id="v-bold" Text="Bold" Type="ToolbarItemType.Toggle" Selected="true" />
+            <ToolbarItem Id="v-italic" Text="Italic" Type="ToolbarItemType.Toggle" />
+            <ToolbarSpacer />
+            <ToolbarItem Id="v-print" Text="Print" IconCss="e-icons e-print" DisplayMode="ToolbarItemDisplayMode.IconOnly" />
+        </SfToolbar>
+    </section>
+
+    <section id="shot-empty" class="shot shot-narrow">
+        <SfToolbar Id="toolbar-visual-empty" AriaLabel="Empty toolbar" />
+    </section>
+
+    <section id="shot-vertical" class="shot shot-rail">
+        <SfToolbar Id="toolbar-visual-vertical" Orientation="ToolbarOrientation.Vertical" AriaLabel="Side commands">
+            <ToolbarItem Id="vv-files" Text="Files" IconCss="e-icons e-folder-open" />
+            <ToolbarItem Id="vv-search" Text="Search" IconCss="e-icons e-search" />
+            <ToolbarSeparator />
+            <ToolbarItem Id="vv-settings" Text="Settings" IconCss="e-icons e-settings" />
+        </SfToolbar>
+    </section>
+
+    @* The toolbar buttons are narrower than when this fixture was written, so the section is 340px.
+       At that width the bar keeps Save, Undo, Redo and Copy and moves the rest into the More menu,
+       which is the state the V-TB-003 baseline captures. *@
+    <section id="shot-overflow" class="shot" style="width:340px">
+        <SfToolbar Id="toolbar-visual-overflow" AriaLabel="Overflow commands" OverflowMode="ToolbarOverflowMode.Popup">
+            <ToolbarItem Id="vo-save" Text="Save" Overflow="ToolbarOverflowOption.Show" IconCss="e-icons e-save" />
+            <ToolbarItem Id="vo-undo" Text="Undo" Overflow="ToolbarOverflowOption.Show" />
+            <ToolbarItem Id="vo-redo" Text="Redo" />
+            <ToolbarItem Id="vo-copy" Text="Copy" />
+            <ToolbarItem Id="vo-paste" Text="Paste" />
+            <ToolbarItem Id="vo-find" Text="Find" Overflow="ToolbarOverflowOption.Hide" />
+            <ToolbarItem Id="vo-print" Text="Print" Overflow="ToolbarOverflowOption.Hide" />
+        </SfToolbar>
+    </section>
+
+    <section id="shot-scroll" class="shot" style="width:180px">
+        <SfToolbar Id="toolbar-visual-scroll" AriaLabel="Scrollable commands" OverflowMode="ToolbarOverflowMode.Scrollable">
+            <ToolbarItem Id="vs-one" Text="Save" />
+            <ToolbarItem Id="vs-two" Text="Undo" />
+            <ToolbarItem Id="vs-three" Text="Redo" />
+            <ToolbarItem Id="vs-four" Text="Print" />
+        </SfToolbar>
+    </section>
+
+    <section id="shot-disabled" class="shot">
+        <SfToolbar Id="toolbar-visual-disabled" AriaLabel="Disabled commands">
+            <ToolbarItem Id="vd-cut" Text="Cut" Enabled="false" />
+            <ToolbarItem Id="vd-copy" Text="Copy" Enabled="false" />
+            <ToolbarSeparator />
+            <ToolbarItem Id="vd-bold" Text="Bold" Type="ToolbarItemType.Toggle" Selected="true" Enabled="false" />
+        </SfToolbar>
+    </section>
+
+    <section id="shot-rtl" class="shot" dir="rtl">
+        <SfToolbar Id="toolbar-visual-rtl" AriaLabel="RTL commands" EnableRtl="true">
+            <ToolbarItem Id="vr-new" Text="New" />
+            <ToolbarItem Id="vr-open" Text="Open" />
+            <ToolbarSeparator />
+            <ToolbarSpacer />
+            <ToolbarItem Id="vr-print" Text="Print" />
+        </SfToolbar>
+    </section>
+
+    <section id="shot-dark" class="shot e-dark-mode">
+        <SfToolbar Id="toolbar-visual-dark" AriaLabel="Dark commands">
+            <ToolbarItem Id="vk-new" Text="New" />
+            <ToolbarItem Id="vk-bold" Text="Bold" Type="ToolbarItemType.Toggle" Selected="true" />
+            <ToolbarSeparator />
+            <ToolbarItem Id="vk-print" Text="Print" />
+        </SfToolbar>
+    </section>
+
+    <section id="shot-hc" class="shot">
+        <SfToolbar Id="toolbar-visual-hc" AriaLabel="Forced color commands">
+            <ToolbarItem Id="vh-one" Text="One" />
+            <ToolbarItem Id="vh-toggle" Text="Toggle" Type="ToolbarItemType.Toggle" Selected="true" />
+            <ToolbarSeparator />
+            <ToolbarItem Id="vh-off" Text="Off" Enabled="false" />
+        </SfToolbar>
+    </section>
+
+    <section id="shot-mobile" class="shot">
+        <SfToolbar Id="toolbar-visual-mobile" AriaLabel="Mobile commands">
+            <ToolbarItem Id="vm-new" Text="New" />
+            <ToolbarItem Id="vm-save" Text="Save" />
+        </SfToolbar>
+    </section>
+
+    <section id="shot-multirow" class="shot" style="width:180px">
+        <SfToolbar Id="toolbar-visual-multirow" AriaLabel="Multi row commands" OverflowMode="ToolbarOverflowMode.MultiRow">
+            <ToolbarItem Id="vmr-one" Text="New" />
+            <ToolbarItem Id="vmr-two" Text="Open" />
+            <ToolbarItem Id="vmr-three" Text="Save" />
+            <ToolbarItem Id="vmr-four" Text="Print" />
+            <ToolbarItem Id="vmr-five" Text="Export" />
+        </SfToolbar>
+    </section>
+
+    <section id="shot-extended" class="shot" style="width:280px">
+        <SfToolbar Id="toolbar-visual-extended" AriaLabel="Extended commands" OverflowMode="ToolbarOverflowMode.Extended">
+            <ToolbarItem Id="ve-one" Text="New" />
+            <ToolbarItem Id="ve-two" Text="Open" />
+            <ToolbarItem Id="ve-three" Text="Save" />
+            <ToolbarItem Id="ve-four" Text="Print" />
+            <ToolbarItem Id="ve-five" Text="Export" />
+        </SfToolbar>
+    </section>
+
+    <section id="shot-menus" class="shot">
+        <SfToolbar Id="toolbar-visual-menus" AriaLabel="Menu commands">
+            <ToolbarItem Id="vn-paste" Text="Paste" Type="ToolbarItemType.Split">
+                <Items>
+                    <ToolbarItem Id="vn-paste-text" Text="Paste text" />
+                    <ToolbarItem Id="vn-paste-value" Text="Paste values" />
+                </Items>
+            </ToolbarItem>
+            <ToolbarItem Id="vn-insert" Text="Insert" Type="ToolbarItemType.DropDown">
+                <Items>
+                    <ToolbarItem Id="vn-image" Text="Image" />
+                    <ToolbarItem Id="vn-table" Text="Table" />
+                </Items>
+            </ToolbarItem>
+        </SfToolbar>
+    </section>
+
+    <section id="shot-groups" class="shot">
+        <SfToolbar Id="toolbar-visual-groups" AriaLabel="Grouped commands">
+            <ToolbarItem Id="vg-left" Text="Left" Type="ToolbarItemType.Toggle" GroupName="align" Selected="true" />
+            <ToolbarItem Id="vg-center" Text="Center" Type="ToolbarItemType.Toggle" GroupName="align" />
+            <ToolbarItem Id="vg-right" Text="Right" Type="ToolbarItemType.Toggle" GroupName="align" />
+            <ToolbarSeparator />
+            <ToolbarItem Id="vg-bold" Text="Bold" Type="ToolbarItemType.Check" GroupName="format" Selected="true" />
+            <ToolbarItem Id="vg-italic" Text="Italic" Type="ToolbarItemType.Check" GroupName="format" />
+        </SfToolbar>
+    </section>
+
+    <section id="shot-all-overflow" class="shot" style="width:120px">
+        <SfToolbar Id="toolbar-visual-all" AriaLabel="All overflowed" OverflowMode="ToolbarOverflowMode.Popup">
+            <ToolbarItem Id="va-one" Text="Alpha" />
+            <ToolbarItem Id="va-two" Text="Beta" />
+            <ToolbarItem Id="va-three" Text="Gamma" />
+            <ToolbarItem Id="va-four" Text="Delta" />
+        </SfToolbar>
+    </section>
+
+    <section id="shot-template" class="shot">
+        <SfToolbar Id="toolbar-visual-template" AriaLabel="Template commands">
+            <ToolbarItem Id="vt-new" Text="New" />
+            <ToolbarSeparator />
+            <ToolbarTemplateItem>
+                <span class="template-pill">Search files</span>
+            </ToolbarTemplateItem>
+        </SfToolbar>
+    </section>
+</div>
+
+<style>
+    .visual-page {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        font-family: var(--e-font-family), var(--e-font-sans, sans-serif);
+        overflow: hidden;
+        padding: 16px;
+    }
+
+    .shot {
+        inline-size: 720px;
+        max-inline-size: 100%;
+    }
+
+    .shot-narrow {
+        inline-size: 320px;
+    }
+
+    .shot-rail {
+        inline-size: max-content;
+        block-size: 220px;
+    }
+
+    .template-pill {
+        border: 1px solid var(--color-sf-border, #d1d1d1);
+        border-radius: 999px;
+        padding: 4px 12px;
+    }
+</style>
+
+@code {
+    private bool _interactiveReady;
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _interactiveReady = true;
+            StateHasChanged();
+        }
+    }
+}

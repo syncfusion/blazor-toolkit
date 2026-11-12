@@ -1,0 +1,97 @@
+@namespace Syncfusion.Blazor.Toolkit
+@inherits ComponentBase
+
+@if (Visible)
+{
+    @if (Type == ToolbarItemType.Separator)
+    {
+        <div class="@_separatorClass"
+             role="separator"
+             aria-orientation="@_separatorOrientation"
+             data-testid="toolbar-separator"></div>
+    }
+    else if (Type == ToolbarItemType.Spacer)
+    {
+        <div class="@_spacerClass" aria-hidden="true" data-testid="toolbar-spacer"></div>
+    }
+    else if (IsTemplated)
+    {
+        <div class="@ItemClass" id="@_explicitId" data-testid="toolbar-template-item" data-toolbar-measure="@MeasureId" @onclick="HandleClickAsync" @onkeydown="HandleKeyDownAsync" @onfocusin="HandleFocusIn">
+            @if (Template is not null)
+            {
+                @Template(_templateContext)
+            }
+            else
+            {
+                @ChildContent
+            }
+        </div>
+    }
+    else if (_hasRichBody)
+    {
+        <div class="@ItemClass" id="@_explicitId" data-testid="toolbar-item" data-toolbar-measure="@MeasureId" @onkeydown="HandleKeyDownAsync" @onfocusin="HandleFocusIn">
+            <SfButton @ref="_button" @attributes="BuildButtonAttributes()">
+                @if (_iconCss is not null)
+                {
+                    <span class="@_iconCss e-btn-icon" aria-hidden="true"></span>
+                }
+                @if (_showText)
+                {
+                    <span class="e-toolbar-item-text">@Text</span>
+                }
+                @ChildContent
+                @if (_hasBadge)
+                {
+                    <span class="e-toolbar-badge">@Badge</span>
+                }
+            </SfButton>
+        </div>
+    }
+    else if (HasNestedMenu)
+    {
+        <div class="@ItemClass" id="@_explicitId" data-toolbar-measure="@MeasureId" @ref="_itemElement" @onkeydown="HandleKeyDownAsync" @onfocusin="HandleFocusIn">
+            @if (Type == ToolbarItemType.Split)
+            {
+                @* The split wrapper is a plain span, so it carries no ARIA. The chevron button owns
+                   aria-haspopup and aria-expanded; a generic element rejects both attributes. *@
+                <span class="e-toolbar-split" data-testid="toolbar-split">
+                    <SfButton @ref="_button" @attributes="BuildButtonAttributes()" />
+                    <SfButton @attributes="BuildChevronAttributes()" />
+                </span>
+            }
+            else
+            {
+                <SfButton @ref="_button" @attributes="BuildButtonAttributes()" />
+            }
+            @if (_menuOpen && (Items is not null || ChildContent is not null))
+            {
+                <div id="@_menuId" class="@MenuClass" role="menu" data-testid="toolbar-nested-popup" aria-labelledby="@ResolvedId" @ref="_menuElement" @onkeydown="HandleMenuKeyDownAsync">
+                    <CascadingValue Value="this" Name="NestedOwner" IsFixed="false">
+                        <CascadingValue Value="Host" IsFixed="false">
+                            @if (Items is not null)
+                            {
+                                @Items
+                            }
+                            else
+                            {
+                                @ChildContent
+                            }
+                        </CascadingValue>
+                    </CascadingValue>
+                </div>
+            }
+        </div>
+    }
+    else if (IsRadio || (IsCheck && !string.IsNullOrEmpty(GroupName)))
+    {
+        <div class="@ItemClass" id="@_explicitId" data-testid="toolbar-item" data-group="@GroupName" data-toolbar-measure="@MeasureId" @onkeydown="HandleKeyDownAsync" @onfocusin="HandleFocusIn">
+            <SfButton @ref="_button" @attributes="BuildButtonAttributes()" />
+        </div>
+    }
+    else
+    {
+        <div class="@ItemClass" id="@_explicitId" data-testid="toolbar-item" data-toolbar-measure="@MeasureId" @onkeydown="HandleKeyDownAsync" @onfocusin="HandleFocusIn">
+            <SfButton @ref="_button" @attributes="BuildButtonAttributes()" />
+        </div>
+    }
+}

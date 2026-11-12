@@ -65,6 +65,12 @@ namespace Syncfusion.Blazor.Toolkit
         /// Root CSS classes applied to all button instances.
         /// </summary>
         private const string RootCss = "e-control e-btn e-lib";
+
+        /// <exclude />
+        /// <summary>
+        /// Attribute name a host may pass through <see cref="HtmlAttributes"/> to set the pressed state of a non-toggle button.
+        /// </summary>
+        private const string AriaPressedAttribute = "aria-pressed";
         #endregion
 
         #region Fields
@@ -100,6 +106,12 @@ namespace Syncfusion.Blazor.Toolkit
         /// Tracks the active/toggled state for toggle buttons to support ARIA attributes and visual feedback.
         /// </summary>
         private bool _isActive;
+
+        /// <exclude />
+        /// <summary>
+        /// Reference to the rendered <c>button</c> element, used to move focus programmatically.
+        /// </summary>
+        private ElementReference _buttonElement;
 
         #endregion
 
@@ -259,7 +271,13 @@ namespace Syncfusion.Blazor.Toolkit
         /// <returns><c>true</c> or <c>false</c> when <see cref="IsToggle"/> is enabled; otherwise, <see langword="null"/> to omit the attribute.</returns>
         private string? GetAriaPressed()
         {
-            return IsToggle ? (_isActive ? "true" : "false") : null;
+            if (IsToggle)
+            {
+                return _isActive ? "true" : "false";
+            }
+
+            // A host such as the toolbar owns the pressed state of its items and passes it through HtmlAttributes.
+            return HtmlAttributes.TryGetValue(AriaPressedAttribute, out object? hostValue) ? hostValue?.ToString() : null;
         }
 
 

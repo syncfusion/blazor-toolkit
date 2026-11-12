@@ -1,0 +1,79 @@
+<div class="tb-editor" data-testid="toolbar-editor-demo">
+    <div class="tb-doc">
+        <SfToolbar AriaLabel="Editor" OverflowMode="ToolbarOverflowMode.Popup" data-testid="toolbar-root">
+            <ToolbarGroup Label="Clipboard">
+                <ToolbarItem Text="Cut" IconCss="sb-icons e-cut" DisplayMode="ToolbarItemDisplayMode.IconOnly" Tooltip="Cut" />
+                <ToolbarItem Text="Copy" IconCss="sb-icons e-copy" DisplayMode="ToolbarItemDisplayMode.IconOnly" Tooltip="Copy" />
+                <ToolbarItem Text="Paste" IconCss="sb-icons e-paste" DisplayMode="ToolbarItemDisplayMode.IconOnly" Tooltip="Paste" />
+            </ToolbarGroup>
+            <ToolbarSeparator />
+            <ToolbarGroup Label="Format">
+                <ToolbarItem Text="Bold" Type="ToolbarItemType.Toggle" IconCss="sb-icons e-bold" DisplayMode="ToolbarItemDisplayMode.IconOnly" Tooltip="Bold (Ctrl+B)" @bind-Selected="_bold" />
+                <ToolbarItem Text="Italic" Type="ToolbarItemType.Toggle" IconCss="sb-icons e-italic" DisplayMode="ToolbarItemDisplayMode.IconOnly" Tooltip="Italic (Ctrl+I)" @bind-Selected="_italic" />
+                <ToolbarItem Text="Underline" Type="ToolbarItemType.Toggle" IconCss="sb-icons e-underline" DisplayMode="ToolbarItemDisplayMode.IconOnly" Tooltip="Underline (Ctrl+U)" @bind-Selected="_underline" />
+            </ToolbarGroup>
+            <ToolbarSeparator />
+            <ToolbarGroup Label="Align">
+                <ToolbarItem Text="Align left"
+                             Type="ToolbarItemType.Toggle"
+                             GroupName="editor-align"
+                             IconCss="sb-icons e-align-left"
+                             DisplayMode="ToolbarItemDisplayMode.IconOnly"
+                             Tooltip="Align left"
+                             Selected="@(_align == "left")"
+                             OnClick="@(() => _align = "left")" />
+                <ToolbarItem Text="Align center"
+                             Type="ToolbarItemType.Toggle"
+                             GroupName="editor-align"
+                             IconCss="sb-icons e-align-center"
+                             DisplayMode="ToolbarItemDisplayMode.IconOnly"
+                             Tooltip="Align center"
+                             Selected="@(_align == "center")"
+                             OnClick="@(() => _align = "center")" />
+                <ToolbarItem Text="Align right"
+                             Type="ToolbarItemType.Toggle"
+                             GroupName="editor-align"
+                             IconCss="sb-icons e-align-right"
+                             DisplayMode="ToolbarItemDisplayMode.IconOnly"
+                             Tooltip="Align right"
+                             Selected="@(_align == "right")"
+                             OnClick="@(() => _align = "right")" />
+            </ToolbarGroup>
+            <ToolbarSpacer />
+            <ToolbarGroup Label="Insert">
+                <ToolbarItem Text="Image" IconCss="sb-icons e-image" DisplayMode="ToolbarItemDisplayMode.IconOnly" Tooltip="Insert image" OnClick="@(() => _insert = "[Image]")" />
+                <ToolbarItem Text="Link" IconCss="sb-icons e-link" DisplayMode="ToolbarItemDisplayMode.IconOnly" Tooltip="Insert link" OnClick="@(() => _insert = "https://example.com")" />
+                <ToolbarItem Text="Comment" IconCss="sb-icons e-comment-add" DisplayMode="ToolbarItemDisplayMode.IconOnly" Tooltip="Add a comment" />
+            </ToolbarGroup>
+        </SfToolbar>
+        <article class="@SurfaceClass" style="@($"text-align: {_align}")">
+            <h3>Quarterly briefing</h3>
+            <p>The command strip above is the toolbar. Formatting toggles keep their pressed state, and narrower widths move later commands into More.</p>
+            <p>Use the strip the way an editor chrome is used: clipboard on the left, formatting in the middle, insert actions on the right.</p>
+            @if (!string.IsNullOrEmpty(_insert))
+            {
+                <p class="tb-insert">@_insert</p>
+            }
+        </article>
+    </div>
+</div>
+
+@code {
+    private bool _bold;
+    private bool _italic;
+    private bool _underline;
+    private string _align = "left";
+    private string? _insert;
+
+    private string SurfaceClass
+    {
+        get
+        {
+            string weight = _bold ? " is-bold" : string.Empty;
+            string italic = _italic ? " is-italic" : string.Empty;
+            string underline = _underline ? " is-underline" : string.Empty;
+            return "tb-surface" + weight + italic + underline;
+        }
+    }
+
+}

@@ -224,7 +224,14 @@
             new("Crosshair Interactivity Charts", "charts/interactivity/crosshair"),
             new("Zoom and Pan Interactivity Charts", "charts/interactivity/zooming-and-panning"),
             new("Selection and Highlight Interactivity Charts", "charts/interactivity/selection-and-highlight"),
-            new("Animation Interactivity Charts", "charts/interactivity/animation")
+            new("Animation Interactivity Charts", "charts/interactivity/animation"),
+
+            new("Toolbar", "navigations/toolbar"),
+            new("Overflow & Priority", "navigations/toolbar#overflow"),
+            new("Item Types", "navigations/toolbar#items"),
+            new("Templates", "navigations/toolbar#templates"),
+            new("Editor", "navigations/toolbar#editor"),
+            new("Orientation", "navigations/toolbar#orientation")
         };
     }
     public record SearchItem(string Title, string Url);

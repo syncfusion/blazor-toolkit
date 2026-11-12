@@ -82,7 +82,9 @@
                         <div class="sf-category-meta">
                             <h2 class="sf-category-title" id="@($"{sectionId}-title")">
                                 @category.Name
-                                <span class="sf-category-count">(@category.Components.Count(c => c.Available))</span>
+                                <span class="sf-category-count">
+                                    (@(category.CountLabel ?? category.Components.Count(c => c.Available).ToString()))
+                                </span>
                             </h2>
                             <p class="sf-category-tagline">@category.Tagline</p>
                         </div>
@@ -135,7 +137,8 @@
         string Tagline,
         string IconClass,
         string ToolkitIconClass,
-        List<ComponentItem> Components);
+        List<ComponentItem> Components,
+        string? CountLabel = null);
 
     // ---------------------------------------------------------------
     //  Catalog (sync'd with the NavMenu component set)
@@ -144,10 +147,11 @@
     // ---------------------------------------------------------------
     private List<Category> Categories = new()
     {
-        new("Charts",     "Line, Area, Column and Bar Charts",     "e-chart-2d-clustered-column", "e-chart",       new List<ComponentItem>
+        new("Charts",     "Line, Area, Column, Bar, Scatter, and more",     "e-chart-2d-clustered-column", "e-chart",       new List<ComponentItem>
         {
             new("Chart", "charts/overview", "ci-chart",       "e-chart"),
-        }),
+        },
+        CountLabel: "20+ types"),
 
         new("Buttons",    "Regular, Icon and FAB buttons",         "e-button-field",              "e-button",      new List<ComponentItem>
         {

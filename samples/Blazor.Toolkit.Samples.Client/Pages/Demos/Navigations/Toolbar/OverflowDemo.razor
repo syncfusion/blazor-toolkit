@@ -1,0 +1,62 @@
+<div class="tb-overflow tb-overflow-demo" data-testid="toolbar-overflow-demo">
+    <div class="tb-controls">
+        <div class="tb-modes" role="group" aria-label="Overflow mode">
+            @foreach (ToolbarOverflowMode mode in _modes)
+            {
+                <button type="button"
+                        class="@ModeClass(mode)"
+                        aria-pressed="@(_mode == mode)"
+                        @onclick="() => SetMode(mode)">
+                    @mode
+                </button>
+            }
+        </div>
+        <label class="tb-width">
+            <span>Width @_width px</span>
+            <input type="range"
+                   min="280"
+                   max="920"
+                   step="20"
+                   @bind="_width"
+                   @bind:event="onchange"
+                   aria-label="Toolbar width" />
+        </label>
+    </div>
+
+    <div class="tb-host" style="@($"width:{_width}px")">
+        <SfToolbar AriaLabel="Responsive commands"
+                   OverflowMode="@_mode"
+                   @key="_mode"
+                   data-testid="toolbar-root">
+            <ToolbarItem Text="Save" IconCss="sb-icons e-save" Overflow="ToolbarOverflowOption.Show" Priority="-20" Tooltip="Stays visible" />
+            <ToolbarItem Text="Undo" IconCss="sb-icons e-undo" Overflow="ToolbarOverflowOption.Show" Priority="-10" Tooltip="Stays visible" />
+            <ToolbarItem Text="Redo" IconCss="sb-icons e-redo" Priority="0" />
+            <ToolbarSeparator />
+            <ToolbarItem Text="Cut" IconCss="sb-icons e-cut" Priority="10" />
+            <ToolbarItem Text="Copy" IconCss="sb-icons e-copy" Priority="20" />
+            <ToolbarItem Text="Paste" IconCss="sb-icons e-paste" Priority="30" />
+            <ToolbarSeparator />
+            <ToolbarItem Text="Find" IconCss="sb-icons e-search" Overflow="ToolbarOverflowOption.Hide" Priority="40" Tooltip="Overflows first" />
+            <ToolbarItem Text="Comment" IconCss="sb-icons e-comment-add" Overflow="ToolbarOverflowOption.Hide" Priority="50" Tooltip="Overflows first" />
+            <ToolbarItem Text="Link" IconCss="sb-icons e-link" Overflow="ToolbarOverflowOption.Hide" Priority="60" Tooltip="Overflows first" />
+            <ToolbarItem Text="Export" IconCss="sb-icons e-export" Overflow="ToolbarOverflowOption.Hide" Priority="70" Tooltip="Overflows first" />
+        </SfToolbar>
+    </div>
+</div>
+
+@code {
+    private static readonly ToolbarOverflowMode[] _modes =
+    [
+        ToolbarOverflowMode.Popup,
+        ToolbarOverflowMode.Scrollable,
+        ToolbarOverflowMode.MultiRow,
+        ToolbarOverflowMode.Extended
+    ];
+
+    private ToolbarOverflowMode _mode = ToolbarOverflowMode.Popup;
+    private int _width = 540;
+
+    private string ModeClass(ToolbarOverflowMode mode) => _mode == mode ? "tb-mode is-on" : "tb-mode";
+
+    private void SetMode(ToolbarOverflowMode mode) => _mode = mode;
+}

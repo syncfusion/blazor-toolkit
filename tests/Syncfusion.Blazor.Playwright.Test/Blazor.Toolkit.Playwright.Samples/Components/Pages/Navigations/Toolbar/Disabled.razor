@@ -1,0 +1,35 @@
+@page "/toolbar/disabled"
+@using Microsoft.AspNetCore.Components.Web
+
+@layout MainLayout
+
+<span id="interactive-ready" data-ready="@(_interactiveReady ? "true" : "false")" hidden></span>
+
+<h1>Toolbar - Disabled</h1>
+
+<div class="test-container">
+    <button id="before-toolbar" type="button">Before</button>
+    <SfToolbar Id="toolbar-disabled" AriaLabel="Disabled commands" OnItemClick="OnItemClick">
+        <ToolbarItem Id="d-one" Text="One" Enabled="false" />
+        <ToolbarItem Id="d-two" Text="Two" Enabled="false" />
+        <ToolbarItem Id="d-three" Text="Three" Type="ToolbarItemType.Toggle" Enabled="false" />
+    </SfToolbar>
+    <button id="after-toolbar" type="button">After</button>
+    <p id="last-click">Last click: @_lastClick</p>
+</div>
+
+@code {
+    private bool _interactiveReady;
+    private string _lastClick = "none";
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _interactiveReady = true;
+            StateHasChanged();
+        }
+    }
+
+    private void OnItemClick(ToolbarItemClickEventArgs args) => _lastClick = args.ItemId;
+}

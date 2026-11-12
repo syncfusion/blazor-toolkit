@@ -80,22 +80,25 @@
        USING TEMPLATES (Featured Card)
        ============================================================ *@
     <section class="sf-templates" id="using-templates" aria-labelledby="using-templates-heading">
-        <div class="sf-templates-grid">
+        <div class="sf-templates-top">
             <div class="sf-templates-left">
                 <div class="sf-templates-icon" aria-hidden="true">🚀</div>
                 <h2 id="using-templates-heading">Using Templates</h2>
                 <p>
                     The fastest way to get started is by using our
-                    pre-built project templates. Pick the host model
-                    that fits your application and ship in minutes.
+                    <a href="https://www.nuget.org/packages/Syncfusion.Blazor.Toolkit.Templates"
+                    target="_blank" rel="noopener noreferrer">dotnet templates</a>.
+                    Pick the host model that fits your application and ship in minutes.
                 </p>
-                <SfButton CssClass="sf-btn sf-btn-primary">
-                    <a style="color: var(--sf-accent);" href="https://www.nuget.org/packages/Syncfusion.Blazor.Toolkit.Templates" target="_blank"><span>View &amp; Download Templates</span></a>
+                <a class="sf-btn sf-btn-primary"
+                href="https://www.nuget.org/packages/Syncfusion.Blazor.Toolkit.Templates"
+                target="_blank" rel="noopener noreferrer">
+                    <span>View &amp; Download Templates</span>
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                         <line x1="5" y1="12" x2="19" y2="12"></line>
                         <polyline points="12 5 19 12 12 19"></polyline>
                     </svg>
-                </SfButton>
+                </a>
             </div>
             <div class="sf-templates-right" aria-label="Available templates">
                 <div class="sf-template-mini-preview sf-template-mini-preview-1" aria-hidden="true">
@@ -114,6 +117,54 @@
                 </div>
             </div>
         </div>
+
+            <div class="sf-templates-commands">
+                <p class="sf-templates-step">
+                    Open a terminal and install them using this command:
+                </p>
+                <div class="sf-code-card">
+                    <CodePreview FileName="terminal"
+                                IsCodeAlone="true"
+                                SourceFile="/Pages/Demos/GettingStarted/Overview/InstallTemplates.razor" />
+                </div>
+
+                <p class="sf-templates-step">
+                    Navigate to a folder where you want your project and run the create command for your host model:
+                </p>
+                <div class="sf-tabs-card">
+                    <div class="sf-tabs-bar" role="tablist" aria-label="Template host model">
+                        <SfButton CssClass="@($"sf-tab {(_activeTemplateTab == 0 ? "is-active" : "")}")"
+                                role="tab"
+                                aria-selected="@(_activeTemplateTab == 0)"
+                                OnClick="@(() => _activeTemplateTab = 0)">
+                            Blazor Web App
+                        </SfButton>
+                        <SfButton CssClass="@($"sf-tab {(_activeTemplateTab == 1 ? "is-active" : "")}")"
+                                role="tab"
+                                aria-selected="@(_activeTemplateTab == 1)"
+                                OnClick="@(() => _activeTemplateTab = 1)">
+                            Blazor WASM App
+                        </SfButton>
+                    </div>
+                    <div class="sf-tabs-body">
+                        <div class="@(_activeTemplateTab == 0 ? "" : "sf-tab-panel-hidden")">
+                            <CodePreview FileName="terminal"
+                                        IsCodeAlone="true"
+                                        SourceFile="/Pages/Demos/GettingStarted/Overview/CreateWebAppTemplate.razor" />
+                        </div>
+                        <div class="@(_activeTemplateTab == 1 ? "" : "sf-tab-panel-hidden")">
+                            <CodePreview FileName="terminal"
+                                        IsCodeAlone="true"
+                                        SourceFile="/Pages/Demos/GettingStarted/Overview/CreateWasmTemplate.razor" />
+                        </div>
+                    </div>
+                </div>
+
+                <p class="sf-templates-step">
+                    You can run <code>dotnet new blazortoolkitweb --help</code> or
+                    <code>dotnet new blazortoolkitwasm --help</code> to see all available options.
+                </p>
+            </div>
     </section>
 
     @* ============================================================
@@ -884,12 +935,17 @@
         text-decoration: none;
     }
     .sf-template-mini-preview {
-        height: 90px; border-radius: var(--sf-radius-sm);
+        height: 100px; border-radius: var(--sf-radius-sm);
         position: relative; overflow: hidden;
         background-size: cover; background-position: center;
     }
-    .sf-template-mini-preview-1 { background: linear-gradient(135deg, #2B357C 0%, #5A63A8 50%, #A8B0D5 100%); }
-    .sf-template-mini-preview-2 { background: linear-gradient(135deg, #3B82F6 0%, #60A5FA 50%, #BFDBFE 100%); }
+    .sf-template-mini-preview-1 {
+        background: linear-gradient(135deg, #2B357C 0%, #3B4693 35%, #5A63A8 70%, #A8B0D5 100%);
+    }
+
+    .sf-template-mini-preview-2 {
+        background: linear-gradient(135deg, #1E3A8A 0%, #2563EB 30%, #3B82F6 55%, #60A5FA 80%, #BFDBFE 100%);
+    }
     .sf-template-mini-preview-3 { background: linear-gradient(135deg, #10B981 0%, #34D399 50%, #A7F3D0 100%); }
     .sf-template-mini-preview::after {
         content: ""; position: absolute; inset: 14px;
@@ -1168,6 +1224,68 @@
     .sf-next-desc  { font-size: 13px; color: var(--sf-text-3); margin-top: 2px; }
     .sf-next-arrow { color: var(--sf-text-muted); flex-shrink: 0; }
     .sf-next-card:hover .sf-next-arrow { color: var(--sf-purple); }
+
+   .sf-templates-top {
+        position: relative;
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+        gap: 36px;
+        align-items: center;
+        margin-bottom: 24px;
+    }
+
+    .sf-templates-commands {
+        position: relative;
+        max-width: 100%;
+    }
+
+    .sf-templates-step {
+        margin: 0 0 10px 0;
+        font-size: 14.5px;
+        line-height: 1.55;
+        color: var(--sf-text-2);
+    }
+
+    .sf-templates-commands .sf-code-card {
+        margin-bottom: 16px;
+    }
+
+    /* Keep existing .sf-templates-left / .sf-templates-right rules.
+    Only change the old .sf-templates-grid if it still exists: */
+    .sf-templates-grid {
+        /* optional: remove or leave unused */
+    }
+
+    .sf-tab-panel-hidden {
+        display: none;
+    }
+
+    .sf-tabs-body {
+        min-height: 120px; /* adjust if your snippets are taller */
+    }
+
+    .sf-tabs-card .sf-tabs-body > *,
+    .sf-tabs-card .sf-tabs-body > * > * {
+        border: none !important;
+        border-radius: 0 !important;
+        box-shadow: none !important;
+        margin: 0 !important;
+        background: transparent !important;
+    }
+
+    /* Keep a clean single separator under the tab bar */
+    .sf-tabs-card .sf-tabs-bar {
+        border-bottom: 1px solid var(--sf-border);
+    }
+
+    .sf-tabs-card .sf-tabs-body {
+        background: var(--sf-surface);
+    }
+
+    @@media (max-width: 960px) {
+        .sf-templates-top { grid-template-columns: 1fr; }
+        .sf-templates-right { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
 
     /* ---------- Responsive ---------- */
     @@media (max-width: 960px) {
@@ -1634,6 +1752,11 @@
     }
     private int _activeCreateIde = 0;
     private int _activeInstallTab = 0;
+    private int _activeTemplateTab = 0;
+
+    private string _templateCreateSourceFile => _activeTemplateTab == 0
+        ? "/Pages/Demos/GettingStarted/Overview/CreateWebAppTemplate.razor"
+        : "/Pages/Demos/GettingStarted/Overview/CreateWasmTemplate.razor";
 
     // Right-sidebar TOC.
     private static readonly IReadOnlyList<RightToc.TocItem> TocItemsList = new RightToc.TocItem[]

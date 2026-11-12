@@ -3156,3 +3156,27 @@ using System.Diagnostics.CodeAnalysis;
     Justification = "2026-10-23: Public API. [Parameter] image URL bound from Razor markup as an HTML attribute string; commonly carries a relative URL that System.Uri cannot represent.",
     Scope = "member",
     Target = "~P:Syncfusion.Blazor.Toolkit.SfCardMedia.ImageUrl")]
+
+// -------------------------------------------------------------------------
+// Toolbar (src/Components/Navigations/Toolbar)
+// -------------------------------------------------------------------------
+[assembly: SuppressMessage(
+    "Usage",
+    "CA2227:Collection properties should be read only",
+    Justification = "2026-11-02: Attribute-splat dictionary rendered onto the element; Blazor assigns it through the public setter (CaptureUnmatchedValues), so the setter must remain.",
+    Scope = "member",
+    Target = "~P:Syncfusion.Blazor.Toolkit.SfToolbar.HtmlAttributes")]
+
+[assembly: SuppressMessage(
+    "Naming",
+    "CA1711:Identifiers should not have incorrect suffix",
+    Justification = "2026-11-02: Public API name fixed by the approved Toolbar API (API.md, TB-API-150). It does not derive from System.EventArgs, matching the other Toolkit event-argument classes.",
+    Scope = "type",
+    Target = "~T:Syncfusion.Blazor.Toolkit.ToolbarItemClickEventArgs")]
+
+[assembly: SuppressMessage(
+    "Design",
+    "CA1024:Use properties where appropriate",
+    Justification = "2026-11-02: Public API fixed by the approved Toolbar contract (API.md, TB-API-070): GetVisibleItems and GetOverflowItems are methods that take a snapshot of internal state.",
+    Scope = "member",
+    Target = "~M:Syncfusion.Blazor.Toolkit.SfToolbar.GetOverflowItems")]

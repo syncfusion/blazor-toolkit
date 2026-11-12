@@ -1,0 +1,42 @@
+@page "/toolbar/template"
+@using Microsoft.AspNetCore.Components.Web
+
+@layout MainLayout
+
+<span id="interactive-ready" data-ready="@(_interactiveReady ? "true" : "false")" hidden></span>
+
+<h1>Toolbar - Template</h1>
+
+<div class="test-container">
+    <button id="before-toolbar" type="button">Before</button>
+    <SfToolbar Id="toolbar-template" AriaLabel="Template commands" OnItemClick="OnItemClick">
+        <ToolbarItem Id="t-first" Text="First" />
+        <ToolbarTemplateItem>
+            <input id="search-box" type="search" aria-label="Search" @bind="_query" @bind:event="oninput" />
+            <button id="search-go" type="button" @onclick="@(() => _searches++)">Go</button>
+        </ToolbarTemplateItem>
+        <ToolbarItem Id="t-last" Text="Last" />
+    </SfToolbar>
+    <button id="after-toolbar" type="button">After</button>
+    <p id="query-value">Query: @_query</p>
+    <p id="search-count">Searches: @_searches</p>
+    <p id="last-click">Last click: @_lastClick</p>
+</div>
+
+@code {
+    private bool _interactiveReady;
+    private string _query = string.Empty;
+    private int _searches;
+    private string _lastClick = "none";
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _interactiveReady = true;
+            StateHasChanged();
+        }
+    }
+
+    private void OnItemClick(ToolbarItemClickEventArgs args) => _lastClick = args.ItemId;
+}

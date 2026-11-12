@@ -2,6 +2,14 @@ html, body {
     font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
+.test-container #frame.frame-wide {
+    width: 700px;
+}
+
+.test-container #frame.frame-narrow {
+    width: 160px;
+}
+
 a, .btn-link {
     color: #006bb7;
 }

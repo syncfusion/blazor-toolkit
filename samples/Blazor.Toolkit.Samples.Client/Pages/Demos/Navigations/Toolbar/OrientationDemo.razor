@@ -1,0 +1,67 @@
+<div class="tb-orient" data-testid="toolbar-orientation-demo">
+    <div class="tb-switch" role="group" aria-label="Toolbar placement">
+        <button type="button" class="@PlaceClass(false)" aria-pressed="@(!_rail)" @onclick="() => _rail = false">Header</button>
+        <button type="button" class="@PlaceClass(true)" aria-pressed="@_rail" @onclick="() => _rail = true">Side rail</button>
+    </div>
+    <div class="@ShellClass">
+        @if (!_rail)
+        {
+            <SfToolbar AriaLabel="Workspace" Orientation="ToolbarOrientation.Horizontal" data-testid="toolbar-root">
+                @CommandItems
+            </SfToolbar>
+        }
+        <div class="tb-body">
+            @if (_rail)
+            {
+                <SfToolbar AriaLabel="Workspace"
+                           Orientation="ToolbarOrientation.Vertical"
+                           OverflowMode="ToolbarOverflowMode.Scrollable"
+                           CssClass="tb-rail"
+                           data-testid="toolbar-root">
+                    @CommandItems
+                </SfToolbar>
+            }
+            <section class="tb-canvas">
+                <h3>@_title</h3>
+                <p>The canvas reacts to the command you choose. The command set does not change between placements.</p>
+            </section>
+        </div>
+    </div>
+</div>
+
+@code {
+    private bool _rail;
+    private string _title = "Workspace";
+    private string _selected = "Home";
+
+    private string ShellClass => _rail ? "tb-shell is-rail" : "tb-shell";
+
+    private string PlaceClass(bool rail) => _rail == rail ? "tb-place is-on" : "tb-place";
+
+    private RenderFragment CommandItems => __builder =>
+    {
+        Render(__builder, "Home", "sb-icons e-home", "Home");
+        Render(__builder, "Files", "sb-icons e-folder", "Files");
+        Render(__builder, "Search", "sb-icons e-search", "Search");
+        Render(__builder, "Settings", "sb-icons e-settings", "Settings");
+    };
+
+    private void Render(Microsoft.AspNetCore.Components.Rendering.RenderTreeBuilder builder, string text, string icon, string title)
+    {
+        builder.OpenComponent<ToolbarItem>(0);
+        builder.AddAttribute(1, "Text", text);
+        builder.AddAttribute(2, "IconCss", icon);
+        builder.AddAttribute(3, "Tooltip", text);
+        // Always show icon + text
+        builder.AddAttribute(4, "DisplayMode", ToolbarItemDisplayMode.IconAndText);
+        builder.AddAttribute(5, "Type", ToolbarItemType.Toggle);
+        builder.AddAttribute(6, "GroupName", "workspace");
+        builder.AddAttribute(7, "Selected", _selected == text);
+        builder.AddAttribute(8, "OnClick", EventCallback.Factory.Create<MouseEventArgs>(this, () =>
+        {
+            _selected = text;
+            _title = title;
+        }));
+        builder.CloseComponent();
+    }
+}

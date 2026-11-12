@@ -1,0 +1,35 @@
+@page "/toolbar/stress"
+@using Microsoft.AspNetCore.Components.Web
+
+@layout MainLayout
+
+<span id="interactive-ready" data-ready="@(_interactiveReady ? "true" : "false")" hidden></span>
+
+<h1>Toolbar - Stress</h1>
+
+<div class="test-container">
+    <SfToolbar Id="toolbar-stress" AriaLabel="Stress commands">
+        @for (int i = 0; i < _count; i++)
+        {
+            int n = i;
+            <ToolbarItem @key="n" Id="@("s-" + n)" Text="@("Item " + n)" />
+        }
+    </SfToolbar>
+    <button id="add-twenty" type="button" @onclick="@(() => _count += 20)">Add 20</button>
+    <button id="remove-twenty" type="button" @onclick="@(() => _count -= 20)">Remove 20</button>
+    <p id="item-count">Items: @_count</p>
+</div>
+
+@code {
+    private bool _interactiveReady;
+    private int _count = 100;
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _interactiveReady = true;
+            StateHasChanged();
+        }
+    }
+}

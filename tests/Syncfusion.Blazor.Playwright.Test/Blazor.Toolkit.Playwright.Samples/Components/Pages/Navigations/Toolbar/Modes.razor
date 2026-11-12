@@ -1,0 +1,40 @@
+@page "/toolbar/modes"
+@layout MainLayout
+
+<span id="interactive-ready" data-ready="@(_interactiveReady ? "true" : "false")" hidden></span>
+
+<h1>Toolbar - Overflow modes</h1>
+
+<div class="test-container">
+    <div id="frame-multirow" style="width:280px">
+        <SfToolbar Id="toolbar-multirow" AriaLabel="Multi row commands" OverflowMode="ToolbarOverflowMode.MultiRow">
+            <ToolbarItem Id="mr-new" Text="New" />
+            <ToolbarItem Id="mr-open" Text="Open" />
+            <ToolbarItem Id="mr-save" Text="Save" />
+            <ToolbarItem Id="mr-print" Text="Print" />
+            <ToolbarItem Id="mr-export" Text="Export" />
+        </SfToolbar>
+    </div>
+    <div id="frame-extended" style="width:280px">
+        <SfToolbar Id="toolbar-extended" AriaLabel="Extended commands" OverflowMode="ToolbarOverflowMode.Extended">
+            <ToolbarItem Id="ex-new" Text="New" />
+            <ToolbarItem Id="ex-open" Text="Open" />
+            <ToolbarItem Id="ex-save" Text="Save" />
+            <ToolbarItem Id="ex-print" Text="Print" />
+            <ToolbarItem Id="ex-export" Text="Export" />
+        </SfToolbar>
+    </div>
+</div>
+
+@code {
+    private bool _interactiveReady;
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _interactiveReady = true;
+            StateHasChanged();
+        }
+    }
+}

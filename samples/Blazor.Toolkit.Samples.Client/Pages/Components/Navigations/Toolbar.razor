@@ -1,0 +1,98 @@
+@page "/navigations/toolbar"
+@inherits TocPublishingComponentBase
+@using Blazor.Toolkit.Samples.Client.Pages.Demos.Navigations.Toolbar
+
+<PageTitle>Blazor Toolbar Demo | Syncfusion Toolkit</PageTitle>
+
+<div class="toolbar-demo-page">
+<Description>
+    <Header>
+        <h1 id="blazor-toolkit-toolbar-component">Blazor Toolkit Toolbar Component</h1>
+    </Header>
+    <Content>
+        Shows the basic toolbar with grouped items, separators, and a spacer.<br/>
+        ToolbarItemType is Default for all items: each button triggers its action on click and does not retain selection state.<br/>
+        Demonstrates how to group related actions in the toolbar using ToolbarGroup, ToolbarSeparator, and ToolbarSpacer.
+    </Content>
+</Description>
+
+<CodePreview PreviewComponent="typeof(DefaultDemo)" SourceFile="/Pages/Demos/Navigations/Toolbar/DefaultDemo.razor" />
+
+<Description>
+    <Header>
+        <h2 id="overflow">Overflow & Priority</h2>
+    </Header>
+    <Content>
+        Demonstrates all four OverflowMode options (Popup, Scrollable, MultiRow, Extended) with priority determining visible items.<br/>
+        Items with lower Priority appear in the overflow as space runs out; width slider and mode buttons show live behavior.<br/>
+        Illustrates ToolbarOverflowOption (Show/Hide) and fixed-priority overflow patterns with container width resizing.
+    </Content>
+</Description>
+
+<CodePreview PreviewComponent="typeof(OverflowDemo)" SourceFile="/Pages/Demos/Navigations/Toolbar/OverflowDemo.razor" />
+
+<Description>
+    <Header>
+        <h2 id="items">Item Types</h2>
+    </Header>
+    <Content>
+        Shows all built-in item types: Toggle buttons, Split(dropdown) buttons, ToolbarSpacers, and grouped toggles (single/multi-select).<br/>
+        Toggle items reflect their selection state and can participate in exclusive groups.<br/>
+        Split buttons show primary/secondary actions; this demo also includes icon-only and grouped controls.
+    </Content>
+</Description>
+
+<CodePreview PreviewComponent="typeof(ItemsDemo)" SourceFile="/Pages/Demos/Navigations/Toolbar/ItemsDemo.razor" />
+
+<Description>
+    <Header>
+        <h2 id="templates">Templates</h2>
+    </Header>
+    <Content>
+        Demonstrates ToolbarItem Template usage for custom UI/inputs—a live file filter and count badge appear as toolbar items.<br/>
+        Items update interactively based on input; template items keep in sync with underlying data.<br/>
+        Shows item grouping, dynamic data, and how templates integrate with toolbar layout and overflow.
+    </Content>
+</Description>
+
+<CodePreview PreviewComponent="typeof(TemplatesDemo)" SourceFile="/Pages/Demos/Navigations/Toolbar/TemplatesDemo.razor" />
+
+<Description>
+    <Header>
+        <h2 id="editor">Editor</h2>
+    </Header>
+    <Content>
+        Implements an editor-style toolbar with formatting toggles (bold, italic, underline, alignment) and clipboard/insert functions.<br/>
+        Toggle items are bound to state and reflect selection. Insert/image/link/comment icons show programmability and ARIA.<br/>
+        Demonstrates keyboard accessibility and overflow adaption for real-world toolbars.
+    </Content>
+</Description>
+
+<CodePreview PreviewComponent="typeof(EditorDemo)" SourceFile="/Pages/Demos/Navigations/Toolbar/EditorDemo.razor" />
+
+<Description>
+    <Header>
+        <h2 id="orientation">Orientation</h2>
+    </Header>
+    <Content>
+        Compares the toolbar in horizontal (header) and vertical (side rail) orientation.<br/>
+        Vertical rail uses column layout, stretches to match the canvas, and demonstrates auto-adaptation.<br/>
+        ToolbarOrientation and grouping affect both keyboard navigation and accessible layout.
+    </Content>
+</Description>
+
+<CodePreview PreviewComponent="typeof(OrientationDemo)" SourceFile="/Pages/Demos/Navigations/Toolbar/OrientationDemo.razor" />
+</div>
+
+@code {
+    private static readonly IReadOnlyList<RightToc.TocItem> TocItemsList = new RightToc.TocItem[]
+    {
+        new("overflow", "Overflow & Priority"),
+        new("items", "Item Types"),
+        new("templates", "Templates"),
+        new("editor", "Editor"),
+        new("orientation", "Orientation"),
+    };
+
+    protected override IReadOnlyList<RightToc.TocItem> TocItems => TocItemsList;
+}
