@@ -1,0 +1,117 @@
+<div class="sbd-controls">
+    <SfCheckBox TChecked="bool" Label="Open mini on hover" @bind-Checked="_hover" />
+</div>
+
+<div class="sbd-stage sbd-mini-stage">
+    <SfSidebar Id="sbd-mini"
+               @bind-IsOpen="_isOpen"
+               Mode="SidebarMode.Shrink"
+               EnableMini="true"
+               Width="280px"
+               MiniWidth="60px"
+               OpenMiniOnHover="_hover"
+               Responsive="false"
+               Fixed="false"
+               AriaLabel="Workspace navigation">
+        <HeaderTemplate>
+            <div class="sbd-rail-heading">
+                <span class="sb-icons e-activities" aria-hidden="true"></span>
+                <strong class="sbd-rail-label">Workspace</strong>
+            </div>
+        </HeaderTemplate>
+        <ChildContent>
+            <ul class="sbd-nav">
+                <li><SfButton CssClass="e-flat sbd-rail-item sbd-rail-lg" IconCss="sb-icons e-grid-view"><span class="sbd-rail-label">Dashboard</span></SfButton></li>
+                <li><SfButton CssClass="e-flat sbd-rail-item sbd-rail-lg" IconCss="sb-icons e-folder"><span class="sbd-rail-label">Projects</span></SfButton></li>
+                <li><SfButton CssClass="e-flat sbd-rail-item sbd-rail-lg" IconCss="sb-icons e-people"><span class="sbd-rail-label">Team</span></SfButton></li>
+                <li><SfButton CssClass="e-flat sbd-rail-item sbd-rail-lg" IconCss="sb-icons e-settings"><span class="sbd-rail-label">Settings</span></SfButton></li>
+            </ul>
+        </ChildContent>
+        <TargetContent>
+            <div class="sbd-content sbd-mini-content">
+                <div>
+                    <SfButton CssClass="e-primary"
+                              IconCss="@(_isOpen ? "sb-icons e-chevron-left" : "sb-icons e-chevron-right")"
+                              aria-controls="sbd-mini"
+                              aria-expanded="@(_isOpen ? "true" : "false")"
+                              OnClick="Toggle">@(_isOpen ? "Collapse" : "Expand")</SfButton>
+                </div>
+                <p>With <code>EnableMini</code> the closed sidebar keeps an icon rail visible, and <code>SidebarMode.Shrink</code> narrows this area by the occupied width.</p>
+                <p><strong>Occupied width:</strong> @(_isOpen ? "280 px" : "60 px")</p>
+                @if (_hover)
+                {
+                    <p>Point at the rail: it expands while the pointer is over it and collapses when the pointer leaves.</p>
+                }
+            </div>
+        </TargetContent>
+    </SfSidebar>
+</div>
+
+@code {
+    private bool _isOpen;
+    private bool _hover;
+
+    private void Toggle() => _isOpen = !_isOpen;
+}
+
+<style>
+    .sbd-mini-content {
+        background: color-mix(in srgb, #cff4fc 22%, var(--color-sf-content-bg-color, #fff));
+    }
+
+    .sbd-rail-heading {
+        display: flex;
+        align-items: center;
+        gap: .75rem;
+        white-space: nowrap;
+    }
+
+    /* The component keeps the inline-END MiniWidth strip of the panel visible while it is collapsed, so the collapsed rail
+       must fit inside that strip. Labels stay in the accessibility tree (visually hidden) so each icon keeps its name. */
+    .sbd-mini-stage .e-sidebar:not(.e-sidebar-open):not(.e-sidebar-hover) .sbd-rail-label {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        overflow: hidden;
+        clip-path: inset(50%);
+        white-space: nowrap;
+    }
+
+    /* Button icon box: 24px, with 11.5px side padding, so the icon column is identical in the collapsed and expanded states. */
+    .sbd-mini-stage .sbd-rail-item.e-btn {
+        padding-inline: 11.5px;
+    }
+
+    .sbd-rail-heading .sb-icons {
+        flex: none;
+        width: 24px;
+        font-size: 20px;
+        line-height: 24px;
+        text-align: center;
+        margin-inline-start: 7.5px;
+    }
+
+    /* Collapsed: the visible strip is MiniWidth minus the 1px panel border and the 12px body padding on each side. The buttons are sized to
+       that strip and end-aligned, so their hover box is fully visible with all four borders, and the icons are centred in it. */
+    .sbd-mini-stage .e-sidebar-left:not(.e-sidebar-open):not(.e-sidebar-hover) .sbd-rail-item.e-btn {
+        width: calc(50px - 1.5rem - 1px);
+        margin-inline-start: auto;
+        padding-inline: 0;
+        justify-content: center;
+    }
+
+    .e-sidebar-header {
+        padding-left: 2rem !important;
+    }
+
+    .sbd-mini-stage .e-sidebar-left:not(.e-sidebar-open):not(.e-sidebar-hover) .sbd-rail-heading {
+        width: calc(72px - 1.5rem - 1px);
+        margin-inline-start: auto;
+        margin-inline-end: -4px;
+        justify-content: center;
+    }
+
+    .sbd-mini-stage .e-sidebar-left:not(.e-sidebar-open):not(.e-sidebar-hover) .sbd-rail-heading .sb-icons {
+        margin-inline-start: 0;
+    }
+</style>

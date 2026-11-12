@@ -179,6 +179,12 @@
             new("Switch",         "inputs/switch",          "ci-switch",      "e-intermediate-state-2"),
         }),
 
+        new("Navigations",     "Side panels and command toolbars",                 "e-navigation",                       "e-navigation",      new List<ComponentItem>
+        {
+            new("Sidebar", "navigations/sidebar", "ci-sidebar", "e-right-left"),
+            new("Toolbar", "navigations/toolbar", "ci-toolbar", "e-button"),
+        }),
+
         new("Popups",     "Dialogs and Tooltips",                 "e-box",                       "e-popups",      new List<ComponentItem>
         {
             new("Dialog",  "popups/dialog",  "ci-dialog",  "e-popups"),
@@ -210,7 +216,9 @@
         ["ci-switch"] = "Switch.svg",
         ["ci-dialog"] = "Dialog.svg",
         ["ci-tooltip"] = "Tooltip.svg",
-        ["ci-card"] = "Dialog.svg"
+        ["ci-card"] = "Dialog.svg",
+        ["ci-sidebar"] = "Sidebar.svg",
+        ["ci-toolbar"] = "Toolbar.svg"
     };
 
     private int TotalComponents => Categories.Sum(c => c.Components.Count(x => x.Available));
@@ -793,4 +801,5 @@
 .e-toolkit-icons.e-api-reference::before     { content: "\e72c"; }
 .e-toolkit-icons.e-release-notes::before     { content: "\e72b"; }
 .e-toolkit-icons.e-chevron-left::before      { content: "\e702"; }
+.e-toolkit-icons.e-navigation::before        { content: "\e732"; }
 </style>

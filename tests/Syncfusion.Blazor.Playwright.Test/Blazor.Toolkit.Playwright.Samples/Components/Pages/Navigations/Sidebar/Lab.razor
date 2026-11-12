@@ -1,0 +1,282 @@
+@page "/sidebar/lab"
+@using Syncfusion.Blazor.Toolkit
+@inject SyncfusionBlazorToolkitService SyncfusionService
+
+<PageTitle>Sidebar lab</PageTitle>
+<SidebarReady />
+
+<div dir="@_dir" id="lab-root" class="fx-root" style="@_rootStyle">
+    <header class="fx-header">
+        <SfButton data-testid="sidebar-toggle" aria-controls="lab-sidebar" aria-expanded="@(_open ? "true" : "false")" OnClick="ToggleParent">Menu</SfButton>
+        <SfButton id="opt-open" OnClick="() => _sidebar?.OpenAsync()">Open via API</SfButton>
+        <SfButton id="opt-close" OnClick="() => _sidebar?.CloseAsync()">Close via API</SfButton>
+        <SfButton id="opt-focus" OnClick="() => _sidebar?.FocusAsync()">Focus via API</SfButton>
+        <SfButton id="opt-backdrop" OnClick="() => _showBackdrop = !_showBackdrop">Backdrop: @(_showBackdrop ? "on" : "off")</SfButton>
+        <SfButton id="opt-overlay-click" OnClick="() => _closeOnOverlayClick = !_closeOnOverlayClick">Overlay click: @(_closeOnOverlayClick ? "on" : "off")</SfButton>
+        <SfButton id="opt-escape" OnClick="() => _closeOnEscape = !_closeOnEscape">Escape: @(_closeOnEscape ? "on" : "off")</SfButton>
+        <SfButton id="opt-enabled" OnClick="() => _isEnabled = !_isEnabled">Enabled: @(_isEnabled ? "on" : "off")</SfButton>
+        <SfButton id="opt-gestures" OnClick="() => _gestures = !_gestures">Gestures: @(_gestures ? "on" : "off")</SfButton>
+        <SfButton id="opt-navigate" OnClick="() => _closeOnNavigate = !_closeOnNavigate">Navigate close: @(_closeOnNavigate ? "on" : "off")</SfButton>
+        <SfButton id="opt-width" OnClick="SetWidth">Width 360</SfButton>
+        <SfButton id="opt-mini-width" OnClick="SetMiniWidth">Mini width</SfButton>
+        <SfButton id="opt-calc" OnClick="SetCalc">Calc width</SfButton>
+        <SfButton id="opt-css" OnClick="SetCss">CssClass</SfButton>
+        <SfButton id="opt-attrs" OnClick="ApplyAttributes">HtmlAttributes</SfButton>
+        <SfButton id="opt-position-right" OnClick="() => _position = SidebarPosition.Right">Position right</SfButton>
+        <SfButton id="opt-position-left" OnClick="() => _position = SidebarPosition.Left">Position left</SfButton>
+        <SfButton id="opt-bp" OnClick="CycleBreakpoint">Breakpoint: @_breakpoint</SfButton>
+        <SfButton id="opt-responsive" OnClick="() => _responsive = !_responsive">Responsive: @(_responsive ? "on" : "off")</SfButton>
+        <SfButton id="opt-media-on" OnClick="SetMediaOn">Media on</SfButton>
+        <SfButton id="opt-media-off" OnClick="SetMediaOff">Media off</SfButton>
+        <SfButton id="opt-media-clear" OnClick="() => _mediaQuery = null">Clear media</SfButton>
+        <SfButton id="opt-animation" OnClick="() => _animation = !_animation">Animation: @(_animation ? "on" : "off")</SfButton>
+        <SfButton id="opt-duration" OnClick="() => _duration = 800">Duration 800</SfButton>
+        <SfButton id="opt-hide-focusable" OnClick="() => _hideFocusable = true">Hide focusable</SfButton>
+        <SfButton id="opt-mini" OnClick="() => _mini = true">Enable mini</SfButton>
+        <SfButton id="opt-hover" OnClick="() => { _mini = true; _hover = true; }">Enable hover</SfButton>
+        <SfButton id="opt-mode" OnClick="CycleMode">Mode: @_mode</SfButton>
+        <SfButton id="opt-rtl" OnClick="ToggleDir">Dir: @(_dir ?? "ltr")</SfButton>
+        <SfButton id="opt-fixed" OnClick="ToggleFixed">Fixed: @(_fixed ? "on" : "off")</SfButton>
+        <SfButton id="opt-omit-target" OnClick="OmitTarget">Omit target</SfButton>
+        <SfButton id="opt-slots" OnClick="() => _slots = true">Show slots</SfButton>
+        <SfButton id="opt-global-anim" OnClick="DisableGlobalAnimation">Global animation off</SfButton>
+        <SfButton id="opt-stale" OnClick="StaleOpen">Stale open</SfButton>
+        <SfButton id="opt-second-open" OnClick="OpenSecond">Open second</SfButton>
+        <SfButton id="opt-second-close" OnClick="CloseSecond">Close second</SfButton>
+    </header>
+    <p id="second-note">@_secondNote</p>
+
+    <SfSidebar @ref="_sidebar"
+               @bind-IsOpen="_open"
+               Id="lab-sidebar"
+               Mode="_mode"
+               Position="_position"
+               Width="@_width"
+               MiniWidth="@_miniWidth"
+               EnableMini="_mini"
+               OpenMiniOnHover="_hover"
+               Fixed="_fixed"
+               Responsive="_responsive"
+               Breakpoint="_breakpoint"
+               EnableAnimation="_animation"
+               Duration="_duration"
+               ShowBackdrop="_showBackdrop"
+               CloseOnOverlayClick="_closeOnOverlayClick"
+               CloseOnEscape="_closeOnEscape"
+               CloseOnNavigate="_closeOnNavigate"
+               EnableGestures="_gestures"
+               IsEnabled="_isEnabled"
+               CssClass="@_cssClass"
+               HtmlAttributes="_attributes"
+               MediaQuery="@_mediaQuery"
+               AriaLabel="@_ariaLabel"
+               AriaLabelledBy="@_labelledBy"
+               OnBreakpointChanged="OnBreakpoint"
+               OnOpened="OnOpened"
+               OnClosed="OnClosed">
+        <HeaderTemplate>
+            @if (_slots)
+            {
+                <h2 id="lab-title" class="fx-title" data-testid="slot-header">Navigation</h2>
+            }
+        </HeaderTemplate>
+        <ChildContent>
+            <ul class="fx-links">
+                <li><a href="/sidebar/lab#one">First</a></li>
+                <li><a href="/sidebar/lab?page=3" data-testid="sidebar-nav-link">Third</a></li>
+            </ul>
+            @if (!_hideFocusable)
+            {
+                <SfButton id="sidebar-last" CssClass="e-outline">Last action</SfButton>
+                <button id="hidden-candidate" hidden>Hidden</button>
+                <button id="disabled-candidate" disabled>Disabled</button>
+            }
+            <span id="slot-body" data-testid="slot-body">Body copy</span>
+            <SfButtonGroup>
+                <SfButton id="grp-one" OnClick="SelectOne">One</SfButton>
+                <SfButton id="grp-two" OnClick="SelectTwo">Two</SfButton>
+            </SfButtonGroup>
+            <p id="group-result">@_group</p>
+            <input id="lab-text" @bind="_text" @bind:event="oninput" placeholder="Search" />
+            <p id="text-result">@_text</p>
+            <SfCheckBox @bind-Checked="_checked" Label="Include archived" TChecked="bool"></SfCheckBox>
+            <p id="check-result">@_checked</p>
+            <SfSwitch @bind-Checked="_switched" TChecked="bool"></SfSwitch>
+            <p id="switch-result">@_switched</p>
+            <button type="button" id="lab-choice" @onclick="() => _popup = !_popup">Choose</button>
+            @if (_popup)
+            {
+                <div id="lab-popup" class="fx-popup" role="listbox">
+                    <button type="button" @onclick="ChooseAlpha">Alpha</button>
+                    <button type="button" @onclick="ChooseBeta">Beta</button>
+                </div>
+            }
+            <p id="choice-result">@_choice</p>
+        </ChildContent>
+        <FooterTemplate>
+            @if (_slots)
+            {
+                <span data-testid="slot-footer">Footer</span>
+            }
+        </FooterTemplate>
+        <TargetContent>
+            @if (!_omitTarget)
+            {
+                <main class="fx-main" data-testid="slot-target">
+                    <h1>Sidebar lab</h1>
+                    <SfButton data-testid="main-focusable" id="main-focusable">Main action</SfButton>
+                </main>
+            }
+        </TargetContent>
+    </SfSidebar>
+    <a id="visible-nav" href="/sidebar/lab?page=3">Visible page link</a>
+    <p id="status" data-open="@(_open ? "true" : "false")">open=@_open</p>
+    <p id="log">@string.Join("|", _log)</p>
+
+    <aside id="lab-second" class="fx-second"></aside>
+</div>
+
+<style>
+    .fx-root { min-height: 520px; position: relative; }
+    .fx-header { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: .35rem; padding: .4rem; position: relative; z-index: 2000; max-width: 55%; margin-inline-start: auto; }
+    .fx-main { padding: 1rem; }
+    .fx-links { list-style: none; margin: 0; padding: 0; }
+    .fx-second { position: relative; min-height: 80px; }
+    .fx-popup { position: fixed; z-index: 3000; top: 280px; left: 40px; background: #fff; border: 1px solid #666; padding: .5rem; min-height: 48px; }
+</style>
+
+@code {
+    private SfSidebar? _sidebar;
+    private bool _open;
+    private string _secondNote = "idle";
+    private bool _showBackdrop = true;
+    private bool _closeOnOverlayClick = true;
+    private bool _closeOnEscape = true;
+    private bool _isEnabled = true;
+    private bool _gestures = true;
+    private bool _closeOnNavigate = true;
+    private bool _responsive = true;
+    private bool _animation;
+    private bool _mini;
+    private bool _hover;
+    private bool _fixed = true;
+    private bool _hideFocusable;
+    private bool _omitTarget;
+    private bool _slots;
+    private int _duration = 300;
+    private string _width = "280px";
+    private string _miniWidth = "64px";
+    private string? _cssClass;
+    private string? _mediaQuery;
+    private string? _dir;
+    private string? _rootStyle;
+    private string? _ariaLabel = "Primary navigation";
+    private string? _labelledBy;
+    private SidebarMode _mode = SidebarMode.Overlay;
+    private SidebarPosition _position = SidebarPosition.Start;
+    private SidebarBreakpoint _breakpoint = SidebarBreakpoint.Md;
+    private Dictionary<string, object>? _attributes;
+    private readonly List<string> _log = new();
+    private string _group = "none";
+    private string? _text;
+    private bool _checked;
+    private bool _switched;
+    private string? _choice;
+    private bool _popup;
+    private readonly string[] _choices = ["Alpha", "Beta"];
+
+    private Task ToggleParent()
+    {
+        _open = !_open;
+        return Task.CompletedTask;
+    }
+
+    private void SetWidth() => _width = "360px";
+    private void SetMiniWidth() => _miniWidth = "96px";
+    private void SetCalc() => _width = "calc(200px + 40px)";
+    private void SetCss() => _cssClass = "consumer-panel";
+    private void SetMediaOn() => _mediaQuery = "(min-width: 1px)";
+    private void SetMediaOff() => _mediaQuery = "(max-width: 1px)";
+    private void ToggleDir() => _dir = _dir == "rtl" ? "ltr" : "rtl";
+    private void SelectOne() => _group = "one";
+    private void SelectTwo() => _group = "two";
+    private void ChooseAlpha() => _choice = "Alpha";
+    private void ChooseBeta() => _choice = "Beta";
+    private void OpenSecond() => _secondNote = "second-open";
+    private void CloseSecond() => _secondNote = "second-closed";
+    private void OmitTarget() => _omitTarget = true;
+    private void ToggleFixed() => _fixed = !_fixed;
+
+    private void OnOpened(SidebarEventArgs args) => Log($"opened:{args.IsOpen}:{args.Mode}:{args.Trigger}");
+
+    private void OnClosed(SidebarEventArgs args) => Log($"closed:{args.IsOpen}:{args.Mode}:{args.Trigger}");
+
+    private void OnBreakpoint(bool below) => Log("breakpoint:" + below.ToString().ToLowerInvariant());
+
+    private void ApplyAttributes()
+    {
+        _attributes = new Dictionary<string, object>
+        {
+            ["data-consumer"] = "lab",
+            ["title"] = "Consumer title",
+            ["id"] = "stolen-id",
+            ["role"] = "banner",
+            ["class"] = "stolen-class",
+            ["tabindex"] = "5",
+            ["aria-label"] = "Stolen label",
+            ["aria-modal"] = "false",
+            ["onclick"] = "alert(1)",
+        };
+    }
+
+    private void CycleBreakpoint()
+    {
+        _breakpoint = _breakpoint switch
+        {
+            SidebarBreakpoint.Md => SidebarBreakpoint.Sm,
+            SidebarBreakpoint.Sm => SidebarBreakpoint.Lg,
+            SidebarBreakpoint.Lg => SidebarBreakpoint.Xl,
+            SidebarBreakpoint.Xl => SidebarBreakpoint.Xxl,
+            SidebarBreakpoint.Xxl => SidebarBreakpoint.None,
+            SidebarBreakpoint.None => SidebarBreakpoint.Xs,
+            SidebarBreakpoint.Xs => SidebarBreakpoint.Always,
+            _ => SidebarBreakpoint.Md,
+        };
+    }
+
+    private void CycleMode()
+    {
+        _mode = _mode switch
+        {
+            SidebarMode.Overlay => SidebarMode.Push,
+            SidebarMode.Push => SidebarMode.Shrink,
+            _ => SidebarMode.Overlay,
+        };
+    }
+
+    private void DisableGlobalAnimation()
+    {
+        _animation = true;
+        _duration = 800;
+        SyncfusionService.SetAnimation(GlobalAnimationMode.Disable);
+    }
+
+    private async Task StaleOpen()
+    {
+        if (_sidebar is null)
+        {
+            return;
+        }
+
+        Task open = _sidebar.OpenAsync();
+        await Task.Delay(50);
+        await _sidebar.CloseAsync();
+        await open;
+    }
+
+    private void Log(string entry)
+    {
+        _log.Add(entry);
+        StateHasChanged();
+    }
+}

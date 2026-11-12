@@ -1,0 +1,24 @@
+@page "/sidebar/fixed"
+@using Syncfusion.Blazor.Toolkit
+
+<PageTitle>Sidebar fixed</PageTitle>
+
+<SidebarReady />
+<h1>Sidebar fixed</h1>
+<div id="contained" style="position: relative; margin: 2rem 0 0 3rem; width: 600px; height: 320px; border: 1px solid CanvasText; transform: translateZ(0);">
+    <SfSidebar @bind-IsOpen="_containedOpen" Id="contained-sidebar" Fixed="false" Responsive="false" EnableAnimation="false" Width="200px" AriaLabel="Contained sidebar" BackdropClass="contained-backdrop">
+        <ChildContent><SfButton CssClass="e-outline">Contained action</SfButton></ChildContent>
+        <TargetContent><p>Contained content</p></TargetContent>
+    </SfSidebar>
+</div>
+<SfSidebar @bind-IsOpen="_fixedOpen" Id="fixed-sidebar" Fixed="true" Responsive="false" EnableAnimation="false" Width="200px" AriaLabel="Fixed sidebar" Position="SidebarPosition.Right" BackdropClass="fixed-backdrop">
+    <ChildContent><SfButton CssClass="e-outline">Fixed action</SfButton></ChildContent>
+</SfSidebar>
+
+<SfButton id="open-contained" OnClick="() => _containedOpen = true">Open contained</SfButton>
+<SfButton id="open-fixed" OnClick="() => _fixedOpen = true">Open fixed</SfButton>
+
+@code {
+    private bool _containedOpen;
+    private bool _fixedOpen;
+}

@@ -1,0 +1,111 @@
+@* Two instances: each owns its edge and its open state. The tools sidebar sits in the navigation sidebar's TargetContent.
+   Shrink is used instead of Push on purpose: Push only translates the target, so the two opposite offsets cancel out and the
+   centre column stays under the Start panel while the End panel is pushed out of view. Shrink narrows the target from each
+   edge, so the centre column always sits between the two panels. *@
+<div class="sbd-stage">
+    <SfSidebar Id="sbd-dual-start"
+               @bind-IsOpen="_startOpen"
+               Mode="SidebarMode.Shrink"
+               Position="SidebarPosition.Start"
+               Responsive="false"
+               Fixed="false"
+               Width="200px"
+               AriaLabel="App navigation">
+        <HeaderTemplate>
+            <div class="sbd-panel-heading">
+                <h3 class="h6 m-0">Navigation</h3>
+                <SfButton CssClass="e-flat sbd-corner-close" IconCss="sb-icons e-close" aria-label="Close navigation" OnClick="CloseStart" />
+            </div>
+        </HeaderTemplate>
+        <ChildContent>
+            <ul class="sbd-nav">
+                <li><SfButton CssClass="e-flat sbd-rail-item sbd-rail-lg" IconCss="sb-icons e-home">Store</SfButton></li>
+                <li><SfButton CssClass="e-flat sbd-rail-item sbd-rail-lg" IconCss="sb-icons e-folder">Library</SfButton></li>
+                <li><SfButton CssClass="e-flat sbd-rail-item sbd-rail-lg" IconCss="sb-icons e-people">Community</SfButton></li>
+            </ul>
+        </ChildContent>
+        <TargetContent>
+            <SfSidebar Id="sbd-dual-end"
+                       @bind-IsOpen="_endOpen"
+                       Mode="SidebarMode.Shrink"
+                       Position="SidebarPosition.End"
+                       Responsive="false"
+                       Fixed="false"
+                       Width="200px"
+                       Role="complementary"
+                       AriaLabel="Account tools">
+                <HeaderTemplate>
+                    <div class="sbd-panel-heading">
+                        <h3 class="h6 m-0">Tools</h3>
+                        <SfButton CssClass="e-flat sbd-corner-close" IconCss="sb-icons e-close" aria-label="Close tools" OnClick="CloseEnd" />
+                    </div>
+                </HeaderTemplate>
+                <ChildContent>
+                    <ul class="sbd-nav">
+                        <li><SfButton CssClass="e-flat sbd-rail-item sbd-rail-lg" IconCss="sb-icons e-user">Profile</SfButton></li>
+                        <li><SfButton CssClass="e-flat sbd-rail-item sbd-rail-lg" IconCss="sb-icons e-order">Orders</SfButton></li>
+                        <li><SfButton CssClass="e-flat sbd-rail-item sbd-rail-lg" IconCss="sb-icons e-history">History</SfButton></li>
+                    </ul>
+                </ChildContent>
+                <TargetContent>
+                    <div class="sbd-content sbd-dual-content">
+                        <div class="d-flex flex-wrap gap-2">
+                            <SfButton CssClass="e-primary" aria-controls="sbd-dual-start sbd-dual-end" OnClick="OpenBoth">Open both</SfButton>
+                            <SfButton CssClass="e-outline e-primary" aria-controls="sbd-dual-start sbd-dual-end" OnClick="CloseBoth">Close both</SfButton>
+                        </div>
+                        <p>Each sidebar keeps its own open state. Open both: the panels sit on opposite edges and never overlap.</p>
+                        <p><strong>Start:</strong> @(_startOpen ? "Open" : "Closed") &middot; <strong>End:</strong> @(_endOpen ? "Open" : "Closed")</p>
+                    </div>
+                </TargetContent>
+            </SfSidebar>
+        </TargetContent>
+    </SfSidebar>
+</div>
+
+@code {
+    private bool _startOpen = true;
+    private bool _endOpen = true;
+
+    private void OpenBoth()
+    {
+        _startOpen = true;
+        _endOpen = true;
+    }
+
+    private void CloseBoth()
+    {
+        _startOpen = false;
+        _endOpen = false;
+    }
+
+    private void CloseStart() => _startOpen = false;
+
+    private void CloseEnd() => _endOpen = false;
+}
+
+<style>
+    /* The component styles the target with a descendant selector, so the outer (Start) sidebar's margin also lands on the nested
+       (End) sidebar's target and leaves an empty gap. Reset it here; the End sidebar only needs its own inline-end margin. */
+    .sbd-stage .e-sidebar-container .e-sidebar-container-shrink.e-sidebar-container-right > .e-sidebar-target {
+        margin-left: 0;
+    }
+
+    .sbd-dual-content {
+        background: color-mix(in srgb, #d1e7dd 22%, var(--color-sf-content-bg-color, #fff));
+    }
+
+    .sbd-panel-heading {
+        position: relative;
+        min-height: 2rem;
+        padding-inline-end: 2.25rem;
+    }
+
+    .sbd-corner-close.e-btn {
+        position: absolute;
+        top: 0;
+        inset-inline-end: 0;
+        width: 2rem;
+        height: 2rem;
+        padding: 0;
+    }
+</style>

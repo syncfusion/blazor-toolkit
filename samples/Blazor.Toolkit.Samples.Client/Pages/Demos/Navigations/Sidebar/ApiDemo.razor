@@ -1,0 +1,216 @@
+<div class="sbd-stage-toggle mt-3">
+    <SfButton CssClass="e-primary" OnClick="OpenAsync">OpenAsync</SfButton>
+    <SfButton CssClass="e-primary" OnClick="CloseAsync">CloseAsync</SfButton>
+    <SfButton CssClass="e-primary" OnClick="ToggleAsync">ToggleAsync</SfButton>
+    <SfButton CssClass="e-outline e-primary" OnClick="FocusAsync">FocusAsync</SfButton>
+</div>
+
+<div class="sbd-stage mt-3">
+    <SfSidebar @ref="_sidebar"
+               Id="sbd-api"
+               IsOpen="_isOpen"
+               IsOpenChanged="HandleIsOpenChanged"
+               OnOpened="HandleOpened"
+               OnClosed="HandleClosed"
+               Mode="SidebarMode.Overlay"
+               Responsive="false"
+               Fixed="false"
+               Width="260px"
+               AriaLabel="Command panel">
+        <HeaderTemplate>
+            <h3 class="h6 m-0">Commands</h3>
+        </HeaderTemplate>
+        <ChildContent>
+            <ul class="sbd-nav">
+                <li><SfButton CssClass="e-flat sbd-rail-item sbd-rail-lg" IconCss="sb-icons e-search">Search</SfButton></li>
+                <li><SfButton CssClass="e-flat sbd-rail-item sbd-rail-lg" IconCss="sb-icons e-history">Recent</SfButton></li>
+                <li><SfButton CssClass="e-flat sbd-rail-item sbd-rail-lg" IconCss="sb-icons e-settings">Preferences</SfButton></li>
+            </ul>
+        </ChildContent>
+        <TargetContent>
+            <div class="sbd-content sbd-api-content">
+                <h4 class="h5">Sidebar is @(_isOpen ? "open" : "closed")</h4>
+                <p>@(_isOpen ? "The Commands sidebar is open: the panel on the left, with Search, Recent and Preferences, is the sidebar content." : "The Commands sidebar is closed. Open it to see the panel content: Search, Recent and Preferences.") Use the buttons above to call its methods.</p>
+                <ul>
+                    <li><code>OpenAsync</code>, <code>CloseAsync</code> and <code>ToggleAsync</code> change the open state. Each call raises <code>IsOpenChanged</code> first, then <code>OnOpened</code> or <code>OnClosed</code>.</li>
+                    <li><code>FocusAsync</code> moves focus into the panel while it is open and never changes the open state.</li>
+                </ul>
+            </div>
+        </TargetContent>
+    </SfSidebar>
+</div>
+
+<div class="mt-3">
+    <h5 class="mb-2">Event Log:</h5>
+
+    <div class="sbd-api-bottom row g-3 align-items-stretch">
+        <div class="col-12 col-md-6 d-flex">
+            <div class="sbd-event-log-card w-100 d-flex flex-column">
+                <div class="d-flex justify-content-between align-items-center mb-2">
+                    <span class="fw-semibold">Log</span>
+                    <SfButton CssClass="e-small e-outline" OnClick="ClearLog" Disabled="@(_log.Count == 0)">Clear</SfButton>
+                </div>
+
+                <div class="sbd-event-log-wrapper flex-grow-1">
+                    <ol class="sbd-note sbd-event-log mb-0" aria-label="Event log" aria-live="polite">
+                        @if (_log.Count == 0)
+                        {
+                            <li class="list-unstyled text-center empty-log">No events yet. Use a button above.</li>
+                        }
+                        else
+                        {
+                            @foreach (string entry in _log)
+                            {
+                                <li>@entry</li>
+                            }
+                        }
+                    </ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-md-6 d-flex">
+            <dl class="sbd-status mb-0 w-100 d-flex flex-column justify-content-center" aria-live="polite">
+                <dt>Open state:</dt>
+                <dd>@(_isOpen ? "Open" : "Closed")</dd>
+                <dt>Last event:</dt>
+                <dd>@_lastEvent</dd>
+                <dt>Trigger:</dt>
+                <dd>@_lastTrigger</dd>
+            </dl>
+        </div>
+    </div>
+</div>
+
+@code {
+    private SfSidebar? _sidebar;
+    private bool _isOpen;
+    private string _lastEvent = "none yet";
+    private string _lastTrigger = "none yet";
+    private readonly List<string> _log = new();
+
+    private Task OpenAsync() => _sidebar is null ? Task.CompletedTask : _sidebar.OpenAsync();
+    private Task CloseAsync() => _sidebar is null ? Task.CompletedTask : _sidebar.CloseAsync();
+    private Task ToggleAsync() => _sidebar is null ? Task.CompletedTask : _sidebar.ToggleAsync();
+
+    private async Task FocusAsync()
+    {
+        if (_sidebar is not null)
+        {
+            await _sidebar.FocusAsync();
+            Record("FocusAsync", "focus requested, open state unchanged");
+        }
+    }
+
+    private void HandleIsOpenChanged(bool isOpen)
+    {
+        _isOpen = isOpen;
+        Record("IsOpenChanged", $"IsOpen = {isOpen}");
+    }
+
+    private void HandleOpened(SidebarEventArgs args)
+    {
+        RecordTrigger(args.Trigger);
+        Record("OnOpened", $"IsOpen = {args.IsOpen}, Mode = {args.Mode}");
+    }
+
+    private void HandleClosed(SidebarEventArgs args)
+    {
+        RecordTrigger(args.Trigger);
+        Record("OnClosed", $"IsOpen = {args.IsOpen}, Mode = {args.Mode}");
+    }
+
+    private void RecordTrigger(SidebarTrigger trigger)
+    {
+        _lastTrigger = trigger switch
+        {
+            SidebarTrigger.Api => "Api method caused the Sidebar to change state",
+            SidebarTrigger.Backdrop => "Backdrop click caused the Sidebar to change state",
+            SidebarTrigger.Keyboard => "Keyboard caused the Sidebar to change state",
+            SidebarTrigger.Gesture => "Gesture caused the Sidebar to change state",
+            SidebarTrigger.Navigation => "Navigation caused the Sidebar to change state",
+            _ => $"{trigger} caused the Sidebar to change state",
+        };
+    }
+
+    private void Record(string name, string detail)
+    {
+        _lastEvent = name;
+        _log.Insert(0, $"{name}: {detail}");
+        if (_log.Count > 30)
+        {
+            _log.RemoveAt(_log.Count - 1);
+        }
+    }
+
+    private void ClearLog()
+    {
+        _log.Clear();
+        _lastEvent = "none yet";
+        _lastTrigger = "none yet";
+    }
+}
+
+<style>
+    .sbd-api-content {
+        background: color-mix(in srgb, #cfe2ff 22%, var(--color-sf-content-bg-color, #fff));
+    }
+
+    .sbd-api-bottom > [class*="col-"] {
+        display: flex;
+    }
+
+    .sbd-event-log-card,
+    .sbd-status {
+        border: 1px solid var(--color-sf-border, var(--bs-border-color, #dee2e6));
+        border-radius: .5rem;
+        padding: .75rem 1rem;
+        background: var(--color-sf-content-bg-color-alt1, var(--bs-tertiary-bg, #f8f9fa));
+        min-height: 150px;
+        width: 100%;
+    }
+
+    .sbd-event-log-wrapper {
+        overflow-y: auto;
+        max-height: 180px;
+        display: flex;
+        align-items: center;
+    }
+
+    .sbd-event-log {
+        width: 100%;
+        margin: 0;
+        padding-left: 1.25rem;
+        list-style-position: inside;
+    }
+
+    .sbd-event-log li {
+        margin-bottom: .35rem;
+        text-align: left;
+    }
+
+    .sbd-event-log .empty-log {
+        text-align: center;
+        width: 100%;
+        list-style: none;
+        padding-left: 0;
+        margin: 0;
+        color: var(--bs-secondary-color, #6c757d);
+    }
+
+    .sbd-status {
+        display: grid;
+        grid-template-columns: max-content 1fr;
+        gap: .5rem 1rem;
+        align-content: center;
+        margin: 0 !important;
+    }
+
+    .sbd-status dt {
+        font-weight: 600;
+    }
+
+    .sbd-status dd {
+        margin: 0;
+    }
+</style>

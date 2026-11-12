@@ -885,6 +885,13 @@ using System.Diagnostics.CodeAnalysis;
     Scope = "member",
     Target = "~P:Syncfusion.Blazor.Toolkit.SfTooltip.HtmlAttributes")]
 
+[assembly: SuppressMessage(
+    "Usage",
+    "CA2227:Collection properties should be read only",
+    Justification = "2026-10-01: Attribute-splat dictionary rendered onto the element; Blazor assigns it through the public setter, so the setter must remain.",
+    Scope = "member",
+    Target = "~P:Syncfusion.Blazor.Toolkit.SfSidebar.HtmlAttributes")]
+
 
 // -------------------------------------------------------------------------
 // CA1711 — Identifiers should not have incorrect suffix.

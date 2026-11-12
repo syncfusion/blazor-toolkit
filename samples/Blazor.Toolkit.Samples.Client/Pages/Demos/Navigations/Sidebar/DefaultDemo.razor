@@ -1,0 +1,72 @@
+<div class="sbd-stage">
+    <SfSidebar Id="sbd-default"
+               @bind-IsOpen="_isOpen"
+               Fixed="false"
+               Width="270px"
+               AriaLabelledBy="sbd-default-title">
+        <HeaderTemplate>
+            <div class="d-flex align-items-center justify-content-between gap-2">
+                <h3 id="sbd-default-title" class="h6 m-0">Navigation</h3>
+                <SfButton CssClass="e-flat" IconCss="sb-icons e-close" aria-label="Close navigation" OnClick="Close" />
+            </div>
+        </HeaderTemplate>
+        <ChildContent>
+            <ul class="sbd-nav">
+                @foreach ((string name, string icon) in _items)
+                {
+                    <li>
+                        <SfButton CssClass="e-flat sbd-rail-item"
+                                  IconCss="@icon"
+                                  aria-current="@(_selected == name ? "page" : null)"
+                                  OnClick="() => Select(name)">@name</SfButton>
+                    </li>
+                }
+            </ul>
+        </ChildContent>
+        <FooterTemplate>
+            <small>Backdrop click and Escape close the panel.</small>
+        </FooterTemplate>
+        <TargetContent>
+            <div class="sbd-content">
+                <div>
+                    <SfButton CssClass="e-primary"
+                              IconCss="sb-icons e-menu"
+                              aria-controls="sbd-default"
+                              aria-expanded="@(_isOpen ? "true" : "false")"
+                              OnClick="Toggle">Menu</SfButton>
+                </div>
+                <p>The default <code>Mode</code> is <code>SidebarMode.Overlay</code>. The panel floats above this content and a backdrop dims it while the panel is open.</p>
+                <p><strong>Selected:</strong> @_selected</p>
+            </div>
+        </TargetContent>
+    </SfSidebar>
+</div>
+
+@code {
+    private readonly (string Name, string Icon)[] _items =
+    {
+        ("Home", "sb-icons e-home"),
+        ("Projects", "sb-icons e-folder"),
+        ("Team", "sb-icons e-people"),
+        ("Settings", "sb-icons e-settings"),
+    };
+
+    private bool _isOpen;
+    private string _selected = "Home";
+
+    private void Toggle() => _isOpen = !_isOpen;
+
+    private void Close() => _isOpen = false;
+
+    private void Select(string name)
+    {
+        _selected = name;
+        _isOpen = false;
+    }
+}
+
+<style>
+    .sbd-stage .sbd-nav {
+        gap: .2rem !important;
+    }
+</style>

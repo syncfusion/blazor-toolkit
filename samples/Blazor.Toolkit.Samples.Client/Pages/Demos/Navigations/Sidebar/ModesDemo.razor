@@ -1,0 +1,97 @@
+@* Responsive is off so the chosen Mode is kept at every viewport width. *@
+<div class="sbd-controls">
+    <span class="sbd-control-label" id="sbd-modes-mode-label">Mode</span>
+    <div class="d-flex flex-wrap gap-3" role="radiogroup" aria-labelledby="sbd-modes-mode-label">
+        <SfRadioButton Name="sbd-modes-mode" Label="Overlay" Value="Overlay" @bind-Checked="_mode" />
+        <SfRadioButton Name="sbd-modes-mode" Label="Push" Value="Push" @bind-Checked="_mode" />
+        <SfRadioButton Name="sbd-modes-mode" Label="Shrink" Value="Shrink" @bind-Checked="_mode" />
+    </div>
+    <SfCheckBox TChecked="bool" Label="Fixed" @bind-Checked="_fixed" />
+</div>
+
+<p class="sbd-note" aria-live="polite">
+    <strong>@_mode:</strong> @ModeDescription
+    @if (_fixed)
+    {
+        <br /><span><code>Fixed="true"</code>: the panel is positioned against the viewport, so it can leave this preview. That is intentional.</span>
+    }
+    else
+    {
+        <br /><span><code>Fixed="false"</code>: the panel is positioned inside this preview container.</span>
+    }
+</p>
+
+<div class="sbd-stage-toggle">
+    <SfButton CssClass="e-primary"
+              IconCss="sb-icons e-menu"
+              aria-controls="sbd-modes"
+              aria-expanded="@(_isOpen ? "true" : "false")"
+              OnClick="Toggle">@(_isOpen ? "Close menu" : "Open menu")</SfButton>
+</div>
+
+<div class="sbd-stage">
+    <SfSidebar Id="sbd-modes"
+               @bind-IsOpen="_isOpen"
+               Mode="CurrentMode"
+               Fixed="_fixed"
+               Responsive="false"
+               Width="240px"
+               AriaLabel="Modes navigation">
+        <HeaderTemplate>
+            <div class="d-flex align-items-center justify-content-between gap-2">
+                <h3 class="h6 m-0">Navigation</h3>
+                <SfButton CssClass="e-flat" IconCss="sb-icons e-close" aria-label="Close navigation" OnClick="Close" />
+            </div>
+        </HeaderTemplate>
+        <ChildContent>
+            <ul class="sbd-nav">
+                <li>Overview</li>
+                <li>Reports</li>
+                <li>Settings</li>
+            </ul>
+        </ChildContent>
+        <TargetContent>
+            <div class="sbd-content sbd-modes-content">
+                <p>Open the sidebar, then switch the mode or the Fixed option to compare the layouts.</p>
+                <p class="sbd-modes-ruler">This content stays in the document flow. Watch it shift or narrow as the panel opens.</p>
+            </div>
+        </TargetContent>
+    </SfSidebar>
+</div>
+
+@code {
+    private string _mode = "Overlay";
+    private bool _fixed;
+    private bool _isOpen;
+
+    private SidebarMode CurrentMode => _mode switch
+    {
+        "Push" => SidebarMode.Push,
+        "Shrink" => SidebarMode.Shrink,
+        _ => SidebarMode.Overlay,
+    };
+
+    private string ModeDescription => _mode switch
+    {
+        "Push" => "Shifts content horizontally.",
+        "Shrink" => "Reduces content width.",
+        _ => "Covers content, optional backdrop.",
+    };
+
+    private void Toggle() => _isOpen = !_isOpen;
+
+    private void Close() => _isOpen = false;
+}
+
+<style>
+    .sbd-modes-content {
+        background: color-mix(in srgb, #cfe2ff 22%, var(--color-sf-content-bg-color, #fff));
+    }
+
+    .sbd-modes-ruler {
+        padding: .5rem .75rem;
+        border: 1px dashed var(--color-sf-border, #dee2e6);
+        border-radius: .375rem;
+        background: var(--color-sf-content-bg-color, #fff);
+    }
+</style>

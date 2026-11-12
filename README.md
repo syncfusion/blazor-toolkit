@@ -82,7 +82,7 @@ For a full list, see [open issues labeled good first issue](https://github.com/s
 blazor-toolkit/
 ├── src/
 │   ├── Base/                  # Shared infrastructure (ComponentBase, event callbacks, utilities)
-│   ├── Components/            # UI components by domain (Buttons/, Calendars/, Charts/, Inputs/, Layout/, Popups/, Spinner/)
+│   ├── Components/            # UI components by domain (Buttons/, Calendars/, Charts/, Inputs/, Layout/, Navigations/, Popups/, Spinner/)
 │   │   └── <Component>/       # Each component has its own folder (SfButton/, SfChart/, etc.)
 │   ├── Data/                  # Shared data manager / adaptor infrastructure
 │   └── wwwroot/               # Static assets (primarily JavaScript interop scripts)
@@ -136,6 +136,8 @@ For full details on commit style, PR requirements, and review criteria, see the 
 | Inputs | Numeric TextBox | Input for numeric values with formatting, spin buttons, decimals, min/max ranges, and culture support. |
 | Inputs | TextArea | Multi-line text input with auto-resize, character counter, and floating label support. |
 | Layout | Card | Composable content surface for presenting information and actions with header, media, body, action, footer, loading, clickable, and accessible layouts. |
+| Navigations | Sidebar | Collapsible navigation or utility panel with Overlay, Push, and Shrink modes, responsive breakpoints, an optional mini rail, and keyboard/touch controls. |
+| Navigations | Toolbar | Accessible command bar with horizontal or vertical layout, keyboard navigation, grouped or data-bound items, templates, and four overflow modes. |
 | Popups | Dialog | Modal/popup window for alerts, forms, or confirmations with drag, resize, and animation support. |
 | Popups | Tooltip | Lightweight popup that displays contextual information when users hover over, focus on, or interact with a target element, with customizable positioning and animation support. |
 | Notification | Spinner | Loading indicator with customizable size, type, and overlay for async operations. |
@@ -163,6 +165,7 @@ The repository includes specialized skill files that document component usage pa
 - [Charts skill](https://github.com/syncfusion/blazor-toolkit/blob/main/.github/skills/syncfusion-blazor-toolkit-charts/SKILL.md)
 - [Inputs skill](https://github.com/syncfusion/blazor-toolkit/blob/main/.github/skills/syncfusion-blazor-toolkit-inputs/SKILL.md)
 - [Layout skill](https://github.com/syncfusion/blazor-toolkit/blob/main/.github/skills/syncfusion-blazor-toolkit-layout/SKILL.md)
+- [Navigations skill](https://github.com/syncfusion/blazor-toolkit/blob/main/.github/skills/syncfusion-blazor-toolkit-navigations/SKILL.md)
 - [Notifications skill](https://github.com/syncfusion/blazor-toolkit/blob/main/.github/skills/syncfusion-blazor-toolkit-notifications/SKILL.md)
 - [Popups skill](https://github.com/syncfusion/blazor-toolkit/blob/main/.github/skills/syncfusion-blazor-toolkit-popups/SKILL.md)
 

@@ -1,0 +1,61 @@
+@namespace Syncfusion.Blazor.Toolkit
+@using Microsoft.AspNetCore.Components
+@using Microsoft.Extensions.Localization
+@inherits SfBaseComponent
+@inject IStringLocalizer Localizer
+@inject NavigationManager NavigationManager
+
+@* Shared theme emitter: render-time, sibling placed BEFORE the root element (never inside it). Only one instance per renderer emits. *@
+<SfThemeRoot />
+<div class="@_containerClass"
+     style="@_containerStyle"
+     @attributes="_hostAttributes"
+     @onpointerdown="HandlePointerDown"
+     @onpointerup="HandlePointerUpAsync"
+     @onpointercancel="HandlePointerCancel">
+    <div @ref="_sidebarElement"
+           id="@_panelId"
+           class="@_sidebarClass"
+           role="@_role"
+           aria-modal="@_ariaModal"
+           aria-hidden="@_ariaHidden"
+           aria-label="@_ariaLabel"
+           aria-labelledby="@_ariaLabelledBy"
+           aria-describedby="@_ariaDescribedBy"
+           tabindex="-1"
+           @attributes="_htmlAttributes">
+        @if (HeaderTemplate is not null)
+        {
+            <div class="e-sidebar-header">
+                @HeaderTemplate
+            </div>
+        }
+
+        <div class="e-sidebar-body">
+            @ChildContent
+        </div>
+
+        @if (FooterTemplate is not null)
+        {
+            <div class="e-sidebar-footer">
+                @FooterTemplate
+            </div>
+        }
+
+        <div id="@_notesId" class="e-sidebar-notes">@_notes</div>
+    </div>
+
+    @if (TargetContent is not null)
+    {
+        <div class="e-sidebar-target" inert="@IsModal">
+            @TargetContent
+        </div>
+    }
+
+    @if (IsModal)
+    {
+        <div class="@_backdropClass" aria-hidden="true" @onclick="HandleBackdropClickAsync"></div>
+    }
+
+    <div class="e-sidebar-live" role="status" aria-live="polite" aria-atomic="true">@_announcement</div>
+</div>
