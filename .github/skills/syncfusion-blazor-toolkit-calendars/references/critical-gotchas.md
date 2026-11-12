@@ -5,7 +5,7 @@ description: >
   The 8 critical Syncfusion Blazor calendar gotchas every coding agent must
   internalize. Loaded automatically by syncfusion-blazor-toolkit-calendars
   before any Calendar / DatePicker / DateTimePicker / TimePicker code is
-  generated. Covers UTC vs local time, TValue type selection, Format string
+  generated. Covers timezone / DateTimeKind handling, TValue type selection, Format string
   precedence, Min/Max inclusivity, DayCellRendering mutation rules, and
   accessibility labelling.
 ---
@@ -24,7 +24,7 @@ quirks. The eight gotchas below cover ~95% of bugs reported in the
 | Date without time | `DateOnly?` (or `DateTime?` for legacy) | Avoids accidental timezone drift |
 | Date + time | `DateTime?` | Default; min/max round-trip cleanly |
 | Time-only | `DateTime?` with `Format="HH:mm"` | `TimeOnly` is **not** supported by SfTimePicker |
-| UTC-stable | `DateTime?` with `EnableUtc="true"` | Server thinks UTC, browser thinks local |
+| Persisted as UTC | `DateTime?` for the UI, converted to/from UTC in your code | The component does no conversion; see gotcha 2 |
 | Pre-blazor-1 model | `DateTime` (non-nullable) | Avoid — no longer recommended |
 
 ```razor
@@ -44,23 +44,41 @@ non-nullable `TValue`.
 
 ## 2. UTC vs local time — the #1 production bug
 
-`SfCalendar.Value` (and friends) is **stored as the calendar component's local
-timezone** unless `EnableUtc="true"`.
+The calendar components (`SfCalendar`, `SfDatePicker`, `SfDateTimePicker`,
+`SfTimePicker`) **do no timezone conversion** and have **no `EnableUtc`
+parameter** (it is not part of the shipped API, so do not generate it).
+`Value` is the wall-clock date/time the user picked, carried in a `DateTime`
+whose `Kind` is whatever you supplied — typically `Unspecified`.
 
 ```razor
-<SfCalendar TValue="DateTime?"
-            EnableUtc="true"   <!-- calendar reads/writes UTC -->
-            @bind-Value="@value" />
+<SfDatePicker TValue="DateTime?" @bind-Value="@value" />
 ```
 
-Without `EnableUtc="true"`:
-- Server (UTC) reads `2026-03-15 00:00:00` from the user in Tokyo (UTC+9) who
-  selected "15 Mar" — that's the previous day in Tokyo's interpretation.
-- The displayed date is correct (because format uses local), but the bound
-  `DateTime` is the wrong absolute instant.
+Where it goes wrong:
+- In Server / Auto render modes your C# runs on the **server**, whose
+  `TimeZoneInfo.Local` (often UTC) is not the user's. Calling
+  `value.ToUniversalTime()` on an `Unspecified` value treats it as *server
+  local*, so a user in Tokyo (UTC+9) who selected "15 Mar" can be persisted as
+  the wrong absolute instant.
+- `DateTime.Now` / `DateTime.Today` on the server give the server's "today",
+  not the user's.
 
-**Rule:** In Server / Auto render modes that persist dates to a database,
-**always set `EnableUtc="true"`** and `ToLocalTime()` only on display.
+**Rule:** keep `Value`, `Min`, `Max` and any initial value in one frame (the
+user's wall-clock time) and convert **explicitly** at the persistence boundary
+with the user's `TimeZoneInfo` (or an offset supplied by the client):
+
+```csharp
+// wall-clock -> UTC (persist)
+var utc = TimeZoneInfo.ConvertTimeToUtc(
+    DateTime.SpecifyKind(value, DateTimeKind.Unspecified), userZone);
+
+// UTC -> wall-clock (load)
+var local = TimeZoneInfo.ConvertTimeFromUtc(
+    DateTime.SpecifyKind(utcFromDb, DateTimeKind.Utc), userZone);
+```
+
+For date-only data prefer `DateOnly?` so no time-of-day or `Kind` is involved.
+See [troubleshooting.md](troubleshooting.md) for more `DateTimeKind` examples.
 
 ## 3. `Format` vs culture — string is culture-invariant
 
@@ -82,12 +100,13 @@ Without `EnableUtc="true"`:
 **Don't** mix the two in the same form — you get inconsistent error messages
 (`formatException("The string 'dd/MM/yyyy' was not recognized")`).
 
-## 4. `Min` and `Max` are *inclusive* AND *local-timezone-relative*
+## 4. `Min` and `Max` are *inclusive* wall-clock bounds
 
-The component compares `Min`/`Max` against `Value` after **converting Value to
-the calendar's timezone**. If `Min = new DateTime(2026, 1, 1)` and the user is
-in Sydney (UTC+11), the calendar disables everything before
-`2026-01-01 00:00 Sydney` = `2025-12-31 13:00 UTC` on the value side.
+The component compares `Min`/`Max` against `Value` as plain wall-clock values
+(no timezone conversion). If `Min = new DateTime(2026, 1, 1)`, every date
+before `2026-01-01 00:00` in the user's displayed frame is disabled. Building
+`Min` from a UTC instant (for example `DateTime.UtcNow.Date`) shifts the
+boundary by the user's UTC offset.
 
 ```razor
 <SfDatePicker TValue="DateTime?"
@@ -95,8 +114,8 @@ in Sydney (UTC+11), the calendar disables everything before
               Max="@new DateTime(2026, 12, 31)" />
 ```
 
-**Rule:** Always provide `Min`/`Max` in the calendar's local timezone, never in
-UTC, unless `EnableUtc="true"`.
+**Rule:** Always provide `Min`/`Max` in the same wall-clock frame as `Value`;
+never mix in UTC-derived bounds.
 
 ## 5. `DayCellRendering` mutation rules
 
@@ -186,8 +205,8 @@ expected to stay open across midnight.
 
 ## When in doubt
 
-- Date-only ⇒ `DateOnly?` + `Format="yyyy-MM-dd"` + `EnableUtc="false"`
-- Date + time ⇒ `DateTime?` + sensible `Format` + decide UTC per row
+- Date-only ⇒ `DateOnly?` + `Format="yyyy-MM-dd"`
+- Date + time ⇒ `DateTime?` + sensible `Format` + convert to/from UTC explicitly at the persistence boundary
 - Time-only ⇒ `DateTime?` + `Format="HH:mm"` (do not use `TimeOnly?`)
 - Range restricted ⇒ Set `Min`/`Max` in the *display* timezone + use
   `DayCellRendering` for per-cell disable (weekends, holidays)

@@ -241,14 +241,12 @@ jobs:
 
       - name: Check for vulnerable packages
         run: |
-          set -o pipefail
-          dotnet list src/Syncfusion.Blazor.Toolkit.csproj package --vulnerable --include-transitive 2>&1 | tee vuln-report.txt
-          if grep -qi "has the following vulnerable packages" vuln-report.txt; then
-            echo "::error::Vulnerable NuGet packages detected (see artifact nuget-vuln-report)"
-            cat vuln-report.txt
-            exit 1
-          fi
-          echo "No vulnerable packages found"
+          # Fails on restore / advisory-source / command errors; evaluates structured JSON only
+          # after a successful scan (SEC-06). CI is stricter than release: any severity fails.
+          bash .github/scripts/check-vulnerabilities.sh \
+            --project src/Syncfusion.Blazor.Toolkit.csproj \
+            --min-severity Low \
+            --report vuln-report.txt
 
       - name: Upload NuGet vulnerability report
         if: always()
@@ -346,12 +344,12 @@ jobs:
   # Produces an unsigned .nupkg artifact per target framework as a
   # smoke test of packaging metadata. SourceLink + Directory.Build.props
   # populate `RepositoryCommit` from the local .git/HEAD at pack time
-  # (D1 / LP-10, AR-3). The artifact is provided for the internal
-  # release maintainer to download, verify the on-main SHA, re-pack
-  # locally with the same SHA, sign and push manually. CI never
-  # attempts to sign or publish. See THREAT-MODEL.md AR-1 (PI-01
-  # strong-name manual), AR-2 (PI-02 Authenticode manual), AR-3
-  # (D1 commit freshness) and AR-4 (manual publish).
+  # (D1 / LP-10, AR-3). This job never signs or publishes: the signed,
+  # published package is produced only by .github/workflows/release.yml
+  # (see DEVELOPMENT.md "Release, signing and publication" and
+  # THREAT-MODEL.md AR-1, AR-2, AR-4). The pack job also verifies that the
+  # popups + calendars AI skill docs only reference members that exist in
+  # the packed public API (AI-03).
   # =========================================================
   pack:
     name: Pack (.NET ${{ matrix.dotnet-version }})
@@ -400,6 +398,12 @@ jobs:
             # are intentionally unsigned. Strong-name + Authenticode signing
             # are performed manually on the maintainer's machine in
             # accordance with AR-1 and AR-2 (THREAT-MODEL.md).
+
+      - name: Check AI skill documentation against packed API (AI-03)
+        run: |
+          python3 .github/scripts/check-skill-api.py \
+            --xml "$(ls unsigned-pkg/*.nupkg | head -n 1)" \
+            --skills .github/skills/syncfusion-blazor-toolkit-popups .github/skills/syncfusion-blazor-toolkit-calendars
 
       - name: Upload unsigned .nupkg (for human review only)
         uses: actions/upload-artifact@v7
