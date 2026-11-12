@@ -1,0 +1,77 @@
+@page "/toolbar/overflow"
+@using Microsoft.AspNetCore.Components.Web
+
+@layout MainLayout
+
+<style>
+    .frame-width-180 {
+        max-width: 100%;
+        width: 180px;
+    }
+
+    .frame-width-320 {
+        max-width: 100%;
+        width: 320px;
+    }
+
+    .frame-width-900 {
+        max-width: 100%;
+        width: 900px;
+    }
+</style>
+
+<span id="interactive-ready" data-ready="@(_interactiveReady ? "true" : "false")" hidden></span>
+
+<h1>Toolbar - Overflow</h1>
+
+<div class="test-container" dir="@(Rtl ? "rtl" : "ltr")">
+    <div id="frame" class="@($"frame-width-{_width}")">
+        <SfToolbar @ref="_toolbar" Id="toolbar-overflow" AriaLabel="Overflow commands" EnableRtl="@(Rtl ? true : null)"
+                   OverflowMode="_mode" OnItemClick="OnItemClick">
+            <ToolbarItem Id="o-save" Text="Save" Overflow="ToolbarOverflowOption.Show" />
+            <ToolbarItem Id="o-undo" Text="Undo" Overflow="ToolbarOverflowOption.Show" Priority="1" />
+            <ToolbarItem Id="o-redo" Text="Redo" Priority="2" />
+            <ToolbarItem Id="o-copy" Text="Copy" Priority="3" />
+            <ToolbarItem Id="o-paste" Text="Paste" Priority="4" />
+            <ToolbarItem Id="o-find" Text="Find" Overflow="ToolbarOverflowOption.Hide" />
+            <ToolbarItem Id="o-print" Text="Print" Overflow="ToolbarOverflowOption.Hide" Priority="1" />
+            @if (_extra)
+            {
+                <ToolbarItem Id="o-extra" Text="Extra" Priority="9" />
+            }
+        </SfToolbar>
+    </div>
+    <button id="after-toolbar" type="button">After</button>
+
+    <p id="last-click">Last click: @_lastClick</p>
+    <p id="frame-width">Width: @_width</p>
+    <button id="width-wide" type="button" @onclick="@(() => _width = 900)">Wide</button>
+    <button id="width-medium" type="button" @onclick="@(() => _width = 320)">Medium</button>
+    <button id="width-narrow" type="button" @onclick="@(() => _width = 180)">Narrow</button>
+    <button id="mode-scroll" type="button" @onclick="@(() => _mode = ToolbarOverflowMode.Scrollable)">Scrollable</button>
+    <button id="mode-popup" type="button" @onclick="@(() => _mode = ToolbarOverflowMode.Popup)">Popup</button>
+    <button id="add-item" type="button" @onclick="@(() => _extra = true)">Add item</button>
+</div>
+
+@code {
+    private SfToolbar? _toolbar;
+    private bool _interactiveReady;
+    private bool _extra;
+    private int _width = 900;
+    private ToolbarOverflowMode _mode = ToolbarOverflowMode.Popup;
+    private string _lastClick = "none";
+
+    [SupplyParameterFromQuery(Name = "rtl")]
+    public bool Rtl { get; set; }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _interactiveReady = true;
+            StateHasChanged();
+        }
+    }
+
+    private void OnItemClick(ToolbarItemClickEventArgs args) => _lastClick = args.ItemId;
+}

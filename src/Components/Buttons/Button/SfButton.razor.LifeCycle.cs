@@ -1,4 +1,5 @@
 using System.Diagnostics;
+using Microsoft.AspNetCore.Components;
 namespace Syncfusion.Blazor.Toolkit
 {
     public partial class SfButton
@@ -56,6 +57,19 @@ namespace Syncfusion.Blazor.Toolkit
                     await Created.InvokeAsync(null).ConfigureAwait(false);
                 }
             }
+        }
+
+        /// <exclude />
+        /// <summary>
+        /// Moves keyboard focus to the rendered <c>button</c> element.
+        /// </summary>
+        /// <remarks>
+        /// Internal so that a host component, such as the toolbar, can manage a roving tab stop without a public API change.
+        /// </remarks>
+        /// <returns>A task that completes when focus has moved.</returns>
+        internal ValueTask FocusElementAsync()
+        {
+            return _buttonElement.Id is null ? ValueTask.CompletedTask : _buttonElement.FocusAsync();
         }
 
         #endregion

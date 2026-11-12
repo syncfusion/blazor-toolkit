@@ -1,0 +1,358 @@
+.toolbar-demo-page ::deep .tb-stage {
+    display: flex;
+    justify-content: center;
+    padding: 8px 0 4px;
+}
+
+.toolbar-demo-page ::deep .tb-frame {
+    position: relative;
+    isolation: isolate;
+    width: min(760px, 100%);
+    /* Keep a light container only; do not compete with the toolbar’s own border. */
+    background: var(--color-sf-content-bg-color);
+}
+
+.toolbar-demo-page ::deep .tb-editor {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 860px;
+}
+
+.toolbar-demo-page ::deep .tb-doc {
+    position: relative;
+    /* The overflow popup is absolutely positioned against the toolbar.
+       "overflow: hidden" clipped it, so the host only creates a stacking context instead. */
+    isolation: isolate;
+    border: 1px solid var(--color-sf-border-light, var(--color-sf-content-border));
+    border-radius: 12px;
+    background: var(--color-sf-content-bg-color);
+    box-shadow: 0 1px 2px color-mix(in srgb, var(--color-sf-content-text-color) 6%, transparent);
+}
+
+.toolbar-demo-page ::deep .tb-surface {
+    padding: 28px 32px 36px;
+    min-height: 180px;
+    color: var(--color-sf-content-text-color);
+}
+
+.toolbar-demo-page ::deep .tb-surface h3 {
+    margin: 0 0 10px;
+    font-size: 22px;
+    font-weight: 600;
+}
+
+.toolbar-demo-page ::deep .tb-surface p {
+    margin: 0 0 10px;
+    max-width: 62ch;
+    line-height: 1.55;
+}
+
+.toolbar-demo-page ::deep .tb-insert {
+    margin-top: 8px;
+    color: var(--color-sf-primary, var(--color-sf-content-text-color));
+    font-size: 13px;
+}
+
+.toolbar-demo-page ::deep .tb-surface.is-bold {
+    font-weight: 700;
+}
+
+.toolbar-demo-page ::deep .tb-surface.is-italic {
+    font-style: italic;
+}
+
+.toolbar-demo-page ::deep .tb-surface.is-underline p {
+    text-decoration: underline;
+}
+
+.toolbar-demo-page ::deep .tb-items {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 860px;
+}
+
+.toolbar-demo-page ::deep .preview-section:has(.tb-items-demo) {
+    overflow: visible;
+}
+
+.toolbar-demo-page ::deep .tb-items-demo .tb-host {
+    position: relative;
+    isolation: isolate;
+    overflow: visible;
+    min-width: 480px;
+}
+
+.toolbar-demo-page ::deep .tb-orient {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 860px;
+}
+
+.toolbar-demo-page ::deep .tb-switch {
+    display: inline-flex;
+    width: fit-content;
+    padding: 3px;
+    border: 1px solid var(--color-sf-border-light, var(--color-sf-content-border));
+    border-radius: 8px;
+    background: var(--color-sf-content-bg-color-alt, var(--color-sf-content-bg-color));
+}
+
+.toolbar-demo-page ::deep .tb-place {
+    border: 0;
+    background: transparent;
+    color: var(--color-sf-content-text-color);
+    border-radius: 6px;
+    padding: 6px 14px;
+    font: inherit;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.toolbar-demo-page ::deep .tb-place.is-on {
+    background: var(--color-sf-primary);
+    color: var(--color-sf-primary-text-color, #fff);
+}
+
+.toolbar-demo-page ::deep .tb-shell {
+    position: relative;
+    isolation: isolate;
+    border: 1px solid var(--color-sf-border-light, var(--color-sf-content-border));
+    border-radius: 12px;
+    background: var(--color-sf-content-bg-color);
+    min-height: 320px;
+    overflow: visible;
+}
+
+.toolbar-demo-page ::deep .tb-body {
+    display: flex;
+    min-height: 280px;
+}
+
+.toolbar-demo-page ::deep .tb-shell.is-rail .tb-body {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    min-height: 320px;
+}
+
+.toolbar-demo-page ::deep .tb-shell.is-rail .e-toolbar.e-toolbar-vertical {
+    align-self: stretch;
+    block-size: auto;
+    flex: 0 0 11rem;
+    inline-size: 11rem;
+    min-block-size: 100%;
+}
+
+.toolbar-demo-page ::deep .tb-shell.is-rail {
+    display: flex;
+    flex-direction: column;
+}
+
+.toolbar-demo-page ::deep .tb-shell.is-rail .tb-rail,
+.toolbar-demo-page ::deep .tb-shell.is-rail [data-testid="toolbar-root"].e-toolbar-vertical {
+    display: flex !important;
+    flex-direction: column !important;
+    flex: 0 0 160px;
+    width: 160px;
+    align-self: stretch;
+    min-height: 320px;
+    height: auto;
+    border-inline-end: 1px solid var(--color-sf-border-light, var(--color-sf-content-border));
+    border-radius: 0;
+    overflow: visible;
+    padding-block: 12px;
+    padding-inline: 8px;
+}
+
+.toolbar-demo-page ::deep .tb-shell.is-rail .e-toolbar-vertical .e-toolbar-content {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch;
+    gap: 4px;
+    overflow: visible;
+    height: 100%;
+}
+
+.toolbar-demo-page ::deep .tb-shell.is-rail .e-toolbar-vertical .e-toolbar-item {
+    width: 100%;
+}
+
+.toolbar-demo-page ::deep .tb-shell.is-rail .e-toolbar-vertical .e-tbar-btn {
+    justify-content: flex-start;
+    width: 100%;
+    padding-inline: 10px;
+    column-gap: 10px;
+}
+
+.toolbar-demo-page ::deep .tb-shell.is-rail .tb-canvas {
+    flex: 1 1 auto;
+    padding: 24px 28px;
+}
+
+.toolbar-demo-page ::deep .tb-canvas {
+    flex: 1;
+    padding: 24px 28px;
+}
+
+.toolbar-demo-page ::deep .tb-canvas h3 {
+    margin: 0 0 8px;
+    color: var(--color-sf-content-text-color);
+}
+
+.toolbar-demo-page ::deep .tb-canvas p {
+    margin: 0;
+    max-width: 52ch;
+    color: var(--color-sf-content-text-color-alt);
+    line-height: 1.5;
+}
+
+.toolbar-demo-page ::deep .tb-overflow {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 920px;
+}
+
+.toolbar-demo-page ::deep .tb-controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.toolbar-demo-page ::deep .tb-modes {
+    display: inline-flex;
+    padding: 3px;
+    border: 1px solid var(--color-sf-border-light, var(--color-sf-content-border));
+    border-radius: 8px;
+    background: var(--color-sf-content-bg-color-alt, var(--color-sf-content-bg-color));
+}
+
+.toolbar-demo-page ::deep .tb-mode {
+    border: 0;
+    background: transparent;
+    color: var(--color-sf-content-text-color);
+    border-radius: 6px;
+    padding: 6px 12px;
+    font: inherit;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.toolbar-demo-page ::deep .tb-mode.is-on {
+    background: var(--color-sf-primary);
+    color: var(--color-sf-primary-text-color, #fff);
+}
+
+.toolbar-demo-page ::deep .tb-width {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--color-sf-content-text-color-alt);
+    font-size: 13px;
+}
+
+.toolbar-demo-page ::deep .tb-width input {
+    width: 180px;
+}
+
+.toolbar-demo-page ::deep .tb-overflow-demo .tb-host {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    max-width: 100%;
+    border: 1px solid var(--color-sf-border-light, var(--color-sf-content-border));
+    border-radius: 10px;
+    background: var(--color-sf-content-bg-color);
+}
+
+.toolbar-demo-page ::deep .tb-templates {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 860px;
+}
+
+.toolbar-demo-page ::deep .tb-templates .tb-host {
+    position: relative;
+    isolation: isolate;
+    border: 1px solid var(--color-sf-border-light, var(--color-sf-content-border));
+    border-radius: 10px;
+}
+
+.toolbar-demo-page ::deep .tb-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-width: 180px;
+    margin: 4px 2px;
+    padding: 0 8px;
+    height: 28px;
+    border: 1px solid var(--color-sf-border-light, var(--color-sf-content-border));
+    border-radius: 999px;
+    background: var(--color-sf-content-bg-color);
+    color: var(--color-sf-content-text-color-alt);
+}
+
+.toolbar-demo-page ::deep .tb-pill input {
+    flex: 1;
+    min-width: 0;
+    border: 0;
+    outline: none;
+    background: transparent;
+    color: var(--color-sf-content-text-color);
+    font: inherit;
+    font-size: 13px;
+}
+
+.toolbar-demo-page ::deep .tb-clear {
+    border: 0;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+    font-size: 16px;
+    line-height: 1;
+}
+
+.toolbar-demo-page ::deep .tb-chip {
+    display: inline-flex;
+    align-items: center;
+    margin: 4px 2px;
+    padding: 0 10px;
+    height: 28px;
+    border-radius: 999px;
+    background: var(--color-sf-content-bg-color-alt, var(--color-sf-content-bg-color));
+    color: var(--color-sf-content-text-color);
+    font-size: 12px;
+}
+
+.toolbar-demo-page ::deep .tb-files {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border: 1px solid var(--color-sf-border-light, var(--color-sf-content-border));
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.toolbar-demo-page ::deep .tb-files li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    border-top: 1px solid var(--color-sf-border-light, var(--color-sf-content-border));
+    color: var(--color-sf-content-text-color);
+    font-size: 14px;
+}
+
+.toolbar-demo-page ::deep .tb-files li:first-child {
+    border-top: 0;
+}
+
+.toolbar-demo-page ::deep .tb-empty {
+    color: var(--color-sf-content-text-color-alt);
+}

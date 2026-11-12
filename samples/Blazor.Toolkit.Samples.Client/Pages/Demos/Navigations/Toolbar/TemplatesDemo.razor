@@ -1,0 +1,69 @@
+<div class="tb-templates" data-testid="toolbar-templates-demo">
+    <div class="tb-host">
+        <SfToolbar AriaLabel="Files" OverflowMode="ToolbarOverflowMode.Popup" data-testid="toolbar-root">
+            <ToolbarItem Text="New" IconCss="sb-icons e-file-new" />
+            <ToolbarItem Text="Upload" IconCss="sb-icons e-upload-1" />
+            <ToolbarItem Text="Refresh" IconCss="sb-icons e-refresh" />
+            <ToolbarSpacer />
+            <ToolbarGroup Label="Search">
+                <ToolbarItem Id="file-search" Text="Search files" Overflow="ToolbarOverflowOption.Show" Priority="-10">
+                    <Template>
+                        <label class="tb-pill">
+                            <span class="sb-icons e-search" aria-hidden="true"></span>
+                            <input value="@_query" @oninput="OnQuery" placeholder="Filter files" aria-label="Filter files" />
+                            @if (!string.IsNullOrEmpty(_query))
+                            {
+                                <button type="button" class="tb-clear" aria-label="Clear filter" @onclick="Clear">×</button>
+                            }
+                        </label>
+                    </Template>
+                </ToolbarItem>
+                <ToolbarItem Id="file-count" Text="@CountLabel" Overflow="ToolbarOverflowOption.Show">
+                    <Template>
+                        <span class="tb-chip">@CountLabel</span>
+                    </Template>
+                </ToolbarItem>
+            </ToolbarGroup>
+        </SfToolbar>
+    </div>
+
+    <ul class="tb-files">
+        @if (_visible.Count == 0)
+        {
+            <li class="tb-empty">No files match “@_query”.</li>
+        }
+        else
+        {
+            @foreach (string file in _visible)
+            {
+                <li>
+                    <span class="sb-icons e-file-document" aria-hidden="true"></span>
+                    <span>@file</span>
+                </li>
+            }
+        }
+    </ul>
+</div>
+
+@code {
+    private static readonly string[] _files =
+    [
+        "Q3 roadmap.docx",
+        "Launch notes.md",
+        "Budget.xlsx",
+        "Brand guidelines.pdf",
+        "Interview schedule.docx",
+        "Release checklist.md"
+    ];
+
+    private string _query = string.Empty;
+    private IReadOnlyList<string> _visible => string.IsNullOrWhiteSpace(_query)
+        ? _files
+        : _files.Where(file => file.Contains(_query, StringComparison.OrdinalIgnoreCase)).ToArray();
+
+    private string CountLabel => $"{_visible.Count} results";
+
+    private void OnQuery(ChangeEventArgs args) => _query = args.Value?.ToString() ?? string.Empty;
+
+    private void Clear() => _query = string.Empty;
+}

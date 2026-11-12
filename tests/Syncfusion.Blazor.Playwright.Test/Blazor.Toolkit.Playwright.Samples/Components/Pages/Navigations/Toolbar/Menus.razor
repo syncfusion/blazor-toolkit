@@ -1,0 +1,58 @@
+@page "/toolbar/menus"
+@using Microsoft.AspNetCore.Components.Web
+@layout MainLayout
+
+<span id="interactive-ready" data-ready="@(_interactiveReady ? "true" : "false")" hidden></span>
+
+<h1>Toolbar - Menus</h1>
+
+<div class="test-container">
+    <SfToolbar Id="toolbar-menus" AriaLabel="Menu commands" OnItemClick="OnItemClick">
+        <ToolbarItem Id="m-paste" Text="Paste" Type="ToolbarItemType.Split">
+            <Items>
+                <ToolbarItem Id="m-paste-text" Text="Paste text" />
+                <ToolbarItem Id="m-paste-value" Text="Paste values" />
+                <ToolbarItem Id="m-paste-format" Text="Paste format" />
+            </Items>
+        </ToolbarItem>
+        <ToolbarItem Id="m-insert" Text="Insert" Type="ToolbarItemType.DropDown">
+            <Items>
+                <ToolbarItem Id="m-image" Text="Image" />
+                <ToolbarItem Id="m-table" Text="Table" />
+            </Items>
+        </ToolbarItem>
+        <ToolbarItem Id="m-file" Text="File" Type="ToolbarItemType.Menu">
+            <Items>
+                <ToolbarItem Id="m-new" Text="New" />
+                <ToolbarItem Id="m-open" Text="Open" />
+            </Items>
+        </ToolbarItem>
+    </SfToolbar>
+    <p id="last-click">Last click: @_lastClick</p>
+    <p id="was-cancelled">Cancelled: @_cancelled</p>
+</div>
+
+@code {
+    private bool _interactiveReady;
+    private string _lastClick = "none";
+    private string _cancelled = "no";
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _interactiveReady = true;
+            StateHasChanged();
+        }
+    }
+
+    private void OnItemClick(ToolbarItemClickEventArgs args)
+    {
+        _lastClick = args.ItemId;
+        if (args.ItemId == "m-insert")
+        {
+            args.Cancel = true;
+            _cancelled = "yes";
+        }
+    }
+}
