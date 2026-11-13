@@ -82,7 +82,7 @@ For a full list, see [open issues labeled good first issue](https://github.com/s
 blazor-toolkit/
 ├── src/
 │   ├── Base/                  # Shared infrastructure (ComponentBase, event callbacks, utilities)
-│   ├── Components/            # UI components by domain (Buttons/, Calendars/, Charts/, Inputs/, Popups/, Spinner/)
+│   ├── Components/            # UI components by domain (Buttons/, Calendars/, Charts/, Inputs/, Layout/, Popups/, Spinner/)
 │   │   └── <Component>/       # Each component has its own folder (SfButton/, SfChart/, etc.)
 │   ├── Data/                  # Shared data manager / adaptor infrastructure
 │   └── wwwroot/               # Static assets (primarily JavaScript interop scripts)
@@ -122,22 +122,22 @@ For full details on commit style, PR requirements, and review criteria, see the 
 
 | Category | Control | Description |
 |----------|---------|-------------|
-| Data Viz | Chart | Versatile charting component for rendering interactive data visualizations like line, bar, pie, and more with zooming, tooltips, and legends. |
+| Charts | Chart | Versatile charting component for rendering interactive data visualizations like line, bar, pie, and more with zooming, tooltips, and legends. |
 | Buttons | Button | Customizable button with support for icons, predefined styles (primary, success, etc.), sizes, and states like disabled or loading. |
 | Buttons | ButtonGroup | Groups multiple buttons together for unified styling and actions, ideal for toolbars or segmented controls. |
-| Buttons | Checkbox | Toggleable input for single or grouped selections with customizable labels, states, and indeterminate mode. |
-| Buttons | Radio Button | Grouped selection control allowing single choice from options, with customizable appearance and accessibility support. |
-| Buttons | Toggle Switch | On/off toggle control (like a switch) for boolean inputs, with customizable labels and states. |
 | Calendars | Calendar | Interactive monthly calendar view for date selection with navigation, multi-select, and range highlighting. |
 | Calendars | DatePicker | Popup calendar input for selecting single dates with formatting, validation, and culture support. |
 | Calendars | DateTime Picker | Combined date and time selector with calendar popup and time spinner for precise datetime input. |
 | Calendars | TimePicker | Time selection input with spinner or list view, supporting 12/24-hour formats and intervals. |
+| Buttons | Checkbox | Toggleable input for single or grouped selections with customizable labels, states, and indeterminate mode. |
+| Buttons | Radio Button | Grouped selection control allowing single choice from options, with customizable appearance and accessibility support. |
+| Buttons | Toggle Switch | On/off toggle control (like a switch) for boolean inputs, with customizable labels and states. |
 | Inputs | File Upload | Drag-and-drop or browse file input with progress tracking, multiple file support, and validation. |
 | Inputs | Numeric TextBox | Input for numeric values with formatting, spin buttons, decimals, min/max ranges, and culture support. |
 | Inputs | TextArea | Multi-line text input with auto-resize, character counter, and floating label support. |
-| Inputs | Textbox | Single-line text input with floating labels, icons, validation states, and clear button. |
-| Layout | Dialog | Modal/popup window for alerts, forms, or confirmations with drag, resize, and animation support. |
-| Layout | Tooltip | Lightweight popup that displays contextual information when users hover over, focus on, or interact with a target element, with customizable positioning and animation support. |
+| Layout | Card | Composable content surface for presenting information and actions with header, media, body, action, footer, loading, clickable, and accessible layouts. |
+| Popups | Dialog | Modal/popup window for alerts, forms, or confirmations with drag, resize, and animation support. |
+| Popups | Tooltip | Lightweight popup that displays contextual information when users hover over, focus on, or interact with a target element, with customizable positioning and animation support. |
 | Notification | Spinner | Loading indicator with customizable size, type, and overlay for async operations. |
 
 ## Demo
@@ -162,6 +162,7 @@ The repository includes specialized skill files that document component usage pa
 - [Calendars skill](https://github.com/syncfusion/blazor-toolkit/blob/main/.github/skills/syncfusion-blazor-toolkit-calendars/SKILL.md)
 - [Charts skill](https://github.com/syncfusion/blazor-toolkit/blob/main/.github/skills/syncfusion-blazor-toolkit-charts/SKILL.md)
 - [Inputs skill](https://github.com/syncfusion/blazor-toolkit/blob/main/.github/skills/syncfusion-blazor-toolkit-inputs/SKILL.md)
+- [Layout skill](https://github.com/syncfusion/blazor-toolkit/blob/main/.github/skills/syncfusion-blazor-toolkit-layout/SKILL.md)
 - [Notifications skill](https://github.com/syncfusion/blazor-toolkit/blob/main/.github/skills/syncfusion-blazor-toolkit-notifications/SKILL.md)
 - [Popups skill](https://github.com/syncfusion/blazor-toolkit/blob/main/.github/skills/syncfusion-blazor-toolkit-popups/SKILL.md)
 
@@ -404,9 +405,9 @@ Also review [CHANGELOG.md](https://github.com/syncfusion/blazor-toolkit/blob/mai
 
 ## About Syncfusion®
 
-Founded in 2001 and headquartered in Research Triangle Park, N.C., Syncfusion® has more than 35,000 customers and more than 1 million users, including large financial institutions, Fortune 500 companies, and global IT consultancies.
+Founded in 2001 and headquartered in Morrisville, NC, Syncfusion® 63K+ enterprise customers and 2M+ developers, including large financial institutions, Fortune 500 companies, and global IT consultancies.
  
-Today, we provide 1800+ components and frameworks for web ([Blazor](https://www.syncfusion.com/blazor-components?utm_source=nuget&utm_medium=listing&utm_campaign=blazor-toolkit-nuget), [ASP.NET Core](https://www.syncfusion.com/aspnet-core-ui-controls?utm_source=nuget&utm_medium=listing&utm_campaign=blazor-toolkit-nuget), [ASP.NET MVC](https://www.syncfusion.com/aspnet-mvc-ui-controls?utm_source=nuget&utm_medium=listing&utm_campaign=blazor-toolkit-nuget), [JavaScript](https://www.syncfusion.com/javascript-ui-controls?utm_source=nuget&utm_medium=listing&utm_campaign=blazor-toolkit-nuget), [Angular](https://www.syncfusion.com/angular-ui-components?utm_source=nuget&utm_medium=listing&utm_campaign=blazor-toolkit-nuget), [React](https://www.syncfusion.com/react-ui-components?utm_source=nuget&utm_medium=listing&utm_campaign=blazor-toolkit-nuget), [Vue](https://www.syncfusion.com/vue-ui-components?utm_source=nuget&utm_medium=listing&utm_campaign=blazor-toolkit-nuget), and [Flutter](https://www.syncfusion.com/flutter-widgets?utm_source=nuget&utm_medium=listing&utm_campaign=blazor-toolkit-nuget)), mobile ([.NET MAUI](https://www.syncfusion.com/maui-controls?utm_source=nuget&utm_medium=listing&utm_campaign=blazor-toolkit-nuget), [Xamarin](https://www.syncfusion.com/xamarin-ui-controls?utm_source=nuget&utm_medium=listing&utm_campaign=blazor-toolkit-nuget), [Flutter](https://www.syncfusion.com/flutter-widgets?utm_source=nuget&utm_medium=listing&utm_campaign=blazor-toolkit-nuget), [UWP](https://www.syncfusion.com/uwp-ui-controls?utm_source=nuget&utm_medium=listing&utm_campaign=blazor-toolkit-nuget), and [JavaScript](https://www.syncfusion.com/javascript-ui-controls?utm_source=nuget&utm_medium=listing&utm_campaign=blazor-toolkit-nuget)), and desktop development ([WinForms](https://www.syncfusion.com/winforms-ui-controls?utm_source=nuget&utm_medium=listing&utm_campaign=blazor-toolkit-nuget), [WPF](https://www.syncfusion.com/wpf-ui-controls?utm_source=nuget&utm_medium=listing&utm_campaign=blazor-toolkit-nuget), [WinUI](https://www.syncfusion.com/winui-controls?utm_source=nuget&utm_medium=listing&utm_campaign=blazor-toolkit-nuget), [Flutter](https://www.syncfusion.com/flutter-widgets?utm_source=nuget&utm_medium=listing&utm_campaign=blazor-toolkit-nuget) and [UWP](https://www.syncfusion.com/uwp-ui-controls?utm_source=nuget&utm_medium=listing&utm_campaign=blazor-toolkit-nuget)).
+Today, we provide 1,600+ UI components for web ([Blazor](https://www.syncfusion.com/blazor-components?utm_source=nuget&utm_medium=listing&utm_campaign=blazor-toolkit-nuget), [ASP.NET Core](https://www.syncfusion.com/aspnet-core-ui-controls?utm_source=nuget&utm_medium=listing&utm_campaign=blazor-toolkit-nuget), [ASP.NET MVC](https://www.syncfusion.com/aspnet-mvc-ui-controls?utm_source=nuget&utm_medium=listing&utm_campaign=blazor-toolkit-nuget), [JavaScript](https://www.syncfusion.com/javascript-ui-controls?utm_source=nuget&utm_medium=listing&utm_campaign=blazor-toolkit-nuget), [Angular](https://www.syncfusion.com/angular-ui-components?utm_source=nuget&utm_medium=listing&utm_campaign=blazor-toolkit-nuget), [React](https://www.syncfusion.com/react-ui-components?utm_source=nuget&utm_medium=listing&utm_campaign=blazor-toolkit-nuget), [Vue](https://www.syncfusion.com/vue-ui-components?utm_source=nuget&utm_medium=listing&utm_campaign=blazor-toolkit-nuget), and [Flutter](https://www.syncfusion.com/flutter-widgets?utm_source=nuget&utm_medium=listing&utm_campaign=blazor-toolkit-nuget)), mobile ([.NET MAUI](https://www.syncfusion.com/maui-controls?utm_source=nuget&utm_medium=listing&utm_campaign=blazor-toolkit-nuget), [Flutter](https://www.syncfusion.com/flutter-widgets?utm_source=nuget&utm_medium=listing&utm_campaign=blazor-toolkit-nuget), [UWP](https://www.syncfusion.com/uwp-ui-controls?utm_source=nuget&utm_medium=listing&utm_campaign=blazor-toolkit-nuget), and [JavaScript](https://www.syncfusion.com/javascript-ui-controls?utm_source=nuget&utm_medium=listing&utm_campaign=blazor-toolkit-nuget)), and desktop development ([WinForms](https://www.syncfusion.com/winforms-ui-controls?utm_source=nuget&utm_medium=listing&utm_campaign=blazor-toolkit-nuget), [WPF](https://www.syncfusion.com/wpf-ui-controls?utm_source=nuget&utm_medium=listing&utm_campaign=blazor-toolkit-nuget), [WinUI](https://www.syncfusion.com/winui-controls?utm_source=nuget&utm_medium=listing&utm_campaign=blazor-toolkit-nuget), [Flutter](https://www.syncfusion.com/flutter-widgets?utm_source=nuget&utm_medium=listing&utm_campaign=blazor-toolkit-nuget) and [UWP](https://www.syncfusion.com/uwp-ui-controls?utm_source=nuget&utm_medium=listing&utm_campaign=blazor-toolkit-nuget)).
 ___
 
 [sales@syncfusion.com](mailto:sales@syncfusion.com?Subject=Syncfusion%20Blazor%20Toolkit%20-%20NuGet) | [www.syncfusion.com](https://www.syncfusion.com?utm_source=nuget&utm_medium=listing&utm_campaign=blazor-toolkit-nuget) | Toll Free: 1-888-9 DOTNET

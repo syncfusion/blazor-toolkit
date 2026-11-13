@@ -39,11 +39,11 @@ Need to block the user with required input or confirmation?
 | `aria-modal` | Auto when `IsModal=true` | `aria-describedby` only |
 | Default ARIA announcement | `role="dialog"` | `aria-describedby` |
 | SSR-safe? | Yes (with `AllowPrerender=false`) | Fake DOM only — does **not** render in Static SSR |
-| Position | Centered (configurable via `X`/`Y`) | 12 positions via `Position` enum |
-| Animation | Yes (fade, slide, zoom) | Yes (fade, slide, none) |
+| Position | Centered (configurable via `DialogPositionData` `X`/`Y`) | 12 positions via `Position` enum |
+| Animation | Yes (`DialogAnimationSettings`, `DialogEffect`) | Yes (`AnimationModel`, `Effect`; no slide effects) |
 | Buttons? | Yes (`DialogButtons`) | No |
 | Form inputs | Yes | No — produces awkward patterns |
-| Async / await inside | Yes (lifecycle methods) | Yes (`OnOpen`/`OnClose`) |
+| Async / await inside | Yes (lifecycle methods) | Yes (`OnOpen`/`OnClose`/`Opened`/`Closed`) |
 | Typical size | Modal: 320–640px; full-screen: 100% | 1–4 lines of text |
 | Default duration | Indefinite | 100–300ms based on pointer movement |
 
@@ -54,15 +54,16 @@ Need to block the user with required input or confirmation?
 ```text
 Visible=false (initial)
    └─> user clicks "Open" → Visible=true
-       ├─> OnOpen event (cancelable)
+       ├─> OnOpen event (cancelable via args.Cancel)
        ├─> OnAfterRender → component added to DOM
-       └─> OnOpened event (no cancel)
+       └─> Opened event
 
 visible=true (steady state)
    ├─> user clicks OK / Cancel / X → Visible=false
    ├─> CloseOnEscape → Visible=false
-   ├─> OnClose event (cancelable)
-   └─> OnAfterRender → component removed from DOM
+   ├─> OnClose event (cancelable via args.Cancel)
+   ├─> OnAfterRender → component removed from DOM
+   └─> Closed event
 ```
 
 `SfTooltip`:
@@ -72,26 +73,28 @@ trigger element rendered
    └─> pointer enter or focus → tooltip appears
        └─> pointer leave or blur → tooltip disappears
 
-   Tooltip is NEVER in the DOM when invisible — no "OnOpen"/"OnClose" fires.
-   To intercept use:
-     OnOpen  ← before append (BUT: in default impl, tooltip only opens
-                on user interaction; programmatic Show() is the public API)
-     OnClose ← before remove
+   Hooks (all EventCallback<TooltipEventArgs>):
+     OnOpen  ← before the tooltip opens
+     Opened  ← after the tooltip opened
+     OnClose ← before the tooltip closes
+     Closed  ← after the tooltip closed
 ```
 
-**Note:** `SfTooltip` doesn't fire `OnOpen`/`OnClose` for the default hover
-lifecycle. If you need a hook, call `Show()` / `Hide()` explicitly with the
-public methods. Manual control via `@bind-Visible` is also supported.
+**Note:** For `OpensOn="Custom"`, open and close the tooltip explicitly with
+the public `OpenAsync()` / `CloseAsync()` methods through a `@ref`. There is no
+`Show()` / `Hide()` method and no `@bind-Visible` parameter on `SfTooltip`.
 
 ## Trigger modes (`OpensOn`)
 
+`OpensOn` is a `string` parameter, not an enum.
+
 | Value | Trigger |
 |---|---|
-| `OpensOn.Auto` | Hover OR focus (default) |
-| `OpensOn.Hover` | Pointer enter only |
-| `OpensOn.Focus` | Focus only (keyboard users) |
-| `OpensOn.Click` | Pointer down only |
-| `OpensOn.Custom` | Manual `Show()` / `Hide()` |
+| `"Auto"` | Detected from the target element (default) |
+| `"Hover"` | Pointer enter only |
+| `"Focus"` | Focus only (keyboard users) |
+| `"Click"` | Pointer click only |
+| `"Custom"` | Manual `OpenAsync()` / `CloseAsync()` |
 
 **Best practice:** Default to `Auto` for icon buttons and links. Use
 `Click` for non-interactive triggers (wrapping a static `<p>`). Use
@@ -106,19 +109,19 @@ LeftCenter                                    RightCenter
 BottomLeft    BottomCenter    BottomRight
 ```
 
-`SfTooltip`: `Position="TooltipPosition.TopCenter"` (full enum name).
+`SfTooltip`: `Position="Position.TopCenter"` (the `Position` enum).
 
 `SfDialog`: positions are configured via the `X` / `Y` numeric offsets
 and `IsModal`.
 
 ## Animation parity
 
-| Animation | `SfDialog` | `SfTooltip` |
+| Animation | `SfDialog` (`DialogEffect`) | `SfTooltip` (`Effect`, inside `AnimationModel.Open` / `.Close`) |
 |---|---|---|
-| `Fade` | `DialogEffect="Fade"` | `TooltipAnimation="{ Effect=Fade }"` |
-| `Slide` (left/right) | `DialogEffect="SlideLeft"` etc. | `SlideTop`, `SlideBottom`, etc. |
-| `Zoom` | `DialogEffect="Zoom"` | `Effect="Zoom"` |
-| `None` | `DialogEffect="None"` | `Effect="None"` |
+| Fade | `DialogEffect.Fade` | `Effect.FadeIn` / `Effect.FadeOut` |
+| Slide | `DialogEffect.SlideLeft` / `SlideRight` / `SlideTop` / `SlideBottom` | not available |
+| Zoom | `DialogEffect.Zoom` | `Effect.ZoomIn` / `Effect.ZoomOut` |
+| None | `DialogEffect.None` | `Effect.None` |
 
 The two components expose different enum shapes — code generation must use the
 correct one per component.
@@ -200,7 +203,7 @@ Use `SfDialog`:
 </SfTooltip>
 
 <!-- ✅ Wrap with a focus-receiving span -->
-<SfTooltip Content="Can't submit yet" OpensOn="OpensOn.Custom">
+<SfTooltip Content="Can't submit yet" OpensOn="Auto">
     <span tabindex="0">
         <SfButton Disabled="true">Submit</SfButton>
     </span>
