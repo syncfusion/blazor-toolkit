@@ -983,12 +983,6 @@
 .e-input-base-wrapper .e-input-group.e-control-wrapper.e-hidden {
   display: none;
 }
-/* A valued clear button must stay visible. display:none removes it from the tab
-   order, so Tab lands on document.body. Hide only the non-tabbable (empty,
-   disabled, or readonly) button. */
-.e-input-base-wrapper .e-numeric .e-close.e-clear-icon-hide:not([tabindex="-1"]) {
-  display: flex;
-}
 .e-input-base-wrapper input.e-input[type=search]::-webkit-search-decoration,
 .e-input-base-wrapper input.e-input[type=search]::-webkit-search-cancel-button,
 .e-input-base-wrapper input.e-input[type=search]::-webkit-search-results-button,
@@ -1208,17 +1202,9 @@
   justify-content: center;
   line-height: 1;
   min-width: 24px;
+  outline: none;
   padding: 0;
   text-align: center;
-}
-.e-input-base-wrapper .e-numeric .e-close:focus-visible {
-  outline: 2px solid var(--color-sf-primary, Highlight);
-  outline-offset: 1px;
-}
-@media (forced-colors: active) {
-  .e-input-base-wrapper .e-numeric .e-close:focus-visible {
-    outline: 2px solid Highlight;
-  }
 }
 .e-input-base-wrapper .e-float-input .e-close::before,
 .e-input-base-wrapper .e-float-input.e-control-wrapper .e-close::before,

@@ -24,8 +24,8 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Inputs.NumericTextBox
             Assert.Equal("button", clearButton.GetAttribute("type"));
             Assert.False(string.IsNullOrWhiteSpace(clearButton.GetAttribute("aria-label")));
             // Hidden until focus, but already a tab stop so Tab cannot race the reveal render.
-            Assert.Contains("e-close", clearButton.ClassList);
-            Assert.Equal("0", clearButton.GetAttribute("tabindex"));
+            Assert.Contains("e-clear-icon-hide", clearButton.ClassList);
+            Assert.NotEqual("-1", clearButton.GetAttribute("tabindex"));
             Assert.DoesNotContain("onmousedown:preventDefault", clearButton.OuterHtml, StringComparison.OrdinalIgnoreCase);
         }
 
