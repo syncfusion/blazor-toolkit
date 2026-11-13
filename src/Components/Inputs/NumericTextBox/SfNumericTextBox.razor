@@ -30,17 +30,15 @@
                 @if (this.SpinButton)
                 {
                     <button type="button" class="@(GROUPICON + SPACE + SPINDOWN)" title="@DecrementTitle" aria-label="@DecrementTitle" tabindex="@(ShowSpinButton ? 0 : -1)"
-                            @onmousedown="@MouseDownOnSpinner" @onmouseup="@MouseUpOnSpinnerAsync"
-                            @onmousedown:preventDefault="@IsSpinButtonChanged"
-                            @onmouseup:preventDefault="@IsSpinButtonChanged"
-                            @onclick="@(() => OnSpinButtonActivateAsync("decrement"))"
-                            @onkeydown="@((KeyboardEventArgs e) => OnSpinButtonKeyDownAsync(e, "decrement"))"></button>
+                    @onmousedown="@MouseDownOnSpinner" @onmouseup="@MouseUpOnSpinnerAsync"
+                    @onmousedown:preventDefault="@IsSpinButtonChanged"
+                    @onmouseup:preventDefault="@IsSpinButtonChanged"
+                    @onkeydown="@((KeyboardEventArgs e) => OnSpinButtonKeyDownAsync(e, "decrement"))"></button>
                     <button type="button" class="@(GROUPICON + SPACE + SPINUP)" title="@IncrementTitle" aria-label="@IncrementTitle" tabindex="@(ShowSpinButton ? 0 : -1)"
-                            @onmousedown="@MouseDownOnSpinner" @onmouseup="@MouseUpOnSpinnerAsync"
-                            @onmousedown:preventDefault="@IsSpinButtonChanged"
-                            @onmouseup:preventDefault="@IsSpinButtonChanged"
-                            @onclick="@(() => OnSpinButtonActivateAsync("increment"))"
-                            @onkeydown="@((KeyboardEventArgs e) => OnSpinButtonKeyDownAsync(e, "increment"))"></button>
+                    @onmousedown="@MouseDownOnSpinner" @onmouseup="@MouseUpOnSpinnerAsync"
+                    @onmousedown:preventDefault="@IsSpinButtonChanged"
+                    @onmouseup:preventDefault="@IsSpinButtonChanged"
+                    @onkeydown="@((KeyboardEventArgs e) => OnSpinButtonKeyDownAsync(e, "increment"))"></button>
                 }
             </div>
         }
@@ -63,20 +61,18 @@
                 @if (this.SpinButton)
                 {
                     <button type="button" class="@(GROUPICON + SPACE + SPINDOWN)" title="@DecrementTitle" aria-label="@DecrementTitle" tabindex="@(ShowSpinButton ? 0 : -1)"
-                            @onmousedown="@MouseDownOnSpinner" @onmouseup="@MouseUpOnSpinnerAsync"
-                            @onmousedown:preventDefault="@IsSpinButtonChanged"
-                            @onmouseup:preventDefault="@IsSpinButtonChanged"
-                            @onclick="@(() => OnSpinButtonActivateAsync("decrement"))"
-                            @onkeydown="@((KeyboardEventArgs e) => OnSpinButtonKeyDownAsync(e, "decrement"))"></button>
+                    @onmousedown="@MouseDownOnSpinner" @onmouseup="@MouseUpOnSpinnerAsync"
+                    @onmousedown:preventDefault="@IsSpinButtonChanged"
+                    @onmouseup:preventDefault="@IsSpinButtonChanged"
+                    @onkeydown="@((KeyboardEventArgs e) => OnSpinButtonKeyDownAsync(e, "decrement"))"></button>
                     <button type="button" class="@(GROUPICON + SPACE + SPINUP)" title="@IncrementTitle" aria-label="@IncrementTitle" tabindex="@(ShowSpinButton ? 0 : -1)"
-                            @onmousedown="@MouseDownOnSpinner" @onmouseup="@MouseUpOnSpinnerAsync"
-                            @onmousedown:preventDefault="@IsSpinButtonChanged"
-                            @onmouseup:preventDefault="@IsSpinButtonChanged"
-                            @onclick="@(() => OnSpinButtonActivateAsync("increment"))"
-                            @onkeydown="@((KeyboardEventArgs e) => OnSpinButtonKeyDownAsync(e, "increment"))"></button>
-                }
-            </span>
-        }
+                    @onmousedown="@MouseDownOnSpinner" @onmouseup="@MouseUpOnSpinnerAsync"
+                    @onmousedown:preventDefault="@IsSpinButtonChanged"
+                    @onmouseup:preventDefault="@IsSpinButtonChanged"
+                    @onkeydown="@((KeyboardEventArgs e) => OnSpinButtonKeyDownAsync(e, "increment"))"></button>
+                            }
+                        </span>
+                    }
         @ChildContent
         @* Visually hidden live region that announces the formatted value whenever the
            spinner buttons or any other programmatic update changes the value. *@
