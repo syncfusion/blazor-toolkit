@@ -4,6 +4,14 @@ Notable changes to the **Syncfusion® Toolkit for Blazor**, with historical summ
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/). Historical version labels are preserved as published; see the [development guide](https://github.com/syncfusion/blazor-toolkit/blob/main/.github/DEVELOPMENT.md#versioning-and-evidence-status) for versioning and compatibility guidance.
 
+## [Unreleased]
+
+### Changed
+
+- **AI skill documentation** — Calendar skills no longer prescribe `EnableUtc` (not part of the public API) and now describe `DateTimeKind` / wall-clock handling. Dialog skills use `ShowAsync` / `HideAsync`, `Opened` / `Closed`, `OnOverlayModalClick` and `SfDialogService` + `SfDialogProvider`. Tooltip skills use `OpenAsync` / `CloseAsync`, `Position.TopCenter` and string-valued `OpensOn`.
+- **Release pipeline** — The vulnerability scan (release and CI) now fails on command, restore or advisory-source errors and evaluates structured JSON results instead of grepping text after `|| true`. The SPDX SBOM is generated from the final signed `.nupkg` files and its digests are verified before publishing; `SHA256SUMS` is attached to the release. The popups and calendars skill docs are checked against the packed public API.
+- **Signing / publication documentation** — `DEVELOPMENT.md` and `THREAT-MODEL.md` now state that assemblies are not strong-name signed (`PublicKeyToken=null`, accepted risk AR-1), that `release.yml` signs the `.nupkg` and publishes to GitHub Packages, and that GitHub Packages is the single authoritative registry.
+
 ## [2.0.1] - 2026-10-19
 
 ### Added

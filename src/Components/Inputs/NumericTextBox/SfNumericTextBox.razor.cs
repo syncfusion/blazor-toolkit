@@ -61,8 +61,6 @@ namespace Syncfusion.Blazor.Toolkit
         private const string THAILAND = "th";
         private const string PERSIAN = "fa";
 
-        private bool IsTriggerFocusHandler { get; set; }
-
         private bool IsScriptRendered { get; set; }
 
         private bool IsClearIconClick { get; set; }
@@ -85,10 +83,7 @@ namespace Syncfusion.Blazor.Toolkit
 
         private bool IsDevice { get; set; }
 
-        /// <summary>
-        /// Specifies the input is focused state.
-        /// </summary>
-        internal bool IsFocus { get; set; }
+        private bool _isFocusSession;
 
         private bool IsPrevFocused { get; set; }
 
@@ -96,17 +91,23 @@ namespace Syncfusion.Blazor.Toolkit
 
         private bool IsSpinButtonChanged { get; set; }
 
+        private bool IsClearKey { get; set; }
+
         /// <summary>
-        /// True while the clear button has a value and should accept keyboard focus.
-        /// Do not also require <see cref="SfInputBase{TValue}.IsFocused"/>: Tab blurs
-        /// the input before Blazor can repaint a focus-only tabindex, so the button
-        /// would stay at -1 and Tab would skip it.
+        /// Uses live HasClearableContent so Tab reaches clear after typing into empty field.
         /// </summary>
         private bool IsClearButtonTabbable =>
             ShowClearButton &&
             !Readonly &&
             !Disabled &&
-            !string.IsNullOrEmpty(FormatValueAsString(InputTextValue));
+            HasClearableContent;
+
+        private string NumericClearIconClass => ClearIconClassForRender;
+
+        private void KeepClearButtonVisibleWhileTabbable()
+        {
+            KeepClearButtonVisibleWhileTabbableBase();
+        }
 
         private bool IsNumberCulture { get; set; }
 
@@ -121,7 +122,9 @@ namespace Syncfusion.Blazor.Toolkit
         // without depending on focus being on the input.
         internal string _valueAnnouncement = string.Empty;
 
-        private string? FocusInputValue { get; set; }
+        private string? _focusInputValue;
+
+        private bool _isUserCleared;
 
         private bool IsDropValue { get; set; }
 
@@ -202,7 +205,7 @@ namespace Syncfusion.Blazor.Toolkit
                         {
                             await RaiseChangeEventAsync(null).ConfigureAwait(true);
                         }
-                        FocusInputValue = FormatValueAsString(Value);
+                        _focusInputValue = FormatValueAsString(Value);
                         break;
                     case nameof(Min):
                     case nameof(Max):
@@ -267,9 +270,9 @@ namespace Syncfusion.Blazor.Toolkit
                     bool isExponential = (Convert.ToString(formatValue, CultureInfo.CurrentCulture) ?? string.Empty).Contains('E', StringComparison.Ordinal);
                     bool isNumberFormat = Format is not null && Format.ToLower(CultureInfo.CurrentCulture).Contains('n', StringComparison.Ordinal);
                     string? formatString = (isExponential && isNumberFormat) ? null : Format;
-                    string elemValue = IsFocus ? SfBaseUtils.RemoveClass(value, CultureInfo.CurrentCulture.NumberFormat.NumberGroupSeparator)
+                    string elemValue = _isFocusSession ? SfBaseUtils.RemoveClass(value, CultureInfo.CurrentCulture.NumberFormat.NumberGroupSeparator)
                             : Intl.GetNumericFormat(formatValue, formatString, Currency);
-                    if (IsIgnoreDecimal() && IsFocus)
+                    if (IsIgnoreDecimal() && _isFocusSession)
                     {
                         elemValue = SfBaseUtils.RemoveClass(elemValue, CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator);
                     }
@@ -321,12 +324,12 @@ namespace Syncfusion.Blazor.Toolkit
         /// <exclude/>
         protected override TValue? FormatValue(string? genericValue)
         {
-            if (IsFocus)
+            if (_isFocusSession)
             {
                 try
                 {
                     string? inputTextValue = genericValue;
-                    FocusInputValue = inputTextValue;
+                    _focusInputValue = inputTextValue;
                     inputTextValue = IsNumberCulture ? RemoveCultureDigits(inputTextValue) : inputTextValue;
                     string decimalSeparator = CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator;
                     bool IsDecimalSeparator = !string.IsNullOrEmpty(inputTextValue) && inputTextValue.Length == 1 && inputTextValue == decimalSeparator;
@@ -582,7 +585,7 @@ namespace Syncfusion.Blazor.Toolkit
         /// </remarks>
         private void UpdateValueAnnouncement()
         {
-            if (IsFocus)
+            if (_isFocusSession)
             {
                 return;
             }
@@ -672,9 +675,12 @@ namespace Syncfusion.Blazor.Toolkit
         /// </remarks>
         private async Task ModifyTextAsync()
         {
-            if (Value is not null)
+            // After a clear, Value can still hold the previous number while
+            // InputTextValue is the value just stepped. Refresh from that.
+            TValue? displayValue = IsClearButtonClicked ? InputTextValue : Value ?? InputTextValue;
+            if (displayValue is not null)
             {
-                string? elemValue = FormatValueAsString(Value);
+                string? elemValue = FormatValueAsString(displayValue);
                 await SetValueAsync(elemValue, FloatLabelType, ShowClearButton).ConfigureAwait(true);
             }
             else
@@ -927,73 +933,17 @@ namespace Syncfusion.Blazor.Toolkit
             }
         }
         /// <summary>
-        /// Handles the focus event when the numeric textbox receives focus.
+        /// Handles DOM focus and routes it through the shared focus pipeline.
         /// </summary>
         /// <param name="args">The focus event arguments containing event details.</param>
         /// <returns>A <see cref="Task"/> representing the asynchronous focus handling operation.</returns>
         /// <remarks>
-        /// This method is called when the input element receives focus. It triggers client-side focus handling only if the component is enabled, not readonly, and the focus handler hasn't been triggered yet. The focus handler manages input formatting and user interaction states.
+        /// The shared pipeline snapshots the edit text and raises the focus event once, regardless of which focus entry point runs first.
         /// </remarks>
         /// <exclude/>
         protected override async Task FocusHandlerAsync(Microsoft.AspNetCore.Components.Web.FocusEventArgs args)
         {
-            if (IsTriggerFocusHandler && !Disabled && !Readonly)
-            {
-                if (!IsScriptRendered)
-                {
-                    if (OnFocus.HasDelegate)
-                    {
-                        NumericFocusEventArgs<TValue> eventArgs = new()
-                        {
-                            Event = args,
-                            Value = Value,
-                            Name = "Focus",
-                        };
-                        await OnFocus.InvokeAsync(eventArgs).ConfigureAwait(true);
-                    }
-                    if (!Disabled && !Readonly)
-                    {
-                        IsFocus = true;
-                        if (ValueExpression is not null)
-                        {
-                            UpdateValidateClass();
-                        }
-                        else
-                        {
-                            ContainerClass = ContainerClass.Replace(ERROR_CLASS, string.Empty, StringComparison.Ordinal);
-                        }
-
-                        PrevValue = Value;
-                        if (Value is not null)
-                        {
-                            string? formatNumbers = FormatNumber();
-                            if (IsIgnoreDecimal())
-                            {
-                                formatNumbers = SfBaseUtils.RemoveClass(formatNumbers, CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator);
-                            }
-
-                            string formatValue = SfBaseUtils.RemoveClass(formatNumbers, CultureInfo.CurrentCulture.NumberFormat.NumberGroupSeparator);
-                            await SetValueAsync(formatValue, FloatLabelType, ShowClearButton).ConfigureAwait(true);
-
-                            if (!IsPrevFocused && IsRendered)
-                            {
-                                _selectRangeDotNetRef ??= DotNetObjectReference.Create(this);
-                                await InvokeVoidAsync(_numericTextBoxJsModule, _numericTextBoxJsInProcessModule, "selectRange", [DataId, FormatValueAsString(InputTextValue) ?? string.Empty, _selectRangeDotNetRef]).ConfigureAwait(true);
-                            }
-                        }
-                    }
-                    if (FloatLabelType == FloatLabelType.Auto)
-                    {
-                        await InvokeVoidAsync(_numericTextBoxJsModule, _numericTextBoxJsInProcessModule, "removeFloatLabelSize", [DataId]).ConfigureAwait(true);
-
-                    }
-                }
-                else
-                {
-                    await InvokeVoidAsync(_numericTextBoxJsModule, _numericTextBoxJsInProcessModule, "focusHandler", [DataId]).ConfigureAwait(true);
-                }
-                IsTriggerFocusHandler = false;
-            }
+            _ = await FocusInputAsync(args).ConfigureAwait(true);
         }
 
         /// <summary>
@@ -1027,11 +977,12 @@ namespace Syncfusion.Blazor.Toolkit
             }
             if (!Disabled && !Readonly)
             {
+                bool resetFocusSnapshot = false;
                 if (IsPrevFocused)
                 {
                     if (IsDevice)
                     {
-                        string? value = FocusInputValue;
+                        string? value = _focusInputValue;
                         await FocusAsync().ConfigureAwait(true);
                         IsPrevFocused = false;
                         await Task.Delay(ClearButtonDelayMs, _delayCancellationTokenSource?.Token ?? CancellationToken.None).ConfigureAwait(true);    // Remove the clear button on time delay in component.
@@ -1043,12 +994,30 @@ namespace Syncfusion.Blazor.Toolkit
                 }
                 else
                 {
-                    IsFocus = false;
+                    bool hadFocusSession = _isFocusSession;
+                    _isFocusSession = false;
                     _lastAnnouncedFormattedValue = null;
-                    string? inputValue = FocusInputValue;
-                    if (string.IsNullOrEmpty(inputValue))
+                    string? inputValue = _focusInputValue;
+                    // An explicit clear must survive blur. The focus-time snapshot
+                    // still holds the previous text, so formatting it would
+                    // put the cleared value back.
+                    if (IsClearButtonClicked || _isUserCleared)
                     {
+                        inputValue = null;
                         InputTextValue = default;
+                        _focusInputValue = null;
+                        IsClearButtonClicked = false;
+                        _isUserCleared = false;
+                    }
+                    else if (string.IsNullOrEmpty(inputValue))
+                    {
+                        // Missing edit text is not evidence that the user cleared the
+                        // value. Use the current value when focus never established a session.
+                        TValue? valueToFormat = hadFocusSession && InputTextValue is not null
+                            ? InputTextValue
+                            : Value ?? InputTextValue;
+                        inputValue = FormatValueAsString(valueToFormat) ??
+                            Convert.ToString(valueToFormat, CultureInfo.CurrentCulture);
                     }
                     if (IsNumberCulture)
                     {
@@ -1068,11 +1037,16 @@ namespace Syncfusion.Blazor.Toolkit
                             : default;
                         await UpdateValueAsync(changedValue, args).ConfigureAwait(true);
                     }
+                    resetFocusSnapshot = true;
                 }
-                if (string.IsNullOrEmpty(FocusInputValue))
+                if (string.IsNullOrEmpty(_focusInputValue))
                 {
                     await InvokeVoidAsync(_numericTextBoxJsModule, _numericTextBoxJsInProcessModule, "clearInvalid", [DataId, FormatValueAsString(InputTextValue) ?? string.Empty]).ConfigureAwait(true);
 
+                }
+                if (resetFocusSnapshot)
+                {
+                    _focusInputValue = null;
                 }
                 IsInValidNumber = false;
             }
@@ -1081,70 +1055,87 @@ namespace Syncfusion.Blazor.Toolkit
                 await InvokeVoidAsync(_numericTextBoxJsModule, _numericTextBoxJsInProcessModule, "updateFloatLabelSize", [DataId]).ConfigureAwait(true);
 
             }
+
+            // Base blur hides the clear icon with display:none. Restore it when the
+            // value is still clearable so the button stays in the tab order.
+            KeepClearButtonVisibleWhileTabbable();
         }
 
         /// <summary>
-        /// Handles the internal focus logic and prepares the input for user interaction.
+        /// Handles focus from DOM events, JavaScript callbacks, and programmatic focus.
         /// </summary>
-        /// <returns>A dictionary containing focus state information including render status and formatted value.</returns>
+        /// <returns>A JavaScript-compatible focus result; range selection is handled by this shared pipeline.</returns>
         /// <remarks>
-        /// This method is called internally when the input receives focus and performs the following operations:
+        /// The focus session is marked before awaiting callbacks so the DOM and JavaScript paths cannot process the same focus twice. This method performs the following operations:
         /// <list type="bullet">
         /// <item><description>Triggers the Focus event if subscribed</description></item>
         /// <item><description>Updates validation classes if using form validation</description></item>
         /// <item><description>Formats the value for editing mode (removes group separators, handles decimals)</description></item>
         /// <item><description>Updates float label behavior</description></item>
-        /// <item><description>Returns focus state information for client-side processing</description></item>
+        /// <item><description>Preserves the JavaScript callback result shape</description></item>
         /// </list>
         /// </remarks>
-        private async Task<Dictionary<string, object>> FocusInputAsync()
+        private async Task<Dictionary<string, object>> FocusInputAsync(Microsoft.AspNetCore.Components.Web.FocusEventArgs? args = null)
         {
+            Dictionary<string, object> returnValue = new() { { "isRendered", false }, { "formatValue", string.Empty } };
+            if (Disabled || Readonly)
+            {
+                return returnValue;
+            }
+            if (_isFocusSession)
+            {
+                IsClearIconClick = false;
+                return returnValue;
+            }
+
+            _isFocusSession = true;
+            IsFocused = true;
+            if (!IsClearButtonClicked)
+            {
+                _isUserCleared = false;
+            }
+            _focusInputValue = FormatValueAsString(InputTextValue) ?? string.Empty;
+            PrevValue = Value;
+            // Resume on the renderer context before updating component state.
             if (OnFocus.HasDelegate && !IsClearIconClick)
             {
                 NumericFocusEventArgs<TValue> eventArgs = new()
                 {
-                    Event = new Microsoft.AspNetCore.Components.Web.FocusEventArgs { Type = "focus" },
+                    Event = args ?? new Microsoft.AspNetCore.Components.Web.FocusEventArgs { Type = "focus" },
                     Value = Value,
                     Name = "Focus",
                 };
                 await OnFocus.InvokeAsync(eventArgs).ConfigureAwait(true);
             }
             IsClearIconClick = false;
-            Dictionary<string, object> returnValue = new() { { "isRendered", false }, { "formatValue", string.Empty } };
-            if (!Disabled && !Readonly)
-            {
-                // Browser focus arrives through this JS callback, not @onfocus.
-                // Mark focused before revealing the clear button so it is a tab stop
-                // before the pending Tab key moves focus.
-                IsFocused = true;
-                IsFocus = true;
-                if (ValueExpression is not null)
-                {
-                    UpdateValidateClass();
-                }
-                else
-                {
-                    ContainerClass = ContainerClass.Replace(ERROR_CLASS, string.Empty, StringComparison.Ordinal);
-                }
-                PrevValue = Value;
-                if (Value is not null)
-                {
-                    string? formatNumbers = FormatNumber();
-                    if (IsIgnoreDecimal())
-                    {
-                        formatNumbers = SfBaseUtils.RemoveClass(formatNumbers, CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator);
-                    }
 
-                    string formatValue = SfBaseUtils.RemoveClass(formatNumbers, CultureInfo.CurrentCulture.NumberFormat.NumberGroupSeparator);
-                    await SetValueAsync(formatValue, FloatLabelType, ShowClearButton).ConfigureAwait(false);
-                    if (!IsPrevFocused && IsRendered)
-                    {
-                        returnValue["isRendered"] = IsRendered;
-                        returnValue["formatValue"] = FormatValueAsString(InputTextValue) ?? string.Empty;
-                    }
+            if (ValueExpression is not null)
+            {
+                UpdateValidateClass();
+            }
+            else
+            {
+                ContainerClass = ContainerClass.Replace(ERROR_CLASS, string.Empty, StringComparison.Ordinal);
+            }
+
+            if (Value is not null)
+            {
+                string? formatNumbers = FormatNumber();
+                if (IsIgnoreDecimal())
+                {
+                    formatNumbers = SfBaseUtils.RemoveClass(formatNumbers, CultureInfo.CurrentCulture.NumberFormat.NumberDecimalSeparator);
+                }
+
+                string formatValue = SfBaseUtils.RemoveClass(formatNumbers, CultureInfo.CurrentCulture.NumberFormat.NumberGroupSeparator);
+                await SetValueAsync(formatValue, FloatLabelType, ShowClearButton).ConfigureAwait(true);
+                if (!IsPrevFocused && IsRendered && IsScriptRendered)
+                {
+                    _selectRangeDotNetRef ??= DotNetObjectReference.Create(this);
+                    await InvokeVoidAsync(_numericTextBoxJsModule, _numericTextBoxJsInProcessModule, "selectRange", [DataId, FormatValueAsString(InputTextValue) ?? string.Empty, _selectRangeDotNetRef]).ConfigureAwait(true);
                 }
             }
-            if (FloatLabelType == FloatLabelType.Auto)
+
+            if (FloatLabelType == FloatLabelType.Auto && IsScriptRendered)
             {
                 await InvokeVoidAsync(_numericTextBoxJsModule, _numericTextBoxJsInProcessModule, "removeFloatLabelSize", [DataId]).ConfigureAwait(true);
             }
@@ -1289,13 +1280,19 @@ namespace Syncfusion.Blazor.Toolkit
             {
                 formattedVal = default;
                 InputTextValue = default;
+                _isUserCleared = args is not null && _isFocusSession;
             }
-            FocusInputValue = !IsClearButtonClicked ? formattedVal : string.Empty;
+            else
+            {
+                IsClearButtonClicked = false;
+                _isUserCleared = false;
+            }
+            _focusInputValue = !IsClearButtonClicked ? formattedVal : string.Empty;
             NumberFormatInfo numberFormat = CultureInfo.CurrentCulture.NumberFormat;
             string decimalSeparator = numberFormat.NumberDecimalSeparator;
             string thousandSeparator = numberFormat.NumberGroupSeparator;
             string negativeSignStr = numberFormat.NegativeSign;
-            if (!string.IsNullOrEmpty(formattedVal) && !string.IsNullOrEmpty(FocusInputValue))
+            if (!string.IsNullOrEmpty(formattedVal) && !string.IsNullOrEmpty(_focusInputValue))
             {
                 StringBuilder sb = new();
                 bool isFirstChar = true;
@@ -1325,8 +1322,8 @@ namespace Syncfusion.Blazor.Toolkit
                     }
                     isFirstChar = false;
                 }
-                FocusInputValue = sb.ToString();
-                formattedVal = FocusInputValue;
+                _focusInputValue = sb.ToString();
+                formattedVal = _focusInputValue;
             }
             if (IsDoubleValue)
             {
@@ -1396,7 +1393,7 @@ namespace Syncfusion.Blazor.Toolkit
         /// </remarks>
         private void MouseDownOnSpinner()
         {
-            if (IsFocus)
+            if (_isFocusSession)
             {
                 IsPrevFocused = true;
                 MouseDownSpinnerPrevent = true;
@@ -1497,7 +1494,7 @@ namespace Syncfusion.Blazor.Toolkit
         private async Task ActionAsync(string action, EventArgs? args = null, string? currentInputValue = null)
         {
             TValue? value;
-            if (IsFocus)
+            if (_isFocusSession)
             {
                 string? inputTextValue = !string.IsNullOrEmpty(currentInputValue) ? currentInputValue : FormatValueAsString(InputTextValue);
                 inputTextValue = IsNumberCulture ? RemoveCultureDigits(inputTextValue) : inputTextValue;
@@ -1548,6 +1545,8 @@ namespace Syncfusion.Blazor.Toolkit
             }
 
             await ChangeValueAsync(PerformAction(value, Step, action)).ConfigureAwait(true);
+            IsClearButtonClicked = false;
+            _isUserCleared = false;
             await RaiseChangeEventAsync(args).ConfigureAwait(true);
             UpdateValidateClass();
         }
@@ -1572,7 +1571,7 @@ namespace Syncfusion.Blazor.Toolkit
         {
             bool isExponential = (Convert.ToString(numericValue, CultureInfo.CurrentCulture) ?? string.Empty).Contains('E', StringComparison.Ordinal);
             bool isNumberFormat = Format is not null && Format.ToLower(CultureInfo.CurrentCulture).Contains('n', StringComparison.Ordinal);
-            string? formatValue = (IsFocus && !isNumberFormat) ? (Decimals is not null ? "n" + Decimals : "n") : Format;
+            string? formatValue = (_isFocusSession && !isNumberFormat) ? (Decimals is not null ? "n" + Decimals : "n") : Format;
             return isExponential ? formatValue : "n" + maximumFraction;
         }
 
@@ -1951,6 +1950,22 @@ namespace Syncfusion.Blazor.Toolkit
         }
 
         /// <summary>
+        /// Keyboard activation uses the same clear path as pointer activation.
+        /// Space and Enter are prevented so the key does not also click the button
+        /// (which would clear twice) or submit a surrounding form.
+        /// </summary>
+        internal async Task OnClearButtonKeyDownAsync(KeyboardEventArgs args)
+        {
+            IsClearKey = args.Key is " " or "Enter" && !args.Repeat;
+            if (!IsClearKey)
+            {
+                return;
+            }
+
+            await InvokeClearBtnEventAsync(args).ConfigureAwait(true);
+        }
+
+        /// <summary>
         /// Handles the core logic for clear button events, clearing the input value and updating the component state.
         /// </summary>
         /// <param name="args">The event arguments associated with the clear button interaction.</param>
@@ -1969,11 +1984,19 @@ namespace Syncfusion.Blazor.Toolkit
         {
             IsClearIconClick = true;
             IsClearButtonClicked = true;
+            _isUserCleared = true;
+            _focusInputValue = null;
             await SetValueAsync(null, FloatLabelType, ShowClearButton).ConfigureAwait(true);
+            // SetValueAsync(null) updates the displayed text but leaves the Value
+            // parameter at the previous number. Spin, wheel, and arrow actions read
+            // Value when the input is not focused, so both must be null.
+            InputTextValue = default;
+            Value = default;
             await RaiseChangeEventAsync(args).ConfigureAwait(true);
             ClearBtnStopPropagation = true;
             await FocusAsync().ConfigureAwait(true);
             IsClearIconClick = false;
+            HasClearableContent = false;
         }
 
         // LoggerMessage-backed delegates to avoid allocations (CA1848)

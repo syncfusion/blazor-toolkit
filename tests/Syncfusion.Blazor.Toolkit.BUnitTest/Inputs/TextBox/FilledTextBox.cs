@@ -243,8 +243,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Inputs.TextBox
             containerElement = inputElement.ParentElement;
             Assert.NotNull(containerElement);
             clearIconElement = containerElement.Children[1];
-            Assert.Contains("e-clear-icon", clearIconElement.ClassName);
-            Assert.Contains("e-clear-icon-hide", clearIconElement.ClassName);
+            Assert.Contains("e-close", clearIconElement.ClassName);
             Assert.Contains("Test", inputElement.GetAttribute("value"));
             Assert.Contains("Test", textBox.Instance.Value);
             clearIconElement.MouseDown();
@@ -274,8 +273,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Inputs.TextBox
             Assert.Null(textBox.Instance.Value);
             Assert.Null(inputElement.GetAttribute("value"));
             Assert.Contains("e-static-clear", containerElement.ClassName);
-            Assert.Contains("e-clear-icon", clearIconElement.ClassName);
-            Assert.Contains("e-clear-icon-hide", clearIconElement.ClassName);
+            Assert.Contains("e-close", clearIconElement.ClassName);
         }
 
         #endregion
