@@ -88,9 +88,9 @@ namespace Syncfusion.Blazor.Toolkit
         [Parameter]
         public ChipSize Size { get; set; } = ChipSize.Medium;
 
-        /// <summary>Default shape.</summary>
+        /// <summary>Default shape. Default is <see cref="ChipShape.Pill"/>.</summary>
         [Parameter]
-        public ChipShape Shape { get; set; } = ChipShape.Rounded;
+        public ChipShape Shape { get; set; } = ChipShape.Pill;
 
         /// <summary>Overflow behavior. Default is <see cref="ChipOverflowMode.Wrap"/>.</summary>
         [Parameter]

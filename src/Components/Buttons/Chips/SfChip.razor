@@ -52,13 +52,14 @@
                 builder.AddAttribute(seq++, "class", IconCss);
                 builder.CloseElement();
             }
-            else if (ShowSelectionCheck)
-            {
-                builder.OpenElement(seq++, "span");
-                builder.AddAttribute(seq++, "class", "e-toolkit-icons e-check");
-                builder.AddAttribute(seq++, "aria-hidden", "true");
-                builder.CloseElement();
-            }
+            builder.CloseElement();
+        }
+
+        if (ShowSelectionCheck)
+        {
+            builder.OpenElement(seq++, "span");
+            builder.AddAttribute(seq++, "class", "e-chip-check e-toolkit-icons e-check");
+            builder.AddAttribute(seq++, "aria-hidden", "true");
             builder.CloseElement();
         }
 

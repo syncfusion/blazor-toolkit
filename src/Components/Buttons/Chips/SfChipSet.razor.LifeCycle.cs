@@ -10,7 +10,16 @@ namespace Syncfusion.Blazor.Toolkit
         /// <inheritdoc />
         protected override void OnParametersSet()
         {
+            if (OverflowMode != ChipOverflowMode.Collapse)
+            {
+                _overflowExpanded = false;
+            }
+
             Rebuild();
+            if (OverflowMode == ChipOverflowMode.Collapse && _chipModule is null && JSRuntime is not null)
+            {
+                _ = ImportCollapseModuleAsync();
+            }
         }
 
         /// <inheritdoc />
@@ -18,19 +27,39 @@ namespace Syncfusion.Blazor.Toolkit
         internal override async Task ImportComponentModuleAsync()
         {
             await base.ImportComponentModuleAsync().ConfigureAwait(true);
-            if (JSRuntime is null || OverflowMode != ChipOverflowMode.Collapse)
+            await ImportCollapseModuleAsync().ConfigureAwait(true);
+        }
+
+        [UnconditionalSuppressMessage("Trimming", "IL2026", Justification = "chip.js receives element ids only.")]
+        private async Task ImportCollapseModuleAsync()
+        {
+            if (JSRuntime is null || OverflowMode != ChipOverflowMode.Collapse || _chipModule is not null)
             {
                 return;
             }
 
             IJSObjectReference module = await JSRuntime.InvokeAsync<IJSObjectReference>("import", ScriptPath).ConfigureAwait(true);
             _chipModule = module;
+            await InvokeAsync(StateHasChanged).ConfigureAwait(true);
         }
 
         /// <inheritdoc />
         internal override async Task OnAfterScriptRenderedAsync()
         {
             if (_chipModule is null || OverflowMode != ChipOverflowMode.Collapse)
+            {
+                return;
+            }
+
+            await _chipModule.InvokeVoidAsync(ObserveMethod, RootId, DotnetObjectReference).ConfigureAwait(true);
+            _jsReady = true;
+        }
+
+        /// <inheritdoc />
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            await base.OnAfterRenderAsync(firstRender).ConfigureAwait(true);
+            if (_jsReady || OverflowMode != ChipOverflowMode.Collapse || _overflowExpanded || _chipModule is null)
             {
                 return;
             }

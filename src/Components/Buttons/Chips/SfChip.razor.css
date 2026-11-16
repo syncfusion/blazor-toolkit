@@ -30,7 +30,7 @@
     gap: var(--e-chip-gap);
     inline-size: fit-content;
     justify-content: center;
-    line-height: 1.2;
+    line-height: 1;
     margin: 0;
     max-inline-size: 100%;
     min-block-size: var(--e-chip-height);
@@ -187,6 +187,13 @@ a.e-chip:focus-visible,
     border-style: solid;
     box-shadow: inset 0 0 0 1px var(--e-chip-accent);
     color: var(--e-chip-text);
+}
+
+.e-chip-filter.e-chip-selected.e-chip-error,
+.e-chip-choice.e-chip-selected.e-chip-error {
+    border-color: var(--color-sf-danger-border-color);
+    border-style: solid;
+    box-shadow: inset 0 0 0 1px var(--color-sf-danger-border-color);
 }
 
 .e-chip-filter.e-chip-selected.e-chip-outlined,
@@ -400,15 +407,28 @@ a.e-chip:focus-visible,
     width: fit-content;
 }
 
+::deep .e-chip-check {
+    align-items: center;
+    display: inline-flex;
+    flex: 0 0 auto;
+    line-height: 1;
+}
+
 ::deep .e-chip-leading,
 ::deep .e-chip-text,
 ::deep .e-chip-trailing {
     align-items: center;
+    align-self: center;
     display: inline-flex;
     flex: 0 0 auto;
     line-height: 1;
     margin: 0;
     padding: 0;
+}
+
+::deep .e-chip-text {
+    /* Icon-font ink is centered in its box. Text ink sits low in the em box, so lift the label to the same line. */
+    transform: translateY(-0.08em);
 }
 
 ::deep .e-chip-leading .sb-icons,
@@ -428,11 +448,15 @@ a.e-chip:focus-visible,
 }
 
 ::deep .e-chip-remove {
+    --e-chip-remove-bg: color-mix(in srgb, currentColor 24%, transparent);
+    --e-chip-remove-bg-hover: color-mix(in srgb, currentColor 36%, transparent);
     align-items: center;
     appearance: none;
     -webkit-appearance: none;
-    background: transparent;
+    background: var(--e-chip-remove-bg);
     border: 0;
+    border-radius: 50%;
+    block-size: 1.125rem;
     box-shadow: none;
     box-sizing: border-box;
     color: inherit;
@@ -440,17 +464,25 @@ a.e-chip:focus-visible,
     display: inline-flex;
     flex: 0 0 auto;
     font: inherit;
-    font-size: 1rem;
+    inline-size: 1.125rem;
     justify-content: center;
     line-height: 1;
     margin: 0;
-    min-block-size: 0;
-    min-inline-size: 0;
+    min-block-size: 1.125rem;
+    min-inline-size: 1.125rem;
     padding: 0;
 }
 
-::deep .e-chip-leading .e-toolkit-icons,
-::deep .e-chip-remove .e-toolkit-icons {
+::deep .e-chip-remove:hover:not(:disabled) {
+    background: var(--e-chip-remove-bg-hover);
+}
+
+.e-chip-outlined ::deep .e-chip-remove {
+    --e-chip-remove-bg: color-mix(in srgb, var(--e-chip-text, currentColor) 16%, var(--color-sf-content-bg-color-alt1, var(--color-sf-content-bg-color, Canvas)));
+    --e-chip-remove-bg-hover: color-mix(in srgb, var(--e-chip-text, currentColor) 28%, var(--color-sf-content-bg-color-alt1, var(--color-sf-content-bg-color, Canvas)));
+}
+
+::deep .e-chip-leading .e-toolkit-icons {
     color: inherit;
     display: inline-block;
     font-family: "e-toolkit-icons";
@@ -458,6 +490,20 @@ a.e-chip:focus-visible,
     font-style: normal;
     font-weight: normal;
     line-height: 1;
+}
+
+::deep .e-chip-remove .e-toolkit-icons {
+    align-items: center;
+    color: inherit;
+    display: inline-flex;
+    font-family: "e-toolkit-icons";
+    font-size: 0.8125rem;
+    font-style: normal;
+    font-weight: 700;
+    justify-content: center;
+    line-height: 1;
+    -webkit-text-stroke: 0.045em currentColor;
+    text-stroke: 0.045em currentColor;
 }
 
 ::deep .e-chip-leading .e-toolkit-icons::before,

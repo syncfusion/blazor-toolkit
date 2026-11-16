@@ -33,9 +33,7 @@ function contentWidth(root) {
 }
 
 function measureVisible(root) {
-    const items = [...root.querySelectorAll("[data-testid='chip-item']")].filter((item) => {
-        return getComputedStyle(item).display !== "none";
-    });
+    const items = [...root.querySelectorAll("[data-testid='chip-item']")];
     if (items.length === 0) {
         return 0;
     }
@@ -64,13 +62,16 @@ function measureVisible(root) {
 
 export function observe(rootId, dotnet) {
     const root = document.getElementById(rootId);
-    if (!root || typeof ResizeObserver === "undefined") {
+    if (!root || typeof ResizeObserver === "undefined" || observers.has(rootId)) {
         return;
     }
     const measure = () => {
+        if (!observers.has(rootId)) {
+            return;
+        }
         const visible = measureVisible(root);
         if (visible > 0) {
-            dotnet.invokeMethodAsync("OnOverflowMeasured", visible);
+            dotnet.invokeMethodAsync("OnOverflowMeasured", visible).catch(() => undefined);
         }
     };
     const observer = new ResizeObserver(measure);

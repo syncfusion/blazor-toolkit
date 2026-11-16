@@ -31,7 +31,7 @@ namespace Syncfusion.Blazor.Toolkit
 
         private bool HasAuthorLeading => LeadingTemplate is not null || !string.IsNullOrEmpty(ImageUrl) || !string.IsNullOrEmpty(IconCss);
 
-        private bool ShowSelectionCheck => Selected && ChipType is ChipType.Filter or ChipType.Choice && !HasAuthorLeading;
+        private bool ShowSelectionCheck => Selected && ChipType is ChipType.Filter or ChipType.Choice;
 
         private bool ShowLeading => HasAuthorLeading || ShowSelectionCheck;
 

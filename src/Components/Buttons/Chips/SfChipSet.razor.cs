@@ -14,6 +14,7 @@ namespace Syncfusion.Blazor.Toolkit
     /// <typeparam name="TItem">Data item type. Use <see cref="string"/> for declarative-only sets.</typeparam>
     /// <remarks>
     /// The parent owns <see cref="SfChipSet{TItem}.DataSource"/>. Removal hides a chip; it does not mutate the source.
+    /// The set fills the width of its parent. Place it in a sized container when a narrower row is required. Chips inside the set size to their content.
     /// </remarks>
     public partial class SfChipSet<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicProperties)] TItem> : SfBaseComponent, IChipSetRegistration
     {
@@ -327,8 +328,7 @@ namespace Syncfusion.Blazor.Toolkit
             int shown = 0;
             foreach (ProjectedChip chip in visible)
             {
-                bool pin = IsSelected(chip.Model.Value);
-                if (!pin && shown >= keep)
+                if (shown >= keep)
                 {
                     chip.Collapsed = true;
                 }
@@ -356,7 +356,7 @@ namespace Syncfusion.Blazor.Toolkit
             {
                 ChipOverflowMode.Wrap => WrapClass,
                 ChipOverflowMode.Scroll => ScrollClass,
-                ChipOverflowMode.Collapse => CollapseClass,
+                ChipOverflowMode.Collapse => _overflowExpanded ? string.Join(' ', CollapseClass, CollapseExpandedClass) : CollapseClass,
                 _ => WrapClass,
             };
             attributes[IdAttribute] = RootId;

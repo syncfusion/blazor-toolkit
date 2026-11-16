@@ -26,9 +26,9 @@ namespace Syncfusion.Blazor.Toolkit
         [Parameter]
         public ChipSize Size { get; set; } = ChipSize.Medium;
 
-        /// <summary>Corner shape. Default is <see cref="ChipShape.Rounded"/>.</summary>
+        /// <summary>Corner shape. Default is <see cref="ChipShape.Pill"/>.</summary>
         [Parameter]
-        public ChipShape Shape { get; set; } = ChipShape.Rounded;
+        public ChipShape Shape { get; set; } = ChipShape.Pill;
 
         /// <summary>Leading icon CSS class.</summary>
         [Parameter]

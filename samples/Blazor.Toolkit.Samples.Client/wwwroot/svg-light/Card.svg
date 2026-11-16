@@ -1,0 +1,28 @@
+<svg width="300" height="190" viewBox="0 0 300 190" fill="none" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<filter id="card-shadow" x="18" y="2" width="264" height="188" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feGaussianBlur in="SourceAlpha" stdDeviation="7" result="blur"/>
+<feOffset dy="3"/>
+<feComposite in2="blur" operator="out"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0.913099 0 0 0 0 0.855164 0 0 0 0 1 0 0 0 0.55 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="shadow"/>
+<feBlend mode="normal" in="SourceGraphic" in2="shadow" result="shape"/>
+</filter>
+</defs>
+<g filter="url(#card-shadow)">
+<rect x="40" y="24" width="220" height="142" rx="8" fill="white"/>
+</g>
+<path d="M48 24H252C256.418 24 260 27.5817 260 32V78H40V32C40 27.5817 43.5817 24 48 24Z" fill="#EDE3FC"/>
+<circle cx="220" cy="46" r="10" fill="#D6BDF3"/>
+<path d="M40 71L79 42L109 66L139 48L178 78H40V71Z" fill="#C5A0EB"/>
+<path d="M112 78L157 53L190 75L204 65L222 78H112Z" fill="#D8C1F0"/>
+<rect x="56" y="92" width="100" height="8" rx="4" fill="#6D30B2"/>
+<rect x="56" y="106" width="124" height="5" rx="2.5" fill="#D7CDE4"/>
+<rect x="56" y="119" width="188" height="5" rx="2.5" fill="#EDE3FC"/>
+<rect x="56" y="128" width="145" height="5" rx="2.5" fill="#EDE3FC"/>
+<path d="M56 139.5H244" stroke="#D7CDE4"/>
+<rect x="190" y="146" width="54" height="12" rx="3" fill="#6D30B2"/>
+<rect x="205" y="150" width="24" height="4" rx="2" fill="#EDE3FC"/>
+<rect x="40.75" y="24.75" width="218.5" height="140.5" rx="7.25" stroke="#D7CDE4" stroke-width="1.5"/>
+</svg>

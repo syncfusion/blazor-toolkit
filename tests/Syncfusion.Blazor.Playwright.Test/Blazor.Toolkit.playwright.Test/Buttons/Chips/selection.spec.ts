@@ -25,7 +25,7 @@ test.describe('Chip selection structure @chip', () => {
       const chip = page.locator(`${id} [data-testid="chip-root"]`);
       await expect(chip).toHaveClass(/e-chip-selected/);
       await expect(chip).toHaveAttribute('aria-pressed', 'true');
-      const checks = chip.locator('.e-chip-leading .e-toolkit-icons.e-check');
+      const checks = chip.locator('.e-chip-check.e-toolkit-icons.e-check');
       await expect(checks).toHaveCount(1);
       const box = await boxOf(checks);
       expect(box.width).toBeGreaterThan(0);
@@ -39,13 +39,13 @@ test.describe('Chip selection structure @chip', () => {
     }
   });
 
-  test('CHIP-P-203 author leading content suppresses the automatic check', async ({ page }) => {
+  test('CHIP-P-203 author leading content keeps the automatic check', async ({ page }) => {
     const icon = page.locator('#chip-filter-icon');
     await expect(icon.locator('.e-chip-leading .e-icons.e-leaf')).toHaveCount(1);
-    await expect(icon.locator('.e-toolkit-icons.e-check')).toHaveCount(0);
+    await expect(icon.locator('.e-chip-check.e-toolkit-icons.e-check')).toHaveCount(1);
     const template = page.locator('#chip-filter-template');
     await expect(template.locator('[data-testid="author-leading"]')).toHaveCount(1);
-    await expect(template.locator('.e-toolkit-icons.e-check')).toHaveCount(0);
+    await expect(template.locator('.e-chip-check.e-toolkit-icons.e-check')).toHaveCount(1);
   });
 
   test('CHIP-P-204 remove button stays inside the chip on filled, soft, and outlined', async ({ page }) => {
@@ -72,7 +72,7 @@ test.describe('Chip selection structure @chip', () => {
     const filledColor = await filled.evaluate((el) => getComputedStyle(el).color);
     for (const id of ['#chip-filter-soft', '#chip-filter-outlined']) {
       const chip = page.locator(`${id} [data-testid="chip-root"]`);
-      await expect(chip.locator('.e-chip-leading .e-toolkit-icons.e-check')).toHaveCount(1);
+      await expect(chip.locator('.e-chip-check.e-toolkit-icons.e-check')).toHaveCount(1);
       const color = await chip.evaluate((el) => getComputedStyle(el).color);
       expect(color).not.toBe(filledColor);
     }
@@ -93,6 +93,6 @@ test.describe('Chip selection structure @chip', () => {
   test('CHIP-P-207 visible selected chip in a collapse set has the check', async ({ page }) => {
     const selected = page.locator('#chipset-collapse [data-testid="chip-root"].e-chip-selected');
     await expect(selected).toHaveCount(1);
-    await expect(selected.locator('.e-chip-leading .e-toolkit-icons.e-check')).toHaveCount(1);
+    await expect(selected.locator('.e-chip-check.e-toolkit-icons.e-check')).toHaveCount(1);
   });
 });

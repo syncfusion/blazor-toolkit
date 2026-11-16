@@ -9,10 +9,9 @@
         <h1 id="blazor-toolkit-chips-component">Blazor Toolkit Chips Component</h1>
     </Header>
     <Content>
-        Chips are compact tokens for filters, actions, choices, status, and tags.
-        Informational chips display labels or status and are not interactive controls.
-        This default sample shows color classes, soft and outlined variants, and icon and avatar content.
-        Use an Action, Filter, Choice, or Navigation chip when interaction is needed.
+        Explore seven chip patterns, from a passive informational gallery to actions, selection, recipient tokens,
+        responsive overflow, form validation, and a live property playground. Informational chips display content
+        without performing actions; choose an interactive chip type when users need to act.
     </Content>
 </Description>
 
@@ -20,11 +19,11 @@
 
 <Description>
     <Header>
-        <h2 id="actions-navigation">Actions &amp; Navigation</h2>
+        <h2 id="actions">Actions &amp; Navigations</h2>
     </Header>
     <Content>
-        Action chips run an operation and report its result; the action is disabled while it is running.
-        Navigation chips are links that open a real destination in a new tab.
+        Explore a Sales overview panel with local refresh, export, and share feedback. A separate Navigation chip
+        opens a valid in-app destination; no backend operation is implied.
     </Content>
 </Description>
 
@@ -35,8 +34,8 @@
         <h2 id="filters">Filters</h2>
     </Header>
     <Content>
-        Select multiple Filter chips to update the selected count and removable chips below the set.
-        Removing a selected chip or clearing the set updates the same selection; disabled items remain visible but cannot be selected.
+        Select skills for a profile or remove a selected token to deselect it. The selected and total counts update
+        as you make changes.
     </Content>
 </Description>
 
@@ -44,23 +43,23 @@
 
 <Description>
     <Header>
-        <h2 id="removable-tags">Removable Tags</h2>
+        <h2 id="removable-chips">Removable chips</h2>
     </Header>
     <Content>
-        Add tags with the adjacent text field and Enter or Add; the Input chip’s remove button removes a tag.
-        The chip body itself is not an activation button.
+        Add and remove email recipient chips. Input chips represent removable values, and their chip body is not an
+        activation button.
     </Content>
 </Description>
 
-<CodePreview PreviewComponent="typeof(TokensDemo)" SourceFile="/Pages/Demos/Buttons/Chip/TokensDemo.razor" />
+<CodePreview PreviewComponent="typeof(RemovableChipsDemo)" SourceFile="/Pages/Demos/Buttons/Chip/RemovableChipsDemo.razor" />
 
 <Description>
     <Header>
-        <h2 id="responsive">Responsive Filters</h2>
+        <h2 id="responsive">Responsive</h2>
     </Header>
     <Content>
-        Select from twelve Filter chips in Wrap, Scroll, or Collapse mode.
-        Collapse initially shows four chips and provides a show-more/show-less control.
+        Choose among Wrap, Scroll, and Collapse for twelve categories without losing the selection. Collapse starts
+        with four visible chips and measures overflow in interactive rendering.
     </Content>
 </Description>
 
@@ -71,21 +70,34 @@
         <h2 id="forms">Forms</h2>
     </Header>
     <Content>
-        Filter chips bind to an <code>EditForm</code> selection that requires at least one choice.
-        A valid submission displays a confirmation naming the selected labels.
+        The <code>EditForm</code> requires at least one Filter chip. A valid submission confirms the selected topics
+        locally without saving or sending data.
     </Content>
 </Description>
 
 <CodePreview PreviewComponent="typeof(FormsDemo)" SourceFile="/Pages/Demos/Buttons/Chip/FormsDemo.razor" />
 
+<Description>
+    <Header>
+        <h2 id="playground">Chip playground</h2>
+    </Header>
+    <Content>
+        Adjust supported chip properties, state, and leading content to preview the result and copy matching Razor.
+        Controls are limited to properties applicable to the selected type.
+    </Content>
+</Description>
+
+<CodePreview PreviewComponent="typeof(PlaygroundDemo)" SourceFile="/Pages/Demos/Buttons/Chip/PlaygroundDemo.razor" />
+
 @code {
     private static readonly IReadOnlyList<RightToc.TocItem> TocItemsList =
     [
-        new("actions-navigation", "Actions & Navigation"),
+        new("actions", "Actions & Navigations"),
         new("filters", "Filters"),
-        new("removable-tags", "Removable Tags"),
-        new("responsive", "Responsive Filters"),
+        new("removable-chips", "Removable chips"),
+        new("responsive", "Responsive"),
         new("forms", "Forms"),
+        new("playground", "Chip playground"),
     ];
 
     protected override IReadOnlyList<RightToc.TocItem> TocItems => TocItemsList;
@@ -93,151 +105,417 @@
 
 <style>
     .chip-demo-shell {
-        align-items: center;
         display: flex;
-        flex-wrap: wrap;
-        gap: 8px;
-        justify-content: center;
-        max-width: 720px;
+        flex-direction: column;
+        gap: 20px;
+        margin-inline: auto;
+        max-width: 860px;
         width: 100%;
     }
 
-    .chip-demo-shell .row,
     .chip-demo-row {
-    align-items: center;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 8px;
-    justify-content: center;
-    margin: 0;
-    width: 100%;
-}
+        align-items: center;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        width: 100%;
+    }
 
-.chip-demo-default {
-    flex-direction: column;
-    gap: 20px;
-}
-
-.chip-demo-shell .row > *,
-.chip-demo-row > * {
-    flex: 0 0 auto;
-    max-width: 100%;
-    padding: 0;
-    width: auto;
-}
-
-.chip-avatar {
-    --chip-avatar-bg: 224, 224, 224; 
-    --chip-avatar-fg: 33, 33, 33;
-    background: rgb(var(--chip-avatar-bg));
-    color: rgb(var(--chip-avatar-fg));
-    border-radius: 50%;
-    display: inline-grid;
-    font-size: 0.75rem;
-    font-weight: 500;
-    height: 1.5rem;
-    place-items: center;
-    width: 1.5rem;
-}
-
-body.e-dark-mode .chip-avatar {
-    --chip-avatar-bg: 66, 66, 66;
-    --chip-avatar-fg: 245, 245, 245;
-}
-
-.chip-demo-narrow {
-    border: 1px dashed var(--color-sf-border, #ccc);
-    max-width: 520px;
-    margin-inline: auto;
-    padding: 8px;
-    width: 100%;
-}
-
-.chip-demo-token-row {
-    align-items: center;
-    display: flex;
-    gap: 8px;
-    justify-content: center;
-    width: 100%;
-}
-
-.chip-demo-token-input {
-    flex: 0 1 24rem;
-    min-width: 0;
-    width: 100%;
-}
-
-.chip-demo-token-results {
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    width: 100%;
-}
-
-.chip-demo-token-form {
-    margin-inline: auto;
-    max-width: 42rem;
-    width: 100%;
-}
-
-.chip-demo-token-status,
-.chip-demo-selection-status {
-    margin-inline: auto;
-    max-width: 20rem;
-}
-
-.chip-demo-form {
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    width: 100%;
-}
-
-.chip-demo-form-selection {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-}
-
-.chip-demo-form-actions {
-    justify-content: center;
-}
-
-.chip-demo-form-feedback {
-    margin: 0;
-    text-align: center;
-}
-
-.chip-demo-success {
-    background: var(--sf-success-bg, #ecfdf3);
-    border: 1px solid var(--sf-success-border, #abefc6);
-    border-radius: 4px;
-    color: var(--sf-success-text, #067647);
-    padding: 12px 16px;
-    width: 100%;
-}
-
-body.e-dark-mode .chip-demo-success {
-    background: #123b2a;
-    border-color: #32d583;
-    color: #d1fadf;
-}
-
-@@media (max-width: 720px) {
-    .chip-demo-narrow {
+    .chip-demo-row > * {
         max-width: 100%;
     }
 
-    .chip-demo-token-row {
+    .chip-demo-panel {
+        align-items: stretch;
+        border: 1px solid var(--color-sf-border, #d0d5dd);
+        border-radius: 12px;
+        padding: 24px;
+    }
+
+    .chip-demo-shell.chip-demo-recipient-panel {
+        box-sizing: border-box;
+        max-width: 960px;
+    }
+
+    .chip-demo-recipient-panel .e-chipset {
+        box-sizing: border-box;
+        min-width: 0;
+        width: 100%;
+    }
+
+    .chip-demo-intro,
+    .chip-demo-note,
+    .chip-demo-live,
+    .chip-demo-empty,
+    .chip-demo-section-heading p,
+    .chip-demo-panel-heading p {
+        margin: 0;
+        max-width: 70ch;
+    }
+
+    .chip-demo-field,
+    .chip-demo-suggestions,
+    .chip-demo-playground-preview {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        min-width: 0;
+        width: 100%;
+    }
+
+    .chip-demo-group h3,
+    .chip-demo-section-heading h3,
+    .chip-demo-panel-heading h3,
+    .chip-demo-playground-preview h4,
+    .chip-demo-code-heading h4 {
+        font-size: 1rem;
+        margin: 0;
+    }
+
+    .chip-demo-panel-title {
+        color: var(--text-color, inherit);
+        font-size: 24px;
+        font-weight: 600;
+        letter-spacing: -0.01em;
+        line-height: 1.3;
+    }
+
+    .chip-demo-subheading {
+        color: var(--text-color, inherit);
+        font-size: 1rem;
+        font-weight: 600;
+        line-height: 1.3;
+    }
+
+    .chip-demo-default {
+        gap: 22px;
+    }
+
+    .chip-demo-default .chip-demo-row {
+        justify-content: center;
+    }
+
+    .chip-demo-avatar,
+    .chip-avatar {
+        align-items: center;
+        background: color-mix(in srgb, var(--color-sf-content-text-color, #212529) 14%, var(--color-sf-content-bg-color, #fff));
+        border-radius: 50%;
+        color: var(--color-sf-content-text-color, #212529);
+        display: inline-flex;
+        font-size: 0.75rem;
+        font-weight: 600;
+        height: 1.6rem;
+        justify-content: center;
+        width: 1.6rem;
+    }
+
+    .chip-demo-panel-heading,
+    .chip-demo-section-heading,
+    .chip-demo-code-heading {
+        align-items: flex-start;
+        display: flex;
         flex-wrap: wrap;
+        gap: 12px;
+        justify-content: space-between;
+        width: 100%;
+    }
+
+    .chip-demo-filter-count-row {
+        align-items: center;
+    }
+
+    .chip-demo-responsive-heading {
+        align-items: center;
+    }
+
+    .chip-demo-section-heading p,
+    .chip-demo-panel-heading p {
+        margin: 4px 0 0;
+    }
+
+    .chip-demo-metrics {
+        display: grid;
+        gap: 12px;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        width: 100%;
+    }
+
+    .chip-demo-metrics > div {
+        border: 1px solid var(--color-sf-border, #d0d5dd);
+        border-radius: 8px;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        min-width: 0;
+        padding: 14px;
+    }
+
+    .chip-demo-metrics strong {
+        font-size: 1.25rem;
+    }
+
+    .chip-demo-actions-list {
+        align-items: center;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .chip-demo-live {
+        min-height: 1.5em;
+        overflow-wrap: anywhere;
+    }
+
+    .chip-demo-field label,
+    .chip-demo-field-label,
+    .chip-demo-token-input label,
+    .chip-demo-control label {
+        font-weight: 600;
+    }
+
+    .chip-demo-field .e-control-wrapper,
+    .chip-demo-field .e-input-group {
+        max-width: 34rem;
+        width: 100%;
+    }
+
+    .chip-demo-count {
+        font-weight: 600;
+    }
+
+    .chip-demo-selected-row {
+        min-height: 2rem;
+    }
+
+    .chip-demo-form {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .chip-demo-form-actions {
+        justify-content: flex-start;
+    }
+
+    .chip-demo-narrow {
+        border: 1px solid var(--color-sf-border, #d0d5dd);
+        border-radius: 8px;
+        margin-inline: auto;
+        max-width: 520px;
+        min-width: 0;
+        padding: 14px;
+        width: 100%;
+    }
+
+    .chip-demo-narrow .e-chipset-collapse {
+        max-block-size: calc(var(--e-chip-height, 2rem) + 1rem + 2px);
+    }
+
+    .chip-demo-mode-controls {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .chip-demo-mode-controls button {
+        background: transparent;
+        border: 1px solid var(--color-sf-border, #d0d5dd);
+        border-radius: 6px;
+        color: inherit;
+        cursor: pointer;
+        font: inherit;
+        min-height: 2.5rem;
+        padding: 7px 14px;
+    }
+
+    .chip-demo-mode-controls button.is-selected {
+        border-color: var(--color-sf-primary, #635bff);
+        box-shadow: inset 0 0 0 1px var(--color-sf-primary, #635bff);
+        font-weight: 600;
+    }
+
+    .chip-demo-mode-controls button:focus-visible {
+        outline: 2px solid var(--color-sf-primary, #635bff);
+        outline-offset: 2px;
+    }
+
+    .chip-demo-token-form {
+        width: 100%;
+    }
+
+    .chip-demo-token-row {
+        align-items: flex-end;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        width: 100%;
     }
 
     .chip-demo-token-input {
-        flex-basis: 100%;
-        max-width: none;
+        flex: 1 1 20rem;
+        min-width: min(100%, 14rem);
+    }
+
+    .chip-demo-token-input .e-control-wrapper,
+    .chip-demo-token-input .e-input-group {
+        width: 100%;
+    }
+
+    .chip-demo-preferences {
+        border: 0;
+        margin: 0;
+        min-width: 0;
+        padding: 0;
+        width: 100%;
+    }
+
+    .chip-demo-preferences legend {
+        font-weight: 600;
+        margin-bottom: 12px;
+    }
+
+    .chip-demo-validation {
+        width: 100%;
+    }
+
+    .chip-demo-token-feedback {
+        overflow-wrap: anywhere;
+    }
+
+    .chip-demo-success {
+        background: var(--sf-success-bg, #ecfdf3);
+        border: 1px solid var(--sf-success-border, #abefc6);
+        border-radius: 6px;
+        color: var(--sf-success-text, #067647);
+        margin: 0;
+        overflow-wrap: anywhere;
+        padding: 10px 12px;
+        width: 100%;
+    }
+
+    .chip-demo-playground-layout {
+        display: grid;
+        gap: 24px;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        width: 100%;
+    }
+
+    .chip-demo-controls {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        min-width: 0;
+    }
+
+    .chip-demo-control {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        min-width: 0;
+    }
+
+    .chip-demo-control-wide {
+        grid-column: 1 / -1;
+    }
+
+    .chip-demo-control input,
+    .chip-demo-control select {
+        background: var(--color-sf-content-bg-color, #fff);
+        border: 1px solid var(--color-sf-border, #d0d5dd);
+        border-radius: 6px;
+        color: var(--color-sf-content-text-color, #212529);
+        font: inherit;
+        min-height: 2.5rem;
+        min-width: 0;
+        padding: 6px 9px;
+        width: 100%;
+    }
+
+    .chip-demo-control select {
+        color-scheme: light;
+    }
+
+    .e-dark-mode .chip-demo-control select {
+        color-scheme: dark;
+    }
+
+    .chip-demo-control select option {
+        background: var(--color-sf-content-bg-color, #fff);
+        color: var(--color-sf-content-text-color, #212529);
+    }
+
+    .chip-demo-control input:focus-visible,
+    .chip-demo-control select:focus-visible {
+        outline: 2px solid var(--color-sf-primary, #635bff);
+        outline-offset: 2px;
+    }
+
+    .chip-demo-checkbox {
+        align-items: center;
+        display: flex;
+        gap: 8px;
+        min-height: 2rem;
+    }
+
+    .chip-demo-playground-preview {
+        align-items: flex-start;
+        border: 1px solid var(--color-sf-border, #d0d5dd);
+        border-radius: 8px;
+        justify-content: flex-start;
+        min-height: 10rem;
+        padding: 16px;
+    }
+
+    .chip-demo-playground-preview .e-chip-leading img {
+        border-radius: 50%;
+        flex: 0 0 20px;
+        height: 20px;
+        object-fit: cover;
+        width: 20px;
+    }
+
+    .chip-demo-code-heading {
+        align-items: center;
+    }
+
+    .chip-demo-code {
+        background: var(--color-sf-surface-variant, #f3f4f6);
+        border: 1px solid var(--color-sf-border, #d0d5dd);
+        border-radius: 8px;
+        margin: 0;
+        max-width: 100%;
+        overflow: auto;
+        padding: 16px;
+        white-space: pre;
+    }
+
+    .chip-demo-code code {
+        font-family: var(--font-family-monospace, Consolas, monospace);
+        font-size: 0.875rem;
+    }
+
+    @@media (max-width: 720px) {
+        .chip-demo-panel {
+            padding: 16px;
+        }
+
+        .chip-demo-metrics {
+            grid-template-columns: 1fr;
+        }
+
+        .chip-demo-playground-layout {
+            grid-template-columns: minmax(0, 1fr);
+        }
+    }
+
+    @@media (max-width: 440px) {
+        .chip-demo-controls {
+            grid-template-columns: minmax(0, 1fr);
+        }
+
+        .chip-demo-control-wide {
+            grid-column: auto;
+        }
     }
 }
 </style>

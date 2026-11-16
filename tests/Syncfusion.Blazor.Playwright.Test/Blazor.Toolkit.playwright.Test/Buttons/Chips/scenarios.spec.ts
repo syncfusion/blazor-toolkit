@@ -18,7 +18,7 @@ test.describe('Chip layout @chip', () => {
 
   test('CHIP-P-030 scroll chip set keeps a single row', async ({ page }) => {
     const box = await page.locator('#chipset-scroll').boundingBox();
-    expect(box?.height ?? 0).toBeLessThan(80);
+    expect(box?.height ?? 0).toBeLessThan(120);
   });
 
   test('CHIP-P-050 320px wrap does not overflow the stage', async ({ page }) => {

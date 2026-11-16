@@ -2,43 +2,50 @@
 @using Microsoft.AspNetCore.Components.Forms
 @using Syncfusion.Blazor.Toolkit
 
-<div class="chip-demo-shell">
+<section class="chip-demo-shell chip-demo-panel">
     <EditForm EditContext="@editContext" OnValidSubmit="Submit" class="chip-demo-form">
         <DataAnnotationsValidator />
-        <div class="chip-demo-form-selection">
+        <fieldset class="chip-demo-preferences">
+            <legend>Send me updates about</legend>
             <SfChipSet TItem="string"
                        DataSource="@options"
-                       ItemKey="x => x"
+                       ItemKey="topic => topic"
                        CssClassSelector="InfoClass"
                        ChipType="ChipType.Filter"
                        SelectionMode="ChipSelectionMode.Multiple"
                        Variant="ChipVariant.Outlined"
                        SelectedValues="model.Selected"
                        SelectedValuesChanged="OnSelectedValuesChanged"
-                       AriaLabel="Interests" />
-        </div>
-        <ValidationMessage For="() => model.Selected" />
-        <div class="chip-demo-row chip-demo-form-actions">
-            <SfButton CssClass="e-primary" Type="ButtonType.Submit">Submit</SfButton>
-        </div>
-        @if (successMessage is not null)
+                       AriaLabel="Notification topics" />
+        </fieldset>
+        @if (editContext.GetValidationMessages(FieldIdentifier.Create(() => model.Selected)).Any() ||
+             !string.IsNullOrEmpty(successMessage))
         {
-            <p class="chip-demo-form-feedback chip-demo-success" role="status" aria-live="polite">@successMessage</p>
+            <div class="chip-demo-validation" role="status" aria-live="polite">
+                <ValidationMessage For="@(() => model.Selected)" />
+                @if (!string.IsNullOrEmpty(successMessage))
+                {
+                    <div class="chip-demo-success">@successMessage</div>
+                }
+            </div>
         }
+        <div class="chip-demo-row chip-demo-form-actions">
+            <SfButton CssClass="e-primary" Type="ButtonType.Submit">Save preferences</SfButton>
+        </div>
     </EditForm>
-</div>
+</section>
 
 @code {
     private sealed class InterestModel
     {
-        [MinLength(1, ErrorMessage = "Pick at least one")]
-        public object?[] Selected { get; set; } = [];
+        [MinLength(1, ErrorMessage = "Choose at least one notification topic.")]
+        public object?[] Selected { get; set; } = Array.Empty<object?>();
     }
 
     private readonly InterestModel model = new();
     private EditContext editContext = default!;
     private string? successMessage;
-    private readonly List<string> options = ["Blazor", "UI", "A11y", "Forms"];
+    private readonly List<string> options = ["Product updates", "Events", "Tips and tutorials", "Release notes"];
 
     protected override void OnInitialized()
     {
@@ -54,7 +61,8 @@
 
     private void Submit()
     {
-        successMessage = "Form was submitted";
+        string topics = string.Join(", ", model.Selected);
+        successMessage = $"Preferences saved locally for: {topics}.";
     }
 
     private static string InfoClass(string item) => "e-info";

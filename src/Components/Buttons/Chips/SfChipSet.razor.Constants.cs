@@ -15,6 +15,7 @@ namespace Syncfusion.Blazor.Toolkit
 
         /// <exclude />
         private const string CollapseClass = "e-chipset-collapse";
+        private const string CollapseExpandedClass = "e-chipset-expanded";
 
         /// <exclude />
         private const string RtlClass = "e-rtl";
