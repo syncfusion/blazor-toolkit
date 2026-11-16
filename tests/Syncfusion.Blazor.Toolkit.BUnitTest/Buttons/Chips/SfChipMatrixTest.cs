@@ -327,7 +327,7 @@ public class SfChipMatrixTest : BunitTestContext
         SfChip chip = Chip().Instance;
         Assert.Equal(ChipVariant.Filled, chip.Variant);
         Assert.Equal(ChipSize.Medium, chip.Size);
-        Assert.Equal(ChipShape.Rounded, chip.Shape);
+        Assert.Equal(ChipShape.Pill, chip.Shape);
         Assert.False(chip.Removable);
         Assert.False(chip.Disabled);
         Assert.False(chip.ReadOnly);
@@ -920,13 +920,13 @@ public class SfChipMatrixTest : BunitTestContext
         Assert.Contains("Mint", label);
     }
 
-    [Theory(DisplayName = "CHIP-U-199 selected Filter and Choice render a leading check")]
+    [Theory(DisplayName = "CHIP-U-199 selected Filter and Choice render a selection check")]
     [InlineData(ChipType.Filter)]
     [InlineData(ChipType.Choice)]
     public void U199(ChipType type)
     {
         IElement root = Chip(p => p.Add(c => c.ChipType, type).Add(c => c.Selected, true).Add(c => c.Text, "Sale")).Find(Root);
-        IElement check = root.QuerySelector(".e-chip-leading .e-toolkit-icons.e-check")!;
+        IElement? check = root.QuerySelector(".e-chip-check.e-toolkit-icons.e-check");
         Assert.NotNull(check);
         Assert.Equal("true", check.GetAttribute("aria-hidden"));
         Assert.Contains("e-chip-selected", root.ClassList);
@@ -946,24 +946,31 @@ public class SfChipMatrixTest : BunitTestContext
         Assert.Null(root.QuerySelector(".e-toolkit-icons.e-check"));
     }
 
-    [Fact(DisplayName = "CHIP-U-201 LeadingTemplate, ImageUrl, and IconCss suppress the automatic check")]
+    [Fact(DisplayName = "CHIP-U-201 LeadingTemplate, ImageUrl and IconCss do not suppress the selection check")]
     public void U201()
     {
         IElement templated = Chip(p => p
             .Add(c => c.ChipType, ChipType.Filter)
             .Add(c => c.Selected, true)
-            .Add(c => c.LeadingTemplate, (RenderFragment)(b => b.AddMarkupContent(0, "<span data-testid=\"author-leading\"></span>"))))
+            .Add(c => c.LeadingTemplate, (RenderFragment)(b =>
+                b.AddMarkupContent(0, "<span data-testid=\"author-leading\"></span>"))))
             .Find(Root);
         Assert.NotNull(templated.QuerySelector("[data-testid='author-leading']"));
-        Assert.Null(templated.QuerySelector(".e-toolkit-icons.e-check"));
-
-        IElement image = Chip(p => p.Add(c => c.ChipType, ChipType.Choice).Add(c => c.Selected, true).Add(c => c.ImageUrl, "/a.png")).Find(Root);
+        Assert.NotNull(templated.QuerySelector(".e-toolkit-icons.e-check"));
+        IElement image = Chip(p => p
+            .Add(c => c.ChipType, ChipType.Choice)
+            .Add(c => c.Selected, true)
+            .Add(c => c.ImageUrl, "/a.png"))
+            .Find(Root);
         Assert.NotNull(image.QuerySelector("img"));
-        Assert.Null(image.QuerySelector(".e-toolkit-icons.e-check"));
-
-        IElement icon = Chip(p => p.Add(c => c.ChipType, ChipType.Filter).Add(c => c.Selected, true).Add(c => c.IconCss, "e-icons e-leaf")).Find(Root);
+        Assert.NotNull(image.QuerySelector(".e-toolkit-icons.e-check"));
+        IElement icon = Chip(p => p
+            .Add(c => c.ChipType, ChipType.Filter)
+            .Add(c => c.Selected, true)
+            .Add(c => c.IconCss, "e-icons e-leaf"))
+            .Find(Root);
         Assert.NotNull(icon.QuerySelector(".e-chip-leading .e-icons.e-leaf"));
-        Assert.Null(icon.QuerySelector(".e-toolkit-icons.e-check"));
+        Assert.NotNull(icon.QuerySelector(".e-toolkit-icons.e-check"));
     }
 
     [Fact(DisplayName = "CHIP-U-202 set click adds the check and a second click removes it")]
@@ -977,7 +984,7 @@ public class SfChipMatrixTest : BunitTestContext
         Assert.Null(first.QuerySelector(".e-toolkit-icons.e-check"));
         first.Click();
         first = cut.FindAll(Root)[0];
-        Assert.NotNull(first.QuerySelector(".e-chip-leading .e-toolkit-icons.e-check"));
+        Assert.NotNull(first.QuerySelector(".e-toolkit-icons.e-check"));
         first.Click();
         Assert.Null(cut.FindAll(Root)[0].QuerySelector(".e-toolkit-icons.e-check"));
     }
