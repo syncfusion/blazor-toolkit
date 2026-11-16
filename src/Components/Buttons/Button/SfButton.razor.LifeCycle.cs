@@ -69,7 +69,7 @@ namespace Syncfusion.Blazor.Toolkit
         /// <returns>A task that completes when focus has moved.</returns>
         internal ValueTask FocusElementAsync()
         {
-            return _buttonElement.Id is null ? ValueTask.CompletedTask : _buttonElement.FocusAsync();
+            return ButtonElement.Id is null ? ValueTask.CompletedTask : ButtonElement.FocusAsync();
         }
 
         #endregion

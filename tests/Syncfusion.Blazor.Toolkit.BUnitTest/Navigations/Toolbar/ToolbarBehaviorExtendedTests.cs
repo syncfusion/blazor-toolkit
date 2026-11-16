@@ -22,6 +22,12 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Navigations.Toolbar
 
         private BunitJSModuleInterop? _module;
 
+        private void SetupToolbarModule()
+        {
+            _module ??= JSInterop.SetupModule(ModulePath);
+            _module.Mode = JSRuntimeMode.Loose;
+        }
+
         private void ScriptMeasurement(double available, params string[] ids)
         {
             _module ??= JSInterop.SetupModule(ModulePath);
@@ -178,6 +184,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Navigations.Toolbar
         [Fact(DisplayName = "U-TB-012 A DropDown opens nested items and sets aria-expanded")]
         public void DropDown_OpensNestedItems()
         {
+            SetupToolbarModule();
             IRenderedComponent<SfToolbar> cut = RenderToolbar(
                 Comp<ToolbarItem>(Compose(Item("Option A"), Item("Option B")), ("Text", "More"), ("Type", ToolbarItemType.DropDown)));
 
@@ -189,9 +196,109 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Navigations.Toolbar
             Assert.Equal(2, cut.FindAll("[data-testid='toolbar-nested-item']").Count);
         }
 
+        [Fact(DisplayName = "U-TB-012 Activating an open DropDown trigger closes its nested menu")]
+        public void DropDown_TriggerTogglesNestedMenu()
+        {
+            SetupToolbarModule();
+            IRenderedComponent<SfToolbar> cut = RenderToolbar(
+                Comp<ToolbarItem>(Item("Option A"), ("Text", "More"), ("Type", ToolbarItemType.DropDown)));
+            IElement trigger = cut.Find("[data-testid='toolbar-dropdown']");
+
+            trigger.Click();
+            Assert.Single(cut.FindAll("[data-testid='toolbar-nested-popup']"));
+            Assert.Equal("true", cut.Find("[data-testid='toolbar-dropdown']").GetAttribute("aria-expanded"));
+
+            cut.Find("[data-testid='toolbar-dropdown']").Click();
+
+            Assert.Empty(cut.FindAll("[data-testid='toolbar-nested-popup']"));
+            Assert.Equal("false", cut.Find("[data-testid='toolbar-dropdown']").GetAttribute("aria-expanded"));
+        }
+
+        [Fact(DisplayName = "U-TB-012 Opening a nested menu closes any other toolbar nested menu")]
+        public void NestedMenu_OpeningAnotherClosesPrevious()
+        {
+            SetupToolbarModule();
+            IRenderedComponent<SfToolbar> cut = RenderToolbar(Compose(
+                Comp<ToolbarItem>(Item("Font A"), ("Text", "Font"), ("Type", ToolbarItemType.DropDown)),
+                Comp<ToolbarItem>(Item("Align A"), ("Text", "Alignment"), ("Type", ToolbarItemType.Menu))));
+            IReadOnlyList<IElement> triggers = cut.FindAll("[data-testid='toolbar-dropdown'], [data-testid='toolbar-menubutton']");
+
+            triggers[0].Click();
+            Assert.Single(cut.FindAll("[data-testid='toolbar-nested-popup']"));
+            triggers[1].Click();
+
+            Assert.Single(cut.FindAll("[data-testid='toolbar-nested-popup']"));
+            Assert.Equal("false", cut.FindAll("[data-testid='toolbar-dropdown'], [data-testid='toolbar-menubutton']")[0].GetAttribute("aria-expanded"));
+            Assert.Equal("true", cut.FindAll("[data-testid='toolbar-dropdown'], [data-testid='toolbar-menubutton']")[1].GetAttribute("aria-expanded"));
+        }
+
+        [Fact(DisplayName = "U-TB-012 Selecting a nested command closes its menu after the existing callbacks")]
+        public void NestedMenu_SelectingCommandClosesMenuAfterCallbacks()
+        {
+            SetupToolbarModule();
+            List<string> callbackOrder = [];
+            IRenderedComponent<SfToolbar> cut = RenderToolbar(
+                Comp<ToolbarItem>(
+                    Item("Run", ("OnClick", EventCallback.Factory.Create<MouseEventArgs>(this, _ => callbackOrder.Add("item")))),
+                    ("Text", "Commands"),
+                    ("Type", ToolbarItemType.DropDown)),
+                p => p.Add(t => t.OnItemClick, EventCallback.Factory.Create<ToolbarItemClickEventArgs>(this, _ => callbackOrder.Add("toolbar"))));
+
+            cut.Find("[data-testid='toolbar-dropdown']").Click();
+            callbackOrder.Clear();
+            cut.Find("[data-testid='toolbar-nested-item']").Click();
+
+            Assert.Equal(new[] { "item", "toolbar" }, callbackOrder);
+            Assert.Empty(cut.FindAll("[data-testid='toolbar-nested-popup']"));
+            Assert.Equal("false", cut.Find("[data-testid='toolbar-dropdown']").GetAttribute("aria-expanded"));
+        }
+
+        [Fact(DisplayName = "U-TB-055 Cancel keeps a selected nested command menu open")]
+        public void NestedMenu_CancelledSelectionKeepsMenuOpen()
+        {
+            SetupToolbarModule();
+            IRenderedComponent<SfToolbar> cut = RenderToolbar(
+                Comp<ToolbarItem>(
+                    Item("Run", ("Id", "run")),
+                    ("Text", "Commands"),
+                    ("Id", "commands"),
+                    ("Type", ToolbarItemType.DropDown)),
+                p => p.Add(t => t.OnItemClick, EventCallback.Factory.Create<ToolbarItemClickEventArgs>(this, args =>
+                {
+                    if (args.ItemId == "run")
+                    {
+                        args.Cancel = true;
+                    }
+                })));
+
+            cut.Find("[data-testid='toolbar-dropdown']").Click();
+            cut.Find("[data-testid='toolbar-nested-item']").Click();
+
+            Assert.Single(cut.FindAll("[data-testid='toolbar-nested-popup']"));
+            Assert.Equal("true", cut.Find("[data-testid='toolbar-dropdown']").GetAttribute("aria-expanded"));
+        }
+
+        [Fact(DisplayName = "U-TB-012 An outside click closes an open nested menu")]
+        public async Task NestedMenu_OutsideClickClosesMenu()
+        {
+            SetupToolbarModule();
+            IRenderedComponent<SfToolbar> cut = RenderToolbar(
+                Comp<ToolbarItem>(Item("Option A"), ("Text", "More"), ("Type", ToolbarItemType.DropDown)));
+
+            cut.Find("[data-testid='toolbar-dropdown']").Click();
+            Assert.Contains(JSInterop.Invocations.ToArray(), invocation => invocation.Identifier == "trackNestedMenus");
+
+            await cut.InvokeAsync(() => cut.Instance.CloseNestedMenusFromOutsideAsync());
+
+            Assert.Empty(cut.FindAll("[data-testid='toolbar-nested-popup']"));
+            Assert.Equal("false", cut.Find("[data-testid='toolbar-dropdown']").GetAttribute("aria-expanded"));
+            Assert.Contains(JSInterop.Invocations.ToArray(), invocation => invocation.Identifier == "untrackNestedMenus");
+        }
+
         [Fact(DisplayName = "U-TB-012 A Split primary click does not open; the chevron does")]
         public void Split_PrimaryDoesNotOpen_ChevronDoes()
         {
+            SetupToolbarModule();
             int clicks = 0;
             IRenderedComponent<SfToolbar> cut = RenderToolbar(Comp<ToolbarItem>(
                 Item("Save As"),
@@ -206,11 +313,16 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Navigations.Toolbar
             cut.Find("[data-testid='toolbar-split-toggle']").Click();
             Assert.Single(cut.FindAll("[data-testid='toolbar-nested-popup']"));
             Assert.Equal("true", cut.Find("[data-testid='toolbar-split-toggle']").GetAttribute("aria-expanded"));
+
+            cut.Find("[data-testid='toolbar-split-toggle']").Click();
+            Assert.Empty(cut.FindAll("[data-testid='toolbar-nested-popup']"));
+            Assert.Equal("false", cut.Find("[data-testid='toolbar-split-toggle']").GetAttribute("aria-expanded"));
         }
 
         [Fact(DisplayName = "U-TB-055 Cancel keeps a DropDown nested popup closed and OnItemClick still fires")]
         public void Cancel_KeepsNestedPopupClosed()
         {
+            SetupToolbarModule();
             int toolbarClicks = 0;
             IRenderedComponent<SfToolbar> cut = RenderToolbar(
                 Comp<ToolbarItem>(Item("Option A"), ("Text", "More"), ("Id", "more"), ("Type", ToolbarItemType.DropDown)),
@@ -230,6 +342,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Navigations.Toolbar
         [Fact(DisplayName = "U-TB-012 Arrow keys move nested entries and Escape returns focus to the owner")]
         public async Task NestedMenu_ArrowsAndEscape()
         {
+            SetupToolbarModule();
             IRenderedComponent<SfToolbar> cut = RenderToolbar(
                 Comp<ToolbarItem>(Compose(Item("A"), Item("B")), ("Text", "More"), ("Type", ToolbarItemType.Menu)));
 

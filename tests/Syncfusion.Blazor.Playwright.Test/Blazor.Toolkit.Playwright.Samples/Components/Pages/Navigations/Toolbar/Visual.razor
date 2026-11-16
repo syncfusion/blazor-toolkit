@@ -69,7 +69,7 @@
 
     <section id="shot-rtl" class="shot" dir="rtl">
         <SfToolbar Id="toolbar-visual-rtl" AriaLabel="RTL commands" EnableRtl="true">
-            <ToolbarItem Id="vr-new" Text="New" />
+            <ToolbarItem Id="vr-new" Text="New" IconCss="e-icons e-file-new" />
             <ToolbarItem Id="vr-open" Text="Open" />
             <ToolbarSeparator />
             <ToolbarSpacer />
@@ -78,7 +78,7 @@
     </section>
 
     <section id="shot-dark" class="shot e-dark-mode">
-        <SfToolbar Id="toolbar-visual-dark" AriaLabel="Dark commands">
+        <SfToolbar Id="toolbar-visual-dark" CssClass="e-dark-mode" AriaLabel="Dark commands">
             <ToolbarItem Id="vk-new" Text="New" />
             <ToolbarItem Id="vk-bold" Text="Bold" Type="ToolbarItemType.Toggle" Selected="true" />
             <ToolbarSeparator />
@@ -199,6 +199,7 @@
         border-radius: 999px;
         padding: 4px 12px;
     }
+
 </style>
 
 @code {

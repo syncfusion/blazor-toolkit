@@ -50,7 +50,15 @@ export function measure(root, vertical) {
  * container size changes. The container is observed, not the viewport (TB-OVF-080).
  */
 export function observe(root, dotNetRef) {
-    if (!root || !dotNetRef || instances.has(root)) {
+    if (!root || !dotNetRef) {
+        return;
+    }
+    const instance = instances.get(root) || {
+        observer: null,
+        scrollListener: null,
+        cancel: function () { }
+    };
+    if (instance.observer) {
         return;
     }
     let frame = 0;
@@ -72,16 +80,14 @@ export function observe(root, dotNetRef) {
         });
     });
     observer.observe(root);
-    instances.set(root, {
-        observer: observer,
-        scrollListener: null,
-        cancel: function () {
-            if (frame) {
-                cancelAnimationFrame(frame);
-                frame = 0;
-            }
+    instance.observer = observer;
+    instance.cancel = function () {
+        if (frame) {
+            cancelAnimationFrame(frame);
+            frame = 0;
         }
-    });
+    };
+    instances.set(root, instance);
 }
 
 /**
@@ -94,26 +100,54 @@ export function observe(root, dotNetRef) {
  * @param {object} dotNetRef - the .NET reference the callback is invoked on.
  * @returns {void}
  */
-export function observeScroll(scroller, dotNetRef) {
+export function observeScroll(scroller, dotNetRef, vertical) {
     if (!scroller || !dotNetRef) {
         return;
     }
-    const instance = instances.get(scroller);
-    if (!instance || instance.scrollListener) {
+    const instance = instances.get(scroller) || {
+        observer: null,
+        scrollListener: null,
+        cancel: function () { }
+    };
+    if (instance.scrollListener) {
         return;
     }
     let frame = 0;
+    instance.dotNetRef = dotNetRef;
+    instance.vertical = vertical;
+    instance.lastScrollState = scrollState(scroller, vertical);
     const listener = function () {
         if (frame) {
             return;
         }
         frame = requestAnimationFrame(function () {
             frame = 0;
-            dotNetRef.invokeMethodAsync('OnScrolledAsync').catch(function () { /* the circuit may be gone */ });
+            notifyScrollState(scroller);
         });
     };
     scroller.addEventListener('scroll', listener, { passive: true });
     instance.scrollListener = listener;
+    instances.set(scroller, instance);
+}
+
+/**
+ * Stops listening for scrolling without disconnecting the toolbar resize observer.
+ *
+ * @param {HTMLElement} scroller - the element that scrolls.
+ * @returns {void}
+ */
+export function unobserveScroll(scroller) {
+    const instance = scroller ? instances.get(scroller) : null;
+    if (!instance || !instance.scrollListener) {
+        return;
+    }
+    scroller.removeEventListener('scroll', instance.scrollListener);
+    instance.scrollListener = null;
+    instance.dotNetRef = null;
+    instance.lastScrollState = null;
+    if (!instance.observer) {
+        instances.delete(scroller);
+    }
 }
 
 /** Stops observing and releases the observer. Safe to call twice. */
@@ -123,7 +157,9 @@ export function unobserve(root) {
         return;
     }
     instance.cancel();
-    instance.observer.disconnect();
+    if (instance.observer) {
+        instance.observer.disconnect();
+    }
     if (instance.scrollListener) {
         root.removeEventListener('scroll', instance.scrollListener);
         instance.scrollListener = null;
@@ -270,6 +306,90 @@ export function untrackPopup(anchor) {
 }
 
 /**
+ * Reads the current position from logical inline start. RTL browsers expose the modern negative
+ * scrollLeft range, so convert it to a non-negative logical position before comparing or moving.
+ *
+ * @param {HTMLElement} scroller - the element that scrolls.
+ * @param {boolean} vertical - true when the toolbar scrolls along the block axis.
+ * @returns {number} The position measured from logical inline start or block start.
+ */
+function logicalScrollPosition(scroller, vertical) {
+    if (vertical) {
+        return scroller.scrollTop;
+    }
+    return getComputedStyle(scroller).direction === 'rtl' ? -scroller.scrollLeft : scroller.scrollLeft;
+}
+
+function isFullyVisible(item, scroller, vertical) {
+    const itemBounds = item.getBoundingClientRect();
+    const viewportBounds = scroller.getBoundingClientRect();
+    const tolerance = 1;
+    const left = viewportBounds.left + scroller.clientLeft;
+    const top = viewportBounds.top + scroller.clientTop;
+    const right = left + scroller.clientWidth;
+    const bottom = top + scroller.clientHeight;
+    return vertical
+        ? itemBounds.top >= top - tolerance && itemBounds.bottom <= bottom + tolerance
+        : itemBounds.left >= left - tolerance && itemBounds.right <= right + tolerance;
+}
+
+function measuredToolbarItems(scroller) {
+    return Array.from(scroller.querySelectorAll('[data-toolbar-measure]')).filter(function (item) {
+        return item.closest('.e-toolbar-content') === scroller && !item.closest('.e-toolbar-nested-menu');
+    });
+}
+
+function clampToVisibleBoundary(scroller, start, target, vertical) {
+    const distance = target - start;
+    if (Math.abs(distance) < 1) {
+        return target;
+    }
+    const state = scrollState(scroller, vertical);
+    if ((distance > 0 && state.atEnd) || (distance < 0 && state.atStart)) {
+        return start;
+    }
+    const items = measuredToolbarItems(scroller);
+    const item = distance > 0 ? items[items.length - 1] : items[0];
+    if (!item) {
+        return target;
+    }
+    const itemBounds = item.getBoundingClientRect();
+    const viewportBounds = scroller.getBoundingClientRect();
+    const left = viewportBounds.left + scroller.clientLeft;
+    const top = viewportBounds.top + scroller.clientTop;
+    const right = left + scroller.clientWidth;
+    const bottom = top + scroller.clientHeight;
+    let boundaryDistance;
+    if (vertical) {
+        boundaryDistance = distance > 0 ? itemBounds.bottom - bottom : itemBounds.top - top;
+    } else if (getComputedStyle(scroller).direction === 'rtl') {
+        boundaryDistance = distance > 0 ? left - itemBounds.left : right - itemBounds.right;
+    } else {
+        boundaryDistance = distance > 0 ? itemBounds.right - right : itemBounds.left - left;
+    }
+    if (distance > 0) {
+        return boundaryDistance <= 1 ? start : Math.min(target, start + boundaryDistance);
+    }
+    return boundaryDistance >= -1 ? start : Math.max(target, start + boundaryDistance);
+}
+
+/**
+ * Writes a position measured from logical inline start, preserving the raw scrollTop behavior vertically.
+ *
+ * @param {HTMLElement} scroller - the element that scrolls.
+ * @param {number} position - the logical position to reach.
+ * @param {boolean} vertical - true when the toolbar scrolls along the block axis.
+ * @returns {void}
+ */
+function setLogicalScrollPosition(scroller, position, vertical) {
+    if (vertical) {
+        scroller.scrollTop = position;
+    } else {
+        scroller.scrollLeft = getComputedStyle(scroller).direction === 'rtl' ? -position : position;
+    }
+}
+
+/**
  * Reports how far a scrollable toolbar can move along its main axis, and where it currently is.
  *
  * The navigation chevrons are driven by this: they appear only when the content is wider than the
@@ -285,19 +405,36 @@ export function scrollState(scroller, vertical) {
     }
     const scrollSize = vertical ? scroller.scrollHeight : scroller.scrollWidth;
     const clientSize = vertical ? scroller.clientHeight : scroller.clientWidth;
-    const position = vertical ? scroller.scrollTop : scroller.scrollLeft;
+    const position = logicalScrollPosition(scroller, vertical);
     const max = scrollSize - clientSize;
     // A sub-pixel remainder is common with fractional device pixel ratios, so a small tolerance
     // keeps the end chevron from staying enabled at the end of the range.
     const tolerance = 1;
     const canScroll = max > tolerance;
+    const items = measuredToolbarItems(scroller);
+    const firstItem = items.length > 0 ? items[0] : null;
+    const lastItem = items.length > 0 ? items[items.length - 1] : null;
     return {
         canScroll: canScroll,
-        atStart: position <= tolerance,
-        atEnd: position >= max - tolerance,
+        atStart: firstItem ? isFullyVisible(firstItem, scroller, vertical) : position <= tolerance,
+        atEnd: lastItem ? isFullyVisible(lastItem, scroller, vertical) : position >= max - tolerance,
         scrollSize: scrollSize,
         clientSize: clientSize
     };
+}
+
+function notifyScrollState(scroller) {
+    const instance = instances.get(scroller);
+    if (!instance || !instance.dotNetRef) {
+        return;
+    }
+    const state = scrollState(scroller, instance.vertical);
+    const previous = instance.lastScrollState;
+    if (previous && previous.canScroll === state.canScroll && previous.atStart === state.atStart && previous.atEnd === state.atEnd) {
+        return;
+    }
+    instance.lastScrollState = state;
+    instance.dotNetRef.invokeMethodAsync('OnScrolledAsync').catch(function () { /* the circuit may be gone */ });
 }
 
 /**
@@ -308,15 +445,28 @@ export function scrollState(scroller, vertical) {
  * @param {boolean} vertical - true when the toolbar scrolls along the block axis.
  * @returns {void}
  */
-export function scrollBy(scroller, delta, vertical) {
+const scrollMotions = new WeakMap();
+const ScrollAnimationMs = 1000;
+
+/**
+ * Scrolls the toolbar along its main axis.
+ *
+ * A click uses a 1000ms animation. A repeat step and a reduced-motion request move immediately,
+ * and any new request cancels the animation already in flight so the content cannot lag.
+ *
+ * @param {HTMLElement} scroller - the element that scrolls.
+ * @param {number} delta - the distance to move. Negative scrolls towards the start.
+ * @param {boolean} vertical - true when the toolbar scrolls along the block axis.
+ * @param {boolean} immediate - true to skip the animation.
+ * @returns {void}
+ */
+export function scrollBy(scroller, delta, vertical, immediate) {
     if (!scroller) {
         return;
     }
-    if (vertical) {
-        scroller.scrollTop += delta;
-    } else {
-        scroller.scrollLeft += delta;
-    }
+    const reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const current = logicalScrollPosition(scroller, vertical);
+    moveScroller(scroller, current + delta, vertical, immediate || reduced);
 }
 
 /**
@@ -335,5 +485,113 @@ export function scrollByPage(scroller, direction, vertical) {
     // A page is the visible size less a small overlap, so the item that is scrolled to stays
     // partly visible and the user keeps their place.
     const page = Math.max(1, clientSize * 0.8);
-    scrollBy(scroller, page * direction, vertical);
+    scrollBy(scroller, page * direction, vertical, false);
+}
+
+/**
+ * Moves a scroller to an absolute position. Immediate movement cancels a running animation.
+ * Popup, MultiRow and Extended do not call this: they do not scroll their content.
+ *
+ * @param {HTMLElement} scroller - the element that scrolls.
+ * @param {number} target - the position to reach.
+ * @param {boolean} vertical - true when the toolbar scrolls along the block axis.
+ * @param {boolean} immediate - true to assign the position without animating.
+ * @returns {void}
+ */
+function moveScroller(scroller, target, vertical, immediate) {
+    const running = scrollMotions.get(scroller);
+    if (running) {
+        cancelAnimationFrame(running);
+        scrollMotions.delete(scroller);
+    }
+    const max = Math.max(0, (vertical ? scroller.scrollHeight : scroller.scrollWidth) - (vertical ? scroller.clientHeight : scroller.clientWidth));
+    const start = logicalScrollPosition(scroller, vertical);
+    const clamped = clampToVisibleBoundary(scroller, start, Math.min(max, Math.max(0, target)), vertical);
+    if (immediate) {
+        setLogicalScrollPosition(scroller, clamped, vertical);
+        notifyScrollState(scroller);
+        return;
+    }
+    const distance = clamped - start;
+    if (Math.abs(distance) < 1) {
+        return;
+    }
+    const started = performance.now();
+    const step = function (now) {
+        const progress = Math.min(1, (now - started) / ScrollAnimationMs);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        const value = start + (distance * eased);
+        setLogicalScrollPosition(scroller, value, vertical);
+        if (progress < 1) {
+            scrollMotions.set(scroller, requestAnimationFrame(step));
+        } else {
+            scrollMotions.delete(scroller);
+            notifyScrollState(scroller);
+        }
+    };
+    scrollMotions.set(scroller, requestAnimationFrame(step));
+}
+
+/**
+ * Spreads a short color wash from the pointer. Keyboard and non-pointer activations do not call this.
+ *
+ * @param {HTMLElement} button - the toolbar button that was pressed.
+ * @param {number} clientX - the horizontal pointer coordinate relative to the viewport.
+ * @param {number} clientY - the vertical pointer coordinate relative to the viewport.
+ * @returns {void}
+ */
+export function playRipple(item, clientX, clientY) {
+    if (!item || (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches)) {
+        return;
+    }
+    const button = item.matches('.e-tbar-btn') ? item : item.querySelector('.e-tbar-btn') || item;
+    const bounds = button.getBoundingClientRect();
+    const wash = document.createElement('span');
+    wash.className = 'e-toolbar-ripple';
+    wash.style.left = (clientX - bounds.left) + 'px';
+    wash.style.top = (clientY - bounds.top) + 'px';
+    button.appendChild(wash);
+    window.setTimeout(function () {
+        wash.remove();
+    }, 1000);
+}
+
+const nestedMenuTracks = new WeakMap();
+
+/**
+ * Closes an open nested menu when a click occurs outside its menu and trigger.
+ *
+ * Clicks on any nested-menu trigger are left to the component so it can toggle
+ * the current menu or switch to another one without racing a document handler.
+ *
+ * @param {HTMLElement} root - the toolbar root.
+ * @param {object} dotNetRef - the .NET reference the callback is invoked on.
+ * @returns {void}
+ */
+export function trackNestedMenus(root, dotNetRef) {
+    if (!root || !dotNetRef || nestedMenuTracks.has(root)) {
+        return;
+    }
+    const listener = function (event) {
+        const target = event.target;
+        if (target instanceof Element && root.contains(target)) {
+            if (target.closest('[data-testid="toolbar-nested-popup"]')
+                || target.closest('[data-testid="toolbar-dropdown"], [data-testid="toolbar-menubutton"], [data-testid="toolbar-split-toggle"]')) {
+                return;
+            }
+        }
+        dotNetRef.invokeMethodAsync('OnNestedMenuOutsideClickAsync').catch(function () { /* the circuit may be gone */ });
+    };
+    document.addEventListener('click', listener);
+    nestedMenuTracks.set(root, listener);
+}
+
+/** Stops listening for clicks outside nested menus. Safe to call when tracking was never started. */
+export function untrackNestedMenus(root) {
+    const listener = root ? nestedMenuTracks.get(root) : null;
+    if (!listener) {
+        return;
+    }
+    document.removeEventListener('click', listener);
+    nestedMenuTracks.delete(root);
 }

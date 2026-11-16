@@ -486,6 +486,28 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Navigations.Toolbar
             WaitForMeasureCalls(before + 1);
         }
 
+        [Theory(DisplayName = "U-TB-067 Returning to Popup keeps overflowed items hidden while recalculating")]
+        [InlineData(ToolbarOverflowMode.Scrollable)]
+        [InlineData(ToolbarOverflowMode.MultiRow)]
+        [InlineData(ToolbarOverflowMode.Extended)]
+        public void Trigger_OverflowMode_ReturnToPopup_DoesNotFlashAllItems(ToolbarOverflowMode intermediateMode)
+        {
+            IRenderedComponent<SfToolbar> cut = RenderMeasured(200);
+            string[] popupVisibleItems = BarTexts(cut);
+            Assert.Equal(new[] { "A", "B", "C" }, popupVisibleItems);
+
+            cut.SetParametersAndRender(p => p.Add(t => t.OverflowMode, intermediateMode));
+            Assert.Equal(new[] { "A", "B", "C", "D", "E" }, BarTexts(cut));
+            int before = SettledMeasureCalls();
+
+            cut.SetParametersAndRender(p => p.Add(t => t.OverflowMode, ToolbarOverflowMode.Popup));
+
+            Assert.Equal(popupVisibleItems, BarTexts(cut));
+            Assert.Equal(2, cut.Instance.GetOverflowItems().Count);
+            WaitForMeasureCalls(before + 1);
+            Assert.Equal(popupVisibleItems, BarTexts(cut));
+        }
+
         [Fact(DisplayName = "U-TB-067 Changing an item Priority recalculates once")]
         public void Trigger_ItemPriority()
         {

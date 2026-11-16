@@ -148,7 +148,7 @@ namespace Syncfusion.Blazor.Toolkit
         public ToolbarItemDisplayMode DisplayMode { get; set; } = ToolbarItemDisplayMode.IconAndText;
 
         /// <summary>
-        /// Gets or sets the name of the mutually exclusive group the item belongs to.
+        /// Gets or sets the selection group for a toggle or check item. Ordinary button items ignore this value.
         /// </summary>
         /// <value>A group name. The default is <see langword="null"/>.</value>
         [Parameter]

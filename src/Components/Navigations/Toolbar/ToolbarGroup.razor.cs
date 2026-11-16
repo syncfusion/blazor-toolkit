@@ -105,6 +105,16 @@ namespace Syncfusion.Blazor.Toolkit
             _ = _collection.RemoveGroup(group);
         }
 
+        Task IToolbarHost.OpenNestedMenuAsync(ToolbarItem item)
+        {
+            return _parent?.OpenNestedMenuAsync(item) ?? Task.CompletedTask;
+        }
+
+        Task IToolbarHost.NotifyNestedMenuClosedAsync()
+        {
+            return _parent?.NotifyNestedMenuClosedAsync() ?? Task.CompletedTask;
+        }
+
         void IToolbarHost.NotifyItemChanged(IToolbarItem item)
         {
             _parent?.NotifyItemChanged(item);
@@ -143,6 +153,11 @@ namespace Syncfusion.Blazor.Toolkit
         Task<bool> IToolbarHost.PlaceNestedMenuAsync(ElementReference menu, ElementReference anchor)
         {
             return _parent is null ? Task.FromResult(false) : _parent.PlaceNestedMenuAsync(menu, anchor);
+        }
+
+        Task IToolbarHost.PlayRippleAsync(ElementReference button, double clientX, double clientY)
+        {
+            return _parent?.PlayRippleAsync(button, clientX, clientY) ?? Task.CompletedTask;
         }
 
         /// <exclude />

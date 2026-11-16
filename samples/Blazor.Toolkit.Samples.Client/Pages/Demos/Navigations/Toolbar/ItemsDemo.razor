@@ -1,24 +1,43 @@
 <div class="tb-items tb-items-demo" data-testid="toolbar-items-demo">
-    <div class="tb-host" style="min-width: 520px; overflow: visible;">
-        <SfToolbar AriaLabel="Formatting and insert" data-testid="toolbar-root">
-            <ToolbarGroup Label="Format">
+    <div class="tb-host" style="min-width: 620px; overflow: visible;">
+        <SfToolbar AriaLabel="Formatting and insert" CssClass="tb-items-compact-menus" data-testid="toolbar-root">
+            <ToolbarGroup Label="Text styling">
                 <ToolbarItem Text="Bold" Type="ToolbarItemType.Toggle" IconCss="sb-icons e-bold" DisplayMode="ToolbarItemDisplayMode.IconOnly" Tooltip="Bold" @bind-Selected="_bold" />
                 <ToolbarItem Text="Italic" Type="ToolbarItemType.Toggle" IconCss="sb-icons e-italic" DisplayMode="ToolbarItemDisplayMode.IconOnly" Tooltip="Italic" @bind-Selected="_italic" />
                 <ToolbarItem Text="Underline" Type="ToolbarItemType.Toggle" IconCss="sb-icons e-underline" DisplayMode="ToolbarItemDisplayMode.IconOnly" Tooltip="Underline" @bind-Selected="_underline" />
             </ToolbarGroup>
             <ToolbarSeparator />
-            <ToolbarGroup Label="Align" CssClass="align-group">
+            <ToolbarGroup Label="Alignment">
                 <ToolbarItem Text="Align left" Type="ToolbarItemType.Toggle" GroupName="align" IconCss="sb-icons e-align-left" DisplayMode="ToolbarItemDisplayMode.IconOnly" Tooltip="Align left" Selected="true" />
                 <ToolbarItem Text="Align center" Type="ToolbarItemType.Toggle" GroupName="align" IconCss="sb-icons e-align-center" DisplayMode="ToolbarItemDisplayMode.IconOnly" Tooltip="Align center" />
                 <ToolbarItem Text="Align right" Type="ToolbarItemType.Toggle" GroupName="align" IconCss="sb-icons e-align-right" DisplayMode="ToolbarItemDisplayMode.IconOnly" Tooltip="Align right" />
             </ToolbarGroup>
             <ToolbarSeparator />
-            <ToolbarItem Text="Paste" Type="ToolbarItemType.Split" IconCss="sb-icons e-paste" Tooltip="Paste">
-                <Items>
-                    <ToolbarItem Text="Paste text" IconCss="sb-icons e-paste-text-only" />
-                    <ToolbarItem Text="Paste link" IconCss="sb-icons e-link" />
-                </Items>
-            </ToolbarItem>
+            <ToolbarGroup Label="Actions">
+                <ToolbarItem Text="Paste" Type="ToolbarItemType.Split" IconCss="sb-icons e-paste" Tooltip="Paste options">
+                    <Items>
+                        <ToolbarItem Text="Paste text" IconCss="sb-icons e-paste-text-only" />
+                        <ToolbarItem Text="Paste link" IconCss="sb-icons e-link" />
+                    </Items>
+                </ToolbarItem>
+                <ToolbarItem Text="Download" Type="ToolbarItemType.DropDown" IconCss="sb-icons e-download" Tooltip="Download format">
+                    <Items>
+                        <ToolbarItem Text="PDF" IconCss="sb-icons e-export" />
+                        <ToolbarItem Text="DOCX" IconCss="sb-icons e-save" />
+                    </Items>
+                </ToolbarItem>
+                <ToolbarItem Text="More" Type="ToolbarItemType.Menu" IconCss="sb-icons e-settings" Tooltip="More actions">
+                    <Items>
+                        <ToolbarItem Text="Share" IconCss="sb-icons e-link" />
+                        <ToolbarItem Text="Search" IconCss="sb-icons e-search" />
+                    </Items>
+                </ToolbarItem>
+            </ToolbarGroup>
+            <ToolbarSeparator />
+            <ToolbarGroup Label="Checks">
+                <ToolbarItem Text="Audit" Type="ToolbarItemType.Check" IconCss="e-icons e-check" DisplayMode="ToolbarItemDisplayMode.IconOnly" Tooltip="Audit checklist" @bind-Selected="_audit" />
+                <ToolbarItem Text="Review" Type="ToolbarItemType.Check" IconCss="sb-icons e-comment-add" DisplayMode="ToolbarItemDisplayMode.IconOnly" Tooltip="Review required" @bind-Selected="_review" />
+            </ToolbarGroup>
             <ToolbarSpacer />
             <ToolbarItem Text="Delete" IconCss="sb-icons e-trash" Tooltip="Delete" />
         </SfToolbar>
@@ -29,4 +48,6 @@
     private bool _bold;
     private bool _italic;
     private bool _underline;
+    private bool _audit;
+    private bool _review;
 }

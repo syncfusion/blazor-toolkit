@@ -16,7 +16,7 @@
     }
     else if (IsTemplated)
     {
-        <div class="@ItemClass" id="@_explicitId" data-testid="toolbar-template-item" data-toolbar-measure="@MeasureId" @onclick="HandleClickAsync" @onkeydown="HandleKeyDownAsync" @onfocusin="HandleFocusIn">
+        <div class="@ItemClass" id="@_explicitId" data-testid="toolbar-template-item" data-toolbar-measure="@MeasureId" @onclick="HandleClickAsync" @ref="_itemElement" @onkeydown="HandleKeyDownAsync" @onfocusin="HandleFocusIn">
             @if (Template is not null)
             {
                 @Template(_templateContext)
@@ -29,17 +29,21 @@
     }
     else if (_hasRichBody)
     {
-        <div class="@ItemClass" id="@_explicitId" data-testid="toolbar-item" data-toolbar-measure="@MeasureId" @onkeydown="HandleKeyDownAsync" @onfocusin="HandleFocusIn">
+        <div class="@ItemClass" id="@_explicitId" data-testid="toolbar-item" data-toolbar-measure="@MeasureId" @ref="_itemElement" @onkeydown="HandleKeyDownAsync" @onfocusin="HandleFocusIn">
             <SfButton @ref="_button" @attributes="BuildButtonAttributes()">
-                @if (_iconCss is not null)
+                @if (_iconBeforeText && _iconCss is not null)
                 {
-                    <span class="@_iconCss e-btn-icon" aria-hidden="true"></span>
+                    <span class="@_iconCss e-btn-icon e-toolbar-item-icon" aria-hidden="true" data-testid="toolbar-item-icon"></span>
                 }
                 @if (_showText)
                 {
-                    <span class="e-toolbar-item-text">@Text</span>
+                    <span class="e-toolbar-item-text" data-testid="toolbar-item-text">@Text</span>
                 }
                 @ChildContent
+                @if (!_iconBeforeText && _iconCss is not null)
+                {
+                    <span class="@_iconCss e-btn-icon e-toolbar-item-icon" aria-hidden="true" data-testid="toolbar-item-icon"></span>
+                }
                 @if (_hasBadge)
                 {
                     <span class="e-toolbar-badge">@Badge</span>
@@ -49,21 +53,47 @@
     }
     else if (HasNestedMenu)
     {
-        <div class="@ItemClass" id="@_explicitId" data-toolbar-measure="@MeasureId" @ref="_itemElement" @onkeydown="HandleKeyDownAsync" @onfocusin="HandleFocusIn">
+        <div class="@ItemClass" id="@_explicitId" data-toolbar-measure="@MeasureId" @ref="_itemElement" @ref="_itemElement" @onkeydown="HandleKeyDownAsync" @onfocusin="HandleFocusIn">
             @if (Type == ToolbarItemType.Split)
             {
                 @* The split wrapper is a plain span, so it carries no ARIA. The chevron button owns
                    aria-haspopup and aria-expanded; a generic element rejects both attributes. *@
                 <span class="e-toolbar-split" data-testid="toolbar-split">
-                    <SfButton @ref="_button" @attributes="BuildButtonAttributes()" />
+                    <SfButton @ref="_button" @attributes="BuildButtonAttributes()">
+                        @if (_iconBeforeText && _iconCss is not null)
+                        {
+                            <span class="@_iconCss e-btn-icon e-toolbar-item-icon" aria-hidden="true" data-testid="toolbar-item-icon"></span>
+                        }
+                        @if (_showText)
+                        {
+                            <span class="e-toolbar-item-text" data-testid="toolbar-item-text">@Text</span>
+                        }
+                        @if (!_iconBeforeText && _iconCss is not null)
+                        {
+                            <span class="@_iconCss e-btn-icon e-toolbar-item-icon" aria-hidden="true" data-testid="toolbar-item-icon"></span>
+                        }
+                    </SfButton>
                     <SfButton @attributes="BuildChevronAttributes()" />
                 </span>
             }
             else
             {
-                <SfButton @ref="_button" @attributes="BuildButtonAttributes()" />
+                <SfButton @ref="_button" @attributes="BuildButtonAttributes()">
+                    @if (_iconBeforeText && _iconCss is not null)
+                    {
+                        <span class="@_iconCss e-btn-icon e-toolbar-item-icon" aria-hidden="true" data-testid="toolbar-item-icon"></span>
+                    }
+                    @if (_showText)
+                    {
+                        <span class="e-toolbar-item-text" data-testid="toolbar-item-text">@Text</span>
+                    }
+                    @if (!_iconBeforeText && _iconCss is not null)
+                    {
+                        <span class="@_iconCss e-btn-icon e-toolbar-item-icon" aria-hidden="true" data-testid="toolbar-item-icon"></span>
+                    }
+                </SfButton>
             }
-            @if (_menuOpen && (Items is not null || ChildContent is not null))
+            @if (MenuOpen && (Items is not null || ChildContent is not null))
             {
                 <div id="@_menuId" class="@MenuClass" role="menu" data-testid="toolbar-nested-popup" aria-labelledby="@ResolvedId" @ref="_menuElement" @onkeydown="HandleMenuKeyDownAsync">
                     <CascadingValue Value="this" Name="NestedOwner" IsFixed="false">
@@ -84,14 +114,40 @@
     }
     else if (IsRadio || (IsCheck && !string.IsNullOrEmpty(GroupName)))
     {
-        <div class="@ItemClass" id="@_explicitId" data-testid="toolbar-item" data-group="@GroupName" data-toolbar-measure="@MeasureId" @onkeydown="HandleKeyDownAsync" @onfocusin="HandleFocusIn">
-            <SfButton @ref="_button" @attributes="BuildButtonAttributes()" />
+        <div class="@ItemClass" id="@_explicitId" data-testid="toolbar-item" data-group="@GroupName" data-toolbar-measure="@MeasureId" @ref="_itemElement" @ref="_itemElement" @onkeydown="HandleKeyDownAsync" @onfocusin="HandleFocusIn">
+            <SfButton @ref="_button" @attributes="BuildButtonAttributes()">
+                @if (_iconBeforeText && _iconCss is not null)
+                {
+                    <span class="@_iconCss e-btn-icon e-toolbar-item-icon" aria-hidden="true" data-testid="toolbar-item-icon"></span>
+                }
+                @if (_showText)
+                {
+                    <span class="e-toolbar-item-text" data-testid="toolbar-item-text">@Text</span>
+                }
+                @if (!_iconBeforeText && _iconCss is not null)
+                {
+                    <span class="@_iconCss e-btn-icon e-toolbar-item-icon" aria-hidden="true" data-testid="toolbar-item-icon"></span>
+                }
+            </SfButton>
         </div>
     }
     else
     {
-        <div class="@ItemClass" id="@_explicitId" data-testid="toolbar-item" data-toolbar-measure="@MeasureId" @onkeydown="HandleKeyDownAsync" @onfocusin="HandleFocusIn">
-            <SfButton @ref="_button" @attributes="BuildButtonAttributes()" />
+        <div class="@ItemClass" id="@_explicitId" data-testid="toolbar-item" data-toolbar-measure="@MeasureId" @ref="_itemElement" @onkeydown="HandleKeyDownAsync" @onfocusin="HandleFocusIn">
+            <SfButton @ref="_button" @attributes="BuildButtonAttributes()">
+                @if (_iconBeforeText && _iconCss is not null)
+                {
+                    <span class="@_iconCss e-btn-icon e-toolbar-item-icon" aria-hidden="true" data-testid="toolbar-item-icon"></span>
+                }
+                @if (_showText)
+                {
+                    <span class="e-toolbar-item-text" data-testid="toolbar-item-text">@Text</span>
+                }
+                @if (!_iconBeforeText && _iconCss is not null)
+                {
+                    <span class="@_iconCss e-btn-icon e-toolbar-item-icon" aria-hidden="true" data-testid="toolbar-item-icon"></span>
+                }
+            </SfButton>
         </div>
     }
 }

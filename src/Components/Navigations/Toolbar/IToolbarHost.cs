@@ -39,6 +39,21 @@ namespace Syncfusion.Blazor.Toolkit
 
         /// <exclude />
         /// <summary>
+        /// Opens a nested menu after closing any other nested menus owned by the toolbar.
+        /// </summary>
+        /// <param name="item">The nested-menu trigger being opened.</param>
+        /// <returns>A task that completes after menu tracking has started.</returns>
+        Task OpenNestedMenuAsync(ToolbarItem item);
+
+        /// <exclude />
+        /// <summary>
+        /// Notifies the toolbar that a nested menu closed, allowing its outside-click listener to stop.
+        /// </summary>
+        /// <returns>A task that completes after any unneeded listener has stopped.</returns>
+        Task NotifyNestedMenuClosedAsync();
+
+        /// <exclude />
+        /// <summary>
         /// Gets the item collection owned by this host.
         /// </summary>
         ToolbarItemCollection Collection { get; }
@@ -119,5 +134,15 @@ namespace Syncfusion.Blazor.Toolkit
         /// <param name="anchor">The element the menu is anchored to.</param>
         /// <returns><see langword="true"/> when the menu opens above the item; otherwise <see langword="false"/>.</returns>
         Task<bool> PlaceNestedMenuAsync(ElementReference menu, ElementReference anchor);
+
+        /// <exclude />
+        /// <summary>
+        /// Starts the short color wash at a pointer press. Keyboard activation does not call this.
+        /// </summary>
+        /// <param name="button">The pressed button.</param>
+        /// <param name="clientX">The horizontal pointer coordinate relative to the viewport.</param>
+        /// <param name="clientY">The vertical pointer coordinate relative to the viewport.</param>
+        /// <returns>A task that completes when the wash has started.</returns>
+        Task PlayRippleAsync(ElementReference button, double clientX, double clientY);
     }
 }

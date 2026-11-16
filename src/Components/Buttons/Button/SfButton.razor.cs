@@ -111,7 +111,7 @@ namespace Syncfusion.Blazor.Toolkit
         /// <summary>
         /// Reference to the rendered <c>button</c> element, used to move focus programmatically.
         /// </summary>
-        private ElementReference _buttonElement;
+        internal ElementReference ButtonElement { get; set; }
 
         #endregion
 

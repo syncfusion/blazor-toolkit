@@ -1,19 +1,30 @@
 <div class="tb-stage">
     <div class="tb-frame" data-testid="toolbar-default-demo">
         <SfToolbar AriaLabel="Document commands" data-testid="toolbar-root">
-            <ToolbarGroup Label="Document">
-                <ToolbarItem Id="default-new" Text="New" IconCss="sb-icons e-file-new" Tooltip="Create a document" />
-                <ToolbarItem Id="default-edit" Text="Edit" IconCss="sb-icons e-edit" Tooltip="Edit the selection" />
-                <ToolbarItem Id="default-delete" Text="Delete" IconCss="sb-icons e-trash" Tooltip="Delete the selection" />
+            <ToolbarGroup Label="Create">
+                <ToolbarItem Id="default-new" Text="New document" IconCss="sb-icons e-file-new" Tooltip="Create a new document" DisplayMode="ToolbarItemDisplayMode.IconOnly" />
+                <ToolbarItem Id="default-open" Text="Open file" IconCss="sb-icons e-folder" Tooltip="Open a file" DisplayMode="ToolbarItemDisplayMode.IconOnly" />
+                <ToolbarItem Id="default-save" Text="Save" IconCss="sb-icons e-save" Tooltip="Save changes" DisplayMode="ToolbarItemDisplayMode.IconOnly" />
             </ToolbarGroup>
             <ToolbarSeparator />
-            <ToolbarItem Id="default-refresh" Text="Refresh" IconCss="sb-icons e-refresh" Tooltip="Reload the view" />
+            <ToolbarGroup Label="Edit">
+                <ToolbarItem Id="default-cut" Text="Cut" IconCss="sb-icons e-cut" Tooltip="Cut selection" DisplayMode="ToolbarItemDisplayMode.IconOnly" />
+                <ToolbarItem Id="default-copy" Text="Copy" IconCss="sb-icons e-copy" Tooltip="Copy selection" DisplayMode="ToolbarItemDisplayMode.IconOnly" />
+                <ToolbarItem Id="default-paste" Text="Paste" IconCss="sb-icons e-paste" Tooltip="Paste from clipboard" DisplayMode="ToolbarItemDisplayMode.IconOnly" />
+                <ToolbarItem Id="default-search" Text="Find" IconCss="sb-icons e-search" Tooltip="Find text" DisplayMode="ToolbarItemDisplayMode.IconOnly" />
+            </ToolbarGroup>
+            <ToolbarSeparator />
+            <ToolbarGroup Label="Share">
+                <ToolbarItem Id="default-link" Text="Insert link" IconCss="sb-icons e-link" Tooltip="Insert a link" DisplayMode="ToolbarItemDisplayMode.IconOnly" />
+                <ToolbarItem Id="default-comment" Text="Comment" IconCss="sb-icons e-comment-add" Tooltip="Add a comment" DisplayMode="ToolbarItemDisplayMode.IconOnly" />
+                <ToolbarItem Id="default-export" Text="Export" IconCss="sb-icons e-export" Tooltip="Export the document" DisplayMode="ToolbarItemDisplayMode.IconOnly" />
+                <ToolbarItem Id="default-print" Text="Print" IconCss="sb-icons e-print" Tooltip="Print the document" DisplayMode="ToolbarItemDisplayMode.IconOnly" />
+            </ToolbarGroup>
             <ToolbarSpacer />
-            <ToolbarGroup Label="View">
-                <ToolbarItem Id="default-export" Text="Export" IconCss="sb-icons e-export" Tooltip="Export this document" />
-                <ToolbarItem Id="default-print" Text="Print" IconCss="sb-icons e-print" Tooltip="Print" />
+            <ToolbarGroup Label="Review">
+                <ToolbarItem Id="default-refresh" Text="Refresh" IconCss="sb-icons e-refresh" Tooltip="Refresh the current view" DisplayMode="ToolbarItemDisplayMode.IconOnly" />
+                <ToolbarItem Id="default-settings" Text="Settings" IconCss="sb-icons e-settings" Tooltip="Open document settings" DisplayMode="ToolbarItemDisplayMode.IconOnly" />
             </ToolbarGroup>
         </SfToolbar>
     </div>
 </div>
-

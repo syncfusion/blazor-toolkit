@@ -155,6 +155,31 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Navigations.Toolbar
             Assert.False(ButtonOf(cut, "Cut").HasAttribute("aria-pressed"));
         }
 
+        [Fact(DisplayName = "U-TB-056 Only Toggle and Check items retain selected state")]
+        public void OrdinaryButton_DoesNotRetainSelectionWhileToggleDoes()
+        {
+            List<bool> selectedChanges = [];
+            IRenderedComponent<SfToolbar> cut = RenderToolbar(Compose(
+                Item("Action", ("GroupName", "commands"), ("Selected", true),
+                    ("SelectedChanged", EventCallback.Factory.Create<bool>(this, value => selectedChanges.Add(value)))),
+                Item("Toggle", ("Type", ToolbarItemType.Toggle), ("Selected", true)),
+                Item("Check", ("Type", ToolbarItemType.Check), ("Selected", true))));
+
+            IElement action = ButtonOf(cut, "Action");
+            IElement toggle = ButtonOf(cut, "Toggle");
+            IElement check = cut.Find("[data-testid='toolbar-check']");
+
+            Assert.False(action.HasAttribute("aria-pressed"));
+            Assert.DoesNotContain("e-selected", action.ParentElement!.ClassList);
+            Assert.Equal("true", toggle.GetAttribute("aria-pressed"));
+            Assert.Equal("true", check.GetAttribute("aria-pressed"));
+
+            action.Click();
+
+            Assert.False(ButtonOf(cut, "Action").HasAttribute("aria-pressed"));
+            Assert.Empty(selectedChanges);
+        }
+
         [Fact(DisplayName = "U-TB-070 An async item OnClick completes before OnItemClick starts")]
         public async Task ClickOrder_AwaitsAsyncItemHandler()
         {

@@ -89,6 +89,59 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Navigations.Toolbar
             Assert.Contains("e-cut", icon.ClassList);
         }
 
+        [Fact(DisplayName = "U-TB-100 Pointer ripple receives viewport coordinates from the pressed button")]
+        public async Task PointerRipple_UsesViewportCoordinates()
+        {
+            BunitJSModuleInterop module = ScriptModule();
+            module.SetupVoid("playRipple").SetVoidResult();
+            IRenderedComponent<SfToolbar> cut = RenderToolbar(Item("Cut", ("IconCss", "e-icons e-cut")));
+
+            await cut.Find("[data-testid='toolbar-button']").TriggerEventAsync("onpointerdown", new PointerEventArgs
+            {
+                PointerId = 1,
+                PointerType = "mouse",
+                Buttons = 1,
+                ClientX = 120,
+                ClientY = 80,
+                OffsetX = 4,
+                OffsetY = 6
+            });
+
+            JSRuntimeInvocation invocation = Assert.Single(module.Invocations.Where(x => x.Identifier == "playRipple"));
+            Assert.Equal(120d, invocation.Arguments[1]);
+            Assert.Equal(80d, invocation.Arguments[2]);
+        }
+
+        [Fact(DisplayName = "U-TB-100 An overflow popup item starts its pointer ripple")]
+        public async Task PopupItemPointerRipple_UsesViewportCoordinates()
+        {
+            BunitJSModuleInterop module = ScriptModule();
+            module.SetupVoid("playRipple").SetVoidResult();
+            ScriptPlacement(true);
+            ScriptOverflowingMeasurement();
+
+            IRenderedComponent<SfToolbar> cut = RenderToolbar(Compose(
+                Item("A", ("Id", "a")),
+                Item("B", ("Id", "b"))));
+
+            cut.WaitForAssertion(() => Assert.Single(cut.FindAll(OverflowButton)));
+            await cut.Find(OverflowButton).ClickAsync(new MouseEventArgs());
+            IElement item = cut.Find(OverflowPopup + " .e-toolbar-overflow-entry");
+
+            await item.TriggerEventAsync("onpointerdown", new PointerEventArgs
+            {
+                PointerId = 1,
+                PointerType = "mouse",
+                Buttons = 1,
+                ClientX = 120,
+                ClientY = 80
+            });
+
+            JSRuntimeInvocation invocation = Assert.Single(module.Invocations.Where(x => x.Identifier == "playRipple"));
+            Assert.Equal(120d, invocation.Arguments[1]);
+            Assert.Equal(80d, invocation.Arguments[2]);
+        }
+
         [Fact(DisplayName = "U-TB-100 An icon-only item keeps its icon class as well")]
         public void IconOnlyItem_KeepsConsumerIconClass()
         {
@@ -331,6 +384,48 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Navigations.Toolbar
         }
 
         // ------------------------------------------------------------------ Scrollable navigation
+
+        [Fact(DisplayName = "U-TB-104 Entering Scrollable mode refreshes state after observation starts")]
+        public void Scrollable_ModeEntryRefreshesStateAfterObserverStarts()
+        {
+            BunitJSModuleInterop module = ScriptModule();
+            ScriptScroll(true, true, false);
+            IRenderedComponent<SfToolbar> cut = RenderToolbar(Five());
+            int before = module.Invocations.Count(x => x.Identifier == "scrollState");
+
+            cut.SetParametersAndRender(p => p.Add(t => t.OverflowMode, ToolbarOverflowMode.Scrollable));
+
+            cut.WaitForAssertion(() =>
+            {
+                JSRuntimeInvocation[] invocations = module.Invocations.ToArray();
+                int observerIndex = Array.FindLastIndex(invocations, x => x.Identifier == "observeScroll");
+                int scrollStateIndex = Array.FindLastIndex(invocations, x => x.Identifier == "scrollState");
+
+                Assert.True(module.Invocations.Count(x => x.Identifier == "scrollState") > before);
+                Assert.True(observerIndex >= 0);
+                Assert.True(scrollStateIndex > observerIndex);
+                Assert.Single(cut.FindAll(ScrollStart));
+                Assert.Single(cut.FindAll(ScrollEnd));
+            });
+        }
+
+        [Fact(DisplayName = "U-TB-104 A Scrollable width rerender refreshes scroll state")]
+        public void Scrollable_WidthRerenderRefreshesScrollState()
+        {
+            BunitJSModuleInterop module = ScriptModule();
+            ScriptScroll(true, true, false);
+            IRenderedComponent<SfToolbar> cut = RenderToolbar(Five(), p => p
+                .Add(t => t.OverflowMode, ToolbarOverflowMode.Scrollable)
+                .Add(t => t.HtmlAttributes, new Dictionary<string, object> { ["style"] = "width: 400px" }));
+            cut.WaitForAssertion(() => Assert.Contains(module.Invocations, x => x.Identifier == "observeScroll"));
+            int before = module.Invocations.Count(x => x.Identifier == "scrollState");
+
+            cut.SetParametersAndRender(p => p
+                .Add(t => t.OverflowMode, ToolbarOverflowMode.Scrollable)
+                .Add(t => t.HtmlAttributes, new Dictionary<string, object> { ["style"] = "width: 160px" }));
+
+            cut.WaitForAssertion(() => Assert.True(module.Invocations.Count(x => x.Identifier == "scrollState") > before));
+        }
 
         [Fact(DisplayName = "U-TB-104 The Scrollable mode shows no chevron when everything fits")]
         public void Scrollable_NoChevronWhenEverythingFits()

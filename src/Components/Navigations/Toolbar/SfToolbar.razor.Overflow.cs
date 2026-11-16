@@ -32,12 +32,17 @@ namespace Syncfusion.Blazor.Toolkit
         /// </summary>
         private const int ScrollRepeatInterval = 60;
 
+        // Scroll animation is Scrollable-only. Popup moves items into a menu, MultiRow wraps, and
+        // Extended expands rows. None of those modes scroll content, so none of them animate. A
+        // held chevron passes immediate=true so a new step cancels any click animation still running.
+
         #endregion
 
         #region Fields
 
         private readonly string _popupId = PopupIdPrefix + Guid.NewGuid().ToString("N")[..12];
         private readonly List<OverflowEntry> _entries = [];
+        private readonly HashSet<string> _lastPopupOverflowedIds = [];
         private ElementReference _contentElement;
         private ElementReference _popupElement;
         private ElementReference _overflowContainer;
@@ -203,6 +208,20 @@ namespace Syncfusion.Blazor.Toolkit
             await EnsureModuleAsync().ConfigureAwait(true);
         }
 
+        async Task IToolbarHost.PlayRippleAsync(ElementReference button, double clientX, double clientY)
+        {
+            if (IsDisposed || button.Context is null)
+            {
+                return;
+            }
+            await EnsureModuleAsync().ConfigureAwait(true);
+            if (IsDisposed || (_toolbarModule is null && _toolbarInProcessModule is null))
+            {
+                return;
+            }
+            await GuardedAsync(() => InvokeVoidAsync(_toolbarModule, _toolbarInProcessModule, "playRipple", button, clientX, clientY)).ConfigureAwait(true);
+        }
+
         private async Task EnsureModuleAsync()
         {
             JsModuleReference reference = await ImportModuleAsync(ModulePath, _toolbarModule, _toolbarInProcessModule).ConfigureAwait(true);
@@ -252,7 +271,17 @@ namespace Syncfusion.Blazor.Toolkit
             }
             _selfReference ??= DotNetObjectReference.Create(this);
             _scrollObserving = true;
-            await GuardedAsync(async () => await InvokeVoidAsync(_toolbarModule, _toolbarInProcessModule, "observeScroll", _contentElement, _selfReference).ConfigureAwait(true)).ConfigureAwait(true);
+            await GuardedAsync(async () => await InvokeVoidAsync(_toolbarModule, _toolbarInProcessModule, "observeScroll", _contentElement, _selfReference, Orientation == ToolbarOrientation.Vertical).ConfigureAwait(true)).ConfigureAwait(true);
+        }
+
+        private async Task StopScrollObservingAsync()
+        {
+            if (!_scrollObserving)
+            {
+                return;
+            }
+            _scrollObserving = false;
+            await GuardedAsync(() => InvokeVoidAsync(_toolbarModule, _toolbarInProcessModule, "unobserveScroll", _contentElement)).ConfigureAwait(true);
         }
 
         /// <summary>
@@ -309,6 +338,8 @@ namespace Syncfusion.Blazor.Toolkit
                 _debounce = null;
             }
             StopScrollRepeat();
+            await StopNestedMenuTrackingAsync().ConfigureAwait(true);
+            await StopScrollObservingAsync().ConfigureAwait(true);
             await StopObservingAsync().ConfigureAwait(true);
             await StopPopupTrackingAsync().ConfigureAwait(true);
             if (_toolbarModule is not null)
@@ -318,6 +349,9 @@ namespace Syncfusion.Blazor.Toolkit
             }
             _toolbarInProcessModule?.Dispose();
             _toolbarInProcessModule = null;
+            _nestedMenuCallbackReference?.Dispose();
+            _nestedMenuCallbackReference = null;
+            _nestedMenuCallback = null;
             _selfReference?.Dispose();
             _selfReference = null;
             _entries.Clear();
@@ -441,6 +475,8 @@ namespace Syncfusion.Blazor.Toolkit
 
             OverflowResult result = OverflowCalculator.Calculate(candidates, measurement.Available, measurement.Gap, measurement.ButtonSize > 0 ? measurement.ButtonSize : DefaultButtonSize);
             HashSet<string> overflowedIds = [.. result.Overflowed.Select(static o => o.Id)];
+            _lastPopupOverflowedIds.Clear();
+            _lastPopupOverflowedIds.UnionWith(overflowedIds);
 
             bool changed = false;
             foreach (KeyValuePair<string, IToolbarItem> pair in byId)
@@ -556,6 +592,9 @@ namespace Syncfusion.Blazor.Toolkit
                     Button = buttons.GetValueOrDefault(candidate.Id)
                 };
                 created.SyncAttributes(_popupFocusIndex);
+                created.Attributes["onpointerdown"] = EventCallback.Factory.Create<PointerEventArgs>(
+                    this,
+                    args => StartOverflowRippleAsync(created, args));
                 _entries.Add(created);
             }
             if (_popupFocusIndex >= _entries.Count)
@@ -575,6 +614,17 @@ namespace Syncfusion.Blazor.Toolkit
             {
                 await ClosePopupAsync(restoreFocus: true).ConfigureAwait(true);
             }
+        }
+
+        private Task StartOverflowRippleAsync(OverflowEntry entry, PointerEventArgs args)
+        {
+            return IsDisposed ||
+                !entry.Enabled ||
+                entry.Button is null ||
+                args.PointerId == 0 ||
+                (args.PointerType == "mouse" && args.Buttons == 0)
+                ? Task.CompletedTask
+                : ((IToolbarHost)this).PlayRippleAsync(entry.Button.ButtonElement, args.ClientX, args.ClientY);
         }
 
         #endregion
@@ -1015,6 +1065,9 @@ namespace Syncfusion.Blazor.Toolkit
             if (_lastMode != OverflowMode || _lastOrientation != Orientation)
             {
                 bool leavingPopup = _lastMode == ToolbarOverflowMode.Popup && !IsPopupMode;
+                bool enteringPopup = _lastMode != ToolbarOverflowMode.Popup && IsPopupMode;
+                bool restartScrollObserving = _lastMode == ToolbarOverflowMode.Scrollable &&
+                    (!IsScrollableMode || _lastOrientation != Orientation);
                 bool leavingExtended = _lastMode == ToolbarOverflowMode.Extended && !IsExtendedMode;
                 bool enteringScrollable = _lastMode != ToolbarOverflowMode.Scrollable && IsScrollableMode;
                 _lastMode = OverflowMode;
@@ -1032,7 +1085,15 @@ namespace Syncfusion.Blazor.Toolkit
                 }
                 else
                 {
+                    if (enteringPopup)
+                    {
+                        RestoreLastPopupOverflow();
+                    }
                     ScheduleRecalculation();
+                }
+                if (restartScrollObserving)
+                {
+                    _ = InvokeAsync(StopScrollObservingAsync);
                 }
                 if (enteringScrollable)
                 {
@@ -1041,9 +1102,38 @@ namespace Syncfusion.Blazor.Toolkit
                     _canScroll = false;
                     _atScrollStart = true;
                     _atScrollEnd = true;
-                    _ = InvokeAsync(UpdateScrollStateAsync);
                 }
             }
+        }
+
+        private void RestoreLastPopupOverflow()
+        {
+            List<OverflowCandidate> overflowed = [];
+            Dictionary<string, IToolbarItem> byId = [];
+            foreach (IToolbarItem item in _collection.Flatten().FindAll(static item => item.IsMeasurable))
+            {
+                bool shouldOverflow = _lastPopupOverflowedIds.Contains(item.ItemId);
+                if (item.IsOverflowed != shouldOverflow)
+                {
+                    item.IsOverflowed = shouldOverflow;
+                    item.Refresh();
+                }
+                if (!shouldOverflow)
+                {
+                    continue;
+                }
+
+                byId[item.ItemId] = item;
+                overflowed.Add(new OverflowCandidate(
+                    item.ItemId,
+                    _naturalSizes.GetValueOrDefault(item.ItemId, 1),
+                    item.OverflowOption,
+                    item.OverflowPriority));
+            }
+
+            _hasOverflow = overflowed.Count > 0;
+            RebuildEntries(overflowed, byId);
+            RequestTabStopRefresh();
         }
 
         private void ClearOverflow()

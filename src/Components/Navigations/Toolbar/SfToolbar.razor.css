@@ -7,26 +7,43 @@
  * through ::deep, anchored on the toolbar root so nothing leaks into the host page (TB-ISO-020).
  *
  * Variable policy
- *   - Colors, radii and spacing come from the shared theme tokens emitted by <SfThemeRoot /> (TB-THM-010). No literal colors.
+ *   - Colors use shared theme tokens, except for explicitly specified component palettes defined as scoped custom properties.
  *   - Layout uses logical properties (inline, block, start, end) so RTL mirrors without extra rules (TB-RTL-040).
  *   - Targets are 24 px minimum, and 44 px on narrow viewports (TB-A11Y-100, TB-A11Y-110).
  */
 
 .e-toolbar {
+    --e-toolbar-background: #F1F5F9;
+    --e-toolbar-hover-background: #E2E8F0;
+    --e-toolbar-selected-background: #DBEAFE;
+}
+
+/* .e-dark-mode is the Toolkit theme switch (SfThemeRoot). Isolated CSS cannot see an ancestor
+   outside this component, so the class is read from the toolbar root itself, where CssClass lands
+   (TB-IMP-030). */
+.e-toolbar.e-dark-mode {
+    /* Literal values: a custom property set on an ancestor does not cross the isolation boundary. */
+    --e-toolbar-background: #292929;
+    --e-toolbar-hover-background: #333333;
+    --e-toolbar-selected-background: #0e4775;
+    color: #ffffff;
+}
+
+.e-toolbar {
     --e-toolbar-gap: 4px;
     --e-toolbar-padding-inline: 8px;
     --e-toolbar-padding-block: 4px;
-    --e-toolbar-radius: 4px;
+    --e-toolbar-radius: 8px;
     --e-toolbar-target: 32px;
     --e-toolbar-focus-width: 2px;
     --e-toolbar-border-width: 1px;
 
     align-items: center;
-    background: var(--color-sf-content-bg-color);
-    border: var(--e-toolbar-border-width) solid var(--color-sf-border);
+    border: 0;
     border-radius: var(--e-toolbar-radius);
     box-sizing: border-box;
     color: var(--color-sf-content-text-color);
+    background: var(--e-toolbar-background);
     column-gap: var(--e-toolbar-gap);
     display: flex;
     flex-direction: row;
@@ -115,6 +132,10 @@
     flex: 1 1 auto;
     flex-wrap: wrap;
     min-inline-size: 0;
+}
+
+.e-toolbar:dir(rtl) ::deep .e-toolbar-scroll-btn .e-btn-icon {
+    transform: scaleX(-1);
 }
 
 .e-toolbar.e-toolbar-scrollable {
@@ -248,6 +269,7 @@
     background: transparent;
     border: none;                 /* remove the separate chip borders */
     border-radius: var(--e-toolbar-radius);
+    box-sizing: border-box;
     box-shadow: none;
     color: var(--color-sf-content-text-color);
     column-gap: 6px;
@@ -259,15 +281,17 @@
     vertical-align: middle;
 }
 
-.e-toolbar ::deep .e-tbar-btn:hover:not(:disabled) {
-    background: var(--color-sf-secondary-bg-color-hover);
+.e-toolbar ::deep .e-tbar-btn:hover:where(:not(:disabled)) {
+    background: var(--e-toolbar-hover-background);
+    color: var(--color-sf-content-text-color);
 }
 
 .e-toolbar ::deep .e-tbar-btn:active:not(:disabled),
 .e-toolbar ::deep .e-tbar-btn.e-active,
-.e-toolbar ::deep .e-toolbar-item.e-selected .e-tbar-btn {
-    background: var(--color-sf-secondary-bg-color-selected);
-    color: var(--color-sf-secondary-text-color-selected);
+.e-toolbar ::deep .e-toolbar-item.e-selected .e-tbar-btn,
+.e-toolbar ::deep .e-tbar-btn[aria-pressed="true"] {
+    background: var(--e-toolbar-selected-background);
+    color: var(--color-sf-content-text-color);
 }
 
 .e-toolbar ::deep .e-tbar-btn:disabled,
@@ -314,17 +338,56 @@
  * the span inside it, so a plain ".e-btn-icon" selector also matched the button and shrank it to the
  * glyph width, which left the split chevron below the 24 px target minimum (WCAG 2.2 SC 2.5.8).
  */
-.e-toolbar ::deep span.e-btn-icon {
+.e-toolbar ::deep span.e-btn-icon,
+.e-toolbar ::deep span.e-toolbar-item-icon {
     display: inline-flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
     font-style: normal;
     line-height: 1;
-    /* SfButton pulls icon-only glyphs up by 2px. Toolbar items sit next to text, so cancel that. */
+    /* SfButton pulls its own icon glyphs up by 2px and inward by 0.5em. Toolbar items render the
+       icon themselves so that shift never applies. These zeros keep a host style from moving the
+       glyph after click, focus or a selected state. */
     margin-top: 0;
+    margin-inline: 0;
     min-inline-size: 1em;
     min-block-size: 1em;
+}
+
+/* The wash is added only for a real pointer press, at that point. It is never a permanent child,
+   so an idle item does not show a dot, and a menu or layout change does not start it. */
+.e-toolbar ::deep .e-tbar-btn {
+    overflow: hidden;
+    position: relative;
+}
+
+.e-toolbar .e-toolbar-ripple,
+.e-toolbar ::deep .e-toolbar-ripple {
+    background: var(--color-sf-content-text-color);
+    border-radius: 999px;
+    block-size: 120%;
+    inline-size: 120%;
+    opacity: 0.32;
+    pointer-events: none;
+    position: absolute;
+    transform: translate(-50%, -50%) scale(0.2);
+    animation: e-toolbar-ripple 1000ms ease-out forwards;
+}
+
+@keyframes e-toolbar-ripple {
+    to {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(18);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .e-toolbar .e-toolbar-ripple,
+.e-toolbar ::deep .e-toolbar-ripple {
+        animation: none;
+        opacity: 0;
+    }
 }
 
 .e-toolbar ::deep .e-tbar-btn.e-icon-btn,
@@ -391,7 +454,7 @@
 }
 
 .e-toolbar-overflow-popup {
-    background: var(--color-sf-content-bg-color);
+    background: var(--e-toolbar-background);
     border: 1px solid var(--color-sf-border);
     border-radius: var(--e-toolbar-radius);
     box-shadow: 0 4px 12px color-mix(in srgb, var(--color-sf-shadow-color, CanvasText) 18%, transparent);
@@ -419,7 +482,7 @@
 
 /* Nested menus are rendered by ToolbarItem, so isolation requires ::deep. */
 .e-toolbar ::deep .e-toolbar-nested-menu {
-    background: var(--color-sf-flyout-bg-color, var(--color-sf-content-bg-color));
+    background: var(--e-toolbar-background);
     border: 1px solid var(--color-sf-border);
     border-radius: var(--e-toolbar-radius);
     box-shadow: 0 4px 12px color-mix(in srgb, var(--color-sf-shadow-color, CanvasText) 18%, transparent);
@@ -432,7 +495,7 @@
     max-block-size: min(60vh, 420px);
     min-block-size: max-content;
     min-inline-size: 160px;
-    overflow: visible;
+    overflow-x: hidden;
     overflow-y: auto;
     overscroll-behavior: contain;
     padding-block: 4px;
@@ -452,7 +515,7 @@
     inline-size: 100%;
     justify-content: flex-start;
     min-block-size: var(--e-toolbar-target);
-    position: static;
+    position: relative;
     text-align: start;
 }
 
@@ -481,13 +544,41 @@
 }
 
 .e-toolbar-scroll-btn {
-    color: var(--color-sf-content-text-color-alt1);
-    min-inline-size: var(--e-toolbar-target);
-    padding-inline: 0;
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    color: var(--color-sf-content-text-color);
+    font-size: 14px;
+    min-block-size: var(--e-toolbar-target);
+    min-inline-size: 28px;
+    padding-inline: 6px;
 }
 
 .e-toolbar-scroll-btn:hover:not(:disabled) {
-    background: var(--color-sf-secondary-bg-color-hover);
+    background: transparent;
+}
+
+.e-toolbar.e-toolbar-scrollable:not(.e-toolbar-vertical) .e-toolbar-scroll-controls-start {
+    border-inline-end: 1px solid var(--color-sf-border);
+    align-self: stretch;
+}
+
+.e-toolbar.e-toolbar-scrollable:not(.e-toolbar-vertical) .e-toolbar-scroll-controls-end {
+    border-inline-start: 1px solid var(--color-sf-border);
+    align-self: stretch;
+}
+
+.e-toolbar.e-toolbar-scrollable.e-toolbar-vertical .e-toolbar-scroll-controls-start {
+    border-block-end: 1px solid var(--color-sf-border);
+    border-inline-end: 0;
+    align-self: stretch;
+}
+
+.e-toolbar.e-toolbar-scrollable.e-toolbar-vertical .e-toolbar-scroll-controls-end {
+    border-block-start: 1px solid var(--color-sf-border);
+    border-inline-start: 0;
+    align-self: stretch;
 }
 
 .e-toolbar-scroll-btn:disabled,
@@ -510,9 +601,15 @@
 @media (forced-colors: active) {
     .e-toolbar {
         background: Canvas;
-        border-color: CanvasText;
+        border: 0;
         color: CanvasText;
         forced-color-adjust: auto;
+    }
+
+    .e-toolbar-scroll-btn {
+        background: ButtonFace;
+        border-color: ButtonText;
+        color: ButtonText;
     }
 
     .e-toolbar ::deep .e-tbar-btn {
@@ -526,9 +623,12 @@
         color: GrayText;
     }
 
+    .e-toolbar ::deep .e-tbar-btn:active:not(:disabled),
     .e-toolbar ::deep .e-tbar-btn.e-active,
+    .e-toolbar ::deep .e-toolbar-item.e-selected .e-tbar-btn,
     .e-toolbar ::deep .e-tbar-btn[aria-pressed="true"] {
         background: Highlight;
+        border-color: Highlight;
         color: HighlightText;
     }
 

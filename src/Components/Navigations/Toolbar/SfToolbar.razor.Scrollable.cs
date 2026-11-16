@@ -99,7 +99,7 @@ namespace Syncfusion.Blazor.Toolkit
             {
                 return;
             }
-            await GuardedAsync(async () => await InvokeVoidAsync(_toolbarModule, _toolbarInProcessModule, "scrollBy", _contentElement, ScrollStepDistance * direction, Orientation == ToolbarOrientation.Vertical).ConfigureAwait(true)).ConfigureAwait(true);
+            await GuardedAsync(async () => await InvokeVoidAsync(_toolbarModule, _toolbarInProcessModule, "scrollBy", _contentElement, ScrollStepDistance * direction, Orientation == ToolbarOrientation.Vertical, true).ConfigureAwait(true)).ConfigureAwait(true);
             await UpdateScrollStateAsync().ConfigureAwait(true);
         }
 

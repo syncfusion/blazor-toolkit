@@ -4,13 +4,15 @@
 import { test, expect, type Locator, type Page } from '@playwright/test';
 import { openToolbarPage } from './helpers';
 
-async function shot(page: Page, locator: Locator, name: string) {
+async function shot(page: Page, locator: Locator, name: string, mask?: Locator) {
   await expect(locator).toBeVisible();
   await page.evaluate(() => document.fonts.ready);
   await expect(locator).toHaveScreenshot(name, {
     animations: 'disabled',
     caret: 'hide',
     maxDiffPixelRatio: 0.01,
+    // The template pill text rasterizes differently per host font, so it is masked.
+    mask: mask ? [mask] : undefined,
   });
 }
 
@@ -96,7 +98,7 @@ test.describe('Toolbar visual baselines @toolbar', () => {
   });
 
   test('V-TB-012 toolbar-templates', async ({ page }) => {
-    await shot(page, page.locator('#shot-template'), 'toolbar-templates.png');
+    await shot(page, page.locator('#shot-template'), 'toolbar-templates.png', page.locator('#shot-template .template-pill'));
   });
 
   test('P-TB-026 dark mode changes the toolbar surface color', async ({ page }) => {

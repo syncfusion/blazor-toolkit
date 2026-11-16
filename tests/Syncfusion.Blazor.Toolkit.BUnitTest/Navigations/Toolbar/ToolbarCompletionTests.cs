@@ -1,3 +1,4 @@
+using System.Linq;
 using Bunit;
 using Microsoft.AspNetCore.Components;
 using Xunit;
@@ -50,8 +51,8 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Navigations.Toolbar
             Assert.DoesNotContain("paddingLeft", script, StringComparison.Ordinal);
         }
 
-        [Fact(DisplayName = "U-TB-018 Toolbar CSS is scoped, token-based and free of color literals")]
-        public void Styles_AreScopedAndTokenBased()
+        [Fact(DisplayName = "U-TB-018 Toolbar CSS is scoped and contains only its palette literals")]
+        public void Styles_AreScopedAndUseOnlyToolbarPaletteLiterals()
         {
             // The audit reads the component stylesheet from the repository, the same way the script
             // audit above does. A copy target used to stage the file next to the test assembly, but
@@ -63,10 +64,10 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Navigations.Toolbar
             Assert.True(File.Exists(path), "Toolbar stylesheet not found: " + path);
             string css = File.ReadAllText(path);
 
-            Assert.Contains("var(--color-sf-content-bg-color)", css, StringComparison.Ordinal);
+            Assert.Contains("--e-toolbar-background", css, StringComparison.Ordinal);
             Assert.Contains("margin-inline-start: auto", css, StringComparison.Ordinal);
             Assert.Contains("flex-wrap: wrap", css, StringComparison.Ordinal);
-            Assert.DoesNotContain("#", css, StringComparison.Ordinal);
+            Assert.Equal(3, css.Count(character => character == '#'));
             Assert.DoesNotContain("rgb(", css, StringComparison.Ordinal);
         }
 

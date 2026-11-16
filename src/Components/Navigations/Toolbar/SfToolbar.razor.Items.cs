@@ -30,6 +30,7 @@ namespace Syncfusion.Blazor.Toolkit
         {
             _ = _collection.Remove(item);
             ReleaseReferences(item);
+            _ = StopNestedMenuTrackingWhenClosedAsync();
             RequestTabStopRefresh();
             ScheduleRecalculation();
             StateHasChanged();
@@ -38,6 +39,7 @@ namespace Syncfusion.Blazor.Toolkit
         void IToolbarHost.UnregisterGroup(IToolbarHost group)
         {
             _ = _collection.RemoveGroup(group);
+            _ = StopNestedMenuTrackingWhenClosedAsync();
             RequestTabStopRefresh();
             ScheduleRecalculation();
         }
@@ -64,6 +66,7 @@ namespace Syncfusion.Blazor.Toolkit
             {
                 return;
             }
+            _ = StopNestedMenuTrackingWhenClosedAsync();
             if (ReferenceEquals(_tabStop, item) && !item.IsFocusable)
             {
                 _tabStop = null;

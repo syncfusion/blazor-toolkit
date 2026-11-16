@@ -30,6 +30,10 @@ namespace Syncfusion.Blazor.Toolkit
             // Items nested in groups register after the first pass, so settle the single tab stop once everything has rendered.
             RefreshTabStops();
             await StartScrollObservingAsync().ConfigureAwait(true);
+            if (IsScrollableMode)
+            {
+                await UpdateScrollStateAsync().ConfigureAwait(true);
+            }
             await ApplyPopupPlacementAsync().ConfigureAwait(true);
             await ApplyPendingFocusAsync().ConfigureAwait(true);
         }

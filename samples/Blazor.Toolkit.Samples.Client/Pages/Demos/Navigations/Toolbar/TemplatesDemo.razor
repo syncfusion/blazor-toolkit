@@ -1,52 +1,56 @@
 <div class="tb-templates" data-testid="toolbar-templates-demo">
-    <div class="tb-host">
-        <SfToolbar AriaLabel="Files" OverflowMode="ToolbarOverflowMode.Popup" data-testid="toolbar-root">
-            <ToolbarItem Text="New" IconCss="sb-icons e-file-new" />
-            <ToolbarItem Text="Upload" IconCss="sb-icons e-upload-1" />
-            <ToolbarItem Text="Refresh" IconCss="sb-icons e-refresh" />
-            <ToolbarSpacer />
-            <ToolbarGroup Label="Search">
-                <ToolbarItem Id="file-search" Text="Search files" Overflow="ToolbarOverflowOption.Show" Priority="-10">
-                    <Template>
-                        <label class="tb-pill">
-                            <span class="sb-icons e-search" aria-hidden="true"></span>
-                            <input value="@_query" @oninput="OnQuery" placeholder="Filter files" aria-label="Filter files" />
-                            @if (!string.IsNullOrEmpty(_query))
-                            {
-                                <button type="button" class="tb-clear" aria-label="Clear filter" @onclick="Clear">×</button>
-                            }
-                        </label>
-                    </Template>
-                </ToolbarItem>
-                <ToolbarItem Id="file-count" Text="@CountLabel" Overflow="ToolbarOverflowOption.Show">
-                    <Template>
-                        <span class="tb-chip">@CountLabel</span>
-                    </Template>
-                </ToolbarItem>
-            </ToolbarGroup>
-        </SfToolbar>
-    </div>
+    <SfToolbar AriaLabel="Workspace actions" OverflowMode="ToolbarOverflowMode.Popup" data-testid="toolbar-root">
+        <ToolbarGroup Label="Workspace actions">
+            <ToolbarItem Text="Ascending" IconCss="e-icons e-arrow-up" Tooltip="Sort files ascending" OnClick="SortAscending" />
+            <ToolbarItem Text="Descending" IconCss="e-icons e-arrow-down" Tooltip="Sort files descending" OnClick="SortDescending" />
+        </ToolbarGroup>
+        <ToolbarSeparator />
+        <ToolbarSpacer />
+        <ToolbarItem Id="workspace-search" Text="Search workspace" Type="ToolbarItemType.Template" Overflow="ToolbarOverflowOption.Show" Priority="-20">
+            <Template>
+                <label class="tb-search">
+                    <span class="sb-icons e-search" aria-hidden="true"></span>
+                    <input value="@_query" @oninput="OnQuery" @onkeydown:stopPropagation="true" placeholder="Search workspace" aria-label="Search workspace" />
+                    @if (!string.IsNullOrEmpty(_query))
+                    {
+                        <button type="button" class="tb-clear" aria-label="Clear search" @onclick="Clear" @onkeydown:stopPropagation="true">×</button>
+                    }
+                </label>
+            </Template>
+        </ToolbarItem>
+        <ToolbarItem Id="workspace-status" Text="Workspace status" Type="ToolbarItemType.Template" Overflow="ToolbarOverflowOption.Show" Priority="-10">
+            <Template>
+                <span class="tb-chip" aria-live="polite">@ResultLabel</span>
+            </Template>
+        </ToolbarItem>
+        <ToolbarItem Id="workspace-view" Text="Workspace view" Type="ToolbarItemType.Template" Overflow="ToolbarOverflowOption.Hide" Priority="10">
+            <Template>
+                <div class="tb-view-toggle" role="group" aria-label="Workspace view">
+                    <button type="button" class="@ViewButtonClass(false)" aria-pressed="@(!_isGrid)" @onclick="() => SetView(false)" @onkeydown:stopPropagation="true">List</button>
+                    <button type="button" class="@ViewButtonClass(true)" aria-pressed="@_isGrid" @onclick="() => SetView(true)" @onkeydown:stopPropagation="true">Grid</button>
+                </div>
+            </Template>
+        </ToolbarItem>
+        <ToolbarItem Text="Refresh" IconCss="sb-icons e-refresh" Tooltip="Restore sample files" OnClick="RefreshWorkspace" />
+    </SfToolbar>
 
-    <ul class="tb-files">
-        @if (_visible.Count == 0)
+    <ul class="tb-files @(_isGrid ? "is-grid" : "is-list")" aria-label="Workspace files">
+        @foreach (string item in VisibleItems)
         {
-            <li class="tb-empty">No files match “@_query”.</li>
+            <li class="tb-file">
+                <span class="sb-icons e-file-new" aria-hidden="true"></span>
+                <span class="tb-file-name">@item</span>
+            </li>
         }
-        else
+        @if (!VisibleItems.Any())
         {
-            @foreach (string file in _visible)
-            {
-                <li>
-                    <span class="sb-icons e-file-document" aria-hidden="true"></span>
-                    <span>@file</span>
-                </li>
-            }
+            <li class="tb-files-empty" aria-live="polite">No files match your search.</li>
         }
     </ul>
 </div>
 
 @code {
-    private static readonly string[] _files =
+    private static readonly string[] InitialWorkspaceItems =
     [
         "Q3 roadmap.docx",
         "Launch notes.md",
@@ -56,14 +60,52 @@
         "Release checklist.md"
     ];
 
+    private readonly List<string> _workspaceItems = [.. InitialWorkspaceItems];
     private string _query = string.Empty;
-    private IReadOnlyList<string> _visible => string.IsNullOrWhiteSpace(_query)
-        ? _files
-        : _files.Where(file => file.Contains(_query, StringComparison.OrdinalIgnoreCase)).ToArray();
+    private bool _isGrid;
+    private bool _sortDescending;
 
-    private string CountLabel => $"{_visible.Count} results";
+    private IEnumerable<string> VisibleItems
+    {
+        get
+        {
+            IEnumerable<string> items = _workspaceItems.Where(item =>
+                string.IsNullOrWhiteSpace(_query) || item.Contains(_query, StringComparison.OrdinalIgnoreCase));
+
+            return _sortDescending
+                ? items.OrderByDescending(item => item, StringComparer.OrdinalIgnoreCase)
+                : items.OrderBy(item => item, StringComparer.OrdinalIgnoreCase);
+        }
+    }
+
+    private string ResultLabel => $"{VisibleItems.Count()} files";
 
     private void OnQuery(ChangeEventArgs args) => _query = args.Value?.ToString() ?? string.Empty;
 
     private void Clear() => _query = string.Empty;
+
+    private void SetView(bool isGrid) => _isGrid = isGrid;
+
+    private Task SortAscending()
+    {
+        _sortDescending = false;
+        return Task.CompletedTask;
+    }
+
+    private Task SortDescending()
+    {
+        _sortDescending = true;
+        return Task.CompletedTask;
+    }
+
+    private void RefreshWorkspace()
+    {
+        _workspaceItems.Clear();
+        _workspaceItems.AddRange(InitialWorkspaceItems);
+        _query = string.Empty;
+        _sortDescending = false;
+        _isGrid = false;
+    }
+
+    private string ViewButtonClass(bool isGrid) => _isGrid == isGrid ? "tb-view-button is-active" : "tb-view-button";
 }

@@ -10,9 +10,7 @@
         <h1 id="blazor-toolkit-toolbar-component">Blazor Toolkit Toolbar Component</h1>
     </Header>
     <Content>
-        Shows the basic toolbar with grouped items, separators, and a spacer.<br/>
-        ToolbarItemType is Default for all items: each button triggers its action on click and does not retain selection state.<br/>
-        Demonstrates how to group related actions in the toolbar using ToolbarGroup, ToolbarSeparator, and ToolbarSpacer.
+        Use <code>SfToolbar</code> to show document commands. This sample uses <code>ToolbarItem</code>, <code>ToolbarGroup</code>, <code>ToolbarSeparator</code>, and <code>ToolbarSpacer</code>. Icon-only commands use <code>IconCss</code> and <code>DisplayMode</code>.
     </Content>
 </Description>
 
@@ -23,22 +21,18 @@
         <h2 id="overflow">Overflow & Priority</h2>
     </Header>
     <Content>
-        Demonstrates all four OverflowMode options (Popup, Scrollable, MultiRow, Extended) with priority determining visible items.<br/>
-        Items with lower Priority appear in the overflow as space runs out; width slider and mode buttons show live behavior.<br/>
-        Illustrates ToolbarOverflowOption (Show/Hide) and fixed-priority overflow patterns with container width resizing.
+        Choose an <code>OverflowMode</code> and change the available width to see how the items move or wrap. In Popup mode, <code>Overflow</code> and <code>Priority</code> decide which items stay on the toolbar and which move to the menu.
     </Content>
 </Description>
 
-<CodePreview PreviewComponent="typeof(OverflowDemo)" SourceFile="/Pages/Demos/Navigations/Toolbar/OverflowDemo.razor" />
+<CodePreview PreviewComponent="typeof(OverflowDemo)" SourceFile="/Pages/Demos/Navigations/Toolbar/OverflowDemo.razor" IsFullWidth="true" />
 
 <Description>
     <Header>
         <h2 id="items">Item Types</h2>
     </Header>
     <Content>
-        Shows all built-in item types: Toggle buttons, Split(dropdown) buttons, ToolbarSpacers, and grouped toggles (single/multi-select).<br/>
-        Toggle items reflect their selection state and can participate in exclusive groups.<br/>
-        Split buttons show primary/secondary actions; this demo also includes icon-only and grouped controls.
+        Set <code>ToolbarItem.Type</code> to <code>Toggle</code>, <code>Check</code>, <code>Split</code>, <code>DropDown</code>, or <code>Menu</code> to add different commands. <code>Selected</code> keeps a command active, <code>GroupName</code> groups alignment choices, and <code>Items</code> adds menu choices.
     </Content>
 </Description>
 
@@ -49,9 +43,7 @@
         <h2 id="templates">Templates</h2>
     </Header>
     <Content>
-        Demonstrates ToolbarItem Template usage for custom UI/inputs—a live file filter and count badge appear as toolbar items.<br/>
-        Items update interactively based on input; template items keep in sync with underlying data.<br/>
-        Shows item grouping, dynamic data, and how templates integrate with toolbar layout and overflow.
+        Use <code>ToolbarItemType.Template</code> and <code>Template</code> to add a search box, item count, and List/Grid controls. The toolbar also sorts the files and uses Refresh to restore the starting list.
     </Content>
 </Description>
 
@@ -62,26 +54,33 @@
         <h2 id="editor">Editor</h2>
     </Header>
     <Content>
-        Implements an editor-style toolbar with formatting toggles (bold, italic, underline, alignment) and clipboard/insert functions.<br/>
-        Toggle items are bound to state and reflect selection. Insert/image/link/comment icons show programmability and ARIA.<br/>
-        Demonstrates keyboard accessibility and overflow adaption for real-world toolbars.
+        <code>SfToolbar.Items</code> creates the editor commands. <code>OnItemClick</code> handles them and updates the text. Try the font and size menus, formatting buttons, alignment buttons, and Reset.
     </Content>
 </Description>
 
-<CodePreview PreviewComponent="typeof(EditorDemo)" SourceFile="/Pages/Demos/Navigations/Toolbar/EditorDemo.razor" />
+<CodePreview PreviewComponent="typeof(EditorDemo)" SourceFile="/Pages/Demos/Navigations/Toolbar/EditorDemo.razor" IsFullWidth="true" />
 
 <Description>
     <Header>
         <h2 id="orientation">Orientation</h2>
     </Header>
     <Content>
-        Compares the toolbar in horizontal (header) and vertical (side rail) orientation.<br/>
-        Vertical rail uses column layout, stretches to match the canvas, and demonstrates auto-adaptation.<br/>
-        ToolbarOrientation and grouping affect both keyboard navigation and accessible layout.
+        Set <code>Orientation</code> to <code>ToolbarOrientation.Horizontal</code> or <code>ToolbarOrientation.Vertical</code> to change the toolbar layout. Use the <code>SfButtonGroup</code> to switch between the two layouts.
     </Content>
 </Description>
 
 <CodePreview PreviewComponent="typeof(OrientationDemo)" SourceFile="/Pages/Demos/Navigations/Toolbar/OrientationDemo.razor" />
+
+<Description>
+    <Header>
+        <h2 id="style">Toolbar Style</h2>
+    </Header>
+    <Content>
+        Set <code>CssClass</code> on each toolbar to give it a different style. The sample changes background, hover, selected, text, and icon colors, including in dark mode.
+    </Content>
+</Description>
+
+<CodePreview PreviewComponent="typeof(ColorDemo)" SourceFile="/Pages/Demos/Navigations/Toolbar/ColorDemo.razor" IsFullWidth="true" />
 </div>
 
 @code {
@@ -92,6 +91,7 @@
         new("templates", "Templates"),
         new("editor", "Editor"),
         new("orientation", "Orientation"),
+        new("style", "Toolbar Style"),
     };
 
     protected override IReadOnlyList<RightToc.TocItem> TocItems => TocItemsList;
