@@ -67,7 +67,12 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Navigations.Toolbar
             Assert.Contains("--e-toolbar-background", css, StringComparison.Ordinal);
             Assert.Contains("margin-inline-start: auto", css, StringComparison.Ordinal);
             Assert.Contains("flex-wrap: wrap", css, StringComparison.Ordinal);
-            Assert.Equal(3, css.Count(character => character == '#'));
+            string[] paletteColors = ["#F1F5F9", "#E2E8F0", "#DBEAFE", "#292929", "#333333", "#0e4775", "#ffffff"];
+            foreach (string color in paletteColors)
+            {
+                Assert.Contains(color, css, StringComparison.OrdinalIgnoreCase);
+            }
+            Assert.Equal(paletteColors.Length, css.Count(character => character == '#'));
             Assert.DoesNotContain("rgb(", css, StringComparison.Ordinal);
         }
 

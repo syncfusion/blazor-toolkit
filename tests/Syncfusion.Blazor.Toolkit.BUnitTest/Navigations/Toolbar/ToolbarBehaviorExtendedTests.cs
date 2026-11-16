@@ -227,9 +227,12 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Navigations.Toolbar
             Assert.Single(cut.FindAll("[data-testid='toolbar-nested-popup']"));
             triggers[1].Click();
 
-            Assert.Single(cut.FindAll("[data-testid='toolbar-nested-popup']"));
-            Assert.Equal("false", cut.FindAll("[data-testid='toolbar-dropdown'], [data-testid='toolbar-menubutton']")[0].GetAttribute("aria-expanded"));
-            Assert.Equal("true", cut.FindAll("[data-testid='toolbar-dropdown'], [data-testid='toolbar-menubutton']")[1].GetAttribute("aria-expanded"));
+            cut.WaitForAssertion(() =>
+            {
+                Assert.Single(cut.FindAll("[data-testid='toolbar-nested-popup']"));
+                Assert.Equal("false", cut.FindAll("[data-testid='toolbar-dropdown'], [data-testid='toolbar-menubutton']")[0].GetAttribute("aria-expanded"));
+                Assert.Equal("true", cut.FindAll("[data-testid='toolbar-dropdown'], [data-testid='toolbar-menubutton']")[1].GetAttribute("aria-expanded"));
+            });
         }
 
         [Fact(DisplayName = "U-TB-012 Selecting a nested command closes its menu after the existing callbacks")]
@@ -248,9 +251,12 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Navigations.Toolbar
             callbackOrder.Clear();
             cut.Find("[data-testid='toolbar-nested-item']").Click();
 
-            Assert.Equal(new[] { "item", "toolbar" }, callbackOrder);
-            Assert.Empty(cut.FindAll("[data-testid='toolbar-nested-popup']"));
-            Assert.Equal("false", cut.Find("[data-testid='toolbar-dropdown']").GetAttribute("aria-expanded"));
+            cut.WaitForAssertion(() =>
+            {
+                Assert.Equal(new[] { "item", "toolbar" }, callbackOrder);
+                Assert.Empty(cut.FindAll("[data-testid='toolbar-nested-popup']"));
+                Assert.Equal("false", cut.Find("[data-testid='toolbar-dropdown']").GetAttribute("aria-expanded"));
+            });
         }
 
         [Fact(DisplayName = "U-TB-055 Cancel keeps a selected nested command menu open")]
@@ -315,8 +321,11 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Navigations.Toolbar
             Assert.Equal("true", cut.Find("[data-testid='toolbar-split-toggle']").GetAttribute("aria-expanded"));
 
             cut.Find("[data-testid='toolbar-split-toggle']").Click();
-            Assert.Empty(cut.FindAll("[data-testid='toolbar-nested-popup']"));
-            Assert.Equal("false", cut.Find("[data-testid='toolbar-split-toggle']").GetAttribute("aria-expanded"));
+            cut.WaitForAssertion(() =>
+            {
+                Assert.Empty(cut.FindAll("[data-testid='toolbar-nested-popup']"));
+                Assert.Equal("false", cut.Find("[data-testid='toolbar-split-toggle']").GetAttribute("aria-expanded"));
+            });
         }
 
         [Fact(DisplayName = "U-TB-055 Cancel keeps a DropDown nested popup closed and OnItemClick still fires")]
