@@ -523,7 +523,27 @@ namespace Syncfusion.Blazor.Toolkit
         [EditorBrowsable(EditorBrowsableState.Never)]
         public async Task<SuccessEventArgs> SuccessEventAsync(SuccessEventArgs args)
         {
-            return await InvokeEventIfHasDelegateAsync(Success, args).ConfigureAwait(true);
+            if (args != null && args.File != null && FileData != null)
+            {
+                UploadFileDetails? match = FileData.FirstOrDefault(f =>
+                    string.Equals(f.Name, args.File.Name, StringComparison.OrdinalIgnoreCase));
+
+                if (match != null)
+                {
+                    match.Status = !string.IsNullOrEmpty(args.StatusText)
+                        ? args.StatusText
+                        : (!string.IsNullOrEmpty(args.File.Status)
+                            ? args.File.Status
+                            : Localizer[UPLOAD_SUCCESS_KEY]);
+                    match.StatusCode = !string.IsNullOrEmpty(args.File.StatusCode)
+                        ? args.File.StatusCode
+                        : "2";
+
+                    await CallStateHasChangedAsync().ConfigureAwait(true);
+                }
+            }
+
+            return await InvokeEventIfHasDelegateAsync(Success, args!).ConfigureAwait(true);
         }
 
         /// <summary>

@@ -404,7 +404,7 @@ namespace Syncfusion.Blazor.Toolkit
             properties[REMOVING_ENABLED] = OnRemove.HasDelegate;
             properties[RESUME_ENABLED] = OnResume.HasDelegate;
             properties[SELECTED_ENABLED] = FileSelected.HasDelegate;
-            properties[SUCCESS_ENABLED] = Success.HasDelegate;
+            properties[SUCCESS_ENABLED] = Success.HasDelegate || Template != null;
             properties[CHUNK_SUCCESS_ENABLED] = OnChunkSuccess.HasDelegate;
         }
 
@@ -1615,16 +1615,19 @@ namespace Syncfusion.Blazor.Toolkit
         /// <returns>A task representing the asynchronous operation.</returns>
         private async Task UploadHandlerAsync()
         {
-            if (string.IsNullOrEmpty(UploadAsyncSettings?.SaveUrl))
+            if (!string.IsNullOrEmpty(UploadAsyncSettings?.SaveUrl))
             {
-                EnableUploadButton = false;
-                List<FileInfo> filesData = ConvertFileDataToFileInfo();
-                BeforeUploadEventArgs beforeUploadEvent = await CreateAndInvokeBeforeUploadEventAsync(filesData).ConfigureAwait(true);
+                await UploadAsync(custom: true).ConfigureAwait(true);
+                return;
+            }
 
-                if (!beforeUploadEvent.Cancel)
-                {
-                    await GetFilesDetailsAsync(beforeUploadEvent.FilesData).ConfigureAwait(true);
-                }
+            EnableUploadButton = false;
+            List<FileInfo> filesData = ConvertFileDataToFileInfo();
+            BeforeUploadEventArgs beforeUploadEvent = await CreateAndInvokeBeforeUploadEventAsync(filesData).ConfigureAwait(true);
+
+            if (!beforeUploadEvent.Cancel)
+            {
+                await GetFilesDetailsAsync(beforeUploadEvent.FilesData).ConfigureAwait(true);
             }
         }
 
