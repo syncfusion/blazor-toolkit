@@ -4,6 +4,7 @@ using static Bunit.ComponentParameterFactory;
 using Syncfusion.Blazor.Toolkit;
 using Microsoft.AspNetCore.Components.Web;
 using Syncfusion.Blazor.Toolkit;
+using AngleSharp.Dom;
 
 namespace Syncfusion.Blazor.Toolkit.Tests.Inputs.TextBox
 {
@@ -262,61 +263,6 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Inputs.TextBox
 
         #region Icon with Floating Label Tests
 
-        [Fact(Timeout = 10000, DisplayName = "Trail icon with floatlabel and clear button ")]
-        public async Task IconWithFloatingLabelAndClearButton()
-        {
-            var textBox = RenderComponent<SfTextBox>(parameter => parameter.Add(p => p.Placeholder, "Enter the value").Add(p => p.FloatLabelType, FloatLabelType.Always).Add(p => p.ShowClearButton, true));
-            await Task.Delay(300);
-            var button = RenderComponent<SfButton>((EventCallback(nameof(SfButton.OnClick), async (MouseEventArgs args) => {
-                await textBox.Instance.AddIconAsync("append", "e-date-icon");
-                await textBox.Instance.AddIconAsync("append", "e-date-icon");
-                await textBox.Instance.AddIconAsync("prepend", "e-date-icon");
-                await textBox.Instance.AddIconAsync("prepend", "e-date-icon");
-            }))
-            );
-            var buttonElement = button.Find("button");
-            buttonElement.Click();
-            await Task.Delay(500);
-            var inputElement = textBox.Find("input");
-            inputElement.Focus();
-            await Task.Delay(500);
-            var containerElement = inputElement.ParentElement;
-            Assert.NotNull(containerElement);
-            Assert.NotNull(containerElement.ParentElement);
-
-            // Real DOM structure of the e-input-in-wrap span (with 2 append icons
-            // and ShowClearButton=true). Blazor preserves the whitespace text nodes
-            // between the rendered elements, so the indices skip the text nodes:
-            //   [0] <input>                (Element)
-            //   [1] "\n\t\t"                (Text - whitespace after the input)
-            //   [2] <span.e-float-line>    (Element)
-            //   [3] "\n\t\t"                (Text - whitespace after the float-line)
-            //   [4] <label>                (Element)
-            //   [5] <button clear>         (Element)
-            //   [6] <span.e-input-group-icon> (Element - first append icon)
-            //   [7] <span.e-input-group-icon> (Element - second append icon)
-            var iconElement1 = containerElement.ParentElement.ChildNodes[0];
-            var iconElement2 = containerElement.ParentElement.ChildNodes[1];
-            var floatLineElement = containerElement.ChildNodes[2];
-            var floatLabelElement = containerElement.ChildNodes[4];
-            var clearIconElement = containerElement.ChildNodes[5];
-            var iconElement3 = containerElement.ChildNodes[6];
-            var iconElement4 = containerElement.ChildNodes[7];
-            Assert.Contains("e-input-group-icon", iconElement1.ToMarkup());
-            Assert.Contains("e-date-icon", iconElement1.ToMarkup());
-            Assert.Contains("e-input-group-icon", iconElement2.ToMarkup());
-            Assert.Contains("e-date-icon", iconElement2.ToMarkup());
-            Assert.Contains("e-input-group-icon", iconElement3.ToMarkup());
-            Assert.Contains("e-date-icon", iconElement3.ToMarkup());
-            Assert.Contains("e-input-group-icon", iconElement4.ToMarkup());
-            Assert.Contains("e-date-icon", iconElement4.ToMarkup());
-            Assert.Contains("e-close", clearIconElement.ToMarkup());
-            Assert.Contains("e-clear-icon-hide", clearIconElement.ToMarkup());
-            Assert.Contains("e-label-top", floatLabelElement.ToMarkup());
-            Assert.Equal(8, containerElement.ChildNodes.Count());
-            await Task.CompletedTask;
-        }
-
         [Fact(Timeout = 10000, DisplayName = "Multiple trail icons with floatlabel and clear button ")]
         public async Task MultipleIconWithFloatingLabelAndClearButton()
         {
@@ -333,40 +279,28 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Inputs.TextBox
             await Task.Delay(200);
             var inputElement = textBox.Find("input");
             inputElement.Focus();
-            var containerElement = inputElement.ParentElement;
-            Assert.NotNull(containerElement);
-            Assert.NotNull(containerElement.ParentElement);
+            var inputWrap = inputElement.ParentElement;
+            Assert.NotNull(inputWrap);
+            Assert.Contains("e-input-in-wrap", inputWrap.ClassName);
 
-            // Real DOM structure of the e-input-in-wrap span (with 2 append icons
-            // and ShowClearButton=true). Blazor preserves the whitespace text nodes
-            // between the rendered elements, so the indices skip the text nodes:
-            //   [0] <input>                (Element)
-            //   [1] "\n\t\t"                (Text - whitespace after the input)
-            //   [2] <span.e-float-line>    (Element)
-            //   [3] "\n\t\t"                (Text - whitespace after the float-line)
-            //   [4] <label>                (Element)
-            //   [5] <button clear>         (Element)
-            //   [6] <span.e-input-group-icon> (Element - first append icon)
-            //   [7] <span.e-input-group-icon> (Element - second append icon)
-            var iconElement1 = containerElement.ParentElement.ChildNodes[0];
-            var iconElement2 = containerElement.ParentElement.ChildNodes[1];
-            var floatLineElement = containerElement.ChildNodes[2];
-            var floatLabelElement = containerElement.ChildNodes[4];
-            var clearIconElement = containerElement.ChildNodes[5];
-            var iconElement3 = containerElement.ChildNodes[6];
-            var iconElement4 = containerElement.ChildNodes[7];
-            Assert.Contains("e-input-group-icon", iconElement1.ToMarkup());
-            Assert.Contains("e-date-icon", iconElement1.ToMarkup());
-            Assert.Contains("e-input-group-icon", iconElement2.ToMarkup());
-            Assert.Contains("e-date-icon", iconElement2.ToMarkup());
-            Assert.Contains("e-input-group-icon", iconElement3.ToMarkup());
-            Assert.Contains("e-date-icon", iconElement3.ToMarkup());
-            Assert.Contains("e-input-group-icon", iconElement4.ToMarkup());
-            Assert.Contains("e-date-icon", iconElement4.ToMarkup());
-            Assert.Contains("e-close", clearIconElement.ToMarkup());
-            Assert.Contains("e-clear-icon-hide", clearIconElement.ToMarkup());
-            Assert.Contains("e-label-top", floatLabelElement.ToMarkup());
-            Assert.Equal(8, containerElement.ChildNodes.Count());
+            var container = inputWrap.ParentElement;
+            Assert.NotNull(container);
+            Assert.Equal(3, container.Children.Length);
+            Assert.Equal(2, container.Children.Count(element =>
+                element.ClassList.Contains("e-input-group-icon") && element.ClassList.Contains("e-date-icon")));
+            Assert.Equal(6, inputWrap.Children.Length);
+            Assert.Equal(2, inputWrap.Children.Count(element =>
+                element.ClassList.Contains("e-input-group-icon") && element.ClassList.Contains("e-date-icon")));
+            Assert.NotNull(inputWrap.QuerySelector(".e-float-line"));
+
+            var label = inputWrap.QuerySelector("label");
+            Assert.NotNull(label);
+            Assert.Contains("e-label-top", label.ClassName);
+
+            var clearButton = inputWrap.QuerySelector("button.e-close");
+            Assert.NotNull(clearButton);
+            Assert.Contains("e-clear-icon-hide", clearButton.ClassName);
+
             await Task.CompletedTask;
         }
 

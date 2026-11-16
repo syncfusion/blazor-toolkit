@@ -971,6 +971,9 @@
 .e-input-base-wrapper .e-input-group.e-control-wrapper.e-hidden {
   display: none;
 }
+.e-input-base-wrapper .e-input-group .e-close.e-clear-icon-hide:not([tabindex="-1"]) {
+  display: flex;
+}
 .e-input-base-wrapper input.e-input[type=search]::-webkit-search-decoration,
 .e-input-base-wrapper input.e-input[type=search]::-webkit-search-cancel-button,
 .e-input-base-wrapper input.e-input[type=search]::-webkit-search-results-button,
@@ -1213,6 +1216,15 @@
 .e-input-base-wrapper .e-input-group.e-static-clear .e-close.e-clear-icon-hide,
 .e-input-base-wrapper .e-input-group.e-control-wrapper.e-static-clear .e-close.e-clear-icon-hide {
   cursor: pointer;
+}
+.e-input-base-wrapper .e-input-group .e-close:focus-visible {
+    outline: 2px solid var(--color-sf-primary, Highlight);
+    outline-offset: 1px;
+}
+@media (forced-colors: active) {
+    .e-input-base-wrapper .e-input-group .e-close:focus-visible {
+        outline: 2px solid Highlight;
+    }
 }
 .e-input-base-wrapper .e-float-input.e-control-wrapper input[readonly]:first-child ~ .e-close,
 .e-input-base-wrapper .e-float-input.e-control-wrapper.e-input-group input[readonly]:first-child ~ .e-close,

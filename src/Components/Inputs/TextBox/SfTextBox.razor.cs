@@ -72,7 +72,32 @@ namespace Syncfusion.Blazor.Toolkit
 
         private string? _validClass;
 
-        private bool _isClearIconClick;
+        private bool _suppressFocusCallbacksForClearButton;
+
+        private bool IsClearKey { get; set; }
+
+        /// <summary>
+        /// Uses live <see cref="SfInputBase{TValue}.HasClearableContent"/> so Tab reaches the clear
+        /// button after typing into an empty field before InputTextValue is committed.
+        /// </summary>
+        private bool IsClearButtonTabbable =>
+            ShowClearButton &&
+            !ReadOnly &&
+            !Disabled &&
+            HasClearableContent;
+
+        private void KeepClearButtonVisibleWhileTabbable()
+        {
+            KeepClearButtonVisibleWhileTabbableBase();
+        }
+
+        /// <summary>
+        /// Clear-icon class with e-clear-icon-hide removed while the button is a tab stop.
+        /// </summary>
+        private string TextBoxClearIconClass => ClearIconClassForRender;
+
+        private bool IsClearButtonHidden =>
+            TextBoxClearIconClass.Contains(CLEARICONHIDE, StringComparison.Ordinal);
 
         [GeneratedRegex(@"\s+")]
         private static partial Regex WhitespaceRegex();
@@ -290,6 +315,22 @@ namespace Syncfusion.Blazor.Toolkit
         }
 
         /// <summary>
+        /// Keyboard activation uses the same clear path as pointer activation.
+        /// Space and Enter are prevented so the key does not also click the button
+        /// (which would clear twice) or submit a surrounding form.
+        /// </summary>
+        internal async Task OnClearButtonKeyDownAsync(KeyboardEventArgs args)
+        {
+            IsClearKey = args.Key is " " or "Enter" && !args.Repeat;
+            if (!IsClearKey)
+            {
+                return;
+            }
+
+            await InvokeClearBtnEventAsync(args).ConfigureAwait(true);
+        }
+
+        /// <summary>
         /// Asynchronously executes the core clear button functionality, including value clearing, event invocation, change detection, and state management.
         /// </summary>
         /// <param name="args">
@@ -313,7 +354,7 @@ namespace Syncfusion.Blazor.Toolkit
         /// </remarks>
         private async Task InvokeClearBtnEventAsync(EventArgs args)
         {
-            _isClearIconClick = true;
+            _suppressFocusCallbacksForClearButton = true;
             CurrentValueAsString = null;
             await Task.Delay(100).ConfigureAwait(true);
             await SetValueAsync(null, FloatLabelType, ShowClearButton).ConfigureAwait(true);
@@ -330,7 +371,7 @@ namespace Syncfusion.Blazor.Toolkit
             await RaiseChangeEventAsync(args, true).ConfigureAwait(true);
             _previousValue = InputTextValue;
             await FocusAsync().ConfigureAwait(true);
-            _isClearIconClick = false;
+            _suppressFocusCallbacksForClearButton = false;
         }
 
         /// <summary>
@@ -508,7 +549,7 @@ namespace Syncfusion.Blazor.Toolkit
         /// <exclude/>
         protected override async Task FocusHandlerAsync(Microsoft.AspNetCore.Components.Web.FocusEventArgs args)
         {
-            if (OnFocus.HasDelegate && !_isClearIconClick)
+            if (OnFocus.HasDelegate && !_suppressFocusCallbacksForClearButton)
             {
                 FocusInEventArgs eventArgs = new()
                 {
@@ -541,12 +582,20 @@ namespace Syncfusion.Blazor.Toolkit
         /// <exclude/>
         protected override async Task FocusOutHandlerAsync(Microsoft.AspNetCore.Components.Web.FocusEventArgs args)
         {
+            // Shared blur hides the clear icon before this handler. Commit typed text first
+            // so a value entered after clear is still a tab stop when the icon is restored.
+            string? typedValue = FormatValueAsString(InputTextValue);
+            if (!string.IsNullOrEmpty(typedValue) && typedValue != Value)
+            {
+                await SetValueAsync(typedValue, BaseFloatLabelType).ConfigureAwait(true);
+            }
+
             if (!(string.IsNullOrEmpty(_previousValue) && string.IsNullOrEmpty(Value) && string.IsNullOrEmpty(InputTextValue)) && _previousValue != InputTextValue)
             {
                 await RaiseChangeEventAsync(args, true).ConfigureAwait(true);
             }
 
-            if (OnBlur.HasDelegate && !_isClearIconClick)
+            if (OnBlur.HasDelegate && !_suppressFocusCallbacksForClearButton)
             {
                 FocusOutEventArgs eventArgs = new()
                 {
@@ -555,6 +604,10 @@ namespace Syncfusion.Blazor.Toolkit
                 };
                 await OnBlur.InvokeAsync(eventArgs).ConfigureAwait(true);
             }
+
+            // Base blur hides the clear icon with display:none. Restore it when the
+            // value is still clearable so the button stays in the tab order.
+            KeepClearButtonVisibleWhileTabbable();
         }
         /// <summary>
         /// Formats the specified generic value into a string representation suitable for display in the input element.

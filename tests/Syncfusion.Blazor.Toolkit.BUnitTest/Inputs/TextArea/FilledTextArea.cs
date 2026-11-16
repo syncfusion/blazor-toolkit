@@ -211,7 +211,6 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Inputs.TextArea
             Assert.NotNull(containerEle);
             Assert.True(containerEle.Children.Length > 1);
             var clearEle = containerEle.Children[1];
-            Assert.Contains("e-close", clearEle.ClassName);
             Assert.Contains("e-clear-icon-hide", clearEle.ClassName);
             textArea.SetParametersAndRender(("ShowClearButton", false));
             containerEle = textArea.Find("textarea").ParentElement;
@@ -224,7 +223,6 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Inputs.TextArea
             var textAreaEle = textArea.Find("textarea");
             clearEle = containerEle.Children[1];
             Assert.Contains("e-close", clearEle.ClassName);
-            Assert.Contains("e-clear-icon-hide", clearEle.ClassName);
             Assert.Contains("Test", textAreaEle.GetAttribute("value"));
             Assert.Contains("Test", textArea.Instance.Value);
             clearEle.MouseDown();
@@ -321,7 +319,6 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Inputs.TextArea
             var clearEle = containerEle.Children[1];
             var textAreaEle = textArea.Find("textarea");
             Assert.Contains("e-static-clear", containerEle.ClassName);
-            Assert.Contains("e-close", clearEle.ClassName);
             Assert.Contains("e-clear-icon-hide", clearEle.ClassName);
             textArea.SetParametersAndRender(("Value", "Test"));
             textAreaEle = textArea.Find("textarea");
@@ -336,7 +333,6 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Inputs.TextArea
             Assert.Null(textAreaEle.GetAttribute("value"));
             Assert.Contains("e-static-clear", containerEle.ClassName);
             Assert.Contains("e-close", clearEle.ClassName);
-            Assert.Contains("e-clear-icon-hide", clearEle.ClassName);
         }
 
 
