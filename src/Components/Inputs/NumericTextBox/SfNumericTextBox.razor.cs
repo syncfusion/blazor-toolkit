@@ -1796,9 +1796,22 @@ namespace Syncfusion.Blazor.Toolkit
         /// </remarks>
         private TValue MultipleValue(TValue value, double divide)
         {
-            dynamic? result = value;
-            dynamic? devideVal = ChangeType(divide);
-            return (TValue)(result * devideVal);
+            if (value is null)
+            {
+                return default!;
+            }
+
+            Type type = Nullable.GetUnderlyingType(typeof(TValue)) ?? typeof(TValue);
+
+            if (type == typeof(decimal))
+            {
+                decimal numeric = Convert.ToDecimal(value, CultureInfo.InvariantCulture);
+                decimal multiplier = Convert.ToDecimal(divide, CultureInfo.InvariantCulture);
+                return ChangeType(numeric * multiplier);
+            }
+
+            double doubleValue = Convert.ToDouble(value, CultureInfo.InvariantCulture);
+            return ChangeType(doubleValue * divide);
         }
 
         /// <summary>
@@ -1816,9 +1829,22 @@ namespace Syncfusion.Blazor.Toolkit
             Justification = "The dynamic arithmetic operates only on built-in numeric primitives whose operators the runtime resolves without generating new code; converting to static generic math would require changing the public TValue constraint, which the API contract forbids.")]
         private TValue DivideValue(TValue value, double divide)
         {
-            dynamic? result = value;
-            dynamic? devideVal = ChangeType(divide);
-            return (TValue)(Math.Round(result) / devideVal);
+            if (value is null)
+            {
+                return default!;
+            }
+
+            Type type = Nullable.GetUnderlyingType(typeof(TValue)) ?? typeof(TValue);
+
+            if (type == typeof(decimal))
+            {
+                decimal numeric = Convert.ToDecimal(value, CultureInfo.InvariantCulture);
+                decimal divisor = Convert.ToDecimal(divide, CultureInfo.InvariantCulture);
+                return ChangeType(Math.Round(numeric) / divisor);
+            }
+
+            double doubleValue = Convert.ToDouble(value, CultureInfo.InvariantCulture);
+            return ChangeType(Math.Round(doubleValue) / divide);
         }
 
         /// <summary>
