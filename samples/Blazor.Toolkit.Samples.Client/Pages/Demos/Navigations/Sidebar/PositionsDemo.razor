@@ -1,78 +1,107 @@
-@* Shrink keeps the sidebar open without a backdrop and keeps all content, including the toggle button, visible. *@
-<div class="sbd-controls">
-    <span class="sbd-control-label" id="sbd-positions-label">Position</span>
-    <div class="d-flex flex-wrap gap-3" role="radiogroup" aria-labelledby="sbd-positions-label">
-        <SfRadioButton Name="sbd-positions" Label="Left" Value="Left" @bind-Checked="_position" />
-        <SfRadioButton Name="sbd-positions" Label="Right" Value="Right" @bind-Checked="_position" />
-        <SfRadioButton Name="sbd-positions" Label="Start" Value="Start" @bind-Checked="_position" />
-        <SfRadioButton Name="sbd-positions" Label="End" Value="End" @bind-Checked="_position" />
+<div class="sbd-shell">
+    <div class="sbd-controls">
+        <span class="sbd-control-label" id="sbd-positions-label">Position</span>
+        <div class="sbd-button-group" role="group" aria-labelledby="sbd-positions-label">
+            <SfButtonGroup Mode="SelectionMode.Single">
+                <Button Selected="@(_position == SidebarPosition.Left)" SelectedChanged="@(selected => SetPosition(selected, SidebarPosition.Left))">Left</Button>
+                <Button Selected="@(_position == SidebarPosition.Right)" SelectedChanged="@(selected => SetPosition(selected, SidebarPosition.Right))">Right</Button>
+                <Button Selected="@(_position == SidebarPosition.Start)" SelectedChanged="@(selected => SetPosition(selected, SidebarPosition.Start))">Start</Button>
+                <Button Selected="@(_position == SidebarPosition.End)" SelectedChanged="@(selected => SetPosition(selected, SidebarPosition.End))">End</Button>
+            </SfButtonGroup>
+        </div>
+    </div>
+
+    <div class="sbd-toolbar">
+        <SfButton CssClass="e-flat sbd-toolbar-button"
+                  IconCss="sb-icons e-menu"
+                  aria-label="Toggle mail folders"
+                  aria-controls="sbd-positions"
+                  aria-expanded="@(_isOpen ? "true" : "false")"
+                  OnClick="Toggle" />
+        <span class="sbd-toolbar-title">Mail</span>
+        <span class="sbd-toolbar-spacer"></span>
+    </div>
+
+    <div class="sbd-stage">
+        <SfSidebar Id="sbd-positions"
+                   @bind-IsOpen="_isOpen"
+                   Mode="SidebarMode.Shrink"
+                   Position="_position"
+                   Responsive="false"
+                   Fixed="false"
+                   Width="224px"
+                   AriaLabel="Mail folders">
+            <HeaderTemplate>
+                <h3 class="h6 m-0">Folders</h3>
+            </HeaderTemplate>
+            <ChildContent>
+                <ul class="sbd-nav" role="listbox" aria-label="Mail folders">
+                    <li class="@(_selectedFolderIndex == 0 ? "sbd-nav-selected" : null)" role="option" aria-selected="@(_selectedFolderIndex == 0 ? "true" : "false")" tabindex="@(_selectedFolderIndex == 0 ? 0 : -1)" @ref="_navigationItems[0]" @onclick="@(() => SelectFolder(0))" @onkeydown="@((args) => HandleNavigationKeyDown(args, 0))"><span class="sb-icons e-folder-open sbd-nav-icon" aria-hidden="true"></span>Inbox <span class="sbd-folder-count">8</span></li>
+                    <li class="@(_selectedFolderIndex == 1 ? "sbd-nav-selected" : null)" role="option" aria-selected="@(_selectedFolderIndex == 1 ? "true" : "false")" tabindex="@(_selectedFolderIndex == 1 ? 0 : -1)" @ref="_navigationItems[1]" @onclick="@(() => SelectFolder(1))" @onkeydown="@((args) => HandleNavigationKeyDown(args, 1))"><span class="sb-icons e-edit sbd-nav-icon" aria-hidden="true"></span>Drafts</li>
+                    <li class="@(_selectedFolderIndex == 2 ? "sbd-nav-selected" : null)" role="option" aria-selected="@(_selectedFolderIndex == 2 ? "true" : "false")" tabindex="@(_selectedFolderIndex == 2 ? 0 : -1)" @ref="_navigationItems[2]" @onclick="@(() => SelectFolder(2))" @onkeydown="@((args) => HandleNavigationKeyDown(args, 2))"><span class="sb-icons e-send sbd-nav-icon" aria-hidden="true"></span>Sent</li>
+                    <li class="@(_selectedFolderIndex == 3 ? "sbd-nav-selected" : null)" role="option" aria-selected="@(_selectedFolderIndex == 3 ? "true" : "false")" tabindex="@(_selectedFolderIndex == 3 ? 0 : -1)" @ref="_navigationItems[3]" @onclick="@(() => SelectFolder(3))" @onkeydown="@((args) => HandleNavigationKeyDown(args, 3))"><span class="sb-icons e-warning sbd-nav-icon" aria-hidden="true"></span>Spam</li>
+                    <li class="@(_selectedFolderIndex == 4 ? "sbd-nav-selected" : null)" role="option" aria-selected="@(_selectedFolderIndex == 4 ? "true" : "false")" tabindex="@(_selectedFolderIndex == 4 ? 0 : -1)" @ref="_navigationItems[4]" @onclick="@(() => SelectFolder(4))" @onkeydown="@((args) => HandleNavigationKeyDown(args, 4))"><span class="sb-icons e-trash sbd-nav-icon" aria-hidden="true"></span>Trash</li>
+                    <li class="@(_selectedFolderIndex == 5 ? "sbd-nav-selected" : null)" role="option" aria-selected="@(_selectedFolderIndex == 5 ? "true" : "false")" tabindex="@(_selectedFolderIndex == 5 ? 0 : -1)" @ref="_navigationItems[5]" @onclick="@(() => SelectFolder(5))" @onkeydown="@((args) => HandleNavigationKeyDown(args, 5))"><span class="sb-icons e-star-filled sbd-nav-icon" aria-hidden="true"></span>Starred</li>
+                </ul>
+            </ChildContent>
+            <TargetContent>
+                <div class="sbd-content sbd-list-skeletons">
+                    <div class="sbd-skeleton sbd-list-skeleton-row"></div>
+                    <div class="sbd-skeleton sbd-list-skeleton-row"></div>
+                    <div class="sbd-skeleton sbd-list-skeleton-row"></div>
+                    <div class="sbd-skeleton sbd-list-skeleton-row"></div>
+                    <div class="sbd-skeleton sbd-list-skeleton-row"></div>
+                </div>
+            </TargetContent>
+        </SfSidebar>
     </div>
 </div>
 
-@if (_position is "Start" or "End")
-{
-    <p class="sbd-note">Logical positions follow reading direction (including RTL).</p>
-}
-
-<div class="sbd-stage">
-    <SfSidebar Id="sbd-positions"
-               @bind-IsOpen="_isOpen"
-               Mode="SidebarMode.Shrink"
-               Position="CurrentPosition"
-               Responsive="false"
-               Fixed="false"
-               Width="220px"
-               Role="complementary"
-               AriaLabel="Filters">
-        <HeaderTemplate>
-            <div class="d-flex align-items-center justify-content-between gap-2">
-                <h3 class="h6 m-0">Filters</h3>
-                <SfButton CssClass="e-flat" IconCss="sb-icons e-close" aria-label="Close filters" OnClick="Close" />
-            </div>
-        </HeaderTemplate>
-        <ChildContent>
-            <ul class="sbd-nav">
-                <li>Status</li>
-                <li>Owner</li>
-                <li>Due date</li>
-            </ul>
-        </ChildContent>
-        <TargetContent>
-            <div class="sbd-content sbd-positions-content">
-                <div>
-                    <SfButton CssClass="e-primary"
-                              IconCss="sb-icons e-filter"
-                              aria-controls="sbd-positions"
-                              aria-expanded="@(_isOpen ? "true" : "false")"
-                              OnClick="Toggle">@(_isOpen ? "Hide filters" : "Show filters")</SfButton>
-                </div>
-                <p><code>Left</code> and <code>Right</code> are physical edges: the panel stays on that side whatever the reading direction.</p>
-                <p><code>Start</code> and <code>End</code> are logical edges: <code>Start</code> is the left edge in left-to-right layouts and the right edge in right-to-left layouts.</p>
-                <p><strong>Position:</strong> @_position</p>
-            </div>
-        </TargetContent>
-    </SfSidebar>
-</div>
-
 @code {
-    private string _position = "Start";
+    private SidebarPosition _position = SidebarPosition.Start;
     private bool _isOpen = true;
+    private int _selectedFolderIndex;
+    private readonly ElementReference[] _navigationItems = new ElementReference[6];
 
-    private SidebarPosition CurrentPosition => _position switch
+    private void SelectFolder(int index) => _selectedFolderIndex = index;
+
+    private async Task HandleNavigationKeyDown(KeyboardEventArgs args, int currentIndex)
     {
-        "Left" => SidebarPosition.Left,
-        "Right" => SidebarPosition.Right,
-        "End" => SidebarPosition.End,
-        _ => SidebarPosition.Start,
-    };
+        int nextIndex = args.Key switch
+        {
+            "ArrowDown" => (currentIndex + 1) % _navigationItems.Length,
+            "ArrowUp" => (currentIndex - 1 + _navigationItems.Length) % _navigationItems.Length,
+            "Home" => 0,
+            "End" => _navigationItems.Length - 1,
+            _ => currentIndex
+        };
+
+        if (nextIndex != currentIndex)
+        {
+            SelectFolder(nextIndex);
+            await _navigationItems[nextIndex].FocusAsync();
+        }
+        else if (args.Key == "Enter")
+        {
+            SelectFolder(currentIndex);
+        }
+    }
+
+    private void SetPosition(bool selected, SidebarPosition position)
+    {
+        if (selected)
+        {
+            _position = position;
+        }
+    }
 
     private void Toggle() => _isOpen = !_isOpen;
-
-    private void Close() => _isOpen = false;
 }
 
 <style>
-    .sbd-positions-content {
-        background: color-mix(in srgb, #fff3cd 22%, var(--color-sf-content-bg-color, #fff));
+    .sbd-folder-count {
+        margin-inline-start: auto;
+        color: var(--sbd-muted);
+        font-size: .8rem;
     }
 </style>

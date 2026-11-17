@@ -13,12 +13,12 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Navigations
         private static readonly string[] Demos =
         {
             "DefaultDemo.razor",
-            "ModesDemo.razor",
             "MiniRailDemo.razor",
-            "PositionsDemo.razor",
             "DualSidebarsDemo.razor",
+            "ControlledModeDemo.razor",
             "ResponsiveDemo.razor",
-            "InteractionControlsDemo.razor",
+            "ModesDemo.razor",
+            "PositionsDemo.razor",
             "ApiDemo.razor",
         };
 
@@ -43,12 +43,12 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Navigations
             Assert.Contains("Api method caused the Sidebar to change state", source, StringComparison.Ordinal);
         }
 
-        [Fact(Timeout = 10000, DisplayName = "U-SMP-003 Close controls follow the sample placement")]
-        public void Samples_ShouldPlaceCloseControls()
+        [Fact(Timeout = 10000, DisplayName = "U-SMP-003 Samples expose their intended navigation controls")]
+        public void Samples_ShouldExposeNavigationControls()
         {
             Assert.DoesNotContain("sbd-corner-close", File.ReadAllText(Path.Combine(DemoDirectory, "MiniRailDemo.razor")), StringComparison.Ordinal);
             Assert.Contains("sbd-corner-close", File.ReadAllText(Path.Combine(DemoDirectory, "DualSidebarsDemo.razor")), StringComparison.Ordinal);
-            Assert.Contains("sbd-corner-close", File.ReadAllText(Path.Combine(DemoDirectory, "InteractionControlsDemo.razor")), StringComparison.Ordinal);
+            Assert.Contains("sbd-agenthub-toggle", File.ReadAllText(Path.Combine(DemoDirectory, "ControlledModeDemo.razor")), StringComparison.Ordinal);
             Assert.Contains("aria-label=\"Close navigation\"", File.ReadAllText(Path.Combine(DemoDirectory, "ModesDemo.razor")), StringComparison.Ordinal);
             Assert.Contains("aria-label=\"Close filters\"", File.ReadAllText(Path.Combine(DemoDirectory, "PositionsDemo.razor")), StringComparison.Ordinal);
 

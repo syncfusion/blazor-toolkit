@@ -102,33 +102,33 @@
   transition: margin var(--e-sidebar-duration, 300ms) ease, transform var(--e-sidebar-duration, 300ms) ease;
 }
 
-.e-sidebar-container-push .e-sidebar-target {
+.e-sidebar-container-push > .e-sidebar-target {
   flex: none;
   width: 100%;
 }
 
-.e-sidebar-container-push.e-sidebar-container-left .e-sidebar-target {
+.e-sidebar-container-push.e-sidebar-container-left > .e-sidebar-target {
   transform: translateX(var(--e-sidebar-occupied-width));
 }
 
-.e-sidebar-container-push.e-sidebar-container-right .e-sidebar-target {
+.e-sidebar-container-push.e-sidebar-container-right > .e-sidebar-target {
   transform: translateX(calc(-1 * var(--e-sidebar-occupied-width)));
 }
 
-.e-sidebar-container-shrink.e-sidebar-container-left .e-sidebar-target {
+.e-sidebar-container-shrink.e-sidebar-container-left > .e-sidebar-target {
   margin-left: var(--e-sidebar-occupied-width);
 }
 
-.e-sidebar-container-shrink.e-sidebar-container-right .e-sidebar-target {
+.e-sidebar-container-shrink.e-sidebar-container-right > .e-sidebar-target {
   margin-right: var(--e-sidebar-occupied-width);
 }
 
 /* A fixed panel is positioned against the viewport and takes no space in the container, so Push and Shrink must not move the content. */
-.e-sidebar-container-fixed.e-sidebar-container-push .e-sidebar-target {
+.e-sidebar-container-fixed.e-sidebar-container-push > .e-sidebar-target {
   transform: none;
 }
 
-.e-sidebar-container-fixed.e-sidebar-container-shrink .e-sidebar-target {
+.e-sidebar-container-fixed.e-sidebar-container-shrink > .e-sidebar-target {
   margin-left: 0;
   margin-right: 0;
 }

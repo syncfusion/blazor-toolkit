@@ -1,117 +1,639 @@
-<div class="sbd-controls">
-    <SfCheckBox TChecked="bool" Label="Open mini on hover" @bind-Checked="_hover" />
-</div>
+<div class="sbd-shell">
+    <div class="sbd-controls">
+        <SfCheckBox TChecked="bool" Label="Open on hover" @bind-Checked="_openOnHover" />
+    </div>
 
-<div class="sbd-stage sbd-mini-stage">
-    <SfSidebar Id="sbd-mini"
-               @bind-IsOpen="_isOpen"
-               Mode="SidebarMode.Shrink"
-               EnableMini="true"
-               Width="280px"
-               MiniWidth="60px"
-               OpenMiniOnHover="_hover"
-               Responsive="false"
-               Fixed="false"
-               AriaLabel="Workspace navigation">
-        <HeaderTemplate>
-            <div class="sbd-rail-heading">
-                <span class="sb-icons e-activities" aria-hidden="true"></span>
-                <strong class="sbd-rail-label">Workspace</strong>
-            </div>
-        </HeaderTemplate>
-        <ChildContent>
-            <ul class="sbd-nav">
-                <li><SfButton CssClass="e-flat sbd-rail-item sbd-rail-lg" IconCss="sb-icons e-grid-view"><span class="sbd-rail-label">Dashboard</span></SfButton></li>
-                <li><SfButton CssClass="e-flat sbd-rail-item sbd-rail-lg" IconCss="sb-icons e-folder"><span class="sbd-rail-label">Projects</span></SfButton></li>
-                <li><SfButton CssClass="e-flat sbd-rail-item sbd-rail-lg" IconCss="sb-icons e-people"><span class="sbd-rail-label">Team</span></SfButton></li>
-                <li><SfButton CssClass="e-flat sbd-rail-item sbd-rail-lg" IconCss="sb-icons e-settings"><span class="sbd-rail-label">Settings</span></SfButton></li>
-            </ul>
-        </ChildContent>
-        <TargetContent>
-            <div class="sbd-content sbd-mini-content">
-                <div>
-                    <SfButton CssClass="e-primary"
-                              IconCss="@(_isOpen ? "sb-icons e-chevron-left" : "sb-icons e-chevron-right")"
+    <div class="sbd-stage sbd-mini-stage">
+        <SfSidebar Id="sbd-mini"
+                   @bind-IsOpen="_isOpen"
+                   Mode="SidebarMode.Shrink"
+                   EnableMini="true"
+                   Width="276px"
+                   MiniWidth="60px"
+                   OpenMiniOnHover="_openOnHover"
+                   Responsive="false"
+                   Fixed="false"
+                   AriaLabel="Copilot navigation">
+            <HeaderTemplate>
+                <div class="sbd-mini-header">
+                    <strong class="sbd-mini-title">Copilot</strong>
+                    <span class="sbd-toolbar-spacer sbd-mini-header-spacer"></span>
+                    <SfButton CssClass="e-flat sbd-toolbar-button sbd-mini-toggle"
+                              aria-label="@(_isOpen ? "Collapse navigation" : "Expand navigation")"
                               aria-controls="sbd-mini"
                               aria-expanded="@(_isOpen ? "true" : "false")"
-                              OnClick="Toggle">@(_isOpen ? "Collapse" : "Expand")</SfButton>
+                              OnClick="Toggle">
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                            <rect x="3" y="3" width="18" height="18" rx="1.5" />
+                            <path d="M9 3v18" />
+                        </svg>
+                    </SfButton>
                 </div>
-                <p>With <code>EnableMini</code> the closed sidebar keeps an icon rail visible, and <code>SidebarMode.Shrink</code> narrows this area by the occupied width.</p>
-                <p><strong>Occupied width:</strong> @(_isOpen ? "280 px" : "60 px")</p>
-                @if (_hover)
-                {
-                    <p>Point at the rail: it expands while the pointer is over it and collapses when the pointer leaves.</p>
-                }
-            </div>
-        </TargetContent>
-    </SfSidebar>
+            </HeaderTemplate>
+            <ChildContent>
+                <div class="sbd-mini-sidebar-content">
+                    <ul class="sbd-nav sbd-mini-nav" role="listbox" aria-label="Copilot navigation" @onpointerenter="HandleMiniPointerEnter" @onpointerleave="HandleMiniPointerLeave">
+                        <li class="sbd-mini-item @(_selectedItemIndex == 0 ? "sbd-nav-selected" : null)" role="option" aria-selected="@(_selectedItemIndex == 0 ? "true" : "false")" tabindex="@(_selectedItemIndex == 0 ? 0 : -1)" @ref="_navigationItems[0]" @onclick="@(() => SelectNavigationItem(0))" @onkeydown="@((args) => HandleNavigationKeyDown(args, 0))">
+                            <svg class="sbd-mini-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 5v14M5 12h14" /></svg>
+                            <span class="sbd-mini-label">New Chat</span>
+                        </li>
+                        <li class="sbd-mini-item @(_selectedItemIndex == 1 ? "sbd-nav-selected" : null)" role="option" aria-selected="@(_selectedItemIndex == 1 ? "true" : "false")" tabindex="@(_selectedItemIndex == 1 ? 0 : -1)" @ref="_navigationItems[1]" @onclick="@(() => SelectNavigationItem(1))" @onkeydown="@((args) => HandleNavigationKeyDown(args, 1))">
+                            <svg class="sbd-mini-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5" /><path d="m15.5 15.5 5 5" /></svg>
+                            <span class="sbd-mini-label">Search</span>
+                        </li>
+                        <li class="sbd-mini-item @(_selectedItemIndex == 2 ? "sbd-nav-selected" : null)" role="option" aria-selected="@(_selectedItemIndex == 2 ? "true" : "false")" tabindex="@(_selectedItemIndex == 2 ? 0 : -1)" @ref="_navigationItems[2]" @onclick="@(() => SelectNavigationItem(2))" @onkeydown="@((args) => HandleNavigationKeyDown(args, 2))">
+                            <svg class="sbd-mini-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 5.5A2.5 2.5 0 0 1 7 3h12.5v17H7a2.5 2.5 0 0 0-2.5 2z" /><path d="M4.5 5.5v14A2.5 2.5 0 0 1 7 17h12.5M9 7h6m-6 4h6" /></svg>
+                            <span class="sbd-mini-label">Library</span>
+                        </li>
+                        <li class="sbd-mini-section" role="group" aria-label="Agents">
+                            <span aria-hidden="true">Agents</span>
+                            <ul role="presentation">
+                                <li class="sbd-mini-item @(_selectedItemIndex == 3 ? "sbd-nav-selected" : null)" role="option" aria-selected="@(_selectedItemIndex == 3 ? "true" : "false")" tabindex="@(_selectedItemIndex == 3 ? 0 : -1)" @ref="_navigationItems[3]" @onclick="@(() => SelectNavigationItem(3))" @onkeydown="@((args) => HandleNavigationKeyDown(args, 3))">
+                                    <svg class="sbd-mini-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m12 3 2.1 6.1L20 11l-5.9 2.1L12 19l-2.1-5.9L4 11l5.9-1.9z" /><path d="m19 16 .8 2.2L22 19l-2.2.8L19 22l-.8-2.2L16 19l2.2-.8z" /></svg>
+                                    <span class="sbd-mini-label">Prompt Coach</span>
+                                </li>
+                                <li class="sbd-mini-item @(_selectedItemIndex == 4 ? "sbd-nav-selected" : null)" role="option" aria-selected="@(_selectedItemIndex == 4 ? "true" : "false")" tabindex="@(_selectedItemIndex == 4 ? 0 : -1)" @ref="_navigationItems[4]" @onclick="@(() => SelectNavigationItem(4))" @onkeydown="@((args) => HandleNavigationKeyDown(args, 4))">
+                                    <svg class="sbd-mini-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" /><path d="M12 11v6m0-10h.01" /></svg>
+                                    <span class="sbd-mini-label">AI Learning Advisor</span>
+                                </li>
+                                <li class="sbd-mini-item @(_selectedItemIndex == 5 ? "sbd-nav-selected" : null)" role="option" aria-selected="@(_selectedItemIndex == 5 ? "true" : "false")" tabindex="@(_selectedItemIndex == 5 ? 0 : -1)" @ref="_navigationItems[5]" @onclick="@(() => SelectNavigationItem(5))" @onkeydown="@((args) => HandleNavigationKeyDown(args, 5))">
+                                    <svg class="sbd-mini-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" /><path d="M12 7v10m-5-5h10" /></svg>
+                                    <span class="sbd-mini-label">New Agent</span>
+                                </li>
+                            </ul>
+                        </li>
+                        <li class="sbd-mini-section" role="group" aria-label="Chats">
+                            <span aria-hidden="true">Chats</span>
+                            <ul role="presentation">
+                                <li class="sbd-mini-item sbd-mini-history-row sbd-mini-history-item @(_selectedItemIndex == 6 ? "sbd-nav-selected" : null)" role="option" aria-selected="@(_selectedItemIndex == 6 ? "true" : "false")" tabindex="@(_selectedItemIndex == 6 ? 0 : -1)" @ref="_navigationItems[6]" @onclick="@(() => SelectNavigationItem(6))" @onkeydown="@((args) => HandleNavigationKeyDown(args, 6))">
+                                    <span>Planning a launch</span>
+                                </li>
+                                <li class="sbd-mini-item sbd-mini-history-row sbd-mini-history-item @(_selectedItemIndex == 7 ? "sbd-nav-selected" : null)" role="option" aria-selected="@(_selectedItemIndex == 7 ? "true" : "false")" tabindex="@(_selectedItemIndex == 7 ? 0 : -1)" @ref="_navigationItems[7]" @onclick="@(() => SelectNavigationItem(7))" @onkeydown="@((args) => HandleNavigationKeyDown(args, 7))">
+                                    <span>Organize my notes</span>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+
+                    <footer class="sbd-mini-footer">
+                        <div class="sbd-mini-profile" role="group" aria-label="Work, Copilot Chat">
+                            <span class="sbd-mini-avatar" aria-hidden="true">
+                                <svg viewBox="0 0 24 24">
+                                    <circle cx="12" cy="8" r="3.5" />
+                                    <path d="M4.5 21a7.5 7.5 0 0 1 15 0" />
+                                </svg>
+                            </span>
+                            <span class="sbd-mini-profile-copy">
+                                <strong>Work</strong>
+                                <small>Copilot Chat</small>
+                            </span>
+                            <SfButton CssClass="e-flat sbd-mini-settings"
+                                      aria-label="Settings">
+                                <svg viewBox="0 0 24 24" aria-hidden="true">
+                                    <circle cx="12" cy="12" r="3" />
+                                    <path d="M19.43 12.98C19.47 12.66 19.5 12.34 19.5 12C19.5 11.66 19.47 11.34 19.43 11.02L21.54 9.37C21.73 9.22 21.78 8.95 21.66 8.73L19.66 5.27C19.57 5.11 19.4 5.02 19.22 5.02C19.16 5.02 19.1 5.03 19.05 5.05L16.56 6.05C16.04 5.65 15.48 5.32 14.87 5.07L14.49 2.42C14.46 2.18 14.25 2 14 2H9.99996C9.74996 2 9.53996 2.18 9.50996 2.42L9.12996 5.07C8.51996 5.32 7.95996 5.66 7.43996 6.05L4.94996 5.05C4.88996 5.03 4.82996 5.02 4.76996 5.02C4.59996 5.02 4.42996 5.11 4.33996 5.27L2.33996 8.73C2.20996 8.95 2.26996 9.22 2.45996 9.37L4.56996 11.02C4.52996 11.34 4.49996 11.67 4.49996 12C4.49996 12.33 4.52996 12.66 4.56996 12.98L2.45996 14.63C2.26996 14.78 2.21996 15.05 2.33996 15.27L4.33996 18.73C4.42996 18.89 4.59996 18.98 4.77996 18.98C4.83996 18.98 4.89996 18.97 4.94996 18.95L7.43996 17.95C7.95996 18.35 8.51996 18.68 9.12996 18.93L9.50996 21.58C9.53996 21.82 9.74996 22 9.99996 22H14C14.25 22 14.46 21.82 14.49 21.58L14.87 18.93C15.48 18.68 16.04 18.34 16.56 17.95L19.05 18.95C19.11 18.97 19.17 18.98 19.23 18.98C19.4 18.98 19.57 18.89 19.66 18.73L21.66 15.27C21.78 15.05 21.73 14.78 21.54 14.63L19.43 12.98ZM17.45 11.27C17.49 11.58 17.5 11.79 17.5 12C17.5 12.21 17.48 12.43 17.45 12.73L17.31 13.86L18.2 14.56L19.28 15.4L18.58 16.61L17.31 16.1L16.27 15.68L15.37 16.36C14.94 16.68 14.53 16.92 14.12 17.09L13.06 17.52L12.9 18.65L12.7 20H11.3L11.11 18.65L10.95 17.52L9.88996 17.09C9.45996 16.91 9.05996 16.68 8.65996 16.38L7.74996 15.68L6.68996 16.11L5.41996 16.62L4.71996 15.41L5.79996 14.57L6.68996 13.87L6.54996 12.74C6.51996 12.43 6.49996 12.2 6.49996 12C6.49996 11.8 6.51996 11.57 6.54996 11.27L6.68996 10.14L5.79996 9.44L4.71996 8.6L5.41996 7.39L6.68996 7.9L7.72996 8.32L8.62996 7.64C9.05996 7.32 9.46996 7.08 9.87996 6.91L10.94 6.48L11.1 5.35L11.3 4H12.69L12.88 5.35L13.04 6.48L14.1 6.91C14.53 7.09 14.93 7.32 15.33 7.62L16.24 8.32L17.3 7.89L18.57 7.38L19.27 8.59L18.2 9.44L17.31 10.14L17.45 11.27ZM12 8C9.78996 8 7.99996 9.79 7.99996 12C7.99996 14.21 9.78996 16 12 16C14.21 16 16 14.21 16 12C16 9.79 14.21 8 12 8ZM12 14C10.9 14 9.99996 13.1 9.99996 12C9.99996 10.9 10.9 10 12 10C13.1 10 14 10.9 14 12C14 13.1 13.1 14 12 14Z" fill-rule="evenodd" clip-rule="evenodd" fill="currentcolor"></path>
+                                </svg>
+                            </SfButton>
+                        </div>
+                    </footer>
+                </div>
+            </ChildContent>
+            <TargetContent>
+                <main class="sbd-content sbd-mini-content">
+                    <div class="sbd-mini-content-header">
+                        <SfButton CssClass="e-flat sbd-mini-control sbd-mini-overflow"
+                                  aria-label="More options">
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <circle cx="5" cy="12" r="1" />
+                                <circle cx="12" cy="12" r="1" />
+                                <circle cx="19" cy="12" r="1" />
+                            </svg>
+                        </SfButton>
+                    </div>
+                    <section class="sbd-mini-landing">
+                        <div class="sbd-mini-welcome">
+                            <h2>Hi, how can I help?</h2>
+                            <p>Ask a question, create content, or explore an idea.</p>
+                        </div>
+                        <div class="sbd-mini-composer">
+                            <SfButton CssClass="e-flat sbd-mini-control"
+                                      aria-label="Add content">
+                                <svg viewBox="0 0 24 24" aria-hidden="true">
+                                    <path d="M12 5v14M5 12h14" />
+                                </svg>
+                            </SfButton>
+                            <input type="text" aria-label="Message Copilot" placeholder="Message Copilot" />
+                            <SfButton CssClass="e-flat sbd-mini-control"
+                                      aria-label="Use microphone">
+                                <svg viewBox="0 0 24 24" aria-hidden="true">
+                                    <rect x="9" y="3" width="6" height="12" rx="3" />
+                                    <path d="M5.5 11a6.5 6.5 0 0 0 13 0M12 17.5V21m-4 0h8" />
+                                </svg>
+                            </SfButton>
+                        </div>
+                        <div class="sbd-mini-suggestions" role="group" aria-label="Suggestions">
+                            <SfButton CssClass="e-outline sbd-mini-suggestion">Refine Writing</SfButton>
+                            <SfButton CssClass="e-outline sbd-mini-suggestion">Draft Content</SfButton>
+                            <SfButton CssClass="e-outline sbd-mini-suggestion">Summarize</SfButton>
+                            <SfButton CssClass="e-outline sbd-mini-suggestion">Find Content</SfButton>
+                        </div>
+                    </section>
+                </main>
+            </TargetContent>
+        </SfSidebar>
+    </div>
 </div>
 
 @code {
-    private bool _isOpen;
-    private bool _hover;
+    private bool _isOpen = true;
+    private bool _openOnHover;
+    private int _selectedItemIndex;
+    private bool _miniExpandedByHover;
+    private readonly ElementReference[] _navigationItems = new ElementReference[8];
+
+    private int VisibleNavigationItemCount => _isOpen || _miniExpandedByHover ? _navigationItems.Length : 6;
 
     private void Toggle() => _isOpen = !_isOpen;
+
+    private void SelectNavigationItem(int index) => _selectedItemIndex = index;
+
+    private void HandleOpenOnHoverChanged(bool enabled)
+    {
+        _openOnHover = enabled;
+        if (!enabled)
+        {
+            _miniExpandedByHover = false;
+            if (_selectedItemIndex >= 6)
+            {
+                _selectedItemIndex = 0;
+            }
+        }
+    }
+
+    private void HandleMiniPointerEnter()
+    {
+        if (_openOnHover && !_isOpen)
+        {
+            _miniExpandedByHover = true;
+        }
+    }
+
+    private async Task HandleMiniPointerLeave()
+    {
+        _miniExpandedByHover = false;
+        if (_selectedItemIndex >= 6)
+        {
+            SelectNavigationItem(0);
+            await _navigationItems[0].FocusAsync();
+        }
+    }
+
+    private async Task HandleNavigationKeyDown(KeyboardEventArgs args, int currentIndex)
+    {
+        if (currentIndex >= VisibleNavigationItemCount)
+        {
+            return;
+        }
+
+        int itemCount = VisibleNavigationItemCount;
+        int nextIndex = args.Key switch
+        {
+            "ArrowDown" => (currentIndex + 1) % itemCount,
+            "ArrowUp" => (currentIndex - 1 + itemCount) % itemCount,
+            "Home" => 0,
+            "End" => itemCount - 1,
+            _ => currentIndex
+        };
+
+        if (nextIndex != currentIndex)
+        {
+            SelectNavigationItem(nextIndex);
+            await _navigationItems[nextIndex].FocusAsync();
+        }
+        else if (args.Key == "Enter")
+        {
+            SelectNavigationItem(currentIndex);
+        }
+    }
 }
 
 <style>
-    .sbd-mini-content {
-        background: color-mix(in srgb, #cff4fc 22%, var(--color-sf-content-bg-color, #fff));
+    .sbd-mini-stage {
+        height: 35rem;
     }
 
-    .sbd-rail-heading {
+    .sbd-mini-stage .e-sidebar {
+        height: 100%;
+    }
+
+    .sbd-mini-stage .e-sidebar-body {
         display: flex;
+        min-height: 0;
+        flex-direction: column;
+    }
+
+    .sbd-mini-stage .sbd-mini-sidebar-content {
+        display: flex;
+        width: 100%;
+        min-height: 0;
+        flex: 1;
+        flex-direction: column;
+    }
+
+    .sbd-mini-stage .sbd-mini-header {
+        display: flex;
+        min-width: 0;
+        align-items: center;
+        gap: .5rem;
+    }
+
+    .sbd-mini-stage .sbd-mini-avatar {
+        display: grid;
+        flex: none;
+        width: 2rem;
+        height: 2rem;
+        place-items: center;
+        color: var(--sbd-text);
+    }
+
+    .sbd-mini-stage .sbd-mini-avatar svg {
+        width: 1.25rem;
+        height: 1.25rem;
+        fill: none;
+        stroke: currentColor;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 1.7;
+    }
+
+    .sbd-mini-stage .sbd-mini-title {
+        color: var(--sbd-text);
+        font-size: 1rem;
+        font-weight: 600;
+    }
+
+    .sbd-mini-stage .sbd-mini-header .sbd-mini-toggle.e-btn {
+        display: inline-flex;
+        width: 2rem;
+        min-width: 2rem;
+        height: 2rem;
+        min-height: 2rem;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+        border: 1px solid var(--sbd-border);
+        border-radius: .375rem;
+        background: var(--sbd-surface);
+        color: var(--sbd-text);
+    }
+
+    .sbd-mini-stage .sbd-mini-toggle.e-btn:hover,
+    .sbd-mini-stage .sbd-mini-toggle.e-btn:focus-visible {
+        background: var(--sbd-hover-bg);
+        color: var(--sbd-text);
+    }
+
+    .sbd-mini-stage .sbd-mini-toggle.e-btn:active {
+        background: var(--sbd-active-bg);
+    }
+
+    .sbd-mini-stage .sbd-mini-toggle.e-btn:focus-visible,
+    .sbd-mini-stage .sbd-mini-settings.e-btn:focus-visible,
+    .sbd-mini-stage .sbd-mini-control.e-btn:focus-visible,
+    .sbd-mini-stage .sbd-mini-suggestion.e-btn:focus-visible {
+        outline: 2px solid var(--sbd-text);
+        outline-offset: 2px;
+        box-shadow: none;
+    }
+
+    .sbd-mini-stage .sbd-mini-toggle svg,
+    .sbd-mini-stage .sbd-mini-settings svg,
+    .sbd-mini-stage .sbd-mini-control svg {
+        width: 1.125rem;
+        height: 1.125rem;
+        fill: none;
+        stroke: currentColor;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 1.8;
+    }
+
+    .sbd-mini-stage .sbd-mini-nav > li.sbd-mini-section {
+        display: block;
+        height: auto;
+        min-height: 0;
+        padding: .5rem 0 0;
+        color: var(--sbd-muted);
+        font-size: .75rem;
+        font-weight: 600;
+        letter-spacing: .025em;
+    }
+
+    .sbd-mini-stage .sbd-mini-section > span {
+        display: block;
+        padding: 0 .75rem .125rem;
+    }
+
+    .sbd-mini-stage .sbd-mini-section > ul {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    .sbd-mini-stage .sbd-mini-nav > li.sbd-mini-section:hover {
+        background: transparent;
+    }
+
+    .sbd-mini-stage .sbd-mini-nav li.sbd-mini-item {
+        box-sizing: border-box;
+        display: flex;
+        width: 100%;
+        min-height: 2.625rem;
+        min-width: 0;
         align-items: center;
         gap: .75rem;
+        padding-inline: .75rem;
+        color: var(--sbd-text);
+        cursor: pointer;
+        font: inherit;
+        text-align: start;
         white-space: nowrap;
     }
 
-    /* The component keeps the inline-END MiniWidth strip of the panel visible while it is collapsed, so the collapsed rail
-       must fit inside that strip. Labels stay in the accessibility tree (visually hidden) so each icon keeps its name. */
-    .sbd-mini-stage .e-sidebar:not(.e-sidebar-open):not(.e-sidebar-hover) .sbd-rail-label {
-        position: absolute;
-        width: 1px;
-        height: 1px;
-        overflow: hidden;
-        clip-path: inset(50%);
-        white-space: nowrap;
+    .sbd-mini-stage .sbd-mini-nav li.sbd-mini-item:focus-visible {
+        position: relative;
+        z-index: 1;
+        outline: 2px solid var(--sbd-focus-color);
+        outline-offset: -2px;
     }
 
-    /* Button icon box: 24px, with 11.5px side padding, so the icon column is identical in the collapsed and expanded states. */
-    .sbd-mini-stage .sbd-rail-item.e-btn {
-        padding-inline: 11.5px;
-    }
-
-    .sbd-rail-heading .sb-icons {
+    .sbd-mini-stage .sbd-mini-icon {
+        display: block;
         flex: none;
-        width: 24px;
-        font-size: 20px;
-        line-height: 24px;
+        width: 1.25rem;
+        height: 1.25rem;
+        visibility: visible;
+        opacity: 1;
+        fill: none;
+        stroke: currentColor;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 1.7;
+    }
+
+    .sbd-mini-stage .sbd-mini-history-item {
+        font-size: .875rem;
+    }
+
+    .sbd-mini-stage .sbd-mini-footer {
+        margin-block-start: auto;
+        padding-block-start: .5rem;
+        border-block-start: 1px solid var(--sbd-control-hover-bg);
+    }
+
+    .sbd-mini-stage .sbd-mini-profile {
+        display: flex;
+        min-width: 0;
+        align-items: center;
+        gap: .625rem;
+        padding: .25rem;
+    }
+
+    .sbd-mini-stage .sbd-mini-avatar {
+        border-radius: 50%;
+    }
+
+    .sbd-mini-stage .sbd-mini-profile-copy {
+        display: grid;
+        min-width: 0;
+        flex: 1;
+        gap: .125rem;
+        color: var(--sbd-text);
+        font-size: .875rem;
+    }
+
+    .sbd-mini-stage .sbd-mini-profile-copy small {
+        overflow: hidden;
+        color: var(--sbd-muted);
+        font-size: .75rem;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    .sbd-mini-stage .sbd-mini-settings.e-btn {
+        display: inline-flex;
+        width: 2rem;
+        min-width: 2rem;
+        height: 2rem;
+        min-height: 2rem;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+        border: 1px solid transparent;
+        border-radius: .375rem;
+        background: transparent;
+        color: var(--sbd-text);
+    }
+
+    .sbd-mini-stage .sbd-mini-settings.e-btn:hover,
+    .sbd-mini-stage .sbd-mini-settings.e-btn:focus-visible {
+        background: var(--sbd-hover-bg);
+        color: var(--sbd-text);
+    }
+
+    .sbd-mini-stage .sbd-mini-settings.e-btn:active {
+        background: var(--sbd-active-bg);
+    }
+
+    .sbd-mini-stage .sbd-mini-content {
+        display: flex;
+        height: 100%;
+        min-height: 0;
+        flex-direction: column;
+        padding: .75rem 1.25rem;
+        background: var(--sbd-surface);
+        color: var(--sbd-text);
+    }
+
+    .sbd-mini-stage .sbd-mini-content-header {
+        display: flex;
+        justify-content: end;
+    }
+
+    .sbd-mini-stage .sbd-mini-control.e-btn {
+        display: inline-flex;
+        width: 2.5rem;
+        min-width: 2.5rem;
+        height: 2.5rem;
+        min-height: 2.5rem;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+        border: 1px solid transparent;
+        border-radius: 50%;
+        background: transparent;
+        color: var(--sbd-text);
+    }
+
+    .sbd-mini-stage .sbd-mini-control.e-btn:hover,
+    .sbd-mini-stage .sbd-mini-control.e-btn:focus-visible {
+        background: var(--sbd-hover-bg);
+        color: var(--sbd-text);
+    }
+
+    .sbd-mini-stage .sbd-mini-control.e-btn:active {
+        background: var(--sbd-active-bg);
+    }
+
+    .sbd-mini-stage .sbd-mini-landing {
+        display: flex;
+        width: 100%;
+        min-height: 0;
+        flex: 1;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 1.25rem;
+        padding-block: 1rem;
+    }
+
+    .sbd-mini-stage .sbd-mini-welcome {
+        display: grid;
+        gap: .375rem;
         text-align: center;
-        margin-inline-start: 7.5px;
     }
 
-    /* Collapsed: the visible strip is MiniWidth minus the 1px panel border and the 12px body padding on each side. The buttons are sized to
-       that strip and end-aligned, so their hover box is fully visible with all four borders, and the icons are centred in it. */
-    .sbd-mini-stage .e-sidebar-left:not(.e-sidebar-open):not(.e-sidebar-hover) .sbd-rail-item.e-btn {
-        width: calc(50px - 1.5rem - 1px);
-        margin-inline-start: auto;
-        padding-inline: 0;
+    .sbd-mini-stage .sbd-mini-welcome h2 {
+        margin: 0;
+        color: var(--sbd-text);
+        font-size: clamp(1.5rem, 3vw, 2rem);
+        font-weight: 600;
+        line-height: 1.2;
+    }
+
+    .sbd-mini-stage .sbd-mini-welcome p {
+        margin: 0;
+        color: var(--sbd-muted);
+    }
+
+    .sbd-mini-stage .sbd-mini-composer {
+        display: flex;
+        width: min(100%, 48rem);
+        min-height: 3.75rem;
+        align-items: center;
+        gap: .5rem;
+        padding: .375rem .625rem;
+        border: 1px solid var(--sbd-border);
+        border-radius: 2rem;
+        background: var(--sbd-surface);
+        box-shadow: 0 .125rem .5rem rgb(0 0 0 / 8%);
+    }
+
+    .sbd-mini-stage .sbd-mini-composer:focus-within {
+        border-color: var(--sbd-muted);
+    }
+
+    .sbd-mini-stage .sbd-mini-composer input {
+        width: 100%;
+        min-width: 0;
+        flex: 1;
+        padding: .5rem 0;
+        border: 0;
+        outline: 0;
+        background: transparent;
+        color: inherit;
+        font: inherit;
+    }
+
+    .sbd-mini-stage .sbd-mini-composer input::placeholder {
+        color: var(--sbd-muted);
+        opacity: 1;
+    }
+
+    .sbd-mini-stage .sbd-mini-suggestions {
+        display: flex;
+        flex-wrap: wrap;
         justify-content: center;
+        gap: .5rem;
     }
 
-    .e-sidebar-header {
-        padding-left: 2rem !important;
+    .sbd-mini-stage .sbd-mini-suggestion.e-btn {
+        min-height: 2.25rem;
+        padding: .375rem .75rem;
+        border: 1px solid var(--sbd-border);
+        border-radius: 1.5rem;
+        background: var(--sbd-surface);
+        color: var(--sbd-text);
+        font-size: .875rem;
+        transition: background-color .12s ease, border-color .12s ease;
     }
 
-    .sbd-mini-stage .e-sidebar-left:not(.e-sidebar-open):not(.e-sidebar-hover) .sbd-rail-heading {
-        width: calc(72px - 1.5rem - 1px);
-        margin-inline-start: auto;
-        margin-inline-end: -4px;
+    .sbd-mini-stage .sbd-mini-suggestion.e-btn:hover,
+    .sbd-mini-stage .sbd-mini-suggestion.e-btn:focus-visible {
+        border-color: var(--sbd-border);
+        background: var(--sbd-hover-bg);
+        color: var(--sbd-text);
+    }
+
+    .sbd-mini-stage .sbd-mini-suggestion.e-btn:active {
+        background: var(--sbd-active-bg);
+    }
+
+    .sbd-mini-stage .e-sidebar:not(.e-sidebar-open):not(.e-sidebar-hover) .sbd-mini-label,
+    .sbd-mini-stage .e-sidebar:not(.e-sidebar-open):not(.e-sidebar-hover) .sbd-mini-header-spacer,
+    .sbd-mini-stage .e-sidebar:not(.e-sidebar-open):not(.e-sidebar-hover) .sbd-mini-title,
+    .sbd-mini-stage .e-sidebar:not(.e-sidebar-open):not(.e-sidebar-hover) .sbd-mini-history-row,
+    .sbd-mini-stage .e-sidebar:not(.e-sidebar-open):not(.e-sidebar-hover) .sbd-mini-profile-copy,
+    .sbd-mini-stage .e-sidebar:not(.e-sidebar-open):not(.e-sidebar-hover) .sbd-mini-settings {
+        display: none;
+    }
+
+    .sbd-mini-stage .e-sidebar:not(.e-sidebar-open):not(.e-sidebar-hover) .sbd-mini-section {
+        padding: 0;
+    }
+
+    .sbd-mini-stage .e-sidebar:not(.e-sidebar-open):not(.e-sidebar-hover) .sbd-mini-section > span {
+        display: none;
+    }
+
+    .sbd-mini-stage .e-sidebar:not(.e-sidebar-open):not(.e-sidebar-hover) .sbd-mini-header {
         justify-content: center;
+        gap: 0;
     }
 
-    .sbd-mini-stage .e-sidebar-left:not(.e-sidebar-open):not(.e-sidebar-hover) .sbd-rail-heading .sb-icons {
-        margin-inline-start: 0;
+    .sbd-mini-stage .e-sidebar:not(.e-sidebar-open):not(.e-sidebar-hover) .sbd-mini-nav li.sbd-mini-item,
+    .sbd-mini-stage .e-sidebar:not(.e-sidebar-open):not(.e-sidebar-hover) .sbd-mini-profile {
+        justify-content: center;
+        padding-inline: .25rem;
     }
+
+    .sbd-mini-stage .e-sidebar.e-sidebar-left.e-sidebar-mini:not(.e-sidebar-open):not(.e-sidebar-hover) .e-sidebar-header .sbd-mini-header {
+        box-sizing: border-box;
+        width: var(--e-sidebar-mini-width);
+        margin-left: auto;
+        margin-right: -.5rem;
+    }
+
+    .sbd-mini-stage .e-sidebar.e-sidebar-left.e-sidebar-mini:not(.e-sidebar-open):not(.e-sidebar-hover) .sbd-mini-sidebar-content {
+        box-sizing: border-box;
+        width: var(--e-sidebar-mini-width);
+        margin-left: auto;
+        margin-right: -.75rem;
+    }
+
+    .sbd-mini-stage .e-sidebar.e-sidebar-right.e-sidebar-mini:not(.e-sidebar-open):not(.e-sidebar-hover) .e-sidebar-header .sbd-mini-header {
+        box-sizing: border-box;
+        width: var(--e-sidebar-mini-width);
+        margin-right: auto;
+        margin-left: -.5rem;
+    }
+
+    .sbd-mini-stage .e-sidebar.e-sidebar-right.e-sidebar-mini:not(.e-sidebar-open):not(.e-sidebar-hover) .sbd-mini-sidebar-content {
+        box-sizing: border-box;
+        width: var(--e-sidebar-mini-width);
+        margin-right: auto;
+        margin-left: -.75rem;
+    }
+
 </style>

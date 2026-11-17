@@ -1,142 +1,216 @@
-<div class="sbd-stage-toggle mt-3">
-    <SfButton CssClass="e-primary" OnClick="OpenAsync">OpenAsync</SfButton>
-    <SfButton CssClass="e-primary" OnClick="CloseAsync">CloseAsync</SfButton>
-    <SfButton CssClass="e-primary" OnClick="ToggleAsync">ToggleAsync</SfButton>
-    <SfButton CssClass="e-outline e-primary" OnClick="FocusAsync">FocusAsync</SfButton>
-</div>
+<div class="sbd-shell">
+    <div class="sbd-toolbar">
+        <span class="sbd-toolbar-title">Command center</span>
+        <span class="sbd-toolbar-spacer"></span>
+        <div class="sbd-api-actions">
+            <SfButton CssClass="sbd-neutral-button" aria-controls="sbd-api" OnClick="OpenAsync">OpenAsync</SfButton>
+            <SfButton CssClass="sbd-neutral-button" aria-controls="sbd-api" OnClick="CloseAsync">CloseAsync</SfButton>
+            <SfButton CssClass="sbd-neutral-button" aria-controls="sbd-api" aria-expanded="@(_isOpen ? "true" : "false")" OnClick="ToggleAsync">ToggleAsync</SfButton>
+            <SfButton CssClass="sbd-neutral-button" aria-controls="sbd-api" OnClick="FocusAsync">FocusAsync</SfButton>
+            <SfButton CssClass="e-flat sbd-toolbar-button sbd-api-settings-button"
+                      IconCss="sb-icons e-settings"
+                      aria-label="@(_settingsOpen ? "Hide Properties Pane" : "Show Properties Pane")"
+                      aria-controls="sbd-api-properties"
+                      aria-expanded="@(_settingsOpen ? "true" : "false")"
+                      OnClick="ToggleSettings" />
+        </div>
+    </div>
 
-<div class="sbd-stage mt-3">
-    <SfSidebar @ref="_sidebar"
-               Id="sbd-api"
-               IsOpen="_isOpen"
-               IsOpenChanged="HandleIsOpenChanged"
-               OnOpened="HandleOpened"
-               OnClosed="HandleClosed"
-               Mode="SidebarMode.Overlay"
+    <SfSidebar Id="sbd-api-properties"
+               @bind-IsOpen="_settingsOpen"
+               Mode="SidebarMode.Shrink"
+               Position="SidebarPosition.End"
                Responsive="false"
                Fixed="false"
-               Width="260px"
-               AriaLabel="Command panel">
+               Width="232px"
+               AriaLabel="Sidebar API Properties Pane">
         <HeaderTemplate>
-            <h3 class="h6 m-0">Commands</h3>
+            <h3 class="h6 m-0">Properties Pane</h3>
         </HeaderTemplate>
         <ChildContent>
-            <ul class="sbd-nav">
-                <li><SfButton CssClass="e-flat sbd-rail-item sbd-rail-lg" IconCss="sb-icons e-search">Search</SfButton></li>
-                <li><SfButton CssClass="e-flat sbd-rail-item sbd-rail-lg" IconCss="sb-icons e-history">Recent</SfButton></li>
-                <li><SfButton CssClass="e-flat sbd-rail-item sbd-rail-lg" IconCss="sb-icons e-settings">Preferences</SfButton></li>
-            </ul>
+            <div class="sbd-property-panel">
+                <SfCheckBox TChecked="bool" Label="Show backdrop" @bind-Checked="_showBackdrop" />
+                <SfCheckBox TChecked="bool" Label="Close on overlay click" @bind-Checked="_closeOnOverlayClick" Disabled="@(!_showBackdrop)" />
+                <SfCheckBox TChecked="bool" Label="Close on Escape" @bind-Checked="_closeOnEscape" />
+            </div>
         </ChildContent>
         <TargetContent>
-            <div class="sbd-content sbd-api-content">
-                <h4 class="h5">Sidebar is @(_isOpen ? "open" : "closed")</h4>
-                <p>@(_isOpen ? "The Commands sidebar is open: the panel on the left, with Search, Recent and Preferences, is the sidebar content." : "The Commands sidebar is closed. Open it to see the panel content: Search, Recent and Preferences.") Use the buttons above to call its methods.</p>
-                <ul>
-                    <li><code>OpenAsync</code>, <code>CloseAsync</code> and <code>ToggleAsync</code> change the open state. Each call raises <code>IsOpenChanged</code> first, then <code>OnOpened</code> or <code>OnClosed</code>.</li>
-                    <li><code>FocusAsync</code> moves focus into the panel while it is open and never changes the open state.</li>
-                </ul>
+            <div class="sbd-api-target">
+                <div class="sbd-stage sbd-api-stage">
+                    <SfSidebar @ref="_sidebar"
+                               Id="sbd-api"
+                               IsOpenChanged="HandleIsOpenChanged"
+                               OnOpened="HandleOpened"
+                               OnClosed="HandleClosed"
+                               Mode="SidebarMode.Overlay"
+                               ShowBackdrop="_showBackdrop"
+                               CloseOnOverlayClick="_closeOnOverlayClick"
+                               CloseOnEscape="_closeOnEscape"
+                               Responsive="false"
+                               Fixed="false"
+                               Width="264px"
+                               AriaLabel="Command and tools">
+                        <HeaderTemplate>
+                            <h3 class="h6 m-0">Quick tools</h3>
+                        </HeaderTemplate>
+                        <ChildContent>
+                            <ul class="sbd-nav" role="listbox" aria-label="Quick tools">
+                                <li class="@(_selectedNavigationIndex == 0 ? "sbd-nav-selected" : null)" role="option" aria-selected="@(_selectedNavigationIndex == 0 ? "true" : "false")" tabindex="@(_selectedNavigationIndex == 0 ? 0 : -1)" @ref="_navigationItems[0]" @onclick="@(() => SelectNavigationItem(0))" @onkeydown="@((args) => HandleNavigationKeyDown(args, 0))"><span class="sb-icons e-search" aria-hidden="true"></span>Search records</li>
+                                <li class="@(_selectedNavigationIndex == 1 ? "sbd-nav-selected" : null)" role="option" aria-selected="@(_selectedNavigationIndex == 1 ? "true" : "false")" tabindex="@(_selectedNavigationIndex == 1 ? 0 : -1)" @ref="_navigationItems[1]" @onclick="@(() => SelectNavigationItem(1))" @onkeydown="@((args) => HandleNavigationKeyDown(args, 1))"><span class="sb-icons e-clock" aria-hidden="true"></span>Recent activity</li>
+                                <li class="@(_selectedNavigationIndex == 2 ? "sbd-nav-selected" : null)" role="option" aria-selected="@(_selectedNavigationIndex == 2 ? "true" : "false")" tabindex="@(_selectedNavigationIndex == 2 ? 0 : -1)" @ref="_navigationItems[2]" @onclick="@(() => SelectNavigationItem(2))" @onkeydown="@((args) => HandleNavigationKeyDown(args, 2))"><span class="sb-icons e-bookmark" aria-hidden="true"></span>Saved items</li>
+                                <li class="@(_selectedNavigationIndex == 3 ? "sbd-nav-selected" : null)" role="option" aria-selected="@(_selectedNavigationIndex == 3 ? "true" : "false")" tabindex="@(_selectedNavigationIndex == 3 ? 0 : -1)" @ref="_navigationItems[3]" @onclick="@(() => SelectNavigationItem(3))" @onkeydown="@((args) => HandleNavigationKeyDown(args, 3))"><span class="sb-icons e-settings" aria-hidden="true"></span>Preferences</li>
+                            </ul>
+                        </ChildContent>
+                        <TargetContent>
+                            <div class="sbd-content sbd-api-skeletons">
+                                <div class="sbd-skeleton sbd-api-skeleton" role="img" aria-label="Tasks loading placeholder"></div>
+                                <div class="sbd-skeleton sbd-api-skeleton" role="img" aria-label="Completed loading placeholder"></div>
+                                <div class="sbd-skeleton sbd-api-skeleton" role="img" aria-label="Needs Review loading placeholder"></div>
+                                <div class="sbd-skeleton sbd-api-skeleton sbd-api-skeleton-wide" role="img" aria-label="Additional content loading placeholder"></div>
+                            </div>
+                        </TargetContent>
+                    </SfSidebar>
+                </div>
+
+                <div class="sbd-api-details">
+                    <section class="sbd-api-log-card">
+                        <div class="sbd-api-log-heading">
+                            <strong>Event log</strong>
+                            <SfButton CssClass="e-small e-outline sbd-neutral-button" OnClick="ClearLog" Disabled="@(_log.Count == 0)">Clear</SfButton>
+                        </div>
+                        <ol class="sbd-api-event-log" aria-label="Sidebar event log" aria-live="polite">
+                            @if (_log.Count == 0)
+                            {
+                                <li class="sbd-api-empty">No events yet</li>
+                            }
+                            else
+                            {
+                                @foreach (string entry in _log)
+                                {
+                                    <li>@entry</li>
+                                }
+                            }
+                        </ol>
+                    </section>
+                    <dl class="sbd-status sbd-api-status" aria-live="polite">
+                        <dt>Open state</dt>
+                        <dd>@(_isOpen ? "Open" : "Closed")</dd>
+                        <dt>Last event</dt>
+                        <dd>@_lastEvent</dd>
+                        <dt>Last trigger</dt>
+                        <dd>@_lastTrigger</dd>
+                    </dl>
+                </div>
             </div>
         </TargetContent>
     </SfSidebar>
 </div>
 
-<div class="mt-3">
-    <h5 class="mb-2">Event Log:</h5>
-
-    <div class="sbd-api-bottom row g-3 align-items-stretch">
-        <div class="col-12 col-md-6 d-flex">
-            <div class="sbd-event-log-card w-100 d-flex flex-column">
-                <div class="d-flex justify-content-between align-items-center mb-2">
-                    <span class="fw-semibold">Log</span>
-                    <SfButton CssClass="e-small e-outline" OnClick="ClearLog" Disabled="@(_log.Count == 0)">Clear</SfButton>
-                </div>
-
-                <div class="sbd-event-log-wrapper flex-grow-1">
-                    <ol class="sbd-note sbd-event-log mb-0" aria-label="Event log" aria-live="polite">
-                        @if (_log.Count == 0)
-                        {
-                            <li class="list-unstyled text-center empty-log">No events yet. Use a button above.</li>
-                        }
-                        else
-                        {
-                            @foreach (string entry in _log)
-                            {
-                                <li>@entry</li>
-                            }
-                        }
-                    </ol>
-                </div>
-            </div>
-        </div>
-
-        <div class="col-12 col-md-6 d-flex">
-            <dl class="sbd-status mb-0 w-100 d-flex flex-column justify-content-center" aria-live="polite">
-                <dt>Open state:</dt>
-                <dd>@(_isOpen ? "Open" : "Closed")</dd>
-                <dt>Last event:</dt>
-                <dd>@_lastEvent</dd>
-                <dt>Trigger:</dt>
-                <dd>@_lastTrigger</dd>
-            </dl>
-        </div>
-    </div>
-</div>
-
 @code {
     private SfSidebar? _sidebar;
     private bool _isOpen;
-    private string _lastEvent = "none yet";
-    private string _lastTrigger = "none yet";
+    private bool _settingsOpen;
+    private bool _showBackdrop = true;
+    private bool _closeOnOverlayClick = true;
+    private bool _closeOnEscape = true;
+    private bool _focusFirstNavigationItemOnOpen;
+    private bool _sidebarOpened;
+    private int _selectedNavigationIndex;
+    private readonly ElementReference[] _navigationItems = new ElementReference[4];
+    private string _lastEvent = "None";
+    private string _lastTrigger = "None";
     private readonly List<string> _log = new();
 
-    private Task OpenAsync() => _sidebar is null ? Task.CompletedTask : _sidebar.OpenAsync();
-    private Task CloseAsync() => _sidebar is null ? Task.CompletedTask : _sidebar.CloseAsync();
-    private Task ToggleAsync() => _sidebar is null ? Task.CompletedTask : _sidebar.ToggleAsync();
+    private SfSidebar Sidebar => _sidebar ?? throw new InvalidOperationException("The Sidebar component is not available before the first render.");
+
+    private Task OpenAsync() => Sidebar.OpenAsync();
+
+    private Task CloseAsync() => Sidebar.CloseAsync();
+
+    private Task ToggleAsync() => Sidebar.ToggleAsync();
+
+    private void ToggleSettings() => _settingsOpen = !_settingsOpen;
+
+    private void SelectNavigationItem(int index) => _selectedNavigationIndex = index;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (_focusFirstNavigationItemOnOpen && _isOpen && _sidebarOpened)
+        {
+            _focusFirstNavigationItemOnOpen = false;
+            await _navigationItems[0].FocusAsync();
+            Record("FocusAsync");
+            StateHasChanged();
+        }
+    }
+
+    private async Task HandleNavigationKeyDown(KeyboardEventArgs args, int currentIndex)
+    {
+        int nextIndex = args.Key switch
+        {
+            "ArrowDown" => (currentIndex + 1) % _navigationItems.Length,
+            "ArrowUp" => (currentIndex - 1 + _navigationItems.Length) % _navigationItems.Length,
+            "Home" => 0,
+            "End" => _navigationItems.Length - 1,
+            _ => currentIndex
+        };
+
+        if (nextIndex != currentIndex)
+        {
+            SelectNavigationItem(nextIndex);
+            await _navigationItems[nextIndex].FocusAsync();
+        }
+        else if (args.Key == "Enter")
+        {
+            SelectNavigationItem(currentIndex);
+        }
+    }
 
     private async Task FocusAsync()
     {
-        if (_sidebar is not null)
+        _selectedNavigationIndex = 0;
+        if (!_isOpen)
         {
-            await _sidebar.FocusAsync();
-            Record("FocusAsync", "focus requested, open state unchanged");
+            _focusFirstNavigationItemOnOpen = true;
+            await Sidebar.OpenAsync();
+            return;
         }
+
+        await _navigationItems[0].FocusAsync();
+        Record("FocusAsync");
     }
 
     private void HandleIsOpenChanged(bool isOpen)
     {
         _isOpen = isOpen;
-        Record("IsOpenChanged", $"IsOpen = {isOpen}");
+        if (!isOpen)
+        {
+            _focusFirstNavigationItemOnOpen = false;
+            _sidebarOpened = false;
+        }
+
+        Record("IsOpenChanged");
     }
 
     private void HandleOpened(SidebarEventArgs args)
     {
-        RecordTrigger(args.Trigger);
-        Record("OnOpened", $"IsOpen = {args.IsOpen}, Mode = {args.Mode}");
+        _sidebarOpened = true;
+        _lastTrigger = args.Trigger.ToString();
+        Record("OnOpened");
     }
 
     private void HandleClosed(SidebarEventArgs args)
     {
-        RecordTrigger(args.Trigger);
-        Record("OnClosed", $"IsOpen = {args.IsOpen}, Mode = {args.Mode}");
+        _sidebarOpened = false;
+        _lastTrigger = args.Trigger.ToString();
+        Record("OnClosed");
     }
 
-    private void RecordTrigger(SidebarTrigger trigger)
-    {
-        _lastTrigger = trigger switch
-        {
-            SidebarTrigger.Api => "Api method caused the Sidebar to change state",
-            SidebarTrigger.Backdrop => "Backdrop click caused the Sidebar to change state",
-            SidebarTrigger.Keyboard => "Keyboard caused the Sidebar to change state",
-            SidebarTrigger.Gesture => "Gesture caused the Sidebar to change state",
-            SidebarTrigger.Navigation => "Navigation caused the Sidebar to change state",
-            _ => $"{trigger} caused the Sidebar to change state",
-        };
-    }
-
-    private void Record(string name, string detail)
+    private void Record(string name)
     {
         _lastEvent = name;
-        _log.Insert(0, $"{name}: {detail}");
+        string state = _isOpen ? "open" : "closed";
+        _log.Insert(0, $"{name}: {state}");
         if (_log.Count > 30)
         {
             _log.RemoveAt(_log.Count - 1);
@@ -146,71 +220,100 @@
     private void ClearLog()
     {
         _log.Clear();
-        _lastEvent = "none yet";
-        _lastTrigger = "none yet";
+        _lastEvent = "None";
+        _lastTrigger = "None";
     }
 }
 
 <style>
-    .sbd-api-content {
-        background: color-mix(in srgb, #cfe2ff 22%, var(--color-sf-content-bg-color, #fff));
-    }
-
-    .sbd-api-bottom > [class*="col-"] {
+    .sbd-property-panel {
         display: flex;
+        flex-direction: column;
+        gap: .625rem;
+        min-width: 0;
+        padding: .75rem;
+        background: var(--sbd-surface);
     }
 
-    .sbd-event-log-card,
-    .sbd-status {
-        border: 1px solid var(--color-sf-border, var(--bs-border-color, #dee2e6));
-        border-radius: .5rem;
-        padding: .75rem 1rem;
-        background: var(--color-sf-content-bg-color-alt1, var(--bs-tertiary-bg, #f8f9fa));
-        min-height: 150px;
+    .sbd-api-target {
+        display: grid;
+        gap: .75rem;
+        min-width: 0;
+    }
+
+    .sbd-api-stage {
+        min-height: 260px;
+    }
+
+    .sbd-content.sbd-api-skeletons {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-template-rows: 7rem minmax(8rem, 1fr);
+        align-content: stretch;
+        min-height: 260px;
+    }
+
+    .sbd-api-skeleton {
         width: 100%;
+        min-height: 0;
+        align-self: stretch;
     }
 
-    .sbd-event-log-wrapper {
-        overflow-y: auto;
-        max-height: 180px;
+    .sbd-api-skeleton-wide {
+        grid-column: 1 / -1;
+    }
+
+    .sbd-api-actions {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: .5rem;
+    }
+
+    .sbd-api-settings-button.e-btn {
+        flex: 0 0 2.5rem;
+    }
+
+    .sbd-api-details {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+        gap: .75rem;
+    }
+
+    .sbd-api-log-card {
+        min-width: 0;
+        padding: .75rem 1rem;
+        border: 1px solid var(--sbd-border);
+        border-radius: .5rem;
+        background: var(--sbd-surface-alt);
+    }
+
+    .sbd-api-log-heading {
         display: flex;
         align-items: center;
+        justify-content: space-between;
+        gap: .75rem;
+        margin-bottom: .5rem;
     }
 
-    .sbd-event-log {
-        width: 100%;
+    .sbd-api-event-log {
+        max-height: 8rem;
+        overflow-y: auto;
         margin: 0;
-        padding-left: 1.25rem;
-        list-style-position: inside;
+        padding-inline-start: 1.25rem;
+        font-size: .85rem;
     }
 
-    .sbd-event-log li {
-        margin-bottom: .35rem;
-        text-align: left;
+    .sbd-api-event-log li + li {
+        margin-block-start: .25rem;
     }
 
-    .sbd-event-log .empty-log {
-        text-align: center;
-        width: 100%;
+    .sbd-api-empty {
         list-style: none;
-        padding-left: 0;
-        margin: 0;
-        color: var(--bs-secondary-color, #6c757d);
+        color: var(--sbd-muted);
     }
 
-    .sbd-status {
-        display: grid;
-        grid-template-columns: max-content 1fr;
-        gap: .5rem 1rem;
+    .sbd-api-status {
         align-content: center;
-        margin: 0 !important;
-    }
-
-    .sbd-status dt {
-        font-weight: 600;
-    }
-
-    .sbd-status dd {
-        margin: 0;
+        min-height: 8rem;
     }
 </style>

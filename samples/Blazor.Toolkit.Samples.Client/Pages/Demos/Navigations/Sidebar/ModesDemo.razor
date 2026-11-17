@@ -1,97 +1,125 @@
-@* Responsive is off so the chosen Mode is kept at every viewport width. *@
-<div class="sbd-controls">
-    <span class="sbd-control-label" id="sbd-modes-mode-label">Mode</span>
-    <div class="d-flex flex-wrap gap-3" role="radiogroup" aria-labelledby="sbd-modes-mode-label">
-        <SfRadioButton Name="sbd-modes-mode" Label="Overlay" Value="Overlay" @bind-Checked="_mode" />
-        <SfRadioButton Name="sbd-modes-mode" Label="Push" Value="Push" @bind-Checked="_mode" />
-        <SfRadioButton Name="sbd-modes-mode" Label="Shrink" Value="Shrink" @bind-Checked="_mode" />
+<div class="sbd-shell">
+    <div class="sbd-controls">
+        <span class="sbd-control-label" id="sbd-modes-label">Mode</span>
+        <div class="sbd-button-group" role="group" aria-labelledby="sbd-modes-label">
+            <SfButtonGroup Mode="SelectionMode.Single">
+                <Button Selected="@(_mode == SidebarMode.Overlay)" SelectedChanged="@(selected => SetMode(selected, SidebarMode.Overlay))">Overlay</Button>
+                <Button Selected="@(_mode == SidebarMode.Push)" SelectedChanged="@(selected => SetMode(selected, SidebarMode.Push))">Push</Button>
+                <Button Selected="@(_mode == SidebarMode.Shrink)" SelectedChanged="@(selected => SetMode(selected, SidebarMode.Shrink))">Shrink</Button>
+            </SfButtonGroup>
+        </div>
+        <SfCheckBox TChecked="bool" Label="Fixed" @bind-Checked="_fixed" />
     </div>
-    <SfCheckBox TChecked="bool" Label="Fixed" @bind-Checked="_fixed" />
-</div>
 
-<p class="sbd-note" aria-live="polite">
-    <strong>@_mode:</strong> @ModeDescription
-    @if (_fixed)
-    {
-        <br /><span><code>Fixed="true"</code>: the panel is positioned against the viewport, so it can leave this preview. That is intentional.</span>
-    }
-    else
-    {
-        <br /><span><code>Fixed="false"</code>: the panel is positioned inside this preview container.</span>
-    }
-</p>
+    <div class="sbd-toolbar">
+        <SfButton CssClass="e-flat sbd-toolbar-button"
+                  IconCss="sb-icons e-menu"
+                  aria-label="Toggle project navigation"
+                  aria-controls="sbd-modes"
+                  aria-expanded="@(_isOpen ? "true" : "false")"
+                  OnClick="Toggle" />
+        <span class="sbd-toolbar-title">Code Studio</span>
+        <span class="sbd-toolbar-spacer"></span>
+    </div>
 
-<div class="sbd-stage-toggle">
-    <SfButton CssClass="e-primary"
-              IconCss="sb-icons e-menu"
-              aria-controls="sbd-modes"
-              aria-expanded="@(_isOpen ? "true" : "false")"
-              OnClick="Toggle">@(_isOpen ? "Close menu" : "Open menu")</SfButton>
-</div>
-
-<div class="sbd-stage">
-    <SfSidebar Id="sbd-modes"
-               @bind-IsOpen="_isOpen"
-               Mode="CurrentMode"
-               Fixed="_fixed"
-               Responsive="false"
-               Width="240px"
-               AriaLabel="Modes navigation">
-        <HeaderTemplate>
-            <div class="d-flex align-items-center justify-content-between gap-2">
-                <h3 class="h6 m-0">Navigation</h3>
-                <SfButton CssClass="e-flat" IconCss="sb-icons e-close" aria-label="Close navigation" OnClick="Close" />
-            </div>
-        </HeaderTemplate>
-        <ChildContent>
-            <ul class="sbd-nav">
-                <li>Overview</li>
-                <li>Reports</li>
-                <li>Settings</li>
-            </ul>
-        </ChildContent>
-        <TargetContent>
-            <div class="sbd-content sbd-modes-content">
-                <p>Open the sidebar, then switch the mode or the Fixed option to compare the layouts.</p>
-                <p class="sbd-modes-ruler">This content stays in the document flow. Watch it shift or narrow as the panel opens.</p>
-            </div>
-        </TargetContent>
-    </SfSidebar>
+    <div class="sbd-stage">
+        <SfSidebar Id="sbd-modes"
+                   @bind-IsOpen="_isOpen"
+                   Mode="_mode"
+                   Fixed="_fixed"
+                   Responsive="false"
+                   Width="244px"
+                   AriaLabel="Code Studio project navigation">
+            <HeaderTemplate>
+                <h3 class="h6 m-0">Code Studio</h3>
+            </HeaderTemplate>
+            <ChildContent>
+                <ul class="sbd-nav" role="listbox" aria-label="Code Studio navigation">
+                    <li class="@(_selectedNavigationIndex == 0 ? "sbd-nav-selected" : null)" role="option" aria-selected="@(_selectedNavigationIndex == 0 ? "true" : "false")" tabindex="@(_selectedNavigationIndex == 0 ? 0 : -1)" @ref="_navigationItems[0]" @onclick="@(() => SelectNavigationItem(0))" @onkeydown="@((args) => HandleNavigationKeyDown(args, 0))">
+                        <svg class="sbd-nav-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="1" /><rect x="13.5" y="3.5" width="7" height="7" rx="1" /><rect x="3.5" y="13.5" width="7" height="7" rx="1" /><rect x="13.5" y="13.5" width="7" height="7" rx="1" /></svg>
+                        Projects
+                    </li>
+                    <li class="@(_selectedNavigationIndex == 1 ? "sbd-nav-selected" : null)" role="option" aria-selected="@(_selectedNavigationIndex == 1 ? "true" : "false")" tabindex="@(_selectedNavigationIndex == 1 ? 0 : -1)" @ref="_navigationItems[1]" @onclick="@(() => SelectNavigationItem(1))" @onkeydown="@((args) => HandleNavigationKeyDown(args, 1))">
+                        <svg class="sbd-nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M3.5 6.5h7l2 2h8v9a2 2 0 0 1-2 2h-13a2 2 0 0 1-2-2z" /><path d="M3.5 8.5v-2a2 2 0 0 1 2-2h4l2 2" /></svg>
+                        Explorer
+                    </li>
+                    <li class="@(_selectedNavigationIndex == 2 ? "sbd-nav-selected" : null)" role="option" aria-selected="@(_selectedNavigationIndex == 2 ? "true" : "false")" tabindex="@(_selectedNavigationIndex == 2 ? 0 : -1)" @ref="_navigationItems[2]" @onclick="@(() => SelectNavigationItem(2))" @onkeydown="@((args) => HandleNavigationKeyDown(args, 2))">
+                        <svg class="sbd-nav-icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="5" r="2" /><circle cx="18" cy="7" r="2" /><circle cx="8" cy="19" r="2" /><path d="M6 7v5a3 3 0 0 0 3 3h6a3 3 0 0 0 3-3V9M9 15l-1 2" /></svg>
+                        Source Control
+                    </li>
+                    <li class="@(_selectedNavigationIndex == 3 ? "sbd-nav-selected" : null)" role="option" aria-selected="@(_selectedNavigationIndex == 3 ? "true" : "false")" tabindex="@(_selectedNavigationIndex == 3 ? 0 : -1)" @ref="_navigationItems[3]" @onclick="@(() => SelectNavigationItem(3))" @onkeydown="@((args) => HandleNavigationKeyDown(args, 3))">
+                        <svg class="sbd-nav-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2" /><path d="m7 9 3 3-3 3m6 0h4" /></svg>
+                        Terminal
+                    </li>
+                    <li class="@(_selectedNavigationIndex == 4 ? "sbd-nav-selected" : null)" role="option" aria-selected="@(_selectedNavigationIndex == 4 ? "true" : "false")" tabindex="@(_selectedNavigationIndex == 4 ? 0 : -1)" @ref="_navigationItems[4]" @onclick="@(() => SelectNavigationItem(4))" @onkeydown="@((args) => HandleNavigationKeyDown(args, 4))">
+                        <svg class="sbd-nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5 14 5l2.5-.2.9 2.4 2.1 1.3-.7 2.4.7 2.4-2.1 1.3-.9 2.4L14 17.8l-2 1.5-2-1.5-2.5.2-.9-2.4-2.1-1.3.7-2.4-.7-2.4 2.1-1.3.9-2.4L10 5z" /><circle cx="12" cy="11.5" r="3" /></svg>
+                        Settings
+                    </li>
+                    <li class="@(_selectedNavigationIndex == 5 ? "sbd-nav-selected" : null)" role="option" aria-selected="@(_selectedNavigationIndex == 5 ? "true" : "false")" tabindex="@(_selectedNavigationIndex == 5 ? 0 : -1)" @ref="_navigationItems[5]" @onclick="@(() => SelectNavigationItem(5))" @onkeydown="@((args) => HandleNavigationKeyDown(args, 5))">
+                        <svg class="sbd-nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m3 17 6-6 4 4 8-8" /><path d="M15 7h6v6" /></svg>
+                        Run and Debug
+                    </li>
+                    <li class="@(_selectedNavigationIndex == 6 ? "sbd-nav-selected" : null)" role="option" aria-selected="@(_selectedNavigationIndex == 6 ? "true" : "false")" tabindex="@(_selectedNavigationIndex == 6 ? 0 : -1)" @ref="_navigationItems[6]" @onclick="@(() => SelectNavigationItem(6))" @onkeydown="@((args) => HandleNavigationKeyDown(args, 6))">
+                        <svg class="sbd-nav-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="2" /><path d="m8 9 2.5 3L8 15m5 0h3" /></svg>
+                        Extensions
+                    </li>
+                </ul>
+            </ChildContent>
+            <FooterTemplate>
+                <SfButton CssClass="e-flat sbd-rail-item sbd-rail-lg">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 5H5v14h5m2-3 4-4-4-4m4 4H8" /></svg>
+                    Logout
+                </SfButton>
+            </FooterTemplate>
+            <TargetContent>
+                <div class="sbd-content sbd-mode-skeletons">
+                    <div class="sbd-skeleton sbd-mode-skeleton sbd-mode-skeleton-short"></div>
+                    <div class="sbd-skeleton sbd-mode-skeleton sbd-mode-skeleton-medium"></div>
+                    <div class="sbd-skeleton sbd-mode-skeleton sbd-mode-skeleton-medium"></div>
+                    <div class="sbd-skeleton sbd-mode-skeleton sbd-mode-skeleton-tall"></div>
+                </div>
+            </TargetContent>
+        </SfSidebar>
+    </div>
 </div>
 
 @code {
-    private string _mode = "Overlay";
+    private SidebarMode _mode = SidebarMode.Shrink;
     private bool _fixed;
-    private bool _isOpen;
+    private bool _isOpen = true;
+    private int _selectedNavigationIndex;
+    private readonly ElementReference[] _navigationItems = new ElementReference[7];
 
-    private SidebarMode CurrentMode => _mode switch
-    {
-        "Push" => SidebarMode.Push,
-        "Shrink" => SidebarMode.Shrink,
-        _ => SidebarMode.Overlay,
-    };
+    private void SelectNavigationItem(int index) => _selectedNavigationIndex = index;
 
-    private string ModeDescription => _mode switch
+    private async Task HandleNavigationKeyDown(KeyboardEventArgs args, int currentIndex)
     {
-        "Push" => "Shifts content horizontally.",
-        "Shrink" => "Reduces content width.",
-        _ => "Covers content, optional backdrop.",
-    };
+        int nextIndex = args.Key switch
+        {
+            "ArrowDown" => (currentIndex + 1) % _navigationItems.Length,
+            "ArrowUp" => (currentIndex - 1 + _navigationItems.Length) % _navigationItems.Length,
+            "Home" => 0,
+            "End" => _navigationItems.Length - 1,
+            _ => currentIndex
+        };
+
+        if (nextIndex != currentIndex)
+        {
+            SelectNavigationItem(nextIndex);
+            await _navigationItems[nextIndex].FocusAsync();
+        }
+        else if (args.Key == "Enter")
+        {
+            SelectNavigationItem(currentIndex);
+        }
+    }
+    private void SetMode(bool selected, SidebarMode mode)
+    {
+        if (selected)
+        {
+            _mode = mode;
+        }
+    }
 
     private void Toggle() => _isOpen = !_isOpen;
-
-    private void Close() => _isOpen = false;
 }
-
-<style>
-    .sbd-modes-content {
-        background: color-mix(in srgb, #cfe2ff 22%, var(--color-sf-content-bg-color, #fff));
-    }
-
-    .sbd-modes-ruler {
-        padding: .5rem .75rem;
-        border: 1px dashed var(--color-sf-border, #dee2e6);
-        border-radius: .375rem;
-        background: var(--color-sf-content-bg-color, #fff);
-    }
-</style>
