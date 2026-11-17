@@ -210,8 +210,11 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Navigations.Toolbar
 
             cut.Find("[data-testid='toolbar-dropdown']").Click();
 
-            Assert.Empty(cut.FindAll("[data-testid='toolbar-nested-popup']"));
-            Assert.Equal("false", cut.Find("[data-testid='toolbar-dropdown']").GetAttribute("aria-expanded"));
+            cut.WaitForAssertion(() =>
+            {
+                Assert.Empty(cut.FindAll("[data-testid='toolbar-nested-popup']"));
+                Assert.Equal("false", cut.Find("[data-testid='toolbar-dropdown']").GetAttribute("aria-expanded"));
+            });
         }
 
         [Fact(DisplayName = "U-TB-012 Opening a nested menu closes any other toolbar nested menu")]
