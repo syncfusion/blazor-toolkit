@@ -885,6 +885,20 @@ using System.Diagnostics.CodeAnalysis;
     Scope = "member",
     Target = "~P:Syncfusion.Blazor.Toolkit.SfTooltip.HtmlAttributes")]
 
+[assembly: SuppressMessage(
+    "Usage",
+    "CA2227:Collection properties should be read only",
+    Justification = "2026-10-01: Attribute-splat dictionary rendered onto the element; Blazor assigns it through the public setter, so the setter must remain.",
+    Scope = "member",
+    Target = "~P:Syncfusion.Blazor.Toolkit.SfChip.HtmlAttributes")]
+
+[assembly: SuppressMessage(
+    "Usage",
+    "CA2227:Collection properties should be read only",
+    Justification = "2026-10-01: Attribute-splat dictionary rendered onto the element; Blazor assigns it through the public setter, so the setter must remain.",
+    Scope = "member",
+    Target = "~P:Syncfusion.Blazor.Toolkit.SfChipSet`1.HtmlAttributes")]
+
 
 // -------------------------------------------------------------------------
 // CA1711 — Identifiers should not have incorrect suffix.
@@ -1299,6 +1313,55 @@ using System.Diagnostics.CodeAnalysis;
     Scope = "type",
     Target = "~T:Syncfusion.Blazor.Toolkit.SpinnerEventArgs")]
 
+[assembly: SuppressMessage(
+    "Naming",
+    "CA1711:Identifiers should not have incorrect suffix",
+    Justification = "2026-10-01: The 'EventArgs' suffix is the idiomatic Blazor convention for component event payload types.",
+    Scope = "type",
+    Target = "~T:Syncfusion.Blazor.Toolkit.ChipRemovingEventArgs")]
+
+[assembly: SuppressMessage(
+    "Naming",
+    "CA1711:Identifiers should not have incorrect suffix",
+    Justification = "2026-10-01: The 'EventArgs' suffix is the idiomatic Blazor convention for component event payload types.",
+    Scope = "type",
+    Target = "~T:Syncfusion.Blazor.Toolkit.ChipRemovingEventArgs`1")]
+
+[assembly: SuppressMessage(
+    "Naming",
+    "CA1711:Identifiers should not have incorrect suffix",
+    Justification = "2026-10-01: The 'EventArgs' suffix is the idiomatic Blazor convention for component event payload types.",
+    Scope = "type",
+    Target = "~T:Syncfusion.Blazor.Toolkit.ChipRemovedEventArgs")]
+
+[assembly: SuppressMessage(
+    "Naming",
+    "CA1711:Identifiers should not have incorrect suffix",
+    Justification = "2026-10-01: The 'EventArgs' suffix is the idiomatic Blazor convention for component event payload types.",
+    Scope = "type",
+    Target = "~T:Syncfusion.Blazor.Toolkit.ChipRemovedEventArgs`1")]
+
+[assembly: SuppressMessage(
+    "Naming",
+    "CA1711:Identifiers should not have incorrect suffix",
+    Justification = "2026-10-01: The 'EventArgs' suffix is the idiomatic Blazor convention for component event payload types.",
+    Scope = "type",
+    Target = "~T:Syncfusion.Blazor.Toolkit.ChipSelectionChangingEventArgs`1")]
+
+[assembly: SuppressMessage(
+    "Naming",
+    "CA1711:Identifiers should not have incorrect suffix",
+    Justification = "2026-10-01: The 'EventArgs' suffix is the idiomatic Blazor convention for component event payload types.",
+    Scope = "type",
+    Target = "~T:Syncfusion.Blazor.Toolkit.ChipSelectionChangedEventArgs`1")]
+
+[assembly: SuppressMessage(
+    "Naming",
+    "CA1711:Identifiers should not have incorrect suffix",
+    Justification = "2026-10-01: The 'EventArgs' suffix is the idiomatic Blazor convention for component event payload types.",
+    Scope = "type",
+    Target = "~T:Syncfusion.Blazor.Toolkit.ChipClickEventArgs`1")]
+
 
 // -------------------------------------------------------------------------
 // CA1822 — Mark members as static.
@@ -1710,6 +1773,13 @@ using System.Diagnostics.CodeAnalysis;
     Scope = "member",
     Target = "~F:Syncfusion.Blazor.Toolkit.ValueType.Double")]
 
+[assembly: SuppressMessage(
+    "Naming",
+    "CA1720:Identifier contains type name",
+    Justification = "2026-10-01: Public API. 'Single' is the clearest name for single-item selection in ChipSelectionMode and matches the SelectionMode vocabulary already suppressed above; renaming is a binary/source breaking change for consumers. The collision with System.Single is cosmetic.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.ChipSelectionMode.Single")]
+
 
 // -------------------------------------------------------------------------
 // CA1024: Use properties where appropriate.
@@ -1945,6 +2015,20 @@ using System.Diagnostics.CodeAnalysis;
     Justification = "2026-10-01: Public API. DataManager.BaseUri holds the application base URL used to resolve the relative Url/InsertUrl/UpdateUrl/RemoveUrl values via DataUtil.GetUrl. It is derived from NavigationManager and may itself be relative, so System.Uri is semantically unsuitable and changing the type is a binary/source breaking change.",
     Scope = "member",
     Target = "~P:Syncfusion.Blazor.Toolkit.DataManager.BaseUri")]
+
+[assembly: SuppressMessage(
+    "Design",
+    "CA1056:URI properties should not be strings",
+    Justification = "2026-10-01: Public API. [Parameter] leading image URL property bound from Razor markup as an HTML attribute string; commonly carries a relative URL that System.Uri cannot represent. Changing the type is a binary/source breaking change.",
+    Scope = "member",
+    Target = "~P:Syncfusion.Blazor.Toolkit.SfChip.ImageUrl")]
+
+[assembly: SuppressMessage(
+    "Design",
+    "CA1056:URI properties should not be strings",
+    Justification = "2026-10-01: Public API. Property-name map entry for the leading image URL of a bound data item; the mapped property is commonly a relative URL that System.Uri cannot represent. Changing the type is a binary/source breaking change.",
+    Scope = "member",
+    Target = "~P:Syncfusion.Blazor.Toolkit.ChipFields.ImageUrl")]
 
 
 // -------------------------------------------------------------------------
@@ -2936,6 +3020,13 @@ using System.Diagnostics.CodeAnalysis;
     Justification = "2026-10-02: Preserve guarded InputFile event reads and fallback to the latest valid event; an ordinary auto-property loses those semantics, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
     Scope = "member",
     Target = "~F:Syncfusion.Blazor.Toolkit.SfUploader._inputFileChangeEvent")]
+
+[assembly: SuppressMessage(
+    "Style",
+    "IDE0032:Use auto property",
+    Justification = "2026-10-02: FocusTargetId is a read-only public projection of the backing field; converting it to a public auto-property would expose a public setter and change the published public API surface, and C# 14 field syntax is unavailable on net8.0/C# 12 and net9.0/C# 13.",
+    Scope = "member",
+    Target = "~F:Syncfusion.Blazor.Toolkit.SfChipSet`1._focusTargetId")]
 
 
 // -------------------------------------------------------------------------

@@ -1,0 +1,88 @@
+@using Syncfusion.Blazor.Toolkit
+
+<div class="chip-demo-shell">
+    <div class="chip-demo-row" role="group" aria-label="Colored removable chips">
+        <SfChip Text="Primary" CssClass="e-primary" Removable="true" />
+        <SfChip Text="Info" CssClass="e-info" Removable="true" />
+        <SfChip Text="Success" CssClass="e-success" Removable="true" />
+        <SfChip Text="Warning" CssClass="e-warning" Removable="true" />
+    </div>
+
+    <form class="chip-demo-token-form" @onsubmit="Add" @onsubmit:preventDefault>
+        <div class="chip-demo-token-row">
+            <div class="chip-demo-token-input">
+                <SfTextBox ID="tag-input"
+                           Type="InputType.Text"
+                           Width="100%"
+                           Placeholder="Type a tag and press Enter"
+                           AriaLabel="Add a tag"
+                           @bind-Value="draft" />
+            </div>
+            <SfButton CssClass="e-primary" Type="ButtonType.Submit">Add</SfButton>
+        </div>
+    </form>
+
+    <div class="chip-demo-token-results">
+        <p id="tag-status"
+           class="chip-demo-form-feedback chip-demo-token-status @(statusIsSuccess ? "chip-demo-success" : string.Empty)"
+           role="status"
+           aria-live="polite">@statusMessage</p>
+        <SfChipSet TItem="string"
+                   DataSource="@tags"
+                   ItemKey="t => t"
+                   CssClassSelector="InputClass"
+                   ChipType="ChipType.Input"
+                   Removable="true"
+                   AriaLabel="Tags"
+                   Removing="OnRemoving"
+                   Removed="OnRemoved" />
+    </div>
+</div>
+
+@code {
+    private string draft = string.Empty;
+    private List<string> tags = ["blazor", "chips"];
+    private string statusMessage = string.Empty;
+    private bool statusIsSuccess;
+
+    private void Add()
+    {
+        string value = draft.Trim();
+        if (string.IsNullOrEmpty(value))
+        {
+            statusMessage = "Enter a tag before adding it.";
+            statusIsSuccess = false;
+            return;
+        }
+
+        if (tags.Count >= 8)
+        {
+            statusMessage = "You can add up to eight tags.";
+            statusIsSuccess = false;
+            return;
+        }
+
+        if (tags.Contains(value, StringComparer.OrdinalIgnoreCase))
+        {
+            statusMessage = $"{value} is already in the tag list.";
+            statusIsSuccess = false;
+            return;
+        }
+
+        tags.Add(value);
+        draft = string.Empty;
+        statusMessage = $"{value} was added.";
+        statusIsSuccess = true;
+    }
+
+    private void OnRemoving(ChipRemovingEventArgs<string> args) { }
+
+    private void OnRemoved(ChipRemovedEventArgs<string> args)
+    {
+        tags.Remove(args.Item);
+        statusMessage = $"{args.Item} was removed.";
+        statusIsSuccess = true;
+    }
+
+    private static string InputClass(string item) => "e-chip-input";
+}

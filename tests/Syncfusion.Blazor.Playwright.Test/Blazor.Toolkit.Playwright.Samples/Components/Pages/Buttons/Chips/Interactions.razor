@@ -1,0 +1,23 @@
+@page "/chips/interactions"
+@rendermode InteractiveServer
+@layout MainLayout
+
+<span id="interactive-ready" data-ready="true" hidden></span>
+
+<h1>Chips - interactions</h1>
+
+<section id="scn-keyboard">
+    <SfChipSet TItem="string"
+               DataSource="@_items"
+               ChipType="ChipType.Choice"
+               SelectionMode="ChipSelectionMode.Single"
+               Id="chipset-keyboard" />
+</section>
+
+<section id="scn-remove">
+    <SfChip Text="Alpha" Removable="true" Id="chip-remove" />
+</section>
+
+@code {
+    private readonly string[] _items = ["Alpha", "Beta", "Gamma"];
+}
