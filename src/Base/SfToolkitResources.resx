@@ -303,19 +303,13 @@
   <data name="PromptInput" xml:space="preserve">
     <value>Prompt input</value>
   </data>
-  <data name="Toolbar_Overflow" xml:space="preserve">
-    <value>More</value>
+  <data name="Chip_Remove" xml:space="preserve">
+    <value>Remove {0}</value>
   </data>
-  <data name="Toolbar_Expand" xml:space="preserve">
-    <value>Expand</value>
+  <data name="Chip_ShowMore" xml:space="preserve">
+    <value>Show {0} more</value>
   </data>
-  <data name="Toolbar_Collapse" xml:space="preserve">
-    <value>Collapse</value>
-  </data>
-  <data name="Toolbar_ScrollStart" xml:space="preserve">
-    <value>Scroll to start</value>
-  </data>
-  <data name="Toolbar_ScrollEnd" xml:space="preserve">
-    <value>Scroll to end</value>
+  <data name="Chip_ShowLess" xml:space="preserve">
+    <value>Show less</value>
   </data>
 </root>
