@@ -16,7 +16,7 @@
     }
     else if (IsTemplated)
     {
-        <div class="@ItemClass" id="@_explicitId" data-testid="toolbar-template-item" data-toolbar-measure="@MeasureId" @onclick="HandleClickAsync" @ref="_itemElement" @onkeydown="HandleKeyDownAsync" @onfocusin="HandleFocusIn">
+        <div class="@ItemClass" id="@_explicitId" role="group" aria-label="@Text" tabindex="@TemplateTabIndex" data-testid="toolbar-template-item" data-toolbar-measure="@MeasureId" @onclick="HandleClickAsync" @ref="_itemElement" @onkeydown="HandleKeyDownAsync" @onfocusin="HandleFocusIn">
             @if (Template is not null)
             {
                 @Template(_templateContext)
@@ -53,7 +53,7 @@
     }
     else if (HasNestedMenu)
     {
-        <div class="@ItemClass" id="@_explicitId" data-toolbar-measure="@MeasureId" @ref="_itemElement" @ref="_itemElement" @onkeydown="HandleKeyDownAsync" @onfocusin="HandleFocusIn">
+        <div class="@ItemClass" id="@_explicitId" data-testid="toolbar-item" data-toolbar-measure="@MeasureId" @ref="_itemElement" @onfocusin="HandleFocusIn">
             @if (Type == ToolbarItemType.Split)
             {
                 @* The split wrapper is a plain span, so it carries no ARIA. The chevron button owns
@@ -73,7 +73,7 @@
                             <span class="@_iconCss e-btn-icon e-toolbar-item-icon" aria-hidden="true" data-testid="toolbar-item-icon"></span>
                         }
                     </SfButton>
-                    <SfButton @attributes="BuildChevronAttributes()" />
+                    <SfButton @ref="_chevronButton" @attributes="BuildChevronAttributes()" />
                 </span>
             }
             else

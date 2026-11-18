@@ -91,6 +91,10 @@ namespace Syncfusion.Blazor.Toolkit
 
         private bool IsExtendedMode => OverflowMode == ToolbarOverflowMode.Extended;
 
+        bool IToolbarHost.IsExtendedMode => IsExtendedMode;
+
+        bool IToolbarHost.IsExtendedCollapsed => IsExtendedMode && !_extendedExpanded;
+
         private ToolbarOverflowSettings Settings => OverflowSettings ?? new ToolbarOverflowSettings();
 
         /// <summary>
@@ -174,8 +178,8 @@ namespace Syncfusion.Blazor.Toolkit
                 attributes["title"] = IsExtendedMode ? ExpandLabel : OverflowLabel;
                 attributes["tabindex"] = ((IToolbarHost)this).GetOverflowButtonTabIndex().ToString(System.Globalization.CultureInfo.InvariantCulture);
                 attributes["data-testid"] = IsExtendedMode ? "toolbar-expand-button" : "toolbar-overflow-button";
+                attributes["onkeydown"] = EventCallback.Factory.Create<KeyboardEventArgs>(this, HandleOverflowNavigationKeyDownAsync);
                 attributes["onkeyup"] = EventCallback.Factory.Create<KeyboardEventArgs>(this, HandleOverflowKeyUpAsync);
-                attributes["onkeydown"] = EventCallback.Factory.Create<KeyboardEventArgs>(this, HandleOverflowKeyDownAsync);
                 if (!IsExtendedMode)
                 {
                     attributes["aria-haspopup"] = "menu";
@@ -201,7 +205,7 @@ namespace Syncfusion.Blazor.Toolkit
         internal override async Task ImportComponentModuleAsync()
         {
             await base.ImportComponentModuleAsync().ConfigureAwait(true);
-            if (!IsPopupMode && !IsScrollableMode)
+            if (!IsPopupMode && !IsExtendedMode && !IsScrollableMode)
             {
                 return;
             }
@@ -240,13 +244,14 @@ namespace Syncfusion.Blazor.Toolkit
 
         private async Task StartObservingAsync()
         {
-            if (_observing || IsDisposed || !IsPopupMode || (_toolbarModule is null && _toolbarInProcessModule is null))
+            if (_observing || IsDisposed || (!IsPopupMode && !IsExtendedMode) || (_toolbarModule is null && _toolbarInProcessModule is null))
             {
                 return;
             }
             _selfReference ??= DotNetObjectReference.Create(this);
             _observing = true;
             await GuardedAsync(() => InvokeVoidAsync(_toolbarModule, _toolbarInProcessModule, "observe", _contentElement, _selfReference)).ConfigureAwait(true);
+            await GuardedAsync(() => InvokeVoidAsync(_toolbarModule, _toolbarInProcessModule, "trackOverflowKeys", _toolbarElement)).ConfigureAwait(true);
         }
 
         private async Task StopObservingAsync()
@@ -257,6 +262,7 @@ namespace Syncfusion.Blazor.Toolkit
             }
             _observing = false;
             await GuardedAsync(() => InvokeVoidAsync(_toolbarModule, _toolbarInProcessModule, "unobserve", _contentElement)).ConfigureAwait(true);
+            await GuardedAsync(() => InvokeVoidAsync(_toolbarModule, _toolbarInProcessModule, "untrackOverflowKeys", _toolbarElement)).ConfigureAwait(true);
         }
 
         /// <summary>
@@ -385,7 +391,7 @@ namespace Syncfusion.Blazor.Toolkit
         {
             // Before the measurement module is ready there is nothing to measure. The first-render hook measures once
             // everything has registered, so scheduling here would only repeat that work.
-            if (IsDisposed || !IsPopupMode || (_toolbarModule is null && _toolbarInProcessModule is null))
+            if (IsDisposed || (!IsPopupMode && !IsExtendedMode) || (_toolbarModule is null && _toolbarInProcessModule is null))
             {
                 return;
             }
@@ -422,7 +428,7 @@ namespace Syncfusion.Blazor.Toolkit
         /// </summary>
         private async Task RecalculateAsync()
         {
-            if (IsDisposed || !IsPopupMode || (_toolbarModule is null && _toolbarInProcessModule is null))
+            if (IsDisposed || (!IsPopupMode && !IsExtendedMode) || (_toolbarModule is null && _toolbarInProcessModule is null))
             {
                 return;
             }
@@ -435,7 +441,33 @@ namespace Syncfusion.Blazor.Toolkit
             {
                 return;
             }
+            if (IsExtendedMode)
+            {
+                ApplyExtendedRows(measurement);
+                return;
+            }
             ApplyMeasurement(measurement);
+        }
+
+        private void ApplyExtendedRows(ToolbarMeasurement measurement)
+        {
+            Dictionary<string, double> rows = [];
+            foreach (ToolbarMeasuredItem measured in measurement.Items)
+            {
+                _ = rows.TryAdd(measured.Id, measured.Row);
+            }
+            bool collapsed = !_extendedExpanded;
+            foreach (IToolbarItem item in _collection.Flatten())
+            {
+                bool hidden = collapsed && rows.TryGetValue(item.ItemId, out double row) && row > 1;
+                if (item.IsCollapsedExtended == hidden)
+                {
+                    continue;
+                }
+                item.IsCollapsedExtended = hidden;
+                item.Refresh();
+            }
+            RequestTabStopRefresh();
         }
 
         private void ApplyMeasurement(ToolbarMeasurement measurement)
@@ -535,6 +567,8 @@ namespace Syncfusion.Blazor.Toolkit
 
             internal EventCallback<MouseEventArgs> Click { get; init; }
 
+            internal EventCallback<KeyboardEventArgs> KeyDown { get; init; }
+
             internal SfButton? Button { get; set; }
 
             internal Dictionary<string, object> Attributes { get; } = new()
@@ -548,13 +582,12 @@ namespace Syncfusion.Blazor.Toolkit
             {
                 Attributes["tabindex"] = Index == focusIndex ? "0" : "-1";
                 Attributes["data-item-id"] = Id;
+                Attributes["onkeydown"] = KeyDown;
             }
         }
 
         private void RebuildEntries(IReadOnlyList<OverflowCandidate> overflowed, Dictionary<string, IToolbarItem> byId)
         {
-            // The popup buttons are keyed by id, so a button outlives the entry that captured it. Carry it over, or a
-            // recalculation that lands between a render and its focus request leaves the new entry without a button.
             Dictionary<string, SfButton> buttons = [];
             foreach (OverflowEntry previous in _entries)
             {
@@ -588,6 +621,21 @@ namespace Syncfusion.Blazor.Toolkit
                             StateHasChanged();
                         }
                         await ActivateEntryAsync(captured, args).ConfigureAwait(true);
+                    }),
+                    KeyDown = EventCallback.Factory.Create<KeyboardEventArgs>(this, async args =>
+                    {
+                        if (args.Key is "Escape")
+                        {
+                            await HandlePopupKeyDownAsync(args).ConfigureAwait(true);
+                            return;
+                        }
+                        if (args.Key is not ("Enter" or " "))
+                        {
+                            return;
+                        }
+                        // Enter and Space activate the menu item directly; the browser-generated click is
+                        // prevented by the toolbar key listener.
+                        await ActivateEntryAsync(captured, new MouseEventArgs()).ConfigureAwait(true);
                     }),
                     Button = buttons.GetValueOrDefault(candidate.Id)
                 };
@@ -631,7 +679,20 @@ namespace Syncfusion.Blazor.Toolkit
 
         #region Popup open and close
 
-        private async Task ToggleAsync(MouseEventArgs args)
+        // Enter and Space toggle on keyup. The browser then clicks the focused button. That click must not toggle again.
+        private bool _ignoreNextOverflowClick;
+
+        private Task HandleOverflowClickAsync()
+        {
+            if (_ignoreNextOverflowClick)
+            {
+                _ignoreNextOverflowClick = false;
+                return Task.CompletedTask;
+            }
+            return ToggleAsync();
+        }
+
+        private async Task ToggleAsync()
         {
             if (IsDisposed)
             {
@@ -678,8 +739,21 @@ namespace Syncfusion.Blazor.Toolkit
                 return Task.CompletedTask;
             }
             _extendedExpanded = !_extendedExpanded;
+            if (_extendedExpanded)
+            {
+                foreach (IToolbarItem item in _collection.Flatten())
+                {
+                    if (!item.IsCollapsedExtended)
+                    {
+                        continue;
+                    }
+                    item.IsCollapsedExtended = false;
+                    item.Refresh();
+                }
+            }
             ComputeRenderState();
             StateHasChanged();
+            ScheduleRecalculation();
             return Task.CompletedTask;
         }
 
@@ -716,6 +790,13 @@ namespace Syncfusion.Blazor.Toolkit
             await StopPopupTrackingAsync().ConfigureAwait(true);
             await RaiseOverflowCloseAsync().ConfigureAwait(true);
             StateHasChanged();
+        }
+
+        private Task HandleOverflowNavigationKeyDownAsync(KeyboardEventArgs args)
+        {
+            return IsDisposed || args.Key is "Enter" or " "
+                ? Task.CompletedTask
+                : HandleOverflowKeyDownAsync(args);
         }
 
         private Task HandleOverflowKeyDownAsync(KeyboardEventArgs args)
@@ -824,15 +905,19 @@ namespace Syncfusion.Blazor.Toolkit
             await FocusButtonAsync(_overflowButton).ConfigureAwait(true);
         }
 
+        /// <summary>
+        /// Handles Enter or Space on the overflow button.
+        /// </summary>
+        /// <param name="args">The key event.</param>
+        /// <returns>A task that completes when the popup state has settled.</returns>
         private async Task HandleOverflowKeyUpAsync(KeyboardEventArgs args)
         {
-            if (IsDisposed || _popupOpen || args.Key is not ("Enter" or " "))
+            if (IsDisposed || args.Key is not ("Enter" or " "))
             {
                 return;
             }
-            // SfButton has no key handler. A keyup matches the browser click that Enter and Space already synthesize,
-            // so the popup opens once instead of opening and immediately closing.
-            await ToggleAsync(new MouseEventArgs()).ConfigureAwait(true);
+            _ignoreNextOverflowClick = true;
+            await ToggleAsync().ConfigureAwait(true);
         }
 
         private async Task HandlePopupKeyDownAsync(KeyboardEventArgs args)
@@ -886,10 +971,6 @@ namespace Syncfusion.Blazor.Toolkit
             return false;
         }
 
-        /// <summary>
-        /// Moves focus and ignores a runtime that cannot move it. bUnit has no focus handler unless a test sets one
-        /// up, and an unhandled failure here aborts the render that opened or closed the menu.
-        /// </summary>
         private static async Task FocusButtonAsync(SfButton button)
         {
             try
@@ -898,11 +979,9 @@ namespace Syncfusion.Blazor.Toolkit
             }
             catch (JSException)
             {
-                // The runtime cannot move focus. The menu state is unchanged.
             }
             catch (InvalidOperationException)
             {
-                // The test runtime has no focus handler. The menu state is unchanged.
             }
         }
 

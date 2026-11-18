@@ -77,6 +77,12 @@ namespace Syncfusion.Blazor.Toolkit
         /// </summary>
         bool IsRtl { get; }
 
+        /// <summary>Gets whether the toolbar is in extended overflow mode.</summary>
+        bool IsExtendedMode { get; }
+
+        /// <summary>Gets whether extended overflow is collapsed, hiding the extra rows from arrow navigation.</summary>
+        bool IsExtendedCollapsed { get; }
+
         /// <exclude />
         /// <summary>
         /// Raises the item click events and applies the cancel rule (ADR-004).

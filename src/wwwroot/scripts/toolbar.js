@@ -3,6 +3,7 @@
 // Browser APIs used: ResizeObserver and getBoundingClientRect. Nothing else is measured, and no focus library is used.
 
 const instances = new WeakMap();
+const overflowKeyTracks = new WeakMap();
 
 function sizeOf(element, vertical) {
     const rect = element.getBoundingClientRect();
@@ -35,12 +36,15 @@ export function measure(root, vertical) {
     const items = Array.from(root.querySelectorAll('[data-toolbar-measure]'));
     const toolbar = root.parentElement;
     const button = toolbar?.querySelector('[data-testid="toolbar-overflow-button"]');
+    const firstRect = items[0] ? items[0].getBoundingClientRect() : null;
     return {
         available: availableOf(toolbar || root, vertical),
         gap: gapOf(root, vertical),
         buttonSize: button ? sizeOf(button, vertical) : 0,
         items: items.map(function (element) {
-            return { id: element.getAttribute('data-toolbar-measure'), size: sizeOf(element, vertical) };
+            const rect = element.getBoundingClientRect();
+            const row = firstRect ? Math.abs(vertical ? rect.left - firstRect.left : rect.top - firstRect.top) : 0;
+            return { id: element.getAttribute('data-toolbar-measure'), size: sizeOf(element, vertical), row: row };
         })
     };
 }
@@ -584,6 +588,44 @@ export function trackNestedMenus(root, dotNetRef) {
     };
     document.addEventListener('click', listener);
     nestedMenuTracks.set(root, listener);
+}
+
+/**
+ * Prevents native Enter and Space activation from producing a second click.
+ *
+ * @param {HTMLElement} root - the toolbar root.
+ * @returns {void}
+ */
+export function trackOverflowKeys(root) {
+    if (!root || overflowKeyTracks.has(root)) {
+        return;
+    }
+    const listener = function (event) {
+        if (event.key !== 'Enter' && event.key !== ' ') {
+            return;
+        }
+        const target = event.target;
+        if (!(target instanceof Element) || !root.contains(target)) {
+            return;
+        }
+        if (target.closest('[data-testid="toolbar-overflow-button"]')) {
+            event.preventDefault();
+        } else if (target.closest('[data-testid="toolbar-overflow-item"]')) {
+            event.preventDefault();
+        }
+    };
+    root.addEventListener('keydown', listener);
+    overflowKeyTracks.set(root, listener);
+}
+
+/** Stops delivering overflow keyboard events. Safe to call when tracking was never started. */
+export function untrackOverflowKeys(root) {
+    const listener = root ? overflowKeyTracks.get(root) : null;
+    if (!listener) {
+        return;
+    }
+    root.removeEventListener('keydown', listener);
+    overflowKeyTracks.delete(root);
 }
 
 /** Stops listening for clicks outside nested menus. Safe to call when tracking was never started. */

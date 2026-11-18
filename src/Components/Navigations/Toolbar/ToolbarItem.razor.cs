@@ -45,6 +45,8 @@ namespace Syncfusion.Blazor.Toolkit
 
         private IToolbarHost? _host;
         private SfButton? _button;
+        private SfButton? _chevronButton;
+        private bool _splitChevronFocused;
         private readonly string _menuId = "sf-toolbar-menu-" + Guid.NewGuid().ToString("N")[..12];
         private bool MenuOpen { get; set; }
         private bool _menuAbove;
@@ -93,7 +95,14 @@ namespace Syncfusion.Blazor.Toolkit
 
         bool IToolbarItem.IsEnabled => Enabled;
 
-        bool IToolbarItem.IsFocusable => Visible && Enabled && !((IToolbarItem)this).IsOverflowed && !IsTemplated && Type != ToolbarItemType.Separator && Type != ToolbarItemType.Spacer;
+        bool IToolbarItem.IsFocusable =>
+            Visible &&
+            Enabled &&
+            !((IToolbarItem)this).IsOverflowed &&
+            NestedOwner is null &&
+            Type != ToolbarItemType.Separator &&
+            Type != ToolbarItemType.Spacer &&
+            !((IToolbarItem)this).IsCollapsedExtended;
 
         ToolbarOverflowOption IToolbarItem.OverflowOption => Overflow;
 
@@ -108,6 +117,8 @@ namespace Syncfusion.Blazor.Toolkit
             Type != ToolbarItemType.Spacer;
 
         bool IToolbarItem.IsOverflowed { get; set; }
+
+        bool IToolbarItem.IsCollapsedExtended { get; set; }
 
         string? IToolbarItem.DisplayText => Text;
 
@@ -127,6 +138,16 @@ namespace Syncfusion.Blazor.Toolkit
         private string BaseItemClass { get; set; } = ItemRootClass;
 
         private string ItemClass => ((IToolbarItem)this).IsOverflowed ? BaseItemClass + OverflowedClass : BaseItemClass;
+
+        private int TemplateTabIndex
+        {
+            get
+            {
+                int tabIndex = _nestedTabIndex ?? _host?.GetTabIndex(this) ?? (((IToolbarItem)this).IsFocusable ? 0 : -1);
+                _renderedTabIndex = tabIndex;
+                return tabIndex;
+            }
+        }
 
         private string ResolvedId => string.IsNullOrWhiteSpace(Id) ? GeneratedId : Id;
 
@@ -279,8 +300,11 @@ namespace Syncfusion.Blazor.Toolkit
         /// </summary>
         private Dictionary<string, object> BuildButtonAttributes()
         {
-            int tabIndex = _nestedTabIndex ?? _host?.GetTabIndex(this) ?? 0;
-            _renderedTabIndex = tabIndex;
+            int itemTabIndex = _nestedTabIndex ?? _host?.GetTabIndex(this) ?? 0;
+            _renderedTabIndex = itemTabIndex;
+            int tabIndex = Type == ToolbarItemType.Split && _nestedTabIndex is null && _splitChevronFocused
+                ? -1
+                : itemTabIndex;
 
             Dictionary<string, object> attributes = new()
             {
@@ -336,6 +360,11 @@ namespace Syncfusion.Blazor.Toolkit
             {
                 html["data-group"] = GroupName!;
             }
+            if (HasNestedMenu && NestedOwner is null)
+            {
+                html["onkeydown"] = EventCallback.Factory.Create<KeyboardEventArgs>(this, HandlePrimaryKeyDownAsync);
+                html["onfocus"] = EventCallback.Factory.Create<Microsoft.AspNetCore.Components.Web.FocusEventArgs>(this, HandlePrimaryFocusIn);
+            }
             if (_nestedTabIndex is not null)
             {
                 html["data-testid"] = "toolbar-nested-item";
@@ -354,8 +383,11 @@ namespace Syncfusion.Blazor.Toolkit
                 ["aria-haspopup"] = "menu",
                 ["aria-expanded"] = MenuOpen ? TrueValue : FalseValue,
                 ["aria-label"] = string.IsNullOrEmpty(Text) ? "Open" : Text + " menu",
+                ["tabindex"] = _host?.GetTabIndex(this) == 0 && _splitChevronFocused ? "0" : "-1",
                 ["data-testid"] = "toolbar-split-toggle"
             };
+            html["onkeydown"] = EventCallback.Factory.Create<KeyboardEventArgs>(this, HandleChevronKeyDownAsync);
+            html["onfocus"] = EventCallback.Factory.Create<Microsoft.AspNetCore.Components.Web.FocusEventArgs>(this, HandleChevronFocusIn);
             return html;
         }
 
@@ -637,12 +669,95 @@ namespace Syncfusion.Blazor.Toolkit
                 : _host.NavigateAsync(this, args.Key);
         }
 
+        private async Task HandlePrimaryKeyDownAsync(KeyboardEventArgs args)
+        {
+            if (_disposed || _host is null || !IsNavigationKey(args.Key))
+            {
+                return;
+            }
+            if (Type == ToolbarItemType.Split && IsForwardInlineKey(args.Key))
+            {
+                await FocusSplitPartAsync(chevron: true).ConfigureAwait(true);
+                return;
+            }
+            await _host.NavigateAsync(this, args.Key).ConfigureAwait(true);
+        }
+
+        private async Task HandleChevronKeyDownAsync(KeyboardEventArgs args)
+        {
+            if (_disposed || _host is null || !IsNavigationKey(args.Key))
+            {
+                return;
+            }
+            if (IsBackwardInlineKey(args.Key))
+            {
+                await FocusSplitPartAsync(chevron: false).ConfigureAwait(true);
+                return;
+            }
+            await _host.NavigateAsync(this, args.Key).ConfigureAwait(true);
+        }
+
         private void HandleFocusIn(Microsoft.AspNetCore.Components.Web.FocusEventArgs args)
         {
             if (!_disposed)
             {
                 _host?.NotifyItemFocused(this);
             }
+        }
+
+        private void HandlePrimaryFocusIn(Microsoft.AspNetCore.Components.Web.FocusEventArgs args)
+        {
+            if (_disposed)
+            {
+                return;
+            }
+            if (_splitChevronFocused)
+            {
+                _splitChevronFocused = false;
+                StateHasChanged();
+            }
+            _host?.NotifyItemFocused(this);
+        }
+
+        private void HandleChevronFocusIn(Microsoft.AspNetCore.Components.Web.FocusEventArgs args)
+        {
+            if (_disposed)
+            {
+                return;
+            }
+            if (!_splitChevronFocused)
+            {
+                _splitChevronFocused = true;
+                StateHasChanged();
+            }
+            _host?.NotifyItemFocused(this);
+        }
+
+        private async Task FocusSplitPartAsync(bool chevron)
+        {
+            if (Type != ToolbarItemType.Split || _host is null)
+            {
+                return;
+            }
+            _splitChevronFocused = chevron;
+            _host.NotifyItemFocused(this);
+            StateHasChanged();
+            await Task.Yield();
+            SfButton? button = chevron ? _chevronButton : _button;
+            if (button is not null)
+            {
+                await button.FocusElementAsync().ConfigureAwait(true);
+            }
+        }
+
+        private bool IsForwardInlineKey(string key)
+        {
+            return _host?.IsRtl == true ? key == "ArrowLeft" : key == "ArrowRight";
+        }
+
+        private bool IsBackwardInlineKey(string key)
+        {
+            return _host?.IsRtl == true ? key == "ArrowRight" : key == "ArrowLeft";
         }
 
         private static bool IsNavigationKey(string key)
@@ -656,7 +771,16 @@ namespace Syncfusion.Blazor.Toolkit
 
         ValueTask IToolbarItem.FocusItemAsync()
         {
-            return _button is null ? ValueTask.CompletedTask : _button.FocusElementAsync();
+            if (_splitChevronFocused)
+            {
+                _splitChevronFocused = false;
+                StateHasChanged();
+            }
+            return _button is not null
+                ? _button.FocusElementAsync()
+                : _itemElement.Context is null
+                    ? ValueTask.CompletedTask
+                    : _itemElement.FocusAsync();
         }
 
         void IToolbarItem.Refresh()

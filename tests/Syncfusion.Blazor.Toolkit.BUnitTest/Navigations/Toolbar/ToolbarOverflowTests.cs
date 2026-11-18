@@ -370,6 +370,51 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Navigations.Toolbar
             Assert.Single(cut.FindAll(OverflowPopup));
         }
 
+        [Theory(DisplayName = "U-TB-025 Enter and Space on the overflow button open the popup, and a second press closes it")]
+        [InlineData("Enter")]
+        [InlineData(" ")]
+        public async Task OverflowButton_EnterAndSpace_TogglePopup(string key)
+        {
+            IRenderedComponent<SfToolbar> cut = RenderMeasured(200);
+            cut.WaitForAssertion(() => Assert.Single(cut.FindAll(OverflowButton)));
+            IElement button = cut.Find(OverflowButton);
+            button.KeyDown(new KeyboardEventArgs { Key = key });
+            Assert.Empty(cut.FindAll(OverflowPopup));
+            button.KeyUp(new KeyboardEventArgs { Key = key });
+            cut.WaitForAssertion(() => Assert.Single(cut.FindAll(OverflowPopup)), TimeSpan.FromSeconds(2));
+
+            button = cut.Find(OverflowButton);
+            button.KeyDown(new KeyboardEventArgs { Key = key });
+            button.KeyUp(new KeyboardEventArgs { Key = key });
+            cut.WaitForAssertion(() => Assert.Empty(cut.FindAll(OverflowPopup)));
+        }
+
+        [Theory(DisplayName = "U-TB-025 Enter and Space on a popup item activate it and close the popup")]
+        [InlineData("Enter")]
+        [InlineData(" ")]
+        public async Task OverflowItem_EnterAndSpace_ActivateAndClose(string key)
+        {
+            List<string> log = [];
+            ScriptMeasurement(200, "a", "b", "c", "d", "e");
+            IRenderedComponent<SfToolbar> cut = RenderToolbar(Compose(
+                Item("A", ("Id", "a")),
+                Item("B", ("Id", "b")),
+                Item("C", ("Id", "c")),
+                Item("D", ("Id", "d"), ("OnClick", EventCallback.Factory.Create<MouseEventArgs>(this, _ => log.Add("item:D")))),
+                Item("E", ("Id", "e"))));
+            cut.WaitForAssertion(() => Assert.Single(cut.FindAll(OverflowButton)));
+            cut.Find(OverflowButton).KeyUp(new KeyboardEventArgs { Key = "Enter" });
+            cut.WaitForAssertion(() => Assert.NotEmpty(cut.FindAll(OverflowItem)));
+
+            cut.FindAll(OverflowItem).First(e => e.TextContent.Contains("D", StringComparison.Ordinal)).KeyDown(new KeyboardEventArgs { Key = key });
+
+            cut.WaitForAssertion(() =>
+            {
+                Assert.Contains("item:D", log);
+                Assert.Empty(cut.FindAll(OverflowPopup));
+            });
+        }
+
         [Fact(DisplayName = "U-TB-025 Clicking outside the popup closes it")]
         public async Task OutsideClick_Closes()
         {

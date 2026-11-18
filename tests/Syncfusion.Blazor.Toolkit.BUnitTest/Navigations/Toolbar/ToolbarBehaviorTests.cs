@@ -423,6 +423,55 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Navigations.Toolbar
             Assert.Equal("A", TabStop(cut));
         }
 
+        [Fact(DisplayName = "U-TB-046 Arrow navigation reaches a template item and a split item without a prior click")]
+        public async Task Keyboard_ReachesTemplateAndSplit()
+        {
+            RenderFragment<ToolbarTemplateContext> template = _ => builder => builder.AddContent(0, "Search");
+            RenderFragment splitItems = Compose(Item("Paste text"), Item("Paste link"));
+            IRenderedComponent<SfToolbar> cut = RenderToolbar(Compose(
+                Item("Before"),
+                Comp<ToolbarGroup>(Compose(
+                    Comp<ToolbarItem>(splitItems, ("Text", "Paste"), ("Type", ToolbarItemType.Split)),
+                    Item("Download", ("Type", ToolbarItemType.DropDown)),
+                    Item("Ascending"))),
+                Item("Search", ("Type", ToolbarItemType.Template), ("Template", template))));
+
+            IElement before = cut.FindAll("[data-testid='toolbar-item']")
+                .First(e => e.TextContent.Contains("Before", StringComparison.Ordinal));
+            before.FocusIn();
+            await before.QuerySelector("button")!.KeyDownAsync(new KeyboardEventArgs { Key = "ArrowRight" });
+
+            IElement paste = cut.FindAll("[data-testid='toolbar-item']").First(e => e.TextContent.Contains("Paste", StringComparison.Ordinal));
+            Assert.Equal("0", paste.QuerySelector("[data-testid='toolbar-split-primary']")?.GetAttribute("tabindex"));
+            Assert.Equal("-1", paste.QuerySelector("[data-testid='toolbar-split-toggle']")?.GetAttribute("tabindex"));
+            await paste.QuerySelector("[data-testid='toolbar-split-primary']")!.KeyDownAsync(new KeyboardEventArgs { Key = "ArrowRight" });
+
+            paste = cut.FindAll("[data-testid='toolbar-item']").First(e => e.TextContent.Contains("Paste", StringComparison.Ordinal));
+            Assert.Equal("-1", paste.QuerySelector("[data-testid='toolbar-split-primary']")?.GetAttribute("tabindex"));
+            Assert.Equal("0", paste.QuerySelector("[data-testid='toolbar-split-toggle']")?.GetAttribute("tabindex"));
+            await paste.QuerySelector("[data-testid='toolbar-split-toggle']")!.KeyDownAsync(new KeyboardEventArgs { Key = "ArrowLeft" });
+
+            paste = cut.FindAll("[data-testid='toolbar-item']").First(e => e.TextContent.Contains("Paste", StringComparison.Ordinal));
+            Assert.Equal("0", paste.QuerySelector("[data-testid='toolbar-split-primary']")?.GetAttribute("tabindex"));
+            Assert.Equal("-1", paste.QuerySelector("[data-testid='toolbar-split-toggle']")?.GetAttribute("tabindex"));
+
+            await paste.QuerySelector("[data-testid='toolbar-split-primary']")!.KeyDownAsync(new KeyboardEventArgs { Key = "ArrowRight" });
+            paste = cut.FindAll("[data-testid='toolbar-item']").First(e => e.TextContent.Contains("Paste", StringComparison.Ordinal));
+            await paste.QuerySelector("[data-testid='toolbar-split-toggle']")!.KeyDownAsync(new KeyboardEventArgs { Key = "ArrowRight" });
+
+            Assert.Contains("Download", cut.Markup, StringComparison.Ordinal);
+            Assert.Contains("tabindex=\"0\"", cut.FindAll("[data-testid='toolbar-item']")
+                .First(e => e.TextContent.Contains("Download", StringComparison.Ordinal)).InnerHtml, StringComparison.Ordinal);
+
+            IElement ascending = cut.FindAll("[data-testid='toolbar-item']").First(e => e.TextContent.Contains("Ascending", StringComparison.Ordinal));
+            ascending.FocusIn();
+            await ascending.KeyDownAsync(new KeyboardEventArgs { Key = "ArrowRight" });
+
+            IElement templateRoot = cut.Find("[data-testid='toolbar-template-item']");
+            Assert.Equal("0", templateRoot.GetAttribute("tabindex"));
+            Assert.Equal("group", templateRoot.GetAttribute("role"));
+        }
+
         [Fact(DisplayName = "U-TB-046 Arrow navigation crosses group boundaries")]
         public void Keyboard_CrossesGroups()
         {

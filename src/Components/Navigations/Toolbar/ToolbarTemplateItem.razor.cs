@@ -73,6 +73,8 @@ namespace Syncfusion.Blazor.Toolkit
 
         bool IToolbarItem.IsOverflowed { get; set; }
 
+        bool IToolbarItem.IsCollapsedExtended { get; set; }
+
         string? IToolbarItem.DisplayText => null;
 
         string? IToolbarItem.DisplayIconCss => null;

@@ -56,6 +56,13 @@ namespace Syncfusion.Blazor.Toolkit
         /// </summary>
         [JsonPropertyName("size")]
         public double Size { get; set; }
+
+        /// <exclude />
+        /// <summary>
+        /// Gets or sets the distance from the first item's row, in CSS pixels. Zero means the first row.
+        /// </summary>
+        [JsonPropertyName("row")]
+        public double Row { get; set; }
     }
 
     /// <exclude />

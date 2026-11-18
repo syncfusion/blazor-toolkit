@@ -66,6 +66,10 @@ namespace Syncfusion.Blazor.Toolkit
 
         bool IToolbarHost.IsRtl => Parent?.IsRtl ?? false;
 
+        bool IToolbarHost.IsExtendedMode => Parent?.IsExtendedMode ?? false;
+
+        bool IToolbarHost.IsExtendedCollapsed => Parent?.IsExtendedCollapsed ?? false;
+
         /// <exclude />
         protected override void OnInitialized()
         {

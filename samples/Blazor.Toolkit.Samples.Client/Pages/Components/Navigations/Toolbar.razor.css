@@ -224,6 +224,20 @@
     box-sizing: border-box;
 }
 
+.toolbar-demo-page ::deep .preview-section:has(.tb-orient),
+.toolbar-demo-page ::deep .preview-section:has(.tb-overflow),
+.toolbar-demo-page ::deep .preview-section:has(.tb-templates),
+.toolbar-demo-page ::deep .preview-section:has(.tb-items) {
+    overflow: visible;
+}
+
+.toolbar-demo-page ::deep .preview-section:has(.tb-orient),
+.toolbar-demo-page ::deep .preview-section:has(.tb-overflow),
+.toolbar-demo-page ::deep .preview-section:has(.tb-templates),
+.toolbar-demo-page ::deep .preview-section:has(.tb-items) {
+    overflow: visible;
+}
+
 .toolbar-demo-page ::deep .tb-shell.is-rail .tb-rail .e-toolbar-vertical {
     display: flex !important;
     flex-direction: column !important;

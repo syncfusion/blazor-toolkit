@@ -303,9 +303,13 @@
 /* The focus indicator keeps a 3:1 contrast against its surroundings (WCAG 2.2 SC 1.4.11). */
 .e-toolbar ::deep .e-tbar-btn:focus-visible,
 .e-toolbar ::deep .e-toolbar-overflow-btn:focus-visible,
-.e-toolbar ::deep .e-toolbar-chevron:focus-visible {
+.e-toolbar ::deep .e-toolbar-chevron:focus-visible,
+.e-toolbar ::deep .e-toolbar-item:focus-visible,
+.e-toolbar-overflow-popup ::deep .e-toolbar-overflow-entry:focus-visible,
+.e-toolbar ::deep .e-toolbar-nested-menu .e-tbar-btn:focus-visible {
+    /* Inset so a host with overflow clipping still shows the whole indicator (WCAG 2.4.7). */
     outline: var(--e-toolbar-focus-width) solid var(--color-sf-primary-bg-color);
-    outline-offset: 1px;
+    outline-offset: calc(var(--e-toolbar-focus-width) * -1);
 }
 
 /* Split keeps the primary action and the chevron as one command. */
@@ -360,6 +364,12 @@
 .e-toolbar ::deep .e-tbar-btn {
     overflow: hidden;
     position: relative;
+}
+
+/* The ripple clip must not hide the keyboard indicator. */
+.e-toolbar ::deep .e-tbar-btn:focus-visible,
+.e-toolbar-overflow-popup ::deep .e-toolbar-overflow-entry:focus-visible {
+    overflow: visible;
 }
 
 .e-toolbar .e-toolbar-ripple,
@@ -632,7 +642,9 @@
         color: HighlightText;
     }
 
-    .e-toolbar ::deep .e-tbar-btn:focus-visible {
+    .e-toolbar ::deep .e-tbar-btn:focus-visible,
+    .e-toolbar ::deep .e-toolbar-item:focus-visible,
+    .e-toolbar-overflow-popup ::deep .e-toolbar-overflow-entry:focus-visible {
         outline-color: Highlight;
     }
 

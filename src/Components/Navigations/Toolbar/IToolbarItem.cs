@@ -69,6 +69,9 @@ namespace Syncfusion.Blazor.Toolkit
         /// </summary>
         bool IsOverflowed { get; set; }
 
+        /// <summary>Gets or sets whether the item sits on a collapsed extended-overflow row.</summary>
+        bool IsCollapsedExtended { get; set; }
+
         /// <exclude />
         /// <summary>
         /// Gets the text shown for the item in the overflow popup.

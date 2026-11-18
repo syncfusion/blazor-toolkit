@@ -17,7 +17,7 @@ namespace Syncfusion.Blazor.Toolkit
             // the render that opens the menu, and the second click can miss the handler.
             if (!_overflowToggleBound)
             {
-                _overflowToggleCallback = EventCallback.Factory.Create<MouseEventArgs>(this, ToggleAsync);
+                _overflowToggleCallback = EventCallback.Factory.Create<MouseEventArgs>(this, _ => HandleOverflowClickAsync());
                 _overflowToggleBound = true;
             }
             DetectLayoutParameterChange();

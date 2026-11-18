@@ -43,6 +43,16 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Navigations.Toolbar
             module.Setup<ToolbarMeasurement>("measure", _ => true).SetResult(measurement);
         }
 
+        private void ScriptExtendedMeasurement(params (string Id, double Row)[] items)
+        {
+            SetupToolbarModule();
+            ToolbarMeasurement measurement = new()
+            {
+                Items = items.Select(item => new ToolbarMeasuredItem { Id = item.Id, Row = item.Row }).ToList()
+            };
+            _module!.Setup<ToolbarMeasurement>("measure", _ => true).SetResult(measurement);
+        }
+
         private void WaitUntilMeasured()
         {
             for (int i = 0; i < 500 && JSInterop.Invocations.Count(i => i.Identifier == "measure") < 1; i++)
@@ -331,6 +341,20 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Navigations.Toolbar
             });
         }
 
+        [Fact(DisplayName = "U-TB-056 DOM focus events on nested toolbar triggers do not crash")]
+        public async Task NestedTriggers_DomFocusEventsDoNotCrash()
+        {
+            SetupToolbarModule();
+            IRenderedComponent<SfToolbar> cut = RenderToolbar(Compose(
+                Comp<ToolbarItem>(Item("Save as"), ("Text", "Save"), ("Type", ToolbarItemType.Split)),
+                Comp<ToolbarItem>(Item("Option A"), ("Text", "More"), ("Type", ToolbarItemType.DropDown))));
+
+            var focusArgs = new Microsoft.AspNetCore.Components.Web.FocusEventArgs();
+            await cut.Find("[data-testid='toolbar-split-primary']").TriggerEventAsync("onfocus", focusArgs);
+            await cut.Find("[data-testid='toolbar-split-toggle']").TriggerEventAsync("onfocus", focusArgs);
+            await cut.Find("[data-testid='toolbar-dropdown']").TriggerEventAsync("onfocus", focusArgs);
+        }
+
         [Fact(DisplayName = "U-TB-055 Cancel keeps a DropDown nested popup closed and OnItemClick still fires")]
         public void Cancel_KeepsNestedPopupClosed()
         {
@@ -545,6 +569,28 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Navigations.Toolbar
             Assert.Contains("e-toolbar-expanded", root.ClassName);
             Assert.Equal("true", cut.Find("[data-testid='toolbar-expand-button']").GetAttribute("aria-expanded"));
             Assert.Empty(cut.FindAll(OverflowPopup));
+        }
+
+        [Fact(DisplayName = "U-TB-022 Arrow navigation skips items on collapsed Extended rows")]
+        public void Extended_ArrowNavigationSkipsCollapsedRows()
+        {
+            ScriptExtendedMeasurement(("a", 0), ("b", 0), ("c", 24));
+            IRenderedComponent<SfToolbar> cut = RenderToolbar(
+                Compose(Item("A", ("Id", "a")), Item("B", ("Id", "b")), Item("C", ("Id", "c"))),
+                p => p.Add(t => t.OverflowMode, ToolbarOverflowMode.Extended));
+            WaitUntilMeasured();
+            cut.WaitForAssertion(() =>
+                Assert.Equal("-1", cut.FindAll("[data-testid='toolbar-item']")
+                    .Single(item => item.TextContent.Trim() == "C").QuerySelector("button")?.GetAttribute("tabindex")));
+
+            IElement a = cut.FindAll("[data-testid='toolbar-item']").Single(item => item.TextContent.Trim() == "A");
+            a.FocusIn();
+            a.KeyDown(new KeyboardEventArgs { Key = "ArrowRight" });
+
+            Assert.Equal("0", cut.FindAll("[data-testid='toolbar-item']")
+                .Single(item => item.TextContent.Trim() == "B").QuerySelector("button")?.GetAttribute("tabindex"));
+            Assert.Equal("-1", cut.FindAll("[data-testid='toolbar-item']")
+                .Single(item => item.TextContent.Trim() == "C").QuerySelector("button")?.GetAttribute("tabindex"));
         }
 
         // ------------------------------------------------------------------ localization and churn
