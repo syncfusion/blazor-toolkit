@@ -1,0 +1,159 @@
+<div class="sbd-shell">
+    <div class="sbd-toolbar">
+        <span class="sbd-toolbar-title">AgentHub</span>
+        <span class="sbd-toolbar-spacer"></span>
+    </div>
+
+    <div class="sbd-stage sbd-controlled-stage">
+        <SfSidebar Id="sbd-controlled"
+                   @bind-IsOpen="_isOpen"
+                   Mode="SidebarMode.Shrink"
+                   Responsive="false"
+                   Fixed="false"
+                   Width="252px"
+                   AriaLabel="AgentHub workspace navigation">
+            <HeaderTemplate>
+                <div class="sbd-agenthub-brand">
+                    <span class="sbd-agenthub-mark" aria-hidden="true">A</span>
+                    <strong>AgentHub</strong>
+                </div>
+            </HeaderTemplate>
+            <ChildContent>
+                <ul class="sbd-nav sbd-agenthub-nav" role="listbox" aria-label="AgentHub navigation">
+                    <li class="@(_selectedNavigationIndex == 0 ? "sbd-nav-selected" : null)" role="option" aria-selected="@(_selectedNavigationIndex == 0 ? "true" : "false")" tabindex="@(_selectedNavigationIndex == 0 ? 0 : -1)" @ref="_navigationItems[0]" @onclick="@(() => SelectNavigationItem(0))" @onkeydown="@((args) => HandleNavigationKeyDown(args, 0))"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3.5" y="3.5" width="7" height="7" rx="1" /><rect x="13.5" y="3.5" width="7" height="7" rx="1" /><rect x="3.5" y="13.5" width="7" height="7" rx="1" /><rect x="13.5" y="13.5" width="7" height="7" rx="1" /></svg>Dashboard</li>
+                    <li class="@(_selectedNavigationIndex == 1 ? "sbd-nav-selected" : null)" role="option" aria-selected="@(_selectedNavigationIndex == 1 ? "true" : "false")" tabindex="@(_selectedNavigationIndex == 1 ? 0 : -1)" @ref="_navigationItems[1]" @onclick="@(() => SelectNavigationItem(1))" @onkeydown="@((args) => HandleNavigationKeyDown(args, 1))"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="6" width="16" height="13" rx="4" /><path d="M9 12h.01M15 12h.01M9 16h6M12 3v3" /><circle cx="12" cy="3" r="1" /></svg>Agents</li>
+                    <li class="@(_selectedNavigationIndex == 2 ? "sbd-nav-selected" : null)" role="option" aria-selected="@(_selectedNavigationIndex == 2 ? "true" : "false")" tabindex="@(_selectedNavigationIndex == 2 ? 0 : -1)" @ref="_navigationItems[2]" @onclick="@(() => SelectNavigationItem(2))" @onkeydown="@((args) => HandleNavigationKeyDown(args, 2))"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="6" cy="6" r="2" /><circle cx="18" cy="18" r="2" /><circle cx="18" cy="6" r="2" /><path d="M8 6h5a3 3 0 0 1 3 3v7m-1-2 1 2 2-1" /></svg>Workflows</li>
+                    <li class="@(_selectedNavigationIndex == 3 ? "sbd-nav-selected" : null)" role="option" aria-selected="@(_selectedNavigationIndex == 3 ? "true" : "false")" tabindex="@(_selectedNavigationIndex == 3 ? 0 : -1)" @ref="_navigationItems[3]" @onclick="@(() => SelectNavigationItem(3))" @onkeydown="@((args) => HandleNavigationKeyDown(args, 3))"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 19V9m5 10V5m5 14v-7m5 7V3" /></svg>Monitor</li>
+                    <li class="@(_selectedNavigationIndex == 4 ? "sbd-nav-selected" : null)" role="option" aria-selected="@(_selectedNavigationIndex == 4 ? "true" : "false")" tabindex="@(_selectedNavigationIndex == 4 ? 0 : -1)" @ref="_navigationItems[4]" @onclick="@(() => SelectNavigationItem(4))" @onkeydown="@((args) => HandleNavigationKeyDown(args, 4))"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="9" /><path d="M9.5 9a2.6 2.6 0 1 1 4.4 1.8c-1.1 1-1.9 1.3-1.9 2.7m0 3h.01" /></svg>Help</li>
+                    <li class="@(_selectedNavigationIndex == 5 ? "sbd-nav-selected" : null)" role="option" aria-selected="@(_selectedNavigationIndex == 5 ? "true" : "false")" tabindex="@(_selectedNavigationIndex == 5 ? 0 : -1)" @ref="_navigationItems[5]" @onclick="@(() => SelectNavigationItem(5))" @onkeydown="@((args) => HandleNavigationKeyDown(args, 5))"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 5h16M4 12h16M4 19h16" /><circle cx="8" cy="5" r="1.5" /><circle cx="15" cy="12" r="1.5" /><circle cx="10" cy="19" r="1.5" /></svg>Logs</li>
+                </ul>
+            </ChildContent>
+            <FooterTemplate>
+                <SfButton CssClass="e-flat sbd-rail-item sbd-rail-lg">Logout<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 5H5v14h5m2-3 4-4-4-4m4 4H8" /></svg></SfButton>
+            </FooterTemplate>
+            <TargetContent>
+                <div class="sbd-controlled-target">
+                    <SfButton CssClass="e-flat sbd-agenthub-toggle"
+                              aria-label="@(_isOpen ? "Collapse AgentHub navigation" : "Expand AgentHub navigation")"
+                              aria-controls="sbd-controlled"
+                              aria-expanded="@(_isOpen ? "true" : "false")"
+                              OnClick="Toggle">
+                        <svg viewBox="0 0 24 24" aria-hidden="true" class="@(_isOpen ? "sbd-agenthub-toggle-icon-open" : null)"><path d="M11 4V7C11 7.55228 11.4477 8 12 8C12.5523 8 13 7.55229 13 7V4C13 2.89543 12.1046 2 11 2H4C2.89543 2 2 2.89543 2 4V20C2 21.1046 2.89543 22 4 22H11C12.1046 22 13 21.1046 13 20V17C13 16.4477 12.5523 16 12 16C11.4477 16 11 16.4477 11 17V20H4L4 4L11 4ZM16 18.4142L22.4142 12L16 5.58578L14.5858 7L18.5858 11L7.99997 11L7.99997 13L18.5858 13L14.5858 17L16 18.4142Z" fill-rule="evenodd" clip-rule="evenodd" fill="currentColor" /></svg>
+                    </SfButton>
+                    <div class="sbd-content sbd-controlled-skeletons">
+                        <div class="sbd-skeleton sbd-controlled-skeleton"></div>
+                        <div class="sbd-skeleton sbd-controlled-skeleton"></div>
+                    </div>
+                </div>
+            </TargetContent>
+        </SfSidebar>
+    </div>
+</div>
+
+@code {
+    private bool _isOpen = true;
+    private int _selectedNavigationIndex;
+    private readonly ElementReference[] _navigationItems = new ElementReference[7];
+
+    private void Toggle() => _isOpen = !_isOpen;
+
+    private void SelectNavigationItem(int index) => _selectedNavigationIndex = index;
+
+    private async Task HandleNavigationKeyDown(KeyboardEventArgs args, int currentIndex)
+    {
+        int nextIndex = args.Key switch
+        {
+            "ArrowDown" => (currentIndex + 1) % _navigationItems.Length,
+            "ArrowUp" => (currentIndex - 1 + _navigationItems.Length) % _navigationItems.Length,
+            "Home" => 0,
+            "End" => _navigationItems.Length - 1,
+            _ => currentIndex
+        };
+
+        if (nextIndex != currentIndex)
+        {
+            SelectNavigationItem(nextIndex);
+            await _navigationItems[nextIndex].FocusAsync();
+        }
+        else if (args.Key == "Enter")
+        {
+            SelectNavigationItem(currentIndex);
+        }
+    }
+}
+
+<style>
+    .sbd-controlled-stage {
+        min-height: 24rem;
+    }
+
+    .sbd-agenthub-brand {
+        display: flex;
+        align-items: center;
+        gap: .5rem;
+    }
+
+    .sbd-agenthub-mark {
+        display: grid;
+        flex: none;
+        width: 1.875rem;
+        height: 1.875rem;
+        place-items: center;
+        border-radius: .5rem;
+        background: var(--sbd-control-hover-bg);
+        color: var(--sbd-text);
+        font-weight: 700;
+    }
+
+    .sbd-agenthub-nav svg {
+        flex: none;
+        width: 1.5rem;
+        height: 1.5rem;
+        fill: none;
+        stroke: currentColor;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 1.7;
+    }
+
+    .sbd-controlled-target {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr);
+        align-content: start;
+        min-width: 0;
+        min-height: 24rem;
+        background: var(--sbd-surface);
+    }
+
+    .sbd-agenthub-toggle.e-btn {
+        justify-self: start;
+        min-width: 2.25rem;
+        min-height: 2.25rem;
+        margin-block: .875rem .5rem;
+        margin-inline-start: .875rem;
+        padding: .25rem;
+    }
+
+    .sbd-content.sbd-controlled-skeletons {
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-rows: 6.25rem 12.5rem;
+        align-content: start;
+        gap: .375rem;
+        min-height: 0;
+        padding: 0 .875rem .875rem;
+    }
+
+    .sbd-controlled-skeleton {
+        width: 100%;
+        min-height: 0;
+    }
+
+    .sbd-agenthub-toggle svg {
+        width: 1.25rem;
+        height: 1.25rem;
+    }
+
+    .sbd-agenthub-toggle-icon-open {
+        transform: scaleX(-1);
+    }
+</style>
