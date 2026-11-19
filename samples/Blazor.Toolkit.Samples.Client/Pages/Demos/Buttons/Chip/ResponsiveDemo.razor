@@ -1,0 +1,44 @@
+@using Syncfusion.Blazor.Toolkit
+
+<section class="chip-demo-shell chip-demo-panel" aria-labelledby="responsive-filters-title">
+    <header class="chip-demo-section-heading chip-demo-responsive-heading">
+        <div id="responsive-filters-title" class="chip-demo-panel-title" role="heading" aria-level="3">Browse categories</div>
+        <span class="chip-demo-count" role="status" aria-live="polite">@SelectedCount selected</span>
+    </header>
+
+    <div class="chip-demo-mode-controls" role="group" aria-label="Category chip layout">
+        <button type="button" class="@(mode == ChipOverflowMode.Wrap ? "is-selected" : string.Empty)"
+                aria-pressed="@(mode == ChipOverflowMode.Wrap)"
+                @onclick="() => mode = ChipOverflowMode.Wrap">Wrap</button>
+        <button type="button" class="@(mode == ChipOverflowMode.Scroll ? "is-selected" : string.Empty)"
+                aria-pressed="@(mode == ChipOverflowMode.Scroll)"
+                @onclick="() => mode = ChipOverflowMode.Scroll">Scroll</button>
+        <button type="button" class="@(mode == ChipOverflowMode.Collapse ? "is-selected" : string.Empty)"
+                aria-pressed="@(mode == ChipOverflowMode.Collapse)"
+                @onclick="() => mode = ChipOverflowMode.Collapse">Collapse</button>
+    </div>
+
+    <div class="chip-demo-narrow">
+        <SfChipSet TItem="string"
+                   DataSource="@items"
+                   ItemKey="x => x"
+                   OverflowMode="@mode"
+                   CollapsedVisibleCount="4"
+                   AriaLabel="Categories"
+                   ChipType="ChipType.Filter"
+                   SelectionMode="ChipSelectionMode.Multiple"
+                   @bind-SelectedValues="selected" />
+    </div>
+</section>
+
+@code {
+    private ChipOverflowMode mode = ChipOverflowMode.Wrap;
+    private readonly List<string> items =
+    [
+        "Analytics", "Design", "Engineering", "Finance", "Marketing", "Operations",
+        "Product", "Research", "Sales", "Security", "Support", "Writing"
+    ];
+    private IEnumerable<object?> selected = Array.Empty<object?>();
+
+    private int SelectedCount => selected.Count();
+}

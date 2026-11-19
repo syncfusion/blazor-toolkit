@@ -1,0 +1,83 @@
+<div class="sbd-shell">
+    <div class="sbd-toolbar">
+        <SfButton CssClass="e-flat sbd-toolbar-button"
+                  IconCss="sb-icons e-menu"
+                  aria-label="Toggle navigation"
+                  aria-controls="sbd-default"
+                  aria-expanded="@(_isOpen ? "true" : "false")"
+                  OnClick="Toggle" />
+        <span class="sbd-toolbar-title">Workspace</span>
+        <span class="sbd-toolbar-spacer"></span>
+    </div>
+
+    <div class="sbd-stage">
+        <SfSidebar Id="sbd-default"
+                   Mode="SidebarMode.Overlay"
+                   @bind-IsOpen="_isOpen"
+                   Fixed="false"
+                   Width="270px"
+                   AriaLabel="Primary navigation">
+            <ChildContent>
+                <ul class="sbd-nav" role="listbox" aria-label="Workspace navigation">
+                    <li class="@(_selectedNavigationIndex == 0 ? "sbd-nav-selected" : null)" role="option" aria-selected="@(_selectedNavigationIndex == 0 ? "true" : "false")" tabindex="@(_selectedNavigationIndex == 0 ? 0 : -1)" @ref="_navigationItems[0]" @onclick="@(() => SelectNavigationItem(0))" @onkeydown="@((args) => HandleNavigationKeyDown(args, 0))">
+                        Dashboard
+                    </li>
+                    <li class="@(_selectedNavigationIndex == 1 ? "sbd-nav-selected" : null)" role="option" aria-selected="@(_selectedNavigationIndex == 1 ? "true" : "false")" tabindex="@(_selectedNavigationIndex == 1 ? 0 : -1)" @ref="_navigationItems[1]" @onclick="@(() => SelectNavigationItem(1))" @onkeydown="@((args) => HandleNavigationKeyDown(args, 1))">
+                        Products
+                    </li>
+                    <li class="@(_selectedNavigationIndex == 2 ? "sbd-nav-selected" : null)" role="option" aria-selected="@(_selectedNavigationIndex == 2 ? "true" : "false")" tabindex="@(_selectedNavigationIndex == 2 ? 0 : -1)" @ref="_navigationItems[2]" @onclick="@(() => SelectNavigationItem(2))" @onkeydown="@((args) => HandleNavigationKeyDown(args, 2))">
+                        Orders
+                    </li>
+                    <li class="@(_selectedNavigationIndex == 3 ? "sbd-nav-selected" : null)" role="option" aria-selected="@(_selectedNavigationIndex == 3 ? "true" : "false")" tabindex="@(_selectedNavigationIndex == 3 ? 0 : -1)" @ref="_navigationItems[3]" @onclick="@(() => SelectNavigationItem(3))" @onkeydown="@((args) => HandleNavigationKeyDown(args, 3))">
+                        Reports
+                    </li>
+                    <li class="@(_selectedNavigationIndex == 4 ? "sbd-nav-selected" : null)" role="option" aria-selected="@(_selectedNavigationIndex == 4 ? "true" : "false")" tabindex="@(_selectedNavigationIndex == 4 ? 0 : -1)" @ref="_navigationItems[4]" @onclick="@(() => SelectNavigationItem(4))" @onkeydown="@((args) => HandleNavigationKeyDown(args, 4))">
+                        Settings
+                    </li>
+                </ul>
+            </ChildContent>
+            <TargetContent>
+                <div class="sbd-content sbd-dashboard-skeletons">
+                    <div class="sbd-skeleton sbd-dashboard-skeleton sbd-dashboard-skeleton-short"></div>
+                    <div class="sbd-dashboard-skeleton-row">
+                        <div class="sbd-skeleton sbd-dashboard-skeleton"></div>
+                        <div class="sbd-skeleton sbd-dashboard-skeleton"></div>
+                        <div class="sbd-skeleton sbd-dashboard-skeleton"></div>
+                    </div>
+                </div>
+            </TargetContent>
+        </SfSidebar>
+    </div>
+</div>
+
+@code {
+    private bool _isOpen = true;
+    private int _selectedNavigationIndex;
+    private readonly ElementReference[] _navigationItems = new ElementReference[5];
+
+    private void Toggle() => _isOpen = !_isOpen;
+
+    private void SelectNavigationItem(int index) => _selectedNavigationIndex = index;
+
+    private async Task HandleNavigationKeyDown(KeyboardEventArgs args, int currentIndex)
+    {
+        int nextIndex = args.Key switch
+        {
+            "ArrowDown" => (currentIndex + 1) % _navigationItems.Length,
+            "ArrowUp" => (currentIndex - 1 + _navigationItems.Length) % _navigationItems.Length,
+            "Home" => 0,
+            "End" => _navigationItems.Length - 1,
+            _ => currentIndex
+        };
+
+        if (nextIndex != currentIndex)
+        {
+            SelectNavigationItem(nextIndex);
+            await _navigationItems[nextIndex].FocusAsync();
+        }
+        else if (args.Key == "Enter")
+        {
+            SelectNavigationItem(currentIndex);
+        }
+    }
+}

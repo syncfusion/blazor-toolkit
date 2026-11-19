@@ -4,6 +4,7 @@
     display: flex;
     flex-direction: column;
     overflow: hidden;
+    --e-sidebar-fixed-top: 72px;
 }
 
 /* ============================================================
@@ -395,10 +396,14 @@ body {
     which will hide this overlay automatically. */
 .loader-class .overlay {
     display: block;
-    position: absolute;
+    position: fixed;
     inset: 0;
     background: rgba(255, 255, 255, 0.95);
     z-index: 100;
+}
+
+.loader-class ~ .main-area ::deep .e-sidebar-container {
+    display: none !important;
 }
 
 .loader-class .brand-loader {

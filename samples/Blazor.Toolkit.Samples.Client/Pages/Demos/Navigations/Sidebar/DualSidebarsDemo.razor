@@ -1,0 +1,236 @@
+<div class="sbd-stage sbd-dual-stage">
+    <SfSidebar Id="sbd-dual-start"
+               @bind-IsOpen="_startOpen"
+               Mode="SidebarMode.Shrink"
+               Position="SidebarPosition.Start"
+               Responsive="false"
+               Fixed="false"
+               Width="20%"
+               AriaLabel="Student dashboard navigation">
+        <HeaderTemplate>
+            <h3 class="h6 m-0">Campus</h3>
+        </HeaderTemplate>
+        <ChildContent>
+            <ul class="sbd-nav" role="listbox" aria-label="Campus navigation">
+                <li class="@(_selectedPrimaryIndex == 0 ? "sbd-nav-selected" : null)" role="option" aria-selected="@(_selectedPrimaryIndex == 0 ? "true" : "false")" tabindex="@(_selectedPrimaryIndex == 0 ? 0 : -1)" @ref="_primaryNavigationItems[0]" @onclick="@(() => SelectPrimaryItem(0))" @onkeydown="@((args) => HandleNavigationKeyDown(args, 0, _primaryNavigationItems, SelectPrimaryItem))"><span class="sb-icons e-home sbd-nav-icon" aria-hidden="true"></span>Overview</li>
+                <li class="@(_selectedPrimaryIndex == 1 ? "sbd-nav-selected" : null)" role="option" aria-selected="@(_selectedPrimaryIndex == 1 ? "true" : "false")" tabindex="@(_selectedPrimaryIndex == 1 ? 0 : -1)" @ref="_primaryNavigationItems[1]" @onclick="@(() => SelectPrimaryItem(1))" @onkeydown="@((args) => HandleNavigationKeyDown(args, 1, _primaryNavigationItems, SelectPrimaryItem))"><span class="sb-icons e-notes sbd-nav-icon" aria-hidden="true"></span>My courses</li>
+                <li class="@(_selectedPrimaryIndex == 2 ? "sbd-nav-selected" : null)" role="option" aria-selected="@(_selectedPrimaryIndex == 2 ? "true" : "false")" tabindex="@(_selectedPrimaryIndex == 2 ? 0 : -1)" @ref="_primaryNavigationItems[2]" @onclick="@(() => SelectPrimaryItem(2))" @onkeydown="@((args) => HandleNavigationKeyDown(args, 2, _primaryNavigationItems, SelectPrimaryItem))"><span class="sb-icons e-agenda-date-range sbd-nav-icon" aria-hidden="true"></span>Schedule</li>
+                <li class="@(_selectedPrimaryIndex == 3 ? "sbd-nav-selected" : null)" role="option" aria-selected="@(_selectedPrimaryIndex == 3 ? "true" : "false")" tabindex="@(_selectedPrimaryIndex == 3 ? 0 : -1)" @ref="_primaryNavigationItems[3]" @onclick="@(() => SelectPrimaryItem(3))" @onkeydown="@((args) => HandleNavigationKeyDown(args, 3, _primaryNavigationItems, SelectPrimaryItem))"><span class="sb-icons e-comment-show sbd-nav-icon" aria-hidden="true"></span>Messages</li>
+            </ul>
+        </ChildContent>
+        <TargetContent>
+            <SfSidebar Id="sbd-dual-end"
+                       @bind-IsOpen="_endOpen"
+                       Mode="SidebarMode.Overlay"
+                       ShowBackdrop="false"
+                       CloseOnOverlayClick="false"
+                       Position="SidebarPosition.End"
+                       Responsive="false"
+                       Fixed="false"
+                       Width="240px"
+                       AriaLabel="Student profile and tools">
+                <HeaderTemplate>
+                    <div class="sbd-profile-header">
+                        <h5 class="h6 m-0 sbd-profile-title">Student profile</h5>
+                        <SfButton CssClass="e-flat sbd-toolbar-button sbd-profile-close"
+                                  aria-label="Close student profile"
+                                  aria-controls="sbd-dual-end"
+                                  aria-expanded="@(_endOpen ? "true" : "false")"
+                                  OnClick="ToggleEnd">
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18" /></svg>
+                        </SfButton>
+                    </div>
+                </HeaderTemplate>
+                <ChildContent>
+                    <div class="sbd-student-profile">
+                        <span class="sbd-student-avatar" aria-hidden="true">AR</span>
+                        <strong>Alex Rivera</strong>
+                        <span>Computer Science</span>
+                    </div>
+                    <ul class="sbd-nav" role="listbox" aria-label="Student profile navigation">
+                        <li class="@(_selectedProfileIndex == 0 ? "sbd-nav-selected" : null)" role="option" aria-selected="@(_selectedProfileIndex == 0 ? "true" : "false")" tabindex="@(_selectedProfileIndex == 0 ? 0 : -1)" @ref="_profileNavigationItems[0]" @onclick="@(() => SelectProfileItem(0))" @onkeydown="@((args) => HandleNavigationKeyDown(args, 0, _profileNavigationItems, SelectProfileItem))"><span class="sb-icons e-user sbd-nav-icon" aria-hidden="true"></span>Profile</li>
+                        <li class="@(_selectedProfileIndex == 1 ? "sbd-nav-selected" : null)" role="option" aria-selected="@(_selectedProfileIndex == 1 ? "true" : "false")" tabindex="@(_selectedProfileIndex == 1 ? 0 : -1)" @ref="_profileNavigationItems[1]" @onclick="@(() => SelectProfileItem(1))" @onkeydown="@((args) => HandleNavigationKeyDown(args, 1, _profileNavigationItems, SelectProfileItem))"><span class="sb-icons e-warning sbd-nav-icon" aria-hidden="true"></span>Notifications</li>
+                        <li class="@(_selectedProfileIndex == 2 ? "sbd-nav-selected" : null)" role="option" aria-selected="@(_selectedProfileIndex == 2 ? "true" : "false")" tabindex="@(_selectedProfileIndex == 2 ? 0 : -1)" @ref="_profileNavigationItems[2]" @onclick="@(() => SelectProfileItem(2))" @onkeydown="@((args) => HandleNavigationKeyDown(args, 2, _profileNavigationItems, SelectProfileItem))"><span class="sb-icons e-settings sbd-nav-icon" aria-hidden="true"></span>Preferences</li>
+                    </ul>
+                </ChildContent>
+                <TargetContent>
+                    <div class="sbd-dual-main">
+                        <header class="sbd-toolbar sbd-student-toolbar">
+                            <SfButton CssClass="e-flat sbd-toolbar-button"
+                                      IconCss="sb-icons e-menu"
+                                      aria-label="Toggle primary navigation"
+                                      aria-controls="sbd-dual-start"
+                                      aria-expanded="@(_startOpen ? "true" : "false")"
+                                      OnClick="ToggleStart" />
+                            <h6 class="sbd-toolbar-title">Student Dashboard</h6>
+                            <span class="sbd-toolbar-spacer"></span>
+                            <SfButton CssClass="e-flat sbd-toolbar-button"
+                                      IconCss="sb-icons e-user"
+                                      aria-label="@(_endOpen ? "Close student profile" : "Open student profile")"
+                                      aria-controls="sbd-dual-end"
+                                      aria-expanded="@(_endOpen ? "true" : "false")"
+                                      OnClick="ToggleEnd" />
+                        </header>
+                        <div class="sbd-content sbd-student-content">
+                            <div class="sbd-student-placeholders">
+                                <div class="sbd-student-placeholder-row">
+                                    <div class="sbd-skeleton sbd-student-course-placeholder"></div>
+                                    <div class="sbd-skeleton sbd-student-course-placeholder"></div>
+                                    <div class="sbd-skeleton sbd-student-course-placeholder"></div>
+                                </div>
+                                <div class="sbd-skeleton sbd-student-summary-placeholder"></div>
+                            </div>
+                        </div>
+                    </div>
+                </TargetContent>
+            </SfSidebar>
+        </TargetContent>
+    </SfSidebar>
+</div>
+
+@code {
+    private bool _startOpen = true;
+    private bool _endOpen = true;
+    private int _selectedPrimaryIndex;
+    private int _selectedProfileIndex;
+    private readonly ElementReference[] _primaryNavigationItems = new ElementReference[4];
+    private readonly ElementReference[] _profileNavigationItems = new ElementReference[3];
+
+    private void SelectPrimaryItem(int index) => _selectedPrimaryIndex = index;
+
+    private void SelectProfileItem(int index) => _selectedProfileIndex = index;
+
+    private async Task HandleNavigationKeyDown(KeyboardEventArgs args, int currentIndex, ElementReference[] navigationItems, Action<int> selectItem)
+    {
+        int nextIndex = args.Key switch
+        {
+            "ArrowDown" => (currentIndex + 1) % navigationItems.Length,
+            "ArrowUp" => (currentIndex - 1 + navigationItems.Length) % navigationItems.Length,
+            "Home" => 0,
+            "End" => navigationItems.Length - 1,
+            _ => currentIndex
+        };
+
+        if (nextIndex != currentIndex)
+        {
+            selectItem(nextIndex);
+            await navigationItems[nextIndex].FocusAsync();
+        }
+        else if (args.Key == "Enter")
+        {
+            selectItem(currentIndex);
+        }
+    }
+
+    private void ToggleStart() => _startOpen = !_startOpen;
+
+    private void ToggleEnd() => _endOpen = !_endOpen;
+}
+
+<style>
+    .sbd-student-placeholders {
+        display: grid;
+        gap: .5rem;
+        width: 100%;
+        min-height: 21.5rem;
+        grid-template-rows: 7rem 14rem;
+    }
+
+    .sbd-student-placeholder-row {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: .5rem;
+        min-width: 0;
+    }
+
+    .sbd-student-course-placeholder {
+        width: 100%;
+        height: 100%;
+    }
+
+    .sbd-student-summary-placeholder {
+        width: 100%;
+        height: 100%;
+    }
+
+    .sbd-dual-stage .sbd-dual-main {
+        min-width: 0;
+        background: var(--sbd-surface);
+    }
+
+    .sbd-dual-stage .sbd-student-toolbar {
+        border: 0;
+        border-block-end: 1px solid var(--sbd-border);
+        border-radius: 0;
+    }
+
+    .sbd-profile-header {
+        display: flex;
+        min-width: 0;
+        align-items: center;
+        justify-content: space-between;
+        gap: .125rem;
+    }
+
+    .sbd-profile-title {
+        flex: 1 1 auto;
+        min-width: 0;
+        white-space: nowrap;
+    }
+
+    .sbd-profile-close.e-btn {
+        flex: none;
+        width: 2rem;
+        min-width: 2rem;
+        padding: .25rem;
+    }
+
+    .sbd-profile-close svg {
+        width: 1rem;
+        height: 1rem;
+        fill: none;
+        stroke: currentColor;
+        stroke-linecap: round;
+        stroke-width: 2;
+    }
+
+    .sbd-student-content {
+        min-height: 260px;
+        background: var(--sbd-surface);
+    }
+
+    .sbd-student-profile > span:last-child {
+        color: var(--sbd-muted);
+        font-size: .75rem;
+    }
+
+    .sbd-student-profile {
+        display: grid;
+        justify-items: center;
+        gap: .25rem;
+        padding: .5rem .25rem .75rem;
+        text-align: center;
+    }
+
+    .sbd-student-avatar {
+        display: grid;
+        width: 2.75rem;
+        height: 2.75rem;
+        margin-block-end: .125rem;
+        place-items: center;
+        border-radius: 50%;
+        background: var(--sbd-control-hover-bg);
+        color: var(--sbd-text);
+        font-weight: 700;
+    }
+
+    @@media (max-width: 700px) {
+        .sbd-dual-stage #sbd-dual-start {
+            width: min(11rem, 34vw) !important;
+        }
+
+        .sbd-dual-stage #sbd-dual-end {
+            width: min(15rem, calc(100vw - 1rem)) !important;
+        }
+    }
+</style>

@@ -124,6 +124,11 @@
                                     <span>Button Group</span>
                                 </NavLink>
                             </li>
+                            <li class="sf-nav-item sf-sub-item @(IsActive("buttons/chip") ? "is-active" : "")">
+                                <NavLink class="sf-nav-link" href="buttons/chip" Match="NavLinkMatch.All">
+                                    <span>Chip</span>
+                                </NavLink>
+                            </li>
                         </ul>
                     </details>
                 </li>
@@ -170,7 +175,7 @@
                 <li class="sf-nav-item sf-nav-item-tight">
                     <details class="sf-menu-group" open='@IsGroupOpen("layout")'>
                         <summary class="sf-menu-summary">
-                            <span class="e-toolkit-icons e-box sf-menu-icon" aria-hidden="true"></span>
+                            <span class="e-toolkit-icons e-layout sf-menu-icon" aria-hidden="true"></span>
                             <span class="sf-menu-summary-label">Layout</span>
                             <span class="sf-caret" aria-hidden="true"></span>
                         </summary>
@@ -225,6 +230,23 @@
                             <li class="sf-nav-item sf-sub-item @(IsActive("inputs/switch") ? "is-active" : "")">
                                 <NavLink class="sf-nav-link" href="inputs/switch" Match="NavLinkMatch.All">
                                     <span>Switch</span>
+                                </NavLink>
+                            </li>
+                        </ul>
+                    </details>
+                </li>
+
+                <li class="sf-nav-item sf-nav-item-tight">
+                    <details class="sf-menu-group" open='@IsGroupOpen("navigations")'>
+                        <summary class="sf-menu-summary">
+                            <span class="e-toolkit-icons e-navigation sf-menu-icon" aria-hidden="true"></span>
+                            <span class="sf-menu-summary-label">Navigations</span>
+                            <span class="sf-caret" aria-hidden="true"></span>
+                        </summary>
+                        <ul class="sf-sub-list">
+                            <li class="sf-nav-item sf-sub-item @(IsActive("navigations/sidebar") ? "is-active" : "")">
+                                <NavLink class="sf-nav-link" href="navigations/sidebar" Match="NavLinkMatch.All">
+                                    <span>Sidebar</span>
                                 </NavLink>
                             </li>
                         </ul>

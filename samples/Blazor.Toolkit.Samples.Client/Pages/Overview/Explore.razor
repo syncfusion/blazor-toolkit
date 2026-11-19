@@ -149,10 +149,11 @@
             new("Chart", "charts/overview", "ci-chart",       "e-chart"),
         }),
 
-        new("Buttons",    "Regular, Icon and FAB buttons",         "e-button-field",              "e-button",      new List<ComponentItem>
+        new("Buttons",    "Regular, icon, and FAB buttons plus chips", "e-button-field",           "e-button",      new List<ComponentItem>
         {
             new("Button",       "buttons/button",       "ci-button",       "e-button"),
             new("Button Group", "buttons/button-group", "ci-buttongroup",  "e-button"),
+            new("Chip",         "buttons/chip",         "ci-chip",         "e-button"),
         }),
 
         new("Calendars",  "Date and Time Pickers",                "e-agenda-date-range",         "e-calendars",   new List<ComponentItem>
@@ -179,6 +180,12 @@
             new("Switch",         "inputs/switch",          "ci-switch",      "e-intermediate-state-2"),
         }),
 
+        new("Navigations", "Side panels and command toolbars", "e-navigation", "e-navigation", new List<ComponentItem>
+        {
+            new("Sidebar", "navigations/sidebar", "ci-sidebar", "e-right-left"),
+            new("Toolbar", "navigations/toolbar", "ci-toolbar", "e-button"),
+        }),
+
         new("Popups",     "Dialogs and Tooltips",                 "e-box",                       "e-popups",      new List<ComponentItem>
         {
             new("Dialog",  "popups/dialog",  "ci-dialog",  "e-popups"),
@@ -196,6 +203,7 @@
         ["ci-chart"] = "Charts.svg",
         ["ci-button"] = "Button.svg",
         ["ci-buttongroup"] = "Button Group.svg",
+        ["ci-chip"] = "Chip.svg",
         ["ci-calendar"] = "Calendar.svg",
         ["ci-datepicker"] = "Date Picker.svg",
         ["ci-datetime"] = "DateTime Picker.svg",
@@ -210,7 +218,9 @@
         ["ci-switch"] = "Switch.svg",
         ["ci-dialog"] = "Dialog.svg",
         ["ci-tooltip"] = "Tooltip.svg",
-        ["ci-card"] = "Dialog.svg"
+        ["ci-card"] = "Card.svg",
+        ["ci-sidebar"] = "Sidebar.svg",
+        ["ci-toolbar"] = "Toolbar.svg"
     };
 
     private int TotalComponents => Categories.Sum(c => c.Components.Count(x => x.Available));
@@ -793,4 +803,5 @@
 .e-toolkit-icons.e-api-reference::before     { content: "\e72c"; }
 .e-toolkit-icons.e-release-notes::before     { content: "\e72b"; }
 .e-toolkit-icons.e-chevron-left::before      { content: "\e702"; }
+.e-toolkit-icons.e-navigation::before        { content: "\e732"; }
 </style>

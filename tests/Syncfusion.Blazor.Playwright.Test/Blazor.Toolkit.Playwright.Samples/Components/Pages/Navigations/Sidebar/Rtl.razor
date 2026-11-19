@@ -1,0 +1,21 @@
+@page "/sidebar/rtl"
+@using Syncfusion.Blazor.Toolkit
+
+<PageTitle>Sidebar rtl</PageTitle>
+
+<SidebarReady />
+<h1>Sidebar rtl</h1>
+<div dir="rtl" class="pair-host">
+    <SfSidebar Id="rtl-start" Mode="SidebarMode.Push" Position="SidebarPosition.Start" IsOpen="true" Responsive="false" EnableAnimation="false" Width="200px" AriaLabel="Start navigation" Fixed="false">
+        <ChildContent><SfButton CssClass="e-outline">Start action</SfButton></ChildContent>
+        <TargetContent><main><SfButton data-testid="main-focusable">Main action</SfButton></main></TargetContent>
+    </SfSidebar>
+    <SfSidebar Id="rtl-end" Mode="SidebarMode.Push" Position="SidebarPosition.End" IsOpen="true" Responsive="false" EnableAnimation="false" Width="200px" AriaLabel="End tools" Fixed="false">
+        <ChildContent><SfButton CssClass="e-outline">End action</SfButton></ChildContent>
+    </SfSidebar>
+</div>
+
+<style>
+    .pair-host { display: grid; min-height: 420px; }
+    .pair-host > .e-sidebar-container { grid-area: 1 / 1; }
+</style>

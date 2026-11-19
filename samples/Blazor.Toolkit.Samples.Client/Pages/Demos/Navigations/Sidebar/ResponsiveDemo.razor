@@ -1,0 +1,249 @@
+@inject IJSRuntime JS
+@inject NavigationManager Navigation
+
+<div class="sbd-shell">
+    <div class="sbd-controls">
+        <span class="sbd-control-label" id="sbd-responsive-label">Breakpoint</span>
+        <div class="sbd-button-group" role="group" aria-labelledby="sbd-responsive-label">
+            <SfButtonGroup Mode="SelectionMode.Single">
+                <Button Selected="@(_breakpoint == SidebarBreakpoint.None)" SelectedChanged="@(selected => SetBreakpoint(selected, SidebarBreakpoint.None))">None</Button>
+                <Button Selected="@(_breakpoint == SidebarBreakpoint.Sm)" SelectedChanged="@(selected => SetBreakpoint(selected, SidebarBreakpoint.Sm))">Sm</Button>
+                <Button Selected="@(_breakpoint == SidebarBreakpoint.Md)" SelectedChanged="@(selected => SetBreakpoint(selected, SidebarBreakpoint.Md))">Md</Button>
+                <Button Selected="@(_breakpoint == SidebarBreakpoint.Lg)" SelectedChanged="@(selected => SetBreakpoint(selected, SidebarBreakpoint.Lg))">Lg</Button>
+                <Button Selected="@(_breakpoint == SidebarBreakpoint.Xl)" SelectedChanged="@(selected => SetBreakpoint(selected, SidebarBreakpoint.Xl))">Xl</Button>
+                <Button Selected="@(_breakpoint == SidebarBreakpoint.Always)" SelectedChanged="@(selected => SetBreakpoint(selected, SidebarBreakpoint.Always))">Always</Button>
+            </SfButtonGroup>
+        </div>
+    </div>
+
+    <dl class="sbd-status sbd-responsive-status" aria-live="polite">
+        <dt>Breakpoint</dt>
+        <dd>@BreakpointText</dd>
+        <dt>Viewport</dt>
+        <dd>@ViewportText</dd>
+        <dt>Effective mode</dt>
+        <dd>@(IsBelow ? "Overlay" : "Push")</dd>
+        <dt>Navigation</dt>
+        <dd>@(_isOpen ? "Open" : "Closed")</dd>
+    </dl>
+
+    <div class="sbd-toolbar">
+        <SfButton CssClass="e-flat sbd-toolbar-button"
+                  IconCss="sb-icons e-menu"
+                  aria-label="Toggle adaptive navigation"
+                  aria-controls="sbd-responsive"
+                  aria-expanded="@(_isOpen ? "true" : "false")"
+                  OnClick="Toggle" />
+        <span class="sbd-toolbar-title">Fieldnotes</span>
+        <span class="sbd-toolbar-spacer"></span>
+        <SfButton CssClass="sbd-neutral-button sbd-navigate-button" OnClick="NavigateAway">Navigate away</SfButton>
+    </div>
+
+    <div class="sbd-stage">
+        <SfSidebar Id="sbd-responsive"
+                   @bind-IsOpen="_isOpen"
+                   Mode="SidebarMode.Push"
+                   Responsive="true"
+                   Breakpoint="_breakpoint"
+                   OnBreakpointChanged="HandleBreakpointChanged"
+                   CloseOnNavigate="true"
+                   Fixed="false"
+                   Width="236px"
+                   AriaLabel="Fieldnotes navigation">
+            <HeaderTemplate>
+                <h3 class="h6 m-0">Fieldnotes</h3>
+            </HeaderTemplate>
+            <ChildContent>
+                <ul class="sbd-nav" role="listbox" aria-label="Fieldnotes navigation">
+                    <li class="@(_selectedNavigationIndex == 0 ? "sbd-nav-selected" : null)" role="option" aria-selected="@(_selectedNavigationIndex == 0 ? "true" : "false")" tabindex="@(_selectedNavigationIndex == 0 ? 0 : -1)" @ref="_navigationItems[0]" @onclick="@(() => SelectNavigationItem(0))" @onkeydown="@((args) => HandleNavigationKeyDown(args, 0))"><svg class="sbd-nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="m3.5 10 8.5-7 8.5 7v9a1.5 1.5 0 0 1-1.5 1.5h-14A1.5 1.5 0 0 1 3.5 19z" /><path d="M9 20.5v-6h6v6" /></svg>Home</li>
+                    <li class="@(_selectedNavigationIndex == 1 ? "sbd-nav-selected" : null)" role="option" aria-selected="@(_selectedNavigationIndex == 1 ? "true" : "false")" tabindex="@(_selectedNavigationIndex == 1 ? 0 : -1)" @ref="_navigationItems[1]" @onclick="@(() => SelectNavigationItem(1))" @onkeydown="@((args) => HandleNavigationKeyDown(args, 1))"><svg class="sbd-nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4.5h14v16H5z" /><path d="M8 8h8m-8 3.5h8m-8 3.5h5" /></svg>Collections</li>
+                    <li class="@(_selectedNavigationIndex == 2 ? "sbd-nav-selected" : null)" role="option" aria-selected="@(_selectedNavigationIndex == 2 ? "true" : "false")" tabindex="@(_selectedNavigationIndex == 2 ? 0 : -1)" @ref="_navigationItems[2]" @onclick="@(() => SelectNavigationItem(2))" @onkeydown="@((args) => HandleNavigationKeyDown(args, 2))"><svg class="sbd-nav-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 10c0 5-7 11-7 11S5 15 5 10a7 7 0 1 1 14 0Z" /><circle cx="12" cy="10" r="2.2" /></svg>Places</li>
+                    <li class="@(_selectedNavigationIndex == 3 ? "sbd-nav-selected" : null)" role="option" aria-selected="@(_selectedNavigationIndex == 3 ? "true" : "false")" tabindex="@(_selectedNavigationIndex == 3 ? 0 : -1)" @ref="_navigationItems[3]" @onclick="@(() => SelectNavigationItem(3))" @onkeydown="@((args) => HandleNavigationKeyDown(args, 3))"><svg class="sbd-nav-icon" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2" /><path d="M8 3.5v3m8-3v3M4 9h16m-12 4h3m-3 3h7" /></svg>Itinerary</li>
+                </ul>
+            </ChildContent>
+            <TargetContent>
+                <div class="sbd-content sbd-responsive-content">
+                    <div class="sbd-fieldnotes-heading"><div><h3>Weekend escapes</h3></div><span>12 places</span></div>
+                    <div class="sbd-fieldnotes-grid">
+                        <SfCard Variant="CardVariant.Outlined" CssClass="sbd-fieldnotes-card" Width="100%">
+                            <SfCardMedia ImageUrl="https://picsum.photos/id/1015/600/400" Alt="Big Sur coastline" ObjectFit="CardMediaFit.Cover" Height="96px" />
+                            <SfCardHeader>
+                                <SfCardTitle>Big Sur coastline</SfCardTitle>
+                                <SfCardSubTitle>California · 3 saved spots</SfCardSubTitle>
+                            </SfCardHeader>
+                        </SfCard>
+                        <SfCard Variant="CardVariant.Outlined" CssClass="sbd-fieldnotes-card" Width="100%">
+                            <SfCardMedia ImageUrl="https://picsum.photos/id/1016/600/400" Alt="Lake Tahoe" ObjectFit="CardMediaFit.Cover" Height="96px" />
+                            <SfCardHeader>
+                                <SfCardTitle>Lake Tahoe</SfCardTitle>
+                                <SfCardSubTitle>Sierra Nevada · 5 saved spots</SfCardSubTitle>
+                            </SfCardHeader>
+                        </SfCard>
+                        <SfCard Variant="CardVariant.Outlined" CssClass="sbd-fieldnotes-card" Width="100%">
+                            <SfCardMedia ImageUrl="https://picsum.photos/id/117/600/400" Alt="San Francisco" ObjectFit="CardMediaFit.Cover" Height="96px" />
+                            <SfCardHeader>
+                                <SfCardTitle>San Francisco</SfCardTitle>
+                                <SfCardSubTitle>California · 4 saved spots</SfCardSubTitle>
+                            </SfCardHeader>
+                        </SfCard>
+                    </div>
+
+                </div>
+            </TargetContent>
+        </SfSidebar>
+    </div>
+</div>
+
+@code {
+    private SidebarBreakpoint _breakpoint = SidebarBreakpoint.Md;
+    private bool _isOpen = true;
+    private bool? _isBelow;
+    private int _selectedNavigationIndex;
+    private readonly ElementReference[] _navigationItems = new ElementReference[4];
+
+    private bool IsBelow => _isBelow == true;
+
+    private string BreakpointText => _breakpoint switch
+    {
+        SidebarBreakpoint.None => "None",
+        SidebarBreakpoint.Always => "Always",
+        _ => $"{_breakpoint} ({Threshold}px)",
+    };
+
+    private string ViewportText => _isBelow switch
+    {
+        true => "Below the selected breakpoint",
+        false => "At or above the selected breakpoint",
+        _ => "Reading viewport",
+    };
+
+    private int Threshold => _breakpoint switch
+    {
+        SidebarBreakpoint.Sm => 576,
+        SidebarBreakpoint.Md => 768,
+        SidebarBreakpoint.Lg => 992,
+        SidebarBreakpoint.Xl => 1200,
+        _ => 0,
+    };
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await RefreshViewportAsync();
+        }
+    }
+
+    private async Task SetBreakpoint(bool selected, SidebarBreakpoint breakpoint)
+    {
+        if (!selected)
+        {
+            return;
+        }
+
+        _breakpoint = breakpoint;
+        await RefreshViewportAsync();
+    }
+
+    private async Task RefreshViewportAsync()
+    {
+        if (_breakpoint is SidebarBreakpoint.None or SidebarBreakpoint.Always)
+        {
+            _isBelow = false;
+        }
+        else
+        {
+            int width = await JS.GetValueAsync<int>("innerWidth");
+            _isBelow = width < Threshold;
+        }
+
+        StateHasChanged();
+    }
+
+    private void HandleBreakpointChanged(bool isBelow) => _isBelow = isBelow;
+
+    private void Toggle() => _isOpen = !_isOpen;
+
+    private void SelectNavigationItem(int index) => _selectedNavigationIndex = index;
+
+    private async Task HandleNavigationKeyDown(KeyboardEventArgs args, int currentIndex)
+    {
+        int nextIndex = args.Key switch
+        {
+            "ArrowDown" => (currentIndex + 1) % _navigationItems.Length,
+            "ArrowUp" => (currentIndex - 1 + _navigationItems.Length) % _navigationItems.Length,
+            "Home" => 0,
+            "End" => _navigationItems.Length - 1,
+            _ => currentIndex
+        };
+
+        if (nextIndex != currentIndex)
+        {
+            SelectNavigationItem(nextIndex);
+            await _navigationItems[nextIndex].FocusAsync();
+        }
+        else if (args.Key == "Enter")
+        {
+            SelectNavigationItem(currentIndex);
+        }
+    }
+
+    private void NavigateAway() => Navigation.NavigateTo("/navigations/sidebar");
+
+}
+
+<style>
+    .sbd-responsive-status {
+        grid-template-columns: max-content 1fr max-content 1fr;
+    }
+
+    .sbd-responsive-content {
+        background: var(--sbd-surface);
+    }
+
+    .sbd-navigate-button.e-btn {
+        justify-self: start;
+        min-height: 1.875rem;
+        padding-block: .25rem;
+    }
+
+    .sbd-navigate-button.e-btn:hover,
+    .sbd-navigate-button.e-btn:focus-visible {
+        background: var(--sbd-control-hover-bg);
+        color: var(--sbd-text);
+    }
+
+    .sbd-fieldnotes-heading {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: end;
+        justify-content: space-between;
+        gap: .75rem;
+    }
+
+    .sbd-fieldnotes-heading p {
+        color: var(--sbd-muted);
+        font-size: .75rem;
+        letter-spacing: .06em;
+    }
+
+    .sbd-responsive-content .sbd-fieldnotes-heading h3 {
+        margin: 10px 0 10px 0;
+        font-size: 1.25rem;
+    }
+
+    .sbd-fieldnotes-heading > span {
+        color: var(--sbd-muted);
+        font-size: .85rem;
+    }
+
+    .sbd-fieldnotes-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 150px), 1fr));
+        gap: .75rem;
+    }
+
+    .sbd-fieldnotes-card {
+        min-width: 0;
+    }
+</style>
