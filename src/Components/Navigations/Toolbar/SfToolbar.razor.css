@@ -76,15 +76,15 @@
  * the content and the controls that sit outside it.
  */
 .e-toolbar.e-toolbar-align-start .e-toolbar-content {
-    justify-content: flex-start;
+    justify-content: safe flex-start;
 }
 
 .e-toolbar.e-toolbar-align-center .e-toolbar-content {
-    justify-content: center;
+    justify-content: safe center;
 }
 
 .e-toolbar.e-toolbar-align-end .e-toolbar-content {
-    justify-content: flex-end;
+    justify-content: safe flex-end;
 }
 
 .e-toolbar.e-toolbar-align-justify .e-toolbar-content {
@@ -98,9 +98,13 @@
 
 /* ---- Overflow modes ---- */
 
-/* Popup: keep the control beside the content; the content itself wraps until measurement decides what overflows. */
+/* Popup: keep the control beside the content and prevent items from wrapping before overflow measurement. */
 .e-toolbar.e-toolbar-popup {
     flex-wrap: nowrap;
+}
+
+.e-toolbar.e-toolbar-measuring {
+    visibility: hidden;
 }
 
 /*
@@ -134,6 +138,10 @@
     min-inline-size: 0;
 }
 
+.e-toolbar.e-toolbar-popup .e-toolbar-content {
+    flex-wrap: nowrap;
+}
+
 .e-toolbar:dir(rtl) ::deep .e-toolbar-scroll-btn .e-btn-icon {
     transform: scaleX(-1);
 }
@@ -165,6 +173,7 @@
 
 .e-toolbar.e-toolbar-scrollable.e-toolbar-vertical .e-toolbar-content {
     flex-direction: column;
+    min-block-size: 0;
     overflow-x: hidden;
     overflow-y: auto;
     overscroll-behavior-y: contain;
@@ -183,8 +192,49 @@
 .e-toolbar.e-toolbar-vertical .e-toolbar-content {
     align-items: stretch;
     flex-direction: column;
+    flex: 1 1 auto;
     flex-wrap: nowrap;
+    min-block-size: 0;
     row-gap: var(--e-toolbar-gap);
+}
+
+.e-toolbar.e-toolbar-multirow.e-toolbar-vertical .e-toolbar-content,
+.e-toolbar.e-toolbar-extended.e-toolbar-vertical .e-toolbar-content {
+    align-content: flex-start;
+    flex-wrap: wrap;
+}
+
+.e-toolbar.e-toolbar-extended.e-toolbar-vertical:not(.e-toolbar-expanded) {
+    max-block-size: none;
+    overflow: visible;
+}
+
+.e-toolbar.e-toolbar-extended.e-toolbar-vertical .e-toolbar-overflow {
+    align-self: stretch;
+    inset: auto;
+    margin-block-start: auto;
+    margin-inline-start: 0;
+    position: static;
+}
+
+.e-toolbar.e-toolbar-vertical.e-toolbar-popup .e-toolbar-content {
+    padding-block-end: calc(var(--e-toolbar-target) + var(--e-toolbar-gap));
+}
+
+.e-toolbar.e-toolbar-vertical.e-toolbar-popup .e-toolbar-overflow {
+    inset-block-end: var(--e-toolbar-padding-block);
+    inset-inline-start: var(--e-toolbar-padding-inline);
+    margin: 0;
+    position: absolute;
+}
+
+.e-toolbar.e-toolbar-vertical.e-toolbar-extended ::deep .e-toolbar-item-extended-collapsed {
+    display: none;
+}
+
+.e-toolbar.e-toolbar-vertical.e-toolbar-extended:not(.e-toolbar-expanded) ::deep .e-toolbar-separator,
+.e-toolbar.e-toolbar-vertical.e-toolbar-extended:not(.e-toolbar-expanded) ::deep .e-toolbar-spacer {
+    display: none;
 }
 
 .e-toolbar.e-toolbar-vertical ::deep .e-toolbar-item,
@@ -197,6 +247,21 @@
 .e-toolbar.e-toolbar-multirow,
 .e-toolbar.e-toolbar-extended {
     flex-wrap: wrap;
+}
+
+.e-toolbar.e-toolbar-multirow.e-toolbar-vertical,
+.e-toolbar.e-toolbar-extended.e-toolbar-vertical {
+    flex-wrap: nowrap;
+}
+
+.e-toolbar.e-toolbar-multirow.e-toolbar-vertical,
+.e-toolbar.e-toolbar-extended.e-toolbar-vertical {
+    inline-size: var(--e-toolbar-wrapped-root-inline-size, max-content);
+}
+
+.e-toolbar.e-toolbar-multirow.e-toolbar-vertical .e-toolbar-content,
+.e-toolbar.e-toolbar-extended.e-toolbar-vertical .e-toolbar-content {
+    inline-size: var(--e-toolbar-wrapped-content-inline-size, auto);
 }
 
 /* Extended starts collapsed to one row. The expand button toggles e-toolbar-expanded.
@@ -317,6 +382,22 @@
     align-items: center;
     display: inline-flex;
     column-gap: 0;
+}
+
+.e-toolbar.e-toolbar-vertical ::deep .e-toolbar-split {
+    display: flex;
+    inline-size: 100%;
+}
+
+.e-toolbar.e-toolbar-vertical ::deep .e-toolbar-split .e-tbar-btn:not(.e-toolbar-chevron) {
+    flex: 1 1 auto;
+    inline-size: auto;
+    min-inline-size: 0;
+}
+
+.e-toolbar.e-toolbar-vertical ::deep .e-toolbar-split .e-toolbar-chevron {
+    flex: 0 0 var(--e-toolbar-target);
+    inline-size: var(--e-toolbar-target);
 }
 
 .e-toolbar ::deep .e-toolbar-chevron {

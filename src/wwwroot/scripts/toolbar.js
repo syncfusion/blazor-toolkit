@@ -1,9 +1,10 @@
 /* eslint-disable no-undef */
 // ES module for SfToolbar overflow measurement and popup placement - named exports only (no globals).
-// Browser APIs used: ResizeObserver and getBoundingClientRect. Nothing else is measured, and no focus library is used.
+// Browser APIs used: ResizeObserver, MutationObserver, getBoundingClientRect, clientWidth and scrollWidth.
 
 const instances = new WeakMap();
 const overflowKeyTracks = new WeakMap();
+const verticalWrappedObservers = new WeakMap();
 
 function sizeOf(element, vertical) {
     const rect = element.getBoundingClientRect();
@@ -23,6 +24,86 @@ function availableOf(root, vertical) {
     const padding = (Number.isFinite(start) ? start : 0) + (Number.isFinite(end) ? end : 0);
     const box = root.getBoundingClientRect();
     return (vertical ? box.height : box.width) - padding;
+}
+
+function setStyleProperty(element, name, value) {
+    if (element.style.getPropertyValue(name) !== value) {
+        element.style.setProperty(name, value);
+    }
+}
+
+/**
+ * Sizes a vertical wrapped toolbar background to its columns without changing their width.
+ */
+export function sizeVerticalWrapped(root, content) {
+    if (!root || !content) {
+        return;
+    }
+
+    const rootStyle = getComputedStyle(root);
+    const rootPadding = parseFloat(rootStyle.paddingInlineStart) + parseFloat(rootStyle.paddingInlineEnd);
+    const rootBorder = parseFloat(rootStyle.borderInlineStartWidth) + parseFloat(rootStyle.borderInlineEndWidth);
+    const contentWidth = content.getBoundingClientRect().width;
+    const contentWidthText = contentWidth + 'px';
+    const rootWidth = Math.max(content.scrollWidth, content.clientWidth) + rootPadding + rootBorder;
+
+    setStyleProperty(root, '--e-toolbar-wrapped-root-inline-size', rootWidth + 'px');
+    setStyleProperty(content, '--e-toolbar-wrapped-content-inline-size', contentWidthText);
+}
+
+/** Watches a vertical wrapped toolbar for height changes and dynamic item updates. */
+export function observeVerticalWrapped(root, content) {
+    if (!root || !content || verticalWrappedObservers.has(root)) {
+        return;
+    }
+
+    let frame = 0;
+    const update = function () {
+        if (frame) {
+            cancelAnimationFrame(frame);
+        }
+        frame = requestAnimationFrame(function () {
+            frame = 0;
+            sizeVerticalWrapped(root, content);
+        });
+    };
+    const resizeObserver = new ResizeObserver(update);
+    const mutationObserver = new MutationObserver(update);
+    resizeObserver.observe(root);
+    resizeObserver.observe(content);
+    mutationObserver.observe(content, { attributes: true, characterData: true, childList: true, subtree: true });
+    verticalWrappedObservers.set(root, {
+        cancel: function () {
+            if (frame) {
+                cancelAnimationFrame(frame);
+                frame = 0;
+            }
+        },
+        resizeObserver: resizeObserver,
+        mutationObserver: mutationObserver
+    });
+}
+
+/** Stops vertical wrapped layout observation. Safe to call more than once. */
+export function unobserveVerticalWrapped(root) {
+    const instance = root ? verticalWrappedObservers.get(root) : null;
+    if (!instance) {
+        return;
+    }
+    instance.cancel();
+    instance.resizeObserver.disconnect();
+    instance.mutationObserver.disconnect();
+    verticalWrappedObservers.delete(root);
+}
+
+/** Removes the browser-measured dimensions when the toolbar leaves vertical wrapped mode. */
+export function clearVerticalWrappedSize(root, content) {
+    if (root) {
+        root.style.removeProperty('--e-toolbar-wrapped-root-inline-size');
+    }
+    if (content) {
+        content.style.removeProperty('--e-toolbar-wrapped-content-inline-size');
+    }
 }
 
 /**
@@ -55,7 +136,7 @@ export function measure(root, vertical) {
  */
 export function observe(root, dotNetRef) {
     if (!root || !dotNetRef) {
-        return;
+        return false;
     }
     const instance = instances.get(root) || {
         observer: null,
@@ -63,7 +144,7 @@ export function observe(root, dotNetRef) {
         cancel: function () { }
     };
     if (instance.observer) {
-        return;
+        return true;
     }
     let frame = 0;
     let lastWidth = -1;
@@ -92,6 +173,7 @@ export function observe(root, dotNetRef) {
         }
     };
     instances.set(root, instance);
+    return true;
 }
 
 /**

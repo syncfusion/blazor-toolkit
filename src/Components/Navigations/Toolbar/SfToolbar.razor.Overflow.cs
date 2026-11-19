@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Components;
 using Microsoft.Extensions.Localization;
 using Microsoft.AspNetCore.Components.Web;
@@ -16,6 +17,8 @@ namespace Syncfusion.Blazor.Toolkit
         private const string PopupTopClass = "e-toolbar-overflow-popup-top";
         private const string PopupIdPrefix = "sf-toolbar-popup-";
         private const int DebounceMilliseconds = 16;
+        private const int InitialMeasurementRetryMilliseconds = 100;
+        private const int MaxInitialMeasurementAttempts = 10;
 
         /// <summary>
         /// The distance one repeat step moves the toolbar, in CSS pixels.
@@ -55,7 +58,21 @@ namespace Syncfusion.Blazor.Toolkit
         private CancellationTokenSource? _debounce;
         private bool _observing;
         private bool _scrollObserving;
+        private bool _verticalWrappedSizingActive;
+        private bool _verticalWrappedSizeObserving;
         private bool _hasOverflow;
+#if NET9_0_OR_GREATER
+        private readonly Lock _measurementSync = new();
+#else
+        private readonly object _measurementSync = new();
+#endif
+        private Task _measurementTail = Task.CompletedTask;
+        private int _initialMeasurementAttempts;
+        private bool _initialMeasurementRetryScheduled;
+#if !NET9_0_OR_GREATER
+        private bool _initialMeasurementPending;
+#endif
+        private bool _initialMeasurementComplete;
         private bool _popupOpen;
         private bool _popupPositioned;
 
@@ -90,6 +107,9 @@ namespace Syncfusion.Blazor.Toolkit
         private bool IsPopupMode => OverflowMode == ToolbarOverflowMode.Popup;
 
         private bool IsExtendedMode => OverflowMode == ToolbarOverflowMode.Extended;
+        private bool IsVerticalWrappedMode =>
+            Orientation == ToolbarOrientation.Vertical &&
+            (OverflowMode == ToolbarOverflowMode.MultiRow || OverflowMode == ToolbarOverflowMode.Extended);
 
         bool IToolbarHost.IsExtendedMode => IsExtendedMode;
 
@@ -178,6 +198,7 @@ namespace Syncfusion.Blazor.Toolkit
                 attributes["title"] = IsExtendedMode ? ExpandLabel : OverflowLabel;
                 attributes["tabindex"] = ((IToolbarHost)this).GetOverflowButtonTabIndex().ToString(System.Globalization.CultureInfo.InvariantCulture);
                 attributes["data-testid"] = IsExtendedMode ? "toolbar-expand-button" : "toolbar-overflow-button";
+                attributes["onpointerdown"] = EventCallback.Factory.Create<PointerEventArgs>(this, StartOverflowButtonRippleAsync);
                 attributes["onkeydown"] = EventCallback.Factory.Create<KeyboardEventArgs>(this, HandleOverflowNavigationKeyDownAsync);
                 attributes["onkeyup"] = EventCallback.Factory.Create<KeyboardEventArgs>(this, HandleOverflowKeyUpAsync);
                 if (!IsExtendedMode)
@@ -204,12 +225,16 @@ namespace Syncfusion.Blazor.Toolkit
         /// <exclude />
         internal override async Task ImportComponentModuleAsync()
         {
-            await base.ImportComponentModuleAsync().ConfigureAwait(true);
-            if (!IsPopupMode && !IsExtendedMode && !IsScrollableMode)
+            bool needsToolbarModule = IsPopupMode || IsExtendedMode || IsScrollableMode || IsVerticalWrappedMode;
+            Task baseModuleImport = base.ImportComponentModuleAsync();
+            if (!needsToolbarModule)
             {
+                await baseModuleImport.ConfigureAwait(true);
                 return;
             }
-            await EnsureModuleAsync().ConfigureAwait(true);
+
+            Task toolbarModuleImport = EnsureModuleAsync();
+            await Task.WhenAll(baseModuleImport, toolbarModuleImport).ConfigureAwait(true);
         }
 
         async Task IToolbarHost.PlayRippleAsync(ElementReference button, double clientX, double clientY)
@@ -237,21 +262,34 @@ namespace Syncfusion.Blazor.Toolkit
         internal override async Task OnAfterScriptRenderedAsync()
         {
             await base.OnAfterScriptRenderedAsync().ConfigureAwait(true);
-            await StartObservingAsync().ConfigureAwait(true);
+            _ = await StartObservingAsync().ConfigureAwait(true);
             await RecalculateAsync().ConfigureAwait(true);
             await UpdateScrollStateAsync().ConfigureAwait(true);
         }
 
-        private async Task StartObservingAsync()
+        private async Task<bool> StartObservingAsync()
         {
-            if (_observing || IsDisposed || (!IsPopupMode && !IsExtendedMode) || (_toolbarModule is null && _toolbarInProcessModule is null))
+            if (_observing)
             {
-                return;
+                return true;
             }
+            if (IsDisposed || (!IsPopupMode && !IsExtendedMode) || (_toolbarModule is null && _toolbarInProcessModule is null))
+            {
+                return false;
+            }
+
             _selfReference ??= DotNetObjectReference.Create(this);
+            bool observing = false;
+            await GuardedAsync(async () =>
+                observing = await InvokeAsync<bool>(_toolbarModule!, _toolbarInProcessModule!, "observe", _contentElement, _selfReference).ConfigureAwait(true)).ConfigureAwait(true);
+            if (!observing || IsDisposed)
+            {
+                return false;
+            }
+
             _observing = true;
-            await GuardedAsync(() => InvokeVoidAsync(_toolbarModule, _toolbarInProcessModule, "observe", _contentElement, _selfReference)).ConfigureAwait(true);
             await GuardedAsync(() => InvokeVoidAsync(_toolbarModule, _toolbarInProcessModule, "trackOverflowKeys", _toolbarElement)).ConfigureAwait(true);
+            return true;
         }
 
         private async Task StopObservingAsync()
@@ -263,6 +301,84 @@ namespace Syncfusion.Blazor.Toolkit
             _observing = false;
             await GuardedAsync(() => InvokeVoidAsync(_toolbarModule, _toolbarInProcessModule, "unobserve", _contentElement)).ConfigureAwait(true);
             await GuardedAsync(() => InvokeVoidAsync(_toolbarModule, _toolbarInProcessModule, "untrackOverflowKeys", _toolbarElement)).ConfigureAwait(true);
+        }
+
+        private async Task UpdateVerticalWrappedSizeAsync()
+        {
+            if (IsDisposed)
+            {
+                return;
+            }
+
+            if (!IsVerticalWrappedMode)
+            {
+                if (!_verticalWrappedSizingActive && !_verticalWrappedSizeObserving)
+                {
+                    return;
+                }
+
+                await StopVerticalWrappedSizeObservingAsync().ConfigureAwait(true);
+                await GuardedAsync(() => InvokeVoidAsync(
+                    _toolbarModule,
+                    _toolbarInProcessModule,
+                    "clearVerticalWrappedSize",
+                    _toolbarElement,
+                    _contentElement)).ConfigureAwait(true);
+                _verticalWrappedSizingActive = false;
+                return;
+            }
+
+            if (_verticalWrappedSizingActive && _verticalWrappedSizeObserving)
+            {
+                return;
+            }
+
+            await EnsureModuleAsync().ConfigureAwait(true);
+            if (IsDisposed || (_toolbarModule is null && _toolbarInProcessModule is null))
+            {
+                return;
+            }
+
+            await GuardedAsync(() => InvokeVoidAsync(
+                _toolbarModule,
+                _toolbarInProcessModule,
+                "sizeVerticalWrapped",
+                _toolbarElement,
+                _contentElement)).ConfigureAwait(true);
+            _verticalWrappedSizingActive = true;
+            await StartVerticalWrappedSizeObservingAsync().ConfigureAwait(true);
+        }
+
+        private async Task StartVerticalWrappedSizeObservingAsync()
+        {
+            if (_verticalWrappedSizeObserving || IsDisposed || !IsVerticalWrappedMode ||
+                (_toolbarModule is null && _toolbarInProcessModule is null))
+            {
+                return;
+            }
+
+            _verticalWrappedSizeObserving = true;
+            await GuardedAsync(() => InvokeVoidAsync(
+                _toolbarModule,
+                _toolbarInProcessModule,
+                "observeVerticalWrapped",
+                _toolbarElement,
+                _contentElement)).ConfigureAwait(true);
+        }
+
+        private async Task StopVerticalWrappedSizeObservingAsync()
+        {
+            if (!_verticalWrappedSizeObserving)
+            {
+                return;
+            }
+
+            _verticalWrappedSizeObserving = false;
+            await GuardedAsync(() => InvokeVoidAsync(
+                _toolbarModule,
+                _toolbarInProcessModule,
+                "unobserveVerticalWrapped",
+                _toolbarElement)).ConfigureAwait(true);
         }
 
         /// <summary>
@@ -345,6 +461,7 @@ namespace Syncfusion.Blazor.Toolkit
             }
             StopScrollRepeat();
             await StopNestedMenuTrackingAsync().ConfigureAwait(true);
+            await StopVerticalWrappedSizeObservingAsync().ConfigureAwait(true);
             await StopScrollObservingAsync().ConfigureAwait(true);
             await StopObservingAsync().ConfigureAwait(true);
             await StopPopupTrackingAsync().ConfigureAwait(true);
@@ -426,6 +543,9 @@ namespace Syncfusion.Blazor.Toolkit
         /// <summary>
         /// Measures the container and the items, runs the overflow algorithm, and applies the result.
         /// </summary>
+        [DynamicDependency(
+            DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.PublicProperties,
+            typeof(ToolbarMeasuredItem))]
         private async Task RecalculateAsync()
         {
             if (IsDisposed || (!IsPopupMode && !IsExtendedMode) || (_toolbarModule is null && _toolbarInProcessModule is null))
@@ -433,20 +553,123 @@ namespace Syncfusion.Blazor.Toolkit
                 return;
             }
 
-            ToolbarMeasurement? measurement = null;
-            await GuardedAsync(async () =>
-                measurement = await InvokeAsync<ToolbarMeasurement>(_toolbarModule!, _toolbarInProcessModule!, "measure", _contentElement, Orientation == ToolbarOrientation.Vertical).ConfigureAwait(true)).ConfigureAwait(true);
+            TaskCompletionSource<bool> releaseMeasurement = new(TaskCreationOptions.RunContinuationsAsynchronously);
+            Task previousMeasurement;
+            lock (_measurementSync)
+            {
+                previousMeasurement = _measurementTail;
+                _measurementTail = releaseMeasurement.Task;
+            }
 
-            if (IsDisposed || measurement is null)
+            try
+            {
+                await previousMeasurement.ConfigureAwait(true);
+                if (IsDisposed || (!IsPopupMode && !IsExtendedMode) || (_toolbarModule is null && _toolbarInProcessModule is null))
+                {
+                    return;
+                }
+
+                if (IsPopupMode && !_initialMeasurementComplete)
+                {
+                    _initialMeasurementAttempts++;
+                }
+
+                ToolbarMeasurement? measurement = null;
+                await GuardedAsync(async () =>
+                    measurement = await InvokeAsync<ToolbarMeasurement>(_toolbarModule!, _toolbarInProcessModule!, "measure", _contentElement, Orientation == ToolbarOrientation.Vertical).ConfigureAwait(true)).ConfigureAwait(true);
+
+                if (IsDisposed)
+                {
+                    return;
+                }
+                if (measurement is null)
+                {
+                    if (IsPopupMode && !_initialMeasurementComplete)
+                    {
+                        if (_observing && _initialMeasurementAttempts < MaxInitialMeasurementAttempts)
+                        {
+                            ScheduleInitialMeasurementRetry();
+                        }
+                        else
+                        {
+                            CompleteInitialMeasurement();
+                            StateHasChanged();
+                        }
+                    }
+                    return;
+                }
+                if (IsExtendedMode)
+                {
+                    ApplyExtendedRows(measurement);
+                    return;
+                }
+                if (IsPopupMode && !_initialMeasurementComplete && !HasCompleteMeasurement(measurement))
+                {
+                    if (_initialMeasurementAttempts < MaxInitialMeasurementAttempts)
+                    {
+                        ScheduleInitialMeasurementRetry();
+                    }
+                    else
+                    {
+                        CompleteInitialMeasurement();
+                        StateHasChanged();
+                    }
+                    return;
+                }
+                ApplyMeasurement(measurement);
+            }
+            finally
+            {
+                _ = releaseMeasurement.TrySetResult(true);
+            }
+        }
+
+        private void CompleteInitialMeasurement()
+        {
+            _initialMeasurementComplete = true;
+#if !NET9_0_OR_GREATER
+            _initialMeasurementPending = false;
+#endif
+            ComputeRenderState();
+        }
+
+        private void ScheduleInitialMeasurementRetry()
+        {
+            if (_initialMeasurementRetryScheduled)
             {
                 return;
             }
-            if (IsExtendedMode)
+
+            _initialMeasurementRetryScheduled = true;
+            _ = RetryInitialMeasurementAsync();
+        }
+
+        private async Task RetryInitialMeasurementAsync()
+        {
+            await Task.Delay(InitialMeasurementRetryMilliseconds).ConfigureAwait(true);
+            if (IsDisposed || _initialMeasurementComplete)
             {
-                ApplyExtendedRows(measurement);
+                _initialMeasurementRetryScheduled = false;
                 return;
             }
-            ApplyMeasurement(measurement);
+
+            await InvokeAsync(async () =>
+            {
+                _initialMeasurementRetryScheduled = false;
+                await RecalculateAsync().ConfigureAwait(true);
+            }).ConfigureAwait(true);
+        }
+
+        private bool HasCompleteMeasurement(ToolbarMeasurement measurement)
+        {
+            List<IToolbarItem> measurable = _collection.Flatten().FindAll(static item => item.IsMeasurable);
+            if (measurable.Count == 0 && (ChildContent is not null || Items is not null))
+            {
+                return false;
+            }
+
+            HashSet<string> measuredIds = [.. measurement.Items.Select(static item => item.Id)];
+            return measurable.All(item => measuredIds.Contains(item.ItemId));
         }
 
         private void ApplyExtendedRows(ToolbarMeasurement measurement)
@@ -536,6 +759,11 @@ namespace Syncfusion.Blazor.Toolkit
             }
 
             RebuildEntries(result.Overflowed, byId);
+            if (!_initialMeasurementComplete)
+            {
+                CompleteInitialMeasurement();
+                changed = true;
+            }
             if (changed || hasOverflow)
             {
                 RequestTabStopRefresh();
@@ -673,6 +901,16 @@ namespace Syncfusion.Blazor.Toolkit
                 (args.PointerType == "mouse" && args.Buttons == 0)
                 ? Task.CompletedTask
                 : ((IToolbarHost)this).PlayRippleAsync(entry.Button.ButtonElement, args.ClientX, args.ClientY);
+        }
+
+        private Task StartOverflowButtonRippleAsync(PointerEventArgs args)
+        {
+            return IsDisposed ||
+                _overflowButton is null ||
+                args.PointerId == 0 ||
+                (args.PointerType == "mouse" && args.Buttons == 0)
+                ? Task.CompletedTask
+                : ((IToolbarHost)this).PlayRippleAsync(_overflowButton.ButtonElement, args.ClientX, args.ClientY);
         }
 
         #endregion

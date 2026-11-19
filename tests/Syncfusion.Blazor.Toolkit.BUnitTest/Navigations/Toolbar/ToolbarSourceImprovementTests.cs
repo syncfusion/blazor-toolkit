@@ -90,6 +90,18 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Navigations.Toolbar
             Assert.Contains("Popup, MultiRow and Extended do not call this", script, StringComparison.Ordinal);
         }
 
+        [Fact(DisplayName = "TB-OVF Popup content stays on one row while width changes")]
+        public void PopupContent_DoesNotWrap()
+        {
+            string css = File.ReadAllText(ToolbarStylesheet());
+            Match rule = Regex.Match(
+                css,
+                @"(?s)\.e-toolbar\.e-toolbar-popup \.e-toolbar-content\s*\{(?<declarations>[^}]*)\}");
+
+            Assert.True(rule.Success, "Popup content must have an explicit single-row layout rule.");
+            Assert.Contains("flex-wrap: nowrap;", rule.Groups["declarations"].Value, StringComparison.Ordinal);
+        }
+
         [Fact(DisplayName = "TB-THM Toolbar uses the reviewed background, hover, and selected colors")]
         public void Styles_UseReviewedToolbarPalette()
         {
@@ -184,6 +196,86 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Navigations.Toolbar
             Assert.Contains("\"e-icons e-chevron-right\"", source, StringComparison.Ordinal);
             Assert.DoesNotContain("e-chevron-left-small", source, StringComparison.Ordinal);
             Assert.DoesNotContain("e-chevron-right-small", source, StringComparison.Ordinal);
+        }
+
+        [Fact(DisplayName = "TB-OVF Vertical layout wraps columns and keeps overflowing alignment reachable")]
+        public void VerticalOverflowModes_UseAxisAwareWrappingAndSafeAlignment()
+        {
+            string css = File.ReadAllText(ToolbarStylesheet());
+
+            Assert.Contains(".e-toolbar.e-toolbar-align-center .e-toolbar-content", css, StringComparison.Ordinal);
+            Assert.Contains("justify-content: safe center;", css, StringComparison.Ordinal);
+            Assert.Contains("justify-content: safe flex-end;", css, StringComparison.Ordinal);
+            Assert.Contains("justify-content: space-between;", css, StringComparison.Ordinal);
+            Assert.Contains(".e-toolbar.e-toolbar-multirow.e-toolbar-vertical", css, StringComparison.Ordinal);
+            Assert.Contains(".e-toolbar.e-toolbar-extended.e-toolbar-vertical", css, StringComparison.Ordinal);
+            Match verticalContentRule = Regex.Match(
+                css,
+                @"(?s)\.e-toolbar\.e-toolbar-vertical \.e-toolbar-content\s*\{(?<declarations>[^}]*)\}");
+            Assert.True(verticalContentRule.Success, "Vertical toolbar content must have an explicit flex layout rule.");
+            Assert.Contains("flex: 1 1 auto;", verticalContentRule.Groups["declarations"].Value, StringComparison.Ordinal);
+            Assert.Contains(".e-toolbar.e-toolbar-multirow.e-toolbar-vertical .e-toolbar-content", css, StringComparison.Ordinal);
+            Assert.Contains(".e-toolbar.e-toolbar-extended.e-toolbar-vertical .e-toolbar-content", css, StringComparison.Ordinal);
+            Assert.Contains("--e-toolbar-wrapped-root-inline-size", css, StringComparison.Ordinal);
+            Assert.Contains("--e-toolbar-wrapped-content-inline-size", css, StringComparison.Ordinal);
+            Assert.Contains(".e-toolbar.e-toolbar-extended.e-toolbar-vertical:not(.e-toolbar-expanded)", css, StringComparison.Ordinal);
+            Assert.Contains(".e-toolbar-item-extended-collapsed", css, StringComparison.Ordinal);
+            Assert.Contains(".e-toolbar-vertical.e-toolbar-extended:not(.e-toolbar-expanded) ::deep .e-toolbar-separator", css, StringComparison.Ordinal);
+            Assert.Contains(".e-toolbar-vertical.e-toolbar-extended:not(.e-toolbar-expanded) ::deep .e-toolbar-spacer", css, StringComparison.Ordinal);
+            Assert.Matches(
+                @"(?s)\.e-toolbar\.e-toolbar-extended\.e-toolbar-vertical:not\(\.e-toolbar-expanded\)\s*\{\s*max-block-size:\s*none;\s*overflow:\s*visible;",
+                css);
+            Assert.Matches(
+                @"(?s)\.e-toolbar\.e-toolbar-extended\.e-toolbar-vertical \.e-toolbar-overflow\s*\{[^}]*position:\s*static;",
+                css);
+        }
+
+        [Fact(DisplayName = "TB-OVF Vertical Split item gives its label space without stretching its chevron")]
+        public void VerticalSplitItem_UsesAvailableWidthForItsLabel()
+        {
+            string css = File.ReadAllText(ToolbarStylesheet());
+            Match splitRule = Regex.Match(
+                css,
+                @"(?s)\.e-toolbar\.e-toolbar-vertical ::deep \.e-toolbar-split\s*\{(?<declarations>[^}]*)\}");
+            Match primaryButtonRule = Regex.Match(
+                css,
+                @"(?s)\.e-toolbar\.e-toolbar-vertical ::deep \.e-toolbar-split \.e-tbar-btn:not\(\.e-toolbar-chevron\)\s*\{(?<declarations>[^}]*)\}");
+            Match chevronRule = Regex.Match(
+                css,
+                @"(?s)\.e-toolbar\.e-toolbar-vertical ::deep \.e-toolbar-split \.e-toolbar-chevron\s*\{(?<declarations>[^}]*)\}");
+
+            Assert.True(splitRule.Success, "Vertical Split items must fill their toolbar item.");
+            Assert.Contains("display: flex;", splitRule.Groups["declarations"].Value, StringComparison.Ordinal);
+            Assert.Contains("inline-size: 100%;", splitRule.Groups["declarations"].Value, StringComparison.Ordinal);
+            Assert.True(primaryButtonRule.Success, "The Split primary button must use the remaining inline space.");
+            Assert.Contains("flex: 1 1 auto;", primaryButtonRule.Groups["declarations"].Value, StringComparison.Ordinal);
+            Assert.Contains("inline-size: auto;", primaryButtonRule.Groups["declarations"].Value, StringComparison.Ordinal);
+            Assert.Contains("min-inline-size: 0;", primaryButtonRule.Groups["declarations"].Value, StringComparison.Ordinal);
+            Assert.True(chevronRule.Success, "The Split chevron must retain its compact target size.");
+            Assert.Contains("flex: 0 0 var(--e-toolbar-target);", chevronRule.Groups["declarations"].Value, StringComparison.Ordinal);
+            Assert.Contains("inline-size: var(--e-toolbar-target);", chevronRule.Groups["declarations"].Value, StringComparison.Ordinal);
+        }
+
+        [Fact(DisplayName = "TB-OVF Vertical Popup control stays at inline-start")]
+        public void VerticalPopupControl_AlignsWithItemsAtBlockEnd()
+        {
+            string css = File.ReadAllText(ToolbarStylesheet());
+            Match rule = Regex.Match(
+                css,
+                @"(?s)\.e-toolbar\.e-toolbar-vertical\.e-toolbar-popup \.e-toolbar-overflow\s*\{(?<declarations>[^}]*)\}");
+            Match contentRule = Regex.Match(
+                css,
+                @"(?s)\.e-toolbar\.e-toolbar-vertical\.e-toolbar-popup \.e-toolbar-content\s*\{(?<declarations>[^}]*)\}");
+
+            Assert.True(rule.Success, "Vertical Popup mode must override the horizontal overflow-control placement.");
+            Assert.Contains("position: absolute;", rule.Groups["declarations"].Value, StringComparison.Ordinal);
+            Assert.Contains("inset-block-end: var(--e-toolbar-padding-block);", rule.Groups["declarations"].Value, StringComparison.Ordinal);
+            Assert.Contains("inset-inline-start: var(--e-toolbar-padding-inline);", rule.Groups["declarations"].Value, StringComparison.Ordinal);
+            Assert.True(contentRule.Success, "Vertical Popup content must reserve a dedicated area for its control.");
+            Assert.Contains(
+                "padding-block-end: calc(var(--e-toolbar-target) + var(--e-toolbar-gap));",
+                contentRule.Groups["declarations"].Value,
+                StringComparison.Ordinal);
         }
 
         [Fact(DisplayName = "TB-ICON-CATALOG Every catalog code point is a mapping already in the theme payload")]

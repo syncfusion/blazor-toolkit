@@ -23,9 +23,20 @@ namespace Syncfusion.Blazor.Toolkit
         private IToolbarHost? _host;
         private (ToolbarOverflowOption Overflow, int Priority) _layoutState;
         private bool _initialized;
-        private string ItemClass => ((IToolbarItem)this).IsOverflowed
-            ? "e-toolbar-item e-toolbar-template-item e-toolbar-item-overflowed"
-            : "e-toolbar-item e-toolbar-template-item";
+        private string ItemClass
+        {
+            get
+            {
+                string itemClass = ((IToolbarItem)this).IsOverflowed
+                    ? "e-toolbar-item e-toolbar-template-item e-toolbar-item-overflowed"
+                    : "e-toolbar-item e-toolbar-template-item";
+                return Host?.Orientation == ToolbarOrientation.Vertical &&
+                    Host.IsExtendedCollapsed &&
+                    ((IToolbarItem)this).IsCollapsedExtended
+                    ? itemClass + " e-toolbar-item-extended-collapsed"
+                    : itemClass;
+            }
+        }
         private bool _disposed;
 
         /// <exclude />

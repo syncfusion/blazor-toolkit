@@ -47,6 +47,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Navigations.Toolbar
             Assert.Contains("role=\"toolbar\"", html, StringComparison.Ordinal);
             Assert.Contains("Cut", html, StringComparison.Ordinal);
             Assert.Contains("Copy", html, StringComparison.Ordinal);
+            Assert.DoesNotContain("e-toolbar-measuring", html, StringComparison.Ordinal);
             Assert.DoesNotContain("toolbar-overflow-button", html, StringComparison.Ordinal);
             Assert.DoesNotContain("toolbar-overflow-popup", html, StringComparison.Ordinal);
         }

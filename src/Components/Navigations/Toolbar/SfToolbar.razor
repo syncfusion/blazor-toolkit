@@ -24,7 +24,8 @@
     @if (ShowScrollButtons)
     {
         <div class="e-toolbar-scroll-controls e-toolbar-scroll-controls-start" data-testid="toolbar-scroll-controls-start">
-            <SfButton CssClass="e-tbar-btn e-toolbar-scroll-btn e-toolbar-scroll-start-btn"
+            <SfButton @ref="_scrollStartButton"
+                      CssClass="e-tbar-btn e-toolbar-scroll-btn e-toolbar-scroll-start-btn"
                       IconCss="@ScrollStartIcon"
                       Disabled="@ScrollStartDisabled"
                       OnClick="@(() => ScrollPageAsync(-1))"
@@ -63,7 +64,8 @@
     @if (ShowScrollButtons)
     {
         <div class="e-toolbar-scroll-controls e-toolbar-scroll-controls-end" data-testid="toolbar-scroll-controls-end">
-            <SfButton CssClass="e-tbar-btn e-toolbar-scroll-btn e-toolbar-scroll-end-btn"
+            <SfButton @ref="_scrollEndButton"
+                      CssClass="e-tbar-btn e-toolbar-scroll-btn e-toolbar-scroll-end-btn"
                       IconCss="@ScrollEndIcon"
                       Disabled="@ScrollEndDisabled"
                       OnClick="@(() => ScrollPageAsync(1))"

@@ -57,17 +57,17 @@ namespace Syncfusion.Blazor.Toolkit
         /// <summary>
         /// Returns the items currently shown in the main toolbar area.
         /// </summary>
-        /// <returns>The visible item components in logical order. Separators, spacers and groups are not included.</returns>
+        /// <returns>The visible item components in logical order, excluding items moved to Popup overflow or hidden in collapsed Extended rows or columns. Separators, spacers and groups are not included.</returns>
         public IReadOnlyList<ComponentBase> GetVisibleItems()
         {
             List<IToolbarItem> items = _collection.Flatten();
-            return items.FindAll(static i => i.IsVisible && !i.IsOverflowed).ConvertAll(static i => i.Component);
+            return items.FindAll(static i => i.IsVisible && !i.IsOverflowed && !i.IsCollapsedExtended).ConvertAll(static i => i.Component);
         }
 
         /// <summary>
-        /// Returns the items currently placed in the overflow menu.
+        /// Returns the items currently moved to Popup overflow or hidden in collapsed Extended rows or columns.
         /// </summary>
-        /// <returns>The overflowed item components in logical order. The list is empty while no item has overflowed.</returns>
+        /// <returns>The hidden item components in logical order. The list is empty when all visible items remain in the main toolbar area, as in MultiRow mode.</returns>
         public IReadOnlyList<ComponentBase> GetOverflowItems()
         {
             if (IsDisposed)
@@ -75,7 +75,7 @@ namespace Syncfusion.Blazor.Toolkit
                 return [];
             }
             List<IToolbarItem> items = _collection.Flatten();
-            return items.FindAll(static i => i.IsVisible && i.IsOverflowed).ConvertAll(static i => i.Component);
+            return items.FindAll(static i => i.IsVisible && (i.IsOverflowed || i.IsCollapsedExtended)).ConvertAll(static i => i.Component);
         }
 
         #endregion

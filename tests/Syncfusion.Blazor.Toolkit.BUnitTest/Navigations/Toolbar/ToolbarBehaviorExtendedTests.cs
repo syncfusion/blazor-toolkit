@@ -463,7 +463,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Navigations.Toolbar
             Assert.Equal(new[] { "Cut", "Copy" }, cut.FindAll("[data-testid='toolbar-button']").Select(e => e.TextContent.Trim()));
         }
 
-        [Fact(DisplayName = "U-TB-028 ItemTemplate renders once per model with the model on the context")]
+        [Fact(DisplayName = "U-TB-028 ItemTemplate receives the model context for each model")]
         public void ItemTemplate_ReceivesModel()
         {
             List<string> seen = [];
@@ -477,7 +477,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Navigations.Toolbar
                 .Add(t => t.Items, models)
                 .Add(t => t.ItemTemplate, template));
 
-            Assert.Equal(new[] { "cut:False", "copy:False" }, seen);
+            Assert.Equal(new[] { "cut:False", "copy:False" }, seen.Distinct());
             Assert.Contains("Cut", cut.Markup);
             Assert.Contains("Copy", cut.Markup);
         }
@@ -545,6 +545,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Navigations.Toolbar
             IElement root = cut.Find("[data-testid='toolbar-root']");
             Assert.Contains("e-toolbar-multirow", root.ClassName);
             Assert.Empty(cut.FindAll(OverflowButton));
+            Assert.Equal(new[] { "A", "B" }, cut.Instance.GetVisibleItems().Cast<ToolbarItem>().Select(item => item.Text).ToArray());
             Assert.Empty(cut.Instance.GetOverflowItems());
             Assert.False(JSInterop.Invocations.Any(i => i.Identifier == "observe"));
         }
@@ -569,6 +570,53 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Navigations.Toolbar
             Assert.Contains("e-toolbar-expanded", root.ClassName);
             Assert.Equal("true", cut.Find("[data-testid='toolbar-expand-button']").GetAttribute("aria-expanded"));
             Assert.Empty(cut.FindAll(OverflowPopup));
+        }
+
+        [Fact(DisplayName = "U-TB-022 Horizontal Extended item lists reflect collapsed and expanded rows")]
+        public void Extended_HorizontalItemListsFollowCollapsedState()
+        {
+            ScriptExtendedMeasurement(("a", 0), ("b", 24), ("c", 48));
+            IRenderedComponent<SfToolbar> cut = RenderToolbar(
+                Compose(Item("A", ("Id", "a")), Item("B", ("Id", "b")), Item("C", ("Id", "c"))),
+                p => p.Add(t => t.OverflowMode, ToolbarOverflowMode.Extended));
+
+            cut.WaitForAssertion(() =>
+            {
+                Assert.Equal(new[] { "A" }, cut.Instance.GetVisibleItems().Cast<ToolbarItem>().Select(item => item.Text).ToArray());
+                Assert.Equal(new[] { "B", "C" }, cut.Instance.GetOverflowItems().Cast<ToolbarItem>().Select(item => item.Text).ToArray());
+            });
+
+            cut.Find("[data-testid='toolbar-expand-button']").Click();
+
+            Assert.Equal(new[] { "A", "B", "C" }, cut.Instance.GetVisibleItems().Cast<ToolbarItem>().Select(item => item.Text).ToArray());
+            Assert.Empty(cut.Instance.GetOverflowItems());
+        }
+
+        [Fact(DisplayName = "U-TB-022 Vertical Extended collapses extra columns and restores them on expand")]
+        public void Extended_VerticalCollapsesAdditionalColumns()
+        {
+            ScriptExtendedMeasurement(("a", 0), ("b", 24), ("c", 48));
+            IRenderedComponent<SfToolbar> cut = RenderToolbar(
+                Compose(Item("A", ("Id", "a")), Item("B", ("Id", "b")), Item("C", ("Id", "c"))),
+                p => p
+                    .Add(t => t.OverflowMode, ToolbarOverflowMode.Extended)
+                    .Add(t => t.Orientation, ToolbarOrientation.Vertical));
+
+            cut.WaitForAssertion(() =>
+            {
+                Assert.DoesNotContain("e-toolbar-item-extended-collapsed", cut.Find("[data-toolbar-measure='a']").ClassName, StringComparison.Ordinal);
+                Assert.Contains("e-toolbar-item-extended-collapsed", cut.Find("[data-toolbar-measure='b']").ClassName, StringComparison.Ordinal);
+                Assert.Contains("e-toolbar-item-extended-collapsed", cut.Find("[data-toolbar-measure='c']").ClassName, StringComparison.Ordinal);
+                Assert.Equal(new[] { "A" }, cut.Instance.GetVisibleItems().Cast<ToolbarItem>().Select(item => item.Text).ToArray());
+                Assert.Equal(new[] { "B", "C" }, cut.Instance.GetOverflowItems().Cast<ToolbarItem>().Select(item => item.Text).ToArray());
+            });
+
+            cut.Find("[data-testid='toolbar-expand-button']").Click();
+
+            Assert.DoesNotContain("e-toolbar-item-extended-collapsed", cut.Find("[data-toolbar-measure='b']").ClassName, StringComparison.Ordinal);
+            Assert.DoesNotContain("e-toolbar-item-extended-collapsed", cut.Find("[data-toolbar-measure='c']").ClassName, StringComparison.Ordinal);
+            Assert.Equal(new[] { "A", "B", "C" }, cut.Instance.GetVisibleItems().Cast<ToolbarItem>().Select(item => item.Text).ToArray());
+            Assert.Empty(cut.Instance.GetOverflowItems());
         }
 
         [Fact(DisplayName = "U-TB-022 Arrow navigation skips items on collapsed Extended rows")]

@@ -10,7 +10,7 @@
         <h1 id="blazor-toolkit-toolbar-component">Blazor Toolkit Toolbar Component</h1>
     </Header>
     <Content>
-        Use <code>SfToolbar</code> to show document commands. This sample uses <code>ToolbarItem</code>, <code>ToolbarGroup</code>, <code>ToolbarSeparator</code>, and <code>ToolbarSpacer</code>. Icon-only commands use <code>IconCss</code> and <code>DisplayMode</code>.
+        Use <code>SfToolbar</code> to show document commands. This sample uses <code>ToolbarItem</code>, <code>ToolbarGroup</code>, <code>ToolbarSeparator</code>, and <code>ToolbarSpacer</code>. Icon-only commands use <code>IconCss</code> and <code>DisplayMode</code>. These items use <code>ToolbarItemType.Button</code> for actions. Use <code>ToolbarItemType.Toggle</code> with a <code>Selected</code> binding to maintain selection for stateful items.
     </Content>
 </Description>
 
@@ -81,6 +81,7 @@
 </Description>
 
 <CodePreview PreviewComponent="typeof(ColorDemo)" SourceFile="/Pages/Demos/Navigations/Toolbar/ColorDemo.razor" IsFullWidth="true" />
+
 </div>
 
 @code {

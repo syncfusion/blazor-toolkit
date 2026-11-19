@@ -137,7 +137,18 @@ namespace Syncfusion.Blazor.Toolkit
 
         private string BaseItemClass { get; set; } = ItemRootClass;
 
-        private string ItemClass => ((IToolbarItem)this).IsOverflowed ? BaseItemClass + OverflowedClass : BaseItemClass;
+        private string ItemClass
+        {
+            get
+            {
+                string itemClass = ((IToolbarItem)this).IsOverflowed ? BaseItemClass + OverflowedClass : BaseItemClass;
+                return Host?.Orientation == ToolbarOrientation.Vertical &&
+                    Host.IsExtendedCollapsed &&
+                    ((IToolbarItem)this).IsCollapsedExtended
+                    ? itemClass + " e-toolbar-item-extended-collapsed"
+                    : itemClass;
+            }
+        }
 
         private int TemplateTabIndex
         {
@@ -388,6 +399,7 @@ namespace Syncfusion.Blazor.Toolkit
             };
             html["onkeydown"] = EventCallback.Factory.Create<KeyboardEventArgs>(this, HandleChevronKeyDownAsync);
             html["onfocus"] = EventCallback.Factory.Create<Microsoft.AspNetCore.Components.Web.FocusEventArgs>(this, HandleChevronFocusIn);
+            html["onpointerdown"] = EventCallback.Factory.Create<PointerEventArgs>(this, StartChevronPointerRippleAsync);
             return html;
         }
 
@@ -478,6 +490,16 @@ namespace Syncfusion.Blazor.Toolkit
                 return;
             }
             await _host.PlayRippleAsync(_itemElement, args.ClientX, args.ClientY).ConfigureAwait(true);
+        }
+
+        private async Task StartChevronPointerRippleAsync(PointerEventArgs args)
+        {
+            if (_disposed || !Enabled || _host is null || _chevronButton is null ||
+                args.PointerId == 0 || (args.PointerType == "mouse" && args.Buttons == 0))
+            {
+                return;
+            }
+            await _host.PlayRippleAsync(_chevronButton.ButtonElement, args.ClientX, args.ClientY).ConfigureAwait(true);
         }
 
         private Task ToggleMenuAsync()

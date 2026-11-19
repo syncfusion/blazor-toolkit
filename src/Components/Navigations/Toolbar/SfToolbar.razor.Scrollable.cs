@@ -1,10 +1,14 @@
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 
 namespace Syncfusion.Blazor.Toolkit
 {
     public partial class SfToolbar
     {
         #region Scrollable navigation
+
+        private SfButton? _scrollStartButton;
+        private SfButton? _scrollEndButton;
 
         /// <summary>
         /// Gets whether the toolbar scrolls along its main axis instead of moving items out of the bar.
@@ -33,12 +37,16 @@ namespace Syncfusion.Blazor.Toolkit
         /// <summary>
         /// Gets the icon of the chevron that scrolls towards the start.
         /// </summary>
-        private static string ScrollStartIcon => "e-icons e-chevron-left";
+        private string ScrollStartIcon => Orientation == ToolbarOrientation.Vertical
+            ? "e-icons e-chevron-up"
+            : "e-icons e-chevron-left";
 
         /// <summary>
         /// Gets the icon of the chevron that scrolls towards the end.
         /// </summary>
-        private static string ScrollEndIcon => "e-icons e-chevron-right";
+        private string ScrollEndIcon => Orientation == ToolbarOrientation.Vertical
+            ? "e-icons e-chevron-down"
+            : "e-icons e-chevron-right";
 
         private string ScrollStartLabel => ResolveBuiltInString(null, "Toolbar_ScrollStart", "Scroll to start");
 
@@ -63,13 +71,25 @@ namespace Syncfusion.Blazor.Toolkit
                 ["disabled"] = disabled,
                 ["aria-disabled"] = disabled ? "true" : "false",
                 ["data-testid"] = testId,
-                // Pointer handlers drive hold-to-scroll: the button starts repeating as long as
-                // the pointer or the touch is held down, and stops as soon as it is released.
-                ["onpointerdown"] = EventCallback.Factory.Create<Microsoft.AspNetCore.Components.Web.PointerEventArgs>(this, _ => StartScrollRepeat(direction)),
-                ["onpointerup"] = EventCallback.Factory.Create<Microsoft.AspNetCore.Components.Web.PointerEventArgs>(this, _ => StopScrollRepeat()),
-                ["onpointerleave"] = EventCallback.Factory.Create<Microsoft.AspNetCore.Components.Web.PointerEventArgs>(this, _ => StopScrollRepeat()),
-                ["onpointercancel"] = EventCallback.Factory.Create<Microsoft.AspNetCore.Components.Web.PointerEventArgs>(this, _ => StopScrollRepeat())
+                // Pointer handlers start the ripple and drive hold-to-scroll until the pointer or touch is released.
+                ["onpointerdown"] = EventCallback.Factory.Create<PointerEventArgs>(this, args => HandleScrollPointerDownAsync(direction, args)),
+                ["onpointerup"] = EventCallback.Factory.Create<PointerEventArgs>(this, _ => StopScrollRepeat()),
+                ["onpointerleave"] = EventCallback.Factory.Create<PointerEventArgs>(this, _ => StopScrollRepeat()),
+                ["onpointercancel"] = EventCallback.Factory.Create<PointerEventArgs>(this, _ => StopScrollRepeat())
             };
+        }
+
+        private async Task HandleScrollPointerDownAsync(int direction, PointerEventArgs args)
+        {
+            StartScrollRepeat(direction);
+
+            SfButton? button = direction < 0 ? _scrollStartButton : _scrollEndButton;
+            if (button is null || args.PointerId == 0 || (args.PointerType == "mouse" && args.Buttons == 0))
+            {
+                return;
+            }
+
+            await ((IToolbarHost)this).PlayRippleAsync(button.ButtonElement, args.ClientX, args.ClientY).ConfigureAwait(true);
         }
 
         /// <summary>

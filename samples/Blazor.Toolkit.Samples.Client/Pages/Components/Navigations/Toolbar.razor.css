@@ -122,6 +122,20 @@
     font-weight: 600;
 }
 
+.toolbar-demo-page ::deep .preview-section:has(.tb-orient),
+.toolbar-demo-page ::deep .preview-section:has(.tb-overflow),
+.toolbar-demo-page ::deep .preview-section:has(.tb-templates),
+.toolbar-demo-page ::deep .preview-section:has(.tb-items) {
+    overflow: visible;
+}
+
+.toolbar-demo-page ::deep .preview-section:has(.tb-orient),
+.toolbar-demo-page ::deep .preview-section:has(.tb-overflow),
+.toolbar-demo-page ::deep .preview-section:has(.tb-templates),
+.toolbar-demo-page ::deep .preview-section:has(.tb-items) {
+    overflow: visible;
+}
+
 .toolbar-demo-page ::deep .tb-orientation-toolbar {
     display: flex;
     justify-content: center;
@@ -222,20 +236,6 @@
     padding: 12px 6px;
     border-inline-end: 1px solid var(--color-sf-border-light, var(--color-sf-content-border));
     box-sizing: border-box;
-}
-
-.toolbar-demo-page ::deep .preview-section:has(.tb-orient),
-.toolbar-demo-page ::deep .preview-section:has(.tb-overflow),
-.toolbar-demo-page ::deep .preview-section:has(.tb-templates),
-.toolbar-demo-page ::deep .preview-section:has(.tb-items) {
-    overflow: visible;
-}
-
-.toolbar-demo-page ::deep .preview-section:has(.tb-orient),
-.toolbar-demo-page ::deep .preview-section:has(.tb-overflow),
-.toolbar-demo-page ::deep .preview-section:has(.tb-templates),
-.toolbar-demo-page ::deep .preview-section:has(.tb-items) {
-    overflow: visible;
 }
 
 .toolbar-demo-page ::deep .tb-shell.is-rail .tb-rail .e-toolbar-vertical {
@@ -452,6 +452,7 @@
 .toolbar-demo-page ::deep .tb-overflow-demo {
     width: 100%;
     box-sizing: border-box;
+    margin-inline: auto;
 }
 
 .toolbar-demo-page ::deep .tb-overflow-controls {
@@ -582,6 +583,7 @@
     isolation: isolate;
     flex: 0 0 auto;
     max-width: 100%;
+    min-inline-size: 0;
     box-sizing: border-box;
     overflow: visible;
 }

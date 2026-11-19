@@ -69,6 +69,18 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Navigations.Toolbar
             return Compose(Item("A", ("Id", "a")), Item("B", ("Id", "b")), Item("C", ("Id", "c")), Item("D", ("Id", "d")), Item("E", ("Id", "e")));
         }
 
+        private static PointerEventArgs PointerDownAt(double clientX = 120, double clientY = 80)
+        {
+            return new PointerEventArgs
+            {
+                PointerId = 1,
+                PointerType = "mouse",
+                Buttons = 1,
+                ClientX = clientX,
+                ClientY = clientY
+            };
+        }
+
         private void WaitForScrollState()
         {
             for (int i = 0; i < 200 && !JSInterop.Invocations.Any(x => x.Identifier == "scrollState"); i++)
@@ -136,6 +148,84 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Navigations.Toolbar
                 ClientX = 120,
                 ClientY = 80
             });
+
+            JSRuntimeInvocation invocation = Assert.Single(module.Invocations.Where(x => x.Identifier == "playRipple"));
+            Assert.Equal(120d, invocation.Arguments[1]);
+            Assert.Equal(80d, invocation.Arguments[2]);
+        }
+
+        [Fact(DisplayName = "U-TB-108 Scrollable navigation buttons animate on pointer press")]
+        public async Task ScrollableButtons_PointerRippleUsesPressedButton()
+        {
+            BunitJSModuleInterop module = ScriptModule();
+            module.SetupVoid("playRipple").SetVoidResult();
+            ScriptScroll(true, true, false);
+            IRenderedComponent<SfToolbar> cut = RenderToolbar(Five(), p => p.Add(t => t.OverflowMode, ToolbarOverflowMode.Scrollable));
+            WaitForScrollState();
+
+            IElement endButton = cut.Find(ScrollEnd);
+            PointerEventArgs pointer = PointerDownAt();
+            await endButton.TriggerEventAsync("onpointerdown", pointer);
+            await endButton.TriggerEventAsync("onpointerup", pointer);
+
+            JSRuntimeInvocation invocation = Assert.Single(module.Invocations.Where(x => x.Identifier == "playRipple"));
+            Assert.Equal(120d, invocation.Arguments[1]);
+            Assert.Equal(80d, invocation.Arguments[2]);
+        }
+
+        [Fact(DisplayName = "U-TB-109 Split buttons animate on pointer press")]
+        public async Task SplitButtons_PointerRippleUsesPressedButton()
+        {
+            BunitJSModuleInterop module = ScriptModule();
+            module.SetupVoid("playRipple").SetVoidResult();
+            IRenderedComponent<SfToolbar> cut = RenderToolbar(
+                Comp<ToolbarItem>(Compose(Item("Open")), ("Text", "File"), ("Type", ToolbarItemType.Split)));
+
+            await cut.Find("[data-testid='toolbar-split-primary']").TriggerEventAsync("onpointerdown", PointerDownAt());
+            await cut.Find("[data-testid='toolbar-split-toggle']").TriggerEventAsync("onpointerdown", PointerDownAt());
+
+            JSRuntimeInvocation[] invocations = module.Invocations.Where(x => x.Identifier == "playRipple").ToArray();
+            Assert.Equal(2, invocations.Length);
+            Assert.All(invocations, invocation =>
+            {
+                Assert.Equal(120d, invocation.Arguments[1]);
+                Assert.Equal(80d, invocation.Arguments[2]);
+            });
+        }
+
+        [Fact(DisplayName = "U-TB-110 Popup overflow button animates on pointer press")]
+        public async Task PopupOverflowButton_PointerRippleUsesButton()
+        {
+            BunitJSModuleInterop module = ScriptModule();
+            module.SetupVoid("playRipple").SetVoidResult();
+            ScriptPlacement(true);
+            ScriptOverflowingMeasurement();
+            IRenderedComponent<SfToolbar> cut = RenderToolbar(Compose(
+                Item("A", ("Id", "a")),
+                Item("B", ("Id", "b"))));
+            cut.WaitForAssertion(() => Assert.Single(cut.FindAll(OverflowButton)));
+
+            await cut.Find(OverflowButton).TriggerEventAsync("onpointerdown", PointerDownAt());
+
+            JSRuntimeInvocation invocation = Assert.Single(module.Invocations.Where(x => x.Identifier == "playRipple"));
+            Assert.Equal(120d, invocation.Arguments[1]);
+            Assert.Equal(80d, invocation.Arguments[2]);
+        }
+
+        [Fact(DisplayName = "U-TB-111 Extended overflow button animates on pointer press")]
+        public async Task ExtendedOverflowButton_PointerRippleUsesButton()
+        {
+            BunitJSModuleInterop module = ScriptModule();
+            module.SetupVoid("playRipple").SetVoidResult();
+            module.Setup<ToolbarMeasurement>("measure", _ => true).SetResult(new ToolbarMeasurement
+            {
+                Items = [new ToolbarMeasuredItem { Id = "a", Size = 50 }, new ToolbarMeasuredItem { Id = "b", Size = 50, Row = 24 }]
+            });
+            IRenderedComponent<SfToolbar> cut = RenderToolbar(
+                Compose(Item("A", ("Id", "a")), Item("B", ("Id", "b"))),
+                p => p.Add(t => t.OverflowMode, ToolbarOverflowMode.Extended));
+
+            await cut.Find(ExpandButton).TriggerEventAsync("onpointerdown", PointerDownAt());
 
             JSRuntimeInvocation invocation = Assert.Single(module.Invocations.Where(x => x.Identifier == "playRipple"));
             Assert.Equal(120d, invocation.Arguments[1]);
@@ -505,6 +595,23 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Navigations.Toolbar
             Assert.False(string.IsNullOrWhiteSpace(cut.Find(ScrollEnd).GetAttribute("aria-label")));
             Assert.NotEmpty(cut.Find(ScrollStart).QuerySelectorAll(".e-btn-icon"));
             Assert.NotEmpty(cut.Find(ScrollEnd).QuerySelectorAll(".e-btn-icon"));
+        }
+
+        [Fact(DisplayName = "U-TB-104 Vertical Scrollable mode uses block-axis chevrons")]
+        public void Scrollable_VerticalUsesUpAndDownChevrons()
+        {
+            ScriptModule();
+            ScriptScroll(true, true, false);
+
+            IRenderedComponent<SfToolbar> cut = RenderToolbar(Five(), p => p
+                .Add(t => t.OverflowMode, ToolbarOverflowMode.Scrollable)
+                .Add(t => t.Orientation, ToolbarOrientation.Vertical));
+
+            cut.WaitForAssertion(() =>
+            {
+                Assert.Contains("e-chevron-up", cut.Find(ScrollStart).QuerySelector(".e-btn-icon")!.ClassName, StringComparison.Ordinal);
+                Assert.Contains("e-chevron-down", cut.Find(ScrollEnd).QuerySelector(".e-btn-icon")!.ClassName, StringComparison.Ordinal);
+            });
         }
 
         [Fact(DisplayName = "U-TB-104 The Scrollable mode shows no overflow button")]

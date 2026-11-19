@@ -1,4 +1,4 @@
-﻿@inject NavigationManager NavigationManager
+@inject NavigationManager NavigationManager
 @implements IDisposable
 
 <div class="nav-scrollable">
@@ -247,6 +247,11 @@
                             <li class="sf-nav-item sf-sub-item @(IsActive("navigations/sidebar") ? "is-active" : "")">
                                 <NavLink class="sf-nav-link" href="navigations/sidebar" Match="NavLinkMatch.All">
                                     <span>Sidebar</span>
+                                </NavLink>
+                            </li>
+                            <li class="sf-nav-item sf-sub-item @(IsActive("navigations/toolbar") ? "is-active" : "")">
+                                <NavLink class="sf-nav-link" href="navigations/toolbar" Match="NavLinkMatch.All">
+                                    <span>Toolbar</span>
                                 </NavLink>
                             </li>
                         </ul>
@@ -638,7 +643,7 @@
     private bool _chartsSectionsExpanded = false;
     private string _singleCategory = string.Empty;
 
-    private bool _componentsExpanded = false;
+    private bool _componentsExpanded = true;
     private bool _moreExpanded = false;
 
     protected override void OnInitialized()
@@ -824,7 +829,9 @@
             || relativeUri.Equals("inputs", StringComparison.OrdinalIgnoreCase)
             || relativeUri.StartsWith("inputs/", StringComparison.OrdinalIgnoreCase)
             || relativeUri.Equals("popups", StringComparison.OrdinalIgnoreCase)
-            || relativeUri.StartsWith("popups/", StringComparison.OrdinalIgnoreCase);
+            || relativeUri.StartsWith("popups/", StringComparison.OrdinalIgnoreCase)
+            || relativeUri.Equals("navigations", StringComparison.OrdinalIgnoreCase)
+            || relativeUri.StartsWith("navigations/", StringComparison.OrdinalIgnoreCase);
     }
 
     // Returns true when the current route is one of the entries shown

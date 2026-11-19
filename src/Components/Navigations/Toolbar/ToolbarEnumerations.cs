@@ -48,7 +48,7 @@ namespace Syncfusion.Blazor.Toolkit
     public enum ToolbarOverflowMode
     {
         /// <summary>
-        /// Items stay on one line and the bar scrolls.
+        /// Items stay in one row or column and the bar scrolls along its orientation.
         /// </summary>
         Scrollable,
 
@@ -58,12 +58,12 @@ namespace Syncfusion.Blazor.Toolkit
         Popup,
 
         /// <summary>
-        /// Items that do not fit wrap onto additional rows.
+        /// Items that do not fit wrap onto additional rows or columns, according to the toolbar orientation.
         /// </summary>
         MultiRow,
 
         /// <summary>
-        /// Extra rows are collapsed behind an expand button.
+        /// Additional rows or columns are collapsed behind an expand button, according to the toolbar orientation.
         /// </summary>
         Extended
     }

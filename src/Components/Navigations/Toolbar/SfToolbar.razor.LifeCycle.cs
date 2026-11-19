@@ -26,10 +26,19 @@ namespace Syncfusion.Blazor.Toolkit
         /// <exclude />
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
+#if !NET9_0_OR_GREATER
+            if (firstRender && IsPopupMode && !_initialMeasurementComplete)
+            {
+                _initialMeasurementPending = true;
+                ComputeRenderState();
+                StateHasChanged();
+            }
+#endif
             await base.OnAfterRenderAsync(firstRender).ConfigureAwait(true);
             // Items nested in groups register after the first pass, so settle the single tab stop once everything has rendered.
             RefreshTabStops();
             await StartScrollObservingAsync().ConfigureAwait(true);
+            await UpdateVerticalWrappedSizeAsync().ConfigureAwait(true);
             if (IsScrollableMode)
             {
                 await UpdateScrollStateAsync().ConfigureAwait(true);

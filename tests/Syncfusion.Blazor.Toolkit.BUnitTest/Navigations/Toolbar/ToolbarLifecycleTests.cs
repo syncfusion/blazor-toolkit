@@ -17,10 +17,20 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Navigations.Toolbar
 
         private BunitJSModuleInterop? _module;
 
+        private BunitJSModuleInterop ScriptModule(bool observerAvailable = true)
+        {
+            if (_module is null)
+            {
+                _module = JSInterop.SetupModule(ModulePath);
+                _module.Setup<bool>("observe", _ => true).SetResult(observerAvailable);
+            }
+            _module.Mode = JSRuntimeMode.Loose;
+            return _module;
+        }
+
         private void ScriptMeasurement(double available, params string[] ids)
         {
-            _module ??= JSInterop.SetupModule(ModulePath);
-            _module.Mode = JSRuntimeMode.Loose;
+            _ = ScriptModule();
             ToolbarMeasurement measurement = new()
             {
                 Available = available,
@@ -59,6 +69,52 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Navigations.Toolbar
                 Thread.Sleep(15);
             }
             return last;
+        }
+
+        [Fact(DisplayName = "U-TB-106 Popup toolbar stays concealed until the observer retry measures its items")]
+        public async Task PopupToolbar_StaysConcealedUntilObserverRetryMeasuresItems()
+        {
+            ScriptModule();
+            IRenderedComponent<SfToolbar> cut = RenderToolbar(Three());
+
+            Assert.Contains("e-toolbar-measuring", cut.Find(Root).ClassList);
+
+            ScriptMeasurement(150, "a", "b", "c");
+            await cut.InvokeAsync(() => cut.Instance.OnContainerResizedAsync());
+
+            cut.WaitForAssertion(() =>
+            {
+                Assert.DoesNotContain("e-toolbar-measuring", cut.Find(Root).ClassList);
+                Assert.Single(cut.FindAll(OverflowButton));
+                Assert.Equal(2, cut.Instance.GetVisibleItems().Count);
+                Assert.Single(cut.Instance.GetOverflowItems());
+            });
+        }
+
+        [Fact(DisplayName = "U-TB-106 Popup toolbar reveals items when resize observation is unavailable")]
+        public void PopupToolbar_RevealsItemsWhenResizeObservationIsUnavailable()
+        {
+            ScriptModule(observerAvailable: false);
+            IRenderedComponent<SfToolbar> cut = RenderToolbar(Three());
+
+            Assert.DoesNotContain("e-toolbar-measuring", cut.Find(Root).ClassList);
+            Assert.Equal(3, cut.Instance.GetVisibleItems().Count);
+        }
+
+        [Fact(DisplayName = "U-TB-107 Popup toolbar starts resize observation before measuring")]
+        public void PopupToolbar_StartsResizeObservationBeforeMeasuring()
+        {
+            ScriptMeasurement(100, "a", "b", "c");
+            _ = RenderToolbar(Three());
+
+            JSRuntimeInvocation[] invocations = _module!.Invocations.ToArray();
+            int measureIndex = Array.FindIndex(invocations, invocation => invocation.Identifier == "measure");
+            int observeIndex = Array.FindIndex(invocations, invocation => invocation.Identifier == "observe");
+            int trackKeysIndex = Array.FindIndex(invocations, invocation => invocation.Identifier == "trackOverflowKeys");
+
+            Assert.True(observeIndex >= 0);
+            Assert.True(trackKeysIndex > observeIndex);
+            Assert.True(measureIndex > trackKeysIndex);
         }
 
         [Fact(DisplayName = "U-TB-063 Disposing after the circuit disconnected swallows JSDisconnectedException")]
@@ -143,6 +199,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Navigations.Toolbar
                 Assert.Single(cut.FindAll(OverflowButton));
                 Assert.Empty(cut.FindAll("[data-testid='toolbar-item']:not(.e-toolbar-item-overflowed)"));
                 Assert.Equal(3, cut.Instance.GetOverflowItems().Count);
+                Assert.DoesNotContain("e-toolbar-measuring", cut.Find(Root).ClassList);
             });
         }
 
@@ -156,6 +213,87 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Navigations.Toolbar
 
             Assert.Empty(cut.FindAll(OverflowButton));
             Assert.Empty(cut.Instance.GetOverflowItems());
+        }
+
+        [Fact(DisplayName = "U-TB-105 Vertical MultiRow measures wrapped width and releases it on mode change")]
+        public void VerticalMultiRow_TracksWrappedBackgroundWidth()
+        {
+            BunitJSModuleInterop module = ScriptModule();
+            IRenderedComponent<SfToolbar> cut = RenderToolbar(Three(), p => p
+                .Add(t => t.Orientation, ToolbarOrientation.Vertical)
+                .Add(t => t.OverflowMode, ToolbarOverflowMode.MultiRow));
+
+            cut.WaitForAssertion(() =>
+            {
+                Assert.Contains(module.Invocations, invocation => invocation.Identifier == "sizeVerticalWrapped");
+                Assert.Contains(module.Invocations, invocation => invocation.Identifier == "observeVerticalWrapped");
+                Assert.Contains("e-toolbar-multirow", cut.Find(Root).ClassList);
+                Assert.Contains("e-toolbar-vertical", cut.Find(Root).ClassList);
+            });
+
+            int sizingCalls = module.Invocations.Count(invocation => invocation.Identifier == "sizeVerticalWrapped");
+            cut.SetParametersAndRender(p => p.Add(t => t.Orientation, ToolbarOrientation.Horizontal));
+
+            cut.WaitForAssertion(() =>
+            {
+                Assert.Contains(module.Invocations, invocation => invocation.Identifier == "unobserveVerticalWrapped");
+                Assert.Contains(module.Invocations, invocation => invocation.Identifier == "clearVerticalWrappedSize");
+                Assert.DoesNotContain("e-toolbar-vertical", cut.Find(Root).ClassList);
+                Assert.Equal(sizingCalls, module.Invocations.Count(invocation => invocation.Identifier == "sizeVerticalWrapped"));
+            });
+        }
+
+        [Fact(DisplayName = "U-TB-105 Vertical Extended measures wrapped width and releases it on mode change")]
+        public void VerticalExtended_TracksWrappedBackgroundWidth()
+        {
+            BunitJSModuleInterop module = ScriptModule();
+            IRenderedComponent<SfToolbar> cut = RenderToolbar(Three(), p => p
+                .Add(t => t.Orientation, ToolbarOrientation.Vertical)
+                .Add(t => t.OverflowMode, ToolbarOverflowMode.Extended));
+
+            cut.WaitForAssertion(() =>
+            {
+                Assert.Contains(module.Invocations, invocation => invocation.Identifier == "sizeVerticalWrapped");
+                Assert.Contains(module.Invocations, invocation => invocation.Identifier == "observeVerticalWrapped");
+                Assert.Contains("e-toolbar-extended", cut.Find(Root).ClassList);
+                Assert.Contains("e-toolbar-vertical", cut.Find(Root).ClassList);
+            });
+
+            cut.SetParametersAndRender(p => p.Add(t => t.OverflowMode, ToolbarOverflowMode.Popup));
+
+            cut.WaitForAssertion(() =>
+            {
+                Assert.Contains(module.Invocations, invocation => invocation.Identifier == "unobserveVerticalWrapped");
+                Assert.Contains(module.Invocations, invocation => invocation.Identifier == "clearVerticalWrappedSize");
+                Assert.DoesNotContain("e-toolbar-extended", cut.Find(Root).ClassList);
+            });
+        }
+
+        [Fact(DisplayName = "U-TB-105 Disposing vertical MultiRow stops its browser observer")]
+        public void VerticalMultiRow_DisposalStopsObserver()
+        {
+            BunitJSModuleInterop module = ScriptModule();
+            IRenderedComponent<SfToolbar> cut = RenderToolbar(Three(), p => p
+                .Add(t => t.Orientation, ToolbarOrientation.Vertical)
+                .Add(t => t.OverflowMode, ToolbarOverflowMode.MultiRow));
+
+            cut.WaitForAssertion(() =>
+                Assert.Contains(module.Invocations, invocation => invocation.Identifier == "observeVerticalWrapped"));
+            DisposeComponents();
+            Assert.Contains(module.Invocations, invocation => invocation.Identifier == "unobserveVerticalWrapped");
+        }
+
+        [Fact(DisplayName = "U-TB-105 Disposing vertical Extended stops its browser observer")]
+        public void VerticalExtended_DisposalStopsObserver()
+        {
+            BunitJSModuleInterop module = ScriptModule();
+            _ = RenderToolbar(Three(), p => p
+                .Add(t => t.Orientation, ToolbarOrientation.Vertical)
+                .Add(t => t.OverflowMode, ToolbarOverflowMode.Extended));
+
+            Assert.Contains(module.Invocations, invocation => invocation.Identifier == "observeVerticalWrapped");
+            DisposeComponents();
+            Assert.Contains(module.Invocations, invocation => invocation.Identifier == "unobserveVerticalWrapped");
         }
 
         [Fact(DisplayName = "U-TB-040 Rapid parameter changes end in the final state without throwing")]

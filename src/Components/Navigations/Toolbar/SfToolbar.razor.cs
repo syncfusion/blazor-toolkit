@@ -88,6 +88,17 @@ namespace Syncfusion.Blazor.Toolkit
             {
                 _ = css.Append(Space).Append("e-toolbar-expanded");
             }
+#if NET9_0_OR_GREATER
+            if (IsPopupMode && !_initialMeasurementComplete && !IsStaticServerRendering())
+            {
+                _ = css.Append(Space).Append("e-toolbar-measuring");
+            }
+#else
+            if (IsPopupMode && _initialMeasurementPending)
+            {
+                _ = css.Append(Space).Append("e-toolbar-measuring");
+            }
+#endif
             if (_rtl)
             {
                 _ = css.Append(Space).Append(RtlClass);

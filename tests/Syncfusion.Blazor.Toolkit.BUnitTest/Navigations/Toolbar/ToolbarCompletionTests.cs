@@ -35,8 +35,8 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Navigations.Toolbar
             Assert.Equal(2, cut.FindAll("[data-testid='toolbar-button']").Count);
         }
 
-        [Fact(DisplayName = "U-TB-016 The measurement script uses only ResizeObserver and getBoundingClientRect")]
-        public void Script_UsesOnlyAllowedApis()
+        [Fact(DisplayName = "U-TB-016 The measurement script observes layout and dynamic content")]
+        public void Script_ObservesLayoutAndDynamicContent()
         {
             string path = Path.GetFullPath(Path.Combine(
                 AppContext.BaseDirectory,
@@ -45,6 +45,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Navigations.Toolbar
             string script = File.ReadAllText(path);
 
             Assert.Contains("ResizeObserver", script, StringComparison.Ordinal);
+            Assert.Contains("MutationObserver", script, StringComparison.Ordinal);
             Assert.Contains("getBoundingClientRect", script, StringComparison.Ordinal);
             Assert.DoesNotContain("eval(", script, StringComparison.Ordinal);
             Assert.DoesNotContain("new Function", script, StringComparison.Ordinal);
