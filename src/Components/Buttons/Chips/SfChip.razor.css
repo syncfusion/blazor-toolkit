@@ -79,23 +79,25 @@ a.e-chip:active:not(.e-chip-disabled):not(.e-chip-readonly),
     text-decoration: none;
 }
 
+.e-chip:focus,
 button.e-chip:focus,
 a.e-chip:focus,
 button.e-chip-remove:focus {
+    outline: none;
     text-decoration: none;
 }
 
-button.e-chip:focus-visible,
-a.e-chip:focus-visible,
-.e-chip-action:focus-visible,
-.e-chip-assist:focus-visible,
-.e-chip-filter:focus-visible,
-.e-chip-choice:focus-visible,
-.e-chip-suggestion:focus-visible,
-.e-chip-navigation:focus-visible,
+button.e-chip:focus-visible:not(.e-chip-outlined):not(.e-chip-selected),
+a.e-chip:focus-visible:not(.e-chip-outlined):not(.e-chip-selected) {
+    background: var(--e-chip-bg-pressed, var(--e-chip-bg-hover, var(--e-chip-bg)));
+}
+
+button.e-chip.e-chip-outlined:focus-visible,
+a.e-chip.e-chip-outlined:focus-visible {
+    background: color-mix(in srgb, var(--e-chip-text, currentColor) 12%, transparent);
+}
+
 ::deep button.e-chip-remove:focus-visible {
-    border-color: var(--color-sf-shadow-color);
-    box-shadow: inset 0 0 0 1px var(--color-sf-shadow-color), inset 0 0 0 2px var(--color-sf-shadow-color1);
     outline: 2px solid var(--color-sf-shadow-color);
     outline-offset: 2px;
 }
@@ -272,10 +274,10 @@ a.e-chip:focus-visible,
     --e-chip-border-pressed: var(--color-sf-info-border-color-pressed);
     --e-chip-border-selected: var(--color-sf-info-border-color-selected);
     --e-chip-border-disabled: var(--color-sf-secondary-border-color-disabled);
-    --e-chip-text: var(--color-sf-info-text);
-    --e-chip-text-hover: var(--color-sf-info-text-hover);
-    --e-chip-text-pressed: var(--color-sf-info-text-pressed);
-    --e-chip-text-selected: var(--color-sf-info-text-pressed);
+    --e-chip-text: var(--color-sf-primary-text-color);
+    --e-chip-text-hover: var(--color-sf-primary-text-color);
+    --e-chip-text-pressed: var(--color-sf-primary-text-color);
+    --e-chip-text-selected: var(--color-sf-primary-text-color);
     --e-chip-text-disabled: var(--color-sf-info-text-disabled);
 }
 
@@ -291,10 +293,10 @@ a.e-chip:focus-visible,
     --e-chip-border-pressed: var(--color-sf-warning-border-color-pressed);
     --e-chip-border-selected: var(--color-sf-warning-border-color-selected);
     --e-chip-border-disabled: var(--color-sf-secondary-border-color-disabled);
-    --e-chip-text: var(--color-sf-warning-text);
-    --e-chip-text-hover: var(--color-sf-warning-text-hover);
-    --e-chip-text-pressed: var(--color-sf-warning-text-pressed);
-    --e-chip-text-selected: var(--color-sf-warning-text-pressed);
+    --e-chip-text: var(--color-sf-primary-text-color);
+    --e-chip-text-hover: var(--color-sf-primary-text-color);
+    --e-chip-text-pressed: var(--color-sf-primary-text-color);
+    --e-chip-text-selected: var(--color-sf-primary-text-color);
     --e-chip-text-disabled: var(--color-sf-warning-text-disabled);
 }
 
@@ -427,8 +429,20 @@ a.e-chip:focus-visible,
 }
 
 ::deep .e-chip-text {
-    /* Icon-font ink is centered in its box. Text ink sits low in the em box, so lift the label to the same line. */
-    transform: translateY(-0.08em);
+    display: block;
+    flex: 0 0 auto;
+    align-self: center;
+    font: inherit;
+    line-height: 1;
+    margin: 0;
+    padding: 0;
+}
+
+@supports (text-box-trim: trim-both) {
+    ::deep .e-chip-text {
+        text-box-edge: cap alphabetic;
+        text-box-trim: trim-both;
+    }
 }
 
 ::deep .e-chip-leading .sb-icons,
@@ -440,12 +454,15 @@ a.e-chip:focus-visible,
 ::deep .e-chip-trailing .sb-icons::before,
 ::deep .e-chip-leading .e-toolkit-icons::before,
 ::deep .e-chip-trailing .e-toolkit-icons::before,
+::deep .e-chip-check.e-toolkit-icons::before,
 ::deep .e-chip-remove .e-toolkit-icons::before {
     align-items: center;
     display: inline-flex;
     justify-content: center;
     line-height: 1;
 }
+
+
 
 ::deep .e-chip-remove {
     --e-chip-remove-bg: color-mix(in srgb, currentColor 24%, transparent);
@@ -517,20 +534,15 @@ a.e-chip:focus-visible,
 
 ::deep .e-toolkit-icons.e-close::before {
     content: "\e709";
-    /*
-     * e-toolkit-icons U+E709 ink center is 428.5 in a 1024 em box whose
-     * baseline is 0. 0.082em moves the painted glyph, not the element box.
-     */
     padding-top: 0.082em;
 }
 
 ::deep .e-toolkit-icons.e-check::before {
     content: "\e707";
     display: inline-block;
+    line-height: 1;
     min-inline-size: 1em;
     min-block-size: 1em;
-    /* e-toolkit-icons U+E707 ink center is 389.5 in the same 1024 em box. */
-    padding-top: 0.12em;
 }
 
 ::deep .e-chip-remove:disabled,
@@ -546,17 +558,242 @@ a.e-chip:focus-visible,
         forced-color-adjust: none;
     }
 
-    .e-chip-selected {
-        background: Highlight;
-        border-style: double;
-        color: HighlightText;
-        outline: 1px solid Highlight;
+    .e-chip.e-chip-outlined,
+    .e-chip.e-chip-soft,
+    .e-chip-outlined,
+    .e-chip-soft,
+    .e-chip.e-primary.e-chip-outlined,
+    .e-chip.e-success.e-chip-outlined,
+    .e-chip.e-info.e-chip-outlined,
+    .e-chip.e-warning.e-chip-outlined,
+    .e-chip.e-danger.e-chip-outlined,
+    .e-chip.e-primary.e-chip-soft,
+    .e-chip.e-success.e-chip-soft,
+    .e-chip.e-info.e-chip-soft,
+    .e-chip.e-warning.e-chip-soft,
+    .e-chip.e-danger.e-chip-soft {
+        background: Canvas !important;
+        border: 1px solid CanvasText !important;
+        color: CanvasText !important;
+        forced-color-adjust: none;
+    }
+
+    .e-chip-action.e-chip-outlined,
+    .e-chip-filter.e-chip-outlined,
+    .e-chip-choice.e-chip-outlined,
+    .e-chip-assist.e-chip-outlined,
+    .e-chip-suggestion.e-chip-outlined,
+    .e-chip-navigation.e-chip-outlined,
+    .e-chip.e-chip-action.e-chip-outlined,
+    .e-chip.e-chip-filter.e-chip-outlined,
+    .e-chip.e-chip-choice.e-chip-outlined,
+    .e-chip.e-chip-assist.e-chip-outlined,
+    .e-chip.e-chip-suggestion.e-chip-outlined,
+    .e-chip.e-chip-navigation.e-chip-outlined {
+        border-color: ButtonText !important;
+        color: ButtonText !important;
+        background: Canvas !important;
+        forced-color-adjust: none;
+    }
+
+    .e-chip-action,
+    .e-chip-filter,
+    .e-chip-choice,
+    .e-chip-assist,
+    .e-chip-suggestion,
+    .e-chip-navigation,
+    .e-chip.e-chip-navigation {
+        border-color: ButtonText !important;
+        color: ButtonText !important;
+        forced-color-adjust: none;
+    }
+
+    .e-chip-selected,
+    .e-chip.e-chip-selected,
+    .e-chip-filter.e-chip-selected,
+    .e-chip-choice.e-chip-selected,
+    .e-chip-action.e-chip-selected,
+    .e-chip-assist.e-chip-selected,
+    .e-chip-suggestion.e-chip-selected,
+    .e-chip-navigation.e-chip-selected {
+        --e-chip-accent: Highlight !important;
+        background: Highlight !important;
+        border: 1px solid Highlight !important;
+        border-style: double !important;
+        color: HighlightText !important;
+        box-shadow: none !important;
+        outline: 1px solid Highlight !important;
+        forced-color-adjust: none;
+    }
+
+    .e-chip-selected.e-chip-outlined,
+    .e-chip.e-chip-selected.e-chip-outlined {
+        --e-chip-accent: Highlight !important;
+        background: Highlight !important;
+        border: 1px solid Highlight !important;
+        color: HighlightText !important;
+        box-shadow: none !important;
+        forced-color-adjust: none;
+    }
+
+    .e-chip-action:not(:disabled):hover,
+    .e-chip-filter:not(:disabled):hover,
+    .e-chip-choice:not(:disabled):hover,
+    .e-chip-assist:not(:disabled):hover,
+    .e-chip-suggestion:not(:disabled):hover,
+    .e-chip-navigation:not(:disabled):hover,
+    .e-chip-action.e-chip-selected,
+    .e-chip-filter.e-chip-selected,
+    .e-chip-choice.e-chip-selected,
+    .e-chip-assist.e-chip-selected,
+    .e-chip-suggestion.e-chip-selected,
+    .e-chip-navigation.e-chip-selected,
+    .e-chip.e-chip-action:not(:disabled):hover,
+    .e-chip.e-chip-filter:not(:disabled):hover,
+    .e-chip.e-chip-choice:not(:disabled):hover,
+    .e-chip.e-chip-assist:not(:disabled):hover,
+    .e-chip.e-chip-suggestion:not(:disabled):hover,
+    .e-chip.e-chip-navigation:not(:disabled):hover,
+    .e-chip.e-chip-action.e-chip-selected,
+    .e-chip.e-chip-filter.e-chip-selected,
+    .e-chip.e-chip-choice.e-chip-selected,
+    .e-chip.e-chip-assist.e-chip-selected,
+    .e-chip.e-chip-suggestion.e-chip-selected,
+    .e-chip.e-chip-navigation.e-chip-selected {
+        border-color: Highlight !important;
+        color: Highlight !important;
+        background-color: HighlightText !important;
+        -webkit-text-fill-color: Highlight;
+        forced-color-adjust: none;
+    }
+
+    .e-chip-action:not(:disabled):focus-visible,
+    .e-chip-filter:not(:disabled):focus-visible,
+    .e-chip-choice:not(:disabled):focus-visible,
+    .e-chip-assist:not(:disabled):focus-visible,
+    .e-chip-suggestion:not(:disabled):focus-visible,
+    .e-chip-navigation:not(:disabled):focus-visible,
+    .e-chip.e-chip-action:not(:disabled):focus-visible,
+    .e-chip.e-chip-filter:not(:disabled):focus-visible,
+    .e-chip.e-chip-choice:not(:disabled):focus-visible,
+    .e-chip.e-chip-assist:not(:disabled):focus-visible,
+    .e-chip.e-chip-suggestion:not(:disabled):focus-visible,
+    .e-chip.e-chip-navigation:not(:disabled):focus-visible {
+        border-color: ButtonText !important;
+        color: ButtonText !important;
+        outline: 2px solid CanvasText !important;
+        outline-offset: 2px !important;
+        box-shadow: 0 0 0 1px ButtonText !important;
+        -webkit-text-fill-color: ButtonText;
+        background-color: HighlightText !important;
+        forced-color-adjust: none;
+        z-index: 1;
+    }
+
+    .e-chip-action.e-chip-outlined:not(:disabled):active,
+    .e-chip-filter.e-chip-outlined:not(:disabled):active,
+    .e-chip-choice.e-chip-outlined:not(:disabled):active,
+    .e-chip-assist.e-chip-outlined:not(:disabled):active,
+    .e-chip-suggestion.e-chip-outlined:not(:disabled):active,
+    .e-chip-navigation.e-chip-outlined:not(:disabled):active,
+    .e-chip.e-chip-action.e-chip-outlined:not(:disabled):active,
+    .e-chip.e-chip-filter.e-chip-outlined:not(:disabled):active,
+    .e-chip.e-chip-choice.e-chip-outlined:not(:disabled):active,
+    .e-chip.e-chip-assist.e-chip-outlined:not(:disabled):active,
+    .e-chip.e-chip-suggestion.e-chip-outlined:not(:disabled):active,
+    .e-chip.e-chip-navigation.e-chip-outlined:not(:disabled):active {
+        border-color: Highlight !important;
+        color: Highlight !important;
+        background-color: HighlightText !important;
+        -webkit-text-fill-color: Highlight;
+        forced-color-adjust: none;
+    }
+
+    ::deep .e-chip-remove,
+    ::deep button.e-chip-remove {
+        color: ButtonText !important;
+        border: 1px solid ButtonText !important;
+        background: transparent !important;
+        forced-color-adjust: none;
+    }
+
+    ::deep .e-chip-remove:hover:not(:disabled),
+    ::deep button.e-chip-remove:hover:not(:disabled),
+    ::deep .e-chip-remove:focus-visible:not(:disabled),
+    ::deep button.e-chip-remove:focus-visible:not(:disabled),
+    .e-chip-selected ::deep .e-chip-remove,
+    .e-chip.e-chip-selected ::deep .e-chip-remove,
+    .e-chip-selected ::deep .e-chip-remove:focus-visible,
+    .e-chip.e-chip-selected ::deep .e-chip-remove:focus-visible {
+        color: Highlight !important;
+        border: 1px solid Highlight !important;
+        background-color: HighlightText !important;
+        -webkit-text-fill-color: Highlight;
+        forced-color-adjust: none;
+    }
+
+    .e-chip-action.e-chip-selected:not(:disabled):focus-visible,
+    .e-chip-filter.e-chip-selected:not(:disabled):focus-visible,
+    .e-chip-choice.e-chip-selected:not(:disabled):focus-visible,
+    .e-chip-assist.e-chip-selected:not(:disabled):focus-visible,
+    .e-chip-suggestion.e-chip-selected:not(:disabled):focus-visible,
+    .e-chip-navigation.e-chip-selected:not(:disabled):focus-visible,
+    .e-chip.e-chip-action.e-chip-selected:not(:disabled):focus-visible,
+    .e-chip.e-chip-filter.e-chip-selected:not(:disabled):focus-visible,
+    .e-chip.e-chip-choice.e-chip-selected:not(:disabled):focus-visible,
+    .e-chip.e-chip-assist.e-chip-selected:not(:disabled):focus-visible,
+    .e-chip.e-chip-suggestion.e-chip-selected:not(:disabled):focus-visible,
+    .e-chip.e-chip-navigation.e-chip-selected:not(:disabled):focus-visible {
+        border-color: Highlight !important;
+        color: Highlight !important;
+        background-color: HighlightText !important;
+        -webkit-text-fill-color: Highlight;
+        outline: 2px solid CanvasText !important;
+        outline-offset: 2px !important;
+        box-shadow: 0 0 0 1px Highlight !important;
+        forced-color-adjust: none;
+        z-index: 1;
     }
 
     button.e-chip:focus-visible,
     a.e-chip:focus-visible,
+    .e-chip:focus-visible,
     ::deep button.e-chip-remove:focus-visible {
-        outline: 2px solid Highlight;
+        outline-offset: 2px;
+        forced-color-adjust: none;
+    }
+
+    .e-chip:disabled,
+    .e-chip.e-chip-disabled,
+    .e-chip[aria-disabled="true"],
+    .e-chip.e-chip-outlined:disabled,
+    .e-chip.e-chip-outlined.e-chip-disabled,
+    .e-chip.e-chip-soft:disabled,
+    .e-chip.e-chip-soft.e-chip-disabled,
+    .e-chip-action:disabled,
+    .e-chip-filter:disabled,
+    .e-chip-choice:disabled,
+    .e-chip-assist:disabled,
+    .e-chip-suggestion:disabled,
+    .e-chip-navigation:disabled {
+        background-color: Canvas !important;
+        border: 1px solid GrayText !important;
+        color: GrayText !important;
+        -webkit-text-fill-color: GrayText !important;
+        opacity: 1 !important;
+        box-shadow: none !important;
+        outline: none !important;
+        forced-color-adjust: none !important;
+    }
+
+    .e-chip:disabled ::deep .e-chip-remove,
+    .e-chip.e-chip-disabled ::deep .e-chip-remove,
+    .e-chip[aria-disabled="true"] ::deep .e-chip-remove,
+    ::deep .e-chip-remove:disabled {
+        color: GrayText !important;
+        border-color: GrayText !important;
+        background: transparent !important;
+        forced-color-adjust: none !important;
     }
 }
 
