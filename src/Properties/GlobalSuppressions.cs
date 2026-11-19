@@ -890,6 +890,13 @@ using System.Diagnostics.CodeAnalysis;
     "CA2227:Collection properties should be read only",
     Justification = "2026-10-01: Attribute-splat dictionary rendered onto the element; Blazor assigns it through the public setter, so the setter must remain.",
     Scope = "member",
+    Target = "~P:Syncfusion.Blazor.Toolkit.SfSidebar.HtmlAttributes")]
+
+[assembly: SuppressMessage(
+    "Usage",
+    "CA2227:Collection properties should be read only",
+    Justification = "2026-10-01: Attribute-splat dictionary rendered onto the element; Blazor assigns it through the public setter, so the setter must remain.",
+    Scope = "member",
     Target = "~P:Syncfusion.Blazor.Toolkit.SfChip.HtmlAttributes")]
 
 [assembly: SuppressMessage(

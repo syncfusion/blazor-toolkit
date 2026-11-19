@@ -568,6 +568,7 @@ span.me-2.e-toolkit-icons.e-chevron-left {
 .e-toolkit-icons.e-accessibility::before      { content: "\e72f"; }
 .e-toolkit-icons.e-contribution-guide::before { content: "\e730"; }
 .e-toolkit-icons.e-security::before           { content: "\e731"; }
+.e-toolkit-icons.e-navigation::before         { content: "\e732"; }
 .e-toolkit-icons.e-layout::before             { content: "\e733"; }
 .e-toolkit-icons.e-chevron-left::before      { content: "\e702"; }
 
