@@ -7,7 +7,7 @@
 @inject Syncfusion.Blazor.Toolkit.SyncfusionBlazorToolkitService SyncfusionService
 @inject NavigationManager Urihelper
 
-<div class="page @(IsRtl ? "rtl page-rtl" : null)" dir="@(IsRtl ? "rtl" : "ltr")">
+<div class="page">
     <header class="top-layout-custom">
         @if (IsMobile)
         {
@@ -81,7 +81,7 @@
                                             </div>
                                         }
                                     } 
-                                    else if (FilteredPages.Count > 0)
+                                    else
                                     {
                                         @foreach (var item in FilteredPages)
                                         {
@@ -90,13 +90,7 @@
                                             </div>
                                         }
                                     }
-                                    else
-                                    {
-                                        <div class="search-empty-state" role="status" aria-live="polite">
-                                            There are no items matching the search term.
                                 </div>
-                                    }
-                            </div>
                             </div>
                         </Content>
                     </DialogTemplates>
@@ -492,7 +486,7 @@
 
     private async Task TogglePreferencesPopup()
     {
-        if (PreferencesPopupOpen)
+         if (PreferencesPopupOpen)
         {
             await ClosePreferencesPopup();
             return;
@@ -532,43 +526,24 @@
         }
     }
 
-    /// <summary>
-    /// ButtonGroup selection uses SelectedChanged, not @onclick.
-    /// Only react when this button becomes selected (Single mode).
-    /// </summary>
-    private async Task OnRtlButtonChanged ( bool selected, bool rtl )
+    private async Task SetRTL(bool rtl)
     {
-        if (!selected)
-        {
-            return;
-        }
-
-        if (IsRtl == rtl)
-        {
-            return;
-        }
-
-        await SetRTL(rtl);
-    }
-
-    private async Task SetRTL ( bool rtl )
-    {
-        if (IsRtl == rtl)
-        {
-            return;
-        }
-
         IsRtl = rtl;
         await ClosePreferencesPopup();
-
-        // Toolkit components (new / re-rendered)
+        // Update Syncfusion RTL mode immediately so components will be configured
         SyncfusionService.EnableRtl(IsRtl);
-
-        // Document dir + localStorage (no full page reload)
         var dir = IsRtl ? "rtl" : "ltr";
-        await JS.InvokeVoidAsync("mainLayout.setDir", dir);
-
+        try
+        {
+            await JS.InvokeVoidAsync("mainLayout.setDir", dir);
+        }
+        catch { }
         await InvokeAsync(StateHasChanged);
+        try
+        {
+            Nav.NavigateTo(Urihelper.BaseUri, forceLoad: true);
+        }
+        catch { }
     }
 
     // Toggle dark/light theme: update localStorage, document class and Syncfusion theme link.
@@ -1079,11 +1054,5 @@
     .search.icon-button .e-search,
     .icon-button.hamburger-button .e-menu {
         font-size: 20px;
-    }
-    .search-empty-state {
-        padding: 16px 8px;
-        color: var(--text-color-secondary);
-        font-size: 14px;
-        text-align: center;
     }
 </style>
