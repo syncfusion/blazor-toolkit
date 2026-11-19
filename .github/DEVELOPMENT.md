@@ -124,13 +124,15 @@ release.
 
 ---
 
-## Release readiness defects (D1–D9, manual NuGet signing)
+## Release readiness defects (D1–D9)
 
 The numbers below correspond to the readiness-defect list reviewed on
-2026-09-06. Per current policy, NuGet package signing and publishing
-are performed **manually** by the release maintainer; no signing or
-publishing automation exists in this public repository and none must
-be added.
+2026-09-06 and were re-baselined against the shipped 2.0.1 behaviour.
+NuGet package signing, SBOM generation and publication are performed by
+the **`Publish to GitHub Packages (Signed)`** workflow
+(`.github/workflows/release.yml`) — see
+[Release, signing and publication](#release-signing-and-publication). They
+are no longer manual and no longer happen outside this repository.
 
 ### D1 / LP-10 — Pinned release commit (automatic on public commit)
 
@@ -145,7 +147,7 @@ during `dotnet pack` by:
   `<repository>` element).
 
 The maintainer must run `dotnet pack` from a clone whose `HEAD`
-matches the on-`main` tag-candidate commit. Verification before sign:
+matches the on-`main` tag-candidate commit. Verification before release:
 
 ```sh
 git cat-file -e <SHA>^{commit} \
@@ -158,8 +160,8 @@ The `<RepositoryCommit>` field on the produced `.nuspec` is **never** a
 literal in the repository; it is populated automatically at `dotnet pack`
 time via `Microsoft.SourceLink.GitHub` + `Directory.Build.props`. The
 release maintainer MUST run the following checklist on every candidate
-build, **before** triggering Manual NuGet sign and publish (PI-01, PI-02)
-below.
+build, **before** publishing the GitHub release that triggers the
+[release workflow](#release-signing-and-publication) (PI-01, PI-02).
 
 1. **Confirm the public commit SHA on disk matches the on-`main`
    tag-candidate commit.**
@@ -196,7 +198,7 @@ below.
    # Expected: an XML element whose 'commit' attribute equals the local SHA.
    ```
 
-4. **Record the SHA + branch on the private release ticket.** This is
+4. **Record the SHA + branch on the release ticket.** This is
    the same SHA the CI `pack` job echoes (`PACK_REPO_COMMIT=${github.event.pull_request.head.sha || github.sha}`);
    the on-disk SHA MUST match it. If it does not, abort the release —
    do not ad-hoc re-pack, do not bypass.
@@ -204,27 +206,35 @@ below.
    - `Directory.Build.props` — `RepositoryCommit` default + branch resolution (`<SourceRevision>` → `<RepositoryCommit>`)
    - `src/Syncfusion.Blazor.Toolkit.csproj` — `<RepositoryUrl>`, `<EmbedUntrackedSources>true</EmbedUntrackedSources>`, `<PublishRepositoryUrl>true</PublishRepositoryUrl>`
    - `.github/workflows/ci.yml` — `pack` job smoke-packs an unsigned `.nupkg` per TFM to confirm the wire-up
+   - `.github/workflows/release.yml` — packs, signs and publishes the release package from the tagged commit
 
-### D2 / PI-01 — Strong-name signing (manual)
+### D2 / PI-01 — Strong-name signing (not applied; accepted risk)
 
-Shipped assemblies are strong-name signed by the release maintainer
-as part of the manual sign-and-publish procedure. The public
+**Policy A is in force: shipped assemblies are _not_ strong-name signed.**
+`Syncfusion.Blazor.Toolkit.dll` is built with `PublicKeyToken=null`. The
 repository contains no strong-name key material, no `SignAssembly=true`
-directive, and no `AssemblyOriginatorKeyFile` value — by policy.
-Public CI does not import, reference, or attempt to use any signing
-artefact. Consumers can therefore trust that the absence of automated
-signing in CI is deliberate and that a signed `.nupkg` is the
-result of the manual procedure in [§Manual NuGet sign and publish](#manual-nuget-sign-and-publish-pi-01-pi-02)
-below.
+directive and no `AssemblyOriginatorKeyFile` value, and neither
+`release.yml` nor any manual step applies strong-name signing
+(there is no `sn -R` step). Documentation must not claim otherwise.
 
-- Accepted Risk AR-1 in THREAT-MODEL.md.
+The authentication control for a release is the **NuGet package
+signature** on the `.nupkg` (see D3) plus the SLSA build-provenance
+attestation, not an assembly identity. Consumers who require strong-named
+assemblies are not served by this package; this is Accepted Risk AR-1 in
+THREAT-MODEL.md. Changing this policy (Policy B: strong-name signing the
+DLLs before pack) requires a new key-management decision, a build change
+and a new accepted-risk review, and must update this section, AR-1 and
+`release.yml` together.
 
-### D3 / PI-02 — Authenticode and `.nupkg` signing (manual)
+### D3 / PI-02 — Authenticode and `.nupkg` signing
 
 The inner DLLs are not Authenticode signed (`NotSigned`). The outer
-`.nupkg` is signed manually (primary + counter) by the release
-maintainer as part of the same manual sign-and-publish procedure. Public
-CI does not generate, sign, or modify a `.nupkg` for publication.
+`.nupkg` is signed by `release.yml` with `dotnet nuget sign` using the
+`NUGET_SIGNING_CERT_BASE64` / `NUGET_SIGNING_CERT_PASSWORD` repository
+secrets and a DigiCert RFC 3161 timestamp. The workflow fails if the
+secrets are missing, and then runs `dotnet nuget verify --all` on every
+package before anything is attested, pushed or uploaded. The package
+signature is a single (primary) signature; no counter-signature is applied.
 
 - Accepted Risk AR-2 in THREAT-MODEL.md.
 
@@ -261,13 +271,30 @@ JavaScript interop scripts.
 See [CHANGELOG.md](https://github.com/syncfusion/blazor-toolkit/blob/main/CHANGELOG.md) section `[2.0.0]` (theme delivery model and
 CSS isolation) for migration details.
 
-### D6 / PI-06 — SBOM (manual)
+### D6 / PI-06, PI-07 — SBOMs and their subject
 
-For every release, the release maintainer generates an SPDX 2.3 SBOM
-and a CycloneDX 1.5 SBOM **locally**, **from the signed `.nupkg`**,
-and attaches both to the GitHub release as release assets. This step
-is part of the manual process described under D8 / D9. Public CI does
-not upload any SBOM.
+Each release carries two SBOMs plus a checksum file, all attached to the
+GitHub release:
+
+| Asset | Format | Subject |
+|---|---|---|
+| `Syncfusion.Blazor.Toolkit.cdx.json` | CycloneDX (JSON) | The package's dependency graph. Generated by `dotnet-CycloneDX` in `release.yml`; signing does not change dependencies, so it applies equally to the unsigned and signed package. |
+| `Syncfusion.Blazor.Toolkit-<tag>.spdx.json` | SPDX | The **final signed `.nupkg` files** in the release. |
+| `SHA256SUMS` | text | SHA-256 of every `.nupkg`, the CycloneDX file and the SPDX file. |
+
+The SPDX file is generated by `sbom-tool` **after** `dotnet nuget sign` and
+`dotnet nuget verify`, so the SHA-256 recorded in it is the digest of the
+signed package. The workflow then re-reads the SPDX file and fails the
+release if any recorded SHA-256 differs from the digest of the package
+about to be published. (Earlier releases generated SPDX before signing, so
+its digest matched neither distributed package; that no longer happens.)
+
+The signed `.nupkg` attached to the GitHub release is the same file that is
+pushed to GitHub Packages. If a copy of it is ever published to another
+registry (for example nuget.org), it must be that exact file — do not
+re-pack or re-sign — and then its digest equals the one in `SHA256SUMS` and
+in the SPDX file. A re-packed or re-signed package has a different digest
+and is **not** covered by the published SBOM.
 
 - Accepted Risk AR-5 in THREAT-MODEL.md.
 
@@ -276,93 +303,94 @@ not upload any SBOM.
 Every PR runs restore → build → bUnit → Playwright → eslint → xss →
 vulnerability scan → **pack** for .NET 8/9/10. The `pack` job
 produces an **unsigned** `.nupkg` artifact labelled
-`unsigned-pkg-<tfm>` for human review only. Pack must succeed with
+`unsigned-pkg-<tfm>` for human review only, and checks the popups and
+calendars AI skill documentation against the packed public API
+(`.github/scripts/check-skill-api.py`). Pack must succeed with
 `RepositoryCommit=<PR head SHA>` before the summary job reports
-success. The artifact is not the publication candidate and is not
-intended to be pushed to nuget.org.
+success. The artifact is not the publication candidate and must not be
+pushed to any registry.
 
-### D8 / CI-07 — Public repository security boundary
+### D8 / CI-07 — Repository security boundary
 
-There is no `.github/workflows/nuget-publish.yml`, no signing tool
-invocation, no SHA-256 hand-off, no `STRONG_NAME_KEY_BASE64` secret
-reference, and no `no-secrets.yml` sentinel. Adding any of these is
-prohibited by the manual-signing policy. The repository boundary is
-the maintainer's local machine running the manual procedure below.
+Signing and publication run in `.github/workflows/release.yml`, which is
+triggered only by a **published GitHub release**. It is the only workflow
+that touches signing material or a publish credential:
+
+- the signing certificate is read from the `NUGET_SIGNING_CERT_BASE64` /
+  `NUGET_SIGNING_CERT_PASSWORD` secrets, written to a temporary file and
+  destroyed immediately after signing;
+- registry authentication uses the job's `GITHUB_TOKEN` (`packages: write`);
+  there is no `NUGET_API_KEY` secret;
+- there is no `STRONG_NAME_KEY_BASE64` secret (see D2);
+- `ci.yml` (pull requests) never has access to these secrets and never signs
+  or publishes.
+
+Protect the release path accordingly: restrict who can publish a release,
+require review on changes to `.github/workflows/release.yml`, and scope the
+signing secrets to the protected release environment where available.
 
 - Accepted Risk AR-4 in THREAT-MODEL.md.
 
-### D9 / CI-08 — Manual sign-and-publish hand-off
+### D9 / CI-08 — Tamper-evident hand-off
 
-There is no automated immutable-artifact job in CI. The
-tamper-evident control point is the maintainer's local pre-publish
-verification: the maintainer runs `sha256sum` against the final
-`.nupkg` and records the digest in the private release ticket before
-executing `dotnet nuget push`. No public workflow participates in or
-records this hand-off.
+The tamper-evident chain is automated in `release.yml`: pack →
+`dotnet nuget sign` → `dotnet nuget verify` → SPDX generated from the signed
+files and cross-checked against `sha256sum` → `SHA256SUMS` → SLSA provenance
+attestation (`actions/attest-build-provenance`) over the signed `.nupkg` →
+push to GitHub Packages → upload to the GitHub release. Consumers can verify a
+downloaded package with `dotnet nuget verify --all`,
+`gh attestation verify <file> --repo syncfusion/blazor-toolkit` and
+`sha256sum -c SHA256SUMS`.
 
-- Accepted Risk AR-4 in THREAT-MODEL.md.
+### Release, signing and publication
 
-### Manual NuGet sign and publish (PI-01, PI-02)
+This is the single authoritative release path.
 
-This procedure is the canonical sign-and-publish process. It is
-performed **locally** by the Syncfusion release maintainer; no part
-of it runs on public CI.
+**Distribution channel.** Release packages are published to **GitHub
+Packages** (`https://nuget.pkg.github.com/syncfusion/index.json`) and
+attached to the corresponding **GitHub release**. Both carry the identical
+signed `.nupkg`. `release.yml` does not publish to nuget.org and nothing in
+this repository holds a nuget.org API key; treat nuget.org as outside the
+automated path. Any other channel must redistribute the signed `.nupkg` from
+the GitHub release unchanged (see D6).
 
-1. Pre-flight:
-   - Confirm the tag candidate SHA exists on `main`:
-     `git cat-file -e <SHA>^{commit}`.
-   - `RepositoryCommit` is populated automatically from the local
-     `.git/HEAD` via `Microsoft.SourceLink.GitHub` +
-     `Directory.Build.props` (AR-3) — no manual substitution is
-     required.
-2. Restore + Build + Pack (locally):
-   ```dotnetcli
-   dotnet restore src/Syncfusion.Blazor.Toolkit.csproj
-   dotnet build   src/Syncfusion.Blazor.Toolkit.csproj -c Release --no-restore
-   dotnet pack    src/Syncfusion.Blazor.Toolkit.csproj -c Release --no-build -o nupkg -p:ContinuousIntegrationBuild=true
-   ```
-3. Strong-name sign the inner assemblies (PI-01, manual):
-   ```sh
-   sn -R <assembly.dll> <strong-name.snk>   # private key, never committed
-   ```
-4. Re-pack with the signed DLLs:
-   ```dotnetcli
-   dotnet pack src/Syncfusion.Blazor.Toolkit.csproj -c Release --no-build -o nupkg-final
-   ```
-5. Sign the `.nupkg` (PI-02, manual):
-   ```sh
-   nuget sign nupkg-final/Syncfusion.Blazor.Toolkit.<version>.nupkg \
-     -CertificateSubjectName "<maintainer's code-signing subject>" \
-     -CertificateStore Location=CurrentUser;StoreName=My \
-     -TimestampserverUrl http://timestamp.digicert.com \
-     -HashAlgorithm SHA256
-   ```
-6. Cross-sign with a counter-signing certificate as configured by
-   the maintainer:
-   ```sh
-   nuget sign nupkg-final/Syncfusion.Blazor.Toolkit.<version>.nupkg \
-     -CertificateSubjectName "<counter-signing subject>" \
-     -CertificateStore Location=CurrentUser;StoreName=My
-   ```
-7. Generate SBOMs locally from the **signed** `.nupkg`:
-   ```sh
-   cd nupkg-final
-   cyclonedx-dotnet -i Syncfusion.Blazor.Toolkit.<version>.nupkg -o bom.xml
-   spdx-tools generate -i Syncfusion.Blazor.Toolkit.<version>.nupkg -o spdx.json
-   ```
-8. Compute the audit-trail hashes:
-   ```sh
-   sha256sum *.nupkg *.spdx.json bom.xml > SHA256SUMS
-   ```
-9. Publish:
-   ```sh
-   dotnet nuget push nupkg-final/Syncfusion.Blazor.Toolkit.<version>.nupkg \
-     -ApiKey $NUGET_API_KEY -Source https://api.nuget.org/v3/index.json
-   ```
-10. Attach `*.spdx.json`, `bom.xml`, and `SHA256SUMS` to the GitHub
-    release page corresponding to the tag. The signed `.nupkg` itself
-    is published **only** via `dotnet nuget push` in step 9.
-11. No csproj revert is required — `RepositoryCommit` is automatic.
+**Procedure (maintainer):**
+
+1. Confirm the tag-candidate commit is on `main` and CI is green
+   (see the [RepositoryCommit checklist](#release-checklist--repositorycommit-resolution-ms-14b--lp-10)).
+2. Update the version in `src/Syncfusion.Blazor.Toolkit.csproj` and
+   `CHANGELOG.md`, merge to `main`, and tag the release commit.
+3. Publish a GitHub release for the tag. This triggers
+   **Publish to GitHub Packages (Signed)**.
+
+**What the workflow does, in order** (a failure in any step stops the
+release and nothing later runs):
+
+| # | Step | Gate |
+|---|---|---|
+| 1 | Restore | — |
+| 2 | Vulnerability scan (`.github/scripts/check-vulnerabilities.sh`) | Fails on command, restore or advisory-source errors, then on any High/Critical finding in the structured JSON result. Failures are never masked. |
+| 3 | `dotnet pack -c Release` (deterministic, SourceLink) | — |
+| 4 | Skill-documentation API check (`.github/scripts/check-skill-api.py`) | Popups and calendars skills must only reference members present in the packed public API. |
+| 5 | CycloneDX SBOM | Must be non-empty. |
+| 6 | Signing-secret check, `dotnet nuget sign`, `dotnet nuget verify --all` | Missing secrets or an invalid signature fail the release. |
+| 7 | SPDX SBOM from the signed packages + digest cross-check + `SHA256SUMS` | SPDX SHA-256 must equal the signed package digest. |
+| 8 | SLSA provenance attestation over the signed `.nupkg` | — |
+| 9 | `dotnet nuget push` to GitHub Packages (`--skip-duplicate`) | — |
+| 10 | Upload `.nupkg`, `.cdx.json`, `.spdx.json`, `SHA256SUMS` to the release | Fails if an expected file is missing. |
+
+`--skip-duplicate` means re-running the workflow for a version that already
+exists in GitHub Packages will not replace it. If a release must be redone,
+publish a new patch version; do not delete and re-push a version, as that
+would give two different digests for one version.
+
+To exercise the same checks locally:
+
+```sh
+bash .github/scripts/check-vulnerabilities.sh --project src/Syncfusion.Blazor.Toolkit.csproj
+python3 .github/scripts/check-skill-api.py --xml <path-to>/Syncfusion.Blazor.Toolkit.<version>.nupkg \
+  --skills .github/skills/syncfusion-blazor-toolkit-popups .github/skills/syncfusion-blazor-toolkit-calendars
+```
 
 ### Repository metadata + SBOM during `dotnet pack`
 
@@ -391,36 +419,10 @@ Sources:
 - `src/Syncfusion.Blazor.Toolkit.csproj` (`<RepositoryUrl>`,
   `<PublishRepositoryUrl>true`, `<EmbedUntrackedSources>true`)
 
-The maintainer must `dotnet tool install --global CycloneDX` once on
-the release workstation before the first release.
-
-### Why there is no public publish workflow
-
-There is intentionally no `.github/workflows/nuget-publish.yml` in
-this repository. NuGet Trusted Publishing (OIDC) is **not** used for
-this package. The reasons are:
-
-1. **Manual signing** — the `.nupkg` is signed (primary + counter)
-   on the release maintainer's local machine with an HSM-backed code
-   signing identity. OIDC would have CI sign and push directly, which
-   contradicts the published manual-signing policy (THREAT-MODEL.md
-   AR-1, AR-2, AR-4).
-2. **Trusted identity in CI is broader** — an OIDC trust relationship
-   between GitHub Actions and nuget.org means that any workflow job
-   with the right permissions can push a package impersonating this
-   repo. The release workstation, in contrast, is the only place
-   the code-signing certificate exists.
-3. **Audit trail at the human boundary** — the manual sign-and-publish
-   procedure in §Manual NuGet sign and publish leaves the maintainer
-   in control of the publish command. This is the audit boundary the
-   threat model relies on.
-4. **No secrets in CI** — there is no `STRONG_NAME_KEY_BASE64`, no
-   `NUGET_API_KEY`, and no certificate in public CI. Adding them
-   would directly conflict with AR-1, AR-2 and AR-4.
-
-If the publish process is ever changed, it must be re-ratified through
-a new Accepted Risk entry and reflected in THREAT-MODEL.md before
-deployment.
+`Directory.Build.targets` skips this embedded SBOM when `CI=true`, so
+`release.yml` generates the CycloneDX file explicitly and attaches it to the
+release (see D6). To produce the embedded copy locally, run
+`dotnet tool install --global CycloneDX` once and `dotnet pack` outside CI.
 
 ### Render-mode security
 

@@ -1,0 +1,70 @@
+@using Syncfusion.Blazor.Toolkit
+
+<section class="chip-demo-shell chip-demo-panel chip-demo-actions" aria-labelledby="sales-overview-title">
+    <div class="chip-demo-panel-heading">
+        <div id="sales-overview-title" class="chip-demo-panel-title" role="heading" aria-level="3">Sales overview</div>
+    </div>
+
+    <div class="chip-demo-metrics" aria-label="Sales overview summary">
+        <div><span>Revenue</span><strong>$48,290</strong><small>+8.4% this month</small></div>
+        <div><span>Open opportunities</span><strong>26</strong><small>Across 4 regions</small></div>
+        <div><span>Conversion</span><strong>18.6%</strong><small>Quarter to date</small></div>
+    </div>
+
+    <div class="chip-demo-actions-list" role="group" aria-label="Sales overview actions and navigation">
+        <SfChip Text="Refresh insights"
+                ChipType="ChipType.Action"
+                CssClass="e-primary"
+                IconCss="sb-icons e-refresh"
+                IsLoading="@(_activeAction == "refresh")"
+                Disabled="@(_activeAction is not null)"
+                OnClick="@(() => RunLocalActionAsync("refresh"))" />
+        <SfChip Text="Export summary"
+                ChipType="ChipType.Action"
+                CssClass="e-info"
+                IconCss="sb-icons e-download"
+                IsLoading="@(_activeAction == "export")"
+                Disabled="@(_activeAction is not null)"
+                OnClick="@(() => RunLocalActionAsync("export"))" />
+        <SfChip Text="Share snapshot"
+                ChipType="ChipType.Action"
+                CssClass="e-success"
+                IconCss="sb-icons e-send"
+                IsLoading="@(_activeAction == "share")"
+                Disabled="@(_activeAction is not null)"
+                OnClick="@(() => RunLocalActionAsync("share"))" />
+        <SfChip Text="Open explore page"
+                ChipType="ChipType.Navigation"
+                Variant="ChipVariant.Outlined"
+                Href="https://blazor.syncfusion.com/demos/toolkit/explore"
+                Target="_blank"
+                IconCss="sb-icons e-link" />
+    </div>
+
+    <div class="chip-demo-live" role="status" aria-live="polite">
+        @(_activeAction is null ? _actionResult : $"Working on {_activeAction} locally…")
+    </div>
+</section>
+
+@code {
+    private string? _activeAction;
+    private string _actionResult = "Choose an action to see local feedback.";
+
+    private async Task RunLocalActionAsync(string action)
+    {
+        if (_activeAction is not null)
+        {
+            return;
+        }
+
+        _activeAction = action;
+        await Task.Delay(650);
+        _activeAction = null;
+        _actionResult = action switch
+        {
+            "refresh" => "Sales insights were refreshed for this sample.",
+            "export" => "A sample export is ready; no file was sent or saved.",
+            _ => "A share summary was prepared in this sample."
+        };
+    }
+}

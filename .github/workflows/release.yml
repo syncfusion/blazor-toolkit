@@ -1,3 +1,5 @@
+# Authoritative publication path for this repository: GitHub Packages + GitHub Release assets.
+# See .github/DEVELOPMENT.md "Release, signing and publication" for the policy this file implements.
 name: Publish to GitHub Packages (Signed)
 
 on:
@@ -24,7 +26,7 @@ env:
 
 jobs:
   publish:
-    name: Pack → Scan → Sign → SBOM → Attest → Publish
+    name: Scan → Pack → Check → Sign → SBOM → Attest → Publish
     runs-on: ubuntu-latest
     timeout-minutes: 35
 
@@ -59,20 +61,10 @@ jobs:
       # -------------------------------------------------
       - name: Vulnerability scan
         run: |
-          set -euo pipefail
-          echo "## NuGet Vulnerability Report" > vuln-report.md
-          echo "" >> vuln-report.md
-
-          dotnet list ./src/Syncfusion.Blazor.Toolkit.csproj package --vulnerable --include-transitive > vuln-raw.txt 2>&1 || true
-          cat vuln-raw.txt >> vuln-report.md
-
-          if grep -qiE 'Severity\s*:\s*(High|Critical)' vuln-raw.txt; then
-            echo "::error::High or Critical vulnerabilities detected"
-            cat vuln-report.md
-            exit 1
-          fi
-
-          echo "No High/Critical vulnerabilities found."
+          bash .github/scripts/check-vulnerabilities.sh \
+            --project ./src/Syncfusion.Blazor.Toolkit.csproj \
+            --min-severity High \
+            --report vuln-report.md
 
       - name: Upload vulnerability report
         if: always()
@@ -80,6 +72,7 @@ jobs:
         with:
           name: vulnerability-report
           path: vuln-report.md
+          if-no-files-found: ignore
           retention-days: 90
 
       # -------------------------------------------------
@@ -96,58 +89,34 @@ jobs:
             -o "${{ env.NUGET_PACKAGES_DIR }}"
 
       # -------------------------------------------------
-      # 6. Extract embedded CycloneDX SBOM from the package
+      # 6. Skill documentation must match the packed public API (AI-03)
       # -------------------------------------------------
-      - name: Extract CycloneDX SBOM from package
+      - name: Check AI skill documentation against packed API
         run: |
           set -euo pipefail
-          for pkg in "${{ env.NUGET_PACKAGES_DIR }}"/*.nupkg; do
-            unzip -o "$pkg" "_sbom/*" -d extracted-sbom 2>/dev/null || true
-          done
-
-          find extracted-sbom -name "*.cdx.json" -exec cp {} "${{ env.SBOM_DIR }}/" \; 2>/dev/null || true
-
-          # Fallback: generate CycloneDX if nothing was embedded
-          if [ -z "$(ls -A ${{ env.SBOM_DIR }}/*.cdx.json 2>/dev/null)" ]; then
-            echo "No embedded CycloneDX found – generating one"
-            dotnet tool install --global CycloneDX || true
-            export PATH="$PATH:$HOME/.dotnet/tools"
-            dotnet-CycloneDX ./src/Syncfusion.Blazor.Toolkit.csproj \
-            --output "${{ env.SBOM_DIR }}" \
-            --filename bom.json
-          fi
-
-          echo "CycloneDX files:"
-          ls -la "${{ env.SBOM_DIR }}"/*.cdx.json || true
+          pkg="$(ls "${{ env.NUGET_PACKAGES_DIR }}"/*.nupkg | head -n 1)"
+          python3 .github/scripts/check-skill-api.py --xml "$pkg" \
+            --skills .github/skills/syncfusion-blazor-toolkit-popups .github/skills/syncfusion-blazor-toolkit-calendars
+          python3 .github/scripts/check-skill-api.py --xml "$pkg" --warn-only
 
       # -------------------------------------------------
-      # 7. Generate SPDX SBOM (release asset only)
+      # 7. CycloneDX SBOM (Directory.Build.targets skips embedding when CI=true)
       # -------------------------------------------------
-      - name: Generate SPDX SBOM
+      - name: Generate CycloneDX SBOM
         run: |
           set -euo pipefail
-
-          # Install the correct .NET tool
-          dotnet tool install --global Microsoft.Sbom.DotNetTool || true
+          dotnet tool update --global CycloneDX
           export PATH="$PATH:$HOME/.dotnet/tools"
 
-          # Generate SPDX SBOM
-          sbom-tool generate \
-            -b "${{ env.NUGET_PACKAGES_DIR }}" \
-            -bc ./src \
-            -pn "Syncfusion.Blazor.Toolkit" \
-            -pv "${{ github.event.release.tag_name }}" \
-            -ps "Syncfusion Inc." \
-            -nsb "https://github.com/syncfusion/blazor-toolkit" \
-            -V Verbose
+          mkdir -p "${{ env.SBOM_DIR }}"
 
-          # Move generated SPDX files into the SBOM directory
-          find . -name "_manifest" -type d | while read dir; do
-            find "$dir" -name "*.spdx.json" -exec cp {} "${{ env.SBOM_DIR }}/" \;
-          done
+          dotnet-CycloneDX ./src/Syncfusion.Blazor.Toolkit.csproj \
+            --output "${{ env.SBOM_DIR }}" \
+            --filename Syncfusion.Blazor.Toolkit.cdx.json \
+            --output-format Json
 
-          echo "SPDX files:"
-          ls -la "${{ env.SBOM_DIR }}"/*.spdx.json || true
+          test -s "${{ env.SBOM_DIR }}/Syncfusion.Blazor.Toolkit.cdx.json"
+          ls -la "${{ env.SBOM_DIR }}"
 
       # -------------------------------------------------
       # 8. Signing is REQUIRED – fail if secrets are missing
@@ -192,6 +161,71 @@ jobs:
           echo "All packages are correctly signed."
 
       # -------------------------------------------------
+      # 9b. SPDX SBOM bound to the FINAL, SIGNED packages (PI-06 / PI-07)
+      # -------------------------------------------------
+      - name: Generate SPDX SBOM from signed packages
+        run: |
+          set -euo pipefail
+
+          dotnet tool update --global Microsoft.Sbom.DotNetTool
+          export PATH="$PATH:$HOME/.dotnet/tools"
+
+          spdx_work="${RUNNER_TEMP}/spdx"
+          rm -rf "$spdx_work"
+
+          sbom-tool generate \
+            -b "${{ env.NUGET_PACKAGES_DIR }}" \
+            -bc ./src \
+            -m "$spdx_work" \
+            -pn "Syncfusion.Blazor.Toolkit" \
+            -pv "${{ github.event.release.tag_name }}" \
+            -ps "Syncfusion Inc." \
+            -nsb "https://github.com/syncfusion/blazor-toolkit" \
+            -V Verbose
+
+          src="$(find "$spdx_work" -name 'manifest.spdx.json' | head -n 1)"
+          test -s "$src"
+
+          cp "$src" "${{ env.SBOM_DIR }}/Syncfusion.Blazor.Toolkit-${{ github.event.release.tag_name }}.spdx.json"
+
+      - name: Verify SPDX digests match the signed packages
+        run: |
+          set -euo pipefail
+
+          spdx="$(ls "${{ env.SBOM_DIR }}"/*.spdx.json | head -n 1)"
+
+          for pkg in "${{ env.NUGET_PACKAGES_DIR }}"/*.nupkg; do
+            name="$(basename "$pkg")"
+
+            actual="$(sha256sum "$pkg" | cut -d' ' -f1)"
+
+            recorded="$(jq -r --arg n "$name" \
+              '[.files[] | select(.fileName | endswith($n)) | .checksums[] | select(.algorithm=="SHA256") | .checksumValue] | first // empty' \
+              "$spdx")"
+
+            if [ "$actual" != "$recorded" ]; then
+              echo "::error::SPDX digest for $name ($recorded) does not match the signed package ($actual)"
+              exit 1
+            fi
+
+            echo "SPDX digest matches signed package: $name $actual"
+          done
+
+      - name: Write SHA256SUMS
+        run: |
+          set -euo pipefail
+
+          cd "${{ github.workspace }}"
+
+          sha256sum \
+            nupkgs/*.nupkg \
+            sbom/*.cdx.json \
+            sbom/*.spdx.json \
+            > "${{ env.SBOM_DIR }}/SHA256SUMS"
+
+          cat "${{ env.SBOM_DIR }}/SHA256SUMS"
+
+      # -------------------------------------------------
       # 10. SLSA Build Provenance attestation
       # -------------------------------------------------
       - name: Generate SLSA provenance
@@ -200,7 +234,7 @@ jobs:
           subject-path: ${{ env.NUGET_PACKAGES_DIR }}/*.nupkg
 
       # -------------------------------------------------
-      # 11. Publish signed package to GitHub Packages
+      # 11. Publish signed package to GitHub Packages (authoritative registry)
       # -------------------------------------------------
       - name: Add GitHub Packages source
         run: |
@@ -228,6 +262,7 @@ jobs:
             ${{ env.NUGET_PACKAGES_DIR }}/*.nupkg
             ${{ env.SBOM_DIR }}/*.cdx.json
             ${{ env.SBOM_DIR }}/*.spdx.json
-          fail_on_unmatched_files: false
+            ${{ env.SBOM_DIR }}/SHA256SUMS
+          fail_on_unmatched_files: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

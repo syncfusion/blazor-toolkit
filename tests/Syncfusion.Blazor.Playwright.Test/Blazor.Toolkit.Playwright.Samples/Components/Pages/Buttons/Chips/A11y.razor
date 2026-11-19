@@ -1,0 +1,13 @@
+@page "/chips/a11y/choice"
+@page "/chips/a11y/remove"
+@layout MainLayout
+
+<span id="scenarios-ready" data-ready="true" hidden></span>
+<h1>Chips accessibility</h1>
+
+<SfChipSet TItem="string" DataSource="@_items" ChipType="ChipType.Choice" SelectionMode="ChipSelectionMode.Single" AriaLabel="Choices" Id="chipset-a11y" />
+<SfChip Text="Alpha" Removable="true" Id="chip-a11y-remove" />
+
+@code {
+    private readonly string[] _items = ["Alpha", "Beta"];
+}

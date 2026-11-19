@@ -31,7 +31,7 @@ read the link below.
 | Confirmation modal (Yes/No) | `SfDialog` | [dialog/SKILL.md](https://github.com/syncfusion/blazor-toolkit/blob/main/.github/skills/syncfusion-blazor-toolkit-popups/dialog/SKILL.md) |
 | Form-in-modal (login, register, settings) | `SfDialog` | [dialog/SKILL.md](https://github.com/syncfusion/blazor-toolkit/blob/main/.github/skills/syncfusion-blazor-toolkit-popups/dialog/SKILL.md) |
 | Alert dialog ("Saved", "Error", "Confirm delete") | `SfDialog` | [dialog/SKILL.md](https://github.com/syncfusion/blazor-toolkit/blob/main/.github/skills/syncfusion-blazor-toolkit-popups/dialog/SKILL.md) |
-| Modal driven by a service from many call sites | `SfDialog` + `DialogService` | [dialog/SKILL.md](https://github.com/syncfusion/blazor-toolkit/blob/main/.github/skills/syncfusion-blazor-toolkit-popups/dialog/SKILL.md) |
+| Alert / confirm / prompt driven from code at many call sites | `SfDialogService` + `SfDialogProvider` | [dialog/SKILL.md](https://github.com/syncfusion/blazor-toolkit/blob/main/.github/skills/syncfusion-blazor-toolkit-popups/dialog/SKILL.md) |
 | Help text on an icon button | `SfTooltip` | [tooltip/SKILL.md](tooltip/SKILL.md) |
 | Keyboard-shortcut hint ("Ctrl+S") | `SfTooltip` | [tooltip/SKILL.md](https://github.com/syncfusion/blazor-toolkit/blob/main/.github/skills/syncfusion-blazor-toolkit-popups/tooltip/SKILL.md) |
 | Brief status / validation copy on hover | `SfTooltip` | [tooltip/SKILL.md](https://github.com/syncfusion/blazor-toolkit/blob/main/.github/skills/syncfusion-blazor-toolkit-popups/tooltip/SKILL.md) |

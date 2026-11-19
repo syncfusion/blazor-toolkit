@@ -13,19 +13,10 @@
 			<div @ref="@ContainerElement" class="@ContainerClass?.Trim()" @attributes="ContainerHtmlAttributes">
 				@RenderIconButtons(PREPEND)
 				<span class="e-input-in-wrap">
-					<input @ref="@InputElement" id="@ID" @attributes="InputHtmlAttributes"
-							value="@(FormatValueAsString(InputTextValue))" @onchange="@OnChangeHandlerAsync" @onfocus="@OnFocusHandlerAsync"
-							@onblur="OnBlurHandlerAsync" @oninput="@OnInputHandlerAsync" />
+					@RenderInput()
 					<span class="e-float-line"></span>
 					<label class="@FloatLabel?.Trim()" id="label_@(ID)" for="@(ID)">@this.Placeholder</label>
-					@if (this.ShowClearButton)
-					{
-						<button type="button" class="@(ClearIconClass)" aria-label="@Localizer["Clear"]"
-								@onclick="@WireClearBtnEventsAsync"
-								@onmousedown="@BindClearBtnEventsAsync" @ontouchstart="@BindClearBtnTouchEventsAsync"
-								@onmousedown:preventDefault="@ClickStopPropagation"
-								@ontouchstart:preventDefault="@ClickStopPropagation"></button>
-					}
+					@RenderClearButton()
 					@RenderIconButtons(APPEND)
 				</span>
 			</div>
@@ -33,18 +24,10 @@
 		else
 		{
 			<div @ref="@ContainerElement" class="@ContainerClass?.Trim()" @attributes="ContainerHtmlAttributes">
-				<input @ref="@InputElement" id="@ID" @attributes="InputHtmlAttributes"
-						value="@(FormatValueAsString(InputTextValue))" @onchange="@OnChangeHandlerAsync" @onfocus="@OnFocusHandlerAsync" @onblur="OnBlurHandlerAsync" @oninput="@OnInputHandlerAsync" />
+				@RenderInput()
 				<span class="e-float-line"></span>
 				<label class="@FloatLabel?.Trim()" id="label_@(ID)" for="@(ID)">@this.Placeholder</label>
-				@if (this.ShowClearButton)
-				{
-					<button type="button" class="@(ClearIconClass)" aria-label="@Localizer["Clear"]"
-							@onclick="@WireClearBtnEventsAsync"
-							@onmousedown="@BindClearBtnEventsAsync" @ontouchstart="@BindClearBtnTouchEventsAsync"
-							@onmousedown:preventDefault="@ClickStopPropagation"
-							@ontouchstart:preventDefault="@ClickStopPropagation"></button>
-				}
+				@RenderClearButton()
 				@RenderIconButtons(APPEND)
 			</div>
 		}
@@ -53,16 +36,8 @@
 	{
 		<span @ref="@ContainerElement" class="@ContainerClass?.Trim()" @attributes="ContainerHtmlAttributes">
 			@RenderIconButtons(PREPEND)
-			<input @ref="@InputElement" id="@ID" @attributes="InputHtmlAttributes"
-					value="@(FormatValueAsString(InputTextValue))" @onchange="@OnChangeHandlerAsync" @onfocus="@OnFocusHandlerAsync" @onblur="OnBlurHandlerAsync" @oninput="@OnInputHandlerAsync" />
-			@if (this.ShowClearButton)
-			{
-				<button type="button" class="@(ClearIconClass)" aria-label="@Localizer["Clear"]"
-						@onclick="@WireClearBtnEventsAsync"
-						@onmousedown="@BindClearBtnEventsAsync" @ontouchstart="@BindClearBtnTouchEventsAsync"
-						@onmousedown:preventDefault="@ClickStopPropagation"
-						@ontouchstart:preventDefault="@ClickStopPropagation"></button>
-			}
+			@RenderInput()
+			@RenderClearButton()
 			@RenderIconButtons(APPEND)
 		</span>
 	}
@@ -88,6 +63,24 @@
 					<span @key="icon" @attributes="icon._events" class="@(GROUPICON + SPACE + icon.Icon)"></span>
 				}
 			}
+		}
+	</text>;
+
+	private RenderFragment RenderInput() => @<input @ref="@InputElement" id="@ID" @attributes="InputHtmlAttributes"
+		value="@(FormatValueAsString(InputTextValue))" @onchange="@OnChangeHandlerAsync" @onfocus="@OnFocusHandlerAsync"
+		@onblur="OnBlurHandlerAsync" @oninput="@OnInputHandlerAsync" />;
+
+	private RenderFragment RenderClearButton() => @<text>
+		@if (this.ShowClearButton)
+		{
+			<button type="button" class="@(TextBoxClearIconClass)" aria-label="@Localizer["Clear"]" tabindex="@(IsClearButtonTabbable ? 0 : -1)"
+				aria-hidden="@IsClearButtonHidden"
+				@onclick="@WireClearBtnEventsAsync"
+				@onkeydown="@OnClearButtonKeyDownAsync"
+				@onkeydown:preventDefault="@IsClearKey"
+				@onmousedown="@BindClearBtnEventsAsync" @ontouchstart="@BindClearBtnTouchEventsAsync"
+				@onmousedown:preventDefault="@PreventClearButtonFocusLoss"
+				@ontouchstart:preventDefault="@PreventClearButtonFocusLoss"></button>
 		}
 	</text>;
 }

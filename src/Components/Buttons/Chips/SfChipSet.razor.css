@@ -1,0 +1,53 @@
+.e-chipset {
+    --e-chip-gap: 0.4rem;
+    align-items: center;
+    background: var(--e-chipset-bg, var(--color-sf-content-bg-color-alt1, var(--color-sf-content-bg-color-alt, Canvas)));
+    border: 1px solid var(--e-chipset-border, var(--color-sf-border-light, var(--color-sf-border, currentColor)));
+    border-radius: 0.5rem;
+    display: flex;
+    flex-direction: row;
+    gap: var(--e-chip-gap);
+    min-inline-size: 0;
+    padding: 0.5rem;
+}
+
+.e-chipset > .e-chip-item {
+    flex: 0 0 auto;
+    inline-size: auto;
+    max-inline-size: 100%;
+    width: auto;
+}
+
+.e-chipset-wrap { flex-wrap: wrap; }
+.e-chipset-scroll {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+}
+.e-chipset-collapse {
+    flex-wrap: wrap;
+    max-block-size: calc(var(--e-chip-height, 2rem) + 1.5rem);
+    overflow: hidden;
+}
+
+.e-chipset-collapse.e-chipset-expanded {
+    max-block-size: none;
+    overflow: visible;
+}
+.e-chip-collapsed { display: none; }
+.e-rtl { direction: rtl; }
+
+.e-chipset-overflow {
+    align-self: flex-start;
+    background: transparent;
+    border: 1px solid var(--color-sf-border, currentColor);
+    color: inherit;
+    flex: 0 0 auto;
+}
+
+@media (forced-colors: active) {
+    .e-chipset { outline: 1px solid CanvasText; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .e-chipset { scroll-behavior: auto; }
+}

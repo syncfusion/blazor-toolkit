@@ -1,0 +1,69 @@
+@using System.ComponentModel.DataAnnotations
+@using Microsoft.AspNetCore.Components.Forms
+@using Syncfusion.Blazor.Toolkit
+
+<section class="chip-demo-shell chip-demo-panel">
+    <EditForm EditContext="@editContext" OnValidSubmit="Submit" class="chip-demo-form">
+        <DataAnnotationsValidator />
+        <fieldset class="chip-demo-preferences">
+            <legend>Send me updates about</legend>
+            <SfChipSet TItem="string"
+                       DataSource="@options"
+                       ItemKey="topic => topic"
+                       CssClassSelector="InfoClass"
+                       ChipType="ChipType.Filter"
+                       SelectionMode="ChipSelectionMode.Multiple"
+                       Variant="ChipVariant.Outlined"
+                       SelectedValues="model.Selected"
+                       SelectedValuesChanged="OnSelectedValuesChanged"
+                       AriaLabel="Notification topics" />
+        </fieldset>
+        @if (editContext.GetValidationMessages(FieldIdentifier.Create(() => model.Selected)).Any() ||
+             !string.IsNullOrEmpty(successMessage))
+        {
+            <div class="chip-demo-validation" role="status" aria-live="polite">
+                <ValidationMessage For="@(() => model.Selected)" />
+                @if (!string.IsNullOrEmpty(successMessage))
+                {
+                    <div class="chip-demo-success">@successMessage</div>
+                }
+            </div>
+        }
+        <div class="chip-demo-row chip-demo-form-actions">
+            <SfButton CssClass="e-primary" Type="ButtonType.Submit">Save preferences</SfButton>
+        </div>
+    </EditForm>
+</section>
+
+@code {
+    private sealed class InterestModel
+    {
+        [MinLength(1, ErrorMessage = "Choose at least one notification topic.")]
+        public object?[] Selected { get; set; } = Array.Empty<object?>();
+    }
+
+    private readonly InterestModel model = new();
+    private EditContext editContext = default!;
+    private string? successMessage;
+    private readonly List<string> options = ["Product updates", "Events", "Tips and tutorials", "Release notes"];
+
+    protected override void OnInitialized()
+    {
+        editContext = new EditContext(model);
+    }
+
+    private void OnSelectedValuesChanged(IEnumerable<object?> selectedValues)
+    {
+        model.Selected = selectedValues.ToArray();
+        successMessage = null;
+        editContext.NotifyFieldChanged(FieldIdentifier.Create(() => model.Selected));
+    }
+
+    private void Submit()
+    {
+        string topics = string.Join(", ", model.Selected);
+        successMessage = $"Preferences saved locally for: {topics}.";
+    }
+
+    private static string InfoClass(string item) => "e-info";
+}

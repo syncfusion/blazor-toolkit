@@ -1,0 +1,89 @@
+@using Syncfusion.Blazor.Toolkit
+
+<section class="chip-demo-shell chip-demo-panel chip-demo-recipient-panel" aria-labelledby="removable-chips-title">
+    <header class="chip-demo-section-heading">
+        <div id="removable-chips-title" class="chip-demo-panel-title" role="heading" aria-level="3">Removable chips</div>
+    </header>
+
+    <div class="chip-demo-field">
+        <span class="chip-demo-field-label" id="recipient-label">To</span>
+        <SfChipSet TItem="string"
+                   DataSource="@recipients"
+                   ItemKey="recipient => recipient"
+                   ChipType="ChipType.Input"
+                   Removable="true"
+                   CssClassSelector="RecipientClass"
+                   AriaLabelledBy="recipient-label"
+                   Removed="OnRecipientRemoved" />
+    </div>
+
+    <form class="chip-demo-token-form" @onsubmit="AddRecipientAsync" @onsubmit:preventDefault>
+        <div class="chip-demo-token-row">
+            <div class="chip-demo-token-input">
+                <label for="recipient-entry">Add a recipient</label>
+                <SfTextBox @ref="RecipientInput"
+                           ID="recipient-entry"
+                           Type="InputType.Text"
+                           Width="100%"
+                           Placeholder="name@example.com, then press Enter"
+                           AriaDescribedBy="recipient-feedback"
+                           @bind-Value="draft" />
+            </div>
+            <SfButton CssClass="e-primary" Type="ButtonType.Submit">Add recipient</SfButton>
+        </div>
+    </form>
+
+    <div id="recipient-feedback" class="chip-demo-token-feedback" role="status" aria-live="polite">@statusMessage</div>
+</section>
+
+@code {
+    private string draft = string.Empty;
+    private readonly List<string> recipients = ["maya.chen@example.com", "leo.martin@example.com"];
+    private string statusMessage = string.Empty;
+    private SfTextBox? RecipientInput;
+
+    private async Task AddRecipientAsync()
+    {
+        await AddRecipientAsync(draft);
+    }
+
+    private async Task AddRecipientAsync(string address)
+    {
+        string value = address.Trim();
+        if (string.IsNullOrWhiteSpace(value))
+        {
+            statusMessage = "Enter an email address before adding a recipient.";
+            await FocusEntryAsync();
+            return;
+        }
+
+        if (recipients.Contains(value, StringComparer.OrdinalIgnoreCase))
+        {
+            statusMessage = $"{value} is already in the recipient list.";
+            await FocusEntryAsync();
+            return;
+        }
+
+        recipients.Add(value);
+        draft = string.Empty;
+        statusMessage = $"{value} added. {recipients.Count} recipients.";
+        await FocusEntryAsync();
+    }
+
+    private async Task OnRecipientRemoved(ChipRemovedEventArgs<string> args)
+    {
+        recipients.Remove(args.Item);
+        statusMessage = $"{args.Item} removed. {recipients.Count} recipients.";
+        await FocusEntryAsync();
+    }
+
+    private async Task FocusEntryAsync()
+    {
+        if (RecipientInput is not null)
+        {
+            await RecipientInput.FocusAsync();
+        }
+    }
+
+    private static string RecipientClass(string _) => "e-chip-input";
+}

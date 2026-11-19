@@ -225,6 +225,14 @@ namespace Syncfusion.Blazor.Toolkit
         /// <exclude />
         protected override async Task FocusOutHandlerAsync(Microsoft.AspNetCore.Components.Web.FocusEventArgs args)
         {
+            // Shared blur hides the clear icon before this handler. Commit typed text first
+            // so a value entered after clear is still a tab stop when the icon is restored.
+            string? typedValue = FormatValueAsString(InputTextValue);
+            if (!string.IsNullOrEmpty(typedValue) && typedValue != Value)
+            {
+                await SetValueAsync(typedValue, BaseFloatLabelType).ConfigureAwait(true);
+            }
+
             if (!(string.IsNullOrEmpty(_previousValue) && string.IsNullOrEmpty(Value) && string.IsNullOrEmpty(InputTextValue)) && _previousValue != InputTextValue)
             {
                 await RaiseChangeEventAsync(true).ConfigureAwait(true);
@@ -239,6 +247,10 @@ namespace Syncfusion.Blazor.Toolkit
                 };
                 await OnBlur.InvokeAsync(eventArgs).ConfigureAwait(true);
             }
+
+            // Base blur hides the clear icon with display:none. Restore it when the
+            // value is still clearable so the button stays in the tab order.
+            KeepClearButtonVisibleWhileTabbable();
         }
 
         /// <summary>
