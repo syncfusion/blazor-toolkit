@@ -9,9 +9,11 @@
         <h1 id="blazor-toolkit-chips-component">Blazor Toolkit Chips Component</h1>
     </Header>
     <Content>
-        Explore seven chip patterns, from a passive informational gallery to actions, selection, recipient tokens,
-        responsive overflow, form validation, and a live property playground. Informational chips display content
-        without performing actions; choose an interactive chip type when users need to act.
+        The <code>SfChip</code> component renders compact tokens for labels, actions, selection, and input.
+        The Default sample shows informational chips with <code>ChipType.Informational</code>,
+        <code>Variant</code> (<code>ChipVariant.Filled</code> / <code>ChipVariant.Outlined</code>),
+        <code>CssClass</code> theme presets, <code>Removable</code>, and a custom <code>LeadingTemplate</code>. 
+        Informational chips display content without performing actions; choose an interactive chip type when users need to act.
     </Content>
 </Description>
 
@@ -22,8 +24,8 @@
         <h2 id="actions">Actions &amp; Navigations</h2>
     </Header>
     <Content>
-        Explore a Sales overview panel with local refresh, export, and share feedback. A separate Navigation chip
-        opens a valid in-app destination; no backend operation is implied.
+        Explore a Sales overview panel with local refresh, export, and share feedback. Uses <code>ChipType.Action</code> with <code>OnClick</code>, <code>IconCss</code>,
+        <code>IsLoading</code>, and <code>Disabled</code>.
     </Content>
 </Description>
 
@@ -34,8 +36,8 @@
         <h2 id="filters">Filters</h2>
     </Header>
     <Content>
-        Select skills for a profile or remove a selected token to deselect it. The selected and total counts update
-        as you make changes.
+        <code>SfChipSet</code> with <code>ChipType.Filter</code> and <code>SelectionMode="ChipSelectionMode.Multiple"</code> supports selecting skills for a profile or remove a selected token to deselect it.
+        The selected and total counts update as you make changes.
     </Content>
 </Description>
 
@@ -46,8 +48,8 @@
         <h2 id="removable-chips">Removable chips</h2>
     </Header>
     <Content>
-        Add and remove email recipient chips. Input chips represent removable values, and their chip body is not an
-        activation button.
+        Add and remove email recipient chips are rendered by <code>SfChipSet</code> with <code>ChipType.Input</code>,
+        <code>Removable="true"</code>, <code>DataSource</code>. Input chips represent removable values, and their chip body is not an activation button.
     </Content>
 </Description>
 
@@ -58,8 +60,9 @@
         <h2 id="responsive">Responsive</h2>
     </Header>
     <Content>
-        Choose among Wrap, Scroll, and Collapse for twelve categories without losing the selection. Collapse starts
-        with four visible chips and measures overflow in interactive rendering.
+        Control overflow of an <code>SfChipSet</code> with <code>OverflowMode</code> (<code>ChipOverflowMode.Wrap</code>, <code>ChipOverflowMode.Scroll</code>, or
+        <code>ChipOverflowMode.Collapse</code>). Collapse mode uses <code>CollapsedVisibleCount</code> while preserving multi-select via
+        <code>ChipType.Filter</code>, <code>SelectionMode="ChipSelectionMode.Multiple"</code>.
     </Content>
 </Description>
 
@@ -70,8 +73,9 @@
         <h2 id="forms">Forms</h2>
     </Header>
     <Content>
-        The <code>EditForm</code> requires at least one Filter chip. A valid submission confirms the selected topics
-        locally without saving or sending data.
+        Bind an <code>SfChipSet</code> of filter chips to an <code>EditForm</code> model through <code>SelectedValues</code> / <code>SelectedValuesChanged</code>.
+        The sample uses <code>ChipType.Filter</code>, <code>SelectionMode="ChipSelectionMode.Multiple"</code>,
+        <code>Variant="ChipVariant.Outlined"</code>, and data annotations so at least one topic must be selected before a valid local submit.
     </Content>
 </Description>
 
@@ -492,6 +496,40 @@
     .chip-demo-code code {
         font-family: var(--font-family-monospace, Consolas, monospace);
         font-size: 0.875rem;
+    }
+
+    @@media (forced-colors: active) {
+
+        /* Chips that are in loading / disabled / busy state */
+        .e-chip[aria-disabled="true"],
+        .e-chip:disabled,
+        .e-chip.e-chip-disabled,
+        .e-chip.e-loading,                     /* if the sample uses a loading class */
+        .e-chip.e-busy,
+        .e-chip[aria-busy="true"] {
+            background: Canvas !important;
+            border: 1px solid GrayText !important;
+            color: GrayText !important;
+            opacity: 1 !important;             /* prevent extra fading */
+            forced-color-adjust: none;
+        }
+
+        /* Keep the remove icon (if any) readable */
+        .e-chip[aria-disabled="true"] ::deep .e-chip-remove,
+        .e-chip:disabled ::deep .e-chip-remove,
+        .e-chip.e-chip-disabled ::deep .e-chip-remove {
+            color: GrayText !important;
+            border-color: GrayText !important;
+            background: transparent !important;
+        }
+
+        /* Optional: if the sample shows a spinner inside the chip */
+        .e-chip .e-spinner-pane,
+        .e-chip .e-spin-material,
+        .e-chip .e-spin-bootstrap5 {
+            color: GrayText !important;
+            forced-color-adjust: none;
+        }
     }
 
     @@media (max-width: 720px) {

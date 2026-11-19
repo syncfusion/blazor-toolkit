@@ -103,43 +103,6 @@
                     <DialogPositionData X="center" Y="top"></DialogPositionData>
                 </SfDialog>
 
-                <div class="action-buttons preferences-wrapper">
-                    @if (PreferencesPopupOpen)
-                    {
-                        <div class="preferences-popup-backdrop" @onclick="ClosePreferencesPopup"></div>
-                        <div id="preferences-popup" class="preferences-popup" role="dialog" aria-label="Preferences" @onclick:stopPropagation="true">
-                            <div class="preferences-container">
-                                <div>
-                                    <div class="preferences-header">Preferences</div>
-                                    <hr />
-                                    <div>
-                                        <div class="preferences-label">Mode Selection</div>
-                                        <div class="btn-group mode-toggle-group">
-                                            <SfButtonGroup Mode="SelectionMode.Single">
-                                                <Button IconCss="sb-icons e-align-left"
-                                                        Selected="@(!IsRtl)"
-                                                        SelectedChanged="@(v => OnRtlButtonChanged(v, rtl: false))">
-                                                    LTR
-                                                </Button>
-                                                <Button IconCss="sb-icons e-align-right"
-                                                        Selected="@(IsRtl)"
-                                                        SelectedChanged="@(v => OnRtlButtonChanged(v, rtl: true))">
-                                                    RTL</Button>
-                                                </SfButtonGroup>
-                                            </div>
-                                    </div>
-                                </div>
-                                <div class="render-mode-section">
-                                    <ModeSwitcher isRenderModeSwitcher="true"/>
-                                </div>
-                                <div class="render-mode-section">
-                                    <ModeSwitcher isRenderModeSwitcher="false" />
-                                </div>
-                            </div>
-                        </div>
-                    }
-                </div>
-
                 @if (!IsMobile && !IsTablet)
                 {
                     <LayoutActionButtons SourceUrl="https://github.com/syncfusion/blazor-toolkit"
@@ -216,6 +179,37 @@
 
 <Syncfusion.Blazor.Toolkit.SfDialogProvider/>
 
+@if (PreferencesPopupOpen)
+{
+    <div class="preferences-flyout" style="@PreferencesFlyoutStyle" role="region" aria-label="Preferences" @onclick:stopPropagation="true">
+        <div class="preferences-container">
+            <div class="preferences-header">Preferences</div>
+            <hr />
+            <div class="preferences-label">Mode Selection</div>
+            <div class="btn-group mode-toggle-group">
+                <SfButtonGroup Mode="SelectionMode.Single">
+                    <Button IconCss="sb-icons e-align-left"
+                            Selected="@(!IsRtl)"
+                            SelectedChanged="@(v => OnRtlButtonChanged(v, rtl: false))">
+                        LTR
+                    </Button>
+                    <Button IconCss="sb-icons e-align-right"
+                            Selected="@(IsRtl)"
+                            SelectedChanged="@(v => OnRtlButtonChanged(v, rtl: true))">
+                        RTL
+                    </Button>
+                </SfButtonGroup>
+            </div>
+            <div class="render-mode-section">
+                <ModeSwitcher isRenderModeSwitcher="true"/>
+            </div>
+            <div class="render-mode-section">
+                <ModeSwitcher isRenderModeSwitcher="false" />
+            </div>
+        </div>
+    </div>
+}
+
 @code {
     // Injected services
     [Inject] NavigationManager Nav { get; set; } = default!;
@@ -230,6 +224,8 @@
     private bool isSearchVisible = false;
     private bool isPredefinedList = true;
     private bool PreferencesPopupOpen = false;
+    private string PreferencesFlyoutStyle = "top: 64px; right: 16px;";
+    private DotNetObjectReference<MainLayout>? _preferencesReference;
 
     // Responsive state: overlay left nav open and current screen size
     private bool OverlayLeftIsOpen = false; // controls the mobile overlay sidebar
@@ -494,14 +490,46 @@
         isPredefinedList = true;
     }
 
-    private void TogglePreferencesPopup()
+    private async Task TogglePreferencesPopup()
     {
-        PreferencesPopupOpen = !PreferencesPopupOpen;
+        if (PreferencesPopupOpen)
+        {
+            await ClosePreferencesPopup();
+            return;
+        }
+
+        PreferencesPopupOpen = true;
+        _preferencesReference ??= DotNetObjectReference.Create(this);
+        try
+        {
+            string? style = await JS.InvokeAsync<string?>("mainLayout.openPreferences", _preferencesReference);
+            if (!string.IsNullOrEmpty(style))
+            {
+                PreferencesFlyoutStyle = style;
+            }
+        }
+        catch (JSException)
+        {
+        }
     }
 
-    private void ClosePreferencesPopup()
+    [JSInvokable]
+    public Task ClosePreferencesFromScript()
     {
         PreferencesPopupOpen = false;
+        return InvokeAsync(StateHasChanged);
+    }
+
+    private async Task ClosePreferencesPopup()
+    {
+        PreferencesPopupOpen = false;
+        try
+        {
+            await JS.InvokeVoidAsync("mainLayout.closePreferences");
+        }
+        catch (JSException)
+        {
+        }
     }
 
     /// <summary>
@@ -531,7 +559,7 @@
         }
 
         IsRtl = rtl;
-        PreferencesPopupOpen = false;
+        await ClosePreferencesPopup();
 
         // Toolkit components (new / re-rendered)
         SyncfusionService.EnableRtl(IsRtl);
@@ -585,7 +613,16 @@
             // ignore errors during dispose
         }
 
+        try
+        {
+            await JS.InvokeVoidAsync("mainLayout.closePreferences");
+        }
+        catch
+        {
+        }
+
         _dotNetRef?.Dispose();
+        _preferencesReference?.Dispose();
     }
 }
 
@@ -979,7 +1016,6 @@
         position: relative;
         display: inline-flex;
         align-items: center;
-        z-index: 1001;
     }
     .github {
         padding: 3px 10px;
@@ -989,17 +1025,9 @@
         margin-right: 5px;
     }
 
-    .preferences-popup-backdrop {
+    .preferences-flyout {
         position: fixed;
-        inset: 0;
-        z-index: 999;
-        background: transparent;
-    }
-    .preferences-popup {
-        position: absolute;
-        inset-block-start: calc(100% + 20px);
-        inset-inline-end: calc(100% + -45px);
-        z-index: 1000;
+        z-index: 1100;
         background-color: var(--panel-bg);
         color: var(--text-color);
         border: 1px solid rgba(0, 0, 0, 0.1);
@@ -1007,7 +1035,7 @@
         box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
         overflow: hidden;
     }
-    .dark .preferences-popup {
+    .dark .preferences-flyout {
         border-color: rgba(255, 255, 255, 0.1);
         box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.4), 0 10px 10px -5px rgba(0, 0, 0, 0.3);
     }

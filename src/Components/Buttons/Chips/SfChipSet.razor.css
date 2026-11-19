@@ -23,13 +23,17 @@
     flex-wrap: nowrap;
     overflow-x: auto;
 }
-.e-chipset-collapse {
-    flex-wrap: wrap;
-    max-block-size: calc(var(--e-chip-height, 2rem) + 1.5rem);
+.e-chipset-collapse:not(.e-chipset-expanded) {
+    flex-wrap: nowrap;
     overflow: hidden;
 }
 
+.e-chipset-collapse:not(.e-chipset-expanded) > .e-chipset-overflow {
+    flex: 0 0 auto;
+}
+
 .e-chipset-collapse.e-chipset-expanded {
+    flex-wrap: wrap;
     max-block-size: none;
     overflow: visible;
 }

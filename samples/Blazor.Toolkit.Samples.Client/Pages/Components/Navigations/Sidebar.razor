@@ -1,0 +1,575 @@
+@page "/navigations/sidebar"
+@inherits TocPublishingComponentBase
+@using Blazor.Toolkit.Samples.Client.Pages.Demos.Navigations.Sidebar
+
+<script type="module" src="@Assets["Pages/Components/Navigations/Sidebar.razor.js"]"></script>
+
+<PageTitle>Blazor Sidebar Demo | Syncfusion Toolkit</PageTitle>
+
+<Description>
+    <Header>
+        <h1 id="blazor-toolkit-sidebar-component">Blazor Toolkit Sidebar Component</h1>
+    </Header>
+    <Content>
+        The <code>SfSidebar</code> is a collapsible panel that can attach to the side of a page and expand or collapse based on user interaction.
+        The Default sample opens a workspace navigation panel in <code>Overlay</code> mode alongside a minimal dashboard skeleton.
+    </Content>
+</Description>
+
+<CodePreview IsFullWidth="true" PreviewComponent="typeof(DefaultDemo)" SourceFile="Pages/Demos/Navigations/Sidebar/DefaultDemo.razor" />
+
+<Description>
+    <Header>
+        <h2 id="mini-rail">Mini Rail</h2>
+    </Header>
+    <Content>
+        Use <code>EnableMini</code> to display the Sidebar as a compact navigation rail while preserving content space. <code>MiniWidth</code> defines the rail size, and <code>OpenMiniOnHover</code> expands the Sidebar on hover to reveal the full navigation menu.
+    </Content>
+</Description>
+
+<CodePreview IsFullWidth="true" PreviewComponent="typeof(MiniRailDemo)" SourceFile="Pages/Demos/Navigations/Sidebar/MiniRailDemo.razor" />
+
+<Description>
+    <Header>
+        <h2 id="dual-sidebars">Dual Sidebars</h2>
+    </Header>
+    <Content>
+        A student dashboard combines primary navigation with an independent Student Profile panel. The profile Sidebar is open in Overlay mode without a backdrop or overlay-click closing.
+    </Content>
+</Description>
+
+<CodePreview IsFullWidth="true" PreviewComponent="typeof(DualSidebarsDemo)" SourceFile="Pages/Demos/Navigations/Sidebar/DualSidebarsDemo.razor" />
+
+<Description>
+    <Header>
+        <h2 id="controlled-mode">Controlled Mode</h2>
+    </Header>
+    <Content>
+        In Controlled Mode, the application owns the open state and supplies it through the <code>IsOpen</code> property. Uncontrolled Mode lets <code>SfSidebar</code> retain its own state; the Sidebar API sample demonstrates that pattern with the component's async methods and without setting <code>IsOpen</code>.
+    </Content>
+</Description>
+
+<CodePreview IsFullWidth="true" PreviewComponent="typeof(ControlledModeDemo)" SourceFile="Pages/Demos/Navigations/Sidebar/ControlledModeDemo.razor" />
+
+<Description>
+    <Header>
+        <h2 id="responsive">Responsive</h2>
+    </Header>
+    <Content>
+        Adapt navigation to viewport changes with <code>Responsive</code> and <code>Breakpoint</code>. The sample lets you choose <code>SidebarBreakpoint.None</code>, <code>SidebarBreakpoint.Sm</code>, <code>SidebarBreakpoint.Md</code>, <code>SidebarBreakpoint.Lg</code>, <code>SidebarBreakpoint.Xl</code>, or <code>SidebarBreakpoint.Always</code>; <code>OnBreakpointChanged</code> lets the application respond when the breakpoint state changes. <code>CloseOnNavigate</code> dismisses navigation after a selection.
+    </Content>
+</Description>
+
+<CodePreview IsFullWidth="true" PreviewComponent="typeof(ResponsiveDemo)" SourceFile="Pages/Demos/Navigations/Sidebar/ResponsiveDemo.razor" />
+
+<Description>
+    <Header>
+        <h2 id="modes">Modes</h2>
+    </Header>
+    <Content>
+        Choose a layout strategy with <code>Mode</code>: <code>SidebarMode.Overlay</code> preserves the content area beneath the panel, <code>SidebarMode.Push</code> moves the content, and <code>SidebarMode.Shrink</code> resizes it. Use <code>Fixed</code> when the Sidebar should remain anchored during page scrolling.
+    </Content>
+</Description>
+
+<CodePreview IsFullWidth="true" PreviewComponent="typeof(ModesDemo)" SourceFile="Pages/Demos/Navigations/Sidebar/ModesDemo.razor" />
+
+<Description>
+    <Header>
+        <h2 id="positions">Positions</h2>
+    </Header>
+    <Content>
+        The <code>Position</code> property determines which edge hosts the Sidebar. This sample compares physical placement with <code>SidebarPosition.Left</code> and <code>SidebarPosition.Right</code> to logical placement with <code>SidebarPosition.Start</code> and <code>SidebarPosition.End</code>. Prefer logical positions for layouts that support RTL, because they follow the reading direction instead of assuming a fixed side.
+    </Content>
+</Description>
+
+<CodePreview IsFullWidth="true" PreviewComponent="typeof(PositionsDemo)" SourceFile="Pages/Demos/Navigations/Sidebar/PositionsDemo.razor" />
+
+<Description>
+    <Header>
+        <h2 id="api">Sidebar API</h2>
+    </Header>
+    <Content>
+        Use <code>OpenAsync</code>, <code>CloseAsync</code>, and <code>ToggleAsync</code> when application actions need to control visibility imperatively; call <code>FocusAsync</code> to move focus into the Sidebar after opening it. The Properties Pane demonstrates <code>ShowBackdrop</code> for modal emphasis, <code>CloseOnOverlayClick</code> for pointer-based dismissal, and <code>CloseOnEscape</code> for keyboard dismissal.
+    </Content>
+</Description>
+
+<CodePreview IsFullWidth="true" PreviewComponent="typeof(ApiDemo)" SourceFile="Pages/Demos/Navigations/Sidebar/ApiDemo.razor" />
+
+<style>
+    .sbd-shell,
+    .sbd-stage {
+        --sbd-surface: var(--color-sf-content-bg-color, var(--bs-body-bg, #fff));
+        --sbd-surface-alt: var(--color-sf-content-bg-color-alt1, var(--bs-tertiary-bg, #f8f9fa));
+        --sbd-text: var(--color-sf-content-text-color, var(--bs-body-color, #212529));
+        --sbd-muted: var(--bs-secondary-color, #6c757d);
+        --sbd-border: var(--color-sf-border, var(--bs-border-color, #dee2e6));
+        --sbd-hover-bg: #F0F0F0;
+        --sbd-selected-bg: #DBDBDB;
+        --sbd-selected-text: var(--sbd-text);
+        --sbd-active-bg: #DBDBDB;
+        --sbd-control-hover-bg: #e9ecef;
+        --sbd-focus-color: #495057;
+        --sbd-skeleton-bg: #e6e6e6;
+        --sbd-skeleton-border: transparent;
+    }
+
+    body.e-dark-mode .sbd-shell,
+    body.e-dark-mode .sbd-stage {
+        --sbd-surface: #202020;
+        --sbd-surface-alt: #292929;
+        --sbd-text: #f3f3f3;
+        --sbd-muted: #b7b7b7;
+        --sbd-border: #404040;
+        --sbd-hover-bg: #333333;
+        --sbd-selected-bg: #141414;
+        --sbd-selected-text: var(--sbd-text);
+        --sbd-active-bg: #141414;
+        --sbd-control-hover-bg: #3a3a3a;
+        --sbd-focus-color: #fff;
+        --sbd-skeleton-bg: #575757;
+    }
+
+    .sbd-shell {
+        display: grid;
+        gap: .375rem;
+        width: 100%;
+        min-width: 0;
+    }
+
+    .sbd-toolbar {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: .5rem;
+        min-height: 3.25rem;
+        padding: .375rem .5rem;
+        border: 1px solid var(--sbd-border);
+        border-radius: .5rem;
+        background: var(--sbd-surface-alt);
+        color: var(--sbd-text);
+    }
+
+    .sbd-toolbar-title {
+        margin: 0;
+        font-weight: 600;
+    }
+
+    .sbd-toolbar-spacer {
+        flex: 1 1 auto;
+    }
+
+    .sbd-toolbar-search {
+        width: min(16rem, 35vw);
+    }
+
+    .sbd-toolbar .sbd-toolbar-button.e-btn {
+        min-width: 2.5rem;
+        min-height: 2.5rem;
+        border: 1px solid var(--sbd-border);
+        border-radius: .375rem;
+        background: transparent;
+        color: var(--sbd-text);
+        transition: background-color .15s ease, color .15s ease;
+    }
+
+    .sbd-toolbar .sbd-toolbar-button.e-btn:hover,
+    .sbd-toolbar .sbd-toolbar-button.e-btn:focus-visible {
+        background: var(--sbd-control-hover-bg);
+        color: var(--sbd-text);
+    }
+
+    .sbd-toolbar .sbd-toolbar-button.e-btn:active {
+        background: var(--sbd-active-bg);
+        color: var(--sbd-text);
+    }
+
+    .sbd-stage {
+        position: relative;
+        width: 100%;
+        min-width: 0;
+        min-height: 260px;
+        overflow: hidden;
+        border: 1px solid var(--sbd-border);
+        border-radius: .5rem;
+        color: var(--sbd-text);
+    }
+
+    .sbd-content {
+        display: grid;
+        align-content: start;
+        gap: .5rem;
+        min-height: 260px;
+        padding: .875rem;
+        color: var(--sbd-text);
+    }
+
+    .sbd-skeleton {
+        background: var(--sbd-skeleton-bg);
+        border: 1px solid var(--sbd-skeleton-border);
+        border-radius: var(--sf-radius-2, .25rem);
+        display: inline-block;
+        overflow: hidden;
+        position: relative;
+    }
+
+    .sbd-dashboard-skeleton {
+        width: 100%;
+    }
+
+    .sbd-dashboard-skeletons {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-template-rows: 7rem minmax(7rem, 1fr);
+        align-content: stretch;
+    }
+
+    .sbd-dashboard-skeletons > .sbd-dashboard-skeleton:first-child {
+        grid-column: 1 / -1;
+        height: 100%;
+    }
+
+    .sbd-dashboard-skeleton-row {
+        display: grid;
+        grid-column: 1 / -1;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: .5rem;
+        min-height: 14rem;
+    }
+
+    .sbd-dashboard-skeleton-row > .sbd-skeleton {
+        width: 100%;
+        height: 100%;
+    }
+
+    .sbd-dashboard-skeleton-short {
+        height: 7rem;
+    }
+
+    .sbd-mode-skeleton {
+        width: 100%;
+    }
+
+    .sbd-mode-skeletons {
+        align-content: space-between;
+        min-height: 32rem;
+    }
+
+    .sbd-mode-skeleton-short {
+        height: 3.5rem;
+    }
+
+    .sbd-mode-skeleton-medium {
+        height: 7rem;
+    }
+
+    .sbd-mode-skeleton-tall {
+        height: 10.5rem;
+    }
+
+    .sbd-list-skeletons {
+        gap: .75rem;
+    }
+
+    .sbd-list-skeleton-row {
+        width: 100%;
+        height: 5.5rem;
+    }
+
+    .sbd-content p,
+    .sbd-content h3,
+    .sbd-content h4,
+    .sbd-agenthub-content p,
+    .sbd-agenthub-content h3,
+    .sbd-agenthub-content h4 {
+        margin: 0;
+    }
+
+    .sbd-stage .sbd-nav {
+        display: grid;
+        gap: 0;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+    }
+
+    .sbd-stage .sbd-nav > li {
+        display: flex;
+        height: 2.625rem;
+        min-width: 0;
+        align-items: center;
+        margin: 0;
+        border-radius: .25rem;
+        background: transparent;
+        transition: background-color .12s ease;
+    }
+
+    .sbd-stage .sbd-nav > li:hover {
+        background: var(--sbd-hover-bg);
+    }
+
+    .sbd-stage .sbd-nav > li:active,
+    .sbd-stage .sbd-nav > li.sbd-nav-selected {
+        background: var(--sbd-active-bg);
+    }
+
+    .sbd-stage .e-sidebar-header,
+    .sbd-stage .e-sidebar-footer,
+    .sbd-stage .e-sidebar-body {
+        padding: .5rem;
+        background: var(--sbd-surface);
+        color: var(--sbd-text);
+    }
+
+    .sbd-stage .e-sidebar-header,
+    .sbd-stage .e-sidebar-body {
+        border-color: var(--sbd-border);
+    }
+
+    .sbd-stage .e-sidebar-header h3 {
+        padding-inline-start: .625rem;
+    }
+
+    .sbd-stage .e-sidebar-body {
+        scrollbar-width: thin;
+    }
+
+    .sbd-stage .sbd-nav li[role="option"] {
+        box-sizing: border-box;
+        min-height: 2.625rem;
+        gap: .375rem;
+        padding-inline: .5rem;
+        color: var(--sbd-text);
+        cursor: pointer;
+        text-align: start;
+        white-space: nowrap;
+    }
+
+    .sbd-stage .sbd-nav li[role="option"]:hover {
+        background: var(--sbd-hover-bg);
+        color: var(--sbd-text);
+    }
+
+    .sbd-stage .sbd-nav li[role="option"].sbd-nav-selected {
+        background: var(--sbd-selected-bg);
+        color: var(--sbd-selected-text);
+    }
+
+    .sbd-stage .sbd-nav li[role="option"]:focus-visible {
+        outline: 2px solid var(--sbd-focus-color);
+        outline-offset: -2px;
+    }
+
+    .sbd-stage .sbd-nav .sbd-nav-icon {
+        display: block;
+        flex: none;
+        width: 1.5rem;
+        height: 1.5rem;
+        fill: none;
+        stroke: currentColor;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 1.7;
+    }
+
+    .sbd-stage .sbd-nav span.sbd-nav-icon {
+        font-size: 1.25rem;
+        line-height: 1.5rem;
+        text-align: center;
+    }
+
+    .sbd-stage .e-sidebar-footer .sbd-rail-item.e-btn {
+        display: flex;
+        width: 98%;
+        min-height: 2rem;
+        align-items: center;
+        gap: .375rem;
+        padding: .0625rem .5rem;
+        border: 0;
+        border-radius: .25rem;
+        background: transparent;
+        color: var(--sbd-text);
+        text-align: start;
+    }
+
+    .sbd-stage .e-sidebar-footer .sbd-rail-item.e-btn svg {
+        display: block;
+        flex: none;
+        width: 1.5rem;
+        height: 1.5rem;
+        fill: none;
+        stroke: currentColor;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        stroke-width: 1.7;
+    }
+
+    .sbd-stage .e-sidebar-footer .sbd-rail-item.e-btn:hover,
+    .sbd-stage .e-sidebar-footer .sbd-rail-item.e-btn:focus-visible {
+        background: var(--sbd-hover-bg);
+        color: var(--sbd-text);
+    }
+
+    .sbd-stage .e-sidebar-footer .sbd-rail-item.e-btn:active {
+        background: var(--sbd-active-bg);
+        color: var(--sbd-text);
+    }
+
+    .sbd-stage .e-sidebar-footer .sbd-rail-item.e-btn:focus-visible {
+        outline: 2px solid var(--sbd-focus-color);
+        outline-offset: -2px;
+    }
+
+    .sbd-shell .sbd-button-group .e-btn.e-active,
+    .sbd-shell .sbd-button-group .e-btn.e-selected,
+    .sbd-shell .sbd-button-group .e-btn[aria-pressed="true"] {
+        border-color: var(--sbd-border);
+        background: var(--sbd-control-hover-bg);
+        color: var(--sbd-text);
+    }
+
+    .sbd-shell .sbd-button-group .e-btn:hover,
+    .sbd-shell .sbd-button-group .e-btn:focus-visible {
+        border-color: var(--sbd-border);
+        background: var(--sbd-hover-bg);
+        color: var(--sbd-text);
+    }
+
+    .sbd-shell .sbd-neutral-button.e-btn {
+        border-color: var(--sbd-border);
+        background: var(--sbd-surface);
+        color: var(--sbd-text);
+    }
+
+    .sbd-shell .sbd-neutral-button.e-btn:hover,
+    .sbd-shell .sbd-neutral-button.e-btn:focus-visible,
+    .sbd-shell .sbd-neutral-button.e-btn:active {
+        border-color: var(--sbd-border);
+        background: var(--sbd-control-hover-bg);
+        color: var(--sbd-text);
+    }
+
+    .sbd-controls {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: .375rem .75rem;
+    }
+
+    .sbd-control-label {
+        font-weight: 600;
+    }
+
+    .sbd-button-group {
+        display: inline-flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: .5rem;
+    }
+
+    .sbd-stage-toggle {
+        display: flex;
+        flex-wrap: wrap;
+        gap: .5rem;
+    }
+
+    .sbd-status {
+        display: grid;
+        grid-template-columns: max-content 1fr;
+        gap: .125rem .625rem;
+        margin: 0;
+        padding: .5rem .75rem;
+        border: 1px solid var(--sbd-border);
+        border-radius: .5rem;
+        background: var(--sbd-surface-alt);
+        color: var(--sbd-text);
+    }
+
+    .sbd-status dt {
+        font-weight: 600;
+    }
+
+    .sbd-status dd {
+        margin: 0;
+    }
+
+    .sbd-rail-item.sbd-rail-lg.e-btn .e-btn-icon {
+        flex: none;
+        width: 24px;
+        height: 24px;
+        margin: 0;
+        font-size: 18px;
+        line-height: 24px;
+        text-align: center;
+    }
+
+    @@media (forced-colors: active) {
+
+        .sbd-shell,
+        .sbd-stage {
+            --sbd-surface: Canvas;
+            --sbd-surface-alt: Canvas;
+            --sbd-text: CanvasText;
+            --sbd-muted: CanvasText;
+            --sbd-border: CanvasText;
+            --sbd-hover-bg: Highlight;
+            --sbd-selected-bg: Highlight;
+            --sbd-selected-text: HighlightText;
+            --sbd-active-bg: Highlight;
+            --sbd-control-hover-bg: ButtonFace;
+            --sbd-focus-color: Canvas;
+            --sbd-skeleton-bg: ButtonFace;
+            --sbd-skeleton-border: CanvasText;
+            forced-color-adjust: none;
+        }
+
+        .e-checkbox-wrapper .e-label,
+        .e-css.e-checkbox-wrapper .e-label,
+        div h3,
+        div h5,
+        div h6,
+        .sbd-controls span,
+        .sbd-api-event-log li {
+            color: CanvasText !important;
+        }
+
+        #sbd-api-properties,
+        #sbd-api-properties .e-sidebar-header {
+            background-color: transparent !important;
+        }
+
+        .sbd-stage .sbd-nav li[role="option"] {
+            background: transparent !important;
+            color: ButtonText !important;
+            forced-color-adjust: none;
+        }
+
+        .sbd-stage .sbd-nav li[role="option"]:hover,
+        .sbd-stage .sbd-nav li[role="option"]:active,
+        .sbd-stage .sbd-nav li[role="option"].sbd-nav-selected {
+            background: Highlight !important;
+            color: HighlightText !important;
+        }
+
+        .sbd-stage .sbd-nav li[role="option"]:focus-visible {
+            outline: 2px solid CanvasText !important;
+        }
+
+        .sbd-stage .sbd-nav li[role="option"].sbd-nav-selected:focus-visible {
+            outline: 2px solid CanvasText !important;
+        }
+    }
+</style>
+
+@code {
+    private static readonly IReadOnlyList<RightToc.TocItem> TocItemsList = new RightToc.TocItem[]
+    {
+        new("mini-rail", "Mini Rail"),
+        new("dual-sidebars", "Dual Sidebars"),
+        new("controlled-mode", "Controlled Mode"),
+        new("responsive", "Responsive"),
+        new("modes", "Modes"),
+        new("positions", "Positions"),
+        new("api", "Sidebar API"),
+    };
+
+    protected override IReadOnlyList<RightToc.TocItem> TocItems => TocItemsList;
+}

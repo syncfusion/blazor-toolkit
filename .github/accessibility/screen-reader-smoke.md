@@ -25,6 +25,7 @@ re-verified at every minor release.
 | `SfTooltip` | PARTIAL — long tooltips don't surface as live region | PARTIAL | PASS | Tracked under [`#272`](https://github.com/syncfusion/blazor-toolkit/issues/272) |
 | `SfSpinner` | PASS — `role=status`, `aria-busy=true`, polite live region by default | PASS | PASS | |
 | `SfChart` | PASS — series + data-point descriptions announced | PASS | PASS | |
+| `SfSidebar` | PASS — name, navigation or dialog role, open and closed state announced | Not run in this review | PASS — name, role, and open or closed state announced | User-reported manual check, 2026-11-06. JAWS was not run. |
 
 ## Known limitations
 

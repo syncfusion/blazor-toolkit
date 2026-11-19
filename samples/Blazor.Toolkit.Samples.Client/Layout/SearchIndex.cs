@@ -167,6 +167,12 @@
             new("TextBox Events", "inputs/textbox#events"),
             new("TextBox Accessibility", "inputs/textbox#accessibility"),
 
+            new("Sidebar", "navigations/sidebar"),
+            new("Default Sidebar", "navigations/sidebar#default-sidebar"),
+            new("Push Mode Sidebar", "navigations/sidebar#push-mode"),
+            new("Right Position Sidebar", "navigations/sidebar#right-position"),
+            new("Sidebar API", "navigations/sidebar#sidebar-api"),
+
             new("Tooltip", "popups/tooltip#default-tooltip"),
             new("Tooltip Position", "popups/tooltip#position"),
             new("Tooltip HTML Template", "popups/tooltip#html-template"),

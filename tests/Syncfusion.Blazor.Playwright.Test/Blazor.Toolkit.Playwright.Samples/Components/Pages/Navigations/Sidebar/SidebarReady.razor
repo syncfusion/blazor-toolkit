@@ -1,0 +1,15 @@
+@* Marks the page as interactive so browser tests never act before the Blazor circuit is live. *@
+<span id="sidebar-ready" data-ready="@(_ready ? "true" : "false")" hidden></span>
+
+@code {
+    private bool _ready;
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _ready = true;
+            StateHasChanged();
+        }
+    }
+}

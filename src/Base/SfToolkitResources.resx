@@ -327,4 +327,13 @@
   <data name="Chip_ShowLess" xml:space="preserve">
     <value>Show less</value>
   </data>
+  <data name="Sidebar_Label" xml:space="preserve">
+    <value>Sidebar</value>
+  </data>
+  <data name="Sidebar_Opened" xml:space="preserve">
+    <value>Sidebar opened</value>
+  </data>
+  <data name="Sidebar_Closed" xml:space="preserve">
+    <value>Sidebar closed</value>
+  </data>
 </root>

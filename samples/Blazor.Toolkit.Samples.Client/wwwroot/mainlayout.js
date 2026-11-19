@@ -76,6 +76,50 @@
         } catch(e){}
     };
 
+    var preferencesListener = null;
+    var preferencesRef = null;
+
+    window.mainLayout.openPreferences = function (dotNetRef) {
+        window.mainLayout.closePreferences();
+        preferencesRef = dotNetRef;
+        var anchor = document.querySelector('.top-layout-inner [aria-label="Settings"]');
+        var style = 'top: 80px; inset-inline-end: 16px;';
+        if (anchor && anchor.getBoundingClientRect) {
+            var rect = anchor.getBoundingClientRect();
+            var rtl = getComputedStyle(document.documentElement).direction === 'rtl'
+                || document.documentElement.dir === 'rtl';
+            var top = Math.round(rect.bottom + 8);
+            // Same inset the previous absolute popup used: the gear's end edge, shifted 12px outward.
+            var end = rtl ? rect.left : window.innerWidth - rect.right;
+            var inset = Math.max(8, Math.round(end - 12));
+            style = 'top: ' + top + 'px; inset-inline-end: ' + inset + 'px;';
+        }
+
+        preferencesListener = function (event) {
+            var flyout = document.querySelector('.preferences-flyout');
+            if (event.key === 'Escape' || (flyout && !flyout.contains(event.target) && !(anchor && anchor.contains(event.target)))) {
+                if (event.type === 'keydown' && event.key !== 'Escape') {
+                    return;
+                }
+                window.mainLayout.closePreferences();
+                if (preferencesRef) {
+                    preferencesRef.invokeMethodAsync('ClosePreferencesFromScript').catch(function () { });
+                }
+            }
+        };
+        document.addEventListener('pointerdown', preferencesListener, true);
+        document.addEventListener('keydown', preferencesListener);
+        return style;
+    };
+
+    window.mainLayout.closePreferences = function () {
+        if (preferencesListener) {
+            document.removeEventListener('pointerdown', preferencesListener, true);
+            document.removeEventListener('keydown', preferencesListener);
+            preferencesListener = null;
+        }
+    };
+
     // Set theme and persist
     window.mainLayout.setTheme = function(theme){
         try{
