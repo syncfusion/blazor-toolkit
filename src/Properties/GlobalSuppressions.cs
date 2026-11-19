@@ -3247,4 +3247,3 @@ using System.Diagnostics.CodeAnalysis;
     Justification = "2026-10-23: Public API. [Parameter] image URL bound from Razor markup as an HTML attribute string; commonly carries a relative URL that System.Uri cannot represent.",
     Scope = "member",
     Target = "~P:Syncfusion.Blazor.Toolkit.SfCardMedia.ImageUrl")]
-
