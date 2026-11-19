@@ -32,7 +32,19 @@ function contentWidth(root) {
     };
 }
 
-function measureVisible(root) {
+function naturalWidth(item) {
+    const hidden = item.classList.contains("e-chip-collapsed");
+    if (hidden) {
+        item.classList.remove("e-chip-collapsed");
+    }
+    const width = item.getBoundingClientRect().width;
+    if (hidden) {
+        item.classList.add("e-chip-collapsed");
+    }
+    return width;
+}
+
+function measureVisible(root, maximum) {
     const items = [...root.querySelectorAll("[data-testid='chip-item']")];
     if (items.length === 0) {
         return 0;
@@ -41,26 +53,23 @@ function measureVisible(root) {
     const gap = gapPx(root);
     const overflow = root.querySelector("[data-testid='chip-overflow']");
     const reserve = overflow ? overflow.getBoundingClientRect().width + gap : 0;
-    let cursor = content.start;
+    const cap = Number.isFinite(maximum) && maximum > 0 ? Math.min(items.length, maximum) : items.length;
+    let used = 0;
     let visible = 0;
-    for (const item of items) {
-        const box = item.getBoundingClientRect();
-        const width = box.width;
-        const itemStart = content.rtl ? cursor - width : cursor;
-        const crosses = content.rtl ? itemStart < content.end - 0.5 : itemStart + width > content.end + 0.5;
-        const needsOverflow = visible + 1 < items.length;
-        const reservedEnd = content.rtl ? content.end + reserve : content.end - reserve;
-        const hitsReserve = needsOverflow && (content.rtl ? itemStart < reservedEnd - 0.5 : itemStart + width > reservedEnd + 0.5);
-        if (visible > 0 && (crosses || hitsReserve)) {
+    for (let index = 0; index < cap; index += 1) {
+        const width = naturalWidth(items[index]);
+        const needsOverflow = index + 1 < items.length;
+        const next = used + width + (visible > 0 ? gap : 0);
+        if (visible > 0 && next + (needsOverflow ? reserve : 0) > content.width + 0.5) {
             break;
         }
-        cursor = content.rtl ? cursor - width - gap : cursor + width + gap;
+        used = next;
         visible += 1;
     }
-    return Math.min(items.length, Math.max(1, visible));
+    return Math.min(cap, Math.max(items.length === 0 ? 0 : 1, visible));
 }
 
-export function observe(rootId, dotnet) {
+export function observe(rootId, dotnet, maximum) {
     const root = document.getElementById(rootId);
     if (!root || typeof ResizeObserver === "undefined" || observers.has(rootId)) {
         return;
@@ -69,7 +78,7 @@ export function observe(rootId, dotnet) {
         if (!observers.has(rootId)) {
             return;
         }
-        const visible = measureVisible(root);
+        const visible = measureVisible(root, maximum);
         if (visible > 0) {
             dotnet.invokeMethodAsync("OnOverflowMeasured", visible).catch(() => undefined);
         }
