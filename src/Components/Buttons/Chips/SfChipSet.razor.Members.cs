@@ -97,8 +97,8 @@ namespace Syncfusion.Blazor.Toolkit
         public ChipOverflowMode OverflowMode { get; set; } = ChipOverflowMode.Wrap;
 
         /// <summary>
-        /// Chips kept visible in collapse mode before script measurement.
-        /// After the first measurement, chip.js may overwrite this value so resize can change the fold.
+        /// Maximum chips kept visible in collapse mode. Measurement may show fewer when the row is narrower than that count.
+        /// When null, chip.js measures the first row and sets the fold.
         /// </summary>
         [Parameter]
         public int? CollapsedVisibleCount { get; set; }

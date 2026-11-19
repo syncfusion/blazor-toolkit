@@ -25,11 +25,16 @@ namespace Syncfusion.Blazor.Toolkit
 
         private async Task OnClickAsync(MouseEventArgs args)
         {
-            if (ActivationBlocked || !Interactive)
+            if (ActivationBlocked || !Interactive || IsKeyboardClick(args))
             {
                 return;
             }
 
+            await ActivateAsync(args).ConfigureAwait(true);
+        }
+
+        private async Task ActivateAsync(MouseEventArgs args)
+        {
             if (Owner is not null)
             {
                 await Owner.ActivateAsync(Value ?? Text ?? RootId, args).ConfigureAwait(true);
@@ -60,8 +65,23 @@ namespace Syncfusion.Blazor.Toolkit
             await RequestRemoveAsync(ChipRemoveReason.RemoveButton).ConfigureAwait(true);
         }
 
+        private bool _activatedByKey;
+
+        private bool IsKeyboardClick(MouseEventArgs args)
+        {
+            if (!_activatedByKey || args.Detail > 0)
+            {
+                return false;
+            }
+
+            _activatedByKey = false;
+            return true;
+        }
+
         private async Task OnKeyDownAsync(KeyboardEventArgs args)
         {
+            bool activateByKey = args.Key is SpaceKey or EnterKey && Interactive && !ActivationBlocked && !IsLink;
+
             if (args.Key is DeleteKey or BackspaceKey)
             {
                 await RequestRemoveAsync(ChipRemoveReason.Keyboard).ConfigureAwait(true);
@@ -73,9 +93,10 @@ namespace Syncfusion.Blazor.Toolkit
                 return;
             }
 
-            if (args.Key is SpaceKey or EnterKey && Interactive && !ActivationBlocked)
+            if (activateByKey)
             {
-                await OnClickAsync(new MouseEventArgs()).ConfigureAwait(true);
+                _activatedByKey = true;
+                await ActivateAsync(new MouseEventArgs()).ConfigureAwait(true);
             }
         }
 

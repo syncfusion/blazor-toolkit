@@ -324,7 +324,11 @@ namespace Syncfusion.Blazor.Toolkit
                 return;
             }
 
-            int keep = CollapsedVisibleCount ?? visible.Count();
+            // Null is the pre-script fallback, not "show every chip". Using the full
+            // count leaves _hiddenCount at 0, so the expand control never renders and
+            // chip.js cannot reserve its width. An explicit CollapsedVisibleCount is unchanged.
+            int visibleCount = visible.Count();
+            int keep = CollapsedVisibleCount ?? (visibleCount == 0 ? 0 : 1);
             int shown = 0;
             foreach (ProjectedChip chip in visible)
             {

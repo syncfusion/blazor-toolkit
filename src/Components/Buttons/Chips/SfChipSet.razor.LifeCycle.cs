@@ -51,7 +51,7 @@ namespace Syncfusion.Blazor.Toolkit
                 return;
             }
 
-            await _chipModule.InvokeVoidAsync(ObserveMethod, RootId, DotnetObjectReference).ConfigureAwait(true);
+            await ObserveCollapseAsync().ConfigureAwait(true);
             _jsReady = true;
         }
 
@@ -64,14 +64,25 @@ namespace Syncfusion.Blazor.Toolkit
                 return;
             }
 
-            await _chipModule.InvokeVoidAsync(ObserveMethod, RootId, DotnetObjectReference).ConfigureAwait(true);
+            await ObserveCollapseAsync().ConfigureAwait(true);
             _jsReady = true;
+        }
+
+        private Task ObserveCollapseAsync()
+        {
+            if (_chipModule is null)
+            {
+                return Task.CompletedTask;
+            }
+
+            // CollapsedVisibleCount is a maximum. Measurement may show fewer so labels keep their natural width.
+            int maximum = CollapsedVisibleCount ?? 0;
+            return _chipModule.InvokeVoidAsync(ObserveMethod, RootId, DotnetObjectReference, maximum).AsTask();
         }
 
         /// <summary>
         /// Called by chip.js when collapse measurement changes. Layout pixels stay in Playwright.
-        /// <see cref="SfChipSet{TItem}.CollapsedVisibleCount"/> is only the pre-script fallback.
-        /// After the first measurement, chip.js may overwrite it so a resize can change the fold.
+        /// <see cref="SfChipSet{TItem}.CollapsedVisibleCount"/> is the maximum. Measurement may reduce it so labels do not collide.
         /// Measurements are ignored while the set is expanded. An unchanged count does not render again.
         /// </summary>
         [JSInvokable]
@@ -92,8 +103,8 @@ namespace Syncfusion.Blazor.Toolkit
 
             CollapsedVisibleCount = next;
             ApplyCollapse();
-            StateHasChanged();
-            return Task.CompletedTask;
+            // Direct StateHasChanged is suppressed while the JS callback runs inside OnAfterRenderAsync.
+            return InvokeAsync(StateHasChanged);
         }
 
         /// <inheritdoc />

@@ -1,6 +1,7 @@
 @using System.Text.Json
 @using Syncfusion.Blazor.Toolkit
 @inject IJSRuntime JSRuntime
+@inject NavigationManager Navigation
 
 <section class="chip-demo-shell chip-demo-panel chip-demo-playground" aria-labelledby="chip-playground-title">
     <header class="chip-demo-section-heading">
@@ -201,7 +202,7 @@
     private LeadingContent leadingContent = LeadingContent.None;
     private string chipText = "Chip";
     private const string IconCss = "e-icons e-check";
-    private const string ImageUrl = "/images/skeleton/profile.png";
+    private string ImageUrl => Navigation.ToAbsoluteUri("images/skeleton/profile.png").ToString();
     private const string ImageAlt = "Profile avatar";
     private string? cssClass;
     private string href = "https://blazor.syncfusion.com/demos/toolkit/explore";
