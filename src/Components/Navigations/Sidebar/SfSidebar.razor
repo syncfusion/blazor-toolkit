@@ -52,7 +52,7 @@
         </div>
     }
 
-    @if (IsModal)
+    @if (ShowBackdropLayer)
     {
         <div class="@_backdropClass" aria-hidden="true" @onclick="HandleBackdropClickAsync"></div>
     }

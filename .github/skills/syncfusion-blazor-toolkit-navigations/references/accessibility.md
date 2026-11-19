@@ -7,7 +7,11 @@
   unnamed. Name groups with `ToolbarGroup.Label`.
 - The toolbar uses one roving tab stop. Horizontal arrow keys follow direction;
   vertical toolbars use Up/Down. Home and End move to the first/last item.
-  Disabled, invisible, separators, and spacers are skipped.
+Disabled, invisible, separators, and spacers are skipped. Template items are
+in the sequence. Enter and Space activate the focused item. Enter also opens
+a dropdown or the overflow popup. Escape closes an open menu and returns
+focus to the trigger. Enter and Space on an overflow menu item activate it
+and close the popup when CloseOnSelect is true.
 - Enabled selectable items expose `aria-pressed`. Nested commands use menu
   semantics, and the overflow popup uses `role="menu"`.
 - Set `ToolbarItem.Text` for every icon-only item. It is retained as the

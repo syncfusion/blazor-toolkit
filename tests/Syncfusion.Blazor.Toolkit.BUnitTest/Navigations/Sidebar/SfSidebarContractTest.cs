@@ -1166,6 +1166,57 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Navigations
             Assert.NotEqual(firstId, second.Find("div.e-sidebar").GetAttribute("id"));
         }
 
+        [Fact(Timeout = 10000, DisplayName = "U-OVL-010 An open overlay omits the backdrop until the first render completes")]
+        public void U_OVL_010_OpenOverlay_OmitsBackdropUntilAfterRender()
+        {
+            var sidebar = new SfSidebar();
+            Assert.False(sidebar.ShowBackdropLayer);
+
+            var component = RenderComponent<SfSidebar>(p => p
+                .Add(s => s.IsOpen, true)
+                .Add(s => s.Mode, SidebarMode.Overlay)
+                .Add(s => s.ShowBackdrop, true));
+
+            Assert.NotEmpty(component.FindAll(".e-sidebar-backdrop"));
+        }
+
+        [Fact(Timeout = 10000, DisplayName = "U-RTL-010 ApplyEnvironmentAsync moves Start to the right without a new Position")]
+        public async Task U_RTL_010_EnvironmentRtl_MovesStartToRight()
+        {
+            var component = RenderComponent<SfSidebar>(p => p
+                .Add(s => s.IsOpen, true)
+                .Add(s => s.Position, SidebarPosition.Start));
+
+            Assert.Contains("e-sidebar-left", Classes(component), StringComparison.Ordinal);
+
+            await component.Instance.ApplyEnvironmentAsync(false, true);
+
+            Assert.Contains("e-sidebar-right", Classes(component), StringComparison.Ordinal);
+            Assert.Contains("e-sidebar-no-animation", component.Find(".e-sidebar-container").ClassName, StringComparison.Ordinal);
+        }
+
+        [Fact(Timeout = 10000, DisplayName = "U-RTL-011 EnableRtl is read on the next sidebar render")]
+        public void U_RTL_011_EnableRtl_MovesStartOnNextRender()
+        {
+            Services.GetRequiredService<SyncfusionBlazorToolkitService>().EnableRtl(true);
+            var component = RenderComponent<SfSidebar>(p => p
+                .Add(s => s.IsOpen, true)
+                .Add(s => s.Position, SidebarPosition.Start));
+
+            Assert.Contains("e-sidebar-right", Classes(component), StringComparison.Ordinal);
+        }
+
+        [Fact(Timeout = 10000, DisplayName = "U-RTL-012 Left stays left when the direction becomes RTL")]
+        public async Task U_RTL_012_PhysicalLeft_StaysLeft()
+        {
+            var component = RenderComponent<SfSidebar>(p => p
+                .Add(s => s.Position, SidebarPosition.Left));
+
+            await component.Instance.ApplyEnvironmentAsync(false, true);
+
+            Assert.Contains("e-sidebar-left", Classes(component), StringComparison.Ordinal);
+        }
+
         #endregion
 
         private sealed class DualHost : ComponentBase

@@ -29,7 +29,7 @@
                 </ul>
             </ChildContent>
             <FooterTemplate>
-                <SfButton CssClass="e-flat sbd-rail-item sbd-rail-lg"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 5H5v14h5m2-3 4-4-4-4m4 4H8" /></svg>Logout</SfButton>
+                <SfButton CssClass="e-flat sbd-rail-item sbd-rail-lg">Logout<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M10 5H5v14h5m2-3 4-4-4-4m4 4H8" /></svg></SfButton>
             </FooterTemplate>
             <TargetContent>
                 <div class="sbd-controlled-target">
@@ -38,7 +38,7 @@
                               aria-controls="sbd-controlled"
                               aria-expanded="@(_isOpen ? "true" : "false")"
                               OnClick="Toggle">
-                        <svg viewBox="0 0 24 24" aria-hidden="true" class="@(_isOpen ? null : "sbd-agenthub-toggle-icon-closed")"><path d="M11 4V7C11 7.55228 11.4477 8 12 8C12.5523 8 13 7.55229 13 7V4C13 2.89543 12.1046 2 11 2H4C2.89543 2 2 2.89543 2 4V20C2 21.1046 2.89543 22 4 22H11C12.1046 22 13 21.1046 13 20V17C13 16.4477 12.5523 16 12 16C11.4477 16 11 16.4477 11 17V20H4L4 4L11 4ZM16 18.4142L22.4142 12L16 5.58578L14.5858 7L18.5858 11L7.99997 11L7.99997 13L18.5858 13L14.5858 17L16 18.4142Z" fill-rule="evenodd" clip-rule="evenodd" fill="currentColor" /></svg>
+                        <svg viewBox="0 0 24 24" aria-hidden="true" class="@(_isOpen ? "sbd-agenthub-toggle-icon-open" : null)"><path d="M11 4V7C11 7.55228 11.4477 8 12 8C12.5523 8 13 7.55229 13 7V4C13 2.89543 12.1046 2 11 2H4C2.89543 2 2 2.89543 2 4V20C2 21.1046 2.89543 22 4 22H11C12.1046 22 13 21.1046 13 20V17C13 16.4477 12.5523 16 12 16C11.4477 16 11 16.4477 11 17V20H4L4 4L11 4ZM16 18.4142L22.4142 12L16 5.58578L14.5858 7L18.5858 11L7.99997 11L7.99997 13L18.5858 13L14.5858 17L16 18.4142Z" fill-rule="evenodd" clip-rule="evenodd" fill="currentColor" /></svg>
                     </SfButton>
                     <div class="sbd-content sbd-controlled-skeletons">
                         <div class="sbd-skeleton sbd-controlled-skeleton"></div>
@@ -153,7 +153,7 @@
         height: 1.25rem;
     }
 
-    .sbd-agenthub-toggle-icon-closed {
+    .sbd-agenthub-toggle-icon-open {
         transform: scaleX(-1);
     }
 </style>

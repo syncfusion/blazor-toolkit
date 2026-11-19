@@ -64,6 +64,22 @@ function createWidthQuery(threshold) {
     return range.media === "not all" ? window.matchMedia(`(max-width: ${threshold - 0.02}px)`) : range;
 }
 
+// Every ancestor that can change the computed direction of source, including documentElement.
+// A nearer dir wins for computed style, but a later dir write higher up must still be seen.
+// Attributes only, no subtree, so unrelated dir writes do not wake this sidebar.
+function directionChain(source) {
+    const nodes = [];
+    for (let node = source; node && node.nodeType === 1; node = node.parentElement) {
+        nodes.push(node);
+    }
+
+    if (nodes.length === 0 || nodes[nodes.length - 1] !== document.documentElement) {
+        nodes.push(document.documentElement);
+    }
+
+    return nodes;
+}
+
 /**
  * Registers the viewport, motion and direction listeners of one sidebar and returns the initial environment.
  * @param {string} key A stable key of the sidebar instance.
@@ -74,13 +90,25 @@ function createWidthQuery(threshold) {
  */
 export function observe(key, callbacks, host, threshold) {
     unobserve(key);
-    const state = { threshold, isMobile: isBelow(threshold), widthQuery: null, viewportTimer: null };
+    const state = { threshold, isMobile: isBelow(threshold), widthQuery: null, viewportTimer: null, environmentTimer: null, serviceRtl: false };
     const motionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
     // Read the direction from the element that contains the layout host. The panel itself is skipped because the e-rtl
     // class this component adds forces direction: rtl there, which would make the reading a self-fulfilling loop.
     const directionSource = host.closest(".e-sidebar-container")?.parentElement ?? document.documentElement;
-    const readRtl = () => getComputedStyle(directionSource).direction === "rtl";
-    // Watch the layout host's direction source instead of unrelated document direction changes.
+    // An explicit dir on the chain wins. dir=ltr must clear a stale service flag.
+    // The service flag applies only when no ancestor states a direction.
+    const readRtl = () => {
+        for (const node of directionChain(directionSource)) {
+            if (node.dir === "rtl") {
+                return true;
+            }
+            if (node.dir === "ltr") {
+                return false;
+            }
+        }
+
+        return state.serviceRtl;
+    };
     let environment = { reducedMotion: motionQuery.matches, isRtl: readRtl() };
 
     const send = (name, ...args) => {
@@ -100,11 +128,19 @@ export function observe(key, callbacks, host, threshold) {
         }, 0);
     };
     const checkEnvironment = () => {
+        state.environmentTimer = null;
         const next = { reducedMotion: motionQuery.matches, isRtl: readRtl() };
         if (next.reducedMotion !== environment.reducedMotion || next.isRtl !== environment.isRtl) {
             environment = next;
             send("OnEnvironmentChanged", next.reducedMotion, next.isRtl);
         }
+    };
+    const scheduleEnvironment = () => {
+        if (state.environmentTimer !== null) {
+            return;
+        }
+
+        state.environmentTimer = setTimeout(checkEnvironment, 0);
     };
     const bindWidthQuery = () => {
         if (state.widthQuery) {
@@ -121,11 +157,30 @@ export function observe(key, callbacks, host, threshold) {
     if (threshold > 0) {
         window.addEventListener("resize", checkViewport);
     }
-    motionQuery.addEventListener("change", checkEnvironment);
-    const directionObserver = new MutationObserver(checkEnvironment);
-    directionObserver.observe(directionSource, { attributes: true, attributeFilter: ["dir"] });
+    motionQuery.addEventListener("change", scheduleEnvironment);
+    const directionObserver = new MutationObserver(() => {
+        bindDirection();
+        scheduleEnvironment();
+    });
+    // Watch the full ancestor chain. A nearer dir wins for the current reading, but removing it
+    // or writing dir higher up must still notify. No subtree.
+    const bindDirection = () => {
+        directionObserver.disconnect();
+        for (const node of directionChain(directionSource)) {
+            directionObserver.observe(node, { attributes: true, attributeFilter: ["dir"] });
+        }
+    };
+    bindDirection();
 
     observers.set(key, {
+        setServiceRtl(enable) {
+            if (state.serviceRtl === enable) {
+                return;
+            }
+
+            state.serviceRtl = enable;
+            scheduleEnvironment();
+        },
         update(next) {
             const wasWatching = state.threshold > 0;
             state.threshold = next;
@@ -144,8 +199,12 @@ export function observe(key, callbacks, host, threshold) {
                 clearTimeout(state.viewportTimer);
                 state.viewportTimer = null;
             }
+            if (state.environmentTimer !== null) {
+                clearTimeout(state.environmentTimer);
+                state.environmentTimer = null;
+            }
             window.removeEventListener("resize", checkViewport);
-            motionQuery.removeEventListener("change", checkEnvironment);
+            motionQuery.removeEventListener("change", scheduleEnvironment);
             directionObserver.disconnect();
             if (state.widthQuery) {
                 state.widthQuery.removeEventListener("change", checkViewport);
@@ -163,6 +222,19 @@ export function observe(key, callbacks, host, threshold) {
  * @param {number} threshold The new threshold. 0 disables mobile detection.
  * @returns {boolean} True when the viewport is below the threshold.
  */
+/**
+ * Updates the scoped EnableRtl flag and re-checks direction.
+ * An explicit dir of ltr or rtl on the ancestor chain overrides this flag.
+ * @param {string} key The instance key passed to observe.
+ * @param {boolean} enable True when the scoped service requests RTL.
+ */
+export function setServiceRtl(key, enable) {
+    const observer = observers.get(key);
+    if (observer) {
+        observer.setServiceRtl(enable);
+    }
+}
+
 export function update(key, threshold) {
     const observer = observers.get(key);
     return observer ? observer.update(threshold) : false;

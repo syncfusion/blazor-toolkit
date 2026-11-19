@@ -12,7 +12,7 @@
     </Header>
     <Content>
         The <code>SfSidebar</code> is a collapsible panel that can attach to the side of a page and expand or collapse based on user interaction.
-        The Default sample opens a workspace navigation panel in Overlay mode alongside a minimal dashboard skeleton.
+        The Default sample opens a workspace navigation panel in <code>Overlay</code> mode alongside a minimal dashboard skeleton.
     </Content>
 </Description>
 
@@ -23,7 +23,7 @@
         <h2 id="mini-rail">Mini Rail</h2>
     </Header>
     <Content>
-        Keep a compact icon rail visible while the full navigation is collapsed. The Copilot-style example also demonstrates mini width and optional hover expansion.
+        Use <code>EnableMini</code> to display the Sidebar as a compact navigation rail while preserving content space. <code>MiniWidth</code> defines the rail size, and <code>OpenMiniOnHover</code> expands the Sidebar on hover to reveal the full navigation menu.
     </Content>
 </Description>
 
@@ -56,7 +56,7 @@
         <h2 id="responsive">Responsive</h2>
     </Header>
     <Content>
-        Adapt the Sidebar to viewport size with a responsive breakpoint. The Fieldnotes example also demonstrates closing on navigation and Toolkit Card content.
+        Adapt navigation to viewport changes with <code>Responsive</code> and <code>Breakpoint</code>. The sample lets you choose <code>SidebarBreakpoint.None</code>, <code>SidebarBreakpoint.Sm</code>, <code>SidebarBreakpoint.Md</code>, <code>SidebarBreakpoint.Lg</code>, <code>SidebarBreakpoint.Xl</code>, or <code>SidebarBreakpoint.Always</code>; <code>OnBreakpointChanged</code> lets the application respond when the breakpoint state changes. <code>CloseOnNavigate</code> dismisses navigation after a selection.
     </Content>
 </Description>
 
@@ -67,7 +67,7 @@
         <h2 id="modes">Modes</h2>
     </Header>
     <Content>
-        Compare Overlay, Push, and Shrink placement in a Code Studio layout. The sample starts in Shrink mode and lets you switch modes and toggle fixed positioning.
+        Choose a layout strategy with <code>Mode</code>: <code>SidebarMode.Overlay</code> preserves the content area beneath the panel, <code>SidebarMode.Push</code> moves the content, and <code>SidebarMode.Shrink</code> resizes it. Use <code>Fixed</code> when the Sidebar should remain anchored during page scrolling.
     </Content>
 </Description>
 
@@ -78,7 +78,7 @@
         <h2 id="positions">Positions</h2>
     </Header>
     <Content>
-        Compare physical Left and Right positions with logical Start and End positions. Logical placement follows the reading direction, including right-to-left layouts.
+        The <code>Position</code> property determines which edge hosts the Sidebar. This sample compares physical placement with <code>SidebarPosition.Left</code> and <code>SidebarPosition.Right</code> to logical placement with <code>SidebarPosition.Start</code> and <code>SidebarPosition.End</code>. Prefer logical positions for layouts that support RTL, because they follow the reading direction instead of assuming a fixed side.
     </Content>
 </Description>
 
@@ -89,7 +89,7 @@
         <h2 id="api">Sidebar API</h2>
     </Header>
     <Content>
-        Use OpenAsync, CloseAsync, ToggleAsync, and FocusAsync with the component-managed open state. The settings control opens a right-side Properties Pane, and the event log shows state-change order and triggers.
+        Use <code>OpenAsync</code>, <code>CloseAsync</code>, and <code>ToggleAsync</code> when application actions need to control visibility imperatively; call <code>FocusAsync</code> to move focus into the Sidebar after opening it. The Properties Pane demonstrates <code>ShowBackdrop</code> for modal emphasis, <code>CloseOnOverlayClick</code> for pointer-based dismissal, and <code>CloseOnEscape</code> for keyboard dismissal.
     </Content>
 </Description>
 
@@ -378,8 +378,8 @@
 
     .sbd-stage .e-sidebar-footer .sbd-rail-item.e-btn {
         display: flex;
-        width: 100%;
-        min-height: 1.625rem;
+        width: 98%;
+        min-height: 2rem;
         align-items: center;
         gap: .375rem;
         padding: .0625rem .5rem;
@@ -519,6 +519,21 @@
             --sbd-skeleton-bg: ButtonFace;
             --sbd-skeleton-border: CanvasText;
             forced-color-adjust: none;
+        }
+
+        .e-checkbox-wrapper .e-label,
+        .e-css.e-checkbox-wrapper .e-label,
+        div h3,
+        div h5,
+        div h6,
+        .sbd-controls span,
+        .sbd-api-event-log li {
+            color: CanvasText !important;
+        }
+
+        #sbd-api-properties,
+        #sbd-api-properties .e-sidebar-header {
+            background-color: transparent !important;
         }
 
         .sbd-stage .sbd-nav li[role="option"] {

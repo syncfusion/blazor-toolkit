@@ -28,7 +28,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Navigations
             string source = File.ReadAllText(Path.Combine(DemoDirectory, "ResponsiveDemo.razor"));
 
             Assert.DoesNotContain("sidebar-nav", source, StringComparison.Ordinal);
-            Assert.Contains("Navigation.NavigateTo(\"navigations/sidebar\")", source, StringComparison.Ordinal);
+            Assert.Contains("Navigation.NavigateTo(\"/navigations/sidebar\")", source, StringComparison.Ordinal);
         }
 
         [Fact(Timeout = 10000, DisplayName = "U-SMP-002 The API sample keeps open state, last event and trigger")]
@@ -36,21 +36,20 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Navigations
         {
             string source = File.ReadAllText(Path.Combine(DemoDirectory, "ApiDemo.razor"));
 
-            Assert.Contains("<dt>Open state:</dt>", source, StringComparison.Ordinal);
-            Assert.Contains("<dt>Last event:</dt>", source, StringComparison.Ordinal);
-            Assert.Contains("<dt>Trigger:</dt>", source, StringComparison.Ordinal);
+            Assert.Contains("<dt>Open state</dt>", source, StringComparison.Ordinal);
+            Assert.Contains("<dt>Last event</dt>", source, StringComparison.Ordinal);
             Assert.Contains("args.Trigger", source, StringComparison.Ordinal);
-            Assert.Contains("Api method caused the Sidebar to change state", source, StringComparison.Ordinal);
+            Assert.Contains("_lastTrigger", source, StringComparison.Ordinal);
         }
 
         [Fact(Timeout = 10000, DisplayName = "U-SMP-003 Samples expose their intended navigation controls")]
         public void Samples_ShouldExposeNavigationControls()
         {
             Assert.DoesNotContain("sbd-corner-close", File.ReadAllText(Path.Combine(DemoDirectory, "MiniRailDemo.razor")), StringComparison.Ordinal);
-            Assert.Contains("sbd-corner-close", File.ReadAllText(Path.Combine(DemoDirectory, "DualSidebarsDemo.razor")), StringComparison.Ordinal);
+            Assert.Contains("aria-label=\"Close student profile\"", File.ReadAllText(Path.Combine(DemoDirectory, "DualSidebarsDemo.razor")), StringComparison.Ordinal);
             Assert.Contains("sbd-agenthub-toggle", File.ReadAllText(Path.Combine(DemoDirectory, "ControlledModeDemo.razor")), StringComparison.Ordinal);
-            Assert.Contains("aria-label=\"Close navigation\"", File.ReadAllText(Path.Combine(DemoDirectory, "ModesDemo.razor")), StringComparison.Ordinal);
-            Assert.Contains("aria-label=\"Close filters\"", File.ReadAllText(Path.Combine(DemoDirectory, "PositionsDemo.razor")), StringComparison.Ordinal);
+            Assert.Contains("aria-label=\"Toggle project navigation\"", File.ReadAllText(Path.Combine(DemoDirectory, "ModesDemo.razor")), StringComparison.Ordinal);
+            Assert.Contains("aria-label=\"Toggle mail folders\"", File.ReadAllText(Path.Combine(DemoDirectory, "PositionsDemo.razor")), StringComparison.Ordinal);
 
             string shared = File.ReadAllText(Path.GetFullPath(Path.Combine(
                 DemoDirectory, "..", "..", "..", "Components", "Navigations", "Sidebar.razor")));

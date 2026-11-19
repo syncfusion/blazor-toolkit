@@ -169,8 +169,9 @@ namespace Syncfusion.Blazor.Toolkit
         /// The default is <see langword="true"/>.
         /// </param>
         /// <remarks>
-        /// This method modifies the runtime options copy owned by this service scope. The change
-        /// takes effect for components in the same scope that render after the call.
+        /// This method modifies the runtime options copy owned by this service scope. Components
+        /// that render after the call pick the value up on their next render. Already-rendered
+        /// components that need an immediate update read the flag themselves.
         /// </remarks>
         /// <returns>None. This method modifies scoped runtime state.</returns>
         public void EnableRtl(bool enable = true)

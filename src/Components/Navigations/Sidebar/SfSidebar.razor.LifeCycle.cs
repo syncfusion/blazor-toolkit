@@ -54,7 +54,18 @@ namespace Syncfusion.Blazor.Toolkit
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
             await base.OnAfterRenderAsync(firstRender).ConfigureAwait(true);
+            if (!_backdropReady)
+            {
+                _backdropReady = true;
+                if (IsModal)
+                {
+                    UpdateDerivedState();
+                    StateHasChanged();
+                }
+            }
+
             await SyncEnvironmentAsync().ConfigureAwait(true);
+            await SyncServiceRtlAsync().ConfigureAwait(true);
             await SyncModalAsync().ConfigureAwait(true);
             await SyncMediaQueryAsync().ConfigureAwait(true);
             SyncNavigationWatcher();
@@ -343,6 +354,38 @@ namespace Syncfusion.Blazor.Toolkit
 
             UnsubscribeNavigation();
             CancelTransition();
+        }
+
+        /// <summary>
+        /// Pushes the scoped <see cref="SyncfusionBlazorToolkitService.EnableRtl"/> flag into the sidebar script.
+        /// The script merges it with the host direction. A host <c>dir</c> of rtl stays authoritative.
+        /// </summary>
+        private async Task SyncServiceRtlAsync()
+        {
+            bool serviceRtl = SyncfusionService?._options.EnableRtl ?? false;
+            if (_serviceRtl == serviceRtl || _observedThreshold < 0)
+            {
+                _serviceRtl = serviceRtl;
+                return;
+            }
+
+            _serviceRtl = serviceRtl;
+            IJSObjectReference? module = await GetModuleAsync().ConfigureAwait(true);
+            if (module is null || IsDisposed)
+            {
+                return;
+            }
+
+            try
+            {
+                await module.InvokeVoidAsync("setServiceRtl", _generatedId, serviceRtl).ConfigureAwait(true);
+            }
+            catch (JSException)
+            {
+            }
+            catch (InvalidOperationException)
+            {
+            }
         }
 
         /// <summary>

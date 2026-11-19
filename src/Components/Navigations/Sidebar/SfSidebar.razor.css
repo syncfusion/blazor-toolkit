@@ -27,6 +27,7 @@
 .e-sidebar-container.e-sidebar-container-fixed .e-sidebar,
 .e-sidebar-container.e-sidebar-container-fixed .e-sidebar-backdrop {
   position: fixed;
+  top: var(--e-sidebar-fixed-top, 0px);
 }
 
 .e-sidebar:focus {

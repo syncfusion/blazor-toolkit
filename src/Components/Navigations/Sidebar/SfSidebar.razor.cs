@@ -41,6 +41,9 @@ namespace Syncfusion.Blazor.Toolkit
         private bool _hostRtl;
         private bool _isHovering;
         private bool _modalActive;
+        private bool _backdropReady;
+        private bool _suppressDirectionMotion;
+        private bool? _serviceRtl;
         private bool _locationSubscribed;
         private int _observedThreshold = -1;
         private CancellationTokenSource? _transitionCts;
@@ -72,10 +75,19 @@ namespace Syncfusion.Blazor.Toolkit
         /// <exclude />
         internal bool IsModal => ShowBackdrop && _isOpen && EffectiveMode == SidebarMode.Overlay;
 
+        /// <summary>
+        /// The backdrop is omitted from the first static render so a refresh cannot paint a viewport scrim
+        /// before the circuit has measured layout. After the first render it tracks <see cref="IsModal"/>.
+        /// </summary>
+        /// <exclude />
+        internal bool ShowBackdropLayer => IsModal && _backdropReady;
+
         /// <exclude />
         internal SidebarMode EffectiveMode => Responsive && _isMobile ? SidebarMode.Overlay : Mode;
 
-        private bool IsRtl => (SyncfusionService?._options.EnableRtl ?? false) || _hostRtl;
+        // Before the script is watching, the scoped flag is the only direction signal.
+        // After observe, the script reading is authoritative, including an explicit dir=ltr.
+        private bool IsRtl => _observedThreshold < 0 ? (SyncfusionService?._options.EnableRtl ?? false) : _hostRtl;
 
         private bool IsGloballyAnimated => EnableAnimation && (SyncfusionService?.IsAnimationEnabled() ?? true);
 
@@ -150,7 +162,7 @@ namespace Syncfusion.Blazor.Toolkit
                 container = SfBaseUtils.AddClass(container, RTL);
             }
 
-            if (!IsGloballyAnimated)
+            if (!IsGloballyAnimated || _suppressDirectionMotion)
             {
                 container = SfBaseUtils.AddClass(container, NO_ANIMATION);
             }
@@ -366,20 +378,23 @@ namespace Syncfusion.Blazor.Toolkit
         /// <param name="isRtl"><see langword="true"/> when the host direction is right-to-left.</param>
         /// <returns>A task that represents the asynchronous operation.</returns>
         /// <exclude />
-        internal Task ApplyEnvironmentAsync(bool reducedMotion, bool isRtl)
+        internal async Task ApplyEnvironmentAsync(bool reducedMotion, bool isRtl)
         {
-            return InvokeAsync(() =>
+            if (IsDisposed || (_reducedMotion == reducedMotion && _hostRtl == isRtl))
             {
-                if (IsDisposed || (_reducedMotion == reducedMotion && _hostRtl == isRtl))
-                {
-                    return;
-                }
+                return;
+            }
 
-                _reducedMotion = reducedMotion;
-                _hostRtl = isRtl;
-                UpdateDerivedState();
-                StateHasChanged();
-            });
+            bool directionChanged = _hostRtl != isRtl;
+            _suppressDirectionMotion = directionChanged;
+            _reducedMotion = reducedMotion;
+            _hostRtl = isRtl;
+            UpdateDerivedState();
+            await InvokeAsync(StateHasChanged).ConfigureAwait(true);
+            if (directionChanged)
+            {
+                _suppressDirectionMotion = false;
+            }
         }
 
         private void HandlePointerDown(PointerEventArgs args)
