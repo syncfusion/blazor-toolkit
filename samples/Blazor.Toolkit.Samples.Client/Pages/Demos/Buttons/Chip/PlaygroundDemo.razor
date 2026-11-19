@@ -1,0 +1,356 @@
+@using System.Text.Json
+@using Syncfusion.Blazor.Toolkit
+@inject IJSRuntime JSRuntime
+
+<section class="chip-demo-shell chip-demo-panel chip-demo-playground" aria-labelledby="chip-playground-title">
+    <header class="chip-demo-section-heading">
+        <div>
+            <div id="chip-playground-title" class="chip-demo-panel-title" role="heading" aria-level="3">Configure a chip</div>
+            <p>Change a property to update the preview and generated Razor.</p>
+        </div>
+    </header>
+
+    <div class="chip-demo-playground-layout">
+        <div class="chip-demo-controls" role="group" aria-label="Chip properties">
+            <div class="chip-demo-control">
+                <label for="playground-type">Type</label>
+                <select id="playground-type" value="@chipType" @onchange="OnTypeChanged">
+                    <option value="@ChipType.Informational">Informational</option>
+                    <option value="@ChipType.Status">Status</option>
+                    <option value="@ChipType.Action">Action</option>
+                    <option value="@ChipType.Assist">Assist</option>
+                    <option value="@ChipType.Filter">Filter</option>
+                    <option value="@ChipType.Choice">Choice</option>
+                    <option value="@ChipType.Input">Input</option>
+                    <option value="@ChipType.Suggestion">Suggestion</option>
+                    <option value="@ChipType.Navigation">Navigation</option>
+                    <option value="@ChipType.Custom">Custom</option>
+                </select>
+            </div>
+            <div class="chip-demo-control">
+                <label for="playground-variant">Variant</label>
+                <select id="playground-variant" @bind="variant">
+                    <option value="@ChipVariant.Filled">Filled</option>
+                    <option value="@ChipVariant.Outlined">Outlined</option>
+                </select>
+            </div>
+            <div class="chip-demo-control">
+                <label for="playground-size">Size</label>
+                <select id="playground-size" @bind="size">
+                    <option value="@ChipSize.Small">Small</option>
+                    <option value="@ChipSize.Medium">Medium</option>
+                    <option value="@ChipSize.Large">Large</option>
+                </select>
+            </div>
+            <div class="chip-demo-control">
+                <label for="playground-shape">Shape</label>
+                <select id="playground-shape" @bind="shape">
+                    <option value="@ChipShape.Rounded">Rounded</option>
+                    <option value="@ChipShape.Pill">Pill</option>
+                </select>
+            </div>
+            <div class="chip-demo-control">
+                <label for="playground-text">Text</label>
+                <input id="playground-text" type="text" @bind="chipText" @bind:event="oninput" />
+            </div>
+            <div class="chip-demo-control">
+                <label for="playground-leading">Leading content</label>
+                <select id="playground-leading" value="@leadingContent" @onchange="OnLeadingChanged">
+                    <option value="@LeadingContent.None">None</option>
+                    <option value="@LeadingContent.Icon">Icon</option>
+                    <option value="@LeadingContent.Image">Image</option>
+                </select>
+            </div>
+            <div class="chip-demo-control">
+                <label for="playground-class">Style preset</label>
+                <select id="playground-class" @bind="cssClass">
+                    <option value="">Default</option>
+                    <option value="e-primary">Primary</option>
+                    <option value="e-info">Info</option>
+                    <option value="e-success">Success</option>
+                    <option value="e-warning">Warning</option>
+                    <option value="e-danger">Danger</option>
+                </select>
+            </div>
+
+            @if (IsSelectable)
+            {
+                <label class="chip-demo-checkbox" for="playground-selected">
+                    <input id="playground-selected" type="checkbox" @bind="selected" />
+                    Selected
+                </label>
+            }
+            @if (chipType == ChipType.Input)
+            {
+                <label class="chip-demo-checkbox" for="playground-removable">
+                    <input id="playground-removable" type="checkbox" @bind="removable" />
+                    Removable
+                </label>
+            }
+            @if (IsInteractive)
+            {
+                <label class="chip-demo-checkbox" for="playground-disabled">
+                    <input id="playground-disabled" type="checkbox" @bind="disabled" />
+                    Disabled
+                </label>
+            }
+            @if (IsReadOnlyApplicable)
+            {
+                <label class="chip-demo-checkbox" for="playground-readonly">
+                    <input id="playground-readonly" type="checkbox" @bind="readOnly" />
+                    Read only
+                </label>
+            }
+            @if (IsErrorApplicable)
+            {
+                <label class="chip-demo-checkbox" for="playground-error">
+                    <input id="playground-error" type="checkbox" @bind="hasError" />
+                    Has error
+                </label>
+            }
+
+            @if (chipType == ChipType.Navigation)
+            {
+                <div class="chip-demo-control chip-demo-control-wide">
+                    <label for="playground-href">Href</label>
+                    <input id="playground-href" type="text" @bind="href" @bind:event="oninput" />
+                </div>
+                <div class="chip-demo-control">
+                    <label for="playground-target">Target</label>
+                    <select id="playground-target" @bind="target">
+                        <option value="">Same tab (default)</option>
+                        <option value="_blank">New tab</option>
+                    </select>
+                </div>
+            }
+        </div>
+
+        <div class="chip-demo-playground-preview">
+            <h4>Live preview</h4>
+            @if (!_previewRemoved)
+            {
+                @if (IsSelectable)
+                {
+                    <SfChip ChipType="@chipType"
+                            Variant="@variant"
+                            Size="@size"
+                            Shape="@shape"
+                            Text="@chipText"
+                            CssClass="@cssClass"
+                            IconCss="@EffectiveIconCss"
+                            ImageUrl="@EffectiveImageUrl"
+                            ImageAlt="@EffectiveImageAlt"
+                            @bind-Selected="selected"
+                            Removable="@EffectiveRemovable"
+                            Disabled="@EffectiveDisabled"
+                            ReadOnly="@EffectiveReadOnly"
+                            HasError="@EffectiveHasError"
+                            Href="@EffectiveHref"
+                            Target="@EffectiveTarget"
+                            Removed="OnPreviewRemoved" />
+                }
+                else
+                {
+                    <SfChip ChipType="@chipType"
+                            Variant="@variant"
+                            Size="@size"
+                            Shape="@shape"
+                            Text="@chipText"
+                            CssClass="@cssClass"
+                            IconCss="@EffectiveIconCss"
+                            ImageUrl="@EffectiveImageUrl"
+                            ImageAlt="@EffectiveImageAlt"
+                            Removable="@EffectiveRemovable"
+                            Disabled="@EffectiveDisabled"
+                            ReadOnly="@EffectiveReadOnly"
+                            HasError="@EffectiveHasError"
+                            Href="@EffectiveHref"
+                            Target="@EffectiveTarget"
+                            Removed="OnPreviewRemoved" />
+                }
+            }
+            else
+            {
+                <p class="chip-demo-empty">The preview chip was removed.</p>
+                <SfButton CssClass="e-outline" OnClick="ResetPreview">Recreate chip</SfButton>
+            }
+            <p class="chip-demo-note">Navigation uses a valid in-app destination when Href is blank.</p>
+
+            <div class="chip-demo-code-heading">
+                <h4>Generated Razor</h4>
+                <SfButton CssClass="e-outline" OnClick="CopySnippetAsync">Copy code</SfButton>
+            </div>
+            <pre class="chip-demo-code"><code>@GeneratedSnippet</code></pre>
+            <p class="chip-demo-live" role="status" aria-live="polite">@copyStatus</p>
+        </div>
+    </div>
+</section>
+
+@code {
+    private enum LeadingContent
+    {
+        None,
+        Icon,
+        Image
+    }
+
+    private ChipType chipType = ChipType.Informational;
+    private ChipVariant variant = ChipVariant.Filled;
+    private ChipSize size = ChipSize.Medium;
+    private ChipShape shape = ChipShape.Pill;
+    private LeadingContent leadingContent = LeadingContent.None;
+    private string chipText = "Chip";
+    private const string IconCss = "e-icons e-check";
+    private const string ImageUrl = "/images/skeleton/profile.png";
+    private const string ImageAlt = "Profile avatar";
+    private string? cssClass;
+    private string href = "https://blazor.syncfusion.com/demos/toolkit/explore";
+    private string target = string.Empty;
+    private bool selected;
+    private bool removable;
+    private bool disabled;
+    private bool readOnly;
+    private bool hasError;
+    private bool _previewRemoved;
+    private string copyStatus = string.Empty;
+
+    private bool IsSelectable => chipType is ChipType.Filter or ChipType.Choice;
+    private bool IsInteractive => chipType is ChipType.Action or ChipType.Assist or ChipType.Filter or ChipType.Choice or ChipType.Input or ChipType.Suggestion or ChipType.Navigation;
+    private bool IsReadOnlyApplicable => chipType is ChipType.Filter or ChipType.Choice or ChipType.Input;
+    private bool IsErrorApplicable => chipType is ChipType.Action or ChipType.Assist or ChipType.Filter or ChipType.Choice or ChipType.Input;
+    private bool EffectiveRemovable => chipType == ChipType.Input && removable;
+    private bool EffectiveDisabled => IsInteractive && disabled;
+    private bool EffectiveReadOnly => IsReadOnlyApplicable && readOnly;
+    private bool EffectiveHasError => IsErrorApplicable && hasError;
+    private string? EffectiveIconCss => leadingContent == LeadingContent.Icon ? IconCss : null;
+    private string? EffectiveImageUrl => leadingContent == LeadingContent.Image ? ImageUrl : null;
+    private string? EffectiveImageAlt => leadingContent == LeadingContent.Image ? ImageAlt : null;
+    private string? EffectiveHref => chipType == ChipType.Navigation
+        ? (string.IsNullOrWhiteSpace(href) ? "https://blazor.syncfusion.com/demos/toolkit/explore" : href.Trim())
+        : null;
+    private string? EffectiveTarget => chipType == ChipType.Navigation && !string.IsNullOrEmpty(target) ? target : null;
+
+    private string GeneratedSnippet
+    {
+        get
+        {
+            List<string> attributes = [];
+
+            if (chipType != ChipType.Informational)
+            {
+                attributes.Add($"ChipType=\"ChipType.{chipType}\"");
+            }
+
+            if (variant != ChipVariant.Filled)
+            {
+                attributes.Add($"Variant=\"ChipVariant.{variant}\"");
+            }
+
+            if (size != ChipSize.Medium)
+            {
+                attributes.Add($"Size=\"ChipSize.{size}\"");
+            }
+
+            if (shape != ChipShape.Pill)
+            {
+                attributes.Add($"Shape=\"ChipShape.{shape}\"");
+            }
+
+            if (string.Equals(chipText, "Chip", StringComparison.Ordinal))
+            {
+                attributes.Add("Text=\"Chip\"");
+            }
+            else
+            {
+                AddStringAttribute(attributes, "Text", chipText);
+            }
+
+            AddStringAttribute(attributes, "CssClass", cssClass);
+            AddStringAttribute(attributes, "IconCss", EffectiveIconCss);
+            AddStringAttribute(attributes, "ImageUrl", EffectiveImageUrl);
+            AddStringAttribute(attributes, "ImageAlt", EffectiveImageAlt);
+            if (IsSelectable && selected)
+            {
+                attributes.Add("Selected=\"true\"");
+            }
+
+            AddBooleanAttribute(attributes, "Removable", EffectiveRemovable);
+            AddBooleanAttribute(attributes, "Disabled", EffectiveDisabled);
+            AddBooleanAttribute(attributes, "ReadOnly", EffectiveReadOnly);
+            AddBooleanAttribute(attributes, "HasError", EffectiveHasError);
+
+            if (chipType == ChipType.Navigation)
+            {
+                AddStringAttribute(attributes, "Href", EffectiveHref);
+                AddStringAttribute(attributes, "Target", EffectiveTarget);
+            }
+
+            return $"@using Syncfusion.Blazor.Toolkit{Environment.NewLine}{Environment.NewLine}<SfChip {string.Join(Environment.NewLine + "        ", attributes)} />";
+        }
+    }
+
+    private void OnTypeChanged(ChangeEventArgs args)
+    {
+        if (Enum.TryParse(args.Value?.ToString(), out ChipType nextType))
+        {
+            chipType = nextType;
+        }
+
+        selected = (chipType is ChipType.Filter or ChipType.Choice) && selected;
+        removable = chipType == ChipType.Input && removable;
+        disabled = IsInteractive && disabled;
+        readOnly = IsReadOnlyApplicable && readOnly;
+        hasError = IsErrorApplicable && hasError;
+        _previewRemoved = false;
+        copyStatus = string.Empty;
+    }
+
+    private void OnLeadingChanged(ChangeEventArgs args)
+    {
+        if (Enum.TryParse(args.Value?.ToString(), out LeadingContent nextContent))
+        {
+            leadingContent = nextContent;
+        }
+    }
+
+    private void OnPreviewRemoved(ChipRemovedEventArgs _)
+    {
+        _previewRemoved = true;
+    }
+
+    private void ResetPreview()
+    {
+        _previewRemoved = false;
+        removable = false;
+        copyStatus = string.Empty;
+    }
+
+    private async Task CopySnippetAsync()
+    {
+        try
+        {
+            await JSRuntime.InvokeVoidAsync("navigator.clipboard.writeText", GeneratedSnippet);
+            copyStatus = "Razor snippet copied.";
+        }
+        catch (JSException)
+        {
+            copyStatus = "Could not copy the snippet. Select and copy the code above instead.";
+        }
+    }
+
+    private static void AddBooleanAttribute(List<string> attributes, string name, bool enabled)
+    {
+        if (enabled)
+        {
+            attributes.Add($"{name}=\"true\"");
+        }
+    }
+
+    private static void AddStringAttribute(List<string> attributes, string name, string? value)
+    {
+        if (value is not null)
+        {
+            attributes.Add($"{name}=@({JsonSerializer.Serialize(value)})");
+        }
+    }
+}

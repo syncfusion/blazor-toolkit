@@ -1,0 +1,76 @@
+@using Syncfusion.Blazor.Toolkit
+
+<section class="chip-demo-shell chip-demo-panel" aria-labelledby="profile-skills-title">
+    <header class="chip-demo-section-heading">
+        <div id="profile-skills-title" class="chip-demo-panel-title" role="heading" aria-level="3">Profile skills</div>
+    </header>
+
+    <div class="chip-demo-section-heading chip-demo-filter-count-row">
+        <div class="chip-demo-subheading" role="heading" aria-level="4">Available skills</div>
+        <span class="chip-demo-count">@SelectedCount selected</span>
+    </div>
+    <SfChipSet TItem="SkillOption"
+               DataSource="@skills"
+               ItemKey="skill => skill.Id"
+               TextSelector="skill => skill.Label"
+               ValueSelector="skill => skill.Id"
+               IconCssSelector="skill => skill.IconCss"
+               ChipType="ChipType.Filter"
+               SelectionMode="ChipSelectionMode.Multiple"
+               SelectedValues="@selectedValues"
+               SelectedValuesChanged="OnSelectedValuesChanged"
+               AriaLabel="Available profile skills" />
+
+    <div class="chip-demo-section-heading chip-demo-filter-count-row">
+        <div class="chip-demo-subheading" role="heading" aria-level="4">Selected skills</div>
+    </div>
+    <div class="chip-demo-row chip-demo-selected-row" role="group" aria-label="Selected skills; remove a chip to deselect it">
+        @if (SelectedItems.Any())
+        {
+            @foreach (SkillOption skill in SelectedItems)
+            {
+                <SfChip @key="skill.Id"
+                        Text="@skill.Label"
+                        ChipType="ChipType.Input"
+                        CssClass="e-primary"
+                        Removable="true"
+                        Removed="@(() => RemoveSkill(skill.Id))" />
+            }
+        }
+        else
+        {
+            <div class="chip-demo-empty">No skills selected yet.</div>
+        }
+    </div>
+
+</section>
+
+@code {
+    private sealed record SkillOption(string Id, string Label, string IconCss);
+
+    private readonly List<SkillOption> skills =
+    [
+        new("blazor", "Blazor", "sb-icons e-insert-code"),
+        new("dotnet", ".NET", "sb-icons e-settings"),
+        new("accessibility", "Accessibility", "sb-icons e-eye"),
+        new("design", "Design systems", "sb-icons e-highlight-color"),
+        new("testing", "Testing", "sb-icons e-check")
+    ];
+
+    private IEnumerable<object?> selectedValues = Array.Empty<object?>();
+
+    private int SelectedCount => selectedValues.Count();
+
+    private IEnumerable<SkillOption> SelectedItems =>
+        skills.Where(skill => selectedValues.Any(value => Equals(value, skill.Id)));
+
+    private void OnSelectedValuesChanged(IEnumerable<object?> values)
+    {
+        selectedValues = values.ToArray();
+    }
+
+    private void RemoveSkill(string id)
+    {
+        selectedValues = selectedValues.Where(value => !Equals(value, id)).ToArray();
+    }
+}

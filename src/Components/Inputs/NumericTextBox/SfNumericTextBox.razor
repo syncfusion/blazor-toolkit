@@ -18,8 +18,10 @@
                 <label class="@FloatLabel?.Trim()" id="label_@(ID)" for="@(ID)">@this.Placeholder</label>
                 @if (this.ShowClearButton)
                 {
-                    <button type="button" class="@(ClearIconClass)" aria-label="@Localizer["Clear"]" title="@Localizer["Clear"]" tabindex="@(IsClearButtonTabbable ? 0 : -1)"
+                    <button type="button" class="@NumericClearIconClass" aria-label="@Localizer["Clear"]" title="@Localizer["Clear"]" tabindex="@(IsClearButtonTabbable ? 0 : -1)"
                             @onclick="@WireClearBtnEventsAsync"
+                            @onkeydown="@OnClearButtonKeyDownAsync"
+                            @onkeydown:preventDefault="@IsClearKey"
                             @onmousedown="@BindClearBtnEventsAsync" @ontouchstart="@BindClearBtnTouchEventsAsync"
                             @onmousedown:preventDefault="@ClickStopPropagation"
                             @ontouchstart:preventDefault="@ClickStopPropagation">
@@ -50,8 +52,10 @@
                        @onchange="@OnChangeHandlerAsync" @onfocus="@OnFocusHandlerAsync" @onwheel="OnMouseWheelAsync" @onwheel:preventDefault @onblur="@OnBlurHandlerAsync" />
                 @if (this.ShowClearButton)
                 {
-                    <button type="button" class="@(ClearIconClass)" aria-label="@Localizer["Clear"]" title="@Localizer["Clear"]" tabindex="@(IsClearButtonTabbable ? 0 : -1)"
+                    <button type="button" class="@NumericClearIconClass" aria-label="@Localizer["Clear"]" title="@Localizer["Clear"]" tabindex="@(IsClearButtonTabbable ? 0 : -1)"
                             @onclick="@WireClearBtnEventsAsync"
+                            @onkeydown="@OnClearButtonKeyDownAsync"
+                            @onkeydown:preventDefault="@IsClearKey"
                             @onmousedown="@BindClearBtnEventsAsync" @ontouchstart="@BindClearBtnTouchEventsAsync"
                             @onmousedown:preventDefault="@ClickStopPropagation"
                             @ontouchstart:preventDefault="@ClickStopPropagation"></button>
