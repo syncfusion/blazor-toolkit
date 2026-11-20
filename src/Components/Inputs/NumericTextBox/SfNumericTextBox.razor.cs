@@ -65,8 +65,6 @@ namespace Syncfusion.Blazor.Toolkit
 
         private bool IsClearIconClick { get; set; }
 
-        private bool ClearBtnStopPropagation { get; set; }
-
         /// <summary>
         /// Specifies the class value that is appended to container of TextBox.
         /// </summary>
@@ -2002,7 +2000,6 @@ namespace Syncfusion.Blazor.Toolkit
         /// <item><description>Sets the clear button clicked flag to modify input processing behavior</description></item>
         /// <item><description>Clears the input value by setting it to null</description></item>
         /// <item><description>Triggers change events to notify subscribers of the value change</description></item>
-        /// <item><description>Prevents event propagation to avoid conflicts with other input handling</description></item>
         /// <item><description>Returns focus to the input element for continued user interaction</description></item>
         /// </list>
         /// </remarks>
@@ -2019,7 +2016,6 @@ namespace Syncfusion.Blazor.Toolkit
             InputTextValue = default;
             Value = default;
             await RaiseChangeEventAsync(args).ConfigureAwait(true);
-            ClearBtnStopPropagation = true;
             await FocusAsync().ConfigureAwait(true);
             IsClearIconClick = false;
             HasClearableContent = false;
