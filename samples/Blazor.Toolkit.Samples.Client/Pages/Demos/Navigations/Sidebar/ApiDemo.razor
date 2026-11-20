@@ -1,0 +1,323 @@
+<div class="sbd-shell">
+    <div class="sbd-toolbar">
+        <span class="sbd-toolbar-title">Command center</span>
+        <span class="sbd-toolbar-spacer"></span>
+        <div class="sbd-api-actions">
+            <SfButton CssClass="sbd-neutral-button" aria-controls="sbd-api" OnClick="OpenAsync">OpenAsync</SfButton>
+            <SfButton CssClass="sbd-neutral-button" aria-controls="sbd-api" OnClick="CloseAsync">CloseAsync</SfButton>
+            <SfButton CssClass="sbd-neutral-button" aria-controls="sbd-api" aria-expanded="@(_isOpen ? "true" : "false")" OnClick="ToggleAsync">ToggleAsync</SfButton>
+            <SfButton CssClass="sbd-neutral-button" aria-controls="sbd-api" OnClick="FocusAsync">FocusAsync</SfButton>
+            <SfButton CssClass="e-flat sbd-toolbar-button sbd-api-settings-button"
+                      IconCss="sb-icons e-settings"
+                      aria-label="@(_settingsOpen ? "Hide Properties Pane" : "Show Properties Pane")"
+                      aria-controls="sbd-api-properties"
+                      aria-expanded="@(_settingsOpen ? "true" : "false")"
+                      OnClick="ToggleSettings" />
+        </div>
+    </div>
+
+    <SfSidebar Id="sbd-api-properties"
+               @bind-IsOpen="_settingsOpen"
+               Mode="SidebarMode.Shrink"
+               Position="SidebarPosition.End"
+               Responsive="false"
+               Fixed="false"
+               Width="232px"
+               AriaLabel="Sidebar API Properties Pane">
+        <HeaderTemplate>
+            <h3 class="h6 m-0">Properties Pane</h3>
+        </HeaderTemplate>
+        <ChildContent>
+            <div class="sbd-property-panel">
+                <SfCheckBox TChecked="bool" Label="Show backdrop" @bind-Checked="_showBackdrop" />
+                <SfCheckBox TChecked="bool" Label="Close on overlay click" @bind-Checked="_closeOnOverlayClick" Disabled="@(!_showBackdrop)" />
+                <SfCheckBox TChecked="bool" Label="Close on Escape" @bind-Checked="_closeOnEscape" />
+            </div>
+        </ChildContent>
+        <TargetContent>
+            <div class="sbd-api-target">
+                <div class="sbd-stage sbd-api-stage">
+                    <SfSidebar @ref="_sidebar"
+                               Id="sbd-api"
+                               IsOpenChanged="HandleIsOpenChanged"
+                               OnOpened="HandleOpened"
+                               OnClosed="HandleClosed"
+                               Mode="SidebarMode.Overlay"
+                               ShowBackdrop="_showBackdrop"
+                               CloseOnOverlayClick="_closeOnOverlayClick"
+                               CloseOnEscape="_closeOnEscape"
+                               Responsive="false"
+                               Fixed="false"
+                               Width="264px"
+                               AriaLabel="Command and tools">
+                        <HeaderTemplate>
+                            <h3 class="h6 m-0">Quick tools</h3>
+                        </HeaderTemplate>
+                        <ChildContent>
+                            <ul class="sbd-nav" role="listbox" aria-label="Quick tools">
+                                <li class="@(_selectedNavigationIndex == 0 ? "sbd-nav-selected" : null)" role="option" aria-selected="@(_selectedNavigationIndex == 0 ? "true" : "false")" tabindex="@(_selectedNavigationIndex == 0 ? 0 : -1)" @ref="_navigationItems[0]" @onclick="@(() => SelectNavigationItem(0))" @onkeydown="@((args) => HandleNavigationKeyDown(args, 0))"><span class="sb-icons e-search" aria-hidden="true"></span>Search records</li>
+                                <li class="@(_selectedNavigationIndex == 1 ? "sbd-nav-selected" : null)" role="option" aria-selected="@(_selectedNavigationIndex == 1 ? "true" : "false")" tabindex="@(_selectedNavigationIndex == 1 ? 0 : -1)" @ref="_navigationItems[1]" @onclick="@(() => SelectNavigationItem(1))" @onkeydown="@((args) => HandleNavigationKeyDown(args, 1))"><span class="sb-icons e-clock" aria-hidden="true"></span>Recent activity</li>
+                                <li class="@(_selectedNavigationIndex == 2 ? "sbd-nav-selected" : null)" role="option" aria-selected="@(_selectedNavigationIndex == 2 ? "true" : "false")" tabindex="@(_selectedNavigationIndex == 2 ? 0 : -1)" @ref="_navigationItems[2]" @onclick="@(() => SelectNavigationItem(2))" @onkeydown="@((args) => HandleNavigationKeyDown(args, 2))"><span class="sb-icons e-bookmark" aria-hidden="true"></span>Saved items</li>
+                                <li class="@(_selectedNavigationIndex == 3 ? "sbd-nav-selected" : null)" role="option" aria-selected="@(_selectedNavigationIndex == 3 ? "true" : "false")" tabindex="@(_selectedNavigationIndex == 3 ? 0 : -1)" @ref="_navigationItems[3]" @onclick="@(() => SelectNavigationItem(3))" @onkeydown="@((args) => HandleNavigationKeyDown(args, 3))"><span class="sb-icons e-settings" aria-hidden="true"></span>Preferences</li>
+                            </ul>
+                        </ChildContent>
+                        <TargetContent>
+                            <div class="sbd-content sbd-api-skeletons">
+                                <div class="sbd-skeleton sbd-api-skeleton" role="img" aria-label="Tasks loading placeholder"></div>
+                                <div class="sbd-skeleton sbd-api-skeleton" role="img" aria-label="Completed loading placeholder"></div>
+                                <div class="sbd-skeleton sbd-api-skeleton" role="img" aria-label="Needs Review loading placeholder"></div>
+                                <div class="sbd-skeleton sbd-api-skeleton sbd-api-skeleton-wide" role="img" aria-label="Additional content loading placeholder"></div>
+                            </div>
+                        </TargetContent>
+                    </SfSidebar>
+                </div>
+
+                <div class="sbd-api-details">
+                    <section class="sbd-api-log-card">
+                        <div class="sbd-api-log-heading">
+                            <strong>Event log</strong>
+                            <SfButton CssClass="e-small e-outline sbd-neutral-button" OnClick="ClearLog" Disabled="@(_log.Count == 0)">Clear</SfButton>
+                        </div>
+                        <ol class="sbd-api-event-log" aria-label="Sidebar event log" aria-live="polite">
+                            @if (_log.Count == 0)
+                            {
+                                <li class="sbd-api-empty">No events yet</li>
+                            }
+                            else
+                            {
+                                @foreach (string entry in _log)
+                                {
+                                    <li>@entry</li>
+                                }
+                            }
+                        </ol>
+                    </section>
+                    <dl class="sbd-status sbd-api-status" aria-live="polite">
+                        <dt>Open state</dt>
+                        <dd>@(_isOpen ? "Open" : "Closed")</dd>
+                        <dt>Last event</dt>
+                        <dd>@_lastEvent</dd>
+                        <dt>Last trigger</dt>
+                        <dd>@_lastTrigger</dd>
+                    </dl>
+                </div>
+            </div>
+        </TargetContent>
+    </SfSidebar>
+</div>
+
+@code {
+    private SfSidebar? _sidebar;
+    private bool _isOpen;
+    private bool _settingsOpen;
+    private bool _showBackdrop = true;
+    private bool _closeOnOverlayClick = true;
+    private bool _closeOnEscape = true;
+    private bool _focusFirstNavigationItemOnOpen;
+    private bool _sidebarOpened;
+    private int _selectedNavigationIndex;
+    private readonly ElementReference[] _navigationItems = new ElementReference[4];
+    private string _lastEvent = "None";
+    private string _lastTrigger = "None";
+    private readonly List<string> _log = new();
+
+    private SfSidebar Sidebar => _sidebar ?? throw new InvalidOperationException("The Sidebar component is not available before the first render.");
+
+    private Task OpenAsync() => Sidebar.OpenAsync();
+
+    private Task CloseAsync() => Sidebar.CloseAsync();
+
+    private Task ToggleAsync() => Sidebar.ToggleAsync();
+
+    private void ToggleSettings() => _settingsOpen = !_settingsOpen;
+
+    private void SelectNavigationItem(int index) => _selectedNavigationIndex = index;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (_focusFirstNavigationItemOnOpen && _isOpen && _sidebarOpened)
+        {
+            _focusFirstNavigationItemOnOpen = false;
+            await _navigationItems[0].FocusAsync();
+            Record("FocusAsync");
+            StateHasChanged();
+        }
+    }
+
+    private async Task HandleNavigationKeyDown(KeyboardEventArgs args, int currentIndex)
+    {
+        int nextIndex = args.Key switch
+        {
+            "ArrowDown" => (currentIndex + 1) % _navigationItems.Length,
+            "ArrowUp" => (currentIndex - 1 + _navigationItems.Length) % _navigationItems.Length,
+            "Home" => 0,
+            "End" => _navigationItems.Length - 1,
+            _ => currentIndex
+        };
+
+        if (nextIndex != currentIndex)
+        {
+            SelectNavigationItem(nextIndex);
+            await _navigationItems[nextIndex].FocusAsync();
+        }
+        else if (args.Key == "Enter")
+        {
+            SelectNavigationItem(currentIndex);
+        }
+    }
+
+    private async Task FocusAsync()
+    {
+        _selectedNavigationIndex = 0;
+        if (!_isOpen)
+        {
+            _focusFirstNavigationItemOnOpen = true;
+            await Sidebar.OpenAsync();
+            return;
+        }
+
+        await _navigationItems[0].FocusAsync();
+        Record("FocusAsync");
+    }
+
+    private void HandleIsOpenChanged(bool isOpen)
+    {
+        _isOpen = isOpen;
+        if (!isOpen)
+        {
+            _focusFirstNavigationItemOnOpen = false;
+            _sidebarOpened = false;
+        }
+
+        Record("IsOpenChanged");
+    }
+
+    private void HandleOpened(SidebarEventArgs args)
+    {
+        _sidebarOpened = true;
+        _lastTrigger = args.Trigger.ToString();
+        Record("OnOpened");
+    }
+
+    private void HandleClosed(SidebarEventArgs args)
+    {
+        _sidebarOpened = false;
+        _lastTrigger = args.Trigger.ToString();
+        Record("OnClosed");
+    }
+
+    private void Record(string name)
+    {
+        _lastEvent = name;
+        string state = _isOpen ? "open" : "closed";
+        _log.Insert(0, $"{name}: {state}");
+        if (_log.Count > 30)
+        {
+            _log.RemoveAt(_log.Count - 1);
+        }
+    }
+
+    private void ClearLog()
+    {
+        _log.Clear();
+        _lastEvent = "None";
+        _lastTrigger = "None";
+    }
+}
+
+<style>
+    .sbd-property-panel {
+        display: flex;
+        flex-direction: column;
+        gap: .625rem;
+        min-width: 0;
+        padding: .75rem;
+        background: var(--sbd-surface);
+    }
+
+    .sbd-api-target {
+        display: grid;
+        gap: .75rem;
+        min-width: 0;
+    }
+
+    .sbd-api-stage {
+        min-height: 260px;
+    }
+
+    .sbd-content.sbd-api-skeletons {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        grid-template-rows: 7rem minmax(8rem, 1fr);
+        align-content: stretch;
+        min-height: 260px;
+    }
+
+    .sbd-api-skeleton {
+        width: 100%;
+        min-height: 0;
+        align-self: stretch;
+    }
+
+    .sbd-api-skeleton-wide {
+        grid-column: 1 / -1;
+    }
+
+    .sbd-api-actions {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: .5rem;
+    }
+
+    .sbd-api-settings-button.e-btn {
+        flex: 0 0 2.5rem;
+    }
+
+    .sbd-api-details {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+        gap: .75rem;
+    }
+
+    .sbd-api-log-card {
+        min-width: 0;
+        padding: .75rem 1rem;
+        border: 1px solid var(--sbd-border);
+        border-radius: .5rem;
+        background: var(--sbd-surface-alt);
+    }
+
+    .sbd-api-log-heading {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: .75rem;
+        margin-bottom: .5rem;
+    }
+
+    .sbd-api-event-log {
+        max-height: 8rem;
+        overflow-y: auto;
+        margin: 0;
+        padding-inline-start: 1.25rem;
+        font-size: .85rem;
+    }
+
+    .sbd-api-event-log li + li {
+        margin-block-start: .25rem;
+    }
+
+    .sbd-api-empty {
+        list-style: none;
+        color: var(--sbd-muted);
+    }
+
+    .sbd-api-status {
+        align-content: center;
+        min-height: 8rem;
+    }
+
+    #sbd-api-properties.e-sidebar {
+        border-left: none !important;
+    }
+</style>

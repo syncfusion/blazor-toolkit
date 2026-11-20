@@ -1,0 +1,131 @@
+@using Syncfusion.Blazor.Toolkit
+
+<SidebarReady />
+<div dir="@Dir" class="fx-root" style="@RootStyle">
+    <header class="fx-header">
+        <SfButton data-testid="sidebar-toggle" aria-controls="@Id" aria-expanded="@(_open ? "true" : "false")" OnClick="ToggleAsync">Menu</SfButton>
+        @if (ShowOptions)
+        {
+            <SfButton id="opt-overlay-click" OnClick="() => _closeOnOverlayClick = !_closeOnOverlayClick">Overlay click: @(_closeOnOverlayClick ? "on" : "off")</SfButton>
+            <SfButton id="opt-escape" OnClick="() => _closeOnEscape = !_closeOnEscape">Escape: @(_closeOnEscape ? "on" : "off")</SfButton>
+            <SfButton id="opt-enabled" OnClick="() => _isEnabled = !_isEnabled">Enabled: @(_isEnabled ? "on" : "off")</SfButton>
+            <SfButton id="opt-api-toggle" OnClick="() => _sidebar?.ToggleAsync()">Toggle via API</SfButton>
+        }
+    </header>
+
+    <SfSidebar @ref="_sidebar"
+               @bind-IsOpen="_open"
+               Id="@Id"
+               Mode="Mode"
+               Position="Position"
+               EnableMini="EnableMini"
+               OpenMiniOnHover="OpenMiniOnHover"
+               Fixed="Fixed"
+               Responsive="Responsive"
+               Breakpoint="Breakpoint"
+               EnableAnimation="EnableAnimation"
+               Duration="Duration"
+               CloseOnOverlayClick="_closeOnOverlayClick"
+               CloseOnEscape="_closeOnEscape"
+               IsEnabled="_isEnabled"
+               BackdropClass="@BackdropClass"
+               AriaLabel="@AriaLabel"
+               AriaLabelledBy="@AriaLabelledBy"
+               OnBreakpointChanged="OnBreakpoint"
+               OnOpened="OnOpenedAsync"
+               OnClosed="OnClosedAsync">
+        <HeaderTemplate>
+            <h2 id="@(Id)-title" class="fx-title">Navigation</h2>
+        </HeaderTemplate>
+        <ChildContent>
+            <ul class="fx-links">
+                <li><a href="@(Href + "#one")">First</a></li>
+                <li><a href="@(Href + "#two")">Second</a></li>
+                <li><a href="@(Href + "?page=3")" data-testid="sidebar-nav-link">Third</a></li>
+            </ul>
+            <SfButton id="sidebar-last" CssClass="e-outline">Last action</SfButton>
+        </ChildContent>
+        <TargetContent>
+            <main class="fx-main">
+                <h1>@Title</h1>
+                <SfButton data-testid="main-focusable" id="main-focusable">Main action</SfButton>
+                <p id="status" data-open="@(_open ? "true" : "false")" data-below="@(_below?.ToString().ToLowerInvariant() ?? "unknown")">open=@_open</p>
+                <p id="log">@string.Join(",", _log)</p>
+            </main>
+        </TargetContent>
+    </SfSidebar>
+</div>
+
+<style>
+    .fx-root { min-height: 480px; position: relative; }
+    /* The consumer app bar sits above the panel layer so its toggle stays reachable; it is pushed to the inline end so it never covers
+       a Start panel. Components outside the sidebar are not inert, so the focus trap (P-KB-005) is what keeps keyboard users inside. */
+    .fx-header { display: flex; justify-content: flex-end; gap: .5rem; padding: .5rem 1rem; position: relative; z-index: 2000; }
+    .fx-main { padding: 1rem; }
+    .fx-links { list-style: none; margin: 0; padding: 0; }
+    .fx-links a { display: inline-block; padding: .5rem 0; }
+</style>
+
+@code {
+    [Parameter] public string Title { get; set; } = "Sidebar";
+    [Parameter] public string Id { get; set; } = "fx-sidebar";
+    [Parameter] public string Href { get; set; } = "/sidebar/overlay";
+    [Parameter] public string? Dir { get; set; }
+    [Parameter] public string? RootStyle { get; set; }
+    [Parameter] public bool InitiallyOpen { get; set; }
+    [Parameter] public SidebarMode Mode { get; set; } = SidebarMode.Overlay;
+    [Parameter] public SidebarPosition Position { get; set; } = SidebarPosition.Start;
+    [Parameter] public bool EnableMini { get; set; }
+    [Parameter] public bool OpenMiniOnHover { get; set; }
+    [Parameter] public bool Fixed { get; set; } = true;
+    [Parameter] public bool Responsive { get; set; } = true;
+    [Parameter] public SidebarBreakpoint Breakpoint { get; set; } = SidebarBreakpoint.Md;
+    [Parameter] public bool EnableAnimation { get; set; }
+    [Parameter] public int Duration { get; set; } = 300;
+    [Parameter] public string? BackdropClass { get; set; }
+    [Parameter] public string? AriaLabel { get; set; } = "Primary navigation";
+    [Parameter] public string? AriaLabelledBy { get; set; }
+    [Parameter] public bool ShowOptions { get; set; }
+    [Parameter] public bool ToggleViaApi { get; set; }
+
+    private SfSidebar? _sidebar;
+    private bool _open;
+    private bool _closeOnOverlayClick = true;
+    private bool _closeOnEscape = true;
+    private bool _isEnabled = true;
+    private bool? _below;
+    private readonly List<string> _log = new();
+
+    protected override void OnInitialized()
+    {
+        _open = InitiallyOpen;
+    }
+
+    // A parent-driven IsOpen change raises no events (by contract); ToggleViaApi exercises the method path that does.
+    private Task ToggleAsync()
+    {
+        if (ToggleViaApi && _sidebar is not null)
+        {
+            return _sidebar.ToggleAsync();
+        }
+
+        _open = !_open;
+        return Task.CompletedTask;
+    }
+
+    private void OnOpenedAsync(SidebarEventArgs args) => Log("opened:" + args.Mode);
+
+    private void OnClosedAsync(SidebarEventArgs args) => Log("closed:" + args.Mode);
+
+    private void OnBreakpoint(bool below)
+    {
+        _below = below;
+        Log($"breakpoint:{below.ToString().ToLowerInvariant()}");
+    }
+
+    private void Log(string entry)
+    {
+        _log.Add(entry);
+        StateHasChanged();
+    }
+}
