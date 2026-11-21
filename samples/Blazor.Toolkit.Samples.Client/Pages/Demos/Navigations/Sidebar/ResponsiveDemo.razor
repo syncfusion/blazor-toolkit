@@ -36,7 +36,6 @@
                   OnClick="Toggle" />
         <span class="sbd-toolbar-title">Fieldnotes</span>
         <span class="sbd-toolbar-spacer"></span>
-        <SfButton CssClass="sbd-neutral-button sbd-navigate-button" OnClick="NavigateAway">Navigate away</SfButton>
     </div>
 
     <div class="sbd-stage">
@@ -46,7 +45,6 @@
                    Responsive="true"
                    Breakpoint="_breakpoint"
                    OnBreakpointChanged="HandleBreakpointChanged"
-                   CloseOnNavigate="true"
                    Fixed="false"
                    Width="236px"
                    AriaLabel="Fieldnotes navigation">
@@ -188,8 +186,6 @@
         }
     }
 
-    private void NavigateAway() => Navigation.NavigateTo("/navigations/sidebar");
-
 }
 
 <style>
@@ -199,18 +195,6 @@
 
     .sbd-responsive-content {
         background: var(--sbd-surface);
-    }
-
-    .sbd-navigate-button.e-btn {
-        justify-self: start;
-        min-height: 1.875rem;
-        padding-block: .25rem;
-    }
-
-    .sbd-navigate-button.e-btn:hover,
-    .sbd-navigate-button.e-btn:focus-visible {
-        background: var(--sbd-control-hover-bg);
-        color: var(--sbd-text);
     }
 
     .sbd-fieldnotes-heading {

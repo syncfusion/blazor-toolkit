@@ -506,6 +506,7 @@ url(data:application/x-font-ttf;charset=utf-8;base64,AAEAAAAKAIAAAwAgT1MvMj1tSiA
 
 }
 
+.e-icons,
 .e-toolkit-icons {
 
 font-family: ""e-toolkit-icons"";
@@ -516,190 +517,331 @@ font-family: ""e-toolkit-icons"";
         text-transform: none;
 }
 
+.e-icons.e-chevron-up::before {
+  content: ""\e700"";
+}
 .e-toolkit-icons.e-chevron-up::before {
   content: ""\e700"";
 }
 
+.e-icons.e-chevron-down::before {
+  content: ""\e701"";
+}
 .e-toolkit-icons.e-chevron-down::before {
   content: ""\e701"";
 }
 
+.e-icons.e-chevron-left::before {
+  content: ""\e702"";
+}
 .e-toolkit-icons.e-chevron-left::before {
   content: ""\e702"";
 }
 
+.e-icons.e-chevron-right::before {
+  content: ""\e703"";
+}
 .e-toolkit-icons.e-chevron-right::before {
   content: ""\e703"";
 }
 
+.e-icons.e-arrow-up::before {
+  content: ""\e704"";
+}
 .e-toolkit-icons.e-arrow-up::before {
   content: ""\e704"";
 }
 
+.e-icons.e-arrow-down::before {
+  content: ""\e705"";
+}
 .e-toolkit-icons.e-arrow-down::before {
   content: ""\e705"";
 }
 
+.e-icons.e-arrow-right::before {
+  content: ""\e706"";
+}
 .e-toolkit-icons.e-arrow-right::before {
   content: ""\e706"";
 }
 
+.e-icons.e-check::before {
+  content: ""\e707"";
+}
 .e-toolkit-icons.e-check::before {
   content: ""\e707"";
 }
 
+.e-icons.e-intermediate-state-2::before {
+  content: ""\e708"";
+}
 .e-toolkit-icons.e-intermediate-state-2::before {
   content: ""\e708"";
 }
 
+.e-icons.e-close::before {
+  content: ""\e709"";
+}
 .e-toolkit-icons.e-close::before {
   content: ""\e709"";
 }
 
+.e-icons.e-timeline-today::before {
+  content: ""\e70a"";
+}
 .e-toolkit-icons.e-timeline-today::before {
   content: ""\e70a"";
 }
 
+.e-icons.e-timeline-day::before {
+  content: ""\e70b"";
+}
 .e-toolkit-icons.e-timeline-day::before {
   content: ""\e70b"";
 }
 
+.e-icons.e-clock::before {
+  content: ""\e70c"";
+}
 .e-toolkit-icons.e-clock::before {
   content: ""\e70c"";
 }
 
+.e-icons.e-pause::before {
+  content: ""\e70d"";
+}
 .e-toolkit-icons.e-pause::before {
   content: ""\e70d"";
 }
 
+.e-icons.e-play::before {
+  content: ""\e70e"";
+}
 .e-toolkit-icons.e-play::before {
   content: ""\e70e"";
 }
 
+.e-icons.e-refresh::before {
+  content: ""\e70f"";
+}
 .e-toolkit-icons.e-refresh::before {
   content: ""\e70f"";
 }
 
+.e-icons.e-trash::before {
+  content: ""\e710"";
+}
 .e-toolkit-icons.e-trash::before {
   content: ""\e710"";
 }
 
+.e-icons.e-circle-remove::before {
+  content: ""\e711"";
+}
 .e-toolkit-icons.e-circle-remove::before {
   content: ""\e711"";
 }
 
+.e-icons.e-resizer-right::before {
+  content: ""\e712"";
+}
 .e-toolkit-icons.e-resizer-right::before {
   content: ""\e712"";
 }
 
+.e-icons.e-more-horizontal-1::before {
+  content: ""\e713"";
+}
 .e-toolkit-icons.e-more-horizontal-1::before {
   content: ""\e713"";
 }
 
+.e-icons.e-chevron-left-small::before {
+  content: ""\e714"";
+}
 .e-toolkit-icons.e-chevron-left-small::before {
   content: ""\e714"";
 }
 
+.e-icons.e-chevron-right-small::before {
+  content: ""\e715"";
+}
 .e-toolkit-icons.e-chevron-right-small::before {
   content: ""\e715"";
 }
 
+.e-icons.e-chevron-up-fill::before {
+  content: ""\e716"";
+}
 .e-toolkit-icons.e-chevron-up-fill::before {
   content: ""\e716"";
 }
 
+.e-icons.e-chevron-down-fill::before {
+  content: ""\e717"";
+}
 .e-toolkit-icons.e-chevron-down-fill::before {
   content: ""\e717"";
 }
 
+.e-icons.e-chevron-left-fill::before {
+  content: ""\e718"";
+}
 .e-toolkit-icons.e-chevron-left-fill::before {
   content: ""\e718"";
 }
 
+.e-icons.e-chevron-right-fill::before {
+  content: ""\e719"";
+}
 .e-toolkit-icons.e-chevron-right-fill::before {
   content: ""\e719"";
 }
 
+.e-icons.e-reset::before {
+  content: ""\e71a"";
+}
 .e-toolkit-icons.e-reset::before {
   content: ""\e71a"";
 }
 
+.e-icons.e-star-filled::before {
+  content: ""\e71b"";
+}
 .e-toolkit-icons.e-star-filled::before {
   content: ""\e71b"";
 }
 
+.e-icons.e-chevron-down-small::before {
+  content: ""\e71c"";
+}
 .e-toolkit-icons.e-chevron-down-small::before {
   content: ""\e71c"";
 }
 
+.e-icons.e-chevron-up-small::before {
+  content: ""\e71d"";
+}
 .e-toolkit-icons.e-chevron-up-small::before {
   content: ""\e71d"";
 }
 
+.e-icons.e-resizer-rtl::before {
+  content: ""\e71e"";
+}
 .e-toolkit-icons.e-resizer-rtl::before {
   content: ""\e71e"";
 }
 
+.e-icons.e-input::before {
+  content: ""\e71f"";
+}
 .e-toolkit-icons.e-input::before {
   content: ""\e71f"";
 }
 
+.e-icons.e-chart::before {
+  content: ""\e720"";
+}
 .e-toolkit-icons.e-chart::before {
   content: ""\e720"";
 }
 
+.e-icons.e-spinner::before {
+  content: ""\e721"";
+}
 .e-toolkit-icons.e-spinner::before {
   content: ""\e721"";
 }
 
+.e-icons.e-popups::before {
+  content: ""\e722"";
+}
 .e-toolkit-icons.e-popups::before {
   content: ""\e722"";
 }
 
+.e-icons.e-button::before {
+  content: ""\e723"";
+}
 .e-toolkit-icons.e-button::before {
   content: ""\e723"";
 }
 
+.e-icons.e-explore::before {
+  content: ""\e724"";
+}
 .e-toolkit-icons.e-explore::before {
   content: ""\e724"";
 }
 
+.e-icons.e-system-requirement::before {
+  content: ""\e725"";
+}
 .e-toolkit-icons.e-system-requirement::before {
   content: ""\e725"";
 }
 
+.e-icons.e-browser-support::before {
+  content: ""\e726"";
+}
 .e-toolkit-icons.e-browser-support::before {
   content: ""\e726"";
 }
 
+.e-icons.e-right-left::before {
+  content: ""\e727"";
+}
 .e-toolkit-icons.e-right-left::before {
   content: ""\e727"";
 }
 
+.e-icons.e-state-persistence::before {
+  content: ""\e728"";
+}
 .e-toolkit-icons.e-state-persistence::before {
   content: ""\e728"";
 }
 
+.e-icons.e-globalization::before {
+  content: ""\e729"";
+}
 .e-toolkit-icons.e-globalization::before {
   content: ""\e729"";
 }
 
+.e-icons.e-text-matrix::before {
+  content: ""\e72a"";
+}
 .e-toolkit-icons.e-text-matrix::before {
   content: ""\e72a"";
 }
 
+.e-icons.e-release-notes::before {
+  content: ""\e72b"";
+}
 .e-toolkit-icons.e-release-notes::before {
   content: ""\e72b"";
 }
 
+.e-icons.e-api-reference::before {
+  content: ""\e72c"";
+}
 .e-toolkit-icons.e-api-reference::before {
   content: ""\e72c"";
 }
 
+.e-icons.e-getting-started::before {
+  content: ""\e72d"";
+}
 .e-toolkit-icons.e-getting-started::before {
   content: ""\e72d"";
 }
 
+.e-icons.e-calendars::before {
+  content: ""\e72e"";
+}
 .e-toolkit-icons.e-calendars::before {
   content: ""\e72e"";
 }

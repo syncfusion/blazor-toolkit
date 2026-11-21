@@ -1,0 +1,144 @@
+<div class="tb-editor" data-testid="toolbar-editor-demo">
+    <div class="tb-doc">
+        <SfToolbar AriaLabel="Editor formatting" OverflowMode="ToolbarOverflowMode.Popup" Items="@_editorItems" OnItemClick="OnToolbarItemClick" data-testid="toolbar-root">
+            <ToolbarItem Id="font-family" Text="@_fontFamilyLabel" IconCss="e-icons e-chevron-down" Tooltip="Font family" Type="ToolbarItemType.DropDown" Overflow="ToolbarOverflowOption.Show" Priority="-40">
+                <Items>
+                    <ToolbarItem Id="font-family-arial" Text="Arial" />
+                    <ToolbarItem Id="font-family-georgia" Text="Georgia" />
+                    <ToolbarItem Id="font-family-verdana" Text="Verdana" />
+                    <ToolbarItem Id="font-family-courier-new" Text="Courier New" />
+                </Items>
+            </ToolbarItem>
+            <ToolbarItem Id="font-size" Text="@_fontSizeLabel" IconCss="e-icons e-chevron-down" Tooltip="Font size" Type="ToolbarItemType.DropDown" Overflow="ToolbarOverflowOption.Show" Priority="-30">
+                <Items>
+                    <ToolbarItem Id="font-size-14" Text="14 px" />
+                    <ToolbarItem Id="font-size-16" Text="16 px" />
+                    <ToolbarItem Id="font-size-18" Text="18 px" />
+                    <ToolbarItem Id="font-size-20" Text="20 px" />
+                    <ToolbarItem Id="font-size-24" Text="24 px" />
+                    <ToolbarItem Id="font-size-28" Text="28 px" />
+                </Items>
+            </ToolbarItem>
+        </SfToolbar>
+        <article class="@SurfaceClass" style="@($"text-align: {_align}; font-family: {_fontFamily}; font-size: {_fontSize};")">
+            <h3>Quarterly briefing</h3>
+            <p>Use the toolbar to format this quarterly update.</p>
+            <p>Choose a typeface and text size that suit the document.</p>
+            <p>Apply bold, italic, or underline to emphasize key details.</p>
+            <p>Change the alignment to left, center, or right, then reset to start again.</p>
+        </article>
+    </div>
+</div>
+
+@code {
+    private const string DefaultFontFamily = "Arial, sans-serif";
+    private const string DefaultFontSize = "16px";
+    private readonly List<ToolbarItemModel> _editorItems =
+    [
+        new() { Id = "bold", Text = "Bold", IconCss = "sb-icons e-bold", Type = ToolbarItemType.Toggle, DisplayMode = ToolbarItemDisplayMode.IconOnly, Tooltip = "Bold", Overflow = ToolbarOverflowOption.Show, Priority = -20 },
+        new() { Id = "italic", Text = "Italic", IconCss = "sb-icons e-italic", Type = ToolbarItemType.Toggle, DisplayMode = ToolbarItemDisplayMode.IconOnly, Tooltip = "Italic", Overflow = ToolbarOverflowOption.Show, Priority = -19 },
+        new() { Id = "underline", Text = "Underline", IconCss = "sb-icons e-underline", Type = ToolbarItemType.Toggle, DisplayMode = ToolbarItemDisplayMode.IconOnly, Tooltip = "Underline", Overflow = ToolbarOverflowOption.Show, Priority = -18 },
+        new() { Id = "alignment-divider", Type = ToolbarItemType.Separator },
+        new() { Id = "align-left", Text = "Align left", IconCss = "sb-icons e-align-left", Type = ToolbarItemType.Toggle, GroupName = "editor-align", DisplayMode = ToolbarItemDisplayMode.IconOnly, Tooltip = "Align left", Selected = true, Overflow = ToolbarOverflowOption.Show, Priority = -17 },
+        new() { Id = "align-center", Text = "Align center", IconCss = "sb-icons e-align-center", Type = ToolbarItemType.Toggle, GroupName = "editor-align", DisplayMode = ToolbarItemDisplayMode.IconOnly, Tooltip = "Align center", Overflow = ToolbarOverflowOption.Show, Priority = -16 },
+        new() { Id = "align-right", Text = "Align right", IconCss = "sb-icons e-align-right", Type = ToolbarItemType.Toggle, GroupName = "editor-align", DisplayMode = ToolbarItemDisplayMode.IconOnly, Tooltip = "Align right", Overflow = ToolbarOverflowOption.Show, Priority = -15 },
+        new() { Id = "editor-spacer", Type = ToolbarItemType.Spacer },
+        new() { Id = "reset-divider", Type = ToolbarItemType.Separator },
+        new() { Id = "reset", Text = "Reset", IconCss = "e-icons e-reset", Tooltip = "Reset all formatting", Overflow = ToolbarOverflowOption.Show, Priority = -30 }
+    ];
+
+    private string _align = "left";
+    private string _fontFamily = DefaultFontFamily;
+    private string _fontSize = DefaultFontSize;
+    private string _fontFamilyLabel = "Arial";
+    private string _fontSizeLabel = "16 px";
+
+    private string SurfaceClass
+    {
+        get
+        {
+            string weight = IsSelected("bold") ? " is-bold" : string.Empty;
+            string italic = IsSelected("italic") ? " is-italic" : string.Empty;
+            string underline = IsSelected("underline") ? " is-underline" : string.Empty;
+            return "tb-surface" + weight + italic + underline;
+        }
+    }
+
+    private bool IsSelected(string itemId) => _editorItems.FirstOrDefault(item => item.Id == itemId)?.Selected ?? false;
+
+    private void OnToolbarItemClick(ToolbarItemClickEventArgs args)
+    {
+        switch (args.ItemId)
+        {
+            case "font-family-arial":
+                SetFontFamily("Arial, sans-serif", "Arial");
+                break;
+            case "font-family-georgia":
+                SetFontFamily("Georgia, serif", "Georgia");
+                break;
+            case "font-family-verdana":
+                SetFontFamily("Verdana, sans-serif", "Verdana");
+                break;
+            case "font-family-courier-new":
+                SetFontFamily("Courier New, monospace", "Courier New");
+                break;
+            case "font-size-14":
+                SetFontSize("14px", "14 px");
+                break;
+            case "font-size-16":
+                SetFontSize("16px", "16 px");
+                break;
+            case "font-size-18":
+                SetFontSize("18px", "18 px");
+                break;
+            case "font-size-20":
+                SetFontSize("20px", "20 px");
+                break;
+            case "font-size-24":
+                SetFontSize("24px", "24 px");
+                break;
+            case "font-size-28":
+                SetFontSize("28px", "28 px");
+                break;
+            case "align-left":
+                _align = "left";
+                break;
+            case "align-center":
+                _align = "center";
+                break;
+            case "align-right":
+                _align = "right";
+                break;
+            case "reset":
+                ResetFormatting();
+                break;
+        }
+    }
+
+    private void SetFontFamily(string value, string label)
+    {
+        _fontFamily = value;
+        _fontFamilyLabel = label;
+    }
+
+    private void SetFontSize(string value, string label)
+    {
+        _fontSize = value;
+        _fontSizeLabel = label;
+    }
+
+    private void ResetFormatting()
+    {
+        foreach (ToolbarItemModel item in _editorItems.Where(item => item.Type == ToolbarItemType.Toggle))
+        {
+            item.Selected = false;
+        }
+
+        _editorItems.First(item => item.Id == "align-left").Selected = true;
+        _align = "left";
+        _fontFamily = DefaultFontFamily;
+        _fontSize = DefaultFontSize;
+        _fontFamilyLabel = "Arial";
+        _fontSizeLabel = "16 px";
+    }
+}

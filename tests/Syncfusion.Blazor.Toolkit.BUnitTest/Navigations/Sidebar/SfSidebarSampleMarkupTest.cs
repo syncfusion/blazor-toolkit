@@ -22,15 +22,6 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Navigations
             "ApiDemo.razor",
         };
 
-        [Fact(Timeout = 10000, DisplayName = "U-SMP-001 Navigate away stays on the page and does not leak a query string")]
-        public void NavigateAway_ShouldNotLeakQueryString()
-        {
-            string source = File.ReadAllText(Path.Combine(DemoDirectory, "ResponsiveDemo.razor"));
-
-            Assert.DoesNotContain("sidebar-nav", source, StringComparison.Ordinal);
-            Assert.Contains("Navigation.NavigateTo(\"/navigations/sidebar\")", source, StringComparison.Ordinal);
-        }
-
         [Fact(Timeout = 10000, DisplayName = "U-SMP-002 The API sample keeps open state, last event and trigger")]
         public void ApiDemo_ShouldLogTrigger()
         {

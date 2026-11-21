@@ -103,8 +103,13 @@ DropDown and Menu open from their main button.
 |---|---|
 | `RefreshOverflowAsync()` | Refreshes registered item rendering, the roving tab stop, and scheduled layout/overflow calculation |
 | `FocusAsync()` | Focuses the last focused item, or the first enabled focusable item |
-| `GetVisibleItems()` | Returns visible, non-overflowed component items in logical order; excludes separators, spacers, and groups |
-| `GetOverflowItems()` | Returns visible component items placed in the overflow menu |
+| `GetVisibleItems()` | Returns visible component items in the main toolbar area in logical order; excludes Popup-overflowed and collapsed Extended items, separators, spacers, and groups |
+| `GetOverflowItems()` | Returns visible component items moved to Popup overflow or hidden in collapsed Extended rows or columns |
+
+Extended items hidden by the collapsed layout appear in `GetOverflowItems()` and
+are excluded from `GetVisibleItems()` until expanded. MultiRow wraps without
+hiding items, so all visible items remain in `GetVisibleItems()` and
+`GetOverflowItems()` is empty.
 
 Call `RefreshOverflowAsync()` after external changes the component cannot
 observe. Toolbar items and groups register and unregister over their component

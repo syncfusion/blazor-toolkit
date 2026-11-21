@@ -1,0 +1,128 @@
+<div class="tb-color-demo" data-testid="toolbar-color-demo">
+    <div class="tb-color-row">
+        <SfToolbar AriaLabel="Blue-themed commands" CssClass="tb-color-blue">
+            <ToolbarItem Text="New" IconCss="sb-icons e-file-new" />
+            <ToolbarItem Text="Open" IconCss="sb-icons e-folder" />
+            <ToolbarItem Text="Save" IconCss="sb-icons e-save" />
+        </SfToolbar>
+    </div>
+    <div class="tb-color-row">
+        <SfToolbar AriaLabel="Green-themed commands" CssClass="tb-color-green">
+            <ToolbarItem Text="New" IconCss="sb-icons e-file-new" />
+            <ToolbarItem Text="Open" IconCss="sb-icons e-folder" />
+            <ToolbarItem Text="Save" IconCss="sb-icons e-save" />
+        </SfToolbar>
+    </div>
+    <div class="tb-color-row">
+        <SfToolbar AriaLabel="Amber-themed commands" CssClass="tb-color-amber">
+            <ToolbarItem Text="New" IconCss="sb-icons e-file-new" />
+            <ToolbarItem Text="Open" IconCss="sb-icons e-folder" />
+            <ToolbarItem Text="Save" IconCss="sb-icons e-save" />
+        </SfToolbar>
+    </div>
+</div>
+
+<style>
+    .tb-color-demo {
+        display: grid;
+        gap: 14px;
+        max-width: 760px;
+        margin-inline: auto;
+    }
+
+    .tb-color-row {
+        display: flex;
+        justify-content: center;
+        min-width: 0;
+    }
+
+    .tb-color-demo .e-toolbar {
+        inline-size: max-content;
+        max-inline-size: 100%;
+    }
+
+    .tb-color-demo .e-toolbar.tb-color-blue {
+        --e-toolbar-background: #eaf3ff;
+        --e-toolbar-hover-background: #d3e6ff;
+        --e-toolbar-selected-background: #bdd9ff;
+    }
+
+    .tb-color-demo .e-toolbar.tb-color-green {
+        --e-toolbar-background: #eaf6ed;
+        --e-toolbar-hover-background: #d2ebd8;
+        --e-toolbar-selected-background: #bce0c5;
+    }
+
+    .tb-color-demo .e-toolbar.tb-color-amber {
+        --e-toolbar-background: #fff3e8;
+        --e-toolbar-hover-background: #ffe2c8;
+        --e-toolbar-selected-background: #ffd2a8;
+    }
+
+    .tb-color-demo .e-toolbar.tb-color-blue .e-tbar-btn {
+        color: #1558a6;
+    }
+
+    .tb-color-demo .e-toolbar.tb-color-blue .e-btn-icon {
+        color: #087f8c;
+    }
+
+    .tb-color-demo .e-toolbar.tb-color-green .e-tbar-btn {
+        color: #28643a;
+    }
+
+    .tb-color-demo .e-toolbar.tb-color-green .e-btn-icon {
+        color: #16834a;
+    }
+
+    .tb-color-demo .e-toolbar.tb-color-amber .e-tbar-btn {
+        color: #8a451b;
+    }
+
+    .tb-color-demo .e-toolbar.tb-color-amber .e-btn-icon {
+        color: #d66b19;
+    }
+
+    .dark .tb-color-demo .e-toolbar.tb-color-blue {
+        --e-toolbar-background: #172554;
+        --e-toolbar-hover-background: #1e3a8a;
+        --e-toolbar-selected-background: #1d4ed8;
+    }
+
+    .dark .tb-color-demo .e-toolbar.tb-color-blue .e-tbar-btn {
+        color: #dbeafe;
+    }
+
+    .dark .tb-color-demo .e-toolbar.tb-color-blue .e-btn-icon {
+        color: #7dd3fc;
+    }
+
+    .dark .tb-color-demo .e-toolbar.tb-color-green {
+        --e-toolbar-background: #052e1a;
+        --e-toolbar-hover-background: #14532d;
+        --e-toolbar-selected-background: #166534;
+    }
+
+    .dark .tb-color-demo .e-toolbar.tb-color-green .e-tbar-btn {
+        color: #dcfce7;
+    }
+
+    .dark .tb-color-demo .e-toolbar.tb-color-green .e-btn-icon {
+        color: #86efac;
+    }
+
+    .dark .tb-color-demo .e-toolbar.tb-color-amber {
+        --e-toolbar-background: #451a03;
+        --e-toolbar-hover-background: #78350f;
+        --e-toolbar-selected-background: #92400e;
+    }
+
+    .dark .tb-color-demo .e-toolbar.tb-color-amber .e-tbar-btn {
+        color: #ffedd5;
+    }
+
+    .dark .tb-color-demo .e-toolbar.tb-color-amber .e-btn-icon {
+        color: #fdba74;
+    }
+
+</style>
