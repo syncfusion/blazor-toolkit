@@ -320,6 +320,12 @@
     margin-inline: 4px;
 }
 
+/* Popup separators divide command groups, so hide them when either neighboring group is empty. */
+.e-toolbar.e-toolbar-popup ::deep .e-toolbar-group.e-toolbar-group-empty + .e-toolbar-separator,
+.e-toolbar.e-toolbar-popup ::deep .e-toolbar-separator:has(+ .e-toolbar-group.e-toolbar-group-empty) {
+    display: none;
+}
+
 /* The spacer pushes the items on either side apart. It is not focusable and not announced. */
 .e-toolbar ::deep .e-toolbar-spacer {
     flex: 1 1 auto;

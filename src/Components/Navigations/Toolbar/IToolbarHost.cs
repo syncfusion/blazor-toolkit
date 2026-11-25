@@ -39,6 +39,12 @@ namespace Syncfusion.Blazor.Toolkit
 
         /// <exclude />
         /// <summary>
+        /// Refreshes group presentation after item visibility changes.
+        /// </summary>
+        void RefreshGroupVisibility();
+
+        /// <exclude />
+        /// <summary>
         /// Opens a nested menu after closing any other nested menus owned by the toolbar.
         /// </summary>
         /// <param name="item">The nested-menu trigger being opened.</param>

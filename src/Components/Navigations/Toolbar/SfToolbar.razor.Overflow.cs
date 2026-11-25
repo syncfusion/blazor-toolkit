@@ -759,6 +759,7 @@ namespace Syncfusion.Blazor.Toolkit
             }
 
             RebuildEntries(result.Overflowed, byId);
+            _collection.RefreshGroupVisibility();
             if (!_initialMeasurementComplete)
             {
                 CompleteInitialMeasurement();
@@ -1450,6 +1451,7 @@ namespace Syncfusion.Blazor.Toolkit
 
             _hasOverflow = overflowed.Count > 0;
             RebuildEntries(overflowed, byId);
+            _collection.RefreshGroupVisibility();
             RequestTabStopRefresh();
         }
 
@@ -1465,6 +1467,7 @@ namespace Syncfusion.Blazor.Toolkit
             }
             _entries.Clear();
             _hasOverflow = false;
+            _collection.RefreshGroupVisibility();
             if (_popupOpen)
             {
                 _popupOpen = false;

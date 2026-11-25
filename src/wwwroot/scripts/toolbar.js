@@ -177,8 +177,8 @@ export function observe(root, dotNetRef) {
 }
 
 /**
- * Reports the scroll position of a scrollable toolbar whenever it changes, so the navigation chevrons
- * can be enabled and disabled at the start and the end of the range.
+ * Reports the scroll position of a scrollable toolbar whenever it scrolls or resizes, so the navigation
+ * chevrons can be enabled and disabled at the start and the end of the range.
  *
  * The listener is passive, so it never blocks the touch swipe or the wheel that moved the toolbar.
  *
@@ -202,7 +202,7 @@ export function observeScroll(scroller, dotNetRef, vertical) {
     instance.dotNetRef = dotNetRef;
     instance.vertical = vertical;
     instance.lastScrollState = scrollState(scroller, vertical);
-    const listener = function () {
+    const schedule = function () {
         if (frame) {
             return;
         }
@@ -211,8 +211,17 @@ export function observeScroll(scroller, dotNetRef, vertical) {
             notifyScrollState(scroller);
         });
     };
-    scroller.addEventListener('scroll', listener, { passive: true });
-    instance.scrollListener = listener;
+    const resizeObserver = new ResizeObserver(schedule);
+    resizeObserver.observe(scroller);
+    scroller.addEventListener('scroll', schedule, { passive: true });
+    instance.scrollListener = schedule;
+    instance.scrollResizeObserver = resizeObserver;
+    instance.scrollCancel = function () {
+        if (frame) {
+            cancelAnimationFrame(frame);
+            frame = 0;
+        }
+    };
     instances.set(scroller, instance);
 }
 
@@ -227,6 +236,10 @@ export function unobserveScroll(scroller) {
     if (!instance || !instance.scrollListener) {
         return;
     }
+    instance.scrollCancel();
+    instance.scrollResizeObserver.disconnect();
+    instance.scrollResizeObserver = null;
+    instance.scrollCancel = null;
     scroller.removeEventListener('scroll', instance.scrollListener);
     instance.scrollListener = null;
     instance.dotNetRef = null;

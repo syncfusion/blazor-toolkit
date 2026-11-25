@@ -44,6 +44,14 @@ namespace Syncfusion.Blazor.Toolkit
             ScheduleRecalculation();
         }
 
+        void IToolbarHost.RefreshGroupVisibility()
+        {
+            if (!IsDisposed)
+            {
+                _collection.RefreshGroupVisibility();
+            }
+        }
+
         async Task IToolbarHost.SelectGroupAsync(IToolbarItem selected)
         {
             if (IsDisposed || !selected.IsRadio || string.IsNullOrEmpty(selected.SelectionGroup))

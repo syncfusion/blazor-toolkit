@@ -6,6 +6,7 @@ export const BASE = 'http://localhost:5000';
 export async function openToolbarPage(page: Page, path: string): Promise<void> {
   await page.goto(`${BASE}${path}`, { waitUntil: 'commit' });
   await expect(page.locator('#interactive-ready')).toHaveAttribute('data-ready', 'true', { timeout: 15000 });
+  await expect(page.locator('[role="toolbar"].e-toolbar-measuring')).toHaveCount(0);
 }
 
 /** Text of the buttons inside a toolbar that are focusable command buttons, in DOM order. */

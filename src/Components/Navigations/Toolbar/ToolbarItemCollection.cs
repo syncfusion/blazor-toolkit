@@ -115,5 +115,20 @@ namespace Syncfusion.Blazor.Toolkit
         {
             return Flatten().FindAll(static i => i.IsFocusable);
         }
+
+        /// <exclude />
+        /// <summary>
+        /// Refreshes the rendered state of nested groups after their commands change visibility.
+        /// </summary>
+        internal void RefreshGroupVisibility()
+        {
+            foreach (object node in _nodes)
+            {
+                if (node is IToolbarHost group)
+                {
+                    group.RefreshGroupVisibility();
+                }
+            }
+        }
     }
 }

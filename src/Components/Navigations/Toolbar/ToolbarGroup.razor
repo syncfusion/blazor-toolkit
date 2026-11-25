@@ -1,7 +1,7 @@
 @namespace Syncfusion.Blazor.Toolkit
 @inherits ComponentBase
 
-<div class="@_cssClass"
+<div class="@(HasVisibleCommands ? _cssClass : _cssClass + " e-toolbar-group-empty")"
      role="group"
      aria-label="@Label"
      data-testid="toolbar-group">

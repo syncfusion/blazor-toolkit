@@ -60,6 +60,8 @@ namespace Syncfusion.Blazor.Toolkit
 
         private IToolbarHost Self => this;
 
+        private bool HasVisibleCommands => _collection.Flatten().Any(static item => item.IsVisible && !item.IsOverflowed && !item.IsCollapsedExtended);
+
         ToolbarItemCollection IToolbarHost.Collection => _collection;
 
         ToolbarOrientation IToolbarHost.Orientation => Parent?.Orientation ?? ToolbarOrientation.Horizontal;
@@ -107,6 +109,17 @@ namespace Syncfusion.Blazor.Toolkit
         void IToolbarHost.UnregisterGroup(IToolbarHost group)
         {
             _ = _collection.RemoveGroup(group);
+        }
+
+        void IToolbarHost.RefreshGroupVisibility()
+        {
+            if (_disposed)
+            {
+                return;
+            }
+
+            _ = InvokeAsync(StateHasChanged);
+            _collection.RefreshGroupVisibility();
         }
 
         Task IToolbarHost.OpenNestedMenuAsync(ToolbarItem item)

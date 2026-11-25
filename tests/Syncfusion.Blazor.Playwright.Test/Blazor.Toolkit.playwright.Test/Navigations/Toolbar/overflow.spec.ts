@@ -7,6 +7,8 @@ import { openToolbarPage, buttonTexts, expectBar } from './helpers';
 const TB = '#toolbar-overflow';
 const MORE = `${TB} [data-testid="toolbar-overflow-button"]`;
 const POPUP = `${TB} [data-testid="toolbar-overflow-popup"]`;
+const SCROLL_START = `${TB} [data-testid="toolbar-scroll-start"]`;
+const SCROLL_END = `${TB} [data-testid="toolbar-scroll-end"]`;
 
 /**
  * Resizes the frame and waits until the overflow state has caught up. Recalculation runs on the server after a
@@ -194,6 +196,34 @@ test.describe('Toolbar overflow @toolbar', () => {
     expect(metrics.wrap).toBe('nowrap');
     expect(metrics.scrollable).toBe(true);
     expect(['auto', 'scroll']).toContain(metrics.overflowX);
+  });
+
+  test('P-TB-050 Scrollable navigation refreshes after container resize without a reload', async ({ page }) => {
+    await openToolbarPage(page, '/toolbar/overflow');
+    await page.locator('#mode-scroll').click();
+    await expect(page.locator(SCROLL_START)).toHaveCount(0);
+    await expect(page.locator(SCROLL_END)).toHaveCount(0);
+
+    const resizeFrame = (width: number) =>
+      page.locator('#frame').evaluate((frame, nextWidth) => {
+        (frame as HTMLElement).style.width = `${nextWidth}px`;
+      }, width);
+
+    await resizeFrame(180);
+    await expect(page.locator(SCROLL_START)).toHaveCount(1);
+    await expect(page.locator(SCROLL_END)).toHaveCount(1);
+    await expect(page.locator(SCROLL_START)).toHaveAttribute('aria-disabled', 'true');
+    await expect(page.locator(SCROLL_END)).toHaveAttribute('aria-disabled', 'false');
+
+    await resizeFrame(900);
+    await expect(page.locator(SCROLL_START)).toHaveCount(0);
+    await expect(page.locator(SCROLL_END)).toHaveCount(0);
+
+    await resizeFrame(180);
+    await expect(page.locator(SCROLL_START)).toHaveCount(1);
+    await expect(page.locator(SCROLL_END)).toHaveCount(1);
+    await expect(page.locator(SCROLL_START)).toHaveAttribute('aria-disabled', 'true');
+    await expect(page.locator(SCROLL_END)).toHaveAttribute('aria-disabled', 'false');
   });
 
   test('P-TB-028 in RTL the More button sits at the left (logical end) edge', async ({ page }) => {

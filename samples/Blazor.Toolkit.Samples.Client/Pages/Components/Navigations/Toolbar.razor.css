@@ -18,6 +18,19 @@
     background: var(--color-sf-content-bg-color);
 }
 
+.toolbar-demo-page ::deep .tb-frame .e-toolbar {
+    inline-size: min(620px, 100%);
+    max-inline-size: 100%;
+    margin-inline: auto;
+}
+
+.toolbar-demo-page ::deep .tb-items-demo .tb-host .e-toolbar,
+.toolbar-demo-page ::deep .tb-templates .e-toolbar {
+    inline-size: min(720px, 100%);
+    max-inline-size: 100%;
+    margin-inline: auto;
+}
+
 .toolbar-demo-page ::deep .tb-editor {
     display: flex;
     flex-direction: column;
@@ -86,6 +99,7 @@
     flex-direction: column;
     gap: 10px;
     max-width: 860px;
+    margin-inline: auto;
 }
 
 .toolbar-demo-page ::deep .preview-section:has(.tb-items-demo) {
@@ -96,14 +110,16 @@
     position: relative;
     isolation: isolate;
     overflow: visible;
-    min-width: 480px;
 }
 
 .toolbar-demo-page ::deep .tb-orient {
     display: flex;
     flex-direction: column;
     gap: 14px;
-    max-width: 680px;
+    width: 100%;
+    max-width: 760px;
+    min-width: 0;
+    margin-inline: auto;
 }
 
 .toolbar-demo-page ::deep .tb-orient-controls {
@@ -185,12 +201,9 @@
 }
 
 .toolbar-demo-page ::deep .tb-orientation-toolbar .e-toolbar-horizontal {
-    width: 100%;
-    max-width: 100%;
-}
-
-.toolbar-demo-page ::deep .tb-orientation-toolbar .e-toolbar-horizontal .e-toolbar-content {
-    justify-content: center;
+    inline-size: fit-content;
+    max-inline-size: 100%;
+    margin-inline: auto;
 }
 
 .toolbar-demo-page ::deep .tb-orientation-toolbar.is-vertical .e-toolbar.e-toolbar-vertical {
@@ -560,6 +573,9 @@
 
 .toolbar-demo-page ::deep .preview-host {
     box-sizing: border-box;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
 }
 
 .toolbar-demo-page ::deep .tb-toolbar-stage {
@@ -659,7 +675,6 @@
 .toolbar-demo-page ::deep .tb-overflow-demo .tb-host {
     align-self: flex-start;
     block-size: fit-content;
-    width: 100% !important;
     height: auto;
     min-height: 0;
 }
@@ -723,7 +738,8 @@
 }
 
 .toolbar-demo-page ::deep .tb-templates {
-    width: min(960px, 100%);
+    width: min(720px, 100%);
+    margin-inline: auto;
 }
 
 .toolbar-demo-page ::deep .tb-files {
