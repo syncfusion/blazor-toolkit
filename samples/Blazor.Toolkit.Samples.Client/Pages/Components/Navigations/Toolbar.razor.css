@@ -1,6 +1,7 @@
 .toolbar-demo-page ::deep .tb-stage {
     display: flex;
     justify-content: center;
+    min-inline-size: 0;
     padding: 8px 0 4px;
 }
 
@@ -13,13 +14,24 @@
 .toolbar-demo-page ::deep .tb-frame {
     position: relative;
     isolation: isolate;
-    width: min(760px, 100%);
+    box-sizing: border-box;
+    inline-size: 100%;
+    min-inline-size: 0;
+    max-inline-size: 100%;
     /* Keep a light container only; do not compete with the toolbar’s own border. */
     background: var(--color-sf-content-bg-color);
 }
 
 .toolbar-demo-page ::deep .tb-frame .e-toolbar {
-    inline-size: min(620px, 100%);
+    box-sizing: border-box;
+    inline-size: 100%;
+    min-inline-size: 0;
+    max-inline-size: 100%;
+    margin-inline: 0;
+}
+
+.toolbar-demo-page ::deep .tb-frame .e-toolbar.tb-default-compact {
+    inline-size: fit-content;
     max-inline-size: 100%;
     margin-inline: auto;
 }

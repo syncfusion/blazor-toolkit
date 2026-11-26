@@ -21,6 +21,17 @@ test.describe('Toolbar menus @toolbar', () => {
     await expect(chevron).toHaveAttribute('aria-expanded', 'true');
   });
 
+  test('Escape returns focus to the split menu toggle', async ({ page }) => {
+    const chevron = page.locator('#m-paste [data-testid="toolbar-split-toggle"]');
+    await chevron.click();
+    await expect(page.locator('#m-paste [data-testid="toolbar-nested-popup"]')).toBeVisible();
+
+    await page.keyboard.press('Escape');
+
+    await expect(page.locator('#m-paste [data-testid="toolbar-nested-popup"]')).toHaveCount(0);
+    await expect(chevron).toBeFocused();
+  });
+
   test('P-TB-051 and P-TB-054 arrow keys move inside the menu and Escape returns to the owner', async ({ page }) => {
     await page.locator('#m-file [data-testid="toolbar-menubutton"]').click();
     const menu = page.locator('#m-file [data-testid="toolbar-nested-popup"]');

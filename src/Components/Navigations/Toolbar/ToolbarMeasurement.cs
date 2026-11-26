@@ -39,6 +39,27 @@ namespace Syncfusion.Blazor.Toolkit
 
     /// <exclude />
     /// <summary>
+    /// The initial browser measurement and resize-observer state returned by one initialization interop call.
+    /// </summary>
+    internal sealed class ToolbarInitialMeasurement
+    {
+        /// <exclude />
+        /// <summary>
+        /// Gets or sets whether the browser started observing container-size changes.
+        /// </summary>
+        [JsonPropertyName("observing")]
+        public bool Observing { get; set; }
+
+        /// <exclude />
+        /// <summary>
+        /// Gets or sets the initial toolbar measurement, or <see langword="null"/> when the browser could not measure it.
+        /// </summary>
+        [JsonPropertyName("measurement")]
+        public ToolbarMeasurement? Measurement { get; set; }
+    }
+
+    /// <exclude />
+    /// <summary>
     /// One measured item.
     /// </summary>
     internal sealed class ToolbarMeasuredItem

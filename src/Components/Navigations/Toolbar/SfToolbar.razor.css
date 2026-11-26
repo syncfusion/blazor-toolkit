@@ -146,6 +146,25 @@
     flex-wrap: nowrap;
 }
 
+/* Static SSR has no measurement pass. Keep a visual affordance at the logical end and reserve
+   the same inline extent from the item row. overflow:hidden clips the last item at the boundary. */
+.e-toolbar.e-toolbar-horizontal.e-toolbar-ssr-popup-overflow {
+    overflow: hidden;
+}
+
+.e-toolbar.e-toolbar-horizontal.e-toolbar-ssr-popup-overflow .e-toolbar-content {
+    overflow: hidden;
+    padding-inline-end: calc(var(--e-toolbar-target) + var(--e-toolbar-gap));
+}
+
+.e-toolbar.e-toolbar-horizontal.e-toolbar-ssr-popup-overflow .e-toolbar-overflow {
+    inset-block-start: 50%;
+    inset-inline-end: var(--e-toolbar-padding-inline);
+    margin: 0;
+    position: absolute;
+    transform: translateY(-50%);
+}
+
 .e-toolbar:dir(rtl) ::deep .e-toolbar-scroll-btn .e-btn-icon {
     transform: scaleX(-1);
 }
