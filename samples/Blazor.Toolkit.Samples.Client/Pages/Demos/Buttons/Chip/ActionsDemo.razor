@@ -16,23 +16,17 @@
                 ChipType="ChipType.Action"
                 CssClass="e-primary"
                 IconCss="sb-icons e-refresh"
-                IsLoading="@(_activeAction == "refresh")"
-                Disabled="@(_activeAction is not null)"
-                OnClick="@(() => RunLocalActionAsync("refresh"))" />
+                OnClick="@(() => HandleAction("refresh"))" />
         <SfChip Text="Export summary"
                 ChipType="ChipType.Action"
                 CssClass="e-info"
                 IconCss="sb-icons e-download"
-                IsLoading="@(_activeAction == "export")"
-                Disabled="@(_activeAction is not null)"
-                OnClick="@(() => RunLocalActionAsync("export"))" />
+                OnClick="@(() => HandleAction("export"))" />
         <SfChip Text="Share snapshot"
                 ChipType="ChipType.Action"
                 CssClass="e-success"
                 IconCss="sb-icons e-send"
-                IsLoading="@(_activeAction == "share")"
-                Disabled="@(_activeAction is not null)"
-                OnClick="@(() => RunLocalActionAsync("share"))" />
+                OnClick="@(() => HandleAction("share"))" />
         <SfChip Text="Open explore page"
                 ChipType="ChipType.Navigation"
                 Variant="ChipVariant.Outlined"
@@ -42,29 +36,21 @@
     </div>
 
     <div class="chip-demo-live" role="status" aria-live="polite">
-        @(_activeAction is null ? _actionResult : $"Working on {_activeAction} locally…")
+        @_actionResult
     </div>
 </section>
 
 @code {
-    private string? _activeAction;
     private string _actionResult = "Choose an action to see local feedback.";
 
-    private async Task RunLocalActionAsync(string action)
+    private void HandleAction(string action)
     {
-        if (_activeAction is not null)
-        {
-            return;
-        }
-
-        _activeAction = action;
-        await Task.Delay(650);
-        _activeAction = null;
         _actionResult = action switch
         {
             "refresh" => "Sales insights were refreshed for this sample.",
             "export" => "A sample export is ready; no file was sent or saved.",
-            _ => "A share summary was prepared in this sample."
+            "share" => "A share summary was prepared in this sample.",
+            _ => "Choose an action to see local feedback."
         };
     }
 }
