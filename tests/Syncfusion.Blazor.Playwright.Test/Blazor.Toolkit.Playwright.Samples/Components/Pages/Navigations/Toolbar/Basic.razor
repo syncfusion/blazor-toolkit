@@ -1,0 +1,66 @@
+@page "/toolbar/basic"
+@using Microsoft.AspNetCore.Components.Web
+
+@layout MainLayout
+
+<span id="interactive-ready" data-ready="@(_interactiveReady ? "true" : "false")" hidden></span>
+
+<h1>Toolbar - Basic</h1>
+
+<div class="test-container">
+    <button id="before-toolbar" type="button">Before</button>
+    <SfToolbar Id="toolbar-basic" AriaLabel="Main commands" OnItemClick="OnItemClick">
+        <ToolbarItem Id="cut" Text="Cut" OnClick="OnCut" />
+        <ToolbarItem Id="copy" Text="Copy" />
+        <ToolbarSeparator />
+        <ToolbarItem Id="bold" Text="Bold" Type="ToolbarItemType.Toggle" @bind-Selected="_bold" />
+        <ToolbarItem Id="disabled" Text="Paste" Enabled="false" />
+        <ToolbarItem Id="hidden" Text="Hidden" Visible="false" />
+        <ToolbarSpacer />
+        <ToolbarGroup Label="View">
+            <ToolbarItem Id="zoom" Text="Zoom" />
+            <ToolbarItem Id="fit" Text="Fit" />
+        </ToolbarGroup>
+    </SfToolbar>
+    <button id="after-toolbar" type="button">After</button>
+
+    <p id="last-click">Last click: @_lastClick</p>
+    <p id="cut-count">Cut clicks: @_cutClicks</p>
+    <p id="bold-state">Bold: @_bold</p>
+
+    <h2>Vertical</h2>
+    <SfToolbar Id="toolbar-vertical" Orientation="ToolbarOrientation.Vertical" AriaLabel="Side commands">
+        <ToolbarItem Id="v-one" Text="One" />
+        <ToolbarItem Id="v-two" Text="Two" />
+        <ToolbarItem Id="v-three" Text="Three" />
+    </SfToolbar>
+
+    <h2>Cancelled toggle</h2>
+    <SfToolbar Id="toolbar-cancel" AriaLabel="Cancelled" OnItemClick="CancelClick">
+        <ToolbarItem Id="locked" Text="Locked" Type="ToolbarItemType.Toggle" @bind-Selected="_locked" />
+    </SfToolbar>
+    <p id="locked-state">Locked: @_locked</p>
+</div>
+
+@code {
+    private bool _interactiveReady;
+    private bool _bold;
+    private bool _locked;
+    private int _cutClicks;
+    private string _lastClick = "none";
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _interactiveReady = true;
+            StateHasChanged();
+        }
+    }
+
+    private void OnItemClick(ToolbarItemClickEventArgs args) => _lastClick = args.ItemId;
+
+    private void OnCut() => _cutClicks++;
+
+    private void CancelClick(ToolbarItemClickEventArgs args) => args.Cancel = true;
+}

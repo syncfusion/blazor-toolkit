@@ -1,0 +1,38 @@
+@page "/toolbar/overflow-layout"
+@using Microsoft.AspNetCore.Components.Web
+
+@layout MainLayout
+
+<span id="interactive-ready" data-ready="@(_interactiveReady ? "true" : "false")" hidden></span>
+
+<h1>Toolbar - Overflow layout</h1>
+
+<div id="frame" style="width:360px;max-width:100%">
+    <SfToolbar Id="toolbar-overflow-layout" AriaLabel="Responsive commands" OverflowMode="ToolbarOverflowMode.Popup">
+        <ToolbarItem Text="Save" IconCss="e-icons e-save" Overflow="ToolbarOverflowOption.Show" Priority="-20" />
+        <ToolbarItem Text="Undo" IconCss="e-icons e-undo" Overflow="ToolbarOverflowOption.Show" Priority="-10" />
+        <ToolbarItem Text="Redo" IconCss="e-icons e-redo" Priority="0" />
+        <ToolbarSeparator />
+        <ToolbarItem Text="Cut" IconCss="e-icons e-cut" Priority="10" />
+        <ToolbarItem Text="Copy" IconCss="e-icons e-copy" Priority="20" />
+        <ToolbarItem Text="Paste" IconCss="e-icons e-paste" Priority="30" />
+        <ToolbarSeparator />
+        <ToolbarItem Text="Find" IconCss="e-icons e-search" Overflow="ToolbarOverflowOption.Hide" Priority="40" />
+        <ToolbarItem Text="Comment" IconCss="e-icons e-comment-add" Overflow="ToolbarOverflowOption.Hide" Priority="50" />
+        <ToolbarItem Text="Link" IconCss="e-icons e-link" Overflow="ToolbarOverflowOption.Hide" Priority="60" />
+        <ToolbarItem Text="Export" IconCss="e-icons e-export" Overflow="ToolbarOverflowOption.Hide" Priority="70" />
+    </SfToolbar>
+</div>
+
+@code {
+    private bool _interactiveReady;
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _interactiveReady = true;
+            StateHasChanged();
+        }
+    }
+}

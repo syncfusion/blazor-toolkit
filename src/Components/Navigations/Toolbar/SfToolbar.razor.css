@@ -1,0 +1,757 @@
+/*
+ * SfToolbar styles.
+ *
+ * Blazor CSS isolation adds a scope attribute only to the elements rendered by the component that owns this file.
+ * The toolbar root and the overflow container are rendered by SfToolbar itself and match plain selectors. Items, groups,
+ * separators, spacers and the buttons inside them are separate components, so every selector that reaches them goes
+ * through ::deep, anchored on the toolbar root so nothing leaks into the host page (TB-ISO-020).
+ *
+ * Variable policy
+ *   - Colors use shared theme tokens, except for explicitly specified component palettes defined as scoped custom properties.
+ *   - Layout uses logical properties (inline, block, start, end) so RTL mirrors without extra rules (TB-RTL-040).
+ *   - Targets are 24 px minimum, and 44 px on narrow viewports (TB-A11Y-100, TB-A11Y-110).
+ */
+
+.e-toolbar {
+    --e-toolbar-background: #F1F5F9;
+    --e-toolbar-hover-background: #E2E8F0;
+    --e-toolbar-selected-background: #DBEAFE;
+}
+
+/* .e-dark-mode is the Toolkit theme switch (SfThemeRoot). Isolated CSS cannot see an ancestor
+   outside this component, so the class is read from the toolbar root itself, where CssClass lands
+   (TB-IMP-030). */
+.e-toolbar.e-dark-mode {
+    /* Literal values: a custom property set on an ancestor does not cross the isolation boundary. */
+    --e-toolbar-background: #292929;
+    --e-toolbar-hover-background: #333333;
+    --e-toolbar-selected-background: #0e4775;
+    color: #ffffff;
+}
+
+.e-toolbar {
+    --e-toolbar-gap: 4px;
+    --e-toolbar-padding-inline: 8px;
+    --e-toolbar-padding-block: 4px;
+    --e-toolbar-radius: 8px;
+    --e-toolbar-target: 32px;
+    --e-toolbar-focus-width: 2px;
+    --e-toolbar-border-width: 1px;
+
+    align-items: center;
+    border: 0;
+    border-radius: var(--e-toolbar-radius);
+    box-sizing: border-box;
+    color: var(--color-sf-content-text-color);
+    background: var(--e-toolbar-background);
+    column-gap: var(--e-toolbar-gap);
+    display: flex;
+    flex-direction: row;
+    inline-size: 100%;
+    font-family: var(--e-font-family), var(--e-font-sans);
+    min-block-size: calc(var(--e-toolbar-target) + (2 * var(--e-toolbar-padding-block)) + (2 * var(--e-toolbar-border-width)));
+    padding-block: var(--e-toolbar-padding-block);
+    padding-inline: var(--e-toolbar-padding-inline);
+    position: relative;
+    row-gap: var(--e-toolbar-gap);
+    z-index: 1000;
+    /* Nested menus are absolutely positioned against this root. The overflow menu is a fixed sibling
+       and is not clipped by this stacking context (ADR-006, TB-ISO-030). */
+    z-index: 0;
+}
+
+.e-toolbar.e-toolbar-popup-open {
+    z-index: 1001;
+}
+
+/* ---- Orientation ---- */
+
+.e-toolbar.e-toolbar-vertical {
+    align-items: stretch;
+    flex-direction: column;
+    block-size: 100%;
+    inline-size: max-content;
+}
+
+/* ---- Alignment (logical: start and end follow the text direction) ---- */
+
+/*
+ * The items live in the content element, so the alignment is applied there. The root only lays out
+ * the content and the controls that sit outside it.
+ */
+.e-toolbar.e-toolbar-align-start .e-toolbar-content {
+    justify-content: safe flex-start;
+}
+
+.e-toolbar.e-toolbar-align-center .e-toolbar-content {
+    justify-content: safe center;
+}
+
+.e-toolbar.e-toolbar-align-end .e-toolbar-content {
+    justify-content: safe flex-end;
+}
+
+.e-toolbar.e-toolbar-align-justify .e-toolbar-content {
+    justify-content: space-between;
+}
+
+/* A spacer only absorbs free space in Justify. Otherwise Start, Center and End stay visible. */
+.e-toolbar:not(.e-toolbar-align-justify) ::deep .e-toolbar-spacer {
+    flex: 0 0 auto;
+}
+
+/* ---- Overflow modes ---- */
+
+/* Popup: keep the control beside the content and prevent items from wrapping before overflow measurement. */
+.e-toolbar.e-toolbar-popup {
+    flex-wrap: nowrap;
+}
+
+.e-toolbar.e-toolbar-measuring {
+    visibility: hidden;
+}
+
+/*
+ * Extended: the extra rows are collapsed behind the expand control. The control is pinned to the
+ * inline end of the bar, because the items wrap onto several rows and a control that takes part in
+ * the flow would be pushed onto the last row and clipped away (TB-OVF-140).
+ */
+.e-toolbar.e-toolbar-extended {
+    flex-wrap: wrap;
+    padding-inline-end: calc(var(--e-toolbar-padding-inline) + var(--e-toolbar-target));
+}
+
+.e-toolbar.e-toolbar-extended .e-toolbar-overflow {
+    inset-block: 0;
+    inset-inline-end: 0;
+    margin-inline-start: 0;
+    position: absolute;
+}
+
+/*
+ * The items live in a content element so the Scrollable mode can scroll them while the navigation
+ * chevrons stay outside the scroll area. In every mode the content lays the items out as a row,
+ * so the measurement sees the same width the items take.
+ */
+.e-toolbar .e-toolbar-content {
+    align-items: center;
+    column-gap: var(--e-toolbar-gap);
+    display: flex;
+    flex: 1 1 auto;
+    flex-wrap: wrap;
+    min-inline-size: 0;
+}
+
+.e-toolbar.e-toolbar-popup .e-toolbar-content {
+    flex-wrap: nowrap;
+}
+
+.e-toolbar:dir(rtl) ::deep .e-toolbar-scroll-btn .e-btn-icon {
+    transform: scaleX(-1);
+}
+
+.e-toolbar.e-toolbar-scrollable {
+    flex-wrap: nowrap;
+}
+
+.e-toolbar.e-toolbar-scrollable .e-toolbar-content {
+    align-items: center;
+    column-gap: var(--e-toolbar-gap);
+    display: flex;
+    flex: 1 1 auto;
+    flex-wrap: nowrap;
+    min-inline-size: 0;
+    /* The chevrons replace the native scrollbar, so the bar itself stays clean. The content still
+       scrolls with the wheel, a drag or a touch swipe (TB-OVF-050). */
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    overscroll-behavior-x: contain;
+    padding-block: 0;
+}
+
+.e-toolbar.e-toolbar-scrollable .e-toolbar-content::-webkit-scrollbar {
+    display: none;
+}
+
+.e-toolbar.e-toolbar-scrollable.e-toolbar-vertical .e-toolbar-content {
+    flex-direction: column;
+    min-block-size: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior-y: contain;
+    row-gap: var(--e-toolbar-gap);
+}
+
+/* Vertical bar is a column of full-width commands, not a floating chip. */
+.e-toolbar.e-toolbar-vertical {
+    align-items: stretch;
+    align-self: stretch;
+    flex-direction: column;
+    inline-size: max-content;
+    min-inline-size: 10rem;
+}
+
+.e-toolbar.e-toolbar-vertical .e-toolbar-content {
+    align-items: stretch;
+    flex-direction: column;
+    flex: 1 1 auto;
+    flex-wrap: nowrap;
+    min-block-size: 0;
+    row-gap: var(--e-toolbar-gap);
+}
+
+.e-toolbar.e-toolbar-multirow.e-toolbar-vertical .e-toolbar-content,
+.e-toolbar.e-toolbar-extended.e-toolbar-vertical .e-toolbar-content {
+    align-content: flex-start;
+    flex-wrap: wrap;
+}
+
+.e-toolbar.e-toolbar-extended.e-toolbar-vertical:not(.e-toolbar-expanded) {
+    max-block-size: none;
+    overflow: visible;
+}
+
+.e-toolbar.e-toolbar-extended.e-toolbar-vertical .e-toolbar-overflow {
+    align-self: stretch;
+    inset: auto;
+    margin-block-start: auto;
+    margin-inline-start: 0;
+    position: static;
+}
+
+.e-toolbar.e-toolbar-vertical.e-toolbar-popup .e-toolbar-content {
+    padding-block-end: calc(var(--e-toolbar-target) + var(--e-toolbar-gap));
+}
+
+.e-toolbar.e-toolbar-vertical.e-toolbar-popup .e-toolbar-overflow {
+    inset-block-end: var(--e-toolbar-padding-block);
+    inset-inline-start: var(--e-toolbar-padding-inline);
+    margin: 0;
+    position: absolute;
+}
+
+.e-toolbar.e-toolbar-vertical.e-toolbar-extended ::deep .e-toolbar-item-extended-collapsed {
+    display: none;
+}
+
+.e-toolbar.e-toolbar-vertical.e-toolbar-extended:not(.e-toolbar-expanded) ::deep .e-toolbar-separator,
+.e-toolbar.e-toolbar-vertical.e-toolbar-extended:not(.e-toolbar-expanded) ::deep .e-toolbar-spacer {
+    display: none;
+}
+
+.e-toolbar.e-toolbar-vertical ::deep .e-toolbar-item,
+.e-toolbar.e-toolbar-vertical ::deep .e-tbar-btn {
+    inline-size: 100%;
+    justify-content: flex-start;
+    text-align: start;
+}
+
+.e-toolbar.e-toolbar-multirow,
+.e-toolbar.e-toolbar-extended {
+    flex-wrap: wrap;
+}
+
+.e-toolbar.e-toolbar-multirow.e-toolbar-vertical,
+.e-toolbar.e-toolbar-extended.e-toolbar-vertical {
+    flex-wrap: nowrap;
+}
+
+.e-toolbar.e-toolbar-multirow.e-toolbar-vertical,
+.e-toolbar.e-toolbar-extended.e-toolbar-vertical {
+    inline-size: var(--e-toolbar-wrapped-root-inline-size, max-content);
+}
+
+.e-toolbar.e-toolbar-multirow.e-toolbar-vertical .e-toolbar-content,
+.e-toolbar.e-toolbar-extended.e-toolbar-vertical .e-toolbar-content {
+    inline-size: var(--e-toolbar-wrapped-content-inline-size, auto);
+}
+
+/* Extended starts collapsed to one row. The expand button toggles e-toolbar-expanded.
+ *
+ * The root is border-box, so max-block-size covers the border too. The collapsed height must
+ * therefore be target + padding + border, otherwise the row is 2 px too short and the expand
+ * button is clipped away by the overflow rule below (TB-OVF-140). */
+.e-toolbar.e-toolbar-extended:not(.e-toolbar-expanded) {
+    max-block-size: calc(var(--e-toolbar-target) + (2 * var(--e-toolbar-padding-block)) + (2 * var(--e-toolbar-border-width)));
+    overflow: hidden;
+}
+
+/* ---- Items (rendered by ToolbarItem, ToolbarTemplateItem, ToolbarGroup, ToolbarSeparator, ToolbarSpacer) ---- */
+
+.e-toolbar ::deep .e-toolbar-item {
+    align-items: center;
+    display: inline-flex;
+    flex: 0 0 auto;
+    position: relative;
+}
+
+/* An overflowed item stays in the DOM so its size can be measured again, but it takes no room in the bar. */
+.e-toolbar ::deep .e-toolbar-item.e-toolbar-item-overflowed {
+    display: none;
+}
+
+.e-toolbar ::deep .e-toolbar-group {
+    align-items: center;
+    column-gap: var(--e-toolbar-gap);
+    display: inline-flex;
+    flex: 0 0 auto;
+}
+
+.e-toolbar.e-toolbar-vertical ::deep .e-toolbar-group {
+    flex-direction: column;
+    row-gap: var(--e-toolbar-gap);
+}
+
+.e-toolbar ::deep .e-toolbar-separator {
+    align-self: stretch;
+    background: var(--color-sf-border);
+    block-size: auto;
+    flex: 0 0 auto;
+    inline-size: 1px;
+    margin-block: 4px;
+}
+
+.e-toolbar.e-toolbar-vertical ::deep .e-toolbar-separator {
+    block-size: 1px;
+    inline-size: auto;
+    margin-block: 0;
+    margin-inline: 4px;
+}
+
+/* Popup separators divide command groups, so hide them when either neighboring group is empty. */
+.e-toolbar.e-toolbar-popup ::deep .e-toolbar-group.e-toolbar-group-empty + .e-toolbar-separator,
+.e-toolbar.e-toolbar-popup ::deep .e-toolbar-separator:has(+ .e-toolbar-group.e-toolbar-group-empty) {
+    display: none;
+}
+
+/* The spacer pushes the items on either side apart. It is not focusable and not announced. */
+.e-toolbar ::deep .e-toolbar-spacer {
+    flex: 1 1 auto;
+    min-inline-size: 0;
+    pointer-events: none;
+}
+
+.e-toolbar.e-toolbar-vertical ::deep .e-toolbar-spacer {
+    min-block-size: 0;
+}
+
+/* ---- Buttons ---- */
+
+.e-toolbar ::deep .e-tbar-btn {
+    align-items: center;
+    background: transparent;
+    border: none;                 /* remove the separate chip borders */
+    border-radius: var(--e-toolbar-radius);
+    box-sizing: border-box;
+    box-shadow: none;
+    color: var(--color-sf-content-text-color);
+    column-gap: 6px;
+    display: inline-flex;
+    justify-content: center;
+    min-block-size: var(--e-toolbar-target);
+    min-inline-size: var(--e-toolbar-target);
+    padding-inline: 8px;
+    vertical-align: middle;
+}
+
+.e-toolbar ::deep .e-tbar-btn:hover:where(:not(:disabled)) {
+    background: var(--e-toolbar-hover-background);
+    color: var(--color-sf-content-text-color);
+}
+
+.e-toolbar ::deep .e-tbar-btn:active:not(:disabled),
+.e-toolbar ::deep .e-tbar-btn.e-active,
+.e-toolbar ::deep .e-toolbar-item.e-selected .e-tbar-btn,
+.e-toolbar ::deep .e-tbar-btn[aria-pressed="true"] {
+    background: var(--e-toolbar-selected-background);
+    color: var(--color-sf-content-text-color);
+}
+
+.e-toolbar ::deep .e-tbar-btn:disabled,
+.e-toolbar ::deep .e-tbar-btn[aria-disabled="true"] {
+    color: var(--color-sf-content-text-color-disabled);
+    cursor: not-allowed;
+}
+
+/* The focus indicator keeps a 3:1 contrast against its surroundings (WCAG 2.2 SC 1.4.11). */
+.e-toolbar ::deep .e-tbar-btn:focus-visible,
+.e-toolbar ::deep .e-toolbar-overflow-btn:focus-visible,
+.e-toolbar ::deep .e-toolbar-chevron:focus-visible,
+.e-toolbar ::deep .e-toolbar-item:focus-visible,
+.e-toolbar-overflow-popup ::deep .e-toolbar-overflow-entry:focus-visible,
+.e-toolbar ::deep .e-toolbar-nested-menu .e-tbar-btn:focus-visible {
+    /* Inset so a host with overflow clipping still shows the whole indicator (WCAG 2.4.7). */
+    outline: var(--e-toolbar-focus-width) solid var(--color-sf-primary-bg-color);
+    outline-offset: calc(var(--e-toolbar-focus-width) * -1);
+}
+
+/* Split keeps the primary action and the chevron as one command. */
+.e-toolbar ::deep .e-toolbar-split {
+    align-items: center;
+    display: inline-flex;
+    column-gap: 0;
+}
+
+.e-toolbar.e-toolbar-vertical ::deep .e-toolbar-split {
+    display: flex;
+    inline-size: 100%;
+}
+
+.e-toolbar.e-toolbar-vertical ::deep .e-toolbar-split .e-tbar-btn:not(.e-toolbar-chevron) {
+    flex: 1 1 auto;
+    inline-size: auto;
+    min-inline-size: 0;
+}
+
+.e-toolbar.e-toolbar-vertical ::deep .e-toolbar-split .e-toolbar-chevron {
+    flex: 0 0 var(--e-toolbar-target);
+    inline-size: var(--e-toolbar-target);
+}
+
+.e-toolbar ::deep .e-toolbar-chevron {
+    min-inline-size: var(--e-toolbar-target);
+    padding-inline: 0;
+}
+
+.e-toolbar ::deep .e-toolbar-item-text {
+    white-space: nowrap;
+}
+
+/* Icon glyph box.
+ *
+ * The font family belongs to the consumer: ToolbarItem.IconCss names the icon class and that class
+ * names the font (for example "sb-icons e-save" in the Sample Browser). Setting a font family here
+ * replaced the consumer's font with the toolkit font, and the consumer's glyph code points then had
+ * no glyph in it, so every icon rendered blank. The toolbar therefore sizes and aligns the glyph box
+ * only and never names a font (TB-THM-050).
+ *
+ * The icon span is rendered by SfButton, a separate component, so the selector needs ::deep.
+ *
+ * The rule targets the glyph span only. An icon-only button carries the same "e-btn-icon" class as
+ * the span inside it, so a plain ".e-btn-icon" selector also matched the button and shrank it to the
+ * glyph width, which left the split chevron below the 24 px target minimum (WCAG 2.2 SC 2.5.8).
+ */
+.e-toolbar ::deep span.e-btn-icon,
+.e-toolbar ::deep span.e-toolbar-item-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-style: normal;
+    line-height: 1;
+    /* SfButton pulls its own icon glyphs up by 2px and inward by 0.5em. Toolbar items render the
+       icon themselves so that shift never applies. These zeros keep a host style from moving the
+       glyph after click, focus or a selected state. */
+    margin-top: 0;
+    margin-inline: 0;
+    min-inline-size: 1em;
+    min-block-size: 1em;
+}
+
+/* The wash is added only for a real pointer press, at that point. It is never a permanent child,
+   so an idle item does not show a dot, and a menu or layout change does not start it. */
+.e-toolbar ::deep .e-tbar-btn {
+    overflow: hidden;
+    position: relative;
+}
+
+/* The ripple clip must not hide the keyboard indicator. */
+.e-toolbar ::deep .e-tbar-btn:focus-visible,
+.e-toolbar-overflow-popup ::deep .e-toolbar-overflow-entry:focus-visible {
+    overflow: visible;
+}
+
+.e-toolbar .e-toolbar-ripple,
+.e-toolbar ::deep .e-toolbar-ripple {
+    background: var(--color-sf-content-text-color);
+    border-radius: 999px;
+    block-size: 120%;
+    inline-size: 120%;
+    opacity: 0.32;
+    pointer-events: none;
+    position: absolute;
+    transform: translate(-50%, -50%) scale(0.2);
+    animation: e-toolbar-ripple 1000ms ease-out forwards;
+}
+
+@keyframes e-toolbar-ripple {
+    to {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(18);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .e-toolbar .e-toolbar-ripple,
+.e-toolbar ::deep .e-toolbar-ripple {
+        animation: none;
+        opacity: 0;
+    }
+}
+
+.e-toolbar ::deep .e-tbar-btn.e-icon-btn,
+.e-toolbar ::deep .e-toolbar-item[data-display="IconOnly"] .e-tbar-btn {
+    padding-inline: 0;
+}
+
+.e-toolbar ::deep .e-toolbar-badge {
+    background: var(--color-sf-primary-bg-color);
+    border-radius: 999px;
+    color: var(--color-sf-primary-text-color);
+    font-size: 11px;
+    line-height: 1;
+    margin-inline-start: 4px;
+    padding-block: 2px;
+    padding-inline: 6px;
+}
+
+/* ---- Overflow button and popup (rendered by SfToolbar itself) ---- */
+
+/*
+ * These elements are rendered by SfToolbar, so they carry the scope attribute themselves.
+ * A plain selector such as ".e-toolbar-overflow-popup" is rewritten by CSS isolation to
+ * ".e-toolbar-overflow-popup[b-xxx]" and matches the element directly. A descendant selector
+ * such as ".e-toolbar .e-toolbar-overflow-popup" is rewritten to
+ * ".e-toolbar .e-toolbar-overflow-popup[b-xxx]" and would need a nested .e-toolbar, so it
+ * never matches. The rules below therefore use the top-level form.
+ */
+
+.e-toolbar-overflow {
+    align-items: center;
+    display: inline-flex;
+    flex: 0 0 auto;
+    margin-inline-start: auto;
+    position: relative;
+}
+
+/*
+ * The open menu is the last child of the toolbar root (ADR-006). position:fixed is taken against
+ * the viewport, so an ancestor with overflow:auto or overflow:hidden cannot clip it. The toolbar's
+ * own overflow:hidden does not clip a fixed descendant either.
+ * JavaScript applies coordinates through CSSOM after measurement; the layer stays hidden until
+ * Blazor marks it positioned, so the menu does not flash at the viewport origin or require inline markup styles.
+ */
+.e-toolbar-overflow-layer {
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    pointer-events: none;
+}
+
+.e-toolbar-overflow-layer:not(.e-toolbar-overflow-layer-positioned) {
+    visibility: hidden;
+}
+
+.e-toolbar-overflow-backdrop {
+    background: transparent;
+    inset: 0;
+    pointer-events: auto;
+    position: fixed;
+    /* Below the toolbar root (z-index 1000) so a second click on the overflow button
+       reaches the button and toggles the menu closed, instead of hitting this layer. */
+    z-index: 999;
+}
+
+.e-toolbar-overflow-popup {
+    background: var(--e-toolbar-background);
+    border: 1px solid var(--color-sf-border);
+    border-radius: var(--e-toolbar-radius);
+    box-shadow: 0 4px 12px color-mix(in srgb, var(--color-sf-shadow-color, CanvasText) 18%, transparent);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    max-block-size: min(60vh, 420px);
+    min-inline-size: 160px;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding-block: 4px;
+    pointer-events: auto;
+    position: fixed;
+    z-index: 1000;
+}
+
+/* The popup entries are rendered by SfButton, a separate component, so they need ::deep. */
+.e-toolbar-overflow-popup ::deep .e-toolbar-overflow-entry {
+    border-radius: 0;
+    justify-content: flex-start;
+    inline-size: 100%;
+    text-align: start;
+}
+
+/* Nested menus are rendered by ToolbarItem, so isolation requires ::deep. */
+.e-toolbar ::deep .e-toolbar-nested-menu {
+    background: var(--e-toolbar-background);
+    border: 1px solid var(--color-sf-border);
+    border-radius: var(--e-toolbar-radius);
+    box-shadow: 0 4px 12px color-mix(in srgb, var(--color-sf-shadow-color, CanvasText) 18%, transparent);
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    height: auto;
+    inset-block-start: 100%;
+    inset-inline-start: 0;
+    max-block-size: min(60vh, 420px);
+    min-block-size: max-content;
+    min-inline-size: 160px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding-block: 4px;
+    position: absolute;
+    z-index: 1000;
+}
+
+/* Placed above the trigger when there is no room below it. */
+.e-toolbar ::deep .e-toolbar-nested-menu.e-toolbar-nested-menu-top {
+    inset-block-end: 100%;
+    inset-block-start: auto;
+}
+
+.e-toolbar ::deep .e-toolbar-nested-menu .e-toolbar-item,
+.e-toolbar ::deep .e-toolbar-nested-menu .e-tbar-btn {
+    display: flex;
+    inline-size: 100%;
+    justify-content: flex-start;
+    min-block-size: var(--e-toolbar-target);
+    position: relative;
+    text-align: start;
+}
+
+/* The expand control is rendered by SfToolbar as a direct child of the root. */
+.e-toolbar-expand-btn {
+    flex: 0 0 auto;
+    margin-inline-start: auto;
+    min-inline-size: var(--e-toolbar-target);
+}
+
+/* ---- Scrollable navigation (rendered by SfToolbar itself) ---- */
+
+/*
+ * The two chevrons sit at the inline ends of the bar and move the content along the main axis.
+ * They are rendered only when the items do not fit, and they are disabled at the start and at the
+ * end of the range, so the user always sees which way there is more content (TB-OVF-050).
+ */
+.e-toolbar-scroll-controls {
+    align-items: center;
+    display: inline-flex;
+    flex: 0 0 auto;
+    gap: 2px;
+    padding-inline: 4px;
+    position: relative;
+    z-index: 2;
+}
+
+.e-toolbar-scroll-btn {
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+    color: var(--color-sf-content-text-color);
+    font-size: 14px;
+    min-block-size: var(--e-toolbar-target);
+    min-inline-size: 28px;
+    padding-inline: 6px;
+}
+
+.e-toolbar-scroll-btn:hover:not(:disabled) {
+    background: transparent;
+}
+
+.e-toolbar.e-toolbar-scrollable:not(.e-toolbar-vertical) .e-toolbar-scroll-controls-start {
+    border-inline-end: 1px solid var(--color-sf-border);
+    align-self: stretch;
+}
+
+.e-toolbar.e-toolbar-scrollable:not(.e-toolbar-vertical) .e-toolbar-scroll-controls-end {
+    border-inline-start: 1px solid var(--color-sf-border);
+    align-self: stretch;
+}
+
+.e-toolbar.e-toolbar-scrollable.e-toolbar-vertical .e-toolbar-scroll-controls-start {
+    border-block-end: 1px solid var(--color-sf-border);
+    border-inline-end: 0;
+    align-self: stretch;
+}
+
+.e-toolbar.e-toolbar-scrollable.e-toolbar-vertical .e-toolbar-scroll-controls-end {
+    border-block-start: 1px solid var(--color-sf-border);
+    border-inline-start: 0;
+    align-self: stretch;
+}
+
+.e-toolbar-scroll-btn:disabled,
+.e-toolbar-scroll-btn[aria-disabled="true"] {
+    color: var(--color-sf-content-text-color-disabled);
+    cursor: default;
+    opacity: .45;
+}
+
+/* ---- Touch targets on narrow viewports (TB-A11Y-110) ---- */
+
+@media (max-width: 575.98px) {
+    .e-toolbar {
+        --e-toolbar-target: 44px;
+    }
+}
+
+/* ---- Forced colors (TB-A11Y-130, ADR-008): system colors, visible boundaries and focus ---- */
+
+@media (forced-colors: active) {
+    .e-toolbar {
+        background: Canvas;
+        border: 0;
+        color: CanvasText;
+        forced-color-adjust: auto;
+    }
+
+    .e-toolbar-scroll-btn {
+        background: ButtonFace;
+        border-color: ButtonText;
+        color: ButtonText;
+    }
+
+    .e-toolbar ::deep .e-tbar-btn {
+        border-color: ButtonBorder;
+        color: ButtonText;
+    }
+
+    .e-toolbar ::deep .e-tbar-btn:disabled,
+    .e-toolbar ::deep .e-tbar-btn[aria-disabled="true"] {
+        border-color: GrayText;
+        color: GrayText;
+    }
+
+    .e-toolbar ::deep .e-tbar-btn:active:not(:disabled),
+    .e-toolbar ::deep .e-tbar-btn.e-active,
+    .e-toolbar ::deep .e-toolbar-item.e-selected .e-tbar-btn,
+    .e-toolbar ::deep .e-tbar-btn[aria-pressed="true"] {
+        background: Highlight;
+        border-color: Highlight;
+        color: HighlightText;
+    }
+
+    .e-toolbar ::deep .e-tbar-btn:focus-visible,
+    .e-toolbar ::deep .e-toolbar-item:focus-visible,
+    .e-toolbar-overflow-popup ::deep .e-toolbar-overflow-entry:focus-visible {
+        outline-color: Highlight;
+    }
+
+    .e-toolbar ::deep .e-toolbar-separator {
+        background: CanvasText;
+    }
+
+    .e-toolbar ::deep .e-toolbar-badge {
+        background: Highlight;
+        color: HighlightText;
+    }
+
+    .e-toolbar-overflow-popup,
+    .e-toolbar ::deep .e-toolbar-nested-menu {
+        background: Canvas;
+        border-color: CanvasText;
+        box-shadow: none;
+    }
+}

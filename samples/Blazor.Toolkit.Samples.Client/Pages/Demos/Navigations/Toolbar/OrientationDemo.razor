@@ -1,0 +1,50 @@
+<div class="tb-orient" data-testid="toolbar-orientation-demo">
+    <div class="tb-orient-controls">
+        <span class="tb-control-label" id="toolbar-orientation-label">Toolbar orientation</span>
+        <SfButtonGroup Mode="SelectionMode.Single" CssClass="e-round-corner" HtmlAttributes="@_orientationGroupAttributes">
+            <Button Selected="@(!_isVertical)"
+                    SelectedChanged="@(selected => SetOrientation(selected, false))"
+                    CssClass="tb-place">
+                Horizontal
+            </Button>
+            <Button Selected="@_isVertical"
+                    SelectedChanged="@(selected => SetOrientation(selected, true))"
+                    CssClass="tb-place">
+                Vertical
+            </Button>
+        </SfButtonGroup>
+    </div>
+
+    <div class="tb-orientation-toolbar @(_isVertical ? "is-vertical" : "is-horizontal")">
+        <SfToolbar AriaLabel="Project commands"
+                   Orientation="@(_isVertical ? ToolbarOrientation.Vertical : ToolbarOrientation.Horizontal)"
+                   OverflowMode="ToolbarOverflowMode.Scrollable"
+                   data-testid="toolbar-root">
+            <ToolbarItem Text="Cut" IconCss="sb-icons e-cut" Tooltip="Cut" />
+            <ToolbarItem Text="Copy" IconCss="sb-icons e-copy" Tooltip="Copy" />
+            <ToolbarItem Text="Paste" IconCss="sb-icons e-paste" Tooltip="Paste" />
+            <ToolbarItem Text="Undo" IconCss="sb-icons e-undo" Tooltip="Undo" />
+            <ToolbarItem Text="Redo" IconCss="sb-icons e-redo" Tooltip="Redo" />
+            <ToolbarItem Text="Find" IconCss="sb-icons e-search" Tooltip="Find" />
+            <ToolbarItem Text="Comment" IconCss="sb-icons e-comment-add" Tooltip="Add comment" />
+            <ToolbarItem Text="Save" IconCss="sb-icons e-save" Tooltip="Save" />
+        </SfToolbar>
+    </div>
+</div>
+
+@code {
+    private static readonly Dictionary<string, object> _orientationGroupAttributes = new()
+    {
+        ["aria-labelledby"] = "toolbar-orientation-label"
+    };
+
+    private bool _isVertical;
+
+    private void SetOrientation(bool isSelected, bool isVertical)
+    {
+        if (isSelected)
+        {
+            _isVertical = isVertical;
+        }
+    }
+}
