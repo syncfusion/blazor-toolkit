@@ -1,0 +1,31 @@
+@page "/toolbar/groups"
+@layout MainLayout
+
+<span id="interactive-ready" data-ready="@(_interactiveReady ? "true" : "false")" hidden></span>
+
+<h1>Toolbar - Groups</h1>
+
+<div class="test-container">
+    <SfToolbar Id="toolbar-groups" AriaLabel="Grouped commands">
+        <ToolbarItem Id="g-left" Text="Left" Type="ToolbarItemType.Toggle" GroupName="align" Selected="true" />
+        <ToolbarItem Id="g-center" Text="Center" Type="ToolbarItemType.Toggle" GroupName="align" />
+        <ToolbarItem Id="g-right" Text="Right" Type="ToolbarItemType.Toggle" GroupName="align" />
+        <ToolbarSeparator />
+        <ToolbarItem Id="g-bold" Text="Bold" Type="ToolbarItemType.Check" GroupName="format" />
+        <ToolbarItem Id="g-italic" Text="Italic" Type="ToolbarItemType.Check" GroupName="format" />
+        <ToolbarItem Id="g-underline" Text="Underline" Type="ToolbarItemType.Check" GroupName="format" />
+    </SfToolbar>
+</div>
+
+@code {
+    private bool _interactiveReady;
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _interactiveReady = true;
+            StateHasChanged();
+        }
+    }
+}

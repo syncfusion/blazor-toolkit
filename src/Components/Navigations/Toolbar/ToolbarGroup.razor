@@ -1,0 +1,11 @@
+@namespace Syncfusion.Blazor.Toolkit
+@inherits ComponentBase
+
+<div class="@(HasVisibleCommands ? _cssClass : _cssClass + " e-toolbar-group-empty")"
+     role="group"
+     aria-label="@Label"
+     data-testid="toolbar-group">
+    <CascadingValue Value="Self" IsFixed="true">
+        @ChildContent
+    </CascadingValue>
+</div>
