@@ -39,6 +39,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Navigations.Toolbar
                 Microsoft.AspNetCore.Components.Web.HtmlRendering.HtmlRootComponent root = await renderer.RenderComponentAsync<SfToolbar>(ParameterView.FromDictionary(new Dictionary<string, object?>
                 {
                     ["AriaLabel"] = "Static",
+                    ["OverflowSettings"] = new ToolbarOverflowSettings { ShowOverflowButton = false },
                     ["ChildContent"] = Compose(Item("Cut", ("Id", "cut")), Item("Copy", ("Id", "copy")))
                 }));
                 return root.ToHtmlString();

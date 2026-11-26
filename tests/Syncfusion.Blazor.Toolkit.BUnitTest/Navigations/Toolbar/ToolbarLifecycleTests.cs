@@ -22,7 +22,9 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Navigations.Toolbar
             if (_module is null)
             {
                 _module = JSInterop.SetupModule(ModulePath);
-                _module.Setup<bool>("observe", _ => true).SetResult(observerAvailable);
+                _module.Setup<ToolbarInitialMeasurement>("initialize", _ => true).SetResult(observerAvailable
+                    ? new ToolbarInitialMeasurement { Observing = true }
+                    : null!);
             }
             _module.Mode = JSRuntimeMode.Loose;
             return _module;
@@ -75,9 +77,12 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Navigations.Toolbar
         public async Task PopupToolbar_StaysConcealedUntilObserverRetryMeasuresItems()
         {
             ScriptModule();
-            IRenderedComponent<SfToolbar> cut = RenderToolbar(Three());
+            Dictionary<string, object> htmlAttributes = new() { ["style"] = "color: red;" };
+            IRenderedComponent<SfToolbar> cut = RenderToolbar(Three(), p => p.Add(t => t.HtmlAttributes, htmlAttributes));
 
             Assert.Contains("e-toolbar-measuring", cut.Find(Root).ClassList);
+            Assert.Contains("visibility: hidden !important;", cut.Find(Root).GetAttribute("style"));
+            Assert.Contains("color: red;", cut.Find(Root).GetAttribute("style"));
 
             ScriptMeasurement(150, "a", "b", "c");
             await cut.InvokeAsync(() => cut.Instance.OnContainerResizedAsync());
@@ -88,6 +93,7 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Navigations.Toolbar
                 Assert.Single(cut.FindAll(OverflowButton));
                 Assert.Equal(2, cut.Instance.GetVisibleItems().Count);
                 Assert.Single(cut.Instance.GetOverflowItems());
+                Assert.Equal("color: red;", cut.Find(Root).GetAttribute("style"));
             });
         }
 
@@ -104,17 +110,29 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Navigations.Toolbar
         [Fact(DisplayName = "U-TB-107 Popup toolbar starts resize observation before measuring")]
         public void PopupToolbar_StartsResizeObservationBeforeMeasuring()
         {
-            ScriptMeasurement(100, "a", "b", "c");
+            BunitJSModuleInterop module = JSInterop.SetupModule(ModulePath);
+            module.Mode = JSRuntimeMode.Loose;
+            module.Setup<ToolbarInitialMeasurement>("initialize", _ => true).SetResult(new ToolbarInitialMeasurement
+            {
+                Observing = true,
+                Measurement = new ToolbarMeasurement
+                {
+                    Available = 100,
+                    Gap = 4,
+                    ButtonSize = 32,
+                    Items =
+                    [
+                        new ToolbarMeasuredItem { Id = "a", Size = 50 },
+                        new ToolbarMeasuredItem { Id = "b", Size = 50 },
+                        new ToolbarMeasuredItem { Id = "c", Size = 50 }
+                    ]
+                }
+            });
             _ = RenderToolbar(Three());
 
-            JSRuntimeInvocation[] invocations = _module!.Invocations.ToArray();
-            int measureIndex = Array.FindIndex(invocations, invocation => invocation.Identifier == "measure");
-            int observeIndex = Array.FindIndex(invocations, invocation => invocation.Identifier == "observe");
-            int trackKeysIndex = Array.FindIndex(invocations, invocation => invocation.Identifier == "trackOverflowKeys");
-
-            Assert.True(observeIndex >= 0);
-            Assert.True(trackKeysIndex > observeIndex);
-            Assert.True(measureIndex > trackKeysIndex);
+            Assert.Single(module.Invocations, invocation => invocation.Identifier == "initialize");
+            Assert.DoesNotContain(module.Invocations, invocation =>
+                invocation.Identifier is "observe" or "trackOverflowKeys" or "measure");
         }
 
         [Fact(DisplayName = "U-TB-063 Disposing after the circuit disconnected swallows JSDisconnectedException")]

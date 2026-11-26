@@ -26,7 +26,8 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Navigations.Toolbar
         [Fact(DisplayName = "U-TB-111 Trimmed browser measurements preserve nested DTO members")]
         public void BrowserMeasurement_PreservesNestedDtoMembersWhenTrimming()
         {
-            MethodInfo recalculate = typeof(SfToolbar).GetMethod("RecalculateAsync", BindingFlags.Instance | BindingFlags.NonPublic)!;
+            MethodInfo recalculate = typeof(SfToolbar).GetMethods(BindingFlags.Instance | BindingFlags.NonPublic)
+                .Single(method => method.Name == "RecalculateAsync" && method.GetParameters().Length == 0);
             DynamicallyAccessedMemberTypes requiredMembers =
                 DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.PublicProperties;
 
@@ -41,21 +42,18 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Navigations.Toolbar
         {
             BunitJSModuleInterop module = JSInterop.SetupModule(ModulePath);
             module.Mode = JSRuntimeMode.Loose;
-            module.Setup<bool>("observe", _ => true).SetResult(true);
-            bool initialMeasurement = true;
-            module.Setup<ToolbarMeasurement>("measure", _ =>
+            module.Setup<ToolbarInitialMeasurement>("initialize", _ => true).SetResult(new ToolbarInitialMeasurement
             {
-                bool isInitialMeasurement = initialMeasurement;
-                initialMeasurement = false;
-                return isInitialMeasurement;
-            }).SetResult(new ToolbarMeasurement
-            {
-                Available = 100,
-                Gap = 4,
-                ButtonSize = 32,
-                Items = [new ToolbarMeasuredItem { Id = "a", Size = 50 }]
+                Observing = true,
+                Measurement = new ToolbarMeasurement
+                {
+                    Available = 100,
+                    Gap = 4,
+                    ButtonSize = 32,
+                    Items = [new ToolbarMeasuredItem { Id = "a", Size = 50 }]
+                }
             });
-            module.Setup<ToolbarMeasurement>("measure", _ => !initialMeasurement).SetResult(new ToolbarMeasurement
+            module.Setup<ToolbarMeasurement>("measure", _ => true).SetResult(new ToolbarMeasurement
             {
                 Available = 100,
                 Gap = 4,
@@ -87,10 +85,12 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Navigations.Toolbar
         {
             BunitJSModuleInterop module = JSInterop.SetupModule(ModulePath);
             module.Mode = JSRuntimeMode.Loose;
-            module.Setup<bool>("observe", _ => true).SetResult(true);
-            int calls = 0;
-            module.Setup<ToolbarMeasurement>("measure", _ => calls++ == 0).SetResult(null!);
-            module.Setup<ToolbarMeasurement>("measure", _ => calls > 0).SetResult(new ToolbarMeasurement
+            module.Setup<ToolbarInitialMeasurement>("initialize", _ => true).SetResult(new ToolbarInitialMeasurement
+            {
+                Observing = true,
+                Measurement = null
+            });
+            module.Setup<ToolbarMeasurement>("measure", _ => true).SetResult(new ToolbarMeasurement
             {
                 Available = 100,
                 Gap = 4,
@@ -115,6 +115,50 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Navigations.Toolbar
                 Assert.Single(cut.Instance.GetVisibleItems());
                 Assert.Equal(2, cut.Instance.GetOverflowItems().Count);
             });
+        }
+
+        [Fact(DisplayName = "U-TB-112 Popup toolbar applies its final initial layout through one interop")]
+        public void PopupToolbar_AppliesFinalInitialLayoutThroughOneInterop()
+        {
+            BunitJSModuleInterop module = JSInterop.SetupModule(ModulePath);
+            module.Mode = JSRuntimeMode.Loose;
+            module.Setup<ToolbarInitialMeasurement>("initialize", _ => true).SetResult(new ToolbarInitialMeasurement
+            {
+                Observing = true,
+                Measurement = new ToolbarMeasurement
+                {
+                    Available = 100,
+                    Gap = 4,
+                    ButtonSize = 32,
+                    Items =
+                    [
+                        new ToolbarMeasuredItem { Id = "a", Size = 50 },
+                        new ToolbarMeasuredItem { Id = "b", Size = 50 },
+                        new ToolbarMeasuredItem { Id = "c", Size = 50 }
+                    ]
+                }
+            });
+
+            IRenderedComponent<SfToolbar> cut = RenderToolbar(Compose(
+                Item("A", ("Id", "a")),
+                Item("B", ("Id", "b")),
+                Item("C", ("Id", "c"))));
+
+            cut.WaitForAssertion(() =>
+            {
+                Assert.DoesNotContain("e-toolbar-measuring", cut.Find(Root).ClassList);
+                Assert.Single(cut.Instance.GetVisibleItems());
+                Assert.Equal(2, cut.Instance.GetOverflowItems().Count);
+            });
+
+            Assert.Single(module.Invocations, invocation => invocation.Identifier == "initialize");
+            Assert.DoesNotContain(module.Invocations, invocation =>
+                invocation.Identifier is "observe" or "trackOverflowKeys" or "measure");
+            FieldInfo retryScheduled = typeof(SfToolbar).GetField("_initialMeasurementRetryScheduled", BindingFlags.Instance | BindingFlags.NonPublic)!;
+            Assert.False((bool)retryScheduled.GetValue(cut.Instance)!);
+            Assert.Equal(1, (int)typeof(SfToolbar)
+                .GetField("_initialMeasurementAttempts", BindingFlags.Instance | BindingFlags.NonPublic)!
+                .GetValue(cut.Instance)!);
         }
     }
 }

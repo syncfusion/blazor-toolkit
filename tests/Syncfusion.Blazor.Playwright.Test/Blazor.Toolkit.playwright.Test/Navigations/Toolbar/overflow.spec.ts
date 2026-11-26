@@ -44,6 +44,54 @@ async function settledOverflowCount(page: Page): Promise<number> {
 }
 
 test.describe('Toolbar overflow @toolbar', () => {
+  test('P-TB-057 first visible narrow Popup layout is already measured', async ({ page }) => {
+    await page.addInitScript(() => {
+      Object.defineProperty(window, '__toolbarInitialLayouts', { value: [] });
+      Object.defineProperty(window, '__forceToolbarNarrow', { value: true, writable: true });
+
+      const sample = () => {
+        const frame = document.querySelector<HTMLElement>('#frame');
+        if ((window as any).__forceToolbarNarrow) {
+          frame?.style.setProperty('width', '180px', 'important');
+        }
+        const toolbar = document.querySelector<HTMLElement>('#toolbar-overflow');
+        if (toolbar) {
+          const items = Array.from(toolbar.querySelectorAll<HTMLElement>('.e-toolbar-item'));
+          (window as any).__toolbarInitialLayouts.push({
+            visible: getComputedStyle(toolbar).visibility !== 'hidden',
+            measuring: toolbar.classList.contains('e-toolbar-measuring'),
+            visibleItems: items.filter((item) => !item.classList.contains('e-toolbar-item-overflowed')).length
+          });
+        }
+        requestAnimationFrame(sample);
+      };
+
+      const observer = new MutationObserver(sample);
+      observer.observe(document, { subtree: true, childList: true, attributes: true, attributeFilter: ['class'] });
+      requestAnimationFrame(sample);
+    });
+
+    await openToolbarPage(page, '/toolbar/overflow');
+    await expect(page.locator(TB)).not.toHaveClass(/e-toolbar-measuring/);
+    await expect(page.locator(`${TB} .e-toolbar-item-overflowed`)).not.toHaveCount(0);
+
+    const initialLayouts = await page.evaluate(() => (window as any).__toolbarInitialLayouts);
+    const measuringLayouts = initialLayouts.filter((layout: { measuring: boolean }) => layout.measuring);
+    const visibleLayouts = initialLayouts.filter((layout: { visible: boolean }) => layout.visible);
+    expect(measuringLayouts.length).toBeGreaterThan(0);
+    expect(measuringLayouts.every((layout: { visible: boolean }) => !layout.visible)).toBe(true);
+    expect(visibleLayouts.length).toBeGreaterThan(0);
+    expect(visibleLayouts.every((layout: { visibleItems: number }) => layout.visibleItems < 7), JSON.stringify(visibleLayouts)).toBe(true);
+    expect(visibleLayouts[0].visibleItems).toBe(visibleLayouts[visibleLayouts.length - 1].visibleItems);
+
+    await page.evaluate(() => ((window as any).__forceToolbarNarrow = false));
+    await page.locator('#frame').evaluate((frame) => (frame as HTMLElement).style.removeProperty('width'));
+    await page.setViewportSize({ width: 375, height: 800 });
+    await expect(page.locator(MORE)).toHaveCount(1);
+    await page.setViewportSize({ width: 1400, height: 900 });
+    await expect(page.locator(MORE)).toHaveCount(0);
+  });
+
   test('P-TB-039 with room for every item there is no overflow button', async ({ page }) => {
     await openToolbarPage(page, '/toolbar/overflow');
     await expect(page.locator(MORE)).toHaveCount(0);
@@ -339,11 +387,18 @@ test.describe('Toolbar overflow @toolbar', () => {
   test('P-TB-046 interactive targets are at least 44 by 44 CSS px on a mobile viewport', async ({ page }) => {
     await page.setViewportSize({ width: 375, height: 700 });
     await openToolbarPage(page, '/toolbar/overflow');
-    const boxes = await page.locator(`${TB} .e-toolbar-item:not(.e-toolbar-item-overflowed) .e-btn`).evaluateAll((els) =>
+    const buttons = page.locator(`${TB} .e-toolbar-item:not(.e-toolbar-item-overflowed) .e-btn`);
+    const readBoxes = () => buttons.evaluateAll((els) =>
       els.map((e) => {
         const r = e.getBoundingClientRect();
         return { w: r.width, h: r.height };
       }));
+    await expect.poll(async () => {
+      const boxes = await readBoxes();
+      return boxes.length > 0 && boxes.every((b) => b.w >= 44 && b.h >= 44);
+    }, { timeout: 8000, message: 'every visible Toolbar button should reach the 44 by 44 CSS px minimum' }).toBe(true);
+
+    const boxes = await readBoxes();
     expect(boxes.length).toBeGreaterThan(0);
     for (const b of boxes) {
       expect(b.h).toBeGreaterThanOrEqual(44);

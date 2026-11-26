@@ -1,6 +1,9 @@
 <div class="tb-stage">
     <div class="tb-frame" data-testid="toolbar-default-demo">
-        <SfToolbar AriaLabel="Document commands" data-testid="toolbar-root">
+        <SfToolbar AriaLabel="Document commands"
+                   CssClass="tb-default-compact"
+                   OverflowMode="ToolbarOverflowMode.Scrollable"
+                   data-testid="toolbar-root">
             <ToolbarGroup Label="Create">
                 <ToolbarItem Id="default-new" Text="New document" IconCss="sb-icons e-file-new" Tooltip="Create a new document" DisplayMode="ToolbarItemDisplayMode.IconOnly" />
                 <ToolbarItem Id="default-open" Text="Open file" IconCss="sb-icons e-folder" Tooltip="Open a file" DisplayMode="ToolbarItemDisplayMode.IconOnly" />
@@ -22,7 +25,6 @@
                 <ToolbarItem Id="default-export" Text="Export" IconCss="sb-icons e-export" Tooltip="Export the document" DisplayMode="ToolbarItemDisplayMode.IconOnly" />
                 <ToolbarItem Id="default-print" Text="Print" IconCss="sb-icons e-print" Tooltip="Print the document" DisplayMode="ToolbarItemDisplayMode.IconOnly" />
             </ToolbarGroup>
-            <ToolbarSpacer />
             <ToolbarGroup Label="Review">
                 <ToolbarItem Id="default-refresh" Text="Refresh" IconCss="sb-icons e-refresh" Tooltip="Refresh the current view" DisplayMode="ToolbarItemDisplayMode.IconOnly" />
                 <ToolbarItem Id="default-settings" Text="Settings" IconCss="sb-icons e-settings" Tooltip="Open document settings" DisplayMode="ToolbarItemDisplayMode.IconOnly" />

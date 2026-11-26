@@ -460,8 +460,14 @@ namespace Syncfusion.Blazor.Toolkit.Tests.Navigations.Toolbar
             await paste.QuerySelector("[data-testid='toolbar-split-toggle']")!.KeyDownAsync(new KeyboardEventArgs { Key = "ArrowRight" });
 
             Assert.Contains("Download", cut.Markup, StringComparison.Ordinal);
-            Assert.Contains("tabindex=\"0\"", cut.FindAll("[data-testid='toolbar-item']")
-                .First(e => e.TextContent.Contains("Download", StringComparison.Ordinal)).InnerHtml, StringComparison.Ordinal);
+            IElement download = cut.FindAll("[data-testid='toolbar-item']")
+                .First(e => e.TextContent.Contains("Download", StringComparison.Ordinal));
+            Assert.Contains("tabindex=\"0\"", download.InnerHtml, StringComparison.Ordinal);
+            await download.QuerySelector("button")!.KeyDownAsync(new KeyboardEventArgs { Key = "ArrowLeft" });
+
+            paste = cut.FindAll("[data-testid='toolbar-item']").First(e => e.TextContent.Contains("Paste", StringComparison.Ordinal));
+            Assert.Equal("-1", paste.QuerySelector("[data-testid='toolbar-split-primary']")?.GetAttribute("tabindex"));
+            Assert.Equal("0", paste.QuerySelector("[data-testid='toolbar-split-toggle']")?.GetAttribute("tabindex"));
 
             IElement ascending = cut.FindAll("[data-testid='toolbar-item']").First(e => e.TextContent.Contains("Ascending", StringComparison.Ordinal));
             ascending.FocusIn();

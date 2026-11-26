@@ -125,7 +125,10 @@ namespace Syncfusion.Blazor.Toolkit
         /// measurement, because the mode wraps instead of moving items out, so the control is the expand
         /// toggle and is always rendered (TB-OVF-140).
         /// </remarks>
-        private bool ShowOverflowButton => Settings.ShowOverflowButton && (IsPopupMode ? _hasOverflow : IsExtendedMode);
+        private bool ShowOverflowButton => Settings.ShowOverflowButton &&
+            (IsPopupMode
+                ? _hasOverflow || (Orientation == ToolbarOrientation.Horizontal && IsStaticServerRendering())
+                : IsExtendedMode);
 
         /// <summary>
         /// Gets whether the overflow menu is rendered on the fixed layer outside the toolbar root.
@@ -259,11 +262,44 @@ namespace Syncfusion.Blazor.Toolkit
         }
 
         /// <exclude />
+        [DynamicDependency(
+            DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.PublicProperties,
+            typeof(ToolbarInitialMeasurement))]
+        [DynamicDependency(
+            DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.PublicProperties,
+            typeof(ToolbarMeasurement))]
+        [DynamicDependency(
+            DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.PublicProperties,
+            typeof(ToolbarMeasuredItem))]
         internal override async Task OnAfterScriptRenderedAsync()
         {
             await base.OnAfterScriptRenderedAsync().ConfigureAwait(true);
-            _ = await StartObservingAsync().ConfigureAwait(true);
-            await RecalculateAsync().ConfigureAwait(true);
+            if (!IsDisposed && (IsPopupMode || IsExtendedMode) && (_toolbarModule is not null || _toolbarInProcessModule is not null))
+            {
+                _selfReference ??= DotNetObjectReference.Create(this);
+                ToolbarInitialMeasurement? initial = null;
+                await GuardedAsync(async () =>
+                    initial = await InvokeAsync<ToolbarInitialMeasurement>(
+                        _toolbarModule!,
+                        _toolbarInProcessModule!,
+                        "initialize",
+                        _contentElement,
+                        _toolbarElement,
+                        _selfReference,
+                        Orientation == ToolbarOrientation.Vertical).ConfigureAwait(true)).ConfigureAwait(true);
+
+                if (initial is null)
+                {
+                    // Retain compatibility with a previously cached toolbar module that does not export initialize.
+                    _ = await StartObservingAsync().ConfigureAwait(true);
+                    await RecalculateAsync().ConfigureAwait(true);
+                }
+                else
+                {
+                    _observing = initial.Observing;
+                    await RecalculateAsync(initial.Measurement, hasInitialMeasurement: true).ConfigureAwait(true);
+                }
+            }
             await UpdateScrollStateAsync().ConfigureAwait(true);
         }
 
@@ -548,6 +584,14 @@ namespace Syncfusion.Blazor.Toolkit
             typeof(ToolbarMeasuredItem))]
         private async Task RecalculateAsync()
         {
+            await RecalculateAsync(null, hasInitialMeasurement: false).ConfigureAwait(true);
+        }
+
+        [DynamicDependency(
+            DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.PublicProperties,
+            typeof(ToolbarMeasuredItem))]
+        private async Task RecalculateAsync(ToolbarMeasurement? initialMeasurement, bool hasInitialMeasurement)
+        {
             if (IsDisposed || (!IsPopupMode && !IsExtendedMode) || (_toolbarModule is null && _toolbarInProcessModule is null))
             {
                 return;
@@ -575,8 +619,15 @@ namespace Syncfusion.Blazor.Toolkit
                 }
 
                 ToolbarMeasurement? measurement = null;
-                await GuardedAsync(async () =>
-                    measurement = await InvokeAsync<ToolbarMeasurement>(_toolbarModule!, _toolbarInProcessModule!, "measure", _contentElement, Orientation == ToolbarOrientation.Vertical).ConfigureAwait(true)).ConfigureAwait(true);
+                if (hasInitialMeasurement)
+                {
+                    measurement = initialMeasurement;
+                }
+                else
+                {
+                    await GuardedAsync(async () =>
+                        measurement = await InvokeAsync<ToolbarMeasurement>(_toolbarModule!, _toolbarInProcessModule!, "measure", _contentElement, Orientation == ToolbarOrientation.Vertical).ConfigureAwait(true)).ConfigureAwait(true);
+                }
 
                 if (IsDisposed)
                 {

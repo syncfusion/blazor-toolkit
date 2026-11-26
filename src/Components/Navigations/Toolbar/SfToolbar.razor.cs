@@ -79,6 +79,7 @@ namespace Syncfusion.Blazor.Toolkit
 
             string orientationClass = Orientation == ToolbarOrientation.Vertical ? VerticalClass : HorizontalClass;
             string userClass = HtmlAttributes is not null && HtmlAttributes.TryGetValue("class", out object? raw) ? raw?.ToString() ?? string.Empty : string.Empty;
+            bool isMeasuring;
 
             System.Text.StringBuilder css = new(RootClass);
             _ = css.Append(Space).Append(orientationClass);
@@ -89,16 +90,21 @@ namespace Syncfusion.Blazor.Toolkit
                 _ = css.Append(Space).Append("e-toolbar-expanded");
             }
 #if NET9_0_OR_GREATER
-            if (IsPopupMode && !_initialMeasurementComplete && !IsStaticServerRendering())
-            {
-                _ = css.Append(Space).Append("e-toolbar-measuring");
-            }
+            isMeasuring = IsPopupMode && !_initialMeasurementComplete && !IsStaticServerRendering();
 #else
-            if (IsPopupMode && _initialMeasurementPending)
+            isMeasuring = IsPopupMode && _initialMeasurementPending;
+#endif
+            if (isMeasuring)
             {
                 _ = css.Append(Space).Append("e-toolbar-measuring");
             }
-#endif
+            if (IsPopupMode &&
+                Orientation == ToolbarOrientation.Horizontal &&
+                Settings.ShowOverflowButton &&
+                IsStaticServerRendering())
+            {
+                _ = css.Append(Space).Append("e-toolbar-ssr-popup-overflow");
+            }
             if (_rtl)
             {
                 _ = css.Append(Space).Append(RtlClass);
@@ -124,6 +130,17 @@ namespace Syncfusion.Blazor.Toolkit
                         _attributes[pair.Key] = pair.Value;
                     }
                 }
+            }
+            if (isMeasuring)
+            {
+                string? styleName = _attributes.Keys.FirstOrDefault(static key =>
+                    string.Equals(key, "style", StringComparison.OrdinalIgnoreCase));
+                string existingStyle = styleName is not null && _attributes.TryGetValue(styleName, out object? style)
+                    ? style?.ToString()?.TrimEnd(';') ?? string.Empty
+                    : string.Empty;
+                _attributes[styleName ?? "style"] = string.IsNullOrWhiteSpace(existingStyle)
+                    ? "visibility: hidden !important;"
+                    : $"{existingStyle}; visibility: hidden !important;";
             }
         }
 

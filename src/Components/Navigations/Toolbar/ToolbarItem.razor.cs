@@ -586,9 +586,10 @@ namespace Syncfusion.Blazor.Toolkit
             {
                 await _host.NotifyNestedMenuClosedAsync().ConfigureAwait(true);
             }
-            if (restoreFocus && _button is not null)
+            SfButton? focusTarget = Type == ToolbarItemType.Split ? _chevronButton : _button;
+            if (restoreFocus && focusTarget is not null)
             {
-                await _button.FocusElementAsync().ConfigureAwait(true);
+                await focusTarget.FocusElementAsync().ConfigureAwait(true);
             }
         }
 
@@ -793,13 +794,11 @@ namespace Syncfusion.Blazor.Toolkit
 
         ValueTask IToolbarItem.FocusItemAsync()
         {
-            if (_splitChevronFocused)
-            {
-                _splitChevronFocused = false;
-                StateHasChanged();
-            }
-            return _button is not null
-                ? _button.FocusElementAsync()
+            SfButton? focusTarget = Type == ToolbarItemType.Split && _splitChevronFocused
+                ? _chevronButton
+                : _button;
+            return focusTarget is not null
+                ? focusTarget.FocusElementAsync()
                 : _itemElement.Context is null
                     ? ValueTask.CompletedTask
                     : _itemElement.FocusAsync();
