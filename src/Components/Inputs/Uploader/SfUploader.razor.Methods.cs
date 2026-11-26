@@ -2,6 +2,7 @@ using Microsoft.JSInterop;
 using Syncfusion.Blazor.Toolkit.Inputs.Internal;
 using Syncfusion.Blazor.Toolkit.Internal;
 using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Components;
 
 namespace Syncfusion.Blazor.Toolkit
@@ -388,6 +389,14 @@ namespace Syncfusion.Blazor.Toolkit
         private async Task UploadViaServerAsync(FileInfo[] files, bool? custom)
         {
             bool? forceCustom = (!ShowFileList && custom == null) ? true : custom;
+            // Template upload is started from the Blazor button with no file args.
+            // Pass the queued file identities so JS can resolve rawFile and POST SaveUrl.
+            if ((files == null || files.Length == 0) && Template != null && FileData?.Count > 0)
+            {
+                files = ConvertFileDataToFileInfo().ToArray();
+                forceCustom = true;
+            }
+
             await InvokeVoidAsync(_uploaderJsModule, _uploaderJsInProcessModule, "upload", [DataId, files, forceCustom]).ConfigureAwait(true);
         }
 
@@ -480,6 +489,7 @@ namespace Syncfusion.Blazor.Toolkit
         /// <param name="args">A <see cref="SelectedEventArgs"/> object containing information about the selected files and event details.</param>
         /// <returns>A <see cref="Task{TResult}"/> that represents the asynchronous event handling operation. The task result contains the processed <see cref="SelectedEventArgs"/> object.</returns>
         /// <exclude/>
+        [DynamicDependency(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.PublicProperties, typeof(SelectedEventArgs))]
         [JSInvokable]
         [EditorBrowsable(EditorBrowsableState.Never)]
         public async Task<SelectedEventArgs> SelectedEventAsync(SelectedEventArgs args)
@@ -523,7 +533,27 @@ namespace Syncfusion.Blazor.Toolkit
         [EditorBrowsable(EditorBrowsableState.Never)]
         public async Task<SuccessEventArgs> SuccessEventAsync(SuccessEventArgs args)
         {
-            return await InvokeEventIfHasDelegateAsync(Success, args).ConfigureAwait(true);
+            if (args != null && args.File != null && FileData != null)
+            {
+                UploadFileDetails? match = FileData.FirstOrDefault(f =>
+                    string.Equals(f.Name, args.File.Name, StringComparison.OrdinalIgnoreCase));
+
+                if (match != null)
+                {
+                    match.Status = !string.IsNullOrEmpty(args.StatusText)
+                        ? args.StatusText
+                        : (!string.IsNullOrEmpty(args.File.Status)
+                            ? args.File.Status
+                            : Localizer[UPLOAD_SUCCESS_KEY]);
+                    match.StatusCode = !string.IsNullOrEmpty(args.File.StatusCode)
+                        ? args.File.StatusCode
+                        : "2";
+
+                    await CallStateHasChangedAsync().ConfigureAwait(true);
+                }
+            }
+
+            return await InvokeEventIfHasDelegateAsync(Success, args!).ConfigureAwait(true);
         }
 
         /// <summary>
@@ -589,6 +619,7 @@ namespace Syncfusion.Blazor.Toolkit
         /// <param name="args">A <see cref="FileListRenderingEventArgs"/> object containing information about the file list rendering process and customization options.</param>
         /// <returns>A <see cref="Task"/> that represents the asynchronous event handling operation.</returns>
         /// <exclude/>
+        [DynamicDependency(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.PublicProperties, typeof(FileListRenderingEventArgs))]
         [JSInvokable]
         [EditorBrowsable(EditorBrowsableState.Never)]
         public async Task FileListRenderingEventAsync(FileListRenderingEventArgs args)
@@ -641,6 +672,7 @@ namespace Syncfusion.Blazor.Toolkit
         /// <param name="args">A <see cref="UploadingEventArgs"/> object containing information about the files starting to upload and event details.</param>
         /// <returns>A <see cref="Task{TResult}"/> that represents the asynchronous event handling operation. The task result contains the processed <see cref="UploadingEventArgs"/> object.</returns>
         /// <exclude/>
+        [DynamicDependency(DynamicallyAccessedMemberTypes.PublicConstructors | DynamicallyAccessedMemberTypes.PublicProperties, typeof(UploadingEventArgs))]
         [JSInvokable]
         [EditorBrowsable(EditorBrowsableState.Never)]
         public async Task<UploadingEventArgs> UploadingEventAsync(UploadingEventArgs args)

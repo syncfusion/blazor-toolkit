@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.Extensions.Localization;
 using Microsoft.JSInterop;
+using System.Net.Http;
 using Syncfusion.Blazor.Toolkit.Inputs.Internal;
 using Syncfusion.Blazor.Toolkit.Internal;
 using System.ComponentModel;
@@ -404,7 +405,7 @@ namespace Syncfusion.Blazor.Toolkit
             properties[REMOVING_ENABLED] = OnRemove.HasDelegate;
             properties[RESUME_ENABLED] = OnResume.HasDelegate;
             properties[SELECTED_ENABLED] = FileSelected.HasDelegate;
-            properties[SUCCESS_ENABLED] = Success.HasDelegate;
+            properties[SUCCESS_ENABLED] = Success.HasDelegate || Template != null;
             properties[CHUNK_SUCCESS_ENABLED] = OnChunkSuccess.HasDelegate;
         }
 
@@ -1615,17 +1616,78 @@ namespace Syncfusion.Blazor.Toolkit
         /// <returns>A task representing the asynchronous operation.</returns>
         private async Task UploadHandlerAsync()
         {
-            if (string.IsNullOrEmpty(UploadAsyncSettings?.SaveUrl))
+            if (!string.IsNullOrEmpty(UploadAsyncSettings?.SaveUrl))
             {
-                EnableUploadButton = false;
-                List<FileInfo> filesData = ConvertFileDataToFileInfo();
-                BeforeUploadEventArgs beforeUploadEvent = await CreateAndInvokeBeforeUploadEventAsync(filesData).ConfigureAwait(true);
-
-                if (!beforeUploadEvent.Cancel)
+                if (Template != null)
                 {
-                    await GetFilesDetailsAsync(beforeUploadEvent.FilesData).ConfigureAwait(true);
+                    await UploadTemplateFilesAsync().ConfigureAwait(true);
+                    return;
+                }
+
+                await UploadAsync(custom: true).ConfigureAwait(true);
+                return;
+            }
+
+            EnableUploadButton = false;
+            List<FileInfo> filesData = ConvertFileDataToFileInfo();
+            BeforeUploadEventArgs beforeUploadEvent = await CreateAndInvokeBeforeUploadEventAsync(filesData).ConfigureAwait(true);
+
+            if (!beforeUploadEvent.Cancel)
+            {
+                await GetFilesDetailsAsync(beforeUploadEvent.FilesData).ConfigureAwait(true);
+            }
+        }
+
+        /// <summary>
+        /// Posts template-selected files to SaveUrl. The JS uploader never receives the
+        /// Blazor InputFile stream, so the cached bytes are sent directly.
+        /// </summary>
+        private async Task UploadTemplateFilesAsync()
+        {
+            if (FileData == null || FileData.Count == 0 || string.IsNullOrEmpty(UploadAsyncSettings?.SaveUrl))
+            {
+                return;
+            }
+
+            using HttpClient client = new();
+            foreach (UploadFileDetails file in FileData.Where(file => file.StatusCode == "1").ToList())
+            {
+                byte[]? cached = GetCachedFileData(file.Name);
+                if (cached == null)
+                {
+                    file.Status = Localizer[UPLOAD_FAILED_KEY];
+                    file.StatusCode = "0";
+                    continue;
+                }
+
+                file.Status = "Uploading";
+                await CallStateHasChangedAsync().ConfigureAwait(true);
+
+                using MultipartFormDataContent content = new();
+                ByteArrayContent fileContent = new(cached);
+                content.Add(fileContent, "UploadFiles", file.Name);
+                try
+                {
+                    HttpResponseMessage response = await client.PostAsync(UploadAsyncSettings.SaveUrl, content).ConfigureAwait(true);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        file.Status = Localizer[UPLOAD_SUCCESS_KEY];
+                        file.StatusCode = "2";
+                    }
+                    else
+                    {
+                        file.Status = Localizer[UPLOAD_FAILED_KEY];
+                        file.StatusCode = "0";
+                    }
+                }
+                catch (HttpRequestException)
+                {
+                    file.Status = Localizer[UPLOAD_FAILED_KEY];
+                    file.StatusCode = "0";
                 }
             }
+
+            await CallStateHasChangedAsync().ConfigureAwait(true);
         }
 
         /// <summary>
@@ -1778,6 +1840,11 @@ namespace Syncfusion.Blazor.Toolkit
             if (!clearingEvent.Cancel || !string.IsNullOrEmpty(_asyncSettings?.SaveUrl))
             {
                 ClearFileCollections();
+                if (Template != null)
+                {
+                    await CallStateHasChangedAsync().ConfigureAwait(true);
+                    await InvokeVoidAsync(_uploaderJsModule, _uploaderJsInProcessModule, "clearAll", [DataId]).ConfigureAwait(true);
+                }
             }
         }
 
