@@ -1,0 +1,39 @@
+@page "/toolbar/csp"
+@using Microsoft.AspNetCore.Components.Web
+
+@layout MainLayout
+
+<span id="interactive-ready" data-ready="@(_interactiveReady ? "true" : "false")" hidden></span>
+
+<h1>Toolbar - CSP</h1>
+
+<div class="test-container">
+    <div id="frame" class="@(_narrow ? "frame-narrow" : "frame-wide")">
+        <SfToolbar Id="toolbar-csp" AriaLabel="CSP commands" OnItemClick="OnItemClick">
+            <ToolbarItem Id="c-one" Text="One" Overflow="ToolbarOverflowOption.Show" />
+            <ToolbarItem Id="c-two" Text="Two" />
+            <ToolbarItem Id="c-three" Text="Three" />
+            <ToolbarItem Id="c-four" Text="Four" />
+            <ToolbarItem Id="c-five" Text="Five" />
+        </SfToolbar>
+    </div>
+    <button id="width-narrow" type="button" @onclick="@(() => _narrow = true)">Narrow</button>
+    <p id="last-click">Last click: @_lastClick</p>
+</div>
+
+@code {
+    private bool _interactiveReady;
+    private bool _narrow;
+    private string _lastClick = "none";
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _interactiveReady = true;
+            StateHasChanged();
+        }
+    }
+
+    private void OnItemClick(ToolbarItemClickEventArgs args) => _lastClick = args.ItemId;
+}

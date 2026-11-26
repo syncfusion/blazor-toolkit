@@ -7,9 +7,9 @@
 | Mode | Behavior | Browser measurement |
 |---|---|---|
 | `Popup` | Moves items that do not fit into a More menu; the button appears when needed | Yes; uses ResizeObserver/measurement interop |
-| `Scrollable` | Keeps items in one line and provides scroll controls when content exceeds available size | Yes; reads scroll position and observes scrolling |
-| `MultiRow` | Wraps content onto additional rows | CSS layout |
-| `Extended` | Starts with one visible row and expands/collapses additional rows | CSS layout and an expand control |
+| `Scrollable` | Keeps items in one row or column and provides axis-appropriate scroll controls when content exceeds available size | Yes; reads scroll position and observes scrolling |
+| `MultiRow` | Wraps content onto additional rows or columns according to orientation | CSS layout; interactive vertical background measurement |
+| `Extended` | Starts with one visible row or column and expands/collapses additional rows or columns according to orientation | CSS layout, an expand control, and interactive vertical background measurement |
 
 Static SSR emits markup, but browser-dependent measurement and popup placement
 are not available until interactive rendering. In Extended mode the control is
@@ -65,16 +65,25 @@ backdrop click closes it; Escape closes it and restores focus to the control.
 
 In Scrollable mode the toolbar keeps the commands in the bar. Start/end
 chevrons appear only when content actually overflows; they are disabled at
-their respective scroll boundaries. Arrow-key item navigation remains
-orientation-aware. The scrolling axis follows the toolbar orientation.
+their respective scroll boundaries. Horizontal toolbars use left/right
+chevrons; vertical toolbars use up/down chevrons. Arrow-key item navigation
+remains orientation-aware. The scrolling axis follows the toolbar orientation.
+
+Center and End alignment use overflow-safe positioning: when the content is
+larger than the scroll viewport, the first item remains reachable at the start
+of the scroll range. Justify falls back to start alignment when no free space
+is available.
 
 ## Static Rendering and Interaction
 
 Static SSR emits the toolbar markup but cannot measure Popup overflow, position
 the popup, or read the scroll position for Scrollable controls. Those behaviors
 are reconciled after the component becomes interactive. MultiRow and Extended
-wrapping are CSS-driven; Extended's control expands rows rather than opening a
-menu.
+wrapping are CSS-driven; in a vertical toolbar they wrap into columns.
+Interactive vertical MultiRow and Extended also measure the wrapped content
+width so the toolbar surface covers every column; Static SSR cannot apply that
+width adjustment.
+Extended's control expands rows or columns rather than opening a menu.
 
 The root `Orientation` may be horizontal or vertical. Horizontal scrolling
 uses the inline axis, and vertical scrolling uses the block axis. RTL mirrors
@@ -93,3 +102,9 @@ Item `OnClick` runs before root `OnItemClick`; setting the latter's
 `ToolbarItemClickEventArgs.Cancel` prevents the default item action. Popup
 open/close callbacks are `OnOverflowOpen` and `OnOverflowClose`. They do not
 represent Extended mode expand/collapse state.
+
+`GetVisibleItems()` excludes items moved to Popup overflow and items hidden in
+collapsed Extended rows or columns. `GetOverflowItems()` includes both kinds of
+hidden items. Expanding Extended moves its items back to `GetVisibleItems()`.
+MultiRow wraps items without hiding them, so its visible-item list includes all
+visible commands and its overflow-item list is empty.
