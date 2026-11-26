@@ -6,7 +6,25 @@
 <SfThemeRoot />
 @if (!_removed)
 {
-    @if (RootTag == ButtonTag)
+    @if (ShowRemove && RootTag != SpanTag)
+    {
+        <span class="e-chip-removable-wrapper">
+            @if (RootTag == ButtonTag)
+            {
+                <button @key="RootTag" @ref="_rootReference" @attributes="RootAttributes()" @onclick="OnClickAsync" @onclick:stopPropagation="true" @onkeydown="OnKeyDownAsync">
+                    @Inner
+                </button>
+            }
+            else
+            {
+                <a @key="RootTag" @ref="_rootReference" @attributes="RootAttributes()" @onclick="OnClickAsync" @onkeydown="OnKeyDownAsync">
+                    @Inner
+                </a>
+            }
+            @RemoveControl
+        </span>
+    }
+    else if (RootTag == ButtonTag)
     {
         <button @key="RootTag" @ref="_rootReference" @attributes="RootAttributes()" @onclick="OnClickAsync" @onclick:stopPropagation="true" @onkeydown="OnKeyDownAsync">
             @Inner
@@ -83,29 +101,35 @@
             builder.CloseElement();
         }
 
-        if (ShowRemove)
+        if (ShowRemove && RootTag == SpanTag)
         {
-            builder.OpenElement(seq++, "button");
-            builder.AddAttribute(seq++, "type", "button");
-            builder.AddAttribute(seq++, "class", "e-chip-remove");
-            builder.AddAttribute(seq++, "data-testid", "chip-remove");
-            builder.AddAttribute(seq++, "aria-label", RemoveLabel);
-            builder.AddAttribute(seq++, "disabled", RemoveDisabled);
-            builder.AddAttribute(seq++, "onclick", EventCallback.Factory.Create<MouseEventArgs>(this, OnRemoveClickAsync));
-            builder.AddEventStopPropagationAttribute(seq++, "onclick", true);
-            builder.AddElementReferenceCapture(seq++, reference => _removeReference = reference);
-            if (RemoveTemplate is not null)
-            {
-                builder.AddContent(seq++, RemoveTemplate);
-            }
-            else
-            {
-                builder.OpenElement(seq++, "span");
-                builder.AddAttribute(seq++, "class", "e-toolkit-icons e-close");
-                builder.AddAttribute(seq++, "aria-hidden", "true");
-                builder.CloseElement();
-            }
+            builder.AddContent(seq++, RemoveControl);
+        }
+    };
+
+    private RenderFragment RemoveControl => builder =>
+    {
+        int seq = 0;
+        builder.OpenElement(seq++, "button");
+        builder.AddAttribute(seq++, "type", "button");
+        builder.AddAttribute(seq++, "class", "e-chip-remove");
+        builder.AddAttribute(seq++, "data-testid", "chip-remove");
+        builder.AddAttribute(seq++, "aria-label", RemoveLabel);
+        builder.AddAttribute(seq++, "disabled", RemoveDisabled);
+        builder.AddAttribute(seq++, "onclick", EventCallback.Factory.Create<MouseEventArgs>(this, OnRemoveClickAsync));
+        builder.AddEventStopPropagationAttribute(seq++, "onclick", true);
+        builder.AddElementReferenceCapture(seq++, reference => _removeReference = reference);
+        if (RemoveTemplate is not null)
+        {
+            builder.AddContent(seq++, RemoveTemplate);
+        }
+        else
+        {
+            builder.OpenElement(seq++, "span");
+            builder.AddAttribute(seq++, "class", "e-toolkit-icons e-close");
+            builder.AddAttribute(seq++, "aria-hidden", "true");
             builder.CloseElement();
         }
+        builder.CloseElement();
     };
 }

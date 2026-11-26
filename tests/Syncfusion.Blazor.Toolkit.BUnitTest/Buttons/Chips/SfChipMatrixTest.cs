@@ -1,4 +1,5 @@
 using AngleSharp.Dom;
+using AngleSharp.Html.Parser;
 using Bunit;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
@@ -162,13 +163,71 @@ public class SfChipMatrixTest : BunitTestContext
     [Fact(DisplayName = "CHIP-U-016 Removable renders remove button")]
     public void U016()
     {
-        IElement remove = Chip(p => p.Add(c => c.Text, "Tag").Add(c => c.Removable, true)).Find("[data-testid='chip-remove']");
+        IRenderedComponent<SfChip> cut = Chip(p => p.Add(c => c.Text, "Tag").Add(c => c.Removable, true));
+        IElement root = cut.Find(Root);
+        IElement remove = cut.Find("[data-testid='chip-remove']");
+        Assert.Equal("SPAN", root.TagName);
+        Assert.NotNull(root.QuerySelector("[data-testid='chip-remove']"));
         Assert.Equal("BUTTON", remove.TagName);
         Assert.Equal("button", remove.GetAttribute("type"));
         Assert.Contains("e-chip-remove", remove.ClassList);
         Assert.NotNull(remove.QuerySelector(".e-toolkit-icons.e-close"));
         Assert.Contains("Remove", remove.GetAttribute("aria-label"));
         Assert.Contains("Tag", remove.GetAttribute("aria-label"));
+    }
+
+    [Fact(DisplayName = "CHIP-U-213 removable Filter keeps valid sibling button markup after HTML parsing")]
+    public void U213()
+    {
+        IRenderedComponent<SfChip> cut = Chip(p => p
+            .Add(c => c.ChipType, ChipType.Filter)
+            .Add(c => c.Text, "Sale")
+            .Add(c => c.Id, "filter-sale")
+            .Add(c => c.Selected, true)
+            .Add(c => c.Removable, true));
+        IDocument document = new HtmlParser().ParseDocument(cut.Markup);
+        IElement root = Assert.IsAssignableFrom<IElement>(document.QuerySelector(Root));
+        IElement remove = Assert.IsAssignableFrom<IElement>(document.QuerySelector("[data-testid='chip-remove']"));
+
+        Assert.Equal("BUTTON", root.TagName);
+        Assert.Equal("filter-sale", root.Id);
+        Assert.Contains("e-chip-filter", root.ClassList);
+        Assert.Contains("e-chip-selected", root.ClassList);
+        Assert.Equal("true", root.GetAttribute("aria-pressed"));
+        Assert.Equal("button", root.GetAttribute("type"));
+        Assert.Contains("e-chip-removable-wrapper", root.ParentElement!.ClassList);
+        Assert.Contains("e-chip-removable-wrapper", remove.ParentElement!.ClassList);
+        Assert.Equal("chip-remove", root.NextElementSibling?.GetAttribute("data-testid"));
+        Assert.Equal("BUTTON", remove.TagName);
+        Assert.Equal("button", remove.GetAttribute("type"));
+        Assert.Equal("Remove Sale", remove.GetAttribute("aria-label"));
+    }
+
+    [Fact(DisplayName = "CHIP-U-214 removable Navigation keeps valid sibling anchor markup after HTML parsing")]
+    public void U214()
+    {
+        IRenderedComponent<SfChip> cut = Chip(p => p
+            .Add(c => c.ChipType, ChipType.Navigation)
+            .Add(c => c.Href, "/go")
+            .Add(c => c.AriaLabel, "Go somewhere")
+            .Add(c => c.Disabled, true)
+            .Add(c => c.Removable, true));
+        IDocument document = new HtmlParser().ParseDocument(cut.Markup);
+        IElement root = Assert.IsAssignableFrom<IElement>(document.QuerySelector(Root));
+        IElement remove = Assert.IsAssignableFrom<IElement>(document.QuerySelector("[data-testid='chip-remove']"));
+
+        Assert.Equal("A", root.TagName);
+        Assert.Equal("/go", root.GetAttribute("href"));
+        Assert.Equal("true", root.GetAttribute("aria-disabled"));
+        Assert.Null(root.GetAttribute("disabled"));
+        Assert.Contains("e-chip-navigation", root.ClassList);
+        Assert.Contains("e-chip-removable-wrapper", root.ParentElement!.ClassList);
+        Assert.Contains("e-chip-removable-wrapper", remove.ParentElement!.ClassList);
+        Assert.Equal("chip-remove", root.NextElementSibling?.GetAttribute("data-testid"));
+        Assert.Equal("BUTTON", remove.TagName);
+        Assert.Equal("button", remove.GetAttribute("type"));
+        Assert.Equal("Remove Go somewhere", remove.GetAttribute("aria-label"));
+        Assert.NotNull(remove.GetAttribute("disabled"));
     }
 
     [Fact(DisplayName = "CHIP-U-017 Remove click does not raise OnClick")]
@@ -231,6 +290,63 @@ public class SfChipMatrixTest : BunitTestContext
         IElement root = Chip(p => p.Add(c => c.HtmlAttributes, new Dictionary<string, object> { ["data-extra"] = "1", ["class"] = "author" })).Find(Root);
         Assert.Equal("1", root.GetAttribute("data-extra"));
         Assert.Contains("e-chip", root.ClassList);
+    }
+
+    [Theory(DisplayName = "CHIP-U-207 Standalone passive chips are excluded from sequential tab order")]
+    [InlineData(ChipType.Informational)]
+    [InlineData(ChipType.Status)]
+    public void U207(ChipType type)
+    {
+        IElement root = Chip(p => p.Add(c => c.ChipType, type)).Find(Root);
+        Assert.Equal("-1", root.GetAttribute("tabindex"));
+    }
+
+    [Fact(DisplayName = "CHIP-U-208 Explicit TabIndex is preserved for a passive chip")]
+    public void U208()
+    {
+        IElement root = Chip(p => p.Add(c => c.ChipType, ChipType.Informational).Add(c => c.TabIndex, 4)).Find(Root);
+        Assert.Equal("4", root.GetAttribute("tabindex"));
+    }
+
+    [Fact(DisplayName = "CHIP-U-209 HtmlAttributes tabindex is preserved for a passive chip")]
+    public void U209()
+    {
+        IElement root = Chip(p => p
+            .Add(c => c.ChipType, ChipType.Status)
+            .Add(c => c.HtmlAttributes, new Dictionary<string, object> { ["tabindex"] = "6" })).Find(Root);
+        Assert.Equal("6", root.GetAttribute("tabindex"));
+    }
+
+    [Fact(DisplayName = "CHIP-U-210 Interactive chip default tabindex is unchanged")]
+    public void U210()
+    {
+        IElement root = Chip(p => p.Add(c => c.ChipType, ChipType.Action)).Find(Root);
+        Assert.Equal("0", root.GetAttribute("tabindex"));
+    }
+
+    [Fact(DisplayName = "CHIP-U-211 Declarative passive child retains tab stop in ChipSet")]
+    public void U211()
+    {
+        RenderFragment child = builder =>
+        {
+            builder.OpenComponent<SfChip>(0);
+            builder.AddAttribute(1, "ChipType", ChipType.Informational);
+            builder.AddAttribute(2, "Text", "Info");
+            builder.CloseComponent();
+        };
+        IElement root = SetOf<string>(p => p.Add(c => c.ChildContent, child)).Find(Root);
+        Assert.Equal("0", root.GetAttribute("tabindex"));
+    }
+
+    [Fact(DisplayName = "CHIP-U-212 Data-bound passive chips retain roving tab indices in ChipSet")]
+    public void U212()
+    {
+        IRenderedComponent<SfChipSet<string>> cut = SetOf<string>(p => p
+            .Add(c => c.DataSource, new[] { "Info A", "Info B" })
+            .Add(c => c.ChipType, ChipType.Informational));
+        IReadOnlyList<IElement> roots = cut.FindAll(Root);
+        Assert.Equal("0", roots[0].GetAttribute("tabindex"));
+        Assert.Equal("-1", roots[1].GetAttribute("tabindex"));
     }
 
     [Fact(DisplayName = "CHIP-U-025 ChildContent replaces text")]

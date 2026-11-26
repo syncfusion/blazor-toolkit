@@ -58,8 +58,18 @@
     <SfChip ChipType="ChipType.Filter" Selected="true" Text="Outlined" Variant="ChipVariant.Outlined" CssClass="e-primary" />
 </section>
 
-<section id="chip-filter-rtl" dir="rtl">
+<section id="chip-filter-rtl">
     <SfChip ChipType="ChipType.Filter" Selected="true" Removable="true" EnableRtl="true" Text="Right" />
+</section>
+
+<section id="chip-filter-explicit-ltr" dir="rtl">
+    <SfChip ChipType="ChipType.Filter" Selected="true" Removable="true" HtmlAttributes="@_explicitLtrAttributes" Text="Left-to-right" />
+</section>
+
+<section id="chipset-rtl-removable">
+    <SfChipSet TItem="string" ChipType="ChipType.Filter" EnableRtl="true" SelectionMode="ChipSelectionMode.Single">
+        <SfChip ChipType="ChipType.Filter" Selected="true" Removable="true" Text="Set RTL" />
+    </SfChipSet>
 </section>
 
 <section id="chipset-collapse">
@@ -74,4 +84,5 @@
 
 @code {
     private readonly string[] _collapse = ["Alpha", "Beta", "Gamma", "Delta"];
+    private readonly Dictionary<string, object> _explicitLtrAttributes = new() { ["dir"] = "ltr" };
 }

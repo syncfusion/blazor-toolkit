@@ -79,15 +79,49 @@ test.describe('Chip selection structure @chip', () => {
   });
 
   test('CHIP-P-206 RTL places the check at inline-start and remove at inline-end', async ({ page }) => {
-    const root = page.locator('#chip-filter-rtl [data-testid="chip-root"]');
-    const check = await boxOf(root.locator('.e-toolkit-icons.e-check'));
-    const text = await boxOf(root.locator('.e-chip-text'));
-    const remove = await boxOf(root.locator('.e-chip-remove'));
-    const checkCenter = check.x + check.width / 2;
-    const textCenter = text.x + text.width / 2;
-    const removeCenter = remove.x + remove.width / 2;
-    expect(checkCenter).toBeGreaterThan(textCenter);
-    expect(removeCenter).toBeLessThan(textCenter);
+    for (const { id, direction } of [
+      { id: '#chip-filter-rtl', direction: 'rtl' },
+      { id: '#chip-filter-explicit-ltr', direction: 'ltr' },
+      { id: '#chipset-rtl-removable', direction: 'rtl' },
+    ]) {
+      const wrapper = page.locator(`${id} .e-chip-removable-wrapper`);
+      const root = wrapper.locator('[data-testid="chip-root"]');
+      const remove = wrapper.locator('.e-chip-remove');
+      const check = root.locator('.e-toolkit-icons.e-check');
+      const text = root.locator('.e-chip-text');
+
+      expect(await wrapper.evaluate((el) => getComputedStyle(el).direction)).toBe(direction);
+      expect(await root.evaluate((el) => getComputedStyle(el).direction)).toBe(direction);
+
+      const rootBox = await boxOf(root);
+      const removeBox = await boxOf(remove);
+      const textBox = await boxOf(text);
+      const removeCenter = removeBox.x + removeBox.width / 2;
+      const textCenter = textBox.x + textBox.width / 2;
+      expect(removeBox.x).toBeGreaterThanOrEqual(rootBox.x - 0.5);
+      expect(removeBox.x + removeBox.width).toBeLessThanOrEqual(rootBox.x + rootBox.width + 0.5);
+      expect(removeBox.y).toBeGreaterThanOrEqual(rootBox.y - 0.5);
+      expect(removeBox.y + removeBox.height).toBeLessThanOrEqual(rootBox.y + rootBox.height + 0.5);
+
+      if (await check.count() > 0) {
+        const checkBox = await boxOf(check);
+        if (direction === 'rtl') {
+          expect(checkBox.x).toBeGreaterThan(textBox.x + textBox.width);
+          expect(removeBox.x + removeBox.width).toBeLessThanOrEqual(checkBox.x + 0.5);
+        } else {
+          expect(checkBox.x + checkBox.width).toBeLessThan(textBox.x);
+          expect(removeBox.x).toBeGreaterThanOrEqual(checkBox.x + checkBox.width - 0.5);
+        }
+      }
+
+      if (direction === 'rtl') {
+        expect(removeCenter).toBeLessThan(textCenter);
+        expect(removeBox.x + removeBox.width).toBeLessThanOrEqual(textBox.x + 0.5);
+      } else {
+        expect(removeCenter).toBeGreaterThan(textCenter);
+        expect(removeBox.x).toBeGreaterThanOrEqual(textBox.x + textBox.width - 0.5);
+      }
+    }
   });
 
   test('CHIP-P-207 visible selected chip in a collapse set has the check', async ({ page }) => {

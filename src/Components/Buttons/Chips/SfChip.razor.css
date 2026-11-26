@@ -409,6 +409,102 @@ a.e-chip.e-chip-outlined:focus-visible {
     width: fit-content;
 }
 
+.e-chip-removable-wrapper {
+    --e-chip-remove-text: var(--color-sf-secondary-text-color);
+    --e-chip-remove-text-hover: var(--color-sf-secondary-text-color-hover);
+    --e-chip-remove-text-pressed: var(--color-sf-secondary-text-color-pressed);
+    --e-chip-remove-text-disabled: var(--color-sf-primary-text-disabled);
+    align-items: center;
+    display: inline-flex;
+    max-inline-size: 100%;
+    position: relative;
+    vertical-align: middle;
+    width: fit-content;
+}
+
+.e-chip-removable-wrapper:has(> .e-chip[dir="rtl"]) {
+    direction: rtl;
+}
+
+.e-chip-removable-wrapper:has(> .e-chip[dir="ltr"]) {
+    direction: ltr;
+}
+
+.e-chip-removable-wrapper:has(> .e-chip.e-chip-action, > .e-chip.e-primary) {
+    --e-chip-remove-text: var(--color-sf-primary-text-color);
+    --e-chip-remove-text-hover: var(--color-sf-primary-text-color);
+    --e-chip-remove-text-pressed: var(--color-sf-primary-text-pressed);
+    --e-chip-remove-text-disabled: var(--color-sf-primary-text-disabled);
+}
+
+.e-chip-removable-wrapper:has(> .e-chip.e-chip-filter.e-chip-selected, > .e-chip.e-chip-choice.e-chip-selected) {
+    --e-chip-remove-text: var(--color-sf-primary-text-color);
+    --e-chip-remove-text-hover: var(--color-sf-primary-text-color);
+}
+
+.e-chip-removable-wrapper:has(> .e-chip.e-info, > .e-chip.e-warning) {
+    --e-chip-remove-text: var(--color-sf-primary-text-color);
+    --e-chip-remove-text-hover: var(--color-sf-primary-text-color);
+    --e-chip-remove-text-pressed: var(--color-sf-primary-text-color);
+}
+
+.e-chip-removable-wrapper:has(> .e-chip.e-info) {
+    --e-chip-remove-text-disabled: var(--color-sf-info-text-disabled);
+}
+
+.e-chip-removable-wrapper:has(> .e-chip.e-warning) {
+    --e-chip-remove-text-disabled: var(--color-sf-warning-text-disabled);
+}
+
+.e-chip-removable-wrapper:has(> .e-chip.e-success) {
+    --e-chip-remove-text: var(--color-sf-success-text);
+    --e-chip-remove-text-hover: var(--color-sf-primary-text-color);
+    --e-chip-remove-text-pressed: var(--color-sf-primary-text-color);
+    --e-chip-remove-text-disabled: var(--color-sf-success-text-disabled);
+}
+
+.e-chip-removable-wrapper:has(> .e-chip.e-danger) {
+    --e-chip-remove-text: var(--color-sf-danger-text);
+    --e-chip-remove-text-hover: var(--color-sf-danger-text-hover);
+    --e-chip-remove-text-pressed: var(--color-sf-danger-text-pressed);
+    --e-chip-remove-text-disabled: var(--color-sf-danger-text-disabled);
+}
+
+.e-chip-removable-wrapper:has(
+    > .e-chip.e-chip-outlined,
+    > .e-chip.e-chip-soft,
+    > .e-chip.e-chip-filter.e-chip-selected.e-chip-outlined,
+    > .e-chip.e-chip-choice.e-chip-selected.e-chip-outlined
+) {
+    --e-chip-remove-text: var(--color-sf-content-text-color);
+    --e-chip-remove-text-hover: var(--color-sf-content-text-color);
+    --e-chip-remove-text-pressed: var(--color-sf-content-text-color);
+}
+
+.e-chip-removable-wrapper ::deep [data-testid="chip-root"] {
+    padding-inline-end: calc(0.7rem + 1.125rem + var(--e-chip-gap));
+}
+
+.e-chip-removable-wrapper ::deep .e-chip-remove {
+    color: var(--e-chip-remove-text);
+    inset-inline-end: 0.7rem;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+.e-chip-removable-wrapper:hover ::deep .e-chip-remove:not(:disabled) {
+    color: var(--e-chip-remove-text-hover);
+}
+
+.e-chip-removable-wrapper:active ::deep .e-chip-remove:not(:disabled) {
+    color: var(--e-chip-remove-text-pressed);
+}
+
+.e-chip-removable-wrapper:has(> .e-chip:disabled, > .e-chip.e-chip-disabled, > .e-chip[aria-disabled="true"]) ::deep .e-chip-remove {
+    color: var(--e-chip-remove-text-disabled);
+}
+
 ::deep .e-chip-check {
     align-items: center;
     display: inline-flex;
@@ -494,7 +590,8 @@ a.e-chip.e-chip-outlined:focus-visible {
     background: var(--e-chip-remove-bg-hover);
 }
 
-.e-chip-outlined ::deep .e-chip-remove {
+.e-chip-outlined ::deep .e-chip-remove,
+.e-chip-removable-wrapper ::deep .e-chip-outlined + .e-chip-remove {
     --e-chip-remove-bg: color-mix(in srgb, var(--e-chip-text, currentColor) 16%, var(--color-sf-content-bg-color-alt1, var(--color-sf-content-bg-color, Canvas)));
     --e-chip-remove-bg-hover: color-mix(in srgb, var(--e-chip-text, currentColor) 28%, var(--color-sf-content-bg-color-alt1, var(--color-sf-content-bg-color, Canvas)));
 }
@@ -724,7 +821,11 @@ a.e-chip.e-chip-outlined:focus-visible {
     .e-chip-selected ::deep .e-chip-remove,
     .e-chip.e-chip-selected ::deep .e-chip-remove,
     .e-chip-selected ::deep .e-chip-remove:focus-visible,
-    .e-chip.e-chip-selected ::deep .e-chip-remove:focus-visible {
+    .e-chip.e-chip-selected ::deep .e-chip-remove:focus-visible,
+    .e-chip-removable-wrapper ::deep .e-chip-selected + .e-chip-remove,
+    .e-chip-removable-wrapper ::deep .e-chip.e-chip-selected + .e-chip-remove,
+    .e-chip-removable-wrapper ::deep .e-chip-selected + .e-chip-remove:focus-visible,
+    .e-chip-removable-wrapper ::deep .e-chip.e-chip-selected + .e-chip-remove:focus-visible {
         color: Highlight !important;
         border: 1px solid Highlight !important;
         background-color: HighlightText !important;
@@ -789,6 +890,9 @@ a.e-chip.e-chip-outlined:focus-visible {
     .e-chip:disabled ::deep .e-chip-remove,
     .e-chip.e-chip-disabled ::deep .e-chip-remove,
     .e-chip[aria-disabled="true"] ::deep .e-chip-remove,
+    .e-chip-removable-wrapper ::deep .e-chip:disabled + .e-chip-remove,
+    .e-chip-removable-wrapper ::deep .e-chip.e-chip-disabled + .e-chip-remove,
+    .e-chip-removable-wrapper ::deep .e-chip[aria-disabled="true"] + .e-chip-remove,
     ::deep .e-chip-remove:disabled {
         color: GrayText !important;
         border-color: GrayText !important;
