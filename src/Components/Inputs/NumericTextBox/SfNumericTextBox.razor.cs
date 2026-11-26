@@ -65,8 +65,6 @@ namespace Syncfusion.Blazor.Toolkit
 
         private bool IsClearIconClick { get; set; }
 
-        private bool ClearBtnStopPropagation { get; set; }
-
         /// <summary>
         /// Specifies the class value that is appended to container of TextBox.
         /// </summary>
@@ -1796,9 +1794,22 @@ namespace Syncfusion.Blazor.Toolkit
         /// </remarks>
         private TValue MultipleValue(TValue value, double divide)
         {
-            dynamic? result = value;
-            dynamic? devideVal = ChangeType(divide);
-            return (TValue)(result * devideVal);
+            if (value is null)
+            {
+                return default!;
+            }
+
+            Type type = Nullable.GetUnderlyingType(typeof(TValue)) ?? typeof(TValue);
+
+            if (type == typeof(decimal))
+            {
+                decimal numeric = Convert.ToDecimal(value, CultureInfo.InvariantCulture);
+                decimal multiplier = Convert.ToDecimal(divide, CultureInfo.InvariantCulture);
+                return ChangeType(numeric * multiplier);
+            }
+
+            double doubleValue = Convert.ToDouble(value, CultureInfo.InvariantCulture);
+            return ChangeType(doubleValue * divide);
         }
 
         /// <summary>
@@ -1816,9 +1827,22 @@ namespace Syncfusion.Blazor.Toolkit
             Justification = "The dynamic arithmetic operates only on built-in numeric primitives whose operators the runtime resolves without generating new code; converting to static generic math would require changing the public TValue constraint, which the API contract forbids.")]
         private TValue DivideValue(TValue value, double divide)
         {
-            dynamic? result = value;
-            dynamic? devideVal = ChangeType(divide);
-            return (TValue)(Math.Round(result) / devideVal);
+            if (value is null)
+            {
+                return default!;
+            }
+
+            Type type = Nullable.GetUnderlyingType(typeof(TValue)) ?? typeof(TValue);
+
+            if (type == typeof(decimal))
+            {
+                decimal numeric = Convert.ToDecimal(value, CultureInfo.InvariantCulture);
+                decimal divisor = Convert.ToDecimal(divide, CultureInfo.InvariantCulture);
+                return ChangeType(Math.Round(numeric) / divisor);
+            }
+
+            double doubleValue = Convert.ToDouble(value, CultureInfo.InvariantCulture);
+            return ChangeType(Math.Round(doubleValue) / divide);
         }
 
         /// <summary>
@@ -1976,7 +2000,6 @@ namespace Syncfusion.Blazor.Toolkit
         /// <item><description>Sets the clear button clicked flag to modify input processing behavior</description></item>
         /// <item><description>Clears the input value by setting it to null</description></item>
         /// <item><description>Triggers change events to notify subscribers of the value change</description></item>
-        /// <item><description>Prevents event propagation to avoid conflicts with other input handling</description></item>
         /// <item><description>Returns focus to the input element for continued user interaction</description></item>
         /// </list>
         /// </remarks>
@@ -1993,7 +2016,6 @@ namespace Syncfusion.Blazor.Toolkit
             InputTextValue = default;
             Value = default;
             await RaiseChangeEventAsync(args).ConfigureAwait(true);
-            ClearBtnStopPropagation = true;
             await FocusAsync().ConfigureAwait(true);
             IsClearIconClick = false;
             HasClearableContent = false;
