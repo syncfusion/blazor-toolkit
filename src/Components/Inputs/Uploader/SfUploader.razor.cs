@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.Extensions.Localization;
 using Microsoft.JSInterop;
-using System.Net.Http;
 using Syncfusion.Blazor.Toolkit.Inputs.Internal;
 using Syncfusion.Blazor.Toolkit.Internal;
 using System.ComponentModel;
@@ -1664,11 +1663,11 @@ namespace Syncfusion.Blazor.Toolkit
                 await CallStateHasChangedAsync().ConfigureAwait(true);
 
                 using MultipartFormDataContent content = new();
-                ByteArrayContent fileContent = new(cached);
+                using ByteArrayContent fileContent = new(cached);
                 content.Add(fileContent, "UploadFiles", file.Name);
                 try
                 {
-                    HttpResponseMessage response = await client.PostAsync(UploadAsyncSettings.SaveUrl, content).ConfigureAwait(true);
+                    HttpResponseMessage response = await client.PostAsync(new Uri(UploadAsyncSettings.SaveUrl, UriKind.RelativeOrAbsolute), content).ConfigureAwait(true);
                     if (response.IsSuccessStatusCode)
                     {
                         file.Status = Localizer[UPLOAD_SUCCESS_KEY];

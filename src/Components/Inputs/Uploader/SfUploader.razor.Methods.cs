@@ -393,7 +393,7 @@ namespace Syncfusion.Blazor.Toolkit
             // Pass the queued file identities so JS can resolve rawFile and POST SaveUrl.
             if ((files == null || files.Length == 0) && Template != null && FileData?.Count > 0)
             {
-                files = ConvertFileDataToFileInfo().ToArray();
+                files = [.. ConvertFileDataToFileInfo()];
                 forceCustom = true;
             }
 
