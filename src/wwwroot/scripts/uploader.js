@@ -733,7 +733,15 @@ var SfUploader = /** @class */ (function () {
             this.removeActionButtons();
         }
         else if (!this.actionButtons) {
-            this.renderActionButtons();
+            if (this.isValidTemplate && !this.isSaveUrlNotConfigured) {
+                var uploadButton = this.uploadWrapper ? this.uploadWrapper.querySelector('.e-file-upload-btn') : null;
+                if (uploadButton) {
+                    this.serverActionButtonsEventBind(uploadButton.parentElement);
+                }
+            }
+            else {
+                this.renderActionButtons();
+            }
         }
         this.checkActionButtonStatus();
     };
@@ -1597,7 +1605,7 @@ var SfUploader = /** @class */ (function () {
                         this.checkExtension(eventArgs.modifiedFilesData);
                     this.updateSortedFileList(dataFiles);
                     this.filesData = this.filesData.concat(dataFiles);
-                    if ((!this.isForm || this.allowUpload()) && !(this.isSaveUrlNotConfigured || this.isValidTemplate)) {
+                    if ((!this.isForm || this.allowUpload()) && !this.isSaveUrlNotConfigured) {
                         this.checkAutoUpload(dataFiles);
                     }
                 }
@@ -1610,10 +1618,11 @@ var SfUploader = /** @class */ (function () {
                         this.filesData = this.filesData.concat(fileData);
                         return;
                     }
-                    if (!(this.isSaveUrlNotConfigured || this.isValidTemplate)) {
+                    // Template + SaveUrl already stored filesData inside createFileList.
+                    if (!this.isSaveUrlNotConfigured && !this.isValidTemplate) {
                         this.filesData = this.filesData.concat(fileData);
                     }
-                    if ((!this.isForm || this.allowUpload()) && !(this.isSaveUrlNotConfigured || this.isValidTemplate)) {
+                    if ((!this.isForm || this.allowUpload()) && !this.isSaveUrlNotConfigured) {
                         this.checkAutoUpload(fileData);
                     }
                 }
@@ -1933,7 +1942,12 @@ var SfUploader = /** @class */ (function () {
     SfUploader.prototype.createFileList = function (fileData, isSelectedFile) {
         if (this.isSaveUrlNotConfigured || this.isValidTemplate) {
             if (!this.isSaveUrlNotConfigured && this.isValidTemplate) {
-                var fileListData = (isSelectedFile) ? this.filesData = this.filesData.concat(fileData) : fileData;
+                // Clear sets this.cleared so the next selection does not restore removed files.
+                var fileListData = (isSelectedFile && !this.cleared) ? this.filesData = this.filesData.concat(fileData) : fileData;
+                if (isSelectedFile) {
+                    this.filesData = fileListData;
+                    this.cleared = false;
+                }
                 // tslint:disable-next-line
                 this.dotNetRef.invokeMethodAsync('CreateFileListAsync', fileListData, this.isForm);
             }
@@ -3279,17 +3293,31 @@ var SfUploader = /** @class */ (function () {
         var uploadFiles = [];
         if (!sfBlazorToolkit.base.isNullOrUndefined(this.filesData) && !sfBlazorToolkit.base.isNullOrUndefined(files)) {
             var _loop_5 = function (i) {
-                uploadFiles.push(this_3.filesData.filter(function (e) {
-                    return e.id ? e.id === files[i].id :
-                        e.name === files[i].name;
-                })[0]);
+                if (sfBlazorToolkit.base.isNullOrUndefined(files[i])) {
+                    return;
+                }
+                var matched = this_3.filesData.filter(function (e) {
+                    if (sfBlazorToolkit.base.isNullOrUndefined(e)) {
+                        return false;
+                    }
+                    if (files[i].id && e.id) {
+                        return e.id === files[i].id;
+                    }
+                    return e.name === files[i].name;
+                })[0];
+                if (!sfBlazorToolkit.base.isNullOrUndefined(matched)) {
+                    uploadFiles.push(matched);
+                }
             };
             var this_3 = this;
             for (var i = 0; i < files.length; i++) {
                 _loop_5(i);
             }
         }
-        return !sfBlazorToolkit.base.isNullOrUndefined(uploadFiles) ? uploadFiles : [];
+        if (uploadFiles.length === 0 && files && files.length && files[0] && files[0].rawFile instanceof File) {
+            return files;
+        }
+        return uploadFiles;
     };
     SfUploader.prototype.uploadFiles = function (files, custom) {
         var _this = this;
@@ -3582,6 +3610,8 @@ var SfUploader = /** @class */ (function () {
      */
     SfUploader.prototype.clearAll = function () {
         var _this = this;
+        this.cleared = true;
+        this.filesData = [];
         if (sfBlazorToolkit.base.isNullOrUndefined(this.listParent) && !(this.isSaveUrlNotConfigured || this.isValidTemplate)) {
             if (this.browserName !== 'msie') {
                 this.element.value = '';

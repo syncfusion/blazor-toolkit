@@ -23,6 +23,49 @@ test.describe('Chip visual baselines @chip', () => {
     await openVisual(page);
   });
 
+  test('CHIP-V-009 removable interactive chip keeps the remove control inside the pill', async ({ page }) => {
+    const chip = page.locator('#chip-filter-selected-remove [data-testid="chip-root"]');
+    const remove = page.locator('#chip-filter-selected-remove [data-testid="chip-remove"]');
+    const geometry = await chip.evaluate((element) => {
+      const chipStyle = getComputedStyle(element);
+      const chipBounds = element.getBoundingClientRect();
+      const removeElement = element.parentElement?.querySelector('[data-testid="chip-remove"]');
+      const removeBounds = removeElement?.getBoundingClientRect();
+
+      return {
+        removePosition: removeElement ? getComputedStyle(removeElement).position : '',
+        paddingInlineEnd: Number.parseFloat(chipStyle.paddingInlineEnd),
+        chipLeft: chipBounds.left,
+        chipRight: chipBounds.right,
+        removeLeft: removeBounds?.left ?? Number.NaN,
+        removeRight: removeBounds?.right ?? Number.NaN,
+      };
+    });
+
+    expect(geometry.removePosition).toBe('absolute');
+    expect(geometry.paddingInlineEnd).toBeGreaterThan(30);
+    expect(geometry.removeLeft).toBeGreaterThanOrEqual(geometry.chipLeft);
+    expect(geometry.removeRight).toBeLessThanOrEqual(geometry.chipRight);
+  });
+
+  test('CHIP-V-010 removable chip remove icon follows the chip foreground color', async ({ page }) => {
+    for (const sectionId of [
+      'chip-remove-filled',
+      'chip-remove-soft',
+      'chip-remove-outlined',
+      'chip-filter-selected-remove',
+    ]) {
+      const section = page.locator(`#${sectionId}`);
+      const chip = section.locator('[data-testid="chip-root"]');
+      const remove = section.locator('[data-testid="chip-remove"]');
+
+      await expect(remove).toHaveCSS('color', await chip.evaluate((element) => getComputedStyle(element).color));
+
+      await chip.hover();
+      await expect(remove).toHaveCSS('color', await chip.evaluate((element) => getComputedStyle(element).color));
+    }
+  });
+
   for (const [id, sectionId, png] of shots) {
     test(`${id} ${sectionId} matches ${png}`, async ({ page }) => {
       const section = page.locator(`#${sectionId}`);

@@ -1,3 +1,4 @@
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Forms;
 using Microsoft.JSInterop;
@@ -242,6 +243,7 @@ namespace Syncfusion.Blazor.Toolkit
         /// </summary>
         /// <returns>The <see cref="DatePickerClientProps{TValue}"/>.</returns>
         /// <exclude/>
+        [DynamicDependency(DynamicallyAccessedMemberTypes.PublicProperties, typeof(DatePickerClientProps<>))]
         internal DatePickerClientProps<TValue> GetClientProperties()
         {
             return new DatePickerClientProps<TValue>

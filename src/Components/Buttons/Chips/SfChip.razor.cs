@@ -119,9 +119,10 @@ namespace Syncfusion.Blazor.Toolkit
             attributes[IdAttribute] = RootId;
             attributes[ClassAttribute] = string.Join(' ', new[] { RootClass, Css }.Where(token => !string.IsNullOrWhiteSpace(token)).Distinct(StringComparer.Ordinal));
             attributes[TestIdAttribute] = ChipRootTestId;
+            int defaultTabIndex = Owner is null && (ChipType is ChipType.Informational or ChipType.Status) ? -1 : 0;
             if (TabIndex is not null || !attributes.ContainsKey(TabIndexAttribute))
             {
-                attributes[TabIndexAttribute] = TabIndex ?? 0;
+                attributes[TabIndexAttribute] = TabIndex ?? defaultTabIndex;
             }
             attributes[ChipTypeAttribute] = ChipType.ToString();
             if (!string.IsNullOrEmpty(Style))

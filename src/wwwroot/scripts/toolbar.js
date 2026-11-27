@@ -131,6 +131,19 @@ export function measure(root, vertical) {
 }
 
 /**
+ * Registers the resize and keyboard handlers and reads the initial layout in one browser interop.
+ * The first render stays concealed on the .NET side until this measurement is applied.
+ */
+export function initialize(root, toolbar, dotNetRef, vertical) {
+    const observing = observe(root, dotNetRef);
+    trackOverflowKeys(toolbar);
+    return {
+        observing: observing,
+        measurement: measure(root, vertical)
+    };
+}
+
+/**
  * Starts observing the toolbar root. The .NET handler is called, debounced to one animation frame, whenever the
  * container size changes. The container is observed, not the viewport (TB-OVF-080).
  */
